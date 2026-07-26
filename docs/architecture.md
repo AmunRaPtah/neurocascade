@@ -28,7 +28,7 @@ vector in one pass and hands it to `scipy.integrate.solve_ivp` with
 `method="RK45"`, mirroring the integration approach used in the CCT model
 (`solve_ivp` + RK45 over a coupled nonlinear system).
 
-This is the single-receptor-site case. "Fourth extension: multiple
+This is the single-receptor-site case. "Fifth extension: multiple
 receptor systems on one shared circuit" below describes how this layout
 generalizes when a `Simulation` combines several receptor sites on one
 shared circuit at once.
