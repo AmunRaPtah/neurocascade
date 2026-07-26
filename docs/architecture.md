@@ -471,9 +471,9 @@ purely to exercise the arithmetic).
   scenarios (mu-opioid, D2, GABA-A) are hand-set to get qualitative behavior
   right, not sourced from a specific Ki/kon/koff or PK dataset. They should
   not be cited as measured values. As of Track A, mu-opioid receptor
-  binding and PK have a literature-calibrated alternative (see below); as of
-  the GABA-A calibration pass described below, so does the GABA-A
-  benzodiazepine site. D2 does not yet, and no scenario's circuit `tau`/connection
+  binding and PK have a literature-calibrated alternative (see below); D2
+  (see "Calibrated: D2" below) and the GABA-A benzodiazepine site (see
+  "Calibrated: GABA-A" below) now do too. No scenario's circuit `tau`/connection
   weights/gains have a literature target — no dataset for VTA-NAc-PFC (or
   basal-ganglia, or amygdala) connection *weights* (as opposed to wiring
   direction/sign, which matches known circuit anatomy, see above) was
@@ -631,3 +631,89 @@ derivations are inline in that section of `scenarios.py`):
   because it is a circuit-level parameter, not a receptor-binding or PK
   constant, and no dataset quantifying it against real diazepam
   dose/exposure data was identified.
+
+**Calibrated: D2** (receptor/PK only, circuit still illustrative):
+`scenarios.py` also has a calibrated D2 parameter set,
+`d2_dopamine_ligands_calibrated()` / `d2_receptor_site_calibrated()` /
+`d2_pk_models_calibrated()`, following the same pattern as the mu-opioid
+pass above (full citations and derivations are inline in that section of
+`scenarios.py`):
+- **kon/koff**: unlike the mu-opioid pass, both were found directly
+  measured (not derived from Ki/Kd) for both ligands, though from two
+  different assays rather than one shared one. Haloperidol: kon = 2.13
+  nM^-1 min^-1, koff = 0.65 min^-1 (Sykes et al. 2017, Nat Commun,
+  doi:10.1038/s41467-017-00716-z, a TR-FRET competition-kinetics assay on
+  human D2L receptors covering ~20 antipsychotics). Dopamine: kon = 5.82
+  nM^-1 min^-1, koff = 11.82 min^-1 (Agren et al. 2021, Int J Mol Sci,
+  doi:10.3390/ijms22084078, a functional GIRK-channel-current kinetics
+  assay in Xenopus oocytes). Each study's own koff/kon ratio reproduces
+  that same study's own reported equilibrium Kd (haloperidol ~0.31 nM
+  kinetic vs ~0.32 nM from its reported pKd; dopamine ~2.03 nM kinetic vs
+  ~2.04 nM from its reported pKd), so both are internally consistent, but
+  because the two ligands were not measured in one shared assay the
+  fentanyl/naloxone-style direct-comparability guarantee does not extend
+  to this pair.
+- **PK**: haloperidol ke from a commonly cited representative single-dose
+  oral terminal half-life (~20 h; reported range ~14-37 h across studies,
+  Kudo & Ishizaki 1999, Clin Pharmacokinet,
+  doi:10.2165/00003088-199937060-00001). Dopamine has no real first-order
+  plasma/synaptic clearance rate constant to calibrate against: it is not
+  a dosed drug here, and its real clearance (DAT reuptake, ~50-100 ms per
+  release event, Garris et al. 1994, J Neurosci, PMID 7931564) is a
+  saturable transporter process, not first-order, on a timescale
+  3-4 orders of magnitude faster than this codebase's minute-scale time
+  unit. `d2_pk_models_calibrated()` uses an explicitly flagged proxy
+  (ke=5.0 min^-1, t1/2 ~8.3 s) chosen only to preserve the correct
+  qualitative ordering (dopamine clears far faster than haloperidol) at a
+  timescale this simulation can actually resolve; the real clearance
+  number is documented in `scenarios.py` but deliberately not used
+  literally, and is not cited as a measured ke.
+- **Validation**: `tests/test_d2_scenario_calibrated.py` checks the
+  calibrated haloperidol ligand's equilibrium occupancy at two clinical
+  plasma concentrations from a PET occupancy study (Kapur et al. 1997,
+  Psychopharmacology, doi:10.1007/s002130050277: 0.51 ng/mL for 50% D2
+  occupancy, 2.0 ng/mL for 80%), converted to nM. The model predicts
+  occupancy in the right direction at both (clearly partial-to-high at the
+  lower concentration, clearly near-saturating, >90%, at the higher one)
+  but runs somewhat higher than the clinical percentages, expected since
+  haloperidol is ~89-93% plasma-protein-bound in vivo and this codebase
+  has no protein-binding or brain/plasma-partitioning submodel; this is
+  the same directional/order-of-magnitude validation style used for the
+  fentanyl/Moss et al. comparison above, not an exact match.
+- **A finding this calibration pass was specifically asked to verify
+  rather than assume, and that did not hold up as stated**: a common
+  pharmacology-folklore claim (and the framing this calibration pass
+  started from) is that haloperidol has an unusually SLOW D2 dissociation
+  rate compared with other antipsychotics, and that this alone explains
+  its prolonged EPS/motor side effects. That traces to Kapur & Seeman 2000
+  (J Psychiatry Neurosci, PMID 10740989), which reported koff varying
+  ~1000-fold across nine antipsychotics and framed slow koff as the
+  defining typical-vs-atypical distinction. Checking it against later,
+  larger, single-assay kinetic panels does not support that framing:
+  Sykes et al. 2017's own panel puts haloperidol's koff (0.65 min^-1,
+  dissociation half-life ~1.07 min) toward the fast end even among typical
+  antipsychotics (fluphenazine, spiperone, nemonapride, and
+  (+)-butaclamol all dissociate several- to 30-fold more slowly than
+  haloperidol in the same assay), and haloperidol's koff is actually
+  faster than the atypical risperidone's in that same dataset. Sahlholm et
+  al. 2016 (Eur Neuropsychopharmacol, doi:10.1016/j.euroneuro.2016.01.001)
+  independently found haloperidol's recovery from blockade only 2.5- to
+  6.4-fold slower than clozapine/quetiapine/amisulpride, not ~1000-fold. A
+  published critique of Sykes et al. (Zeberg & Sahlholm 2018, Nat Commun,
+  doi:10.1038/s41467-018-04489-x) argues it is haloperidol's unusually
+  HIGH association rate (kon), not a slow koff, that better explains its
+  EPS liability, and haloperidol's kon in the Sykes et al. dataset is among
+  the highest of the whole panel. What the dopamine-vs-haloperidol
+  comparison this scenario actually needs (and can represent) does hold:
+  dopamine's real koff is ~18x faster than haloperidol's (11.82 vs
+  0.65 min^-1), so the fast-agonist/slow-antagonist qualitative shape the
+  illustrative placeholder assumed is correct; it is specifically the
+  broader "haloperidol is uniquely sticky among antipsychotics" claim that
+  the more rigorous data does not support, and that this codebase's
+  two-ligand scenario has no way to represent either way, since it only
+  ever models one agonist against one antagonist at a time.
+- The basal ganglia indirect-pathway circuit itself
+  (`basal_ganglia_indirect_pathway_network`, `d2_coupling`,
+  `locomotor_activity_readout`) is reused unchanged from the illustrative
+  scenario in the calibrated one: only receptor binding and PK were in
+  scope for this calibration pass.
