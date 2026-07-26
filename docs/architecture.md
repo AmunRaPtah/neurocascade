@@ -28,6 +28,11 @@ vector in one pass and hands it to `scipy.integrate.solve_ivp` with
 `method="RK45"`, mirroring the integration approach used in the CCT model
 (`solve_ivp` + RK45 over a coupled nonlinear system).
 
+This is the single-receptor-site case. "Fourth extension: multiple
+receptor systems on one shared circuit" below describes how this layout
+generalizes when a `Simulation` combines several receptor sites on one
+shared circuit at once.
+
 ## Receptor layer: why competitive occupancy, not a Hill equation
 
 A simple Hill-equation occupancy curve (`occ = C / (C + EC50)`) is fine for a
@@ -302,6 +307,140 @@ simultaneous effects at once from a single competing occupancy trace:
 back with naloxone. See `tests/test_multi_region_scenario.py` and
 `examples/mu_opioid_multi_region_circuit.py`.
 
+## Fifth extension: multiple receptor systems on one shared circuit
+
+Every scenario up to this point models one receptor site and one circuit in
+isolation. A real drug usually hits several receptor subtypes across
+several regions at once, and a real circuit carries several receptor types
+at once, so `Simulation` needed to support several receptor sites, each
+with its own PK models, ligands, and coupling, all driving one shared
+`CircuitNetwork` in a single integrated ODE run.
+
+**API.** `engine.py` gained a small bundling class, `ReceptorSystem(
+pk_models, receptor_site, coupling, connection_modulation=None)`, holding
+exactly the four pieces `Simulation` previously took as top-level
+arguments. `Simulation` now accepts either form:
+
+```
+# original v0 form, unchanged, still the normal single-receptor-site case
+Simulation(pk_models=..., receptor_site=..., network=..., coupling=...,
+           connection_modulation=...)
+
+# new: several receptor systems on one shared network
+Simulation(network=..., receptor_systems=[mu_system, d2_system, ...])
+```
+
+Passing both forms together, or neither, is a `TypeError`. Every existing
+call site in this codebase uses the first form with keyword arguments, so
+reordering `Simulation.__init__`'s parameters to put `network` first (to
+make room for `receptor_systems`) doesn't break anything: no call site
+relied on positional order. `sim.pk_models` / `sim.receptor_site` /
+`sim.coupling` / `sim.connection_modulation` remain readable directly on a
+`Simulation` when it has exactly one receptor system, whichever form built
+it, via properties that proxy to that sole `ReceptorSystem`; they raise a
+clear `AttributeError` (pointing at `sim.receptor_systems[i].<attr>`
+instead) on a genuinely multi-system `Simulation`, where a single such
+attribute would be ambiguous.
+
+**State vector.** For k receptor systems with n_1..n_k ligands each
+(d = r = sum(n_i)):
+
+```
+y = [C^(1)_1..C^(1)_{n_1}, C^(2)_1..C^(2)_{n_2}, ...,   # every system's concentrations,
+     occ^(1)_1..occ^(1)_{n_1}, occ^(2)_1..occ^(2)_{n_2}, ...,  # then every system's occupancies,
+     r_1, ..., r_n]                                     # then one shared set of circuit rates
+```
+
+in system order throughout. This reduces exactly to the original
+`[C_1..C_d, occ_1..occ_d, r_1..r_n]` layout when k == 1, so `sim.d`,
+`sim.r`, and `sim.c` still mark the same slice boundaries they always did
+and any code that manually reconstructs state from `sim.rhs`/`solve_ivp`
+output (several examples and tests do this for two-phase dosing) needed no
+changes. `rhs()` slices each system's own `(C_i, occ_i)` block, computes
+that system's PK derivative, occupancy derivative, and activation exactly
+as before, then combines all systems' contributions to the shared circuit
+before the one call to `network.rhs()`. A new `dose_vector(**by_ligand_
+name)` helper on `Simulation` builds the flat, correctly-ordered
+`dose_concentrations` array from ligand names, since hand-tracking the
+per-system concatenation order gets easy to mix up once there's more than
+one system.
+
+**Composing contributions to the shared circuit.** Two different rules
+apply to the two ways a receptor system can affect the network, and they
+were chosen for different reasons:
+
+- `coupling` (direct drive): contributions from different systems targeting
+  the same node are summed. This isn't really a new design choice: the
+  Wilson-Cowan input term (`net_input = W @ rates + drive`) is already a
+  sum, so two independent receptor systems adding to the same node's drive
+  is just two independent inputs superposing, exactly like two independent
+  synaptic inputs would.
+- `connection_modulation` (allosteric gain on an existing connection):
+  when more than one receptor system targets the exact same `(post_node,
+  pre_node)` connection, their `(1 + gain * activation)` factors are
+  composed **multiplicatively**: `effective_weight = base_weight *
+  factor_1 * factor_2 * ...`. The alternative considered was summing the
+  gain terms before adding 1 (`1 + sum(gain_i * activation_i)`), matching
+  how `coupling` composes. Multiplicative composition was chosen because
+  each `connection_modulation` entry represents an independent modulator
+  acting on the same physical synapse's transmission efficacy, and
+  independent effects on an efficacy multiply, not add: if two different
+  modulators each independently double a synapse's effective strength, the
+  synapse ends up 4x its base strength, not 3x. Additive composition of the
+  gain terms would let one modulator's effect be diluted or amplified by
+  whatever the other modulator's activation happens to be doing at that
+  instant, which has no clean mechanistic reading for "two independent
+  allosteric effects on the same synapse." In the ordinary case relevant to
+  every scenario in this codebase so far, a single receptor system
+  modulating any given connection, multiplicative and additive composition
+  are identical (there's nothing to compose yet), so this choice only
+  becomes visible once a scenario deliberately wires two systems onto the
+  same connection, which is an unusual, explicit design choice rather than
+  a default outcome of adding a second receptor system.
+
+**Combined scenario.** `scenarios.combined_mu_opioid_d2_network()` /
+`mu_opioid_receptor_system()` / `d2_receptor_system()` put this to use: a
+mu-opioid `ReceptorSystem` on `VTA_GABA` (the reward circuit) and a D2
+`ReceptorSystem` on `Striatum_D2_MSN` (the basal ganglia indirect pathway)
+now drive one shared 9-node network via `Simulation(network,
+receptor_systems=[mu_system, d2_system])`. The combined network is a
+straight union of both sub-circuits' own connectivity, unchanged, with no
+added connection between the two blocks. A real brain doesn't literally
+partition this way (corticostriatal and mesostriatal projections really do
+link these two systems), but no literature-sourced *weight* for such a
+cross-connection was identified, the same kind of gap already documented
+above for the within-circuit weights, and inventing one just to
+manufacture a cross-circuit interaction would be exactly the
+mechanistically dishonest shortcut this codebase avoided when choosing
+`connection_modulation` over `coupling` for the GABA-A scenario. The real
+capability this demonstrates is that both receptor systems read and write
+one shared state vector and are integrated by one `solve_ivp` call, not
+that these two illustrative circuits causally talk to each other.
+`tests/test_multi_receptor_simulation.py` checks: the combined simulation
+integrates without error; each block's dynamics, with the other system's
+ligands held at zero concentration, reproduce that system's own standalone
+single-receptor-system `Simulation` to numerical integration tolerance
+(confirming the block-diagonal network genuinely doesn't let one system
+leak into the other's block); both readouts show their correct effect
+under simultaneous dosing of both drugs; and, at the engine level with a
+minimal synthetic network (mirroring `tests/test_engine.py`'s existing
+`connection_modulation` unit tests), that two systems targeting the same
+connection really do compose multiplicatively rather than additively,
+confirming the design decision above against the actual derivative
+`Simulation.rhs()` produces, not just against a description of it.
+
+**What's now possible that wasn't before:** a scenario can model a drug (or
+combination of drugs) that acts at more than one receptor subtype across
+more than one brain region in a single coupled simulation, each site with
+its own realistic PK and binding kinetics, all feeding into shared circuit
+dynamics, which is what "Explicitly not yet real" below used to call out
+as unbuilt. What's still not built: an actual cross-circuit connection
+backed by a specific sourced weight (see the combined scenario's design
+note above), and a scenario where two systems deliberately target the same
+`connection_modulation` entry with real pharmacology behind each side
+(the current test of that composition rule uses a synthetic network built
+purely to exercise the arithmetic).
+
 ## What v0 gets right, and what it doesn't (yet)
 
 **Mechanistically faithful:**
@@ -341,19 +480,23 @@ back with naloxone. See `tests/test_multi_region_scenario.py` and
   circuit parameters Bayesian-style the way the CCT model's 14 parameters
   were fit against a literature screen, is the next real piece of work, not
   a formality.
-- Each scenario in v0 still models exactly one receptor SITE per
-  `Simulation` (one `ReceptorSite`, hence one shared occupancy/activation
-  trace). Track C1 (see above) shows that one receptor's activation can
-  already drive multiple nodes, even across otherwise-unconnected
-  sub-systems, at different gains, with no engine change. What v0 still
-  does NOT model is several DIFFERENT receptor subtypes (e.g. mu-opioid and
-  D2 together) acting on one shared circuit at once, or one `Simulation`
-  with more than one `ReceptorSite`/PK stack in it; `Simulation.__init__`
-  takes exactly one `receptor_site`. The classes here (`ReceptorSite`,
-  `CircuitNetwork`, `coupling`, `connection_modulation`) look general
-  enough to support that (e.g. by summing multiple receptors' contributions
-  into `drive` before calling `network.rhs`), but it hasn't been built or
-  tested yet.
+- Most scenarios in v0 still model one receptor site and one circuit in
+  isolation. Two independent gaps used to be documented here and both are
+  now closed differently: Track C1 (see above) showed that one receptor's
+  activation can already drive multiple nodes, even across
+  otherwise-unconnected sub-systems, at different gains, with no engine
+  change (a coupling-breadth question, not an engine limit). Separately,
+  `Simulation` itself no longer requires exactly one receptor SITE per
+  simulation: it now accepts multiple `ReceptorSystem`s (each with its own
+  PK models, ligands, coupling, and connection_modulation) driving one
+  shared `CircuitNetwork` at once, and
+  `scenarios.combined_mu_opioid_d2_network()` demonstrates it (see "Fifth
+  extension: multiple receptor systems on one shared circuit" above). What's
+  still missing is a cross-circuit *connection* backed by a sourced weight,
+  i.e. the combined scenario's two sub-circuits share one state vector and
+  one integration but don't causally affect each other, because no
+  literature-sourced weight for such a connection was identified (same gap
+  as the within-circuit weights above).
 
 **Calibrated as of Track A (receptor/PK only, circuit still illustrative):**
 `scenarios.py` now has a second, clearly-separated parameter set,
