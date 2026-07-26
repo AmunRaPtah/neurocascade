@@ -12,6 +12,7 @@ before use. Do not cite these numbers as measured values.
 
 from .behavior import BehaviorReadout
 from .circuit import CircuitNode
+from .engine import ReceptorSystem
 from .network import CircuitNetwork
 from .pk import OneCompartmentPK
 from .receptor import Ligand, ReceptorSite
@@ -153,6 +154,86 @@ def d2_coupling():
 
 def locomotor_activity_readout():
     return BehaviorReadout(name="locomotor_activity", weights={"Thalamus": 1.0})
+
+
+# ---------------------------------------------------------------------------
+# Combined scenario: mu-opioid + D2 receptor systems on ONE shared network
+# ---------------------------------------------------------------------------
+#
+# Demonstrates the multi-receptor-system extension to `Simulation`
+# (`engine.ReceptorSystem` + `Simulation(network, receptor_systems=[...])`):
+# a mu-opioid receptor system on VTA_GABA and a D2 receptor system on
+# Striatum_D2_MSN, each with its own PK models, its own ligands, and its own
+# `coupling`, driving one shared 9-node circuit simultaneously, instead of
+# two separate `Simulation` objects on two separate networks.
+#
+# Design choice for the combined network: this is a straight union of the
+# reward circuit's own internal connectivity (VTA_GABA -> VTA_DA -> NAc ->
+# PFC) and the basal ganglia indirect pathway's own internal connectivity
+# (Striatum_D2_MSN -| GPe -| STN -> GPi -| Thalamus), unchanged from
+# `reward_circuit_network()`/`basal_ganglia_indirect_pathway_network()`,
+# with NO added connection between the two blocks. A real brain doesn't
+# literally partition this way (corticostriatal and mesostriatal
+# projections really do link these two systems), but no literature-sourced
+# *weight* for such a cross-connection was identified (the same kind of gap
+# already documented in docs/architecture.md for the within-circuit
+# weights), and inventing one just to manufacture a cross-circuit
+# interaction would be exactly the mechanistically dishonest shortcut this
+# codebase has deliberately avoided elsewhere (see the GABA-A scenario's
+# coupling-vs-connection_modulation discussion above). The real, previously
+# unbuilt capability this demonstrates is that both receptor systems now
+# read and write ONE shared state vector and are integrated by ONE
+# `solve_ivp` call, not that these two illustrative circuits causally talk
+# to each other. `tests/test_multi_receptor_simulation.py` checks both that
+# this runs correctly and that each block's dynamics, with the other
+# system's ligands zeroed out, exactly reproduce that system's own
+# standalone single-receptor-system `Simulation`; a separate engine-level
+# test (not scenario-specific) demonstrates what genuinely happens when two
+# systems DO target the same connection (the multiplicative composition
+# rule documented in `engine.py`).
+
+
+def combined_mu_opioid_d2_network():
+    """The reward circuit and the basal ganglia indirect pathway as one
+    shared 9-node `CircuitNetwork` (block-diagonal union of their own
+    connectivity; see module-level comment above for why no cross-block
+    connection is added).
+    """
+    reward = reward_circuit_network()
+    bg = basal_ganglia_indirect_pathway_network()
+    nodes = list(reward.nodes) + list(bg.nodes)
+    combined_index = {node.name: i for i, node in enumerate(nodes)}
+    n = len(nodes)
+    W = [[0.0] * n for _ in range(n)]
+    for sub_network in (reward, bg):
+        for post_name, i in sub_network.index.items():
+            for pre_name, j in sub_network.index.items():
+                weight = sub_network.connectivity[i, j]
+                if weight != 0.0:
+                    W[combined_index[post_name]][combined_index[pre_name]] = weight
+    return CircuitNetwork(nodes=nodes, connectivity=W)
+
+
+def mu_opioid_receptor_system():
+    """The mu-opioid stack (illustrative parameters) bundled as a
+    `ReceptorSystem`, ready to combine with other systems on a shared
+    network via `Simulation(network, receptor_systems=[...])`."""
+    return ReceptorSystem(
+        pk_models=mu_opioid_pk_models(),
+        receptor_site=mu_opioid_receptor_site(),
+        coupling=mu_opioid_coupling(),
+    )
+
+
+def d2_receptor_system():
+    """The D2 stack (illustrative parameters) bundled as a
+    `ReceptorSystem`, ready to combine with other systems on a shared
+    network via `Simulation(network, receptor_systems=[...])`."""
+    return ReceptorSystem(
+        pk_models=d2_pk_models(),
+        receptor_site=d2_receptor_site(),
+        coupling=d2_coupling(),
+    )
 
 
 # ---------------------------------------------------------------------------
