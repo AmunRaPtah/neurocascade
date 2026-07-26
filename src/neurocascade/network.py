@@ -27,9 +27,15 @@ class CircuitNetwork(object):
     def baseline_drive(self):
         return np.array([node.baseline_input for node in self.nodes])
 
-    def rhs(self, rates, drive):
+    def rhs(self, rates, drive, connectivity=None):
+        """connectivity: optional override of self.connectivity for this
+        evaluation only (state-dependent connection strength, e.g. an
+        allosteric modulator scaling one synapse's effective weight). Leaves
+        self.connectivity untouched; defaults to it when not given.
+        """
         rates = np.asarray(rates, dtype=float)
-        net_input = self.connectivity @ rates + drive
+        W = self.connectivity if connectivity is None else connectivity
+        net_input = W @ rates + drive
         d_rates = np.empty(self.n)
         for i, node in enumerate(self.nodes):
             target = sigmoid(net_input[i], gain=node.gain, threshold=node.threshold)

@@ -87,6 +87,89 @@ black box. The natural upgrade path, once real behavioral endpoint data
 exists to fit against, is a learned nonlinear decoder; that's out of scope
 until there's something real to calibrate it to.
 
+## Second scenario: D2 dopamine receptor / basal ganglia indirect pathway
+
+`scenarios.d2_*` reuses every class unmodified. D2 receptors are Gi-coupled,
+same as mu-opioid, just sitting on a different node in a different circuit:
+striatal "indirect pathway" medium spiny neurons (MSNs) instead of VTA
+GABAergic interneurons. Dopamine acting at D2 suppresses those MSNs, which
+disinhibits GPe, which inhibits STN, which reduces excitatory drive onto
+GPi, which disinhibits thalamus, so the same "Gi-coupled receptor
+disinhibits something two or three synapses downstream" motif as
+mu-opioid, just relayed one hop further. `d2_dopamine_ligands()` gives
+dopamine efficacy=1.0 (agonist) and haloperidol efficacy=0.0 (antagonist),
+competing at one shared D2 pool exactly like fentanyl/naloxone at mu; the
+readout (`locomotor_activity_readout()`, weighted on the `Thalamus` node)
+reflects the indirect pathway's real role in motor facilitation, and is
+deliberately not framed as a "psychosis index": this scenario models the
+mesolimbic drug class's motor/basal-ganglia side, which is also the
+mechanistic link to antipsychotics' extrapyramidal side effects, not the
+mesolimbic antipsychotic-efficacy side.
+
+One tuning lesson worth recording: the first parameter draft made GPi
+saturate near its sigmoid's ceiling at baseline (net input far outside
+[-1, 1] before the gain multiplier), so it stopped responding to anything
+upstream of it and the agonist/antagonist barely changed the readout at
+all. `basal_ganglia_indirect_pathway_network()`'s `baseline_input` values
+are chosen so every node sits near the sensitive part of its sigmoid at
+its own steady state; this is a generally applicable check for any new
+multi-node relay chain added to this codebase, not a one-off fix.
+
+## Third scenario, and why it needed a small engine extension: GABA-A / benzodiazepine
+
+Benzodiazepines (e.g. diazepam) are a different pharmacological shape than
+mu-opioid or D2: they do not compete with GABA for GABA's own orthosteric
+binding site. They bind a separate allosteric site on the GABA-A receptor
+and act as a positive allosteric modulator (PAM): GABA still gates the
+channel, and diazepam just makes GABA more effective at it. Flumazenil, by
+contrast, really does compete with diazepam at that separate benzodiazepine
+site, which is the actual mechanism of benzodiazepine-overdose reversal, but
+it does very little on its own since it isn't displacing GABA from
+anywhere.
+
+That splits into two questions the codebase had to answer honestly before
+adding this scenario:
+
+1. **Does the diazepam/flumazenil interaction fit `ReceptorSite` as-is?**
+   Yes, unmodified. Diazepam and flumazenil genuinely share one pool at the
+   benzodiazepine site, exactly the competitive-occupancy relationship
+   `ReceptorSite` already models for fentanyl/naloxone. No change to
+   `receptor.py` was needed.
+2. **Does coupling that occupancy into circuit dynamics fit the existing
+   `Simulation.coupling` mechanism?** No. `coupling` adds receptor
+   activation directly and additively to a node's drive, which is right for
+   a receptor that itself gates a current (mu-opioid, D2), but wrong for an
+   allosteric modulator that has no drive of its own: it only changes the
+   *gain* of an already-present GABAergic synapse. Using `coupling` here
+   would have modeled diazepam as if it had an independent excitatory or
+   inhibitory action, which is not how benzodiazepines work and would have
+   been a mechanistically dishonest shortcut just to reuse the existing
+   mechanism.
+
+So `engine.py` gained one small, additive-only extension:
+`Simulation(..., connection_modulation={...})`, a dict of
+`(post_node, pre_node) -> gain`. Each evaluation, the targeted connectivity
+entry is scaled by `1 + gain * activation` (via a new optional
+`connectivity` override argument on `CircuitNetwork.rhs`, defaulting to
+`self.connectivity` so every existing call site is unaffected) instead of
+being added to a node's drive. This is a `Simulation`/`CircuitNetwork`-level
+change only; `ReceptorSite`/`Ligand` are untouched, and a receptor can use
+`coupling`, `connection_modulation`, both, or neither, depending on its
+actual mechanism.
+
+`scenarios.gaba_a_*` puts this to use in a local-interneuron -> basolateral
+amygdala (BLA) -> central amygdala (CeA) circuit: local GABAergic
+interneurons tonically inhibit BLA principal neurons, whose output drives
+CeA, the standard fear/anxiety output relay. Diazepam potentiates the
+interneuron -> BLA synapse (via `connection_modulation`), suppressing BLA
+and, downstream, the `anxiety_index` readout, consistent with
+benzodiazepines' clinical anxiolytic effect. Flumazenil given after
+diazepam displaces some of diazepam's occupancy from the shared
+benzodiazepine-site pool and partially reverses the effect, the same
+overdose-reversal mechanism as the mu-opioid/naloxone case, and, like that
+case, imperfectly and temporarily, since flumazenil's own illustrative
+clearance is faster than diazepam's.
+
 ## What v0 gets right, and what it doesn't (yet)
 
 **Mechanistically faithful:**
@@ -98,6 +181,13 @@ until there's something real to calibrate it to.
 - Competitive antagonism at a shared receptor pool is exactly how naloxone
   reverses opioid effects: it doesn't undo anything downstream, it takes the
   receptor back.
+- D2 receptors are Gi-coupled on striatal indirect-pathway MSNs; the same
+  disinhibition logic reused one hop further down the basal ganglia's
+  indirect pathway (see above).
+- Benzodiazepines are positive allosteric modulators of GABA-A, not
+  orthosteric competitors with GABA; representing that mechanism required
+  the small `connection_modulation` extension described above rather than
+  reusing `coupling` as-is (see above).
 
 **Explicitly not yet real:**
 - `kon`/`koff`/`ke`/circuit `tau`/connection weights in `scenarios.py` are
@@ -105,8 +195,12 @@ until there's something real to calibrate it to.
   Ki/kon/koff or PK dataset. They should not be cited as measured values.
   Calibrating these against literature (or, longer-term, fitting them
   Bayesian-style the way the CCT model's 14 parameters were fit against a
-  literature screen) is the next real piece of work, not a formality.
-- Only one receptor site and one circuit are modeled. A real drug usually
-  hits several receptor subtypes across several regions simultaneously; the
-  classes here (`ReceptorSite`, `CircuitNetwork`, coupling dict) are general
-  enough to support that, but it hasn't been built or tested yet.
+  literature screen) is the next real piece of work, not a formality. This
+  applies equally to the mu-opioid, D2, and GABA-A scenarios.
+- Each scenario in v0 models one receptor site and one circuit in isolation
+  (three separate scenarios, not three interacting ones). A real drug
+  usually hits several receptor subtypes across several regions
+  simultaneously, and a real circuit carries several receptor types at
+  once; the classes here (`ReceptorSite`, `CircuitNetwork`, `coupling`,
+  `connection_modulation`) are general enough to support combining them in
+  one `Simulation`, but that hasn't been built or tested yet.

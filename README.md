@@ -39,14 +39,28 @@ rationale and the honesty notes on what's illustrative versus calibrated.
 
 ## Status: v0
 
-The engine runs end to end on one worked example:
-[`examples/fentanyl_reward_circuit.py`](examples/fentanyl_reward_circuit.py)
-simulates a mu-opioid agonist (fentanyl) and antagonist (naloxone) acting on
-a four-node VTA-NAc-PFC reward circuit (opioid-induced disinhibition of VTA
-dopamine neurons). It reproduces the qualitatively correct pharmacology:
-agonist raises the behavioral readout, antagonist alone does ~nothing, and
-antagonist given after the agonist reverses it, the same mechanism naloxone
-overdose rescue relies on.
+The engine runs end to end on three worked examples, all reusing the same
+`ReceptorSite`/`CircuitNetwork`/`BehaviorReadout`/`Simulation` classes:
+
+- [`examples/fentanyl_reward_circuit.py`](examples/fentanyl_reward_circuit.py)
+  simulates a mu-opioid agonist (fentanyl) and antagonist (naloxone) acting
+  on a four-node VTA-NAc-PFC reward circuit (opioid-induced disinhibition of
+  VTA dopamine neurons). Agonist raises the behavioral readout, antagonist
+  alone does ~nothing, and antagonist given after the agonist reverses it,
+  the same mechanism naloxone overdose rescue relies on.
+- [`examples/d2_basal_ganglia_circuit.py`](examples/d2_basal_ganglia_circuit.py)
+  simulates a D2 dopamine agonist and antagonist (haloperidol-like) on a
+  five-node basal ganglia indirect-pathway circuit, the same
+  Gi-coupled-disinhibition mechanism as mu-opioid, relayed one hop further.
+- [`examples/gaba_a_benzodiazepine_circuit.py`](examples/gaba_a_benzodiazepine_circuit.py)
+  simulates a benzodiazepine (diazepam) and its reversal agent (flumazenil)
+  on a GABAergic-interneuron -> amygdala circuit. Benzodiazepines are
+  positive allosteric modulators, not orthosteric competitors with GABA, so
+  this scenario uses a small additive extension
+  (`Simulation(..., connection_modulation=...)`, see
+  [`docs/architecture.md`](docs/architecture.md)) that scales an existing
+  connection's weight instead of adding drive to a node; `ReceptorSite`
+  itself needed no change.
 
 **The receptor-binding constants, circuit time constants, and connection
 weights are hand-set placeholders**, chosen to get the mechanism right, not
@@ -80,9 +94,10 @@ as `cct-bayesian-validation`.
 ## Roadmap
 
 - Calibrate receptor and circuit parameters against literature (Ki/kon/koff
-  databases, connectivity estimates).
-- Add more receptor systems and circuits (dopaminergic D1/D2 on
-  striatal direct/indirect pathways, GABA-A on cortical microcircuits).
+  databases, connectivity estimates). Now covers mu-opioid, D2, and GABA-A;
+  none of the three are calibrated yet.
+- Add more receptor systems and circuits (e.g. D1 on the striatal direct
+  pathway, GABA-A on cortical microcircuits beyond the amygdala).
 - Multi-region receptor density maps, so one drug perturbs several network
   entry points at once rather than a single node.
 - Replace the linear behavior readout with one fit against real behavioral

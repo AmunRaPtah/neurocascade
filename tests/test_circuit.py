@@ -27,6 +27,26 @@ def test_two_node_network_relaxes_toward_sigmoid_fixed_point():
     assert abs(rates[1] - expected_b) < 1e-3
 
 
+def test_rhs_connectivity_override_does_not_mutate_self_connectivity():
+    a = CircuitNode(name="A", tau=1.0, baseline_input=2.0)
+    b = CircuitNode(name="B", tau=1.0, baseline_input=0.0)
+    base_W = [[0.0, 0.0], [1.0, 0.0]]
+    net = CircuitNetwork(nodes=[a, b], connectivity=base_W)
+
+    rates = np.array([0.5, 0.5])
+    drive = net.baseline_drive()
+
+    d_rates_base = net.rhs(rates, drive)
+    override_W = np.array([[0.0, 0.0], [3.0, 0.0]])  # much stronger A -> B
+    d_rates_override = net.rhs(rates, drive, connectivity=override_W)
+
+    assert not np.array_equal(d_rates_base, d_rates_override)
+    # the override must not have mutated the network's own connectivity
+    assert np.array_equal(net.connectivity, np.asarray(base_W))
+    # calling rhs again without an override reproduces the original result
+    assert np.array_equal(net.rhs(rates, drive), d_rates_base)
+
+
 def test_inhibitory_connection_suppresses_downstream_node():
     a = CircuitNode(name="A", tau=1.0, baseline_input=5.0)
     b = CircuitNode(name="B", tau=1.0, baseline_input=1.0)
