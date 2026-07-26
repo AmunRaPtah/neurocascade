@@ -1,0 +1,3 @@
+,mean,sd,eti89_lb,eti89_ub,ess_bulk,ess_tail,r_hat,mcse_mean,mcse_sd
+Ki_fentanyl_nM,6.4,3.7,0.92,12,585,666,1.01,0.15,0.069
+Ki_naloxone_nM,1.517,0.062,1.4,1.6,588,604,1.01,0.0025,0.0018

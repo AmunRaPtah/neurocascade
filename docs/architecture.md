@@ -717,3 +717,194 @@ pass above (full citations and derivations are inline in that section of
   `locomotor_activity_readout`) is reused unchanged from the illustrative
   scenario in the calibrated one: only receptor binding and PK were in
   scope for this calibration pass.
+
+## Bayesian parameter fitting (Track C2)
+
+Track A calibrated point estimates for all three receptor systems' binding
+and PK constants against literature. This track asks the natural next
+question: given those point estimates, and given that several of their
+underlying citations also report a real standard deviation, can this
+codebase run an actual Bayesian fit, the way the sibling project
+`cct-bayesian-validation` fit the CCT model's 14 free parameters against
+real behavioral evidence? `src/neurocascade/calibration/` is the resulting
+scaffold. It mirrors that sibling project's method (PyMC, a gradient-free
+step method since the ODE forward model isn't differentiable through
+PyTensor, a two-tier informed/uninformed prior scheme, a Gaussian
+likelihood built from real literature targets, results saved as `arviz`
+`InferenceData`) while diverging from it in one structural respect, for a
+reason discovered empirically rather than assumed up front (see "An honest
+convergence story" below): the CCT model's 14 parameters all feed one
+coupled ODE state vector and were fit in a single joint `pm.Model`, which is
+right for that model, since those parameters genuinely interact. None of
+neurocascade's three receptor systems (mu-opioid, D2, GABA-A) shares a
+parameter or a likelihood term with another: each has its own independent
+`ReceptorSite`/ligands/PK, and each of the three validation targets in
+`evidence.py` is scoped to exactly one system. So this scaffold runs THREE
+INDEPENDENT `pm.Model`s, one per system, each with its own `DEMetropolisZ`
+chain, rather than one combined model across all eight parameters.
+
+### What is, and is not, honestly fittable here
+
+Checking this before writing any code, per this track's brief: circuit-layer
+weights/gains/taus have no literature target in any of the three calibrated
+sections above, a gap `docs/architecture.md` has now documented three times
+over ("Explicitly not yet real" above; each "Calibrated: ..." section's own
+closing note). That is still true. No circuit-layer parameter is fit here,
+and none should be until a real behavioral or connectivity dataset exists to
+fit it against; the module docstring in `calibration/__init__.py` states
+this plainly rather than quietly limiting scope without saying why.
+
+What IS fittable: the receptor-binding constants (Ki/Kd, kon, koff) in the
+three calibrated sections, several of which trace to a citation that also
+reports a real standard deviation, plus three real validation targets
+already cited in those same sections: Moss et al. 2020's fentanyl occupancy
+figure (mu-opioid), Kapur et al. 1997's PET occupancy curve (D2), and Savic
+et al. 1991's flumazenil occupancy figure (GABA-A). `calibration/evidence.py`
+turns these into Gaussian likelihood targets rather than inventing new ones.
+
+### Scope and module layout
+
+Eight free parameters across the three systems (`calibration/priors.py`):
+
+| Parameter | System | Tier | Source | Likelihood term? |
+|---|---|---|---|---|
+| `Ki_fentanyl_nM` | mu-opioid | uninformed (uniform, 0.1x-10x point estimate) | Volpe et al. 2011 (no reported sd) | Moss et al. 2020 |
+| `Ki_naloxone_nM` | mu-opioid | informed (real sd) | Volpe et al. 2011, 1.518 +/- 0.065 nM | none |
+| `kon_haloperidol_nM_min` | D2 | informed (real sd) | Sykes et al. 2017, 2.13 +/- 0.52 | Kapur et al. 1997 |
+| `koff_haloperidol_min` | D2 | informed (real sd) | Sykes et al. 2017, 0.65 +/- 0.07 | Kapur et al. 1997 |
+| `kon_dopamine_nM_min` | D2 | informed (real sd) | Agren et al. 2021, 5.82 +/- 0.738 | none |
+| `koff_dopamine_min` | D2 | informed (real sd) | Agren et al. 2021, 11.82 +/- 0.72 | none |
+| `Ki_flumazenil_nM` | GABA-A | informed (real sd) | Mohler et al. 1981, 1.0 +/- 0.1 nM | Savic et al. 1991 |
+| `Ki_diazepam_nM` | GABA-A | informed (real sd) | Mohler & Okada 1977, 3.6 +/- 0.1 nM | none |
+
+Four of the eight (`Ki_naloxone_nM`, `kon_dopamine_nM_min`,
+`koff_dopamine_min`, `Ki_diazepam_nM`) have a real reported sd but no
+matching likelihood term in this pass: their posterior is their prior,
+unchanged by data, the same honest "informed-prior-only" category CCT's own
+`priors.py` documents for several of its own elicitation-only parameters.
+`priors.py`'s `PRIOR_ONLY_PARAM_NAMES`/`LIKELIHOOD_UPDATED_PARAM_NAMES`
+record this distinction in code, and
+`tests/test_bayesian_calibration.py::test_prior_only_parameters_have_no_matching_likelihood_term`
+checks it holds by construction.
+
+An identifiability point worth stating plainly (`calibration/forward.py`'s
+docstring covers this in full): all three validation targets are
+equilibrium, single-ligand occupancy measurements, which depend only on the
+ratio Kd = koff/kon, not on kon and koff individually. For mu-opioid
+fentanyl and GABA-A flumazenil, only a Ki point estimate exists anyway, so
+`forward.equilibrium_occupancy_from_kd` fixes an arbitrary reference kon and
+fits Kd directly. For D2 haloperidol, both kon and koff are independently
+measured with their own real sd (Sykes et al. 2017), so both are sampled as
+separate parameters with their own informed priors, while the Kapur et al.
+1997 likelihood term constrains only their ratio; the forward model
+(`forward.equilibrium_occupancy`) integrates the actual
+`ReceptorSite.occupancy_rhs` ODE via `scipy.integrate.solve_ivp` (the same
+integrator `engine.py` uses) rather than substituting the closed-form
+two-state formula, so this scaffold stays built on the real receptor class
+rather than reimplementing its mechanism.
+
+The synthetic-recovery self-test
+(`tests/test_bayesian_calibration.py::test_synthetic_recovery_of_known_kd_via_engine_simulation`)
+goes one step further than the receptor-only forward model used for
+speed elsewhere: it builds a full `engine.Simulation` (a real `OneCompartmentPK`
+model, `ReceptorSite`, and a minimal one-node `CircuitNetwork`) with a known,
+made-up Kd, runs it to equilibrium, and confirms the calibration machinery
+recovers that known Kd from the resulting synthetic occupancy, so the
+scaffold's genuine, full-engine reuse (not just the equilibrium shortcut) is
+checked at least once, not merely asserted in a docstring.
+
+### An honest convergence story: why this scaffold runs three independent models, not one
+
+The first version of this scaffold combined all eight parameters into one
+`pm.Model` with one shared `DEMetropolisZ` chain, matching
+`cct-bayesian-validation/bayesian_calibration.py`'s own pattern over its 14
+mutually-dependent parameters. Run at production scale (4 chains, 1000
+tuning steps, 1000 draws each), it did **not** converge: max r_hat 1.92, min
+bulk ESS 5, a bad run by any normal MCMC standard.
+
+Diagnosing rather than hiding it: the haloperidol block was the proximate
+cause. `kon_haloperidol_nM_min`/`koff_haloperidol_min`'s informed priors,
+from Sykes et al. 2017's kinetic assay, imply Kd = koff/kon ~ 0.3 nM. The
+Kapur et al. 1997 PET occupancy target implies a clinical-apparent Kd
+roughly 4x larger (~1.3-1.4 nM), a real and expected gap given haloperidol's
+~89-93% plasma protein binding, which this codebase's simple two-state
+occupancy model doesn't correct for (the same gap
+`test_d2_scenario_calibrated.py` already documents directionally). That is a
+genuine prior-likelihood tension, not a bug, and fitting the haloperidol
+block alone, in isolation, against just the Kapur likelihood converged
+cleanly (r_hat 1.01-1.03), confirming the model and forward-model machinery
+were sound; what wasn't sound was combining it with the other two,
+mechanistically unrelated, systems in one sampler. A single `DEMetropolisZ`
+spanning all eight parameters draws every proposal from one shared history
+across all three systems at once, so a joint move is accepted or rejected as
+a whole: the haloperidol block's harder geometry dragged down the
+acceptance rate, and therefore the effective sample size, of the other five
+parameters too, even though none of their likelihood terms reads
+haloperidol's parameters at all.
+
+The first fix attempted was to keep one `pm.Model` but give each
+receptor-system block its own `DEMetropolisZ` step inside a
+`pm.CompoundStep` (`vars=[...]` restricted per block). That hit a
+version-specific limitation in this environment's PyMC 6.0.1:
+`DEMetropolisZ`'s internal proposal-history buffer is sized to the model's
+full dimensionality regardless of the `vars` subset passed to it, so a block
+covering fewer than all eight parameters raised `ValueError: operands could
+not be broadcast together with shapes (2,) (8,)` inside its own `astep`.
+
+The actual fix, once the diagnosis above was taken seriously rather than
+patched around: there was never a statistical reason to sample all eight
+parameters in one model in the first place. Mu-opioid, D2, and GABA-A share
+no parameter and no likelihood term, so `calibration/bayesian_calibration.py`
+now builds THREE INDEPENDENT `pm.Model`s (`build_mu_opioid_model()`,
+`build_d2_model()`, `build_gaba_a_model()`), each sampled with its own
+`DEMetropolisZ` chain via `run_calibration(system_name, ...)`. This is
+simpler than the blocked `CompoundStep` workaround, not just a fallback:
+it's the same fix the isolated-haloperidol diagnostic run already
+demonstrated, generalized to all three systems, with no version-specific
+sampler limitation involved.
+
+**Production-scale diagnostics for all three, run at 4 chains x 1000 tuning
+steps x 1000 draws each (`DEMetropolisZ`), independently:**
+
+| System | Free parameters | Max r_hat | Min ESS (bulk) |
+|---|---|---|---|
+| mu-opioid | `Ki_fentanyl_nM`, `Ki_naloxone_nM` | 1.01 | 585 |
+| D2 | `kon_haloperidol_nM_min`, `koff_haloperidol_min`, `kon_dopamine_nM_min`, `koff_dopamine_min` | 1.02 | 284 |
+| GABA-A | `Ki_flumazenil_nM`, `Ki_diazepam_nM` | 1.01 | 578 |
+
+All three converge cleanly (r_hat <= 1.02, well under the usual < 1.05
+threshold; ESS in the hundreds, not single digits). D2's posterior
+concretely shows the protein-binding compromise discussed above:
+`kon_haloperidol_nM_min` posterior mean ~0.73 (vs. its 2.13 prior mean, a
+real, data-driven shift, since kon's looser prior sd absorbs most of the
+adjustment needed to reconcile the kinetic and clinical-apparent Kd) while
+`koff_haloperidol_min` posterior mean ~0.68 stays close to its 0.65 prior
+mean (its tighter prior sd resists moving as far), exactly the
+per-parameter-uncertainty-weighted compromise Bayesian updating should
+produce. Each system's full posterior/prior `InferenceData` and summary
+table are saved separately under `results/calibration/`
+(`{system}_posterior.nc`, `{system}_prior.nc`, `{system}_summary.csv`), plus
+a combined `calibration_diagnostics.txt` with each system's max r_hat/min
+ESS.
+
+### Tests and dependencies
+
+`tests/test_bayesian_calibration.py` adds: one fast smoke test per system
+(~120 draws, 2 chains each; checks it runs end to end and produces a
+structurally valid posterior, without asserting tight convergence, since a
+run this short isn't expected to fully converge either); a check that the
+three systems' parameter lists partition all eight free parameters with no
+overlap (the premise the independent-model split relies on); the
+prior-only-parameter bookkeeping check described above (now checking all
+three systems' forward-model source, not one combined one); and the
+synthetic-recovery self-test (6 tests total in this file). All pre-existing
+55 tests continue to pass unmodified; the full suite (61 tests total)
+passes.
+
+PyMC (6.0.1), PyTensor (3.0.7), and ArviZ (1.2.0) were already installed in
+the shared `/root/projects/pardalos/.venv` this project runs tests from
+(confirmed with `python -c "import pymc"` before writing any code); no new
+dependency was installed, and this repository has no `requirements.txt` or
+`pyproject.toml` to update (it relies on `tests/conftest.py`'s `sys.path`
+shim into the shared venv, the same convention `cct-bayesian-validation`
+uses).

@@ -1,0 +1,5 @@
+,mean,sd,eti89_lb,eti89_ub,ess_bulk,ess_tail,r_hat,mcse_mean,mcse_sd
+kon_haloperidol_nM_min,0.73,0.23,0.44,1.1,284,402,1.02,0.013,0.013
+koff_haloperidol_min,0.676,0.065,0.58,0.79,382,488,1.01,0.0033,0.0023
+kon_dopamine_nM_min,5.84,0.71,4.7,7,326,475,1.02,0.039,0.027
+koff_dopamine_min,11.8,0.68,11,13,295,259,1.01,0.04,0.029

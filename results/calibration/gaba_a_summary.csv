@@ -1,0 +1,3 @@
+,mean,sd,eti89_lb,eti89_ub,ess_bulk,ess_tail,r_hat,mcse_mean,mcse_sd
+Ki_flumazenil_nM,1.01,0.093,0.86,1.2,581,593,1.01,0.0039,0.0027
+Ki_diazepam_nM,3.604,0.098,3.5,3.8,578,604,1.01,0.0041,0.0028
