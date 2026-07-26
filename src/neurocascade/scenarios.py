@@ -69,6 +69,209 @@ def incentive_salience_readout():
 
 
 # ---------------------------------------------------------------------------
+# Multi-region mu-opioid receptor density map (Track C1)
+# SAME receptor/ligand pair (fentanyl/naloxone), THREE differently-wired
+# target nodes across three otherwise-unconnected downstream systems
+# ---------------------------------------------------------------------------
+#
+# Every scenario above this point couples one receptor's activation into
+# exactly one circuit node via a single flat gain
+# (`mu_opioid_coupling() == {"VTA_GABA": -3.0}`). Real mu-opioid receptors
+# are not confined to VTA GABAergic interneurons: they are expressed, at
+# different relative densities, across many brain regions simultaneously,
+# and a single systemic dose (e.g. IV fentanyl) produces several distinct
+# behavioral effects at once because of that -- reward, analgesia, and
+# sedation are not independent drug actions, they are the SAME receptor
+# activation reaching different circuits.
+#
+# Does this need a new engine mechanism, or does the existing `coupling`
+# dict already generalize? Looking at `Simulation.rhs`:
+#
+#     for node_name, gain in self.coupling.items():
+#         idx = self.network.index[node_name]
+#         drive[idx] += gain * activation
+#
+# This loop already iterates over every entry in `coupling`, entirely
+# independently: nothing about it assumes a single-key dict. A receptor
+# whose activation should drive N nodes at N different gains is already
+# expressible today as `{"node_a": g_a, "node_b": g_b, "node_c": g_c, ...}`,
+# with no change to `receptor.py`, `network.py`, or `engine.py`. That is a
+# real, load-bearing difference from the GABA-A/benzodiazepine case (which
+# needed `connection_modulation` because allosteric modulation is not
+# "add activation to a node's drive" at all, for any single node): here the
+# *shape* of the mechanism -- additive drive on a targeted node -- is
+# unchanged, only the *number* of targets is greater than one. Building a
+# separate "density map" class or a `{node: (density, gain)}` two-tuple
+# structure on top of this would be machinery this codebase does not need:
+# it would let you factor a node's number into "density * mechanism
+# strength", but nothing downstream of `coupling` ever needs that
+# factorization done FOR it -- the product is all `Simulation.rhs` uses.
+# So no engine extension was made for this track; see docs/architecture.md
+# for the fuller writeup of this judgment call, including the one real
+# subtlety it surfaced (density category and node-coupling-gain magnitude
+# are not the same axis -- see the LC gain below).
+#
+# The three target nodes chosen here are real, well-described mu-opioid
+# targets, each via a different cellular mechanism:
+#
+# 1. VTA GABAergic interneurons (`VTA_GABA`, reused unchanged from
+#    `mu_opioid_coupling`/`reward_circuit_network` above): Gi-coupled
+#    mu-opioid receptors on local GABAergic interneurons tonically
+#    inhibiting VTA dopamine neurons; agonist activation suppresses the
+#    interneuron, disinhibiting dopamine firing -> reward/incentive
+#    salience.
+# 2. Periaqueductal gray local circuit (`PAG_Interneuron` -| `PAG_Output`,
+#    new): the classic descending-analgesia mechanism (Fields & Basbaum's
+#    PAG-RVM circuit). Mu-opioid receptors on PAG GABAergic interneurons
+#    that tonically inhibit PAG output neurons; agonist activation
+#    suppresses the interneuron, disinhibiting PAG output projecting to the
+#    rostral ventromedial medulla and, from there, descending inhibition of
+#    spinal nociceptive transmission -> analgesia. Mechanistically this is
+#    the SAME "Gi-coupled-receptor-on-a-GABA-interneuron disinhibits an
+#    output population" motif as VTA_GABA, just in a different circuit, so
+#    it is wired identically (same tau/baseline/gain/weight shape as
+#    VTA_GABA -| VTA_DA).
+# 3. Locus coeruleus (`LC`, new): mu-opioid receptors sit directly on LC
+#    noradrenergic neurons themselves (Gi-coupled hyperpolarization), not on
+#    an interposed local interneuron, the classic mechanism behind opioid
+#    sedation and (via LC's role in the withdrawal noradrenergic surge)
+#    opioid dependence. Modeled here as a single isolated node directly
+#    coupled to receptor activation, with no local circuit needed -- a
+#    second demonstration that `coupling` targets are agnostic to whether
+#    the underlying biology is direct or interneuron-mediated.
+#
+# `PAG_Interneuron`/`PAG_Output` and `LC` are deliberately left UNCONNECTED
+# to the reward circuit (and to each other) in `multi_region_mu_opioid_
+# network()`: wiring them together would assert an anatomical projection
+# this scenario doesn't intend to claim. The point being demonstrated is
+# that one receptor's activation can supply drive to several genuinely
+# separate downstream systems at once, not that those systems interact with
+# each other.
+#
+# Relative density citations (qualitative/relative ordering, NOT absolute
+# Bmax numbers, which none of these sources report in comparable units):
+#   [Mansour1987] Mansour A, Khachaturian H, Lewis ME, Akil H, Watson SJ.
+#                 "Autoradiographic differentiation of mu, delta, and kappa
+#                 opioid receptors in the rat forebrain and midbrain."
+#                 J Neurosci. 1987;7(8):2445-2464. Foundational quantitative
+#                 mu-receptor autoradiography mapping across these and other
+#                 regions.
+#   [Hawkins1988] Cited via Mansour et al.'s review (Mansour A, Khachaturian
+#                 H, Lewis ME, Akil H, Watson SJ. "Anatomy of CNS opioid
+#                 receptors." Trends Neurosci. 1988;11(7):308-14): mu
+#                 receptor binding density in periaqueductal gray and raphe
+#                 nuclei is described as MODERATE, not among the highest-
+#                 density regions.
+#   [TempelZukin1987] Tempel A, Zukin RS. "Neuroanatomical patterns of the
+#                 mu, delta, and kappa opioid receptors of rat brain as
+#                 determined by quantitative in vitro autoradiography."
+#                 Proc Natl Acad Sci. 1987;84(12):4308-12 (PubMed 3035579).
+#                 Reports mu receptors most densely localized in patches in
+#                 the striatum/nucleus accumbens, several cortical/
+#                 hippocampal/thalamic regions, and the LOCUS COERULEUS --
+#                 i.e. LC and striatal/NAc patches rank among the HIGHEST
+#                 mu-receptor-density regions identified, a distinctly
+#                 higher category than the "moderate" PAG/raphe density
+#                 above.
+#   [VanBockstaele] Van Bockstaele EJ et al. (ultrastructural
+#                 immunoelectron-microscopy series on rat/cat LC, e.g.
+#                 "Ultrastructural evidence for prominent distribution of
+#                 the mu-opioid receptor at extrasynaptic sites on
+#                 noradrenergic dendrites in the rat nucleus locus
+#                 coeruleus") corroborates dense mu-opioid receptor
+#                 expression directly on LC noradrenergic neurons
+#                 themselves (not via a local interneuron), consistent with
+#                 the direct-coupling mechanism used for `LC` below.
+#
+# A genuinely interesting wrinkle surfaced by taking this literature
+# seriously (same spirit as Track A's naloxone-koff finding): LC is the
+# HIGHEST-density region of these three per [TempelZukin1987], with VTA and
+# PAG both in the "moderate" tier per [Hawkins1988]/[Mansour1987] -- yet the
+# gain chosen for `LC` below is the SMALLEST of the three, not the largest.
+# That is not a contradiction, it is the reason a raw density number cannot
+# be dropped into `coupling` unmodified: `coupling`'s gain is a NODE-LEVEL
+# drive-coupling constant in this mean-field abstraction, which folds
+# together (a) receptor density and (b) how much a unit of receptor
+# activation actually changes that node's net input given the surrounding
+# circuit mechanism. VTA_GABA and PAG_Interneuron's activation is amplified
+# by an interposed GABAergic-interneuron-disinhibition step reaching a
+# separate output node one synapse downstream; LC's activation acts
+# directly on the same node being read out, with no such amplification
+# step. So even though LC has the highest receptor density of the three,
+# its illustrative node-coupling gain is smaller, and that is a real
+# property of this level of abstraction, not an error: density sets which
+# nodes plausibly deserve a nonzero coupling entry at all (all three do),
+# it does not by itself set the gain's magnitude. All three magnitudes
+# below remain hand-tuned illustrative numbers chosen to produce clear,
+# checkable qualitative dynamics (see docs/architecture.md) -- they are not
+# a density-to-gain unit conversion.
+
+
+def multi_region_mu_opioid_network():
+    """Reward circuit (VTA_GABA/VTA_DA/NAc/PFC, unchanged from
+    `reward_circuit_network()`) plus two additional, deliberately
+    unconnected sub-systems the same mu-opioid receptor also innervates in
+    real anatomy: a PAG descending-analgesia local circuit and a standalone
+    LC (noradrenergic tone) node. See the section docstring above for the
+    full mechanistic and citation rationale.
+    """
+    nodes = [
+        # --- reward circuit: identical to reward_circuit_network() ---
+        CircuitNode(name="VTA_GABA", tau=1.0, baseline_input=0.5, gain=4.0),
+        CircuitNode(name="VTA_DA", tau=1.5, baseline_input=0.2, gain=4.0),
+        CircuitNode(name="NAc", tau=2.0, baseline_input=0.0, gain=4.0),
+        CircuitNode(name="PFC", tau=3.0, baseline_input=0.3, gain=4.0),
+        # --- PAG descending-analgesia local circuit (new) ---
+        CircuitNode(name="PAG_Interneuron", tau=1.0, baseline_input=0.5, gain=4.0),
+        CircuitNode(name="PAG_Output", tau=1.5, baseline_input=0.2, gain=4.0),
+        # --- LC noradrenergic tone (new); direct receptor action, no local
+        # interneuron in this abstraction ---
+        CircuitNode(name="LC", tau=1.0, baseline_input=0.0, gain=4.0),
+    ]
+    idx = {node.name: i for i, node in enumerate(nodes)}
+    n = len(nodes)
+    W = [[0.0] * n for _ in range(n)]
+    # reward circuit wiring, unchanged
+    W[idx["VTA_DA"]][idx["VTA_GABA"]] = -2.5
+    W[idx["NAc"]][idx["VTA_DA"]] = 2.0
+    W[idx["PFC"]][idx["NAc"]] = 1.5
+    W[idx["VTA_DA"]][idx["PFC"]] = -0.8
+    W[idx["VTA_GABA"]][idx["PFC"]] = 0.6
+    # PAG local circuit: same GABAergic-interneuron-disinhibits-output shape
+    # as VTA_GABA -| VTA_DA above
+    W[idx["PAG_Output"]][idx["PAG_Interneuron"]] = -2.5
+    # LC: no connectivity edges at all -- see docstring above for why that's
+    # the point, not an oversight.
+    return CircuitNetwork(nodes=nodes, connectivity=W)
+
+
+def mu_opioid_multi_region_coupling():
+    # Relative gain magnitudes are illustrative and hand-tuned for
+    # qualitative clarity, NOT a density-to-gain unit conversion; see the
+    # section docstring above for why LC's real receptor density (highest
+    # of the three, per literature) does not translate into the largest
+    # gain here.
+    return {
+        "VTA_GABA": -3.0,  # reward; unchanged from mu_opioid_coupling()
+        "PAG_Interneuron": -2.5,  # analgesia; moderate density, same
+        # interneuron-disinhibition mechanism as VTA_GABA
+        "LC": -1.5,  # sedation/arousal; direct action, no amplification
+        # step, despite highest literature-reported density of the three
+    }
+
+
+def analgesia_index_readout():
+    return BehaviorReadout(name="analgesia_index", weights={"PAG_Output": 1.0})
+
+
+def arousal_index_readout():
+    # LC firing rate itself: mu-opioid agonism suppresses it (sedation), so
+    # this readout should FALL, unlike incentive_salience/analgesia_index
+    # which both RISE with agonist.
+    return BehaviorReadout(name="arousal_index", weights={"LC": 1.0})
+
+
+# ---------------------------------------------------------------------------
 # D2 dopamine receptor / antipsychotic-relevant circuit
 # (basal ganglia indirect pathway)
 # ---------------------------------------------------------------------------

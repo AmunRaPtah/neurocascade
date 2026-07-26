@@ -47,6 +47,58 @@ def test_antagonist_alone_stays_near_baseline():
     assert abs(antagonist_final - baseline_final) < 1e-2
 
 
+def _minimal_multi_target_coupling_setup():
+    """A synthetic 3-node network with no connectivity between nodes at all,
+    used to unit test that one receptor's `coupling` dict can already drive
+    MULTIPLE nodes at different, independently-specified gains (Track C1's
+    multi-region receptor density map), in isolation from any scenario's
+    tuned circuit parameters. `Simulation.rhs` already iterates over every
+    `coupling` entry, so this should work with no engine.py/network.py
+    changes: this test is the isolated proof of that, the same role
+    `_minimal_allosteric_setup` plays for `connection_modulation` below.
+    """
+    a = CircuitNode(name="A", tau=1.0, baseline_input=0.0, gain=4.0)
+    b = CircuitNode(name="B", tau=1.0, baseline_input=0.0, gain=4.0)
+    c = CircuitNode(name="C", tau=1.0, baseline_input=0.0, gain=4.0)
+    W = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]  # fully disconnected
+    network = CircuitNetwork(nodes=[a, b, c], connectivity=W)
+
+    ligand = Ligand(name="agonist", kon=1.0, koff=0.1, efficacy=1.0)
+    site = ReceptorSite(name="multi_region_site", ligands=[ligand])
+    pk_models = [OneCompartmentPK(ke=0.05)]
+
+    sim = Simulation(
+        pk_models=pk_models,
+        receptor_site=site,
+        network=network,
+        # one receptor, three targets, three different gains: nothing about
+        # this dict's shape differs from the single-target case
+        coupling={"A": -3.0, "B": -1.0, "C": 2.0},
+    )
+    return sim
+
+
+def test_coupling_dict_drives_multiple_nodes_at_independent_gains():
+    sim = _minimal_multi_target_coupling_setup()
+    t_eval = np.linspace(0, 20, 100)
+
+    baseline = sim.run(dose_concentrations=[0.0], t_span=(0, 20), t_eval=t_eval)
+    dosed = sim.run(dose_concentrations=[1.0], t_span=(0, 20), t_eval=t_eval)
+
+    # A and B have negative gains (inhibitory receptor): agonist activation
+    # should suppress both below baseline, with A suppressed MORE than B
+    # since |gain_A| > |gain_B|.
+    assert dosed["rates"][0, -1] < baseline["rates"][0, -1]
+    assert dosed["rates"][1, -1] < baseline["rates"][1, -1]
+    drop_a = baseline["rates"][0, -1] - dosed["rates"][0, -1]
+    drop_b = baseline["rates"][1, -1] - dosed["rates"][1, -1]
+    assert drop_a > drop_b
+    # C has a positive gain: agonist activation should RAISE it above
+    # baseline, the opposite sign from A and B, from the SAME occupancy/
+    # activation trace.
+    assert dosed["rates"][2, -1] > baseline["rates"][2, -1]
+
+
 def _minimal_allosteric_setup():
     """A synthetic 2-node network with one inhibitory connection, used to
     unit test `connection_modulation` in isolation from any scenario's

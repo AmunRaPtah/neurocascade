@@ -170,6 +170,138 @@ overdose-reversal mechanism as the mu-opioid/naloxone case, and, like that
 case, imperfectly and temporarily, since flumazenil's own illustrative
 clearance is faster than diazepam's.
 
+## Fourth scenario, and why it needed NO engine extension: multi-region mu-opioid receptor density map (Track C1)
+
+The three scenarios above each couple one receptor's activation into
+exactly one circuit node (`mu_opioid_coupling() == {"VTA_GABA": -3.0}`,
+`d2_coupling() == {"Striatum_D2_MSN": -3.0}`). Real receptors are not
+confined to a single node: mu-opioid receptors, for instance, are expressed
+at meaningfully different densities across many brain regions
+simultaneously, which is exactly why a single systemic opioid dose produces
+several distinct effects at once (reward, analgesia, sedation) rather than
+one.
+
+The question this track had to answer first: does `Simulation.coupling`
+already support that, or does it need a real extension? Looking at
+`Simulation.rhs`:
+
+```python
+for node_name, gain in self.coupling.items():
+    idx = self.network.index[node_name]
+    drive[idx] += gain * activation
+```
+
+This loop already iterates over every entry in `coupling`, independently of
+how many there are; nothing about it assumes a single-key dict. A receptor
+whose activation should drive N nodes at N different gains was already
+expressible as `{"node_a": g_a, "node_b": g_b, "node_c": g_c, ...}` before
+this track started, with zero changes needed to `receptor.py`,
+`network.py`, or `engine.py`. That is a materially different situation from
+the GABA-A/benzodiazepine case above, which genuinely needed
+`connection_modulation`: there, the *shape* of the mechanism itself was
+wrong for any single node (additive drive doesn't represent an allosteric
+modulator at all). Here the shape is right already; only the number of
+targets was previously one by convention, not by any code limit. A
+`{node: (density, gain)}` two-tuple structure, or a separate
+`ReceptorDensityMap` class, would have been machinery this codebase doesn't
+need: nothing downstream of `coupling` would ever consume a density and a
+mechanism-strength number separately, only their product, which is exactly
+what a plain `{node: gain}` entry already stores. So no engine.py/network.py
+extension was made for this track; `scenarios.py` gained a new coupling
+dict with three entries and a new network with three coupled nodes, and
+that was sufficient.
+
+`scenarios.multi_region_mu_opioid_network()` extends the existing VTA-NAc-
+PFC reward circuit (unchanged) with two more, deliberately UNCONNECTED
+sub-systems the same mu-opioid receptor also innervates in real anatomy:
+
+1. **VTA_GABA** (reward, reused unchanged): Gi-coupled mu-opioid receptors
+   on VTA GABAergic interneurons; agonist activation suppresses the
+   interneuron, disinhibiting VTA dopamine firing.
+2. **PAG_Interneuron -| PAG_Output** (analgesia, new): the classic
+   descending-analgesia mechanism (Fields & Basbaum's PAG-RVM circuit).
+   Mu-opioid receptors on PAG GABAergic interneurons tonically inhibit PAG
+   output neurons projecting to the rostral ventromedial medulla, which
+   relays descending inhibition of spinal nociceptive transmission; agonist
+   activation suppresses the interneuron, disinhibiting that output. This
+   is the SAME "Gi-coupled-receptor-on-a-GABA-interneuron disinhibits an
+   output population" motif as VTA_GABA, so it is wired identically (same
+   tau/baseline/gain/weight shape as `VTA_GABA -| VTA_DA`).
+3. **LC** (sedation/arousal, new): mu-opioid receptors sit directly on
+   locus coeruleus noradrenergic neurons (Gi-coupled hyperpolarization),
+   not on an interposed local interneuron: the classic mechanism behind
+   opioid sedation. Modeled as a single isolated node coupled directly to
+   receptor activation, with no local circuit needed, demonstrating that
+   `coupling` targets are agnostic to whether the underlying biology is
+   direct or interneuron-mediated.
+
+`PAG_Interneuron`/`PAG_Output` and `LC` are deliberately left unconnected to
+the reward circuit and to each other: wiring them together would assert an
+anatomical projection this scenario doesn't intend to claim. The point is
+that one receptor's activation supplies drive to several genuinely separate
+downstream systems at once, not that those systems interact.
+
+**Relative density citations** (qualitative/relative ordering, not absolute
+Bmax numbers, which none of these sources report in comparable units):
+- [Mansour1987] Mansour A, Khachaturian H, Lewis ME, Akil H, Watson SJ.
+  "Autoradiographic differentiation of mu, delta, and kappa opioid
+  receptors in the rat forebrain and midbrain." J Neurosci.
+  1987;7(8):2445-2464. Foundational quantitative mu-receptor autoradiography
+  mapping across these and other regions.
+- [Hawkins1988], cited via Mansour A, Khachaturian H, Lewis ME, Akil H,
+  Watson SJ. "Anatomy of CNS opioid receptors." Trends Neurosci.
+  1988;11(7):308-14: mu receptor binding density in periaqueductal gray and
+  raphe nuclei is described as MODERATE, not among the highest-density
+  regions.
+- [TempelZukin1987] Tempel A, Zukin RS. "Neuroanatomical patterns of the
+  mu, delta, and kappa opioid receptors of rat brain as determined by
+  quantitative in vitro autoradiography." Proc Natl Acad Sci.
+  1987;84(12):4308-12 (PubMed 3035579). Reports mu receptors most densely
+  localized in patches in the striatum/nucleus accumbens, several
+  cortical/hippocampal/thalamic regions, and the locus coeruleus: LC and
+  striatal/NAc patches rank among the HIGHEST mu-receptor-density regions
+  identified, a distinctly higher category than the "moderate" PAG/raphe
+  density above.
+- [VanBockstaele] Van Bockstaele EJ et al.'s ultrastructural
+  immunoelectron-microscopy series on rat/cat locus coeruleus (e.g.
+  "Ultrastructural evidence for prominent distribution of the mu-opioid
+  receptor at extrasynaptic sites on noradrenergic dendrites in the rat
+  nucleus locus coeruleus") corroborates dense mu-opioid receptor
+  expression directly on LC noradrenergic neurons themselves, not via a
+  local interneuron, consistent with the direct-coupling mechanism used for
+  `LC` above.
+
+**A genuinely interesting wrinkle surfaced by taking this literature
+seriously** (same spirit as Track A's naloxone-koff finding): LC is the
+highest-density region of these three per [TempelZukin1987], with VTA and
+PAG both in the "moderate" tier per [Hawkins1988]/[Mansour1987], yet the
+gain chosen for `LC` in `mu_opioid_multi_region_coupling()` is the smallest
+of the three (-1.5 vs -3.0 for VTA_GABA and -2.5 for PAG_Interneuron), not
+the largest. That is not a contradiction; it is exactly why a raw density
+number cannot be dropped into `coupling` unmodified. `coupling`'s gain is a
+node-level drive-coupling constant in this mean-field abstraction, which
+folds together (a) receptor density and (b) how much a unit of receptor
+activation actually changes that node's net input given the surrounding
+circuit mechanism. VTA_GABA's and PAG_Interneuron's activation is amplified
+by an interposed GABAergic-interneuron-disinhibition step reaching a
+separate output node one synapse downstream; LC's activation acts directly
+on the same node being read out, with no such amplification step. So even
+though LC has the highest receptor density of the three, its illustrative
+node-coupling gain is smaller, and that is a real property of this level of
+abstraction, not an error: density supports which nodes plausibly deserve a
+nonzero coupling entry at all (all three do), it does not by itself set the
+gain's magnitude. All three magnitudes remain hand-tuned illustrative
+numbers chosen to produce clear, checkable qualitative dynamics, not a
+density-to-gain unit conversion.
+
+Behaviorally, this lets one antagonist dose (naloxone) reverse three
+simultaneous effects at once from a single competing occupancy trace:
+`incentive_salience` (reward) and `analgesia_index` (weighted on
+`PAG_Output`) both rise with fentanyl and fall back with naloxone;
+`arousal_index` (weighted on `LC`) falls with fentanyl (sedation) and rises
+back with naloxone. See `tests/test_multi_region_scenario.py` and
+`examples/mu_opioid_multi_region_circuit.py`.
+
 ## What v0 gets right, and what it doesn't (yet)
 
 **Mechanistically faithful:**
@@ -188,6 +320,12 @@ clearance is faster than diazepam's.
   orthosteric competitors with GABA; representing that mechanism required
   the small `connection_modulation` extension described above rather than
   reusing `coupling` as-is (see above).
+- Mu-opioid receptors are expressed, at different relative densities well
+  documented across the autoradiography literature, in VTA, PAG, and locus
+  coeruleus at once; a single fentanyl dose producing simultaneous reward,
+  analgesia, and sedation effects (Track C1, see above) reflects that same
+  receptor's activation reaching multiple real anatomical targets, not
+  three independent drug actions.
 
 **Explicitly not yet real:**
 - `kon`/`koff`/`ke`/circuit `tau`/connection weights in the illustrative
@@ -203,13 +341,19 @@ clearance is faster than diazepam's.
   circuit parameters Bayesian-style the way the CCT model's 14 parameters
   were fit against a literature screen, is the next real piece of work, not
   a formality.
-- Each scenario in v0 models one receptor site and one circuit in isolation
-  (separate scenarios, not interacting ones). A real drug usually hits
-  several receptor subtypes across several regions simultaneously, and a
-  real circuit carries several receptor types at once; the classes here
-  (`ReceptorSite`, `CircuitNetwork`, `coupling`, `connection_modulation`)
-  are general enough to support combining them in one `Simulation`, but
-  that hasn't been built or tested yet.
+- Each scenario in v0 still models exactly one receptor SITE per
+  `Simulation` (one `ReceptorSite`, hence one shared occupancy/activation
+  trace). Track C1 (see above) shows that one receptor's activation can
+  already drive multiple nodes, even across otherwise-unconnected
+  sub-systems, at different gains, with no engine change. What v0 still
+  does NOT model is several DIFFERENT receptor subtypes (e.g. mu-opioid and
+  D2 together) acting on one shared circuit at once, or one `Simulation`
+  with more than one `ReceptorSite`/PK stack in it; `Simulation.__init__`
+  takes exactly one `receptor_site`. The classes here (`ReceptorSite`,
+  `CircuitNetwork`, `coupling`, `connection_modulation`) look general
+  enough to support that (e.g. by summing multiple receptors' contributions
+  into `drive` before calling `network.rhs`), but it hasn't been built or
+  tested yet.
 
 **Calibrated as of Track A (receptor/PK only, circuit still illustrative):**
 `scenarios.py` now has a second, clearly-separated parameter set,
