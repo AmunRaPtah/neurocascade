@@ -471,8 +471,9 @@ purely to exercise the arithmetic).
   scenarios (mu-opioid, D2, GABA-A) are hand-set to get qualitative behavior
   right, not sourced from a specific Ki/kon/koff or PK dataset. They should
   not be cited as measured values. As of Track A, mu-opioid receptor
-  binding and PK have a literature-calibrated alternative (see below); D2
-  and GABA-A do not yet, and no scenario's circuit `tau`/connection
+  binding and PK have a literature-calibrated alternative (see below); as of
+  the GABA-A calibration pass described below, so does the GABA-A
+  benzodiazepine site. D2 does not yet, and no scenario's circuit `tau`/connection
   weights/gains have a literature target — no dataset for VTA-NAc-PFC (or
   basal-ganglia, or amygdala) connection *weights* (as opposed to wiring
   direction/sign, which matches known circuit anatomy, see above) was
@@ -549,3 +550,84 @@ section of `scenarios.py`):
 - The reward circuit itself (VTA-NAc-PFC wiring, gains, taus) is reused
   unchanged from the illustrative scenario in the calibrated one: only
   receptor binding and PK were in scope for this calibration pass.
+
+**Calibrated: GABA-A / benzodiazepine site (diazepam/flumazenil).**
+`scenarios.py` has an analogous second parameter set for the third
+scenario, `gaba_a_benzodiazepine_ligands_calibrated()` /
+`gaba_a_receptor_site_calibrated()` / `gaba_a_pk_models_calibrated()` /
+`gaba_a_connection_modulation_calibrated()`, grounded in published
+receptor-binding and clinical PK data where it exists (full citations and
+derivations are inline in that section of `scenarios.py`):
+- **Ki (Kd)**: diazepam 3.6 nM (Möhler & Okada 1977, Life Sci,
+  doi:10.1016/0024-3205(77)90191-6, direct [3H]diazepam saturation binding
+  in rat cerebral cortex); flumazenil 1.0 nM (Möhler, Burkard, Keller,
+  Richards, Haefely 1981, J Neurochem, PMID 6268754, direct
+  [3H]Ro 15-1788 saturation binding in the same tissue preparation, with
+  unlabeled Ro 15-1788 also displacing [3H]diazepam at IC50 = 2.3 nM in
+  that same paper). Both figures agree on direction: flumazenil binds this
+  site more tightly than diazepam does, corroborated by subunit-resolved
+  data (Sieghart 1995, Pharmacol Rev, ~1.0-1.5 nM for flumazenil at the
+  major synaptic subtypes).
+- **koff/kon**: no source was found reporting kon or koff for diazepam or
+  flumazenil at this site, for either ligand, in units compatible with this
+  codebase's ODE, from a standardized assay, unlike the mu-opioid case
+  where Mann et al. 2022 supplied koff for both ligands directly. The
+  closest available kinetics paper (Brown & Martin 1984, J Neurochem
+  42:918-923) characterizes only flumazenil's dissociation, qualitatively,
+  and is paywalled. Given that gap, both ligands are assigned the same
+  explicitly-flagged, not-independently-measured association rate constant
+  (`kon_shared`), and koff is derived from that shared kon and each
+  ligand's real Ki via koff = kon_shared * Ki, the same Kd = koff/kon
+  relationship used in the mu-opioid section, just solved for the other
+  variable because the piece that's actually missing from the literature
+  is reversed between the two receptors.
+- **PK**: diazepam ke from its distribution-phase half-life (~60 min,
+  Mandelli, Tognoni, Garattini 1978, Clin Pharmacokinet); flumazenil ke
+  from its mean reported IV elimination half-life (54 min, FDA ROMAZICON
+  label, NDA 20-073). Both are one-compartment collapses of real
+  multi-phase clinical PK, chosen to match this scenario's acute-bolus
+  timescale, the same simplification the mu-opioid section makes and
+  documents for fentanyl/naloxone.
+- **Validation**: `tests/test_gaba_a_scenario_calibrated.py` checks the
+  calibrated flumazenil Ki against Savic, Widén, Stone-Elander 1991
+  (Lancet), which reports that a 1.5 mg IV dose of flumazenil occupied
+  ~55% of human benzodiazepine binding sites while a 10x higher dose (15
+  mg) occupied nearly all of them; without a dose-to-concentration PK
+  submodel, the test reproduces the shape of that relationship (a
+  concentration solved to give ~55% occupancy at equilibrium must reach
+  near-saturation at 10x that concentration), not the exact 1.5 mg/15 mg
+  dose mapping.
+- **A genuinely interesting real finding surfaced by calibration, in two
+  parts**: First, the illustrative placeholder assumed flumazenil had the
+  faster koff ("weaker hold") of the two ligands, to mirror its short
+  clinical duration of action. The real receptor-affinity data says the
+  opposite: flumazenil's Ki is about 3.6x tighter than diazepam's, so under
+  this codebase's shared-kon assumption, flumazenil actually has the
+  SLOWER koff (longer receptor residence) of the two. Second, and
+  connectedly, the illustrative placeholder also assumed a large PK
+  clearance asymmetry (diazepam ke=0.02 vs flumazenil ke=0.5 min^-1, 25x
+  apart); the real, cited clearance rates relevant to this scenario's
+  acute timescale are close in magnitude (diazepam's ~60 min distribution-
+  phase half-life vs. flumazenil's ~54 min elimination half-life). Put
+  together: neither weaker/faster receptor binding nor a large acute-phase
+  PK difference is what makes flumazenil need repeat dosing to sustain
+  reversal of a benzodiazepine overdose in practice, a clinical need that
+  is well documented in flumazenil's prescribing information, which
+  recommends repeat boluses at 20-minute intervals for resedation. What
+  actually drives it, per this literature review, is diazepam's active metabolite,
+  N-desmethyldiazepam, with a terminal half-life of up to 100 hours,
+  continuing to occupy and potentiate the benzodiazepine site long after
+  parent diazepam has redistributed away and long after flumazenil's own
+  ~54-minute half-life has cleared it. This is a second active compound
+  this one-compartment, single-species PK model cannot represent, the same
+  category of gap as the mu-opioid section's renarcotization caveat
+  (fentanyl's slow terminal elimination phase versus that scenario's
+  one-compartment collapse).
+- As instructed by this calibration pass's own scope: the amygdala circuit
+  itself (`amygdala_anxiety_circuit_network`, `gaba_a_coupling`,
+  `anxiety_index_readout`) is reused unchanged, and the potentiation GAIN
+  in `connection_modulation` is also reused unchanged and left
+  explicitly illustrative in `gaba_a_connection_modulation_calibrated()`,
+  because it is a circuit-level parameter, not a receptor-binding or PK
+  constant, and no dataset quantifying it against real diazepam
+  dose/exposure data was identified.
