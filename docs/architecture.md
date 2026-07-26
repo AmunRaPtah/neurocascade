@@ -908,3 +908,187 @@ dependency was installed, and this repository has no `requirements.txt` or
 `pyproject.toml` to update (it relies on `tests/conftest.py`'s `sys.path`
 shim into the shared venv, the same convention `cct-bayesian-validation`
 uses).
+
+## Track E: circuit-layer calibration attempt (searched, not found)
+
+Every calibration pass so far ("Explicitly not yet real" above; each
+"Calibrated: ..." section's own closing note; Track C2's own scoping
+paragraph) states that circuit-layer parameters (`CircuitNode.tau`/
+`baseline_input`/`gain`, `CircuitNetwork.connectivity` weights, and each
+receptor system's `coupling`/`connection_modulation` gain) have no
+literature target and remain illustrative, but every one of those searches
+was aimed at binding/PK data, not specifically at circuit-level or
+behavioral-endpoint data. This track ran that more targeted search directly
+for the three natural fit targets Track C2 already identified by name
+(`incentive_salience_readout`/`mu_opioid_coupling`'s gain;
+`locomotor_activity_readout`/`d2_coupling`'s gain;
+`anxiety_index_readout`/`gaba_a_connection_modulation`'s gain), following
+the same method the sibling project `cct-bayesian-validation` used to fit
+its own circuit/structural parameters (phi1/phi2/phi3/delta_MEM/delta_BUS)
+against real single-agent behavioral effect sizes (e.g. "40-60% CPP
+reduction," Wee et al. 2007, via CCT's own Table S1).
+
+**Conclusion up front, so it isn't buried:** no circuit-layer parameter is
+fit in this pass either. This is a "searched and empty" result for all
+three systems, not a "not yet attempted" one: specific real papers reporting
+the exact endpoints this track's brief named were found and read (abstracts,
+and full text where accessible) for all three systems, and none produced a
+number this codebase could honestly turn into a Gaussian-likelihood target
+without either (a) substituting a different drug's measured effect for the
+one this scenario actually models, which is a category of shortcut this
+codebase's own binding/PK calibration passes never take even under real
+pressure to do so (see below), or (b) inventing a dose-to-concentration
+pharmacokinetic submodel this codebase deliberately does not have for any
+drug, anywhere (`pk.py`'s `OneCompartmentPK` explicitly starts from an
+already-achieved bolus concentration, not an administered dose; see "State
+vector" above). Both would be exactly the kind of invented/forced number
+this track's brief and the rest of this codebase's documentation repeatedly
+warn against.
+
+### A structural reason this gap is harder than the binding/PK gap, found while searching
+
+Track C2's three receptor-occupancy validation targets (Moss et al. 2020,
+Kapur et al. 1997, Savic et al. 1991) are all usable for exactly one shared
+reason: each one reports drug effect as a function of a directly measured
+**plasma concentration** (Moss: ng/mL fentanyl exposure; Kapur: ng/mL
+haloperidol plasma level from the same PET session; Savic: an IV dose
+converted, via the existing closed-form occupancy relationship, to an
+equilibrium concentration). Concentration is the one unit this codebase's
+model natively speaks (`OneCompartmentPK`, `ReceptorSite.occupancy_rhs`),
+so no bridging assumption beyond ordinary unit conversion was ever needed
+for those three.
+
+Real quantitative rodent *behavioral* pharmacology, by contrast, is reported
+overwhelmingly as **administered dose** (mg/kg), not achieved plasma/brain
+concentration, because behavioral-endpoint studies essentially never also
+run simultaneous plasma pharmacokinetics the way a PET occupancy study
+routinely does (occupancy IS the measured relationship between plasma level
+and receptor binding; a locomotor or elevated-plus-maze study has no reason
+to draw blood). Every quantitative behavioral number this track found (see
+per-system findings below) was dose-based for exactly that reason. Bridging
+dose (mg/kg, species- and route-specific) to this codebase's concentration
+state variable would require inventing an absorption/bioavailability/volume-
+of-distribution submodel that does not exist for fentanyl, haloperidol, or
+diazepam in this codebase, and inventing one solely to force this fit would
+be a materially bigger, less-honest leap than any unit conversion Track A or
+Track C2 ever made (those always stayed within "the same physical quantity,
+expressed in different units," e.g. s^-1 to min^-1, or ng/mL to nM at fixed
+molar mass; a dose-to-concentration submodel is a new mechanistic claim
+about drug disposition, not a unit conversion).
+
+### Per-system findings
+
+**Mu-opioid (fentanyl -> NAc/VTA dopamine release, for
+`incentive_salience_readout()`/`mu_opioid_coupling()`).** The directly
+correct paper exists and was found: Yoshida Y, Koide S, Hirose N, Takada K,
+Tomiyama K, Koshikawa N, Cools AR. "Fentanyl increases dopamine release in
+rat nucleus accumbens: involvement of mesolimbic mu- and delta-2-opioid
+receptors." Neuroscience. 1999;92(4):1357-65. doi:10.1016/s0306-4522(99)
+00046-9, PMID 10426490. It has the right drug (fentanyl), the right brain
+region (NAc, with the source of the effect localized to VTA and NAc via
+local microdialysis-probe infusion), the right technique (in vivo
+microdialysis in freely moving rats), and the right mechanism
+(naloxone-reversible, mu-and-delta-2-opioid-receptor-mediated): exactly the
+same causal chain `mu_opioid_coupling()` encodes. Its abstract confirms
+fentanyl dose-dependently increased NAc dopamine at 5 and 10 ug/kg IV. What
+could not be obtained: the actual percent-of-baseline dopamine figure at
+either dose.
+The paper is not open access (confirmed via Europe PMC: `isOpenAccess: N`,
+no PMC full text), and repeated direct fetch attempts against the publisher
+page and PubMed returned only the abstract text quoted above, not the
+numeric results in the paper's figures/tables. A mechanistically identical
+same-class analog number DOES exist and was verified directly (full abstract
+fetched and cross-checked): Steinmiller CL, Maisonneuve IM, Glick SD.
+"Effects of dextromethorphan on dopamine release in the nucleus accumbens:
+interactions with morphine." Pharmacol Biochem Behav. 2003;74(4):803-10.
+doi:10.1016/S0091-3057(02)01080-8, PMID 12667894, reports that acute
+morphine (5 mg/kg i.p.) increased NAc dopamine to ~175% of basal levels: a
+real, matched-unit, percent-of-baseline figure. Morphine and fentanyl are
+both full mu-opioid agonists acting through the same
+VTA-GABA-interneuron-disinhibition
+mechanism this scenario models, so the analogy is mechanistically close, but
+it is morphine's measured number, not fentanyl's own: Track A's own binding
+calibration never substitutes one ligand's measured constant for a
+different ligand's missing one (fentanyl's and naloxone's Ki/koff are each
+that ligand's own citation; GABA-A's `kon_shared` assumption, the closest
+precedent to a "borrowed" value in this codebase, still keeps each ligand's
+own measured Ki and only shares one *unmeasured* rate constant motivated by
+physical similarity, not "morphine's dopamine-release magnitude stands in
+for fentanyl's"). Using the Steinmiller number as if it were fentanyl's own
+would break that discipline, so it is reported here and not used as a
+likelihood target.
+
+**D2/haloperidol (dose-dependent locomotor suppression, for
+`locomotor_activity_readout()`/`d2_coupling()`).** Real, haloperidol-specific
+quantitative behavioral data was found and verified directly: Gao L, Hao C,
+Ma R, Chen J, Zhang G, Chen Y. "Synthesis and biological evaluation of a new
+class of multi-target heterocycle piperazine derivatives as potential
+antipsychotics." RSC Adv. 2021;11:16931-16941. doi:10.1039/d1ra02426d (open
+access, PMC9031908) reports haloperidol's own ED50 for reversing MK-801-
+induced hyperlocomotion in mice as 0.11 mg/kg (oral), alongside risperidone's
+0.02 mg/kg in the same assay. This is the right drug and a standard
+antipsychotic-behavioral-pharmacology paradigm (pharmacologically-induced
+hyperlocomotion reversal, the same family as the amphitamine-induced-
+hyperlocomotion-reversal endpoint this track's brief named), not a
+same-class substitute. It was still not used, for the structural reason
+above: an ED50 expressed in mg/kg PO in mice has no route into this
+codebase's nM-concentration-driven occupancy/circuit model without an
+invented oral-absorption/bioavailability submodel, and, separately, an ED50
+alone (by construction, "50% of that drug's own maximal effect") is not
+actually a usable Gaussian-likelihood target on its own: it would also
+require knowing the corresponding concentration and the drug's maximal
+achievable effect size, neither of which this one-paper data point
+supplies. The existing Kapur et al. 1997 occupancy curve already reused by
+Track C2 (0.51 ng/mL -> 50% D2 occupancy, 2.0 ng/mL -> 80%) is the one
+concentration-anchored,
+already-calibrated haloperidol dataset in this codebase, but it is a
+receptor-occupancy curve, not a behavioral-effect curve (it says nothing
+about locomotor activity), so it cannot substitute for a real behavioral
+target either without inventing an occupancy-to-locomotor-suppression
+mapping this literature search did not turn up in matched, usable form.
+
+**GABA-A/diazepam (dose-dependent anxiolysis, for
+`anxiety_index_readout()`/`gaba_a_connection_modulation()`).** Diazepam's
+own dose-dependent elevated-plus-maze effect is extremely well established
+qualitatively and at specific doses (commonly 1-2 mg/kg in rats/mice across
+many independent studies found in this search, e.g. Pellow, Chopin, File,
+Briley 1985, J Neurosci Methods 14:149-167, doi:10.1016/0165-0270(85)
+90031-7, the field's own foundational EPM validation paper), but a clean,
+directly-quotable percent-open-arm-time figure specifically for diazepam
+(as opposed to its own bar-chart/figure data, not extractable from the
+full-text sources this search could access) was not found. A
+mechanistically identical same-class analog number WAS found and verified
+directly (full text fetched): an open-access 2026 paper (Biomarker-Based
+Pharmacological Characterization of ENX-102, PMC12564412) used
+chlordiazepoxide, not diazepam, as its positive control and reports vehicle
+rats spent 9.4% (+/-2.5% SE) of time in the EPM's open arms versus 39.1%
+(+/-4.9% SE) after chlordiazepoxide 5.0 mg/kg: again a real, matched-unit,
+percent figure, but for a different (if closely related, same-site,
+non-selective GABA-A benzodiazepine-site) drug. It is again not substituted
+for diazepam's own missing number, for the same reason given in the
+mu-opioid case above. This system also inherits the same dose-vs-
+concentration structural gap described above: even a diazepam-specific
+percent figure at a stated mg/kg dose would still need a dose-to-
+concentration bridge this codebase does not have to connect to
+`gaba_a_connection_modulation()`'s gain.
+
+### What this leaves calibrated vs. illustrative
+
+No change to any scenario's circuit-layer numbers: `mu_opioid_coupling()`,
+`mu_opioid_multi_region_coupling()`, `d2_coupling()`,
+`gaba_a_connection_modulation()` (and, unchanged as always,
+`gaba_a_connection_modulation_calibrated()`, which already carried this
+exact caveat forward from Track A), and every `CircuitNode`/
+`CircuitNetwork` `tau`/`baseline_input`/`gain`/connectivity weight in every
+scenario, remain hand-set illustrative placeholders, now with three
+specific, searched-and-verified real papers on file per system (two of
+three genuinely about the right drug) documenting exactly why none closes
+this gap yet, rather than a blanket "no dataset was identified" note. Two
+rules keep this a documented, revisitable gap instead of a quietly-forced
+number: never substitute one ligand's or drug's measured value for
+another's, and never invent a submodel, such as a dose-to-concentration PK
+bridge, solely to manufacture a fit.
+`tests/test_bayesian_calibration.py::test_no_circuit_layer_parameter_is_fit`
+guards, by construction, that none of this scaffold's free parameters is a
+circuit-layer quantity, so this claim cannot silently go stale if a future
+pass adds one without updating this section.

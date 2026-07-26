@@ -53,4 +53,16 @@ receptor-occupancy measurements (Moss/Kapur/Savic), not behavioral-readout
 data, so a circuit-layer likelihood term would have nothing real to compare
 against. Forcing a fit there would be exactly the kind of invented number
 this codebase's documentation repeatedly warns against.
+
+Track E (`docs/architecture.md`, "Track E: circuit-layer calibration
+attempt") searched specifically for real behavioral anchors for
+`mu_opioid_coupling()`/`d2_coupling()`/`gaba_a_connection_modulation()`'s
+gains and confirmed this gap by name, per system, rather than leaving it a
+general statement: real papers on the right drug/mechanism were found for
+all three, but none supplied a number usable without either substituting a
+different drug's measured effect or inventing a dose-to-concentration PK
+submodel this codebase has for no drug. `FREE_PARAM_NAMES` in `priors.py`
+still contains only the eight receptor-binding parameters from Track C2;
+`tests/test_bayesian_calibration.py::test_no_circuit_layer_parameter_is_fit`
+guards that by construction.
 """

@@ -102,6 +102,38 @@ def test_system_param_names_partition_all_free_parameters_with_no_overlap():
     assert len(all_system_params) == len(set(all_system_params))
 
 
+def test_no_circuit_layer_parameter_is_fit():
+    # Track E ("circuit-layer calibration", see docs/architecture.md)
+    # searched specifically for real behavioral anchors for
+    # mu_opioid_coupling()/mu_opioid_multi_region_coupling()/d2_coupling()/
+    # gaba_a_connection_modulation()'s gains and found none usable without
+    # either substituting a different drug's measured effect for the one
+    # each scenario actually models, or inventing a dose-to-concentration
+    # PK submodel this codebase does not have for any drug. So this scaffold
+    # still fits only the eight receptor-binding parameters from Track C2;
+    # no circuit-layer weight/gain/tau was added. This guards that claim by
+    # construction (not just in prose) against every one of this scaffold's
+    # actual free parameters, so it cannot silently go stale if a future
+    # pass adds a circuit-layer parameter without updating docs/architecture.md.
+    circuit_layer_markers = (
+        "coupling",
+        "connection_modulation",
+        "tau",
+        "gain",
+        "baseline_input",
+        "weight",
+    )
+    for name in FREE_PARAM_NAMES:
+        lowered = name.lower()
+        assert not any(marker in lowered for marker in circuit_layer_markers), (
+            f"{name} looks like a circuit-layer parameter, not a receptor-binding one"
+        )
+        assert name.startswith(("Ki_", "kon_", "koff_")), (
+            f"{name} is not one of the receptor-binding parameter families "
+            "this pass fits (Ki_/kon_/koff_)"
+        )
+
+
 def test_prior_only_parameters_have_no_matching_likelihood_term():
     # Documents/guards the honesty claim made in priors.py and
     # docs/architecture.md: four of the eight free parameters

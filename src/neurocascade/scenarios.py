@@ -60,6 +60,11 @@ def reward_circuit_network():
 def mu_opioid_coupling():
     # Mu receptors are Gi-coupled and sit on VTA GABAergic interneurons:
     # agonist activation SUPPRESSES that node's drive (disinhibition).
+    # This gain has no literature target: Track E (docs/architecture.md)
+    # searched specifically for a real fentanyl-induced NAc/VTA dopamine
+    # release effect size and found the right paper (Yoshida et al. 1999)
+    # confirms the mechanism but not an accessible quantitative figure, so
+    # this remains illustrative rather than fit.
     return {"VTA_GABA": -3.0}
 
 
@@ -251,7 +256,9 @@ def mu_opioid_multi_region_coupling():
     # qualitative clarity, NOT a density-to-gain unit conversion; see the
     # section docstring above for why LC's real receptor density (highest
     # of the three, per literature) does not translate into the largest
-    # gain here.
+    # gain here. As with mu_opioid_coupling() above, Track E
+    # (docs/architecture.md) looked for a real behavioral anchor for these
+    # gains and did not find one usable; they remain illustrative.
     return {
         "VTA_GABA": -3.0,  # reward; unchanged from mu_opioid_coupling()
         "PAG_Interneuron": -2.5,  # analgesia; moderate density, same
@@ -352,6 +359,11 @@ def basal_ganglia_indirect_pathway_network():
 def d2_coupling():
     # Gi-coupled D2 receptor on indirect-pathway MSNs: agonist activation
     # SUPPRESSES that node's drive (same disinhibition motif as mu-opioid).
+    # This gain has no literature target: Track E (docs/architecture.md)
+    # found real haloperidol-specific locomotor-suppression data (Gao et
+    # al. 2021), but it is dose-based (mg/kg) with no route into this
+    # codebase's nM-concentration-driven model, so this remains
+    # illustrative rather than fit.
     return {"Striatum_D2_MSN": -3.0}
 
 
@@ -542,6 +554,12 @@ def gaba_a_coupling():
 
 
 def gaba_a_connection_modulation():
+    # This potentiation gain has no literature target: Track E
+    # (docs/architecture.md) found real diazepam elevated-plus-maze dose
+    # data (qualitative/dose-threshold only, no extractable percent figure)
+    # and a same-class chlordiazepoxide percent-effect figure, neither
+    # usable without substituting a different drug's number or inventing a
+    # dose-to-concentration bridge, so this remains illustrative.
     return {("BLA", "GABA_Interneuron"): 0.5}
 
 
