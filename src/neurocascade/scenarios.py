@@ -399,3 +399,215 @@ def mu_opioid_pk_models_calibrated():
     # phenomenon that requires fentanyl's slow terminal elimination phase
     # to manifest, which this one-compartment collapse cannot represent.
     return [OneCompartmentPK(ke=0.05332), OneCompartmentPK(ke=0.01083)]
+
+
+# ---------------------------------------------------------------------------
+# Calibrated D2 receptor + dopamine/haloperidol PK, grounded in published
+# data. Units: concentration in nM, time in minutes, kon in nM^-1 min^-1,
+# koff/ke in min^-1 (same convention as the mu-opioid calibration above).
+# Everything below this line is a real-data parameter set, kept deliberately
+# separate from the illustrative functions above so the two are never
+# confused. The basal ganglia indirect-pathway circuit
+# (`basal_ganglia_indirect_pathway_network`, `d2_coupling`,
+# `locomotor_activity_readout`) is reused as-is: this pass only calibrates
+# receptor binding and PK, not circuit connectivity/gain/tau, which have no
+# literature target and remain illustrative (see docs/architecture.md).
+#
+# Unlike the mu-opioid pass, NO kon-from-Ki/koff derivation trick was needed
+# here: both sources below report kon AND koff directly, already measured
+# (not derived), in units that convert cleanly to nM^-1 min^-1 / min^-1.
+# What IS a real limitation, flagged explicitly: the two ligands were NOT
+# measured in the same assay against the same competitor the way fentanyl
+# and naloxone were in Volpe et al. 2011 (both antagonists there, one
+# standardized [3H]-DAMGO assay). Haloperidol's numbers come from a
+# TR-FRET competition-binding assay (an antagonist-vs-fluorescent-antagonist
+# format); dopamine's come from a functional GIRK-channel-current assay (an
+# agonist-vs-electrophysiological-response format), because no source was
+# found reporting both ligands' kon/koff from one directly comparable assay.
+# The two are corroborated independently (each study's own koff/kon ratio
+# reproduces that same study's own reported equilibrium Kd, see the
+# consistency check below), so each number is trustworthy on its own, but
+# the fentanyl/naloxone-style "directly comparable in the same experiment"
+# guarantee does not extend to this pair.
+#
+# Sources (see inline citations per parameter below):
+#   [Sykes2017]  Sykes DA, Moore H, Stott L, Holliday N, Javitch JA, Lane JR,
+#                Charlton SJ. "Extrapyramidal side effects of antipsychotics
+#                are linked to their association kinetics at dopamine D2
+#                receptors." Nat Commun. 2017;8:763.
+#                doi:10.1038/s41467-017-00716-z. Open access (PMC5624946).
+#                Time-resolved FRET (TR-FRET) competition-kinetics assay on
+#                human D2L receptors; Table 1 reports kon and koff for
+#                unlabeled haloperidol (and ~20 other antipsychotics)
+#                competing against a fluorescent antagonist tracer:
+#                koff = 0.65 +/- 0.07 min^-1 (t1/2(diss) = 1.07 min),
+#                kon = (2.13 +/- 0.52) x 10^9 M^-1 min^-1, pKd = 9.49 +/- 0.08,
+#                pKi = 9.48 +/- 0.08 (all read directly from the paper's
+#                Table 1, verified against the article's full-text XML, not
+#                a secondary source).
+#   [Agren2021]  Agren R, Stepniewski TM, Zeberg H, Selent J, Sahlholm K.
+#                "Dopamine D2 Receptor Agonist Binding Kinetics-Role of a
+#                Conserved Serine Residue." Int J Mol Sci. 2021;22(8):4078.
+#                doi:10.3390/ijms22084078. Open access (PMC8071183). Human
+#                D2 receptor co-expressed with GIRK1/4 + RGS4 in Xenopus
+#                oocytes, voltage-clamped; dopamine-induced GIRK current
+#                activation/deactivation kinetics used to fit binding rate
+#                constants directly (a functional assay, not a radioligand/
+#                fluorescent-tracer competition assay): koff = 0.197 +/-
+#                0.012 s^-1 (n=6), kon = (9.70 +/- 1.23) x 10^7 M^-1 s^-1,
+#                pKd = 8.69 +/- 0.14, EC50 = 20 nM (pEC50 = 7.70 +/- 0.07).
+#   [Kudo1999]   Kudo S, Ishizaki T. "Pharmacokinetics of haloperidol: an
+#                update." Clin Pharmacokinet. 1999;37(6):435-56.
+#                doi:10.2165/00003088-199937060-00001. A full-length
+#                pharmacokinetic review; single-oral-dose terminal half-life
+#                widely reported in the ~14-37 h range across studies
+#                (corroborated by, e.g., a bioequivalence study reporting
+#                ~62-66 h in one cohort and population-PK studies reporting
+#                ~20-30 h in others), with chronic dosing sometimes producing
+#                much longer apparent half-lives. We use ~20 h, a commonly
+#                cited representative single-dose value, NOT a claim that
+#                haloperidol truly follows one-compartment kinetics (same
+#                explicit-simplification caveat as fentanyl/naloxone above).
+#   [Kapur1997]  Kapur S, Zipursky R, Roy P, Jones C, Remington G, Reed K,
+#                Houle S. "The relationship between D2 receptor occupancy
+#                and plasma levels on low dose oral haloperidol: a PET
+#                study." Psychopharmacology (Berl). 1997;131(2):148-52.
+#                doi:10.1007/s002130050277. PET with [11C]-raclopride in 12
+#                patients on 1-5 mg/day oral haloperidol; plasma levels
+#                0.5-5.8 ng/mL corresponded to 53-88% D2 occupancy, fit to a
+#                saturating hyperbola: 50% occupancy at 0.51 ng/mL, 80%
+#                occupancy at 2.0 ng/mL. Used below as a validation target
+#                (see tests/test_d2_scenario_calibrated.py), converted to nM
+#                using haloperidol's molar mass (375.86 g/mol).
+#   [Farde1988]  Farde L, Wiesel FA, Halldin C, Sedvall G. "Central
+#                D2-dopamine receptor occupancy in schizophrenic patients
+#                treated with antipsychotic drugs." Arch Gen Psychiatry.
+#                1988;45(1):71-6. doi:10.1001/archpsyc.1988.01800250087012.
+#                Foundational PET occupancy study establishing that clinical
+#                antipsychotic dosing (11 chemically distinct drugs,
+#                including haloperidol) produces 65-85% D2 occupancy; the
+#                broader ~65-70% (efficacy) / ~80% (EPS threshold) framing
+#                cited throughout this section traces to this and the
+#                Kapur/Nordstrom PET literature that followed it.
+#   [Garris1994] Garris PA, Ciolkowski EL, Pastore P, Wightman RM. "Efflux
+#                of dopamine from the synaptic cleft in the nucleus
+#                accumbens of the rat brain." J Neurosci. 1994;14(10):
+#                6084-93. PMID:7931564. Fast-scan cyclic voltammetry in
+#                vivo: a single stimulus pulse produces a transient ~0.25
+#                microM extracellular dopamine peak, removed by uptake on a
+#                50-100 ms timescale. Cited below ONLY as context for why no
+#                literal ke is used for dopamine (see
+#                `d2_pk_models_calibrated`); this is NOT a first-order
+#                elimination-rate-constant measurement compatible with
+#                `OneCompartmentPK`, and no such literal-ke value for
+#                dopamine was found in the literature (see comment below).
+#
+# On the folklore this scenario was built to check, not assume: the
+# original prompt for this section (and a widely repeated pharmacology
+# folk-summary) asserts "haloperidol is well known for having an unusually
+# SLOW D2 dissociation rate, and this is mechanistically why its EPS/motor
+# side effects are prolonged." That traces to Kapur S, Seeman P.
+# "Antipsychotic agents differ in how fast they come off the dopamine D2
+# receptors. Implications for atypical antipsychotic action." J Psychiatry
+# Neurosci. 2000;25(2):161-6 (PMID:10740989), which reported koff varying
+# ~1000-fold (0.002 to 3.013 min^-1) across nine antipsychotics and framed
+# "slow koff" as THE distinguishing feature of typical vs atypical
+# antipsychotics. Checking this against later, larger, more rigorous kinetic
+# panels does NOT hold up as stated:
+#   - [Sykes2017]'s own panel (haloperidol among ~20 antipsychotics, all
+#     measured in the SAME TR-FRET assay) puts haloperidol's koff
+#     (0.65 min^-1, t1/2 ~1.07 min) toward the FAST end even among typical
+#     antipsychotics: fluphenazine (koff 0.040, t1/2 17.3 min), spiperone
+#     (koff 0.038, t1/2 18.2 min), nemonapride (koff 0.018, t1/2 38.5 min),
+#     and (+)-butaclamol (koff 0.026, t1/2 26.7 min) all dissociate far more
+#     slowly than haloperidol in this dataset, and haloperidol's koff is
+#     actually FASTER than the atypical risperidone's (koff 0.43, t1/2
+#     1.61 min) in the same panel.
+#   - Sahlholm K, Zeberg H, Nilsson J, Ogren SO, Fuxe K, Arhem P. "The
+#     fast-off hypothesis revisited: A functional kinetic study of
+#     antipsychotic antagonism of the dopamine D2 receptor." Eur
+#     Neuropsychopharmacol. 2016;26(3):467-76.
+#     doi:10.1016/j.euroneuro.2016.01.001, using live-cell electrophysiology
+#     rather than radioligand binding, found haloperidol's recovery from
+#     blockade only 2.5- to 6.4-fold slower than the atypicals amisulpride,
+#     clozapine, and quetiapine, not the ~1000-fold range the original
+#     hypothesis implied.
+#   - A published critique of [Sykes2017] itself, Zeberg H, Sahlholm K.
+#     "Antipsychotics with similar association kinetics at dopamine D2
+#     receptors differ in extrapyramidal side-effects." Nat Commun.
+#     2018;9:3521. doi:10.1038/s41467-018-04489-x, argues it is kon
+#     (association rate), not koff, that best predicts an antipsychotic's
+#     EPS liability; haloperidol's kon in [Sykes2017] (2.13 x 10^9
+#     M^-1 min^-1) is among the highest of the whole panel, which fits that
+#     alternative story at least as well as "haloperidol has a slow koff."
+# Net honest conclusion: haloperidol's dissociation from D2 is NOT
+# dramatically slower than every atypical antipsychotic's the way the
+# original folklore claims (that ~1000-fold framing has not held up under
+# more rigorous, single-assay, larger panels); what the most recent,
+# largest single-assay dataset ([Sykes2017]) actually shows is that haloperidol
+# has an unusually HIGH association rate (kon), and a koff that is slow
+# only relative to the endogenous agonist dopamine itself (dopamine's koff,
+# from [Agren2021], is ~18x faster than haloperidol's, 11.82 vs 0.65
+# min^-1), not relative to other antipsychotics. This scenario's
+# `Ligand.koff`/`Ligand.kon` fields do carry the real, correctly-directed
+# dopamine-vs-haloperidol asymmetry (dopamine fast on/off, haloperidol much
+# slower), which is what actually matters for this codebase's competitive-
+# occupancy ODE; it does NOT encode the (real but separate, and not
+# reproducible with this codebase's two-parameter-per-ligand Ligand class)
+# haloperidol-vs-other-antipsychotics kon story above, which is included
+# here purely as a documented, cited correction to an assumption this
+# section was explicitly asked to verify rather than take on faith.
+def d2_dopamine_ligands_calibrated():
+    dopamine = Ligand(
+        name="dopamine",
+        kon=5.82,    # nM^-1 min^-1; (9.70e7 M^-1 s^-1) * 60 * 1e-9 [Agren2021]
+        koff=11.82,  # min^-1; 0.197 s^-1 * 60 [Agren2021]
+        efficacy=1.0,
+    )
+    haloperidol = Ligand(
+        name="haloperidol",
+        kon=2.13,   # nM^-1 min^-1; 2.13e9 M^-1 min^-1 [Sykes2017]
+        koff=0.65,  # min^-1 [Sykes2017]
+        efficacy=0.0,
+    )
+    return [dopamine, haloperidol]
+
+
+def d2_receptor_site_calibrated():
+    return ReceptorSite(
+        name="D2_on_striatal_indirect_MSN", ligands=d2_dopamine_ligands_calibrated()
+    )
+
+
+def d2_pk_models_calibrated():
+    # haloperidol ke: ln(2) / (20 h * 60 min/h), using ~20 h as a commonly
+    # cited representative single-oral-dose terminal half-life [Kudo1999]
+    # (real reported range ~14-37 h single-dose, and considerably longer
+    # under chronic dosing in some patients; see [Kudo1999] citation above
+    # for the full caveat). This is the same kind of explicit one-
+    # compartment collapse of real multi-phase kinetics used for
+    # fentanyl/naloxone above, not a claim haloperidol truly has one-
+    # compartment kinetics.
+    #
+    # dopamine: there is no real first-order plasma/synaptic elimination
+    # rate constant to calibrate against, because dopamine here is not a
+    # dosed drug: it's a synaptic transmitter cleared almost entirely by
+    # active transporter reuptake (DAT) on a sub-second timescale
+    # ([Garris1994]: extracellular dopamine from a single release event is
+    # cleared within ~50-100 ms in vivo), which is a saturable
+    # Michaelis-Menten transporter process, not first-order, and is
+    # ~3-4 orders of magnitude faster than this codebase's minute-scale
+    # time unit. Using the real timescale literally (a ke of very roughly
+    # 500-1000 min^-1) would make dopamine's concentration state variable
+    # vanish within a negligible fraction of one integration step for any
+    # simulation window this codebase actually runs (tens of minutes),
+    # collapsing a "dopamine dose" to a physically-real but practically
+    # uninformative instantaneous delta function. No published first-order
+    # ke for dopamine clearance was found (nor would one be expected, given
+    # the real mechanism is transporter-saturable, not first-order), so
+    # ke=5.0 below is an EXPLICIT, FLAGGED PROXY chosen only to preserve the
+    # qualitative ordering this codebase's dynamics actually need (dopamine
+    # clears far faster than haloperidol, t1/2 ~8.3 s here vs ~20 h for
+    # haloperidol) at a timescale this simulation can still resolve. Do not
+    # cite 5.0 as a measured dopamine clearance rate.
+    return [OneCompartmentPK(ke=5.0), OneCompartmentPK(ke=0.00057762)]
