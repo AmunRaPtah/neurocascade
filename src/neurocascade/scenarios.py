@@ -399,3 +399,176 @@ def mu_opioid_pk_models_calibrated():
     # phenomenon that requires fentanyl's slow terminal elimination phase
     # to manifest, which this one-compartment collapse cannot represent.
     return [OneCompartmentPK(ke=0.05332), OneCompartmentPK(ke=0.01083)]
+
+
+# ---------------------------------------------------------------------------
+# Calibrated GABA-A / benzodiazepine-site receptor + diazepam/flumazenil PK,
+# grounded in published data. Same units as the mu-opioid calibrated section
+# above: concentration in nM, time in minutes, kon in nM^-1 min^-1, koff/ke
+# in min^-1. Everything below this line is a real-data parameter set for
+# `gaba_a_*`, kept separate from the illustrative functions above. The
+# amygdala circuit (`amygdala_anxiety_circuit_network`, `gaba_a_coupling`,
+# `anxiety_index_readout`) and the connection_modulation GAIN itself are
+# reused as-is: this pass only calibrates the benzodiazepine-site receptor
+# binding and PK, not circuit connectivity/gain/tau or the potentiation-gain
+# magnitude, none of which have a literature target (see
+# gaba_a_connection_modulation_calibrated() below and docs/architecture.md).
+#
+# Sources (see inline citations per parameter below):
+#   [Mohler1977]   Möhler H, Okada T. "Properties of 3H-diazepam binding to
+#                  benzodiazepine receptors in rat cerebral cortex." Life
+#                  Sci. 1977;20(12):2101-2110. doi:10.1016/0024-3205(77)
+#                  90191-6. Direct [3H]diazepam saturation binding, rat
+#                  cerebral cortex synaptosomal membranes: Kd = 3.6 +/- 0.1
+#                  nM. (The companion Möhler & Okada Science 1977 paper,
+#                  doi:10.1126/science.918669, first reported the CNS-
+#                  specific benzodiazepine receptor qualitatively; this Life
+#                  Sci companion paper is where the quantitative Kd is.)
+#   [Mohler1981]   Möhler H, Burkard WP, Keller HH, Richards JG, Haefely W.
+#                  "Benzodiazepine antagonist Ro 15-1788: binding
+#                  characteristics and interaction with drug-induced changes
+#                  in dopamine turnover and cerebellar cGMP levels." J
+#                  Neurochem. 1981;37(3):714-722. PMID 6268754. Direct
+#                  [3H]Ro 15-1788 (flumazenil) saturation binding, same rat
+#                  cerebral cortex preparation: Kd = 1.0 +/- 0.1 nM;
+#                  unlabeled Ro 15-1788 displacing [3H]diazepam in the same
+#                  tissue: IC50 = 2.3 +/- 0.6 nM. Both figures point the same
+#                  direction: flumazenil binds this site more tightly than
+#                  diazepam does.
+#   [Sieghart1995] Sieghart W. "Structure and pharmacology of gamma-
+#                  aminobutyric acidA receptor subtypes." Pharmacol Rev.
+#                  1995;47(2):181-234. Subunit-resolved [3H]flumazenil Kd
+#                  ~1.0-1.5 nM at the major synaptic (alpha1/2/3-beta2-
+#                  gamma2) subtypes, corroborating [Mohler1981]'s whole-
+#                  cortex value.
+#   [Mandelli1978] Mandelli M, Tognoni G, Garattini S. "Clinical
+#                  pharmacokinetics of diazepam." Clin Pharmacokinet.
+#                  1978;3(1):72-91. doi:10.2165/00003088-197803010-00005.
+#                  Two-compartment IV kinetics: a distribution phase with a
+#                  half-life of about 1 h precedes the much longer
+#                  elimination phase.
+#   [Valium-label] VALIUM (diazepam) FDA prescribing information
+#                  (accessdata.fda.gov/drugsatfda_docs/label/2016/
+#                  013263s094lbl.pdf; figures corroborated across label
+#                  revisions and by StatPearls, NCBI Bookshelf NBK537022).
+#                  Terminal elimination half-life up to 48 h (StatPearls
+#                  reports a mean of ~46 h); active metabolite
+#                  N-desmethyldiazepam (desmethyldiazepam/nordazepam)
+#                  terminal half-life up to 100 h; diazepam and its
+#                  metabolites ~98% plasma-protein-bound.
+#   [Romazicon-label] ROMAZICON (flumazenil) FDA prescribing information,
+#                  NDA 20-073 (accessdata.fda.gov/drugsatfda_docs/label/
+#                  2007/020073s016lbl.pdf and prior revisions). Mean
+#                  elimination half-life 54 min (CV 21%, range 41-79 min)
+#                  measured after a 5-min IV infusion of 1 mg in normal
+#                  volunteers.
+#   [Savic1991]    Savic I, Widén L, Stone-Elander S. "Feasibility of
+#                  reversing benzodiazepine tolerance with flumazenil."
+#                  Lancet. 1991;337(8734):133-137. doi:10.1016/0140-6736
+#                  (91)90799-u. Human in vivo receptor-occupancy data for
+#                  flumazenil itself: a 1.5 mg IV dose occupied ~55% of
+#                  benzodiazepine binding sites in 12 patients; 15 mg
+#                  occupied nearly all of them. Used below as a validation
+#                  target for the calibrated flumazenil Ki (a real,
+#                  independent, human in vivo occupancy measurement, not
+#                  fit to any parameter in this codebase).
+#
+# Derivation of kon: unlike the mu-opioid section above (where koff was
+# independently measured for both ligands and kon had to be derived), here
+# it is the other way around and, if anything, a harder gap: extensive
+# searching (classic radioligand-kinetics papers, e.g. Brown CL, Martin IL,
+# "Kinetics of [3H]Ro 15-1788 binding to membrane-bound rat brain
+# benzodiazepine receptors," J Neurochem. 1984;42:918-923, which reports
+# only flumazenil's kinetics, qualitatively (monoexponential dissociation),
+# not diazepam's, and is paywalled so its exact numeric rate constants could
+# not be retrieved; Speth RC, Wastek GJ, Yamamura HI, Life Sci.
+# 1978/79;24:351-358, which studied flunitrazepam, not diazepam or
+# flumazenil) turned up no published kon or koff for diazepam or flumazenil
+# at this site, for either ligand, in units compatible with this codebase's
+# ODE (nM^-1 min^-1 kon, min^-1 koff), from a standardized modern assay.
+# The one quantity independently measured for both ligands, by the same
+# research group's preparations, is Ki (Kd) ([Mohler1977], [Mohler1981]).
+# Rather than invent an unsourced koff (or kon) for each ligand
+# independently, we make one explicit, clearly-flagged modeling assumption:
+# both ligands share the same association rate constant, kon_shared. This is
+# physically motivated (both are small, comparably lipophilic molecules
+# binding the same physical pocket, so their access/collision rate to that
+# site is a plausible quantity to treat as similar in the absence of
+# ligand-specific data), but it is not a measured value: it is chosen only
+# to match the order of magnitude of this codebase's existing mu-opioid
+# calibrated kon values, for unit consistency, not sourced from any
+# citation. Each ligand's koff is then derived from that shared kon and its
+# own real, cited Ki via Kd = koff / kon (the same Kd ~= Ki approximation
+# used in the mu-opioid section above): koff_i = kon_shared * Ki_i.
+def gaba_a_benzodiazepine_ligands_calibrated():
+    kon_shared = 0.2  # nM^-1 min^-1; assumed, not measured, see derivation
+    # note above. Chosen only to set an overall timescale comparable to
+    # this codebase's mu-opioid calibrated kon values; the real, cited
+    # numbers below are each ligand's Ki, not this kon.
+    diazepam = Ligand(
+        name="diazepam",
+        kon=kon_shared,
+        koff=0.72,  # min^-1; kon_shared * Ki_diazepam = 0.2 * 3.6 [Mohler1977]
+        efficacy=1.0,  # potentiation strength, not channel activation; see
+        # gaba_a_benzodiazepine_ligands() docstring above for why efficacy
+        # is repurposed this way for this connection_modulation-coupled site.
+    )
+    flumazenil = Ligand(
+        name="flumazenil",
+        kon=kon_shared,
+        koff=0.20,  # min^-1; kon_shared * Ki_flumazenil = 0.2 * 1.0 [Mohler1981]
+        efficacy=0.0,  # neutral competitive antagonist at this site
+    )
+    return [diazepam, flumazenil]
+
+
+def gaba_a_receptor_site_calibrated():
+    return ReceptorSite(
+        name="GABA_A_benzodiazepine_site_on_BLA_interneuron_synapse",
+        ligands=gaba_a_benzodiazepine_ligands_calibrated(),
+    )
+
+
+def gaba_a_pk_models_calibrated():
+    # One-compartment collapse of each drug's real multi-phase clinical PK,
+    # chosen (like the mu-opioid section above) to match this scenario's
+    # acute-bolus timescale (minutes to ~1 h; the existing gaba_a tests run
+    # to t=40 min) rather than diazepam's multi-day terminal disposition.
+    #   diazepam ke: ln(2) / 60 min, the DISTRIBUTION-phase half-life
+    #     [Mandelli1978], the dominant decline in the first ~1-2 h after a
+    #     single IV/oral dose (the classic pharmacological explanation for
+    #     why diazepam's clinical sedative effect is much shorter than its
+    #     ~46 h parent / ~100 h active-metabolite terminal half-life
+    #     [Valium-label]: the drug redistributes out of the CNS into
+    #     peripheral fat long before it is actually eliminated).
+    #   flumazenil ke: ln(2) / 54 min, the mean reported IV elimination
+    #     half-life [Romazicon-label].
+    # A genuinely interesting, real finding surfaced by this pairing: at
+    # this scenario's acute timescale, diazepam's own relevant clearance
+    # (via its ~60 min distribution phase) and flumazenil's clearance
+    # (~54 min) come out nearly the same order of magnitude, not the
+    # dramatic "long-acting drug vs. short-acting antagonist" asymmetry the
+    # illustrative placeholder assumed (ke=0.02 vs 0.5 min^-1, a 25x
+    # difference). The real, dramatic long-vs-short asymmetry between these
+    # two drugs shows up only on the multi-hour-to-multi-day scale, driven
+    # by diazepam's active metabolite desmethyldiazepam (terminal half-life
+    # up to 100 h [Valium-label]), which continues to occupy and potentiate
+    # the benzodiazepine site long after parent diazepam has redistributed
+    # away. That second active compound is something this one-compartment,
+    # single-species PK model cannot represent, exactly analogous to the
+    # mu-opioid section's renarcotization gap (fentanyl's slow terminal
+    # elimination phase vs. this codebase's one-compartment collapse).
+    return [OneCompartmentPK(ke=0.011552), OneCompartmentPK(ke=0.012836)]
+
+
+def gaba_a_connection_modulation_calibrated():
+    # No literature-derived target exists for the potentiation GAIN itself:
+    # it is a circuit-level parameter (how strongly diazepam's receptor
+    # activation scales the interneuron -> BLA synapse's connectivity
+    # weight), not a receptor-binding or PK constant, and no dataset
+    # quantifying that circuit-level gain against real diazepam
+    # dose/exposure data was identified (see docs/architecture.md and
+    # gaba_a_connection_modulation() above, which this reuses unmodified).
+    # Reusing the same illustrative value here, explicitly flagged, rather
+    # than inventing a "calibrated-sounding" number with no real source.
+    return gaba_a_connection_modulation()
