@@ -190,17 +190,75 @@ clearance is faster than diazepam's.
   reusing `coupling` as-is (see above).
 
 **Explicitly not yet real:**
-- `kon`/`koff`/`ke`/circuit `tau`/connection weights in `scenarios.py` are
-  hand-set to get qualitative behavior right, not sourced from a specific
-  Ki/kon/koff or PK dataset. They should not be cited as measured values.
-  Calibrating these against literature (or, longer-term, fitting them
-  Bayesian-style the way the CCT model's 14 parameters were fit against a
-  literature screen) is the next real piece of work, not a formality. This
-  applies equally to the mu-opioid, D2, and GABA-A scenarios.
+- `kon`/`koff`/`ke`/circuit `tau`/connection weights in the illustrative
+  scenarios (mu-opioid, D2, GABA-A) are hand-set to get qualitative behavior
+  right, not sourced from a specific Ki/kon/koff or PK dataset. They should
+  not be cited as measured values. As of Track A, mu-opioid receptor
+  binding and PK have a literature-calibrated alternative (see below); D2
+  and GABA-A do not yet, and no scenario's circuit `tau`/connection
+  weights/gains have a literature target — no dataset for VTA-NAc-PFC (or
+  basal-ganglia, or amygdala) connection *weights* (as opposed to wiring
+  direction/sign, which matches known circuit anatomy, see above) was
+  identified. Calibrating the remaining scenarios, and longer-term fitting
+  circuit parameters Bayesian-style the way the CCT model's 14 parameters
+  were fit against a literature screen, is the next real piece of work, not
+  a formality.
 - Each scenario in v0 models one receptor site and one circuit in isolation
-  (three separate scenarios, not three interacting ones). A real drug
-  usually hits several receptor subtypes across several regions
-  simultaneously, and a real circuit carries several receptor types at
-  once; the classes here (`ReceptorSite`, `CircuitNetwork`, `coupling`,
-  `connection_modulation`) are general enough to support combining them in
-  one `Simulation`, but that hasn't been built or tested yet.
+  (separate scenarios, not interacting ones). A real drug usually hits
+  several receptor subtypes across several regions simultaneously, and a
+  real circuit carries several receptor types at once; the classes here
+  (`ReceptorSite`, `CircuitNetwork`, `coupling`, `connection_modulation`)
+  are general enough to support combining them in one `Simulation`, but
+  that hasn't been built or tested yet.
+
+**Calibrated as of Track A (receptor/PK only, circuit still illustrative):**
+`scenarios.py` now has a second, clearly-separated parameter set,
+`mu_opioid_ligands_calibrated()` / `mu_opioid_receptor_site_calibrated()` /
+`mu_opioid_pk_models_calibrated()`, grounded in published data instead of
+hand-tuned placeholders (full citations and derivations are inline in that
+section of `scenarios.py`):
+- **Ki**: fentanyl 1.346 nM, naloxone 1.518 nM, both from the same
+  standardized human-mu-opioid-receptor binding assay (Volpe et al. 2011,
+  Regul Toxicol Pharmacol, doi:10.1016/j.yrtph.2010.12.007), so the two
+  numbers are directly comparable.
+- **koff**: fentanyl 0.004331 s^-1 (residence time ~160 s), naloxone
+  0.03959 s^-1 (residence time ~17.5 s), both from in vitro binding-kinetics
+  fits in an FDA mechanistic PK-PD model of naloxone reversal (Mann et al.
+  2022, Clin Pharmacol Ther, doi:10.1002/cpt.2696; parameters public at
+  github.com/FDA/Mechanistic-PK-PD-Model-to-Rescue-Opioid-Overdose).
+  **kon is not directly reported in compatible units by any source found**;
+  it's derived from these koff values and the Ki's above via
+  Kd ~= Ki = koff / kon, a standard approximation, not an independently
+  measured number, and flagged as such where it's used.
+- **PK**: fentanyl ke from the FDA label's redistribution-phase half-life
+  (13 min); naloxone ke from a mean reported IV serum half-life (~64 min,
+  Handal et al. 1983; Rzasa Lynn & Galinkin 2024). Both real drugs follow
+  multi-compartment kinetics (fentanyl distribution/redistribution/terminal
+  half-lives of 1.7/13/219 min per the FDA label); collapsing each to one
+  exponential for this codebase's one-compartment `OneCompartmentPK` is an
+  explicit, documented simplification chosen to match the acute-bolus
+  timescale this scenario simulates, not a claim that either drug is truly
+  one-compartment.
+- **Validation**: `tests/test_scenarios_calibrated.py` checks the
+  calibrated fentanyl ligand reaches near-saturating occupancy (>90%) at a
+  clinically-cited overdose concentration (50 ng/mL, ~148.6 nM), consistent
+  with the 97% baseline occupancy an independent QSP model (Moss et al.
+  2020, PLoS ONE, doi:10.1371/journal.pone.0234683, using the same 1.35 nM
+  fentanyl Ki) reports at that exposure level. That comparison is
+  directional/order-of-magnitude, not an exact match: Moss et al.'s
+  occupancy is computed from an internal brain-concentration submodel this
+  codebase doesn't have.
+- **A genuinely interesting real finding surfaced by calibration**: the
+  illustrative placeholder assumed naloxone had the slower koff ("stickier"
+  binding) of the two ligands, to make displacement easy to reason about.
+  The real data says the opposite: naloxone's koff is about 9x FASTER than
+  fentanyl's, despite similar affinity. Naloxone reversal in the calibrated
+  model still works (see `test_naloxone_reverses_calibrated_agonist_effect`)
+  because clinical naloxone dosing puts it in large molar excess over the
+  fentanyl present, not because it binds tighter or lingers longer. This
+  is also the real pharmacological basis for renarcotization risk after
+  naloxone reversal, which this one-compartment PK collapse cannot
+  represent (see `mu_opioid_pk_models_calibrated()` for detail).
+- The reward circuit itself (VTA-NAc-PFC wiring, gains, taus) is reused
+  unchanged from the illustrative scenario in the calibrated one: only
+  receptor binding and PK were in scope for this calibration pass.
