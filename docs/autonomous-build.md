@@ -6,8 +6,8 @@ intervention, and stops on its own when the backlog is complete.
 
 ## How a tick works
 
-`scripts/neurocascade-tick.sh` runs every 45 minutes under `flock`, so only one
-tick is ever live. A task can take over two hours; cron firing more often than
+`scripts/neurocascade-tick.sh` runs every 10 minutes under `flock`, so only one
+tick is ever live. A task can take over two hours; cron firing far more often than
 that is deliberate, so the next task starts promptly once one finishes rather
 than waiting for the next slot.
 
