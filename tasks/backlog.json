@@ -14,8 +14,10 @@
         "docs/architecture.md gains a section explaining the dose-to-concentration extension and why it was the blocking gap"
       ],
       "deps": [],
-      "status": "pending",
-      "attempts": 0
+      "status": "running",
+      "attempts": 1,
+      "started_at": "2026-08-11T19:30:47.323243+00:00",
+      "baseline": "d700db77040cf84f62cd7f8f9ec1d99762d26a84"
     },
     {
       "id": "P1.2",
@@ -27,7 +29,9 @@
         "Tests assert the parameter values and that simulated half-life matches the cited half-life",
         "Any unavailable parameter is explicitly documented as searched-and-empty, not filled in"
       ],
-      "deps": ["P1.1"],
+      "deps": [
+        "P1.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -41,7 +45,9 @@
         "Simulated half-life matches the cited value in a test",
         "Gaps recorded honestly"
       ],
-      "deps": ["P1.1"],
+      "deps": [
+        "P1.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -55,7 +61,9 @@
         "Active-metabolite question addressed explicitly in docs",
         "Simulated half-life matches cited value in a test"
       ],
-      "deps": ["P1.1"],
+      "deps": [
+        "P1.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -69,7 +77,11 @@
         "Per-drug partition coefficients cited, with Kp vs Kp,uu labeled per drug",
         "Existing scenario results re-checked and any shift explained in the commit message"
       ],
-      "deps": ["P1.2", "P1.3", "P1.4"],
+      "deps": [
+        "P1.2",
+        "P1.3",
+        "P1.4"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -83,7 +95,9 @@
         "A validation section in docs reporting the actual errors, including failures",
         "No tolerance widened purely to make a test pass"
       ],
-      "deps": ["P1.5"],
+      "deps": [
+        "P1.5"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -97,7 +111,9 @@
         "Each entry converts to a brain concentration through the Phase 1 bridge in a test",
         "Any Track E paper that remains unusable even with the PK bridge is documented as such, with the reason"
       ],
-      "deps": ["P1.6"],
+      "deps": [
+        "P1.6"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -112,7 +128,9 @@
         "The illustrative label is removed from exactly those parameters that are now fit, in the same commit, and nowhere else",
         "The existing guard test that blocks uncalibrated circuit parameters entering the Bayesian scaffold is updated rather than deleted"
       ],
-      "deps": ["P2.1"],
+      "deps": [
+        "P2.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -126,7 +144,9 @@
         "Explicit list of identifiable vs unidentifiable parameters",
         "Unidentifiable parameters remain labeled illustrative"
       ],
-      "deps": ["P2.2"],
+      "deps": [
+        "P2.2"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -155,7 +175,9 @@
         "Sign assignment rule documented with its source and its known exceptions",
         "Existing CircuitNetwork API unchanged so soma-twin's import path keeps working"
       ],
-      "deps": ["P3.1"],
+      "deps": [
+        "P3.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -169,7 +191,9 @@
         "Qualitative regression tests pass or the failure is documented with diagnosis",
         "Hand-built networks retained for comparison, not deleted"
       ],
-      "deps": ["P3.2"],
+      "deps": [
+        "P3.2"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -183,7 +207,9 @@
         "Documented procedure for assigning baseline drive at scale",
         "Whole-brain network verified to reach a stable fixed point from multiple initial conditions"
       ],
-      "deps": ["P3.3"],
+      "deps": [
+        "P3.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -197,7 +223,9 @@
         "Reproducible fetch with checksums, network-free tests using a fixture",
         "Genes with no usable data listed explicitly"
       ],
-      "deps": ["P3.1"],
+      "deps": [
+        "P3.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -211,7 +239,9 @@
         "Presynaptic/terminal-field mismatch addressed explicitly",
         "Comparison against independent density data for at least one receptor"
       ],
-      "deps": ["P4.1"],
+      "deps": [
+        "P4.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -225,7 +255,9 @@
         "Any failure traced to a root cause and fixed",
         "Replace the existing hand-written multi-region mu-opioid map with the atlas-derived one, keeping a regression comparison"
       ],
-      "deps": ["P4.2"],
+      "deps": [
+        "P4.2"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -239,7 +271,9 @@
         "Scenario and tests demonstrating agonist, antagonist and reversal behavior",
         "Autoreceptor role documented as a Phase 6 dependency"
       ],
-      "deps": ["P4.3"],
+      "deps": [
+        "P4.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -253,7 +287,9 @@
         "Direct and indirect pathways coexisting on one network",
         "Test showing opposing D1/D2 effects on the same locomotor readout"
       ],
-      "deps": ["P4.3"],
+      "deps": [
+        "P4.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -262,8 +298,14 @@
       "phase": "Phase 5: receptor system breadth",
       "title": "Noradrenaline alpha1, alpha2, beta",
       "brief": "Add alpha1 (Gq), alpha2 (Gi, including autoreceptor role at locus coeruleus) and beta (Gs) adrenoceptors with cited binding constants for noradrenaline, prazosin, clonidine, yohimbine and propranolol.",
-      "acceptance": ["Cited constants for each ligand", "Scenario plus tests", "Autoreceptor role noted for Phase 6"],
-      "deps": ["P4.3"],
+      "acceptance": [
+        "Cited constants for each ligand",
+        "Scenario plus tests",
+        "Autoreceptor role noted for Phase 6"
+      ],
+      "deps": [
+        "P4.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -277,7 +319,9 @@
         "Cited constants including desensitization and recovery rates",
         "docs/architecture.md explains why the two-state model was insufficient"
       ],
-      "deps": ["P4.3"],
+      "deps": [
+        "P4.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -291,7 +335,9 @@
         "Explicit resolution of the double-counting question in docs",
         "Test showing ketamine-like NMDA antagonism producing a circuit-level effect"
       ],
-      "deps": ["P4.3"],
+      "deps": [
+        "P4.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -300,8 +346,14 @@
       "phase": "Phase 5: receptor system breadth",
       "title": "Histamine H1, cannabinoid CB1, adenosine A2A",
       "brief": "Add H1 (Gq, sedation), CB1 (Gi, presynaptic and retrograde) and A2A (Gs, striatal, the caffeine target) with cited binding constants for their endogenous ligands and representative drugs (diphenhydramine, THC, rimonabant, caffeine). CB1's presynaptic retrograde signaling does not fit the postsynaptic receptor pattern: represent it as connection modulation, as GABA-A allosterism already is.",
-      "acceptance": ["Cited constants for all three", "CB1 handled as connection modulation with rationale", "Scenarios and tests"],
-      "deps": ["P4.3"],
+      "acceptance": [
+        "Cited constants for all three",
+        "CB1 handled as connection modulation with rationale",
+        "Scenarios and tests"
+      ],
+      "deps": [
+        "P4.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -315,7 +367,9 @@
         "Existing mu scenario re-run with cross-affinities included, and any change in results reported",
         "Test showing kappa agonism producing an opposite-valence effect to mu"
       ],
-      "deps": ["P4.3"],
+      "deps": [
+        "P4.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -330,7 +384,9 @@
         "Cited constants for all five drugs",
         "Documented interface to the Phase 6 transmitter concentration"
       ],
-      "deps": ["P4.3"],
+      "deps": [
+        "P4.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -344,7 +400,14 @@
         "Existing scenarios ported and regression-tested",
         "Volume-transmission timescale assumptions documented and cited"
       ],
-      "deps": ["P3.4", "P5.1", "P5.2", "P5.3", "P5.4", "P5.8"],
+      "deps": [
+        "P3.4",
+        "P5.1",
+        "P5.2",
+        "P5.3",
+        "P5.4",
+        "P5.8"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -358,7 +421,9 @@
         "Drugs compete against endogenous tone in the shared occupancy pool",
         "Change in existing scenario results quantified and explained"
       ],
-      "deps": ["P6.1"],
+      "deps": [
+        "P6.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -372,7 +437,9 @@
         "Autoreceptor feedback loops implemented",
         "Stability verified with the P3.4 check after feedback is closed"
       ],
-      "deps": ["P6.2"],
+      "deps": [
+        "P6.2"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -386,7 +453,9 @@
         "Regional weighting justified by citation per endpoint",
         "All weights labeled illustrative pending P7.3"
       ],
-      "deps": ["P6.3"],
+      "deps": [
+        "P6.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -400,7 +469,9 @@
         "Nonlinearity adopted only where it wins out of sample",
         "Rejected cases documented"
       ],
-      "deps": ["P7.1"],
+      "deps": [
+        "P7.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -415,7 +486,9 @@
         "Illustrative labels removed only where genuinely fit",
         "Endpoints with insufficient data documented as unfit rather than fit to weak data"
       ],
-      "deps": ["P7.2"],
+      "deps": [
+        "P7.2"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -429,7 +502,12 @@
         "Ki-to-kon/koff conversion documented, with its assumption about koff stated explicitly",
         "Round-trip test reproducing an existing hand-built scenario through the fingerprint API"
       ],
-      "deps": ["P7.3", "P5.5", "P5.6", "P5.7"],
+      "deps": [
+        "P7.3",
+        "P5.5",
+        "P5.6",
+        "P5.7"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -444,7 +522,9 @@
         "Results committed to results/ with figures",
         "No held-out compound silently moved into the training set"
       ],
-      "deps": ["P8.1"],
+      "deps": [
+        "P8.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -458,7 +538,9 @@
         "Concrete proposed fix per failure, with the data it would require",
         "Written into docs as a standing limitations section"
       ],
-      "deps": ["P8.2"],
+      "deps": [
+        "P8.2"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -467,8 +549,14 @@
       "phase": "Phase 9: numerics at scale",
       "title": "Profile and benchmark at whole-brain scale",
       "brief": "Benchmark the coupled system at whole-brain scale across resolutions and receptor-system counts, and profile where time is actually spent before optimizing anything. Establish a committed benchmark suite so later optimizations can be measured rather than assumed.",
-      "acceptance": ["Committed benchmark suite", "Profile results in docs", "Baseline timings recorded for later comparison"],
-      "deps": ["P6.3"],
+      "acceptance": [
+        "Committed benchmark suite",
+        "Profile results in docs",
+        "Baseline timings recorded for later comparison"
+      ],
+      "deps": [
+        "P6.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -482,7 +570,9 @@
         "Stiff solver benchmarked against RK45 for both accuracy and speed",
         "Defaults changed only where accuracy is preserved, with evidence"
       ],
-      "deps": ["P9.1"],
+      "deps": [
+        "P9.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -496,7 +586,9 @@
         "Steady-state solver agreeing with long-integration baselines",
         "Measured speedup reported against the P9.1 baseline"
       ],
-      "deps": ["P9.2"],
+      "deps": [
+        "P9.2"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -505,8 +597,15 @@
       "phase": "Phase 10: outputs",
       "title": "Figures and region-wise visualization",
       "brief": "Produce the figure set: region-wise activity maps on brain sections, occupancy time courses, dose-response curves against data, and held-out validation scatter plots. Follow the dataviz conventions used elsewhere in this workspace.",
-      "acceptance": ["Committed figure-generation scripts", "Figures in results/", "Every figure reproducible from a committed script"],
-      "deps": ["P8.3", "P9.3"],
+      "acceptance": [
+        "Committed figure-generation scripts",
+        "Figures in results/",
+        "Every figure reproducible from a committed script"
+      ],
+      "deps": [
+        "P8.3",
+        "P9.3"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -520,7 +619,9 @@
         "README rewritten with a prominent limitations section",
         "Parameter calibration status table covering every parameter class"
       ],
-      "deps": ["P10.1"],
+      "deps": [
+        "P10.1"
+      ],
       "status": "pending",
       "attempts": 0
     },
@@ -534,7 +635,9 @@
         "Every quantitative claim traceable to a committed result",
         "Limitations section derived from P8.3 rather than written fresh"
       ],
-      "deps": ["P10.2"],
+      "deps": [
+        "P10.2"
+      ],
       "status": "pending",
       "attempts": 0
     }
