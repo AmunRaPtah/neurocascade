@@ -34,6 +34,26 @@ Each tick:
 A task whose agent reports it cannot be completed honestly ends as `blocked`
 with the reason recorded, rather than as a silent success.
 
+## When a tick is killed
+
+A tick that dies mid-task (killed process tree, reboot, OOM) leaves its task
+marked `running` with a dirty tree. Left alone that wedges the build for good:
+the runner only picks `pending` tasks, and every later tick would abort on the
+dirty tree anyway.
+
+The next tick recovers automatically. Holding the flock proves any `running`
+task belongs to a dead tick, so its partial work is committed to an
+`interrupted/<task-id>-attemptN` branch, main is reset to the baseline recorded
+on the task when it started, and the task returns to `pending` to be redone from
+clean. Nothing is destroyed, and the build resumes on its own.
+
+Launch a manual tick with `setsid` so it does not die with the shell that
+started it:
+
+```bash
+setsid scripts/neurocascade-tick.sh </dev/null >/dev/null 2>&1 &
+```
+
 ## Notifications
 
 `scripts/digest.py` sends one batched Telegram summary daily at 08:00, covering
