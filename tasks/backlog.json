@@ -1,0 +1,542 @@
+{
+  "version": 1,
+  "note": "Ordered task backlog for the autonomous build. scripts/autonomous_runner.py picks the first task whose status is pending and whose deps are all done. Edit freely; the runner reads this file fresh every tick.",
+  "tasks": [
+    {
+      "id": "P1.1",
+      "phase": "Phase 1: dose-to-brain-concentration bridge",
+      "title": "Dose-administered compartmental PK",
+      "brief": "Extend src/neurocascade/pk.py beyond OneCompartmentPK, which currently starts from an already-achieved bolus concentration. Add one- and two-compartment models driven by an administered dose: dose (mg/kg), body weight, bioavailability F, first-order absorption rate ka, volume of distribution Vd, clearance CL, and route (IV, IP, SC, PO). Keep the ODE-native style: expose a concentration_rhs so the PK layer stays inside the single coupled state vector that engine.py integrates, rather than precomputing a concentration trace. IV bolus with F=1 must reduce exactly to the existing OneCompartmentPK behavior.",
+      "acceptance": [
+        "New PK classes integrate inside Simulation.rhs, not as a precomputed trace",
+        "A regression test proves IV bolus reduces to existing OneCompartmentPK output within tight numerical tolerance",
+        "All existing tests still pass unchanged",
+        "docs/architecture.md gains a section explaining the dose-to-concentration extension and why it was the blocking gap"
+      ],
+      "deps": [],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P1.2",
+      "phase": "Phase 1: dose-to-brain-concentration bridge",
+      "title": "Literature PK parameters: fentanyl (rat/mouse)",
+      "brief": "Find and record published pharmacokinetic parameters for fentanyl in rat and mouse: Vd, CL, terminal half-life, F by route (IV, SC, IP). Cite every number with author, year, species, strain where reported, and route. Follow the sourcing discipline of the existing Track A binding calibration exactly. If a parameter genuinely is not available for a species/route, record that as a searched-and-empty result rather than substituting another species or drug.",
+      "acceptance": [
+        "Parameters live in the same style as existing calibrated parameter sets, with citations in code and docs",
+        "Tests assert the parameter values and that simulated half-life matches the cited half-life",
+        "Any unavailable parameter is explicitly documented as searched-and-empty, not filled in"
+      ],
+      "deps": ["P1.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P1.3",
+      "phase": "Phase 1: dose-to-brain-concentration bridge",
+      "title": "Literature PK parameters: haloperidol (rat)",
+      "brief": "Same as P1.2 for haloperidol in rat, covering the routes used in the locomotor-activity literature this project needs to fit against (typically IP and SC).",
+      "acceptance": [
+        "Cited Vd, CL, half-life, F by route",
+        "Simulated half-life matches the cited value in a test",
+        "Gaps recorded honestly"
+      ],
+      "deps": ["P1.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P1.4",
+      "phase": "Phase 1: dose-to-brain-concentration bridge",
+      "title": "Literature PK parameters: diazepam (rat/mouse)",
+      "brief": "Same as P1.2 for diazepam, covering the routes used in the elevated-plus-maze literature. Note explicitly whether active metabolites (nordiazepam, oxazepam, temazepam) matter on the timescale this model simulates, and if they do, record that as a documented model limitation rather than silently ignoring it.",
+      "acceptance": [
+        "Cited Vd, CL, half-life, F by route",
+        "Active-metabolite question addressed explicitly in docs",
+        "Simulated half-life matches cited value in a test"
+      ],
+      "deps": ["P1.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P1.5",
+      "phase": "Phase 1: dose-to-brain-concentration bridge",
+      "title": "Plasma-to-brain partition",
+      "brief": "Receptors sit in brain tissue, not plasma. Add a brain-partition layer converting plasma concentration to brain (ideally unbound brain) concentration, using published brain:plasma ratios (Kp) or unbound partition coefficients (Kp,uu) for fentanyl, haloperidol, and diazepam. Make the receptor layer consume brain concentration rather than plasma concentration, and be explicit in docs about which of Kp vs Kp,uu each drug's number is, since they are not interchangeable.",
+      "acceptance": [
+        "Receptor occupancy is driven by brain concentration",
+        "Per-drug partition coefficients cited, with Kp vs Kp,uu labeled per drug",
+        "Existing scenario results re-checked and any shift explained in the commit message"
+      ],
+      "deps": ["P1.2", "P1.3", "P1.4"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P1.6",
+      "phase": "Phase 1: dose-to-brain-concentration bridge",
+      "title": "Validate PK curves against published data",
+      "brief": "Validate simulated concentration-time curves against published PK curves for all three drugs: compare Cmax, Tmax, terminal half-life, and AUC against reported values with explicit quantitative tolerances. Where the model misses, say by how much and why, rather than loosening the tolerance to pass.",
+      "acceptance": [
+        "Validation tests with explicit numeric tolerances and cited targets",
+        "A validation section in docs reporting the actual errors, including failures",
+        "No tolerance widened purely to make a test pass"
+      ],
+      "deps": ["P1.5"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P2.1",
+      "phase": "Phase 2: circuit-layer calibration",
+      "title": "Dose-to-behavior evidence module",
+      "brief": "Build a calibration evidence module holding the real dose-to-behavior datasets Track E found but could not use, now usable through the Phase 1 PK bridge. Start from the exact papers docs/architecture.md's Track E section names (fentanyl/NAc dopamine, haloperidol locomotor suppression, diazepam elevated plus maze). Record dose, route, species, strain, timepoint, endpoint, effect size, and error bars, each with citation. Follow the structure of the existing calibration/evidence.py.",
+      "acceptance": [
+        "Evidence entries carry full provenance including species, strain, route and timepoint",
+        "Each entry converts to a brain concentration through the Phase 1 bridge in a test",
+        "Any Track E paper that remains unusable even with the PK bridge is documented as such, with the reason"
+      ],
+      "deps": ["P1.6"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P2.2",
+      "phase": "Phase 2: circuit-layer calibration",
+      "title": "Bayesian fit of the three coupling gains",
+      "brief": "Fit mu_opioid_coupling, d2_coupling and gaba_a_connection_modulation gains against the P2.1 evidence, using the existing per-system independent-model pattern (three separate models, DEMetropolisZ). Do not build a joint model: docs/architecture.md records that a joint 8-parameter model failed to converge with r_hat 1.92 due to shared-history proposal drag with no likelihood coupling. Report r_hat and ESS for every parameter.",
+      "acceptance": [
+        "Three independent models, all converged with r_hat below 1.05",
+        "Posterior summaries committed to results/",
+        "The illustrative label is removed from exactly those parameters that are now fit, in the same commit, and nowhere else",
+        "The existing guard test that blocks uncalibrated circuit parameters entering the Bayesian scaffold is updated rather than deleted"
+      ],
+      "deps": ["P2.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P2.3",
+      "phase": "Phase 2: circuit-layer calibration",
+      "title": "Identifiability of connectivity weights and time constants",
+      "brief": "Attempt to fit connectivity weights and node time constants against the same behavioral evidence, and determine which are identifiable at all from behavioral endpoints. Run a proper identifiability analysis (profile likelihood or posterior correlation structure). Parameters that are not identifiable keep their illustrative label; that is the expected outcome for most of them and is a result worth documenting, not a failure to work around.",
+      "acceptance": [
+        "Identifiability analysis committed with figures in results/",
+        "Explicit list of identifiable vs unidentifiable parameters",
+        "Unidentifiable parameters remain labeled illustrative"
+      ],
+      "deps": ["P2.2"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P3.1",
+      "phase": "Phase 3: whole-brain connectome",
+      "title": "Ingest Allen Mouse Brain Connectivity Atlas",
+      "brief": "Ingest the Allen Mouse Brain Connectivity Atlas normalized connection density matrix and the structure ontology into a versioned data module under src/neurocascade/connectome/. Prefer the published voxel or regionalized model matrices (Oh et al. 2014; Knox et al. 2019). Cache the downloaded data under data/ and gitignore large binaries while committing a checksum and a documented fetch script, so the build is reproducible without committing hundreds of megabytes.",
+      "acceptance": [
+        "A fetch script that reproducibly downloads and verifies the source data by checksum",
+        "Loader returning a directed weighted matrix plus region ontology metadata",
+        "Large binaries gitignored, checksums committed",
+        "Tests run without network access, using a small committed fixture"
+      ],
+      "deps": [],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P3.2",
+      "phase": "Phase 3: whole-brain connectome",
+      "title": "Build CircuitNetwork from the connectome",
+      "brief": "Build a CircuitNetwork directly from the connectome at selectable resolution (major divisions, roughly 43 regions, roughly 213 regions). Assign excitatory/inhibitory sign from region neurotransmitter identity rather than guessing: cortical and thalamic projection neurons are predominantly glutamatergic, striatal and pallidal projection neurons GABAergic, and so on. Document the sign-assignment rule and its exceptions explicitly.",
+      "acceptance": [
+        "Network builds at all three resolutions",
+        "Sign assignment rule documented with its source and its known exceptions",
+        "Existing CircuitNetwork API unchanged so soma-twin's import path keeps working"
+      ],
+      "deps": ["P3.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P3.3",
+      "phase": "Phase 3: whole-brain connectome",
+      "title": "Port existing scenarios onto connectome regions",
+      "brief": "Map every existing hand-built scenario (mu-opioid VTA-NAc-PFC, D2 basal ganglia indirect pathway, GABA-A amygdala) onto real connectome regions, and regression-test that the established qualitative results survive: agonism, inert antagonism alone, and antagonist reversal of the agonist effect. If a result does not survive, investigate and report why rather than tuning until it does.",
+      "acceptance": [
+        "All three scenarios run on the connectome-derived network",
+        "Qualitative regression tests pass or the failure is documented with diagnosis",
+        "Hand-built networks retained for comparison, not deleted"
+      ],
+      "deps": ["P3.2"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P3.4",
+      "phase": "Phase 3: whole-brain connectome",
+      "title": "Whole-brain baseline stability check",
+      "brief": "At whole-brain scale, every node must sit in the sensitive part of its sigmoid at its own steady state. docs/architecture.md records that the first D2 parameter draft saturated GPi at baseline so it stopped responding to anything upstream. Generalize that lesson into an automated check plus a principled baseline_input assignment procedure that scales to hundreds of nodes, and verify the whole-brain network has a stable non-saturating fixed point.",
+      "acceptance": [
+        "Automated saturation check over all nodes, run in tests",
+        "Documented procedure for assigning baseline drive at scale",
+        "Whole-brain network verified to reach a stable fixed point from multiple initial conditions"
+      ],
+      "deps": ["P3.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P4.1",
+      "phase": "Phase 4: whole-brain receptor maps",
+      "title": "Ingest Allen receptor-gene expression",
+      "brief": "Ingest Allen Mouse Brain Atlas ISH expression energy per region for every receptor gene the model uses or will use: Oprm1, Oprk1, Oprd1, Drd1, Drd2, Gabra1-5, Gabrb, Htr1a, Htr2a, Chrm1-5, Chrna4/7, Adra1/2, Adrb1/2, Grin1/2a/2b, Gria1-4, Hrh1, Cnr1, Adora2a, Slc6a2/3/4. Use the same ontology as the Phase 3 connectome so regions line up exactly. Same reproducible-fetch and checksum approach as P3.1.",
+      "acceptance": [
+        "Per-gene per-region expression loader sharing the connectome ontology",
+        "Reproducible fetch with checksums, network-free tests using a fixture",
+        "Genes with no usable data listed explicitly"
+      ],
+      "deps": ["P3.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P4.2",
+      "phase": "Phase 4: whole-brain receptor maps",
+      "title": "Expression to receptor density",
+      "brief": "Convert expression energy to the density scale the receptor layer consumes. mRNA expression is not protein density, and the proportionality assumption is a real modeling assumption. State it explicitly in docs, quantify its known failure cases (presynaptic receptors expressed in a source nucleus but functioning at the terminal field is the important one), and where autoradiography or PET density data exists for a receptor, compare against it.",
+      "acceptance": [
+        "Documented conversion with the proportionality assumption stated as an assumption",
+        "Presynaptic/terminal-field mismatch addressed explicitly",
+        "Comparison against independent density data for at least one receptor"
+      ],
+      "deps": ["P4.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P4.3",
+      "phase": "Phase 4: whole-brain receptor maps",
+      "title": "Validate receptor maps against known distributions",
+      "brief": "Validate the generated maps against independently known anatomical distributions: Drd1 and Drd2 striatum-dominant, Oprm1 high in thalamus and striatum and periaqueductal gray, Gabra1 high in cortex and cerebellum, Cnr1 high in hippocampus and substantia nigra, Adora2a striatum-specific. A map failing these is a bug in ingestion or normalization, not a finding about the brain.",
+      "acceptance": [
+        "Validation tests over at least five receptors with cited expected distributions",
+        "Any failure traced to a root cause and fixed",
+        "Replace the existing hand-written multi-region mu-opioid map with the atlas-derived one, keeping a regression comparison"
+      ],
+      "deps": ["P4.2"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P5.1",
+      "phase": "Phase 5: receptor system breadth",
+      "title": "Serotonin 5-HT1A and 5-HT2A",
+      "brief": "Add 5-HT1A (Gi, including its role as a somatodendritic autoreceptor in the raphe) and 5-HT2A (Gq) receptor systems with literature Ki, kon, koff and efficacy for serotonin itself and for representative ligands (8-OH-DPAT, WAY-100635, DOI, ketanserin). Follow the Track A sourcing discipline. The autoreceptor role matters: note it now even if the projection-system machinery for it lands in Phase 6.",
+      "acceptance": [
+        "Cited binding constants for each ligand",
+        "Scenario and tests demonstrating agonist, antagonist and reversal behavior",
+        "Autoreceptor role documented as a Phase 6 dependency"
+      ],
+      "deps": ["P4.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P5.2",
+      "phase": "Phase 5: receptor system breadth",
+      "title": "Dopamine D1 and the direct pathway",
+      "brief": "Add the D1 receptor (Gs, excitatory on direct-pathway MSNs) and the direct basal-ganglia pathway, complementing the existing D2 indirect-pathway scenario. Direct and indirect pathways must coexist on one shared striatal network so that a drug acting at both is simulated correctly rather than as two separate models.",
+      "acceptance": [
+        "D1 binding constants cited",
+        "Direct and indirect pathways coexisting on one network",
+        "Test showing opposing D1/D2 effects on the same locomotor readout"
+      ],
+      "deps": ["P4.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P5.3",
+      "phase": "Phase 5: receptor system breadth",
+      "title": "Noradrenaline alpha1, alpha2, beta",
+      "brief": "Add alpha1 (Gq), alpha2 (Gi, including autoreceptor role at locus coeruleus) and beta (Gs) adrenoceptors with cited binding constants for noradrenaline, prazosin, clonidine, yohimbine and propranolol.",
+      "acceptance": ["Cited constants for each ligand", "Scenario plus tests", "Autoreceptor role noted for Phase 6"],
+      "deps": ["P4.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P5.4",
+      "phase": "Phase 5: receptor system breadth",
+      "title": "Acetylcholine: nicotinic and muscarinic",
+      "brief": "Add nicotinic (alpha4beta2, alpha7; ionotropic, fast, and strongly desensitizing) and muscarinic (M1-M5) receptors with cited constants for acetylcholine, nicotine, scopolamine and mecamylamine. Nicotinic desensitization is pharmacologically central and cannot be represented by the existing two-state occupancy model: add a desensitized state, in the same way that GABA-A allosteric modulation required the connection_modulation mechanism.",
+      "acceptance": [
+        "Desensitized receptor state implemented and tested",
+        "Cited constants including desensitization and recovery rates",
+        "docs/architecture.md explains why the two-state model was insufficient"
+      ],
+      "deps": ["P4.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P5.5",
+      "phase": "Phase 5: receptor system breadth",
+      "title": "Glutamate NMDA and AMPA",
+      "brief": "Add NMDA and AMPA receptors with cited constants for glutamate, ketamine, MK-801 and NBQX. NMDA voltage-dependent magnesium block and the fact that these receptors carry the fast excitatory transmission already implicit in the connectivity matrix both need explicit treatment: say clearly which role the connectivity weights already play, so glutamatergic transmission is not double-counted.",
+      "acceptance": [
+        "Cited constants",
+        "Explicit resolution of the double-counting question in docs",
+        "Test showing ketamine-like NMDA antagonism producing a circuit-level effect"
+      ],
+      "deps": ["P4.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P5.6",
+      "phase": "Phase 5: receptor system breadth",
+      "title": "Histamine H1, cannabinoid CB1, adenosine A2A",
+      "brief": "Add H1 (Gq, sedation), CB1 (Gi, presynaptic and retrograde) and A2A (Gs, striatal, the caffeine target) with cited binding constants for their endogenous ligands and representative drugs (diphenhydramine, THC, rimonabant, caffeine). CB1's presynaptic retrograde signaling does not fit the postsynaptic receptor pattern: represent it as connection modulation, as GABA-A allosterism already is.",
+      "acceptance": ["Cited constants for all three", "CB1 handled as connection modulation with rationale", "Scenarios and tests"],
+      "deps": ["P4.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P5.7",
+      "phase": "Phase 5: receptor system breadth",
+      "title": "Opioid kappa and delta",
+      "brief": "Add kappa and delta opioid receptors with cited constants for dynorphin, enkephalin, U50488, norBNI and naltrindole, and crucially the cross-affinities of the existing mu ligands. Fentanyl and naloxone are not mu-selective in the limit, and naloxone's kappa and delta affinities matter for reversal modeling.",
+      "acceptance": [
+        "Cited constants including mu ligand cross-affinities at kappa and delta",
+        "Existing mu scenario re-run with cross-affinities included, and any change in results reported",
+        "Test showing kappa agonism producing an opposite-valence effect to mu"
+      ],
+      "deps": ["P4.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P5.8",
+      "phase": "Phase 5: receptor system breadth",
+      "title": "Monoamine transporters DAT, SERT, NET",
+      "brief": "Add the monoamine transporters as a distinct target class. A transporter is not a receptor: blocking it raises synaptic transmitter concentration rather than directly producing a signal, so it needs its own mechanism that feeds the transmitter concentration consumed by Phase 6's projection systems. Cite constants for cocaine, methylphenidate, amphetamine (which is a substrate and releaser, not merely a blocker, and needs that distinction represented), fluoxetine and atomoxetine. Nothing in the psychostimulant or antidepressant classes can be modeled at all until this exists.",
+      "acceptance": [
+        "Transporter mechanism distinct from receptor occupancy",
+        "Substrate/releaser vs pure blocker distinction represented and tested",
+        "Cited constants for all five drugs",
+        "Documented interface to the Phase 6 transmitter concentration"
+      ],
+      "deps": ["P4.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P6.1",
+      "phase": "Phase 6: neuromodulatory projection systems",
+      "title": "Projection-system abstraction",
+      "brief": "Implement the abstraction that makes this a brain model rather than a large graph: source nucleus firing rate drives transmitter release, which produces a region-wise transmitter concentration weighted by projection density, which drives receptor occupancy at every target region. Replace the current pattern in which a receptor sits on one designated node. Cover dopamine (VTA, SNc), serotonin (DRN, MRN), noradrenaline (LC), acetylcholine (basal forebrain, PPT/LDT) and histamine (TMN).",
+      "acceptance": [
+        "Projection systems drive region-wise transmitter concentration inside the coupled ODE system",
+        "Existing scenarios ported and regression-tested",
+        "Volume-transmission timescale assumptions documented and cited"
+      ],
+      "deps": ["P3.4", "P5.1", "P5.2", "P5.3", "P5.4", "P5.8"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P6.2",
+      "phase": "Phase 6: neuromodulatory projection systems",
+      "title": "Endogenous transmitter tone",
+      "brief": "Give every projection system a baseline endogenous transmitter tone with cited basal concentrations (microdialysis literature reports these for dopamine, serotonin and noradrenaline), so that administered drugs compete at a receptor pool that is already partly occupied by real transmitter rather than an empty one. This changes existing results: report by how much.",
+      "acceptance": [
+        "Cited basal transmitter concentrations per system",
+        "Drugs compete against endogenous tone in the shared occupancy pool",
+        "Change in existing scenario results quantified and explained"
+      ],
+      "deps": ["P6.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P6.3",
+      "phase": "Phase 6: neuromodulatory projection systems",
+      "title": "Projection densities from the connectome",
+      "brief": "Derive per-system projection densities from the Phase 3 connectome by taking the outgoing connection strengths of each source nucleus, rather than assigning them by hand. Include autoreceptor feedback (D2 on VTA/SNc, 5-HT1A on raphe, alpha2 on LC), which closes a real negative feedback loop and can destabilize the system: verify stability explicitly.",
+      "acceptance": [
+        "Projection densities derived from connectome data, not hand-assigned",
+        "Autoreceptor feedback loops implemented",
+        "Stability verified with the P3.4 check after feedback is closed"
+      ],
+      "deps": ["P6.2"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P7.1",
+      "phase": "Phase 7: behavior layer",
+      "title": "Behavioral endpoint library",
+      "brief": "Define named behavioral endpoints as multi-region readouts over the whole-brain network: locomotor activity, anxiety (elevated plus maze), analgesia (tail-flick, hot plate), reward (conditioned place preference), sedation, working memory, and sensorimotor gating (prepulse inhibition). Ground each readout's regional weighting in cited lesion or imaging evidence about which regions drive that endpoint. Until fit in P7.3, every weight stays labeled illustrative.",
+      "acceptance": [
+        "Seven endpoints implemented as multi-region readouts",
+        "Regional weighting justified by citation per endpoint",
+        "All weights labeled illustrative pending P7.3"
+      ],
+      "deps": ["P6.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P7.2",
+      "phase": "Phase 7: behavior layer",
+      "title": "Nonlinear decoder where data supports it",
+      "brief": "Evaluate whether a nonlinear decoder outperforms the linear readout for each endpoint, using held-out data and a model comparison criterion. Adopt nonlinearity only where it wins on held-out data. Behavioral endpoints are frequently saturating or non-monotonic in dose, so this matters, but a nonlinear decoder that only fits better in-sample is overfitting and must be rejected.",
+      "acceptance": [
+        "Model comparison on held-out data per endpoint",
+        "Nonlinearity adopted only where it wins out of sample",
+        "Rejected cases documented"
+      ],
+      "deps": ["P7.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P7.3",
+      "phase": "Phase 7: behavior layer",
+      "title": "Fit endpoints to real dose-response data",
+      "brief": "Fit each behavioral endpoint against real published dose-response curves through the Phase 1 PK bridge, extending the P2.1 evidence module to cover all seven endpoints and the full drug set. This is the task that makes the behavior layer real. Report convergence diagnostics for every fit and remove the illustrative label only from parameters actually fit.",
+      "acceptance": [
+        "Evidence covering all seven endpoints with full provenance",
+        "Fits converged with r_hat below 1.05, diagnostics committed",
+        "Illustrative labels removed only where genuinely fit",
+        "Endpoints with insufficient data documented as unfit rather than fit to weak data"
+      ],
+      "deps": ["P7.2"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P8.1",
+      "phase": "Phase 8: prediction and validation",
+      "title": "Binding-fingerprint input API",
+      "brief": "Accept an arbitrary compound as a binding fingerprint, a table of Ki values across the modeled receptor and transporter targets plus efficacy per target, in the format the PDSP Ki database publishes, and construct its ligand set automatically across every system. This is the interface that turns the model into a prediction tool rather than a set of scenarios.",
+      "acceptance": [
+        "predict-style API taking a binding fingerprint, dose, route and species",
+        "Ki-to-kon/koff conversion documented, with its assumption about koff stated explicitly",
+        "Round-trip test reproducing an existing hand-built scenario through the fingerprint API"
+      ],
+      "deps": ["P7.3", "P5.5", "P5.6", "P5.7"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P8.2",
+      "phase": "Phase 8: prediction and validation",
+      "title": "Held-out drug validation",
+      "brief": "Predict behavioral profiles for drugs never used in any fitting step: morphine, clozapine, alprazolam, amphetamine, and at least two more spanning different mechanisms. Use only each compound's published binding fingerprint and PK parameters as input. Compare against published behavioral data and report quantitative errors. This is the real test of the whole project, and a genuinely negative result here is a publishable finding, not a failure to hide.",
+      "acceptance": [
+        "At least six held-out compounds, none used in fitting",
+        "Quantitative error reported per compound per endpoint",
+        "Results committed to results/ with figures",
+        "No held-out compound silently moved into the training set"
+      ],
+      "deps": ["P8.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P8.3",
+      "phase": "Phase 8: prediction and validation",
+      "title": "Failure analysis",
+      "brief": "Analyze where the model fails on held-out validation and why: which layer is responsible (PK, binding, receptor map, connectome, projection systems, behavior readout), and what data or mechanism would fix each failure. Expect this to be a substantial document. It is the honest core of any eventual publication.",
+      "acceptance": [
+        "Per-failure attribution to a specific model layer",
+        "Concrete proposed fix per failure, with the data it would require",
+        "Written into docs as a standing limitations section"
+      ],
+      "deps": ["P8.2"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P9.1",
+      "phase": "Phase 9: numerics at scale",
+      "title": "Profile and benchmark at whole-brain scale",
+      "brief": "Benchmark the coupled system at whole-brain scale across resolutions and receptor-system counts, and profile where time is actually spent before optimizing anything. Establish a committed benchmark suite so later optimizations can be measured rather than assumed.",
+      "acceptance": ["Committed benchmark suite", "Profile results in docs", "Baseline timings recorded for later comparison"],
+      "deps": ["P6.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P9.2",
+      "phase": "Phase 9: numerics at scale",
+      "title": "Sparse Jacobian and stiff solver",
+      "brief": "The connectome is sparse and the coupled system spans timescales from millisecond receptor kinetics to hour-scale PK, which is stiff. Supply an analytic or sparse-structured Jacobian and select an implicit stiff solver (Radau or BDF) where it beats RK45. Verify results match the RK45 reference within tolerance before switching any default.",
+      "acceptance": [
+        "Sparse Jacobian supplied to the solver",
+        "Stiff solver benchmarked against RK45 for both accuracy and speed",
+        "Defaults changed only where accuracy is preserved, with evidence"
+      ],
+      "deps": ["P9.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P9.3",
+      "phase": "Phase 9: numerics at scale",
+      "title": "Vectorized RHS and steady-state solver",
+      "brief": "Vectorize the right-hand side so per-node and per-ligand Python loops become array operations, and add a direct steady-state solver (root find on the RHS) so baseline fixed points are computed rather than found by long integration. Both are prerequisites for Bayesian calibration at whole-brain scale to finish in reasonable time.",
+      "acceptance": [
+        "Vectorized RHS matching the reference implementation exactly in tests",
+        "Steady-state solver agreeing with long-integration baselines",
+        "Measured speedup reported against the P9.1 baseline"
+      ],
+      "deps": ["P9.2"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P10.1",
+      "phase": "Phase 10: outputs",
+      "title": "Figures and region-wise visualization",
+      "brief": "Produce the figure set: region-wise activity maps on brain sections, occupancy time courses, dose-response curves against data, and held-out validation scatter plots. Follow the dataviz conventions used elsewhere in this workspace.",
+      "acceptance": ["Committed figure-generation scripts", "Figures in results/", "Every figure reproducible from a committed script"],
+      "deps": ["P8.3", "P9.3"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P10.2",
+      "phase": "Phase 10: outputs",
+      "title": "Prediction API and README",
+      "brief": "Document the public prediction API and rewrite README.md to describe what the model does at whole-brain scale, what it has been validated against, and, explicitly and prominently, what it cannot do. Include the calibration status of every parameter class.",
+      "acceptance": [
+        "Documented public API with worked examples",
+        "README rewritten with a prominent limitations section",
+        "Parameter calibration status table covering every parameter class"
+      ],
+      "deps": ["P10.1"],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P10.3",
+      "phase": "Phase 10: outputs",
+      "title": "Manuscript skeleton",
+      "brief": "Draft a manuscript skeleton covering methods, validation and limitations, following the publication preferences recorded for this workspace: journal-direct rather than preprint-first, full research depth cited, Word-compatible output acceptable before any LaTeX conversion. Make no claim the held-out validation does not support.",
+      "acceptance": [
+        "Manuscript skeleton committed under docs/",
+        "Every quantitative claim traceable to a committed result",
+        "Limitations section derived from P8.3 rather than written fresh"
+      ],
+      "deps": ["P10.2"],
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}
