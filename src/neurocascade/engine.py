@@ -64,14 +64,30 @@ class Simulation(object):
 
         y = [C_1^(1)..C_{n_1}^(1), C_1^(2)..C_{n_2}^(2), ...,   # all systems'
              occ_1^(1)..occ_{n_1}^(1), occ_1^(2)..occ_{n_2}^(2), ...,  # concentrations,
-             r_1, ..., r_n]                                     # then occupancies,
-                                                                 # then shared rates
+             r_1, ..., r_n,                                     # then occupancies,
+             a_1, ..., a_m]                                     # then shared rates,
+                                                                 # then PK aux states
 
     i.e. every system's concentrations, in system order, then every
     system's occupancies, in the same order, then one shared set of circuit
-    firing rates. `dose_concentrations` passed to `run()` must be given in
-    that same flattened per-system ligand order (see `dose_vector()` for a
-    name-based helper that builds it for you).
+    firing rates, and finally any auxiliary PK states (depot and peripheral
+    compartment amounts, in nmol) owned by dose-driven PK models, in the
+    same flattened ligand order. Models that own no auxiliary state
+    (`OneCompartmentPK`, and `OneCompartmentDosePK` on the IV route)
+    contribute nothing to that trailing block, so a simulation built
+    entirely from them has bit-for-bit the original state vector.
+
+    The aux block is appended *after* the rates rather than interleaved with
+    the concentrations so that the index of every pre-existing quantity is
+    unchanged: adding a two-compartment PK model to one ligand must not
+    move another ligand's occupancy or a circuit node's rate within `y`.
+
+    `dose_concentrations` passed to `run()` must be given in that same
+    flattened per-system ligand order (see `dose_vector()` for a name-based
+    helper that builds it for you). It is only meaningful for PK models that
+    are dosed as an achieved bolus concentration; a model that carries its
+    own administered dose (`OneCompartmentDosePK`, `TwoCompartmentDosePK`)
+    supplies its own initial state and rejects a nonzero entry here.
 
     Composing multiple systems' contributions to the shared circuit:
 
@@ -157,6 +173,20 @@ class Simulation(object):
         self.r = self.d
         self.c = network.n
 
+        # Flattened per-ligand PK bookkeeping: one entry per ligand across
+        # all systems, in the same order as the concentration block, giving
+        # that ligand's PK model and the slice of the trailing auxiliary
+        # block it owns. Resolved once here rather than in `rhs`, which runs
+        # thousands of times per `run()`.
+        self._pk_entries = []
+        aux_offset = 0
+        for system in receptor_systems:
+            for pk in system.pk_models:
+                n_aux = int(getattr(pk, "n_aux", 0))
+                self._pk_entries.append((pk, aux_offset, n_aux))
+                aux_offset += n_aux
+        self.a = aux_offset
+
     # Backward-compatible single-system attribute access.
     # These proxy to the sole ReceptorSystem when there is exactly one
     # (whether the caller used the legacy kwargs or passed
@@ -213,28 +243,51 @@ class Simulation(object):
         return doses
 
     def _unpack(self, y):
-        d, r = self.d, self.r
+        d, r, c = self.d, self.r, self.c
         C = y[0:d]
         occ = y[d : d + r]
-        rates = y[d + r : d + r + self.c]
-        return C, occ, rates
+        rates = y[d + r : d + r + c]
+        aux = y[d + r + c : d + r + c + self.a]
+        return C, occ, rates, aux
+
+    def _pk_rhs(self, C, aux, dC, d_aux):
+        """Fill in every ligand's dC/dt and its auxiliary PK derivatives.
+
+        Accepts both the original PK protocol (a bare `rhs(C)`, which owns
+        no auxiliary state) and the dose-driven one
+        (`concentration_rhs(C, aux) -> (dC, d_aux)`), so a scenario can mix
+        bolus-concentration and administered-dose ligands in one
+        simulation, which is what a reversal experiment needs: an agonist
+        given as a real mg/kg dose and an antagonist titrated to a target
+        concentration.
+        """
+        for i, (pk, aux_offset, n_aux) in enumerate(self._pk_entries):
+            concentration_rhs = getattr(pk, "concentration_rhs", None)
+            if concentration_rhs is None:
+                dC[i] = pk.rhs(C[i])
+                continue
+            aux_i = aux[aux_offset : aux_offset + n_aux]
+            dC_i, d_aux_i = concentration_rhs(C[i], aux_i)
+            dC[i] = dC_i
+            if n_aux:
+                d_aux[aux_offset : aux_offset + n_aux] = d_aux_i
 
     def rhs(self, t, y):
-        C, occ, rates = self._unpack(y)
+        C, occ, rates, aux = self._unpack(y)
 
         dC = np.empty(self.d)
         d_occ = np.empty(self.r)
+        d_aux = np.empty(self.a)
         drive = self.network.baseline_drive()
         modulation_factors = {}  # (post_name, pre_name) -> composed factor
+
+        self._pk_rhs(C, aux, dC, d_aux)
 
         for system, offset in zip(self.receptor_systems, self._offsets):
             n = system.n
             C_i = C[offset : offset + n]
             occ_i = occ[offset : offset + n]
 
-            dC[offset : offset + n] = [
-                pk.rhs(ci) for pk, ci in zip(system.pk_models, C_i)
-            ]
             d_occ[offset : offset + n] = system.receptor_site.occupancy_rhs(occ_i, C_i)
 
             activation = system.receptor_site.activation(occ_i)
@@ -257,21 +310,56 @@ class Simulation(object):
 
         d_rates = self.network.rhs(rates, drive, connectivity=connectivity)
 
-        return np.concatenate([dC, d_occ, d_rates])
+        return np.concatenate([dC, d_occ, d_rates, d_aux])
 
-    def run(self, dose_concentrations, t_span, t_eval=None, rates0=None):
+    def initial_pk_state(self, dose_concentrations=None):
+        """The t=0 concentration vector and auxiliary PK vector implied by
+        each ligand's PK model, given the optional bolus concentrations.
+
+        A bolus-dosed model (`OneCompartmentPK`) takes its entry of
+        `dose_concentrations` as its initial concentration, exactly as
+        before. A dose-driven model computes its own initial state from the
+        administered dose it was constructed with, and rejects a nonzero
+        entry here rather than silently letting one of the two dosing
+        statements win.
+        """
+        if dose_concentrations is None:
+            bolus = np.zeros(self.d)
+        else:
+            bolus = np.asarray(dose_concentrations, dtype=float)
+            if bolus.shape != (self.r,):
+                raise ValueError("dose_concentrations must have length %d" % self.r)
+
+        C0 = np.zeros(self.d)
+        aux0 = np.zeros(self.a)
+        for i, (pk, aux_offset, n_aux) in enumerate(self._pk_entries):
+            initial_state = getattr(pk, "initial_state", None)
+            if initial_state is None:
+                C0[i] = bolus[i]
+                continue
+            C0_i, aux0_i = initial_state(bolus[i])
+            C0[i] = C0_i
+            if n_aux:
+                aux0[aux_offset : aux_offset + n_aux] = aux0_i
+        return C0, aux0
+
+    def run(self, dose_concentrations=None, t_span=None, t_eval=None, rates0=None):
         """dose_concentrations: initial plasma concentration per ligand
         (bolus at t=0), flattened across all receptor systems in the same
         order as `self.receptor_systems` (each system's ligands in the
         order given to its `ReceptorSite`). See `dose_vector()` for a
-        name-based way to build this without tracking that order by hand."""
-        C0 = np.asarray(dose_concentrations, dtype=float)
-        if C0.shape != (self.r,):
-            raise ValueError("dose_concentrations must have length %d" % self.r)
+        name-based way to build this without tracking that order by hand.
+
+        It may be omitted entirely when every ligand's PK model carries its
+        own administered dose, since in that case there is no achieved
+        concentration for the caller to state."""
+        if t_span is None:
+            raise TypeError("run() requires t_span")
+        C0, aux0 = self.initial_pk_state(dose_concentrations)
         occ0 = np.zeros(self.r)
         if rates0 is None:
             rates0 = np.zeros(self.c)
-        y0 = np.concatenate([C0, occ0, np.asarray(rates0, dtype=float)])
+        y0 = np.concatenate([C0, occ0, np.asarray(rates0, dtype=float), aux0])
 
         sol = solve_ivp(
             self.rhs, t_span, y0, method="RK45", t_eval=t_eval, max_step=0.1
@@ -279,10 +367,11 @@ class Simulation(object):
         if not sol.success:
             raise RuntimeError("integration failed: %s" % sol.message)
 
-        d, r = self.d, self.r
+        d, r, c = self.d, self.r, self.c
         return {
             "t": sol.t,
             "concentrations": sol.y[0:d],
             "occupancy": sol.y[d : d + r],
-            "rates": sol.y[d + r : d + r + self.c],
+            "rates": sol.y[d + r : d + r + c],
+            "pk_aux": sol.y[d + r + c : d + r + c + self.a],
         }
