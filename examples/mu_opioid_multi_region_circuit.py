@@ -73,24 +73,24 @@ def run_scenario(dose_fentanyl, dose_naloxone_delayed=None, t_span=(0, 40)):
             t_span=(t_span[0], t_split),
             t_eval=t_eval_1,
         )
-        C0 = phase1["concentrations"][:, -1].copy()
-        C0[1] += dose_naloxone_delayed
+        # A second administration is added to the state vector through the
+        # PK layer itself (`Simulation.add_dose`), not by bumping a plasma
+        # concentration by hand: for a dose-administered extravascular PK
+        # model the new dose enters a depot compartment, and only the model
+        # knows that (see src/neurocascade/pk.py).
+        pk_state = phase1["pk_states"][:, -1]
         occ0 = phase1["occupancy"][:, -1]
         rates0 = phase1["rates"][:, -1]
-        y0 = np.concatenate([C0, occ0, rates0])
+        y0 = sim.add_dose(
+            np.concatenate([pk_state, occ0, rates0]), [0.0, dose_naloxone_delayed]
+        )
         t_eval_2 = np.linspace(t_split, t_span[1], 200)
 
         sol = solve_ivp(
             sim.rhs, (t_split, t_span[1]), y0, method="RK45", t_eval=t_eval_2,
             max_step=0.1,
         )
-        d, r = sim.d, sim.r
-        phase2 = {
-            "t": sol.t,
-            "concentrations": sol.y[0:d],
-            "occupancy": sol.y[d : d + r],
-            "rates": sol.y[d + r : d + r + sim.c],
-        }
+        phase2 = sim.unpack_solution(sol)
         result = {
             "t": np.concatenate([phase1["t"], phase2["t"]]),
             "concentrations": np.concatenate(

@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.integrate import solve_ivp
 
+from .pk import as_ode_pk_model
+
 
 class ReceptorSystem(object):
     """One receptor site's full pharmacology stack, bundled so several of
@@ -59,19 +61,35 @@ class Simulation(object):
        neither is an error.
 
     State vector layout, generalizing to k receptor systems with n_1..n_k
-    ligands respectively (d = r = sum(n_i); reduces to the original
-    [C_1..C_d, occ_1..occ_d, r_1..r_n] layout when k == 1):
+    ligands respectively (r = sum(n_i) ligands; reduces to the original
+    [C_1..C_d, occ_1..occ_d, r_1..r_n] layout when k == 1 and every ligand's
+    PK model owns a single state):
 
-        y = [C_1^(1)..C_{n_1}^(1), C_1^(2)..C_{n_2}^(2), ...,   # all systems'
-             occ_1^(1)..occ_{n_1}^(1), occ_1^(2)..occ_{n_2}^(2), ...,  # concentrations,
-             r_1, ..., r_n]                                     # then occupancies,
-                                                                 # then shared rates
+        y = [<PK states of every ligand, in flattened ligand order>,  # d of them
+             occ_1^(1)..occ_{n_1}^(1), occ_1^(2)..occ_{n_2}^(2), ..., # r of them
+             r_1, ..., r_n]                                          # shared rates
 
-    i.e. every system's concentrations, in system order, then every
-    system's occupancies, in the same order, then one shared set of circuit
-    firing rates. `dose_concentrations` passed to `run()` must be given in
-    that same flattened per-system ligand order (see `dose_vector()` for a
+    i.e. every ligand's PK state block, in system order, then every system's
+    occupancies, in the same order, then one shared set of circuit firing
+    rates. `doses` passed to `run()` must be given in that same flattened
+    per-system ligand order, one entry per ligand (see `dose_vector()` for a
     name-based helper that builds it for you).
+
+    A ligand's PK block is as long as its PK model's `n_states` (1 for
+    `OneCompartmentPK` and for an IV `DosedOneCompartmentPK`; 2 for an
+    extravascular one-compartment model, which carries a depot; 2-3 for the
+    two-compartment models), so `self.d`, the total PK state count, is >= r
+    rather than equal to it as in v0. By the PK protocol's convention the
+    *first* entry of each ligand's block is the central-compartment
+    concentration the receptor site binds, and `self.concentration_rows`
+    holds those row indices, so `result["concentrations"]` keeps its v0
+    shape of (n_ligands, n_times) whatever PK models are in use. Keeping the
+    PK states in the shared vector, rather than precomputing a concentration
+    trace per ligand and interpolating it, is the same "everything reacts to
+    everything else's current state" decision documented at the top of
+    docs/architecture.md, and it is what makes a mid-run second dose (see
+    `examples/fentanyl_reward_circuit.py`) a state edit rather than a
+    re-derivation.
 
     Composing multiple systems' contributions to the shared circuit:
 
@@ -153,9 +171,28 @@ class Simulation(object):
         self._n_per_system = [system.n for system in receptor_systems]
         self._offsets = np.cumsum([0] + self._n_per_system[:-1]).tolist()
 
-        self.d = sum(self._n_per_system)
-        self.r = self.d
+        self.r = sum(self._n_per_system)  # one occupancy per ligand
         self.c = network.n
+
+        # Flat, ligand-ordered PK view. Every model is normalized to the ODE
+        # protocol (pk.as_ode_pk_model), so the engine only ever calls
+        # initial_state/concentration_rhs/n_states and never needs to know
+        # whether a ligand is on a bolus-concentration model or a full
+        # dose-driven two-compartment one.
+        self._ode_pk_models = []
+        self._pk_blocks = []  # (start, stop) into the PK region of y, per ligand
+        concentration_rows = []
+        cursor = 0
+        for system in receptor_systems:
+            for model in system.pk_models:
+                ode_model = as_ode_pk_model(model)
+                n_states = int(ode_model.n_states)
+                self._ode_pk_models.append(ode_model)
+                self._pk_blocks.append((cursor, cursor + n_states))
+                concentration_rows.append(cursor)  # central concentration first
+                cursor += n_states
+        self.d = cursor  # total PK states; == self.r iff every model is 1-state
+        self.concentration_rows = np.array(concentration_rows, dtype=int)
 
     # Backward-compatible single-system attribute access.
     # These proxy to the sole ReceptorSystem when there is exactly one
@@ -192,37 +229,52 @@ class Simulation(object):
     def connection_modulation(self):
         return self._sole_system("connection_modulation")
 
-    def dose_vector(self, **concentration_by_ligand_name):
-        """Build a flat `dose_concentrations` array (for `run()`) from
-        ligand-name -> concentration kwargs; ligands not mentioned default
-        to 0. Mainly useful once there's more than one receptor system and
-        the flat per-system ligand ordering is easy to get wrong by hand.
+    def dose_vector(self, **dose_by_ligand_name):
+        """Build a flat per-ligand `doses` array (for `run()`) from
+        ligand-name -> dose kwargs; ligands not mentioned default to 0.
+        Mainly useful once there's more than one receptor system and the
+        flat per-system ligand ordering is easy to get wrong by hand.
+
+        Each entry is in whatever unit that ligand's own PK model doses in:
+        a bolus concentration for `OneCompartmentPK`, mg/kg for the
+        dose-administered models. 0 means "no drug" for either.
         """
-        doses = np.zeros(self.d)
+        doses = np.zeros(self.r)
         offset = 0
         seen = set()
         for system in self.receptor_systems:
             for lig in system.receptor_site.ligands:
-                if lig.name in concentration_by_ligand_name:
-                    doses[offset] = concentration_by_ligand_name[lig.name]
+                if lig.name in dose_by_ligand_name:
+                    doses[offset] = dose_by_ligand_name[lig.name]
                     seen.add(lig.name)
                 offset += 1
-        unknown = set(concentration_by_ligand_name) - seen
+        unknown = set(dose_by_ligand_name) - seen
         if unknown:
             raise ValueError("unknown ligand name(s): %s" % sorted(unknown))
         return doses
 
     def _unpack(self, y):
+        """Split y into (PK states, occupancies, rates). The first return
+        value is the whole PK region, which is per-ligand *concentration*
+        only when every PK model owns a single state; use
+        `self.concentration_rows` to pull the per-ligand concentrations out
+        of it in the general case."""
         d, r = self.d, self.r
-        C = y[0:d]
+        pk_state = y[0:d]
         occ = y[d : d + r]
         rates = y[d + r : d + r + self.c]
-        return C, occ, rates
+        return pk_state, occ, rates
 
     def rhs(self, t, y):
-        C, occ, rates = self._unpack(y)
+        pk_state, occ, rates = self._unpack(y)
 
-        dC = np.empty(self.d)
+        d_pk = np.empty(self.d)
+        for model, (start, stop) in zip(self._ode_pk_models, self._pk_blocks):
+            d_pk[start:stop] = model.concentration_rhs(pk_state[start:stop])
+        # One concentration per ligand, in the same flattened ligand order
+        # the receptor systems are laid out in.
+        C = pk_state[self.concentration_rows]
+
         d_occ = np.empty(self.r)
         drive = self.network.baseline_drive()
         modulation_factors = {}  # (post_name, pre_name) -> composed factor
@@ -232,9 +284,6 @@ class Simulation(object):
             C_i = C[offset : offset + n]
             occ_i = occ[offset : offset + n]
 
-            dC[offset : offset + n] = [
-                pk.rhs(ci) for pk, ci in zip(system.pk_models, C_i)
-            ]
             d_occ[offset : offset + n] = system.receptor_site.occupancy_rhs(occ_i, C_i)
 
             activation = system.receptor_site.activation(occ_i)
@@ -257,21 +306,92 @@ class Simulation(object):
 
         d_rates = self.network.rhs(rates, drive, connectivity=connectivity)
 
-        return np.concatenate([dC, d_occ, d_rates])
+        return np.concatenate([d_pk, d_occ, d_rates])
 
-    def run(self, dose_concentrations, t_span, t_eval=None, rates0=None):
-        """dose_concentrations: initial plasma concentration per ligand
-        (bolus at t=0), flattened across all receptor systems in the same
-        order as `self.receptor_systems` (each system's ligands in the
-        order given to its `ReceptorSite`). See `dose_vector()` for a
-        name-based way to build this without tracking that order by hand."""
-        C0 = np.asarray(dose_concentrations, dtype=float)
-        if C0.shape != (self.r,):
-            raise ValueError("dose_concentrations must have length %d" % self.r)
+    def initial_pk_state(self, doses):
+        """Assemble the PK region of y0 from one dose per ligand, by asking
+        each ligand's own PK model to turn its dose into its own initial
+        state (`pk.initial_state`). This is the only place dose semantics
+        live in the engine, which is why the engine needs no branch on
+        route, bioavailability or model order."""
+        doses = np.asarray(doses, dtype=float)
+        if doses.shape != (self.r,):
+            raise ValueError("doses must have length %d (one per ligand)" % self.r)
+        blocks = [
+            model.initial_state(dose)
+            for model, dose in zip(self._ode_pk_models, doses)
+        ]
+        return np.concatenate(blocks) if blocks else np.zeros(0)
+
+    def add_dose(self, y, doses):
+        """Return a copy of state vector `y` with a further administration
+        applied: each ligand's PK block gets that ligand's own
+        `initial_state(dose)` ADDED to it.
+
+        This is what a second dose partway through a run physically is in a
+        linear PK model (superposition of a second administration onto
+        whatever is already on board), and it is why the PK layer has to
+        live in the state vector: for an extravascular route the new dose
+        enters the depot, not the plasma, so "bump the concentration" would
+        be the wrong edit. See `examples/fentanyl_reward_circuit.py` for the
+        delayed-naloxone use.
+        """
+        y = np.array(y, dtype=float)
+        doses = np.asarray(doses, dtype=float)
+        if doses.shape != (self.r,):
+            raise ValueError("doses must have length %d (one per ligand)" % self.r)
+        for model, (start, stop), dose in zip(
+            self._ode_pk_models, self._pk_blocks, doses
+        ):
+            if dose != 0.0:
+                y[start:stop] += model.initial_state(dose)
+        return y
+
+    def unpack_solution(self, sol):
+        """Split a raw `solve_ivp` solution over this Simulation's state
+        vector into the same dict `run()` returns. Exists so callers that
+        drive `solve_ivp` themselves (mid-run dosing, in the examples) don't
+        have to hand-reproduce the layout."""
+        d, r = self.d, self.r
+        return {
+            "t": sol.t,
+            "concentrations": sol.y[self.concentration_rows],
+            "pk_states": sol.y[0:d],
+            "occupancy": sol.y[d : d + r],
+            "rates": sol.y[d + r : d + r + self.c],
+        }
+
+    def run(self, dose_concentrations=None, t_span=None, t_eval=None, rates0=None,
+            doses=None):
+        """Integrate the coupled system from one dose per ligand.
+
+        `doses` (equivalently `dose_concentrations`, kept as the original
+        name so no existing call site changes): one entry per ligand,
+        flattened across all receptor systems in the same order as
+        `self.receptor_systems` (each system's ligands in the order given to
+        its `ReceptorSite`). See `dose_vector()` for a name-based way to
+        build this without tracking that order by hand.
+
+        Each entry is in the unit that ligand's PK model doses in: an
+        achieved initial plasma concentration for `OneCompartmentPK` (the v0
+        meaning, unchanged), or an administered dose in mg/kg for the
+        dose-administered models in `pk.py`. In both cases 0 means "no
+        drug", so dosed-vs-baseline comparisons are unit-agnostic.
+        """
+        if doses is not None and dose_concentrations is not None:
+            raise TypeError("pass doses= or dose_concentrations=, not both")
+        if doses is None:
+            doses = dose_concentrations
+        if doses is None:
+            raise TypeError("run() requires doses= (a.k.a. dose_concentrations=)")
+        if t_span is None:
+            raise TypeError("run() requires t_span=")
+
+        pk0 = self.initial_pk_state(doses)
         occ0 = np.zeros(self.r)
         if rates0 is None:
             rates0 = np.zeros(self.c)
-        y0 = np.concatenate([C0, occ0, np.asarray(rates0, dtype=float)])
+        y0 = np.concatenate([pk0, occ0, np.asarray(rates0, dtype=float)])
 
         sol = solve_ivp(
             self.rhs, t_span, y0, method="RK45", t_eval=t_eval, max_step=0.1
@@ -279,10 +399,8 @@ class Simulation(object):
         if not sol.success:
             raise RuntimeError("integration failed: %s" % sol.message)
 
-        d, r = self.d, self.r
-        return {
-            "t": sol.t,
-            "concentrations": sol.y[0:d],
-            "occupancy": sol.y[d : d + r],
-            "rates": sol.y[d + r : d + r + self.c],
-        }
+        # "concentrations" stays (n_ligands, n_times) as in v0 even when a PK
+        # model carries extra states; "pk_states" is the full PK region,
+        # (d, n_times), depot and peripheral compartments included, for
+        # inspecting or validating the PK layer itself.
+        return self.unpack_solution(sol)

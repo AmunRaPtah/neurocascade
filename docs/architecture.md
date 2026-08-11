@@ -33,6 +33,15 @@ receptor systems on one shared circuit" below describes how this layout
 generalizes when a `Simulation` combines several receptor sites on one
 shared circuit at once.
 
+As of Phase 1 (P1.1) the first block is more precisely "each ligand's PK
+*state*", which is one entry per ligand only while every ligand is on a
+single-state PK model (`OneCompartmentPK`, or an IV dose-administered
+one-compartment model). A drug given by an extravascular route carries a
+depot state, and a two-compartment drug a peripheral state, in that same
+block. See "Phase 1: the dose-to-concentration bridge (P1.1)" at the end of
+this document; the layout above is unchanged for every scenario written
+before it.
+
 ## Receptor layer: why competitive occupancy, not a Hill equation
 
 A simple Hill-equation occupancy curve (`occ = C / (C + EC50)`) is fine for a
@@ -474,7 +483,7 @@ purely to exercise the arithmetic).
   binding and PK have a literature-calibrated alternative (see below); D2
   (see "Calibrated: D2" below) and the GABA-A benzodiazepine site (see
   "Calibrated: GABA-A" below) now do too. No scenario's circuit `tau`/connection
-  weights/gains have a literature target — no dataset for VTA-NAc-PFC (or
+  weights/gains have a literature target: no dataset for VTA-NAc-PFC (or
   basal-ganglia, or amygdala) connection *weights* (as opposed to wiring
   direction/sign, which matches known circuit anatomy, see above) was
   identified. Calibrating the remaining scenarios, and longer-term fitting
@@ -1092,3 +1101,194 @@ bridge, solely to manufacture a fit.
 guards, by construction, that none of this scaffold's free parameters is a
 circuit-layer quantity, so this claim cannot silently go stale if a future
 pass adds one without updating this section.
+
+## Phase 1: the dose-to-concentration bridge (P1.1)
+
+### Why this was the blocking gap, not just a missing feature
+
+Track E above ends by naming the exact reason circuit-layer calibration
+could not proceed: real quantitative behavioral pharmacology reports an
+**administered dose in mg/kg**, while this codebase's only state variable on
+the drug side was an **achieved plasma concentration**, because
+`OneCompartmentPK` starts from a bolus concentration rather than from a dose.
+Every behavioral number Track E found and verified (haloperidol's 0.11 mg/kg
+ED50 for reversing MK-801 hyperlocomotion; fentanyl 5 and 10 ug/kg IV for NAc
+dopamine release; diazepam 1-2 mg/kg on the elevated plus maze;
+chlordiazepoxide 5.0 mg/kg) was dose-based, and none of them had a route into
+a model whose input is nM. That is a *representational* gap rather than a
+data gap: the numbers exist and were read, and the model simply could not
+accept them as inputs.
+
+Track E also stated the condition under which closing this gap would be
+legitimate: not "invent a dose-to-concentration submodel so a fit succeeds",
+which is what it declined to do, but build the standard, mechanism-explicit
+compartmental structure whose parameters (F, ka, Vd, CL) are themselves
+published, measured quantities for these drugs. That is the split this task
+takes: **P1.1 adds the structure and no numbers; P1.2-P1.4 add the drugs'
+literature parameters, each with its own citation.** `pk.py` contains no
+drug-specific constant of any kind after this change, and every dosed model
+raises rather than defaulting when a required disposition parameter is
+missing (see "Refusing to default", below). Until P1.2-P1.4 land, Track E's
+conclusion is unchanged and no illustrative label has been removed
+anywhere.
+
+### What was added
+
+`pk.py` gains `DosedOneCompartmentPK` and `DosedTwoCompartmentPK`, both
+parameterized by route (IV / IP / SC / PO), body weight, bioavailability F,
+absorption rate `ka`, volume(s) of distribution, and clearance(s), and dosed
+in mg/kg. The equations are the ordinary textbook linear compartmental ones
+(see each class docstring for the exact form and for the concentration-form
+derivation of the two-compartment return term, which carries Q/V1 and not
+Q/V2). `OneCompartmentPK` is unchanged, in behavior and in its `rhs(C)`
+signature.
+
+### Keeping PK inside the coupled state vector
+
+The alternative implementation, and the more common one in PK/PD code, is to
+solve the PK analytically (the Bateman function is closed-form) and feed the
+resulting concentration trace into the receptor layer by interpolation. That
+was rejected for the same reason the top of this document gives for the
+overall design: an interpolated trace is a precomputed input, not a state,
+and it silently forecloses everything this project is heading toward, where
+concentration depends on the current state of the rest of the system
+(saturable elimination, an active metabolite, brain uptake driven by a
+transporter that other drugs compete for, mid-run second doses).
+
+So PK models own state instead. The protocol, documented at the top of
+`pk.py`, is `n_states` / `initial_state(dose)` / `concentration_rhs(state)` /
+`concentration(state)`, with the convention that **state[0] of each ligand's
+block is the central-compartment concentration the receptor site binds**.
+`Simulation`'s state vector generalizes accordingly:
+
+```
+y = [<PK block of every ligand, in flattened ligand order>,   # self.d entries
+     occ_1, ..., occ_r,                                        # one per ligand
+     r_1, ..., r_n]                                            # circuit rates
+```
+
+`self.d` is now the total number of PK states rather than the ligand count,
+and equals the ligand count exactly when every model is single-state, which
+is why the v0 layout, and every existing scenario, test and example built on
+it, is unchanged. `self.concentration_rows` holds the row index of each
+ligand's central concentration, so `result["concentrations"]` keeps its
+`(n_ligands, n_times)` shape whatever mix of PK models is in play, and
+`result["pk_states"]` exposes the full block (depot, peripheral compartment)
+for inspecting the PK layer itself. `Simulation.rhs` asks each model for its
+own block's derivative and never branches on route or model type.
+
+Two engine helpers exist because the extra states made the old hand-rolled
+idioms wrong: `Simulation.add_dose(y, doses)` applies a further
+administration by *adding* each ligand's `initial_state(dose)` to its block
+(for an SC/PO drug a later dose enters the depot, not the plasma, so the
+previous `C0[1] += dose` idiom in the reversal examples would have been
+quietly wrong for a dose-administered model), and
+`Simulation.unpack_solution(sol)` replaces the manual `sol.y[0:d]` slicing
+those examples repeated. The three reversal examples now use both, and
+produce byte-identical figures to before the change.
+
+### Design decisions worth recording
+
+**A dose is whatever that model doses in.** `Simulation.run(doses=[...])`
+(still accepted under its original name `dose_concentrations=`) passes each
+per-ligand entry to that ligand's own PK model, which converts it to an
+initial state. For `OneCompartmentPK` that entry is an achieved bolus
+concentration, exactly as in v0; for a dosed model it is mg/kg. The engine
+holds no dose semantics at all. The alternative, baking the dose into the PK
+model at construction, was rejected because Phases 2 and 7 exist to sweep
+dose against a behavioral endpoint, and that has to be a per-run quantity,
+not a per-object one. Zero means "no drug" under both conventions, so every
+existing baseline-vs-dosed comparison keeps working unchanged.
+
+**The depot is carried in central-compartment concentration equivalents.**
+An extravascular dose's depot state D is defined as the central
+concentration that drug would produce if it were absorbed instantaneously,
+so `dD/dt = -ka*D` and `dC/dt = +ka*D - ke*C` are unit-consistent without a
+second (mass) unit in the state vector. Bioavailability is applied once, at
+the dose (`D(0) = F * Dose / V_central`), matching the usual NONMEM `F1`
+convention; for a linear model that is algebraically identical to applying F
+to the absorption flux instead. The non-bioavailable fraction is simply
+never entered into the system: this model does not claim to represent *where*
+it was lost (first pass, incomplete absorption, degradation at the injection
+site), only that it did not reach the systemic circulation.
+
+**Refusing to default.** An extravascular route requires an explicit F and
+ka; both raise `ValueError` if omitted. Defaulting F to 1.0 would be
+inventing the single number that most changes achieved concentration, in the
+exact style this codebase forbids, and it would do so invisibly. IV, by
+contrast, *sets* F = 1 and rejects a `ka`, because the bioavailability of an
+intravenous bolus is 1 by definition rather than by assumption. Negative
+doses, non-positive volumes/clearances and unknown routes all raise too.
+
+**Units are in the parameter names.** `Vd_L_per_kg`,
+`CL_mL_per_min_per_kg`, `ka_per_min`, `molar_mass_g_per_mol`. The
+literature reports each of these in several conventions (L/h/kg vs
+mL/min/kg, h^-1 vs min^-1), and a silently mis-scaled clearance is
+indistinguishable from an invented number in its effect on results. Time is
+minutes throughout, matching the existing calibrated `kon`/`koff`/`ke`.
+Concentration comes out in mg/L unless a molar mass is supplied, in which
+case the model converts to nM, the unit the calibrated receptor constants
+use; `model.concentration_unit` records which. Conversion helpers
+(`per_hour_to_per_min`, `clearance_L_per_h_per_kg_to_mL_per_min_per_kg`,
+`half_life_to_rate_constant`, `concentration_mg_per_L_to_nM`) exist so that
+P1.2-P1.4 can write a literature value in the unit its paper reports and
+leave the conversion visible in the diff.
+
+**Body weight cancels, and is kept anyway.** With dose in mg/kg and Vd/CL
+per kg, body weight cancels exactly out of both C0 and ke, so a mouse and a
+rat given the same mg/kg have the same concentration-time course under this
+parameterization (`test_body_weight_cancels_for_per_kg_parameters_but_
+absolute_amounts_track_it`). It is still a required parameter because the
+absolute quantities it produces (`dose_mg`, `V_central_L`, `CL_L_per_min`)
+are what published PK tables report and what P1.6's Cmax/AUC validation will
+compare against, and because it is not ignored: the class exposes those
+absolute values rather than pretending weight played no part.
+
+**Derived quantities, not fitted ones.** `terminal_half_life_min`,
+`distribution_half_life_min`, `tmax_min()`, `hybrid_rate_constants()` and
+`auc_0_inf()` are closed forms of the parameters already given (the
+Bateman stationary point; the negated eigenvalues of the 2x2 disposition
+matrix, which satisfy `alpha+beta = k10+k12+k21` and `alpha*beta = k10*k21`;
+and `AUC = F*Dose/CL`, which holds for any linear model eliminating only
+from the central compartment). They add no information; they exist so P1.6
+can compare against published Cmax/Tmax/half-life/AUC without recomputing
+them at the call site.
+
+### The reduction that had to be exact
+
+`DosedOneCompartmentPK(route="IV", ...)` with F = 1 is `dC/dt = -(CL/Vd) C`
+started at `C0 = Dose*BW/(Vd*BW)`: the *same differential equation* as
+`OneCompartmentPK(ke=CL/Vd)`, with the initial concentration derived instead
+of stated. So the requirement is not "close agreement" but identity, and
+`tests/test_pk.py::test_iv_bolus_reduces_exactly_to_one_compartment_pk`
+holds it to that: two `Simulation`s over the same 2-node circuit, one on
+each PK model, compared with `np.array_equal` on concentrations, occupancy
+*and* firing rates, i.e. bit-for-bit rather than within a tolerance. The
+test's parameter set (Vd 0.5 L/kg, CL 25 mL/min/kg, 25 g body weight, 1
+mg/kg) is chosen so the dose arithmetic is exact in binary floating point
+(ke = 0.05 min^-1, C0 = 2.0), which is what makes bit-equality a fair
+requirement rather than a flaky one; it also reuses the same ke = 0.05 the
+existing illustrative scenarios carry. The rest of `test_pk.py` checks the
+new machinery against closed-form solutions (single exponential, Bateman
+function, two-compartment biexponential, mass balance into elimination,
+AUC = F*Dose/CL), the refusals listed above, and the engine integration
+(mixed 2-state and 2-state-plus-depot models in one `Simulation`, matching
+the same models integrated standalone).
+
+### What this does not do
+
+- It adds no PK parameter for any drug. Fentanyl, haloperidol and diazepam
+  are still not dosable in mg/kg by this codebase until P1.2-P1.4 source
+  their F/ka/Vd/CL per species and route.
+- It models plasma, not brain. Receptors sit in tissue, and the
+  plasma-to-brain partition (Kp / Kp,uu) is a separate, drug-specific,
+  published quantity that P1.5 adds. Nothing here should be read as a claim
+  about brain concentration.
+- It is linear PK only: first-order absorption and elimination, no saturable
+  (Michaelis-Menten) clearance, no enterohepatic recirculation, no
+  metabolite compartments, no protein-binding term. Diazepam's active
+  metabolites in particular are a known issue that P1.4 is required to
+  address explicitly rather than silently.
+- It does not validate any simulated curve against a published one. That is
+  P1.6, and the closed-form checks in `test_pk.py` are self-consistency
+  checks of the implementation, not evidence that any drug behaves this way.
