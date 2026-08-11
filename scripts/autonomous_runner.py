@@ -157,6 +157,40 @@ def git(*args, check=True) -> str:
     return r.stdout.strip()
 
 
+def recover_stale(data: dict) -> bool:
+    """
+    Reclaim tasks left `running` by a tick that died.
+
+    flock means only one tick is ever live, so reaching this point while holding
+    the lock proves any `running` task belongs to a dead tick. Its partial work
+    is parked on an `interrupted/` branch and main is reset to the baseline that
+    tick recorded, so the build can move again without losing anything.
+    """
+    changed = False
+    for t in data["tasks"]:
+        if t.get("status") != "running":
+            continue
+        n = t.get("attempts", 1)
+        baseline = t.get("baseline") or git("rev-parse", "origin/main")
+        head = git("rev-parse", "HEAD")
+        dirty = bool(git("status", "--porcelain"))
+        branch = "none"
+        if dirty or head != baseline:
+            branch = f"interrupted/{t['id']}-attempt{n}"
+            if dirty:
+                git("add", "-A")
+                git("commit", "-m",
+                    f"{t['id']}: partial work from an interrupted tick (attempt {n})")
+            git("branch", "-f", branch, "HEAD")
+            git("reset", "--hard", baseline)
+        t["status"] = "pending"
+        t["result"] = f"interrupted on attempt {n}, partial work parked on {branch}"
+        changed = True
+        log_event("recovered", task=t["id"], branch=branch,
+                  baseline=baseline[:8], attempts=n)
+    return changed
+
+
 def next_task(data: dict):
     done = {t["id"] for t in data["tasks"] if t["status"] == "done"}
     for t in data["tasks"]:
@@ -267,6 +301,8 @@ def format_acceptance(items) -> str:
 
 def run_tick(dry_run: bool = False) -> int:
     data = load_backlog()
+    if not dry_run and recover_stale(data):
+        save_backlog(data)
     task = next_task(data)
     if task is None:
         remaining = [t for t in data["tasks"] if t["status"] == "pending"]
@@ -306,6 +342,7 @@ def run_tick(dry_run: bool = False) -> int:
     task["status"] = "running"
     task["attempts"] = task.get("attempts", 0) + 1
     task["started_at"] = now()
+    task["baseline"] = baseline
     save_backlog(data)
     log_event("started", task=task["id"], title=task["title"],
               attempt=task["attempts"], quota=why, baseline=baseline[:8])
