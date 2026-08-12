@@ -14,10 +14,13 @@
         "docs/architecture.md gains a section explaining the dose-to-concentration extension and why it was the blocking gap"
       ],
       "deps": [],
-      "status": "running",
+      "status": "done",
       "attempts": 1,
       "started_at": "2026-08-11T19:30:47.323243+00:00",
-      "baseline": "d700db77040cf84f62cd7f8f9ec1d99762d26a84"
+      "baseline": "d700db77040cf84f62cd7f8f9ec1d99762d26a84",
+      "finished_at": "2026-08-11T20:23:19.415473+00:00",
+      "result": "complete",
+      "commits": "4"
     },
     {
       "id": "P1.2",
