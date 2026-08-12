@@ -69,6 +69,12 @@ Non-negotiable rules for this codebase:
 4. Tests must pass. Do not delete, skip, weaken or xfail an existing test to get
    to green. If an existing test genuinely encodes a wrong expectation, fix the
    test and explain why in the commit message.
+4b. The gate you are judged by runs `pytest -m "not slow"`. Iterate against that
+   for speed, but run the full suite once before you commit, because the daily
+   --verify-full sweep will run it anyway. `slow` classifies a test that takes
+   minutes for real computational reasons (MCMC and the like). Marking a test
+   `slow` to get it out of the gate is the same offence as skipping it under
+   rule 4. Never apply the marker to a test that is failing.
 5. Do not widen a numeric tolerance purely to make a validation pass. Report the
    real error instead.
 6. Write tests for what you add, and update docs/architecture.md with the
@@ -299,14 +305,26 @@ def run_agent(prompt: str, log_path: Path) -> tuple[bool, str]:
     return proc.returncode == 0, final_text
 
 
-def run_tests(log_path: Path) -> tuple[bool, str]:
+def run_tests(log_path: Path, full: bool = False) -> tuple[bool, str]:
+    """
+    Per-task gate, or the whole suite when `full`.
+
+    The gate deselects `slow` (MCMC sampling: 409s for 7 tests against ~20s for
+    the other ~130). Skipping it per task would be a real loss of coverage, so
+    it is not skipped, only moved: --verify-full runs everything daily and the
+    digest reports the result. --durations keeps suite growth visible in the
+    log instead of arriving later as an unexplained gate timeout.
+    """
+    cmd = [str(VENV_PY), "-m", "pytest", "-q", "--durations=10"]
+    if not full:
+        cmd += ["-m", "not slow"]
+    label = "pytest (full suite)" if full else "pytest (gate, slow deselected)"
     with log_path.open("a") as logf:
-        logf.write(f"\n===== pytest {now()} =====\n")
+        logf.write(f"\n===== {label} {now()} =====\n")
         logf.flush()
         try:
             r = subprocess.run(
-                [str(VENV_PY), "-m", "pytest", "-q"],
-                cwd=REPO, capture_output=True, text=True, timeout=TEST_TIMEOUT_S,
+                cmd, cwd=REPO, capture_output=True, text=True, timeout=TEST_TIMEOUT_S,
             )
         except subprocess.TimeoutExpired:
             logf.write("pytest timed out\n")
@@ -314,6 +332,29 @@ def run_tests(log_path: Path) -> tuple[bool, str]:
         out = r.stdout + r.stderr
         logf.write(out)
     return r.returncode == 0, out[-4000:]
+
+
+def verify_full() -> int:
+    """
+    Daily sweep over everything the per-task gate deselects.
+
+    Reports rather than reverts: main is whatever the gate already accepted, so
+    the useful action here is to say loudly that a slow test is red, not to
+    unwind work that passed the rules it was given.
+    """
+    if git("status", "--porcelain"):
+        log_event("full_suite_skipped", reason="working tree dirty")
+        return 1
+    LOGS.mkdir(exist_ok=True)
+    ok, tail = run_tests(LOGS / "verify-full.log", full=True)
+    summary = ""
+    for line in reversed(tail.splitlines()):
+        if " passed" in line or " failed" in line or " error" in line:
+            summary = line.strip()
+            break
+    log_event("full_suite", ok=ok, head=git("rev-parse", "HEAD")[:8],
+              summary=summary[:200])
+    return 0 if ok else 1
 
 
 def format_acceptance(items) -> str:
@@ -489,10 +530,14 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--verify-full", action="store_true",
+                    help="run the whole suite including slow, and report")
     args = ap.parse_args()
     if args.status:
         print_status()
         return 0
+    if args.verify_full:
+        return verify_full()
     return run_tick(dry_run=args.dry_run)
 
 

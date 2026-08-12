@@ -63,8 +63,13 @@ def build_digest(events: list[dict]) -> str:
     finished = [e for e in events if e["kind"] == "finished"]
     quarantined = [e for e in events if e["kind"] == "quarantined"]
     skipped = [e for e in events if e["kind"] == "skipped"]
+    launch_failed = [e for e in events if e["kind"] == "agent_launch_failed"]
+    aborted = [e for e in events if e["kind"] == "aborted"]
 
-    if not finished and not quarantined:
+    # A build that is stuck emits no finished events at all, so keying the
+    # digest on those alone means the one day it matters is the one day nothing
+    # is sent. Faults are news too.
+    if not finished and not quarantined and not launch_failed and not aborted:
         return ""
 
     lines = [f"neurocascade autonomous build: {done}/{total} tasks done", ""]
@@ -81,6 +86,20 @@ def build_digest(events: list[dict]) -> str:
 
     for e in quarantined:
         lines.append(f"  {e['task']}: FAILED test gate, work parked on {e['branch']}")
+
+    if launch_failed:
+        lines.append("")
+        lines.append(f"  BROKEN: the agent could not start on {len(launch_failed)} tick(s).")
+        lines.append(f"     {launch_failed[-1].get('detail', 'no detail')}")
+        lines.append("     Those tasks are back to pending; nothing was built.")
+
+    if aborted:
+        reasons = {}
+        for e in aborted:
+            reasons[e.get("reason", "?")] = reasons.get(e.get("reason", "?"), 0) + 1
+        lines.append("")
+        lines.append("  ticks aborted: " +
+                     ", ".join(f"{k} x{v}" for k, v in reasons.items()))
 
     if skipped:
         reasons = {}

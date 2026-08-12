@@ -29,6 +29,7 @@ one cross-cutting synthetic-recovery check:
 import inspect
 
 import numpy as np
+import pytest
 
 from neurocascade.calibration import bayesian_calibration as bc
 from neurocascade.calibration.priors import (
@@ -39,6 +40,13 @@ from neurocascade.calibration.priors import (
 from neurocascade.engine import Simulation
 from neurocascade.pk import OneCompartmentPK
 from neurocascade.receptor import Ligand, ReceptorSite
+
+# Every test here runs real DEMetropolisZ chains: 409s for the 7 of them,
+# against roughly 20s for the other ~130 tests in the suite combined. That is
+# why the whole module is `slow` and sits out the per-task gate. It is NOT
+# excused from passing. `autonomous_runner.py --verify-full` runs it daily and
+# reports through the digest.
+pytestmark = pytest.mark.slow
 
 # Expected shape of each system's "predicted" Deterministic (number of
 # equilibrium-occupancy values its forward model returns), used by the
