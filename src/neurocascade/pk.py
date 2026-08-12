@@ -108,6 +108,66 @@ def concentration_mg_per_L_to_nM(c_mg_per_L, molar_mass_g_per_mol):
     return c_mg_per_L * 1.0e6 / molar_mass_g_per_mol
 
 
+def intercompartmental_clearance_from_terminal_rate(
+    V1_L_per_kg, V2_L_per_kg, CL_mL_per_min_per_kg, beta_per_min
+):
+    """Solve for the inter-compartmental clearance Q (mL/min/kg) that makes a
+    two-compartment model have a given terminal disposition rate constant
+    `beta`, at a given V1, V2 and CL.
+
+    Published rat/mouse PK papers routinely report V1 (or Vc), Vss, CL and a
+    terminal half-life, and do NOT report Q, so a two-compartment model cannot
+    be built from such a table without this step. Nothing is invented here:
+    Q is the unique value consistent with the four numbers the paper already
+    reported, obtained by inverting the standard identities
+
+        alpha + beta = k10 + k12 + k21,   alpha * beta = k10 * k21
+
+    (see `DosedTwoCompartmentPK.hybrid_rate_constants`). Substituting
+    k10 = CL/V1, k12 = Q/V1, k21 = Q/V2 into beta's characteristic equation
+    `beta^2 - (k10 + k12 + k21) beta + k10 k21 = 0` and solving the (linear
+    in Q) result gives
+
+        Q = beta (k10 - beta) / ( k10/V2 - beta (1/V1 + 1/V2) ).
+
+    Caveat the caller is expected to record with the number: this inversion
+    is ill-conditioned when beta is close to k10, because the denominator is
+    then a small difference of comparable quantities. A terminal half-life
+    reported to two significant figures can therefore pin Q only to within
+    tens of percent, and the honest thing is to report that sensitivity
+    rather than the single value (see docs/architecture.md, P1.3, for a
+    worked example with haloperidol).
+
+    Units: volumes L/kg, clearances mL/min/kg, rate constants min^-1.
+    """
+    if V1_L_per_kg <= 0.0 or V2_L_per_kg <= 0.0:
+        raise ValueError("V1_L_per_kg and V2_L_per_kg must be positive")
+    if CL_mL_per_min_per_kg <= 0.0:
+        raise ValueError("CL_mL_per_min_per_kg must be positive")
+    if beta_per_min <= 0.0:
+        raise ValueError("beta_per_min must be positive")
+    k10 = CL_mL_per_min_per_kg / (V1_L_per_kg * 1000.0)
+    if beta_per_min >= k10:
+        raise ValueError(
+            "terminal rate constant beta (%g/min) must be smaller than "
+            "k10 = CL/V1 (%g/min); a two-compartment model cannot have a "
+            "terminal phase slower than its own elimination from the central "
+            "compartment" % (beta_per_min, k10)
+        )
+    denominator = k10 / V2_L_per_kg - beta_per_min * (
+        1.0 / V1_L_per_kg + 1.0 / V2_L_per_kg
+    )
+    if denominator <= 0.0:
+        raise ValueError(
+            "no positive inter-compartmental clearance reproduces "
+            "beta=%g/min at V1=%g, V2=%g L/kg, CL=%g mL/min/kg; the reported "
+            "parameter set is not consistent with a two-compartment model"
+            % (beta_per_min, V1_L_per_kg, V2_L_per_kg, CL_mL_per_min_per_kg)
+        )
+    Q_L_per_min_per_kg = beta_per_min * (k10 - beta_per_min) / denominator
+    return Q_L_per_min_per_kg * 1000.0
+
+
 class OneCompartmentPK:
     """First-order elimination from a single compartment: dC/dt = -ke * C.
 

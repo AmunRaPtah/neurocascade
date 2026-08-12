@@ -17,7 +17,11 @@ behavioral readout, all as one integrated ODE system.
 
 ## Layers
 
-- **Pharmacokinetics** (`pk.py`) - one-compartment elimination, `dC/dt = -ke*C`.
+- **Pharmacokinetics** (`pk.py`) - one-compartment elimination
+  (`dC/dt = -ke*C`), plus one- and two-compartment models driven by an
+  administered mg/kg dose with route, bioavailability, absorption rate,
+  volume(s) of distribution and clearance. Drug-specific literature values
+  live in `drug_pk.py`, never in `pk.py`.
 - **Receptor** (`receptor.py`) - competitive binding at one receptor site
   across one or more ligands (so an antagonist can displace an agonist
   already bound there); occupancy converts to a signed activation via each
@@ -79,7 +83,7 @@ priors approach used for the CCT model.
 
 | Path                 | Purpose                                          |
 |----------------------|---------------------------------------------------|
-| `src/neurocascade/`  | The engine (pk, receptor, circuit, network, behavior, engine, scenarios) |
+| `src/neurocascade/`  | The engine (pk, drug_pk, receptor, circuit, network, behavior, engine, scenarios) |
 | `examples/`          | Worked end-to-end scenarios                      |
 | `tests/`             | Unit tests per layer                             |
 | `docs/`              | Architecture and design notes                    |

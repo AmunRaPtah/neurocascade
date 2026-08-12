@@ -34,6 +34,7 @@ from neurocascade.pk import (
     clearance_L_per_h_per_kg_to_mL_per_min_per_kg,
     concentration_mg_per_L_to_nM,
     half_life_to_rate_constant,
+    intercompartmental_clearance_from_terminal_rate,
     per_hour_to_per_min,
 )
 from neurocascade.receptor import Ligand, ReceptorSite
@@ -548,3 +549,60 @@ def test_legacy_rhs_only_pk_model_still_works_inside_the_engine():
     a = duck.run(dose_concentrations=[EXPECTED_C0], t_span=(0, 60), t_eval=t_eval)
     b = real.run(dose_concentrations=[EXPECTED_C0], t_span=(0, 60), t_eval=t_eval)
     assert np.array_equal(a["rates"], b["rates"])
+
+
+# ---------------------------------------------------------------------------
+# Solving for Q from a published (V1, V2, CL, terminal half-life) table
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "V1,V2,CL,Q",
+    [
+        (5.5, 4.1, 83.0, 114.0),   # haloperidol-in-rat scale (P1.3)
+        (0.5, 1.5, 25.0, 10.0),    # a small-volume, slow-exchange case
+        (2.0, 2.0, 40.0, 200.0),   # exchange much faster than elimination
+    ],
+)
+def test_intercompartmental_clearance_solves_back_to_the_model_it_came_from(
+    V1, V2, CL, Q
+):
+    """Round-trip: build a two-compartment model with a known Q, read off its
+    terminal rate constant, and check the inversion recovers Q.
+
+    This is the arithmetic that lets P1.2-P1.4 build two-compartment models
+    from published tables, which report V1/Vss/CL/half-life and essentially
+    never report Q, so it has to be exactly right rather than approximately.
+    """
+    model = DosedTwoCompartmentPK(
+        route="IV",
+        V1_L_per_kg=V1,
+        V2_L_per_kg=V2,
+        Q_mL_per_min_per_kg=Q,
+        CL_mL_per_min_per_kg=CL,
+        body_weight_kg=0.25,
+    )
+    _alpha, beta = model.hybrid_rate_constants()
+    recovered = intercompartmental_clearance_from_terminal_rate(
+        V1_L_per_kg=V1, V2_L_per_kg=V2, CL_mL_per_min_per_kg=CL, beta_per_min=beta
+    )
+    assert recovered == pytest.approx(Q, rel=1e-9)
+
+
+def test_intercompartmental_clearance_refuses_impossible_terminal_rates():
+    kwargs = dict(V1_L_per_kg=5.5, V2_L_per_kg=4.1, CL_mL_per_min_per_kg=83.0)
+    k10 = 83.0 / 5500.0
+    # A terminal phase faster than elimination from the central compartment
+    # is not reachable by any Q: the model cannot have been two-compartment.
+    with pytest.raises(ValueError, match="must be smaller than"):
+        intercompartmental_clearance_from_terminal_rate(
+            beta_per_min=k10 * 1.5, **kwargs
+        )
+    with pytest.raises(ValueError, match="must be positive"):
+        intercompartmental_clearance_from_terminal_rate(beta_per_min=0.0, **kwargs)
+    # A beta just barely below k10 needs an unbounded Q; past the point where
+    # the denominator turns over there is no positive solution at all.
+    with pytest.raises(ValueError, match="not consistent"):
+        intercompartmental_clearance_from_terminal_rate(
+            beta_per_min=k10 * 0.999, **kwargs
+        )

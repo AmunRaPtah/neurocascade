@@ -1292,3 +1292,180 @@ the same models integrated standalone).
 - It does not validate any simulated curve against a published one. That is
   P1.6, and the closed-form checks in `test_pk.py` are self-consistency
   checks of the implementation, not evidence that any drug behaves this way.
+
+## Phase 1: literature PK parameters, haloperidol in rat (P1.3)
+
+P1.1 built the structure and deliberately shipped no drug constants. P1.3 is
+the first task to put real numbers into it, for one drug in one species:
+haloperidol in the rat. The numbers live in a new module,
+`src/neurocascade/drug_pk.py`, so that `pk.py` keeps its property of
+containing no drug-specific constant of any kind.
+
+### What was found, and what it supports
+
+**IV, rat, fully sourced.** Cheng YF, Paalzow LK. "Linear pharmacokinetics of
+haloperidol in the rat." Biopharm Drug Dispos. 1992;13(1):69-76.
+doi:10.1002/bdd.2510130106, PMID 1554878. Rat, IV bolus at 0.5, 1.0 and
+2.5 mg/kg plus 12 h infusions. Its abstract (quoted verbatim in
+`drug_pk.py`, read from PubMed rather than from a secondary summary)
+reports total **blood** clearance 83 mL/min/kg, Vc 5.5 L/kg, V_beta
+11.1 L/kg, Vss 9.6 L/kg, terminal half-life 1.5 h, and linear disposition
+over that dose range. Bioavailability of the IV route is 1 by definition.
+The full text is closed access (checked via Unpaywall: `is_oa` false, no
+repository copy), so rat strain, sex, body weight, anaesthesia state and
+assay could not be recorded; that is a limitation of the record, not a gap
+filled by assumption.
+
+Two models are built from that one source:
+
+- `haloperidol_rat_iv_pk` (primary), two-compartment, because the source's
+  disposition is explicitly biexponential. Vc and Vss are used directly;
+  V2 = Vss - Vc = 4.1 L/kg follows from the definition of Vss.
+- `haloperidol_rat_iv_one_compartment_pk`, a documented collapse with
+  Vd = V_beta = 11.1 L/kg, which preserves the terminal half-life and total
+  exposure (AUC = Dose/CL) and, as its docstring and a test both state,
+  understates the post-bolus peak about two-fold because the real drug
+  starts in Vc rather than V_beta.
+
+**Q had to be derived, and the derivation is ill-conditioned.** Published in
+vivo PK tables rarely report the inter-compartmental clearance Q, and this
+one does not, so the two-compartment model cannot be built from it without
+solving for Q. `pk.intercompartmental_clearance_from_terminal_rate` inverts
+the standard identities (`alpha+beta = k10+k12+k21`, `alpha*beta = k10*k21`)
+to give `Q = beta (k10 - beta) / (k10/V2 - beta (1/V1 + 1/V2))`. That is
+arithmetic on numbers the paper already reported, not a new number, and
+`test_intercompartmental_clearance_solves_back_to_the_model_it_came_from`
+in `test_pk.py` round-trips it against models with a known Q. But the denominator
+is a small difference of comparable terms, so the answer is sensitive to how
+the source's own rounding is read:
+
+| anchor | beta (min^-1) | terminal t1/2 | derived Q (mL/min/kg) |
+|---|---|---|---|
+| V_beta = 11.1 L/kg, so beta = CL/V_beta | 0.0074775 | 92.7 min = 1.545 h | 114.5 |
+| reported "1.5 h", so beta = ln2/90 min | 0.0077016 | 90.0 min | 141.6 |
+
+The model anchors on V_beta, for a stated reason rather than convenience:
+V_beta is printed to three significant figures and "1.5 h" to two, and the
+half-life the V_beta anchor implies (1.545 h) sits inside the interval that
+"1.5 h" rounds from (1.45-1.55 h), so that choice reproduces both reported
+numbers within their stated precision while the reverse choice would put
+V_beta at 10.8 rather than 11.1 L/kg. Both values are kept in code
+(`HALOPERIDOL_RAT_IV_Q_SENSITIVITY_ML_PER_MIN_PER_KG`) and a test pins the
+~24% spread, because any later use of the distribution phase (P1.6's
+Cmax/Tmax validation especially) inherits that uncertainty and should not
+discover it by surprise.
+
+**The half-life test's tolerance is the source's rounding, not a chosen
+percentage.** `test_drug_pk.py` integrates the model through the same ODE
+protocol the engine uses, fits the terminal slope by log-linear regression
+over 300-600 min (well past the ~12 min distribution phase), and requires
+the result to fall in 1.45-1.55 h, the interval "1.5 h" constrains. It lands
+at 92.70 min, and the test asserts that exact value too, so the real
+agreement is visible rather than hidden behind a bound. This satisfies P1.3's
+"simulated half-life matches the cited value" criterion without widening
+anything: no tolerance in this task was chosen to make a check pass.
+
+### What was searched for and not found
+
+**F and ka for IP and SC in rat: absent.** This is the parameter pair the
+task most wanted, since the locomotor-activity literature Phase 2 must fit
+against dosed IP and SC, and it is not in the reachable literature.
+Searched (August 2026): PubMed (`haloperidol AND rat* AND pharmacokinetic*
+AND (subcutaneous OR intraperitoneal OR bioavailability)`, 37 hits, none an
+IP or SC PK study), Europe PMC including open-access full text
+(`haloperidol AND rats AND intraperitoneal AND Cmax AND Tmax`;
+`haloperidol AND rats AND subcutaneous AND pharmacokinetics AND plasma AND
+Cmax`), Europe PMC title/abstract sweep of all 34 rat-haloperidol
+pharmacokinetics papers, and web search for a rat IV-vs-IP or IV-vs-SC
+crossover. Candidates found and the specific reason each is unusable:
+
+- Pizzolato G, Soncrant TT, Rapoport SI. J Neurochem 1984;43:724-32 (PMID
+  6540296) dosed rats 0.5 and 1 mg/kg i.p. and relates cerebral glucose
+  utilization to *estimated* brain concentrations; no measured
+  concentration-time data, no IV arm.
+- Castaing N et al. J Anal Toxicol 2006;30:419-25 (PMID 16959133) dosed
+  1 mg/kg i.p. but is a postmortem-redistribution study with no in-life
+  profile.
+- Kapur S, VanderSpek SC, Brownlee BA, Nobrega JN. J Pharmacol Exp Ther
+  2003;305:625-31 (PMID 12606608) is the standard reference for
+  occupancy-matched haloperidol dosing in rats and states it established
+  "the relationship between dose, plasma levels, and in vivo dopamine D2
+  receptor occupancy", but the full text is closed (publisher returns 403;
+  no PMC or repository copy), and the abstract gives only doses
+  (0.04-0.08 mg/kg single, 0.25 mg/kg/day by pump), names its routes only
+  as "daily injections or osmotic minipump infusions", and reports no PK
+  parameter beyond the qualitative claim that rodent antipsychotic
+  half-life is 4-6x faster than human.
+- Kapur S, Barsoum SC, Seeman P (Neuropsychopharmacology 2000) gives an SC
+  dose-occupancy curve (ED50 0.02 mg/kg s.c.), but occupancy is not
+  concentration and no SC plasma profile is reported.
+- Johnson M et al. Pharm Res 2014;31:2605-17 (PMID 24792824) fits rat plasma
+  PK for haloperidol from IV/IP/SC data, and is the single most likely
+  source of a real ka and F. Its only open-access copy is a green
+  repository record whose PDF endpoint is bot-blocked (403 to every fetch
+  attempt tried, including a browser-context fetch), so the parameter tables
+  could not be read. Quoting them from a summary of a summary would be
+  citing numbers nobody on this project has seen, which is the failure mode
+  this codebase's rules exist to prevent. This is the first place a future
+  pass with library access should look.
+- The haloperidol nanoparticle/intranasal literature (e.g. the SLN/NLC
+  studies reviewed in PMC8948700) reports brain-targeting ratios against IV
+  or intranasal solution, not IP or SC bioavailability of the free drug.
+
+So `drug_pk.haloperidol_rat_pk("IP"/"SC"/"PO", ...)` raises
+`UnsourcedParameterError`, and the exception message *is* the search record
+above. A test asserts that no `HALOPERIDOL_RAT_*_F` or `*_KA*` constant
+other than the IV `F = 1` exists, so the most likely future mistake, adding
+`F = 1.0` for SC on the grounds that SC bypasses first pass, fails the suite
+rather than passing silently.
+
+One physiological fact is recorded alongside that gap and deliberately not
+converted into a number: the measured blood clearance (83 mL/min/kg) exceeds
+rat hepatic blood flow (~55 mL/min/kg; Davies B, Morris T. Pharm Res
+1993;10:1093-5, PMID 8378254), so hepatic extraction of the portal-drained
+fraction of an IP dose is near-complete and F(IP) is certainly far below 1.
+"Far below 1" is not a value, and the same inequality shows elimination is
+not purely hepatic, which leaves even the residual direction uncertain.
+`drug_pk.hepatic_extraction_is_high_note()` returns the two cited numbers so
+the inequality is checkable in a test rather than asserted in prose.
+
+**Rat blood:plasma ratio: absent.** Cheng & Paalzow report blood clearance
+and blood-based volumes, so this parameter set produces whole-**blood**
+concentrations, while the occupancy anchor this codebase already uses (Kapur
+et al. 1997, in `scenarios.py`) is a human **plasma** concentration.
+Converting between them needs Rb, which was searched for in rat and not
+found. The nearest datum is human (plasma and whole-blood haloperidol
+concentrations not significantly different in patients on depot haloperidol,
+i.e. Rb ~ 1, with the reduced-haloperidol metabolite behaving very
+differently at ~3.6). It is a different species, so it is recorded as
+context and no Rb is applied; any comparison of this model's output against
+a plasma measurement inherits that unquantified gap. This matters for P1.5
+and P1.6 and is flagged there rather than left implicit.
+
+### What this changes, and what it does not
+
+- It removes no illustrative label. Every circuit-layer parameter, and the
+  binding constants, are exactly where Track A/E left them. What changed is
+  that haloperidol can now be dosed in mg/kg in the rat **by the IV route
+  only**.
+- It does not unblock Phase 2 for haloperidol. The behavioral literature
+  Track E named uses IP, SC and PO dosing, and those routes still have no
+  F and no ka, so the dose-to-concentration bridge is built but not yet
+  crossable for the route the behavior data uses. That is a narrower and
+  more specific blocker than Track E's, and P1.6 or a later pass with
+  journal access can close it by reading one paper (Johnson 2014) or by
+  finding a rat IV/SC crossover.
+- It is blood, not plasma, and plasma, not brain. P1.5's Kp is still
+  required before any of this is a statement about what a receptor sees.
+
+### A note on P1.2's state
+
+While reading the repository to start this task: the commit
+`595a25b P1.2: Literature PK parameters: fentanyl (rat/mouse)` touches only
+`tasks/backlog.json`, and `logs/task-P1.2.log` shows that tick's agent
+never started (`--dangerously-skip-permissions cannot be used with
+root/sudo privileges`) before the runner recorded the task as complete. No
+fentanyl PK parameter set exists in the tree. P1.3 therefore had to create
+`drug_pk.py` itself, and it is structured for one drug/species/route record
+per block so P1.2 can be redone into it without rework. The backlog file is
+left alone (the runner owns it), but P1.2 should be reopened.
