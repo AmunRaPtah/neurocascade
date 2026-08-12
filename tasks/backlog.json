@@ -77,11 +77,13 @@
       "deps": [
         "P1.1"
       ],
-      "status": "running",
+      "status": "done",
       "attempts": 1,
-      "result": "agent did not start (IS_SANDBOX missing under cron); requeued",
+      "result": "complete",
       "started_at": "2026-08-12T04:50:13.022343+00:00",
-      "baseline": "5c73421df1ff5d6eda41e154227ddc829813bf2d"
+      "baseline": "5c73421df1ff5d6eda41e154227ddc829813bf2d",
+      "finished_at": "2026-08-12T05:38:16.703092+00:00",
+      "commits": "1"
     },
     {
       "id": "P1.5",
