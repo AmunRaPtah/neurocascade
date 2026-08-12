@@ -6,5 +6,12 @@ __pycache__/
 .claude/
 
 logs/
+# Downloaded source data (Allen connectome matrices, CCF ontology): ~8 MB
+# now, and the voxel-scale files are 600 MB if a later task needs them.
+# Never committed. What IS committed is the manifest that makes the cache
+# reproducible byte for byte - URLs, SHA-256 digests and citations - in
+# src/neurocascade/connectome/sources.py, plus the small real-data fixtures
+# in src/neurocascade/connectome/fixtures/ that let the tests run offline.
+# Verify a populated cache with: python scripts/fetch_connectome.py --verify-only
 data/
 tasks/backlog.json.tmp

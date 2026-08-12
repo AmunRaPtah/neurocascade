@@ -105,10 +105,27 @@ more single-dose studies.
 | Path                 | Purpose                                          |
 |----------------------|---------------------------------------------------|
 | `src/neurocascade/`  | The engine (pk, drug_pk, receptor, circuit, network, behavior, engine, scenarios) |
+| `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1) |
+| `scripts/`           | `fetch_connectome.py` (download + checksum-verify source data), maintenance |
+| `data/`              | Gitignored cache of downloaded source data; checksums live in `connectome/sources.py` |
 | `examples/`          | Worked end-to-end scenarios                      |
 | `tests/`             | Unit tests per layer                             |
 | `docs/`              | Architecture and design notes                    |
 | `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis |
+
+### Connectome data
+
+The Allen matrices are downloaded, not committed. The tests run offline off
+small real-data fixtures, so this is only needed for whole-brain work:
+
+```
+/root/projects/pardalos/.venv/bin/python scripts/fetch_connectome.py
+/root/projects/pardalos/.venv/bin/python scripts/fetch_connectome.py --list
+```
+
+Every file is verified against a committed SHA-256; a mismatch fails the
+fetch rather than being accepted. See `docs/architecture.md`, "Phase 3:
+ingesting the Allen mouse connectome (P3.1)".
 
 ## Environment
 

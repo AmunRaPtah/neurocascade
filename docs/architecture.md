@@ -3696,3 +3696,299 @@ and 7 should collect.
   new test is set from `circuit_forward._STEADY_STATE_RTOL` rather than
   chosen, and a second test backs it by showing the residual it admits
   shrinks by three orders of magnitude when the integration is tightened.
+
+## Phase 3: ingesting the Allen mouse connectome (P3.1)
+
+### What this task is, and the one thing it must not become
+
+P3.1 is an ingestion task. It downloads two published mouse connectome
+matrices and the CCF structure ontology, verifies them, and hands back a
+directed weighted matrix whose rows and columns are named brain regions.
+It does **not** build a `CircuitNetwork`, assign excitatory/inhibitory
+signs, choose a resolution, or move any existing parameter. Those are
+P3.2, P3.3 and P3.4, and keeping them out was the main design pressure
+here, because almost every convenience one might add to a loader (drop the
+diagonal, threshold weak connections, row-normalise, symmetrise) is
+actually a modelling decision with consequences for the circuit layer.
+`RegionalConnectome` therefore stores the published numbers unmodified and
+offers `without_self_connections()` as an explicit method rather than a
+default.
+
+The new package is `src/neurocascade/connectome/`:
+
+    sources.py   the manifest: URLs, SHA-256 digests, sizes, citations,
+                 and what each matrix's numbers mean
+    fetch.py     download, verify, cache; the only network code
+    ontology.py  the CCF structure graph as a queryable hierarchy
+    matrix.py    RegionalConnectome plus one reader per published format
+    fixtures/    real data, fifteen regions of it, committed
+
+plus `scripts/fetch_connectome.py` (the CLI) and
+`scripts/make_connectome_fixture.py` (regenerates the fixtures from the
+verified cache).
+
+### Two datasets, and the region that decided which one is primary
+
+The roadmap names the Allen Mouse Brain Connectivity Atlas; the task named
+Oh et al. 2014 and Knox et al. 2019. Both are ingested.
+
+- **[Knox2019]** Knox JE, Harris KD, Graddis N, Whitesell JD, Zeng H,
+  Harris JA, Shea-Brown E, Mihalas S. "High-resolution data-driven model
+  of the mouse connectome." Network Neuroscience. 2019;3(1):217-236.
+  doi:10.1162/netn_a_00066. Regionalized voxel model, **291** grey-matter
+  CCF regions, published as four plain CSVs on Allen's static publication
+  download server.
+- **[Oh2014]** Oh SW, Harris JA, Ng L, et al. "A mesoscale connectome of
+  the mouse brain." Nature. 2014;508(7495):207-214.
+  doi:10.1038/nature13186. The homogeneous (region-by-region non-negative
+  least squares) model, **213** regions, published as Supplementary Table 3.
+
+Knox is the default. The recency argument and the region-count argument
+are both real but generic; the argument that actually settled it is
+specific to this codebase. The two region sets overlap in 202 acronyms:
+11 Oh regions are absent from Knox, and 89 Knox regions are absent from
+Oh. One of those 89 is **LC, the locus coeruleus**, a coupled node in
+this codebase's existing multi-region mu-opioid scenario, and the whole
+sedation/arousal arm of it. A connectome that cannot represent LC cannot
+carry a scenario this project has already built and tested. So Knox is
+primary and Oh is the second opinion.
+
+Oh is worth keeping for two things Knox's regionalized CSVs do not have:
+per-connection **p-values**, and a different model class (regional
+homogeneity rather than voxel-scale smoothing), so P3.2/P3.3 can ask
+whether a whole-brain result survives changing the connectome underneath
+it. That difference is in the model, not the data: Oh fit 469 tracer
+experiments and Knox fit 428 of the 491 then available from the same Allen
+atlas, citing Oh as the source, so agreement between the two matrices is
+evidence about modelling assumptions and not independent replication of
+the anatomy. The manifest says so in as many words, because "we checked it
+against a second connectome" is exactly the sentence that would otherwise
+be over-read later.
+
+### The naming trap: density and strength are not synonyms
+
+The task asked for "the normalized connection density matrix". Knox
+publishes a file with exactly that name. Oh's Supplementary Table 3 does
+not contain one, and calling it that would have been wrong in a way no
+test would have caught.
+
+[Knox2019] publishes four regionalizations of the voxel-scale weight
+matrix. Writing `w_ij` for the summed voxel-pair weight from source region
+X (|X| voxels) to target region Y (|Y| voxels):
+
+    connection_strength             w_ij                neither size divided out
+    connection_density              w_ij / |Y|          target size only
+    normalized_connection_strength  w_ij / |X|          source size only
+    normalized_connection_density   w_ij / (|X| |Y|)    both
+
+The paper's Methods define the first, third and fourth symbolically; all
+four are defined in code in the Allen Institute's companion package
+`mouse_connectivity_models` (`RegionalizedModel`, whose own docstring
+example states `normalized_connection_density.shape == (291, 577)`, the
+published files' exact shape, and which builds them from the voxel array,
+pinning these CSVs to the regionalized *voxel* model rather than to the
+paper's recomputed homogeneous one). So the density is the *mean
+voxel-to-voxel model weight* between a source voxel and a target voxel,
+which is the right measure when regions differ in volume by orders of
+magnitude, as CP and LC do.
+
+[Oh2014]'s Supplementary Notes define their `w_X,Y` as "the amount of
+segmented signal activated in the target region by infecting one voxel in
+the source region ... proportional to the average out-degree of neurons
+projecting from the source to the target". That is a normalized connection
+**strength**: the target region's size is not divided out. Knox make the
+same point from the other side, noting that their normalized connection
+strength is the normalization "necessary to compare directly with the
+homogeneous model".
+
+Consequence recorded in the code: every `DataFile` carries a `units`
+string quoted from its own source, `RegionalConnectome` propagates it onto
+the loaded object, and there is a test asserting that Oh's units string
+says "NOT a connection density". The two datasets' numbers are not
+commensurable and nothing in this package pretends otherwise. The one file whose
+normalization the paper does not write out, `connection_density.csv.gz`,
+is manifested with its definition taken from that companion
+implementation and attributed to it, rather than inferred by elimination
+from the paper: inferring it would have produced the right answer here and
+the habit of guessing definitions everywhere else.
+
+### Orientation, and why it gets its own accessor
+
+This is the failure mode that would have been hardest to notice. Both
+publications *print* their matrices source-major (sources on rows), and
+[Knox2019] is explicit that this is the transpose of their own
+mathematics: "we depict sources as rows and targets as columns (W^T), the
+opposite of our mathematical convention". This codebase's
+`CircuitNetwork.connectivity[i, j]` is "from `j` onto `i`", i.e. the
+mathematical convention.
+
+A silently transposed connectome produces a whole-brain model that is
+wrong about every projection's direction while looking completely healthy:
+same sparsity, same weight distribution, same degree statistics, plausible
+dynamics. So:
+
+- `RegionalConnectome.weights` keeps the file's own source-major
+  orientation, so the array and the cached bytes never disagree about what
+  row 0 is;
+- `projection_matrix()` and `square_ipsilateral()` are the only places a
+  transpose happens, and they say so in their names and docstrings;
+- the regression test asserts the VTA→ACB and ACB→VTA weights
+  *separately* (1.07e-4 and 4.69e-4 in the normalized density), which a
+  transposed load cannot pass by accident, rather than checking a shape.
+
+### Three properties of the real files, found by looking rather than assumed
+
+**The ipsilateral and contralateral blocks are not the same width.**
+Knox's matrix is 291 sources x 577 targets: 291 ipsilateral and only 286
+contralateral. The five missing contralateral targets are RM, RO and RPA
+(nucleus raphe magnus, obscurus, pallidus), OV (vascular organ of the
+lamina terminalis) and EW (Edinger-Westphal nucleus): midline structures
+with no contralateral counterpart. So a ragged column count is the correct
+parse, not an error, and the reader does not require the blocks to match.
+
+**Oh's p-value sheets carry the literal Excel token `#NUM!`, and it means
+something.** On the published file, `#NUM!` appears in 28415 ipsilateral
+and 29501 contralateral p-value cells, and the equivalence
+
+    p-value cell is '#NUM!'   <->   connection weight is exactly 0
+
+holds in both hemispheres with no exceptions, which is what one would
+expect from a model that only assigns confidence to connections it gave
+non-zero weight. The reader maps the token to **NaN**, and refuses a blank
+cell outright. Mapping it to 0.0 would have been the single most damaging
+available mistake, because a p-value of zero reads as maximal confidence
+in exactly the connections the model says do not exist. That refusal is
+tested, and the fixture was deliberately extended (with STN) so that the
+committed fixture actually contains 184 of these cells rather than
+exercising the path only on data that is not committed.
+
+**All 1327 CCF acronyms in structure graph 1 are distinct.** That is what
+makes Oh's acronym-labelled matrix joinable to Knox's id-labelled one at
+all. `StructureOntology` checks it on load and raises rather than silently
+keeping the last of a duplicate pair, because the join would otherwise
+mis-assign rows in a way that produces a valid-looking matrix.
+
+### Reproducibility: what is committed and what is not
+
+The constraint is that the source data is about 8 MB (and the voxel-scale
+factors, deliberately not manifested, are another 635 MB), which must not
+enter git, while the build has to be reproducible from a clean checkout.
+The split:
+
+- **Committed:** the manifest (`sources.py`) with each file's URL,
+  SHA-256, byte count, retrieval date, citation and units; the fetch
+  script; the loaders; and ~44 kB of real-data fixtures.
+- **Gitignored:** `data/connectome/`, holding exactly the published bytes
+  under the manifest's filenames. Nothing writes derived or converted
+  files there, so there is never a stale intermediate to invalidate.
+
+`python scripts/fetch_connectome.py` on an empty cache reproduced all six
+files byte-identically to the manifest, and `--verify-only` re-checks a
+populated cache. `--checksums` prints the manifest in `sha256sum -c`
+format so the cache can be verified with the standard tool rather than
+with this package's own code checking itself.
+
+**A checksum mismatch is a hard failure with no override.** The bytes are
+kept as `<filename>.rejected` for inspection and nothing downstream sees
+them. The temptation this forecloses is obvious and worth naming: when the
+upstream file changes, editing the expected digest makes the build green
+in one line and silently moves every result that depends on the
+connectome. The error message says not to, and the two legitimate
+responses (re-download, or read the diff and bump the manifest in a commit
+that explains what moved) are spelled out in it.
+
+**One of the six sources is a live API and is checksummed anyway.** The
+ontology comes from `structure_graph_download/1.json`, which Allen renders
+from a database per request; the other five sit on static archive servers.
+It was verified byte-stable across two requests, but nothing stops Allen
+revising the CCF. Pinning it means a revision shows up as a dated,
+loud failure that a human reads, instead of a region rename or a
+re-parenting propagating into every whole-brain result with no record.
+That is the intended behaviour of the checksum, not a limitation of it.
+
+### The fixtures are real data, and why that mattered more than it looks
+
+The tests must run offline. The obvious way to do that is a hand-written
+3x3 matrix of made-up numbers, and it would have tested nothing that
+matters: not the two-row CSV header, not the ragged ipsi/contra width, not
+the acronym-to-id join, not the `#NUM!` tokens, and not the fact that a
+real region's self-projection is non-zero in every one of the 291 rows
+(and the largest entry in 109 of them).
+
+So each fixture is a *slice of the checksum-verified published file,
+written back out in that file's own format*: fifteen regions instead of
+291, ~44 kB instead of ~8 MB, same parsers. `PROVENANCE.md` records which
+verified digest each was cut from, and the generator calls `fetch.verify()`
+on all three upstream files before reading any of them, so a fixture can
+never be cut from unverified bytes.
+
+The fifteen regions are not arbitrary: they are the CCF regions this
+codebase's existing scenarios already name (VTA, ACB, PL, CP, GPe, STN,
+GPi, SNr, PAG, LC, BLA, CEA) plus cortical, thalamic and raphe partners
+(MOp, MD, DR), spanning eight of the twelve major divisions. That makes
+the fixture directly useful to P3.3, whose job is mapping exactly those
+hand-built scenarios onto connectome regions, and it means the numbers the
+tests assert on are numbers about regions this project actually models.
+
+Two honest caveats are recorded in `PROVENANCE.md` rather than glossed:
+the CSV fixture is bit-identical to the published doubles (Python's
+shortest round-tripping `repr`), while the xlsx fixture round-trips to 16
+significant figures only (1 ulp; openpyxl serialises floats as `%.16g`):
+a property of the file format, not a tolerance chosen to make anything
+pass. And a fifteen-region slice of a 291-region whole-brain fit is a test
+input, not a model: every path through the other 276 regions has been
+deleted.
+
+### What was searched for and not found, or found and deliberately not taken
+
+- **The full voxel-scale model** (`nodes.csv.gz`, 490 MB;
+  `weights.csv.gz`, 145 MB) is published in the same Knox directory and is
+  **not** in the manifest. P3.1's target is a regional matrix, and a
+  checksum may not be written down for bytes that have not been retrieved
+  and hashed. If a later task needs voxel resolution, it downloads them,
+  hashes them, and adds them.
+- **Oh's Supplementary Table 1** (region names and acronyms) was not
+  ingested: the CCF structure graph already supplies every name, full name
+  and hierarchy position, from the same ontology both matrices index into,
+  so a second name table would be a second source of truth for the same
+  fact.
+- **A static, versioned copy of the CCF ontology** was searched for on
+  Allen's `informatics-archive` server, which does host versioned CCF
+  directories (`ccf_2015` ... `ccf_2022`). Those contain annotation
+  volumes, structure masks, meshes and centres, but no structure-graph
+  table; `structure_tree_safe_2017.csv` and the equivalent paths return
+  404. So the live API endpoint is the only route to the ontology, which
+  is why the volatility note above exists rather than a nicer solution.
+- **Neurotransmitter identity per region**, which P3.2 needs to give the
+  connectome signs, is not in any of these files. The tracer data behind
+  both matrices is bulk anterograde fluorescence and carries no sign at
+  all: every weight in both datasets is non-negative by construction, and
+  `RegionalConnectome` treats a negative weight as a parse failure rather
+  than as an inhibitory projection. Sourcing sign is P3.2's problem and it
+  is a genuinely separate search.
+
+### What this task changes, and what it does not
+
+- **No parameter changed, no illustrative label moved, no scenario
+  touched.** The connectome package is additive; nothing in `engine.py`,
+  `network.py`, `scenarios.py` or any calibration module imports it yet.
+  Every existing test result is unchanged.
+- **No number in this package is a modelling choice.** Every value is
+  either a published matrix entry, a measured SHA-256, or a CCF structure
+  id taken from a published mask file. There is nothing here to label
+  illustrative, and nothing here calibrates anything.
+- **P2.3's identifiability finding gets its first piece of relief, but
+  only in principle.** P2.3 recorded that a measured connection density
+  would fix `W` directly and let a behavioural datum constrain the gain
+  instead of the product. This task supplies the measured densities. It
+  does not yet convert one into a `CircuitNetwork` weight, and the
+  conversion is not a rescaling: a normalized connection density is a
+  mean voxel-to-voxel tracer weight, dimensionless and unsigned, while
+  `CircuitNetwork.connectivity` is a signed drive coefficient in a
+  Wilson-Cowan mean-field. What that conversion may honestly assume is
+  P3.2's question, and it should be answered before any claim that the
+  circuit layer is "connectome-based".
+- **47 new tests.** 46 of them run offline off the committed fixtures; the
+  47th checks the real 291-region file and skips when the gitignored cache
+  is absent. It is an extra, not a substitute: every acceptance criterion
+  is covered by the 46 offline tests.

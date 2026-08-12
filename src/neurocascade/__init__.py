@@ -19,6 +19,7 @@ from .engine import Simulation
 from . import scenarios
 from . import drug_pk
 from . import pk_validation
+from . import connectome
 
 __all__ = [
     "OneCompartmentPK",
@@ -43,4 +44,5 @@ __all__ = [
     "scenarios",
     "drug_pk",
     "pk_validation",
+    "connectome",
 ]
