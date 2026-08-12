@@ -205,8 +205,10 @@
         "Tests run without network access, using a small committed fixture"
       ],
       "deps": [],
-      "status": "pending",
-      "attempts": 0
+      "status": "running",
+      "attempts": 1,
+      "started_at": "2026-08-12T14:40:05.041754+00:00",
+      "baseline": "630713a444bb1e7f89a05a6b7b4051b3551f6d8d"
     },
     {
       "id": "P3.2",
