@@ -22,6 +22,14 @@ behavioral readout, all as one integrated ODE system.
   administered mg/kg dose with route, bioavailability, absorption rate,
   volume(s) of distribution and clearance. Drug-specific literature values
   live in `drug_pk.py`, never in `pk.py`.
+- **Brain partition** (`brain_partition.py`) - converts a plasma
+  concentration into the *unbound brain* concentration a receptor actually
+  binds, from a published `Kp` plus a brain unbound fraction, or from a
+  published `Kp,uu` plus a plasma unbound fraction. The two coefficients are
+  not interchangeable and the module refuses to treat them as such: a total
+  brain:plasma ratio with no measured `fu,brain` can report a total brain
+  concentration and may not drive occupancy. Per-drug numbers live in
+  `drug_pk.py`.
 - **Receptor** (`receptor.py`) - competitive binding at one receptor site
   across one or more ligands (so an antagonist can displace an agonist
   already bound there); occupancy converts to a signed activation via each

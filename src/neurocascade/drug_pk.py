@@ -59,6 +59,34 @@ Currently covered
     diazepam,    mouse, *  -- NOT AVAILABLE for any route, see
                               SEARCHED_AND_EMPTY
 
+Brain partition (P1.5)
+----------------------
+
+Receptors sit in brain tissue, so from P1.5 onward each drug also has a
+plasma-to-brain partition section at the bottom of this module, and the rat
+PK builders attach it by default (`brain_partition=USE_SOURCED_BRAIN_
+PARTITION`) so that `engine.Simulation` drives receptor occupancy with an
+unbound BRAIN concentration rather than a plasma one. Coverage is uneven and
+the unevenness is the finding:
+
+    diazepam,    rat   -- COMPLETE. Kp 4.5 [Friedman1986] + f(u,plasma) 0.196
+                          [Friedman1986] + f(u,brain) 0.040 [Gustafsson2019]
+                          => Kp,uu 0.918. Attached by default.
+    haloperidol, rat   -- Kp 22 [Sunderland1987] only; no rat f(u,brain), so
+                          it CANNOT drive occupancy and is not attached.
+    fentanyl,    rat   -- Kp ~16 [Canfield2025, read off Fig. 5B]; no rat
+                          f(u,brain), same outcome.
+    diazepam,    mouse -- COMPLETE ([Doran2005]+[Maurer2005] via [Ma2024]),
+    haloperidol, mouse -- COMPLETE (same), both recorded and unused, because
+                          there is no mouse PK here to multiply.
+    everything,  human -- absent; see
+                          SEARCHED_AND_EMPTY_BRAIN_PARTITION[("*","human","*")]
+                          for why the human-PK calibrated scenarios stay
+                          plasma-driven.
+
+`brain_partition.py` explains why a total Kp is not a substitute for a Kp,uu
+and refuses to let one act as one.
+
 Diazepam additionally carries an *active metabolite* record
 (`DIAZEPAM_ACTIVE_METABOLITE_LIMITATION` and the functions around it): in the
 rat, nordiazepam reaches ~80% of the parent's molar exposure with the same
@@ -69,12 +97,43 @@ limitation rather than silently ignored.
 
 import math
 
+from .brain_partition import BrainPartition
 from .pk import (
     LN2,
     DosedOneCompartmentPK,
     DosedTwoCompartmentPK,
     intercompartmental_clearance_from_terminal_rate,
 )
+
+
+class _SourcedBrainPartitionDefault(object):
+    """Sentinel default for the builders' `brain_partition=` argument.
+
+    Three-way rather than two-way on purpose. `None` means "build a
+    plasma-driven model, I know what that means"; an explicit
+    `BrainPartition` means "use this one"; and this sentinel, the default,
+    means "attach the sourced, species-matched partition for this drug if one
+    exists and can give an unbound brain concentration, otherwise plasma".
+
+    The default is the attaching one because the pre-P1.5 behavior - driving
+    a receptor with a plasma concentration - is the bug P1.5 exists to fix,
+    and a default that silently reproduces it would undo the task. Which case
+    a given model ended up in is readable off `model.receptor_compartment`
+    and `drug_pk.brain_partition_status(drug, species)`.
+    """
+
+    def __repr__(self):
+        return "USE_SOURCED_BRAIN_PARTITION"
+
+
+#: See `_SourcedBrainPartitionDefault`.
+USE_SOURCED_BRAIN_PARTITION = _SourcedBrainPartitionDefault()
+
+
+def _resolve_brain_partition(brain_partition, drug, species):
+    if isinstance(brain_partition, _SourcedBrainPartitionDefault):
+        return brain_partition_for(drug, species, require_receptor_drivable=True)
+    return brain_partition
 
 
 class UnsourcedParameterError(LookupError):
@@ -230,7 +289,9 @@ HALOPERIDOL_RAT_IV_F = 1.0
 
 
 def haloperidol_rat_iv_pk(
-    body_weight_kg, molar_mass_g_per_mol=HALOPERIDOL_MOLAR_MASS_G_PER_MOL
+    body_weight_kg,
+    molar_mass_g_per_mol=HALOPERIDOL_MOLAR_MASS_G_PER_MOL,
+    brain_partition=USE_SOURCED_BRAIN_PARTITION,
 ):
     """Two-compartment rat haloperidol PK after an IV bolus
     [ChengPaalzow1992]; dose in mg/kg.
@@ -253,11 +314,17 @@ def haloperidol_rat_iv_pk(
         body_weight_kg=body_weight_kg,
         molar_mass_g_per_mol=molar_mass_g_per_mol,
         name="haloperidol/rat/IV (Cheng & Paalzow 1992)",
+        species="rat",
+        brain_partition=_resolve_brain_partition(
+            brain_partition, "haloperidol", "rat"
+        ),
     )
 
 
 def haloperidol_rat_iv_one_compartment_pk(
-    body_weight_kg, molar_mass_g_per_mol=HALOPERIDOL_MOLAR_MASS_G_PER_MOL
+    body_weight_kg,
+    molar_mass_g_per_mol=HALOPERIDOL_MOLAR_MASS_G_PER_MOL,
+    brain_partition=USE_SOURCED_BRAIN_PARTITION,
 ):
     """One-compartment collapse of the same source, for continuity with the
     existing single-exponential scenarios.
@@ -281,6 +348,10 @@ def haloperidol_rat_iv_one_compartment_pk(
         molar_mass_g_per_mol=molar_mass_g_per_mol,
         name="haloperidol/rat/IV, one-compartment collapse "
         "(Cheng & Paalzow 1992)",
+        species="rat",
+        brain_partition=_resolve_brain_partition(
+            brain_partition, "haloperidol", "rat"
+        ),
     )
 
 
@@ -415,7 +486,9 @@ _FENTANYL_RAT_IV_PROBE_BODY_WEIGHT_KG = 0.2375
 
 
 def fentanyl_rat_iv_pk(
-    body_weight_kg, molar_mass_g_per_mol=FENTANYL_MOLAR_MASS_G_PER_MOL
+    body_weight_kg,
+    molar_mass_g_per_mol=FENTANYL_MOLAR_MASS_G_PER_MOL,
+    brain_partition=USE_SOURCED_BRAIN_PARTITION,
 ):
     """Two-compartment rat fentanyl PK after an IV dose [Yassen2008]; dose in
     mg/kg.
@@ -447,11 +520,18 @@ def fentanyl_rat_iv_pk(
         body_weight_kg=body_weight_kg,
         molar_mass_g_per_mol=molar_mass_g_per_mol,
         name="fentanyl/rat/IV (Yassen et al. 2008)",
+        species="rat",
+        brain_partition=_resolve_brain_partition(brain_partition, "fentanyl", "rat"),
     )
 
 
 _FENTANYL_RAT_IV_PROBE = fentanyl_rat_iv_pk(
-    _FENTANYL_RAT_IV_PROBE_BODY_WEIGHT_KG, molar_mass_g_per_mol=None
+    _FENTANYL_RAT_IV_PROBE_BODY_WEIGHT_KG,
+    molar_mass_g_per_mol=None,
+    # Explicitly plasma-only: this probe exists solely to read half-lives and
+    # volumes off the model, none of which a brain partition touches, and it
+    # runs at import time, before the P1.5 section below is defined.
+    brain_partition=None,
 )
 
 #: Terminal (beta) half-life, minutes. DERIVED, not reported: [Yassen2008]
@@ -509,7 +589,9 @@ def fentanyl_rat_iv_terminal_half_life_interval_min():
 
 
 def fentanyl_rat_iv_one_compartment_pk(
-    body_weight_kg, molar_mass_g_per_mol=FENTANYL_MOLAR_MASS_G_PER_MOL
+    body_weight_kg,
+    molar_mass_g_per_mol=FENTANYL_MOLAR_MASS_G_PER_MOL,
+    brain_partition=USE_SOURCED_BRAIN_PARTITION,
 ):
     """One-compartment collapse of [Yassen2008], for continuity with the
     existing single-exponential mu-opioid scenario.
@@ -533,6 +615,8 @@ def fentanyl_rat_iv_one_compartment_pk(
         body_weight_kg=body_weight_kg,
         molar_mass_g_per_mol=molar_mass_g_per_mol,
         name="fentanyl/rat/IV, one-compartment collapse (Yassen et al. 2008)",
+        species="rat",
+        brain_partition=_resolve_brain_partition(brain_partition, "fentanyl", "rat"),
     )
 
 
@@ -895,7 +979,9 @@ DIAZEPAM_RAT_IV_VBETA_L_PER_KG = DIAZEPAM_RAT_IV_CL_ML_PER_MIN_PER_KG / (
 
 
 def diazepam_rat_iv_pk(
-    body_weight_kg, molar_mass_g_per_mol=DIAZEPAM_MOLAR_MASS_G_PER_MOL
+    body_weight_kg,
+    molar_mass_g_per_mol=DIAZEPAM_MOLAR_MASS_G_PER_MOL,
+    brain_partition=USE_SOURCED_BRAIN_PARTITION,
 ):
     """One-compartment rat diazepam PK after an IV bolus [Klotz1976]; dose in
     mg/kg.
@@ -926,6 +1012,8 @@ def diazepam_rat_iv_pk(
         body_weight_kg=body_weight_kg,
         molar_mass_g_per_mol=molar_mass_g_per_mol,
         name="diazepam/rat/IV, one-compartment collapse (Klotz et al. 1976)",
+        species="rat",
+        brain_partition=_resolve_brain_partition(brain_partition, "diazepam", "rat"),
     )
 
 
@@ -997,7 +1085,9 @@ DIAZEPAM_RAT_IP_KA_SOURCE_DOSE_MG_PER_KG = 0.9
 
 
 def diazepam_rat_ip_pk(
-    body_weight_kg, molar_mass_g_per_mol=DIAZEPAM_MOLAR_MASS_G_PER_MOL
+    body_weight_kg,
+    molar_mass_g_per_mol=DIAZEPAM_MOLAR_MASS_G_PER_MOL,
+    brain_partition=USE_SOURCED_BRAIN_PARTITION,
 ):
     """Rat diazepam PK after an IP dose; dose in mg/kg. A documented
     cross-study composite, not a single-paper parameter set.
@@ -1050,6 +1140,8 @@ def diazepam_rat_ip_pk(
         molar_mass_g_per_mol=molar_mass_g_per_mol,
         name="diazepam/rat/IP, composite (Friedman et al. 1986 disposition, "
         "Hironaka et al. 1984 absorption)",
+        species="rat",
+        brain_partition=_resolve_brain_partition(brain_partition, "diazepam", "rat"),
     )
 
 
@@ -1399,7 +1491,10 @@ def diazepam_nordiazepam_molar_exposure_ratio():
 
 
 def diazepam_rat_pk(
-    route, body_weight_kg, molar_mass_g_per_mol=DIAZEPAM_MOLAR_MASS_G_PER_MOL
+    route,
+    body_weight_kg,
+    molar_mass_g_per_mol=DIAZEPAM_MOLAR_MASS_G_PER_MOL,
+    brain_partition=USE_SOURCED_BRAIN_PARTITION,
 ):
     """Rat diazepam PK model for `route`.
 
@@ -1412,11 +1507,15 @@ def diazepam_rat_pk(
     route = str(route).upper()
     if route == "IV":
         return diazepam_rat_iv_pk(
-            body_weight_kg=body_weight_kg, molar_mass_g_per_mol=molar_mass_g_per_mol
+            body_weight_kg=body_weight_kg,
+            molar_mass_g_per_mol=molar_mass_g_per_mol,
+            brain_partition=brain_partition,
         )
     if route == "IP":
         return diazepam_rat_ip_pk(
-            body_weight_kg=body_weight_kg, molar_mass_g_per_mol=molar_mass_g_per_mol
+            body_weight_kg=body_weight_kg,
+            molar_mass_g_per_mol=molar_mass_g_per_mol,
+            brain_partition=brain_partition,
         )
     record = SEARCHED_AND_EMPTY.get(("diazepam", "rat", route))
     if record is None:
@@ -1853,7 +1952,10 @@ SEARCHED_AND_EMPTY = {
 
 
 def haloperidol_rat_pk(
-    route, body_weight_kg, molar_mass_g_per_mol=HALOPERIDOL_MOLAR_MASS_G_PER_MOL
+    route,
+    body_weight_kg,
+    molar_mass_g_per_mol=HALOPERIDOL_MOLAR_MASS_G_PER_MOL,
+    brain_partition=USE_SOURCED_BRAIN_PARTITION,
 ):
     """Rat haloperidol PK model for `route`.
 
@@ -1866,7 +1968,9 @@ def haloperidol_rat_pk(
     route = str(route).upper()
     if route == "IV":
         return haloperidol_rat_iv_pk(
-            body_weight_kg=body_weight_kg, molar_mass_g_per_mol=molar_mass_g_per_mol
+            body_weight_kg=body_weight_kg,
+            molar_mass_g_per_mol=molar_mass_g_per_mol,
+            brain_partition=brain_partition,
         )
     record = SEARCHED_AND_EMPTY.get(("haloperidol", "rat", route))
     if record is None:
@@ -1880,7 +1984,10 @@ def haloperidol_rat_pk(
 
 
 def fentanyl_rat_pk(
-    route, body_weight_kg, molar_mass_g_per_mol=FENTANYL_MOLAR_MASS_G_PER_MOL
+    route,
+    body_weight_kg,
+    molar_mass_g_per_mol=FENTANYL_MOLAR_MASS_G_PER_MOL,
+    brain_partition=USE_SOURCED_BRAIN_PARTITION,
 ):
     """Rat fentanyl PK model for `route`.
 
@@ -1895,7 +2002,9 @@ def fentanyl_rat_pk(
     route = str(route).upper()
     if route == "IV":
         return fentanyl_rat_iv_pk(
-            body_weight_kg=body_weight_kg, molar_mass_g_per_mol=molar_mass_g_per_mol
+            body_weight_kg=body_weight_kg,
+            molar_mass_g_per_mol=molar_mass_g_per_mol,
+            brain_partition=brain_partition,
         )
     record = SEARCHED_AND_EMPTY.get(("fentanyl", "rat", route))
     if record is None:
@@ -1964,9 +2073,707 @@ def hepatic_extraction_is_high_note():
     )
 
 
+# ===========================================================================
+# P1.5: plasma -> brain partition
+# ===========================================================================
+#
+# `brain_partition.py` holds the structure (Kp vs Kp,uu, the refusals, the
+# instantaneous-equilibrium assumption); this section holds the measured
+# numbers, one drug and one species at a time, in the same style as the PK
+# blocks above. Read `brain_partition.py`'s module docstring first: the
+# single most important fact here is that Kp and Kp,uu are NOT
+# interchangeable, and that only a Kp,uu (or a Kp plus a measured brain
+# unbound fraction) can legitimately drive receptor occupancy.
+#
+# Sources
+# -------
+#   [Friedman1986]  Already cited in the diazepam block above (Friedman H,
+#                Abernethy DR, Greenblatt DJ, Shader RI. "The
+#                pharmacokinetics of diazepam and desmethyldiazepam in rat
+#                brain and plasma." Psychopharmacology (Berl).
+#                1986;88(3):267-70, PMID 3083446). Rat, 5 mg/kg IP; reports
+#                a brain:plasma concentration ratio of 4.5 +/- 0.1, a plasma
+#                free fraction of 19.6%, and - the reason this study is the
+#                right one for a partition rather than only for disposition
+#                - brain and plasma half-lives of 0.89 h and 0.88 h, i.e.
+#                brain and plasma decline in parallel. That parallel decline
+#                is the published evidence licensing the instantaneous-
+#                equilibrium assumption for diazepam in the rat.
+#   [Gustafsson2019] Gustafsson S, Sehlin D, Lampa E, Hammarlund-Udenaes M,
+#                Loryan I. "Heterogeneous drug tissue binding in brain
+#                regions of rats, Alzheimer's patients and controls: impact
+#                on translational drug development." Sci Rep.
+#                2019;9(1):5308. doi:10.1038/s41598-019-41828-4, PMID
+#                30926941, open access (PMC6440985), Table 2 read directly.
+#                Equilibrium dialysis of brain homogenate with the dilution
+#                correction applied, healthy male Sprague-Dawley rats, tissue
+#                pooled 2-3 rats per pool. Rat diazepam f(u,brain) by region
+#                (means): frontal cortex 0.037, parietal cortex 0.043, basal
+#                ganglia 0.044, cerebellum 0.055, hippocampus 0.048, WHOLE
+#                BRAIN 0.040 (SD 0.006, N = 2 biological replicates, n = 6
+#                technical). Inter-day CV for diazepam 10.3%.
+#   [Sunderland1987] Sunderland T, Cohen BM. "Blood to brain distribution of
+#                neuroleptics." Psychiatry Res. 1987;20(4):299-305.
+#                doi:10.1016/0165-1781(87)90090-4, PMID 2885876. Rat.
+#                Abstract quoted verbatim from PubMed: "At doses that led to
+#                plasma levels similar to those achieved in clinical use,
+#                brain to plasma ratios ranged from 34 and 22 for
+#                fluphenazine and haloperidol, respectively, to 2.2 and 0.97
+#                for thioridazine and mesoridazine, respectively." Limits,
+#                checked rather than guessed: the full text is closed
+#                (Unpaywall: is_oa false, no repository copy), so dose,
+#                route, timing, strain, sex and n were not obtainable; and
+#                the assay is a RADIORECEPTOR assay, which measures
+#                neuroleptic-equivalent D2-binding activity rather than
+#                chemically specific haloperidol, so any active metabolite
+#                contributes to both the numerator and the denominator.
+#   [Canfield2025] Already cited in the fentanyl block above (Canfield JR,
+#                Sprague JE, Arch Toxicol. 2025;99(1):287-97, PMID 39419833,
+#                open access PMC11748481). The same six male Sprague-Dawley
+#                rats (355 +/- 2.86 g) dosed 300 ug/kg SC that supply this
+#                module's fentanyl SC disposition constants also supply
+#                region-resolved brain:plasma ratios at 1 h post-dose,
+#                computed per animal as brain concentration (ng/g) divided
+#                by that animal's own 1 h plasma concentration (ng/mL).
+#                CRITICAL LIMIT ON THIS NUMBER: the paper reports those
+#                ratios ONLY graphically, in Fig. 5B; there is no printed
+#                value in text, table, or supplement. The constants below are
+#                therefore FIGURE READS off the published bar chart, not
+#                quoted numbers, and are recorded with an explicit read
+#                uncertainty. They are cross-checked against the same
+#                figure's panel A (brain concentrations ~1.1-1.3 ug/g) and
+#                the paper's own plasma parameters, which agree; see
+#                `fentanyl_rat_brain_plasma_figure_read_cross_check`.
+#   [HugMurphy1981] Hug CC Jr, Murphy MR. "Tissue redistribution of fentanyl
+#                and termination of its effects in rats." Anesthesiology.
+#                1981;55(4):369-75. doi:10.1097/00000542-198110000-00006,
+#                PMID 7294371. Rats given 50 ug/kg IV [3H]fentanyl,
+#                sacrificed at 1.5-240 min. Abstract quoted verbatim:
+#                "Fentanyl concentrations in brain, heart, and lung
+#                equilibrated with that in plasma before 1.5 min and declined
+#                at the same rate (t 1/2 alpha = 8 min, t 1/2 beta = 45
+#                min)." Used ONLY for that qualitative statement, which is
+#                the published evidence licensing the instantaneous-
+#                equilibrium assumption for fentanyl in the rat. Unpaywall
+#                reports this as open access, but the publisher's PDF
+#                endpoint (pubs.asahq.org) returns 403 to every automated
+#                request tried, so the tissue:plasma ratio tables in the full
+#                text could not be read and no number is taken from them.
+#   [Doran2005]  Doran A, Obach RS, Smith BJ, et al. "The impact of
+#                P-glycoprotein on the disposition of drugs targeted for
+#                indications of the central nervous system: evaluation using
+#                the MDR1A/1B knockout mouse model." Drug Metab Dispos.
+#                2005;33(1):165-74. doi:10.1124/dmd.104.001230,
+#                PMID 15502009. MOUSE. Source of the mouse Kp,brain values
+#                below.
+#   [Maurer2005] Maurer TS, DeBartolo DB, Tess DA, Scott DO. "Relationship
+#                between exposure and nonspecific binding of thirty-three
+#                central nervous system drugs in mice." Drug Metab Dispos.
+#                2005;33(1):175-81. doi:10.1124/dmd.104.001222,
+#                PMID 15502010. MOUSE, companion paper to [Doran2005] in the
+#                same issue and on the same compound set. Source of the mouse
+#                f(u,plasma) and f(u,brain) values below.
+#                BOTH [Doran2005] and [Maurer2005] are closed access
+#                (Unpaywall: is_oa false, no repository copy). Their values
+#                are used here as quoted, with attribution, in Table 1 of
+#                [Ma2024], which is open access and was read directly; that
+#                second-hand status is recorded on each constant, and the
+#                mouse numbers are NOT used to build anything, because this
+#                module has no mouse PK for any of these drugs.
+#   [Ma2024]     Ma Y, Jiang M, Javeria H, Tian D, Du Z. "Accurate prediction
+#                of Kp,uu,brain based on experimental measurement of Kp,brain
+#                and computed physicochemical properties of candidate
+#                compounds in CNS drug discovery." Heliyon.
+#                2024;10(2):e24304. doi:10.1016/j.heliyon.2024.e24304,
+#                PMID 38298681, open access (PMC10828645). Its Table 1
+#                ("Measured Kp,brain, fu,p, fu,b, Kp,uu,brain ... of 36
+#                marketed published drugs in external validation group")
+#                attributes every value used below to refs [1] = [Doran2005]
+#                and [7] = [Maurer2005], i.e. mouse. The table is internally
+#                consistent (Kp * fu,b / fu,p reproduces the printed Kp,uu to
+#                within rounding for both drugs used here), which is the only
+#                check available without the closed primaries.
+#   [Friden2009] Fridén M, Winiwarter S, Jerndal G, Bengtsson O, Wan H,
+#                Bredberg U, Hammarlund-Udenaes M, Antonsson M.
+#                "Structure-brain exposure relationships in rat and human
+#                using a novel data set of unbound drug concentrations in
+#                brain interstitial and cerebrospinal fluids." J Med Chem.
+#                2009;52(20):6233-43. doi:10.1021/jm901036q, PMID 19764786.
+#                RAT. Closed access (Unpaywall: is_oa false). Its rat
+#                diazepam Kp = 2.28 and Kp,uu = 1.07 are quoted, with
+#                attribution to this paper, in Table 2 of Kim et al., Drug
+#                Deliv. 2025 (PMC12667295, open access, read directly). Used
+#                below ONLY as an independent corroboration of the derived
+#                rat diazepam Kp,uu, never as the value itself.
+
+
+# --- diazepam, rat: the one drug with a complete, species-matched set ------
+#
+# Every factor needed to turn a total plasma concentration into an unbound
+# brain concentration exists for diazepam in the rat, and two of the three
+# come from the same study and the same animals as this module's IP
+# disposition parameters:
+#
+#     Cu,brain = f(u,brain) * Kp * C,plasma = 0.040 * 4.5 * C,plasma
+#
+# The Kp (4.5) and f(u,plasma) (0.196) are [Friedman1986]'s and are already
+# defined above as DIAZEPAM_RAT_IP_BRAIN_PLASMA_RATIO and
+# DIAZEPAM_RAT_IP_FREE_FRACTION; they are deliberately reused rather than
+# restated so the two uses cannot drift apart.
+
+#: Rat diazepam fraction unbound in WHOLE BRAIN homogenate, [Gustafsson2019]
+#: Table 2, mean of N = 2 biological replicates (pools of 2-3 rats each).
+DIAZEPAM_RAT_FU_BRAIN_WHOLE = 0.040
+#: SD of the above, same table.
+DIAZEPAM_RAT_FU_BRAIN_WHOLE_SD = 0.006
+#: Regional rat diazepam f(u,brain), [Gustafsson2019] Table 2 means. Kept
+#: because the paper's central finding is that brain tissue binding is NOT
+#: homogeneous across regions, and Phase 3/4 make this codebase regional; the
+#: whole-brain value above is what a non-regional model is entitled to use,
+#: and the spread here (0.037-0.055, a factor of 1.5) is the error that
+#: entitlement carries.
+DIAZEPAM_RAT_FU_BRAIN_BY_REGION = {
+    "frontal_cortex": 0.037,
+    "parietal_cortex": 0.043,
+    "basal_ganglia": 0.044,
+    "cerebellum": 0.055,
+    "hippocampus": 0.048,
+    "whole_brain": 0.040,
+}
+#: [Friden2009]'s independently measured rat diazepam values, quoted
+#: second-hand (see the source note). Corroboration only; nothing is built
+#: from them. Note the Kp disagrees with [Friedman1986]'s 4.5 by a factor of
+#: ~2 while the Kp,uu agrees with the value derived here to within 14%,
+#: which is exactly the behavior the Kp/Kp,uu distinction predicts: Kp is
+#: sensitive to tissue-binding assay and to the timepoint at which brain and
+#: plasma are sampled, Kp,uu is not.
+DIAZEPAM_RAT_KP_FRIDEN2009 = 2.28
+DIAZEPAM_RAT_KP_UU_FRIDEN2009 = 1.07
+
+#: Mouse diazepam, [Doran2005] (Kp) + [Maurer2005] (f(u,plasma),
+#: f(u,brain)), quoted via [Ma2024] Table 1. Recorded, NOT used: this module
+#: has no mouse diazepam PK (see SEARCHED_AND_EMPTY[("diazepam","mouse","*")]),
+#: and a partition is not a licence to invent the kinetics it multiplies.
+DIAZEPAM_MOUSE_KP = 2.00
+DIAZEPAM_MOUSE_FU_PLASMA = 0.098
+DIAZEPAM_MOUSE_FU_BRAIN = 0.050
+DIAZEPAM_MOUSE_KP_UU_REPORTED = 1.02
+
+
+# --- haloperidol: a rat Kp, and no rat unbound fractions -------------------
+
+#: Rat haloperidol brain:plasma ratio, TOTAL/TOTAL, [Sunderland1987].
+HALOPERIDOL_RAT_KP = 22.0
+#: Mouse haloperidol, [Doran2005] + [Maurer2005] via [Ma2024]. Recorded, not
+#: used: no mouse haloperidol PK exists here either.
+HALOPERIDOL_MOUSE_KP = 13.0
+HALOPERIDOL_MOUSE_FU_PLASMA = 0.087
+HALOPERIDOL_MOUSE_FU_BRAIN = 0.007
+HALOPERIDOL_MOUSE_KP_UU_REPORTED = 1.06
+
+
+# --- fentanyl: a rat Kp read off a figure, and no rat unbound fractions ----
+
+#: Rat fentanyl brain:plasma ratio (TOTAL brain ng/g : TOTAL plasma ng/mL),
+#: by region, 1 h after 300 ug/kg SC, READ FROM Fig. 5B of [Canfield2025].
+#: These are figure reads, not printed values; see the source note and
+#: `FENTANYL_RAT_KP_FIGURE_READ_UNCERTAINTY`.
+FENTANYL_RAT_KP_BY_REGION_FIGURE_READ = {
+    "hippocampus": 15.0,
+    "medulla": 18.0,
+    "striatum": 16.0,
+    "frontal_cortex": 17.0,
+}
+#: Absolute uncertainty on each of the above, in ratio units, from reading a
+#: bar chart whose y-axis is gridded every 20 units. Deliberately generous.
+FENTANYL_RAT_KP_FIGURE_READ_UNCERTAINTY = 2.0
+#: Mean over the four regions read. Not a whole-brain measurement: it is the
+#: average of four specific regions the paper chose for their relevance to
+#: reward and respiration, and the true whole-brain value was not reported.
+FENTANYL_RAT_KP_REGION_MEAN_FIGURE_READ = sum(
+    FENTANYL_RAT_KP_BY_REGION_FIGURE_READ.values()
+) / len(FENTANYL_RAT_KP_BY_REGION_FIGURE_READ)
+#: Brain concentrations from the same figure's panel A, ng/g, used only for
+#: the internal-consistency check below.
+FENTANYL_RAT_BRAIN_NG_PER_G_BY_REGION_FIGURE_READ = {
+    "hippocampus": 1100.0,
+    "medulla": 1330.0,
+    "striatum": 1060.0,
+    "frontal_cortex": 1250.0,
+}
+
+
+def fentanyl_rat_brain_plasma_figure_read_cross_check():
+    """Check the Fig. 5B ratio reads against the Fig. 5A concentration reads
+    and [Canfield2025]'s own printed plasma parameters.
+
+    Returns `(plasma_implied_by_figures_ng_per_mL,
+    plasma_from_printed_pk_ng_per_mL, ratio)`.
+
+    The two are derived completely differently: the first divides the mean
+    figure-read brain concentration by the mean figure-read brain:plasma
+    ratio, and the second propagates the paper's PRINTED Cmax (82.12 ng/mL at
+    Tmax 0.5 h) forward to 1 h with its PRINTED terminal half-life (1.10 h).
+    Agreement means the two panels were read off consistently and that the
+    reads are compatible with the numbers the paper does print; it is not
+    independent evidence that either read is exact.
+
+    The second estimate is deliberately crude - a mono-exponential decline
+    from Cmax ignores the absorption phase still contributing at 1 h - and it
+    is biased low for that reason, so the check is one-sided: it verifies
+    agreement to within a stated factor, not equality.
+    """
+    brain = sum(FENTANYL_RAT_BRAIN_NG_PER_G_BY_REGION_FIGURE_READ.values()) / len(
+        FENTANYL_RAT_BRAIN_NG_PER_G_BY_REGION_FIGURE_READ
+    )
+    from_figures = brain / FENTANYL_RAT_KP_REGION_MEAN_FIGURE_READ
+    elapsed_h = 1.0 - FENTANYL_RAT_SC_TMAX_H
+    from_printed = FENTANYL_RAT_SC_CMAX_NG_PER_ML * math.exp(
+        -LN2 * elapsed_h * 60.0 / FENTANYL_RAT_SC_TERMINAL_HALF_LIFE_MIN
+    )
+    return (from_figures, from_printed, from_figures / from_printed)
+
+
+# --- searched-and-empty, partition edition ---------------------------------
+#
+# Same contract as SEARCHED_AND_EMPTY above: the record IS the error message
+# a caller gets when they ask for something that does not exist.
+
+SEARCHED_AND_EMPTY_BRAIN_PARTITION = {
+    ("fentanyl", "rat", "fu_brain"): (
+        "No measured rat brain unbound fraction f(u,brain) was found for "
+        "fentanyl, so its rat brain:plasma ratio of ~%g [Canfield2025] "
+        "cannot be converted into an unbound brain concentration and must "
+        "not drive receptor occupancy. This is the whole Kp-vs-Kp,uu point: "
+        "a ratio of ~16 for a lipophilic base is mostly brain tissue "
+        "binding, and using it as if it were a Kp,uu would overstate free "
+        "drug at the receptor by roughly 1/f(u,brain), i.e. one to two "
+        "orders of magnitude.\n"
+        "Searched (2026-08): PubMed (fentanyl AND brain AND plasma AND "
+        "(partition OR ratio OR distribution) AND rat, 15 hits reviewed "
+        "individually), Europe PMC open-access full text ('fentanyl AND "
+        "\"brain-to-plasma\"', 159 hits; 'fentanyl AND \"fraction unbound\" "
+        "AND brain AND rat', 20 hits), and Unpaywall on every closed "
+        "candidate.\n"
+        "Candidates found and why each is unusable: Yu C, Yuan M, Yang H, "
+        "Zhuang X, Li H, Toxicol Sci 2018;164:353-62 (PMID 29669042) DID "
+        "measure an unbound brain-to-plasma concentration ratio for fentanyl "
+        "in rats at 40 ug/kg IV - its abstract says so explicitly, reporting "
+        "that tariquidar raised it 2.9-fold - but the abstract gives only "
+        "that fold change and no baseline value, and although Unpaywall "
+        "marks the article open access the Oxford Academic PDF endpoint "
+        "returns 403 to every automated request attempted (direct, "
+        "browser-headered, and via a text-extraction proxy), so the value "
+        "was never seen; quoting it second-hand is not possible either "
+        "because no reachable paper restates it. Kalvass JC, Olson ER, "
+        "Cassidy MP, Selley DE, Pollack GM, J Pharmacol Exp Ther "
+        "2007;323:346-55 (PMID 17646430) reports unbound brain "
+        "concentrations for fentanyl and six other opioids, but in MICE and "
+        "behind a closed paywall, so it is wrong on species and unreadable "
+        "besides. Bjorkman S, Stanski DR, Verotta D, Harashima H, "
+        "Anesthesiology 1990;72:865-73 (PMID 2339802) measured steady-state "
+        "tissue/BLOOD partition coefficients for fentanyl in 13 rat tissues "
+        "including brain, which would be a better-controlled Kp than the "
+        "figure read used here, but it is likewise 403-blocked at the "
+        "publisher; a rat brain value of 4 appears in Table 1 of Front "
+        "Pharmacol 2025;16 (PMC12575352) under the heading 'Kp of fentanyl "
+        "in rats from report', with 13 tissue columns matching Bjorkman's 13 "
+        "tissues, but that table carries no citation in its text, so the "
+        "attribution is an inference and the number is not used. Note the "
+        "unresolved tension it implies: 4 (steady-state infusion, "
+        "tissue:blood) against ~16 (1 h post-SC, tissue:plasma), a 4-fold "
+        "disagreement that only a readable primary can settle.\n"
+        "What is NOT done about it: f(u,brain) is not borrowed from the "
+        "mouse, not predicted from logP, and not set to 1. The rat fentanyl "
+        "PK models therefore stay plasma-driven and say so "
+        "(`model.receptor_compartment`)."
+    ),
+    ("haloperidol", "rat", "fu_brain"): (
+        "No measured rat brain unbound fraction f(u,brain) and no measured "
+        "rat plasma unbound fraction f(u,plasma) were found for haloperidol, "
+        "so [Sunderland1987]'s rat brain:plasma ratio of 22 is a TOTAL Kp "
+        "with no route to an unbound brain concentration and must not drive "
+        "receptor occupancy.\n"
+        "Searched (2026-08): PubMed (haloperidol AND brain AND plasma AND "
+        "(ratio OR partition) AND rat, 20 hits; haloperidol rat brain plasma "
+        "concentration ratio striatum, reviewed), Europe PMC open-access "
+        "full text ('haloperidol AND \"brain to plasma ratio\"', 45 hits; "
+        "'haloperidol AND \"Kpuu\"', 7 hits; 'haloperidol AND \"unbound "
+        "brain-to-plasma\"', 7 hits), the Uppsala translational-PKPD "
+        "literature specifically, and Unpaywall on every closed candidate.\n"
+        "Candidates found and why each is unusable: Loryan I, Melander E, "
+        "Svensson M, Payan M, König F, Jansson B, Hammarlund-Udenaes M, Mol "
+        "Psychiatry 2016;21:1527-36 (PMID 26809840) is exactly the right "
+        "study - it measures regional rat Kp,uu,brain AND regional rat "
+        "f(u,brain) for haloperidol and four other antipsychotics in awake "
+        "Sprague-Dawley rats - but it is closed access with no repository "
+        "copy Unpaywall or DiVA could produce, and its abstract reports only "
+        "the qualitative regional findings and fold-differences, no values; "
+        "[Gustafsson2019], which IS open and is used here for diazepam, "
+        "cites that paper for exactly these haloperidol numbers but does not "
+        "reproduce them. Kapetanovic IM, Sweeney DJ, Rapoport SI, J "
+        "Pharmacol Exp Ther 1982;221:434-8 (PMID 7077539) measured rat plasma "
+        "and regional brain haloperidol by GC after 0.5 mg/kg i.p. and "
+        "reports brain/plasma ratios, but only their variation with age is "
+        "in the abstract and the full text is closed. Tsuneizumi T, Babb SM, "
+        "Cohen BM, Biol Psychiatry 1992;32:817-24 (PMID 1360262) gives rat "
+        "brain:serum ratios for nine neuroleptics by HPLC-EC after 5 days of "
+        "1 mg/kg/day, which would be both chemically specific and a useful "
+        "check on [Sunderland1987]'s radioreceptor assay, but its abstract "
+        "reports only the across-drug range 0.18-62.5 and the full text is "
+        "closed.\n"
+        "Independent corroboration that the ORDER of the Kp is right, "
+        "recorded but not used: the mouse Kp of 13.0 ([Doran2005] via "
+        "[Ma2024]) is the same order as the rat 22, and the mouse f(u,brain) "
+        "of 0.007 ([Maurer2005]) is what makes that mouse Kp,uu 1.06 rather "
+        "than 13. Applying the mouse f(u,brain) to the rat Kp would give a "
+        "plausible-looking rat Kp,uu of about 1.8, and it is not done: it "
+        "would be a cross-species substitution in the one factor that "
+        "carries all the difference between the two coefficients, and rule 2 "
+        "of this codebase forbids exactly that."
+    ),
+    ("fentanyl", "mouse", "*"): (
+        "No mouse brain partition of any kind is recorded for fentanyl. It "
+        "would be unusable if it were: this module has no mouse fentanyl PK "
+        "either (SEARCHED_AND_EMPTY[('fentanyl','mouse','*')]), so there "
+        "would be no plasma concentration to multiply."
+    ),
+    ("*", "human", "*"): (
+        "No human brain partition is recorded for any drug here, which is "
+        "why the pre-P1.5 calibrated scenarios in scenarios.py remain "
+        "plasma-driven and why P1.5 did not retro-fit them.\n"
+        "Those scenarios (`mu_opioid_pk_models_calibrated`, "
+        "`gaba_a_pk_models_calibrated`, `d2_pk_models_calibrated`) are built "
+        "on HUMAN clinical PK - the fentanyl citrate label's 13 min "
+        "redistribution half-life, naloxone's ~64 min serum half-life, "
+        "[Mandelli1978]'s diazepam distribution phase, [Kudo1999]'s "
+        "haloperidol terminal half-life - and dose in an achieved plasma "
+        "concentration rather than in mg/kg. Attaching a RAT partition to "
+        "human kinetics is the cross-species substitution rule 2 forbids, "
+        "and no human Kp,uu was found for these drugs: human brain:plasma "
+        "data for them is postmortem forensic material, where postmortem "
+        "redistribution makes a brain:blood ratio a property of the interval "
+        "since death as much as of the drug.\n"
+        "Consequence, stated rather than hidden: those scenarios drive "
+        "receptor occupancy with TOTAL PLASMA concentration, which is wrong "
+        "in a known direction (it ignores both plasma protein binding, which "
+        "lowers the driving concentration, and brain partition, which for "
+        "these lipophilic bases raises it). Their PK models report "
+        "`receptor_compartment == 'total plasma (no brain partition "
+        "attached)'`, and P1.5 changed none of their numbers. Phase 2 moves "
+        "them onto the rat dose bridge, which is where a species-matched "
+        "partition becomes available."
+    ),
+}
+
+
+# --- constructors ----------------------------------------------------------
+
+
+def diazepam_rat_brain_partition(region="whole_brain"):
+    """Rat diazepam plasma -> brain partition, on the TOTAL Kp basis with the
+    measured unbound fractions attached, so it yields an unbound brain
+    concentration and can drive the receptor layer.
+
+    Kp = 4.5 and f(u,plasma) = 0.196 are [Friedman1986]'s, from the same
+    5 mg/kg IP study whose disposition this module's `diazepam_rat_ip_pk`
+    already uses. f(u,brain) is [Gustafsson2019]'s, from a different
+    laboratory and a different (equilibrium-dialysis) experiment, so the
+    resulting Kp,uu is a two-study composite in the same sense as the IP
+    disposition model, and is labeled as one.
+
+    Kp,uu = Kp * f(u,brain) / f(u,plasma) = 4.5 * 0.040 / 0.196 = 0.918.
+    Independent corroboration: [Friden2009] measured 1.07 in the rat. The
+    14% gap is small next to the 2-fold gap between the two studies' Kp
+    values (4.5 vs 2.28), which is the expected behavior - see
+    `DIAZEPAM_RAT_KP_FRIDEN2009`.
+
+    Both values sit near 1, i.e. diazepam is at passive equilibrium across
+    the rat blood-brain barrier with no net efflux, which is the independent
+    qualitative expectation for a small lipophilic neutral benzodiazepine
+    that is not a P-glycoprotein substrate.
+
+    `region` selects which [Gustafsson2019] f(u,brain) to use. The default,
+    whole brain, is what a non-regional model is entitled to; the regional
+    values exist because that paper's finding is that tissue binding is not
+    homogeneous, and Phases 3-4 make this codebase regional.
+    """
+    if region not in DIAZEPAM_RAT_FU_BRAIN_BY_REGION:
+        raise KeyError(
+            "no [Gustafsson2019] rat diazepam f(u,brain) for region %r; "
+            "available: %s"
+            % (region, ", ".join(sorted(DIAZEPAM_RAT_FU_BRAIN_BY_REGION)))
+        )
+    return BrainPartition(
+        drug="diazepam",
+        species="rat",
+        basis="Kp",
+        ratio=DIAZEPAM_RAT_IP_BRAIN_PLASMA_RATIO,
+        fu_plasma=DIAZEPAM_RAT_IP_FREE_FRACTION,
+        fu_brain=DIAZEPAM_RAT_FU_BRAIN_BY_REGION[region],
+        region=region,
+        source=(
+            "Kp 4.5 +/- 0.1 and f(u,plasma) 0.196 from [Friedman1986] "
+            "(rat, 5 mg/kg IP); f(u,brain) %g from [Gustafsson2019] Table 2 "
+            "(Sprague-Dawley rat, %s, brain-homogenate equilibrium dialysis)"
+            % (DIAZEPAM_RAT_FU_BRAIN_BY_REGION[region], region)
+        ),
+        equilibration_evidence=(
+            "[Friedman1986] measured a brain half-life of 0.89 h against a "
+            "plasma half-life of 0.88 h in the same animals: brain and "
+            "plasma decline in parallel, so treating brain as instantaneously "
+            "equilibrated with plasma is supported rather than assumed on "
+            "this model's minute-to-hour timescale."
+        ),
+        note=(
+            "Two-study composite. [Friedman1986]'s own f(u,plasma) of 0.196 "
+            "disagrees with [Klotz1976]'s 0.137 in the rat (a 43% relative "
+            "spread between two equilibrium-dialysis assays; see "
+            "DIAZEPAM_RAT_IP_FREE_FRACTION). Using [Klotz1976]'s instead "
+            "would raise Kp,uu from 0.918 to 1.31 and would NOT change the "
+            "unbound brain factor at all, because that factor is "
+            "f(u,brain)*Kp and does not contain f(u,plasma) - which is worth "
+            "stating, since it means the receptor-driving concentration is "
+            "insensitive to the one number the two labs disagree about."
+        ),
+    )
+
+
+def diazepam_mouse_brain_partition():
+    """Mouse diazepam partition. Complete on paper, and unusable in practice:
+    this module has no mouse diazepam PK, so there is no plasma concentration
+    for it to multiply. Recorded so the roadmap's eventual move to mouse
+    (Phases 3-4) starts from a sourced number rather than a search.
+
+    Kp * f(u,brain) / f(u,plasma) = 2.00 * 0.050 / 0.098 = 1.020, against the
+    1.02 [Ma2024]'s table prints - the internal-consistency check that is the
+    only verification available while [Doran2005] and [Maurer2005] are
+    unreadable.
+    """
+    return BrainPartition(
+        drug="diazepam",
+        species="mouse",
+        basis="Kp",
+        ratio=DIAZEPAM_MOUSE_KP,
+        fu_plasma=DIAZEPAM_MOUSE_FU_PLASMA,
+        fu_brain=DIAZEPAM_MOUSE_FU_BRAIN,
+        source=(
+            "Kp from [Doran2005], f(u,plasma)/f(u,brain) from [Maurer2005]; "
+            "both quoted second-hand via [Ma2024] Table 1 (open access, read "
+            "directly), the primaries being closed"
+        ),
+        note=(
+            "MOUSE. Not attached to anything: no mouse diazepam PK exists in "
+            "this module. Second-hand values."
+        ),
+    )
+
+
+def haloperidol_rat_brain_partition():
+    """Rat haloperidol partition: a TOTAL brain:plasma Kp of 22
+    [Sunderland1987], and nothing else.
+
+    This object exists and is cited, and it deliberately CANNOT drive
+    receptor occupancy: `can_drive_receptor` is False and
+    `unbound_brain_factor` raises, because no rat f(u,brain) for haloperidol
+    was found (see
+    SEARCHED_AND_EMPTY_BRAIN_PARTITION[("haloperidol","rat","fu_brain")]).
+    What it can do is report a total brain concentration, which is the
+    quantity a tissue-homogenate measurement would return and therefore the
+    right thing to compare a published brain concentration against.
+
+    The Kp itself carries a real assay caveat: [Sunderland1987] used a
+    radioreceptor assay, which measures neuroleptic-equivalent D2-binding
+    activity rather than chemically specific haloperidol.
+    """
+    return BrainPartition(
+        drug="haloperidol",
+        species="rat",
+        basis="Kp",
+        ratio=HALOPERIDOL_RAT_KP,
+        source="[Sunderland1987], rat, radioreceptor assay",
+        note=(
+            "TOTAL brain:plasma only. Radioreceptor assay, so active "
+            "metabolites contribute to both numerator and denominator; dose, "
+            "route, timing, strain, sex and n are not obtainable because the "
+            "full text is closed. No rat f(u,brain) found, so this cannot "
+            "give an unbound brain concentration. The mouse Kp of 13.0 "
+            "([Doran2005] via [Ma2024]) is recorded separately as an "
+            "order-of-magnitude corroboration only."
+        ),
+    )
+
+
+def haloperidol_mouse_brain_partition():
+    """Mouse haloperidol partition. Complete, second-hand, and unattached, for
+    the same reason as `diazepam_mouse_brain_partition`: no mouse haloperidol
+    PK exists here.
+
+    Kp * f(u,brain) / f(u,plasma) = 13.0 * 0.007 / 0.087 = 1.046 against the
+    printed 1.06. Worth reading next to the rat entry: the same drug shows a
+    Kp of 13-22 and a Kp,uu of ~1, i.e. it is at passive equilibrium across
+    the barrier and merely very heavily bound to brain tissue. Driving a
+    receptor with the Kp would be wrong by the factor 1/f(u,brain) ~ 140.
+    """
+    return BrainPartition(
+        drug="haloperidol",
+        species="mouse",
+        basis="Kp",
+        ratio=HALOPERIDOL_MOUSE_KP,
+        fu_plasma=HALOPERIDOL_MOUSE_FU_PLASMA,
+        fu_brain=HALOPERIDOL_MOUSE_FU_BRAIN,
+        source=(
+            "Kp from [Doran2005], f(u,plasma)/f(u,brain) from [Maurer2005]; "
+            "both quoted second-hand via [Ma2024] Table 1"
+        ),
+        note=(
+            "MOUSE. Not attached to anything: no mouse haloperidol PK exists "
+            "in this module. Second-hand values."
+        ),
+    )
+
+
+def fentanyl_rat_brain_partition(region="region_mean"):
+    """Rat fentanyl partition: a TOTAL brain:plasma Kp of about 15-18
+    depending on region, READ OFF Fig. 5B of [Canfield2025].
+
+    Like the haloperidol one, this deliberately cannot drive receptor
+    occupancy: no rat f(u,brain) for fentanyl was found (see
+    SEARCHED_AND_EMPTY_BRAIN_PARTITION[("fentanyl","rat","fu_brain")]).
+
+    `region` is one of the four the paper resolved, or "region_mean" for the
+    mean of the four - which is NOT a whole-brain measurement, only an
+    average of the regions that paper chose.
+    """
+    if region == "region_mean":
+        ratio = FENTANYL_RAT_KP_REGION_MEAN_FIGURE_READ
+    elif region in FENTANYL_RAT_KP_BY_REGION_FIGURE_READ:
+        ratio = FENTANYL_RAT_KP_BY_REGION_FIGURE_READ[region]
+    else:
+        raise KeyError(
+            "no [Canfield2025] rat fentanyl brain:plasma read for region %r; "
+            "available: region_mean, %s"
+            % (region, ", ".join(sorted(FENTANYL_RAT_KP_BY_REGION_FIGURE_READ)))
+        )
+    return BrainPartition(
+        drug="fentanyl",
+        species="rat",
+        basis="Kp",
+        ratio=ratio,
+        region=region,
+        source=(
+            "[Canfield2025] Fig. 5B, FIGURE READ (+/- %g ratio units), six "
+            "male Sprague-Dawley rats, 300 ug/kg SC, 1 h post-dose"
+            % FENTANYL_RAT_KP_FIGURE_READ_UNCERTAINTY
+        ),
+        equilibration_evidence=(
+            "[HugMurphy1981]: after 50 ug/kg IV in rats, 'fentanyl "
+            "concentrations in brain, heart, and lung equilibrated with that "
+            "in plasma before 1.5 min and declined at the same rate'. Fast "
+            "relative to this codebase's minute-scale time unit, so an "
+            "instantaneous partition is supported for fentanyl too - which "
+            "matters because it means the missing piece here is only "
+            "f(u,brain), not the model structure."
+        ),
+        note=(
+            "TOTAL brain:plasma only, and a figure read rather than a "
+            "printed value. A steady-state rat tissue:blood value of 4 for "
+            "brain may exist in [Bjorkman1990]; it is unread and 4-fold "
+            "lower, and that disagreement is unresolved. No rat f(u,brain) "
+            "found, so this cannot give an unbound brain concentration."
+        ),
+    )
+
+
+def brain_partition_for(drug, species, require_receptor_drivable=True):
+    """The sourced partition for `drug`/`species`, or None.
+
+    With `require_receptor_drivable=True` (the default, and what the PK
+    builders use), a partition that exists but cannot yield an unbound brain
+    concentration returns None rather than being attached, because attaching
+    it would make the PK constructor raise and take a route that DOES have
+    sourced kinetics offline. The result is not silent: the model then
+    reports `receptor_compartment == 'total plasma (no brain partition
+    attached)'`, and `brain_partition_status` says exactly which of the three
+    cases applies and why.
+    """
+    builders = {
+        ("diazepam", "rat"): diazepam_rat_brain_partition,
+        ("diazepam", "mouse"): diazepam_mouse_brain_partition,
+        ("haloperidol", "rat"): haloperidol_rat_brain_partition,
+        ("haloperidol", "mouse"): haloperidol_mouse_brain_partition,
+        ("fentanyl", "rat"): fentanyl_rat_brain_partition,
+    }
+    builder = builders.get((str(drug).lower(), str(species).lower()))
+    if builder is None:
+        return None
+    partition = builder()
+    if require_receptor_drivable and not partition.can_drive_receptor:
+        return None
+    return partition
+
+
+def brain_partition_status(drug, species):
+    """`(status, explanation)` for one drug/species, where status is one of
+    "receptor-drivable", "total-brain-only" or "absent".
+
+    Exists so that "this simulation ran on plasma" is a queryable fact with a
+    reason attached, rather than something a reader has to infer from the
+    absence of an attribute.
+    """
+    key = (str(drug).lower(), str(species).lower())
+    partition = brain_partition_for(*key, require_receptor_drivable=False)
+    if partition is None:
+        record = SEARCHED_AND_EMPTY_BRAIN_PARTITION.get(
+            key + ("*",)
+        ) or SEARCHED_AND_EMPTY_BRAIN_PARTITION.get(("*", key[1], "*"))
+        return (
+            "absent",
+            record
+            or "No brain partition has been sourced for %s in the %s, and no "
+            "search for one has been recorded." % key,
+        )
+    if partition.can_drive_receptor:
+        return ("receptor-drivable", partition.source)
+    return (
+        "total-brain-only",
+        SEARCHED_AND_EMPTY_BRAIN_PARTITION.get(
+            key + ("fu_brain",), partition.note or ""
+        ),
+    )
+
+
 __all__ = [
     "UnsourcedParameterError",
     "SEARCHED_AND_EMPTY",
+    "SEARCHED_AND_EMPTY_BRAIN_PARTITION",
+    "USE_SOURCED_BRAIN_PARTITION",
+    "brain_partition_for",
+    "brain_partition_status",
+    "DIAZEPAM_RAT_FU_BRAIN_WHOLE",
+    "DIAZEPAM_RAT_FU_BRAIN_WHOLE_SD",
+    "DIAZEPAM_RAT_FU_BRAIN_BY_REGION",
+    "DIAZEPAM_RAT_KP_FRIDEN2009",
+    "DIAZEPAM_RAT_KP_UU_FRIDEN2009",
+    "DIAZEPAM_MOUSE_KP",
+    "DIAZEPAM_MOUSE_FU_PLASMA",
+    "DIAZEPAM_MOUSE_FU_BRAIN",
+    "DIAZEPAM_MOUSE_KP_UU_REPORTED",
+    "diazepam_rat_brain_partition",
+    "diazepam_mouse_brain_partition",
+    "HALOPERIDOL_RAT_KP",
+    "HALOPERIDOL_MOUSE_KP",
+    "HALOPERIDOL_MOUSE_FU_PLASMA",
+    "HALOPERIDOL_MOUSE_FU_BRAIN",
+    "HALOPERIDOL_MOUSE_KP_UU_REPORTED",
+    "haloperidol_rat_brain_partition",
+    "haloperidol_mouse_brain_partition",
+    "FENTANYL_RAT_KP_BY_REGION_FIGURE_READ",
+    "FENTANYL_RAT_KP_FIGURE_READ_UNCERTAINTY",
+    "FENTANYL_RAT_KP_REGION_MEAN_FIGURE_READ",
+    "FENTANYL_RAT_BRAIN_NG_PER_G_BY_REGION_FIGURE_READ",
+    "fentanyl_rat_brain_partition",
+    "fentanyl_rat_brain_plasma_figure_read_cross_check",
     "HALOPERIDOL_MOLAR_MASS_G_PER_MOL",
     "HALOPERIDOL_RAT_IV_CL_ML_PER_MIN_PER_KG",
     "HALOPERIDOL_RAT_IV_VC_L_PER_KG",

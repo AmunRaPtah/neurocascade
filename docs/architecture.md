@@ -1547,8 +1547,9 @@ numbers whichever weight went in.
 `fentanyl_rat_iv_terminal_half_life_interval_min()` enumerates the 16 corners
 of the (Cl, V1, V2, Q) 95% CI box and returns **44.3–63.6 min**. That is an
 outer bound, not a joint confidence region, because the four estimates are
-correlated and the covariance is not published. It is used as one: the
-half-life test asserts the exact derived value (53.60 min, to 0.05 min), and
+correlated and the covariance is not published. The tests treat it as an
+outer bound: the half-life test asserts the exact derived value (53.60 min,
+to 0.05 min), and
 the interval is asserted separately so its width is on the record for P1.6.
 
 **How the "simulated half-life matches the cited half-life" criterion is
@@ -1815,7 +1816,7 @@ rat-specific distribution half-life constant exists, because taking the
 middle of a four-species range and calling it the rat's is precisely the
 invented number this codebase forbids.
 
-**IP, rat, a two-paper composite — the route Phase 2 actually needs.** The
+**IP, rat, a two-paper composite - the route Phase 2 actually needs.** The
 diazepam target Track E named is the elevated plus maze at 1-2 mg/kg, and
 that literature doses intraperitoneally. No rat study found reports both the
 disposition and the absorption for this route, so the model is built from
@@ -1851,7 +1852,7 @@ it is that F is not separately identifiable from, and not separately needed
 for, the concentration a given mg/kg dose achieves. So the flag sets `F = 1`
 as bookkeeping, records `apparent_parameters = True` and
 `F_is_measured = False`, and says so in `repr`. What such a model cannot
-report is a true Vd, a true CL, or the absorbed fraction — and asking it for
+report is a true Vd, a true CL, or the absorbed fraction - and asking it for
 those is asking for the one number that was divided out.
 `test_pk.py::test_apparent_parameterisation_is_flagged_and_cannot_double_apply_f`
 holds the distinction: the apparent and measured-F=1 models produce
@@ -1891,7 +1892,7 @@ them transfers.
 
 **The composite's most likely error, stated with its direction.** ka =
 0.158/min puts Tmax at **17.1 min**, while Friedman et al.'s first post-dose
-sample — the one that would locate the true peak in those animals — is at
+sample - the one that would locate the true peak in those animals - is at
 5 min. If their curve was already falling at 5 min, the true ka is
 several-fold higher and this model absorbs too slowly, understating early
 concentrations.
@@ -1914,7 +1915,7 @@ the two clearances already published give:
 These are cross-study derivations and inherit everything that differs between
 a 1976 GLC-ECD study and a 1986 or 2025 one. So they are returned by
 functions, not stored as constants, and a test asserts that no
-`DIAZEPAM_RAT_IP_F` or `DIAZEPAM_RAT_PO_F` constant exists — because the
+`DIAZEPAM_RAT_IP_F` or `DIAZEPAM_RAT_PO_F` constant exists - because the
 likely decay path is someone promoting a derived number to a measured-looking
 one. Critically, **the IP model does not use its F**: the apparent
 parameterisation needs none. The numbers are recorded because P1.4 asked for
@@ -1923,8 +1924,8 @@ shape for a high-extraction drug given by a partly-portal route.
 `diazepam_hepatic_extraction_note()` keeps the supporting inequality
 checkable: 81.6 mL/min/kg of plasma clearance against ~55 mL/min/kg of rat
 hepatic blood flow (Davies & Morris 1993). As with fentanyl, that is not
-claimed to prove extrahepatic elimination — a rat blood:plasma ratio would be
-needed and was searched for and not found — it establishes high extraction
+claimed to prove extrahepatic elimination - a rat blood:plasma ratio would be
+needed and was searched for and not found - it establishes high extraction
 and stops.
 
 ### What was searched for and not found
@@ -1946,18 +1947,18 @@ ke = ln2/1.81 h:
 
 - from the reported **Tmax** alone, solving Tmax = ln(ka/ke)/(ka − ke) at
   1.33 h: **ka = 0.0217/min**;
-- from the reported **Cmax and AUC** alone — for any one-compartment
+- from the reported **Cmax and AUC** alone - for any one-compartment
   extravascular model F·Dose/V = AUC(0–∞)·ke exactly, and
   Cmax/(F·Dose/V) = (ke/ka)^(ke/(ka−ke)), a function of ka/ke only; the
   reported Cmax is 82.9% of AUC·ke, needing ka/ke = 15.6, i.e.
-  **ka = 0.0996/min** — which would put Tmax at 29.5 min, not 80.
+  **ka = 0.0996/min** - which would put Tmax at 29.5 min, not 80.
 
 **4.6-fold apart** (`diazepam_rat_po_ka_is_not_identified()`, with a test).
 Unlike the fentanyl SC case, the reported Cmax does *not* breach the
 structural ceiling AUC·ke, so a one-compartment model is not excluded here;
 what is excluded is any single ka reproducing the study's own three headline
 numbers. Two smaller inconsistencies are pinned alongside it: printed Vz/F is
-5.0% from (CL/F)/λz, and printed CL/F is 8.1% from Dose/AUC — both the usual
+5.0% from (CL/F)/λz, and printed CL/F is 8.1% from Dose/AUC - both the usual
 mean-of-per-animal-ratios artefact, the same one the fentanyl SC record
 found. The likely cause of the ka split is ordinary and not a fault in the
 paper: a mean of per-animal Cmax on a discrete grid is biased upward relative
@@ -1972,7 +1973,7 @@ The study that would fix this was found and could not be read: Díaz-García
 JM, Oliver-Botana J, Fos-Galve D, J Pharm Sci 1992;81(8):768-72
 (doi:10.1002/jps.2600810810, PMID 1403721) with its companion Eur J Drug
 Metab Pharmacokinet 1991;Spec No 3:94-101 (PMID 1820943) gave **4 mg/kg IV
-and 4 mg/kg oral in the same rats** — exactly the crossover needed — but both
+and 4 mg/kg oral in the same rats** - exactly the crossover needed - but both
 are closed access and neither abstract prints a single control-group value,
 reporting only that the cirrhotic group's half-life and volume rose. That is
 the first paper a future pass with journal access should read for this route.
@@ -1985,7 +1986,7 @@ for the oral route. Every subcutaneous hit is one of three things: a
 different drug in the same paper (rectal diazepam against subcutaneous
 morphine-scopolamine, PMID 4072591), the word used for a non-diazepam
 co-treatment, or a chronic-dependence study dosing by implanted capsule or
-minipump — where the implant's release rate, not diazepam's absorption, sets
+minipump - where the implant's release rate, not diazepam's absorption, sets
 the profile, the same objection that disqualified the sustained-release
 fentanyl studies in P1.2. This route is recorded for completeness rather than
 need, since the EPM literature doses IP and that route is modelled. F(SC) is
@@ -2005,7 +2006,7 @@ closed candidate. Candidates and why each fails:
   study: male CF-1 mice, IV diazepam at 3 and 10 µmol/kg, **plasma and brain
   concentrations from 1 min to 24 h**, with ex vivo ³H-flunitrazepam
   displacement occupancy in the same animals. Closed access, no PMC deposit,
-  and its abstract reports no PK parameter at all — only that diazepam
+  and its abstract reports no PK parameter at all - only that diazepam
   "entered brain rapidly, and was also cleared rapidly". **This is the first
   paper a future pass with journal access should read**; it would close this
   gap and P1.5's mouse brain:plasma partition together.
@@ -2054,8 +2055,8 @@ with a test that fails if the record loses any leg of the argument. Three
 facts settle it, each from a primary source read for this task:
 
 1. **Exposure.** After diazepam 10 mg/kg PO in the rat, nordiazepam's plasma
-   AUC(0–∞) is 139.73 µg/L·h against the parent's 182.02. In *molar* terms —
-   the units that matter for receptor occupancy, at 270.71 vs 284.74 g/mol —
+   AUC(0–∞) is 139.73 µg/L·h against the parent's 182.02. In *molar* terms -
+   the units that matter for receptor occupancy, at 270.71 vs 284.74 g/mol -
    that is 0.516 vs 0.639 µmol/L·h: the metabolite carries **81% of the
    parent's molar exposure** (Hua et al. 2025, Tables 1 and 2, same animals).
    The mass-based ratio, 0.768, understates it by 5%, so the conversion is
@@ -2070,13 +2071,13 @@ facts settle it, each from a primary source read for this task:
    desmethyldiazepam have **equal affinity** at the central benzodiazepine
    receptor while desmethyldiazepam "acts as a partial agonist" there. No
    numeric Ki appears in the reachable abstract and the full text is closed,
-   so no Ki is recorded — the equal-affinity and partial-agonist findings are
+   so no Ki is recorded - the equal-affinity and partial-agonist findings are
    qualitative and are used qualitatively.
 3. **Timescale.** Nordiazepam's rat Tmax is 1.25 h by the oral route and it
    is already measurable in plasma and brain at Friedman et al.'s early IP
    time points. The existing GABA-A scenario runs to t = 40 min and the EPM
    protocols Phase 2 must fit test 30–60 min after an IP dose. The metabolite
-   is inside the window by both routes measured — this is not a late
+   is inside the window by both routes measured - this is not a late
    accumulation effect a short simulation could ignore.
 
 **Consequence, stated and not patched:** every diazepam simulation this
@@ -2086,8 +2087,8 @@ present and unmodelled. This sharpens, with numbers, the qualitative caveat
 `scenarios.gaba_a_pk_models_calibrated()` already carried from Track A.
 
 It is not fixed here, and the reason is the codebase's first rule. The fix is
-structural — a metabolite compartment feeding a second `Ligand` at the same
-`ReceptorSite` — and it needs two numbers this project does not have: a rat
+structural - a metabolite compartment feeding a second `Ligand` at the same
+`ReceptorSite` - and it needs two numbers this project does not have: a rat
 formation fraction for the demethylation step (the reported nordiazepam
 CL/F of 85.13 L/h/kg is apparent in *both* the parent's F and the formation
 fraction, so it does not give one), and a numeric Ki and efficacy for
@@ -2117,8 +2118,8 @@ modelled from rat numbers.
 - **Composites are named after their sources.** `diazepam_rat_ip_pk`'s
   `name` string carries both papers, its docstring says which half came from
   where, and the ka source's animal age and dose are module constants so a
-  test can assert the caveat has not been dropped. The alternative — one
-  parameter set with four citations in a comment — would have made the seam
+  test can assert the caveat has not been dropped. The alternative - one
+  parameter set with four citations in a comment - would have made the seam
   invisible within a release.
 - **Derived numbers are functions; measured numbers are constants.** Both
   bioavailabilities and every consistency check are functions that recompute
@@ -2134,7 +2135,7 @@ modelled from rat numbers.
 - **A third test file.** `tests/test_diazepam_pk.py`, for the same reason
   P1.2 got its own: this drug's evidential position is a third distinct one
   (no single source covers a route), and it needs a class of assertion the
-  other two files do not have — that the composite's seams stay visible.
+  other two files do not have - that the composite's seams stay visible.
 
 ### What this changes, and what it does not
 
@@ -2145,13 +2146,13 @@ modelled from rat numbers.
   fentanyl both ended with "the behavioural literature uses a route we cannot
   model". Diazepam does not: the EPM literature doses IP, and IP is modelled.
   The remaining blockers for the GABA-A system are therefore no longer
-  PK-structural — they are Track E's original one (no directly quotable
+  PK-structural - they are Track E's original one (no directly quotable
   diazepam percent-open-arm-time figure) plus P1.5's brain partition plus the
   unmodelled metabolite above. That is a different and much more tractable
   list than the one Track E left.
 - **The margin over Ki is smaller than it looks, which is why P1.5 matters.**
   1 mg/kg IP in a 250 g rat peaks at 145 nM total plasma, about 40× the
-  3.6 nM benzodiazepine-site Ki the calibrated scenario uses — but only 19.6%
+  3.6 nM benzodiazepine-site Ki the calibrated scenario uses - but only 19.6%
   of that is unbound, so unbound plasma peaks near 28 nM, about 8× Ki. Brain
   total is a further 4.5-fold higher and brain binding is unknown here.
   Whether the receptor sees 8× Ki or 40× Ki is exactly P1.5's question, and
@@ -2164,3 +2165,320 @@ modelled from rat numbers.
   by P1.4, because converting a total-brain:total-plasma ratio into the
   Kp,uu a receptor layer needs is P1.5's job and needs a brain unbound
   fraction this task did not search for.
+
+## Phase 1: plasma-to-brain partition (P1.5)
+
+### The gap this closes, and the one it turns out to open
+
+P1.1 through P1.4 built a dose → **plasma** bridge and said so at every
+step: "It models plasma, not brain. Receptors sit in tissue, and the
+plasma-to-brain partition (Kp / Kp,uu) is a separate, drug-specific,
+published quantity that P1.5 adds." P1.4 sharpened it into a number: 1 mg/kg
+diazepam IP in a 250 g rat peaks at 145 nM total plasma, ~40× the 3.6 nM
+benzodiazepine-site Ki, but only 19.6% of that is unbound and brain is a
+further 4.5-fold up, so "whether the receptor sees 8× Ki or 40× Ki is exactly
+P1.5's question".
+
+That framing was slightly too generous to the pre-P1.5 code, and the
+correction is the substance of this task. The occupancy ODE is
+
+    d(occ_i)/dt = kon_i * C_i * (1 - sum(occ)) - koff_i * occ_i,
+
+with every calibrated `kon` in this codebase derived as `koff / Kd` from an
+*in vitro binding-assay* Kd - Volpe et al.'s [3H]-DAMGO competition for
+fentanyl/naloxone, Möhler & Okada's [3H]diazepam saturation binding, Kapur's
+D2 numbers. A binding-assay Kd is expressed in **free ligand concentration**.
+So `C_i` was never allowed to be a total plasma concentration in the first
+place: it has to be the free concentration at the receptor, which is unbound
+drug in brain. The pre-P1.5 model was not "plasma instead of brain", it was
+"total plasma instead of unbound brain", which is two errors pointing in
+opposite directions (protein binding lowers it, tissue partition raises
+it) and no reason for them to cancel.
+
+### Kp and Kp,uu are not two names for the same thing
+
+With C_p, C_b the total plasma and total brain concentrations, Cu_p, Cu_b the
+unbound ones, and fu_p, fu_b the unbound fractions:
+
+    Kp    = C_b / C_p
+    Kp,uu = Cu_b / Cu_p = Kp * fu_b / fu_p
+
+`Kp` is dominated by **tissue binding**. Haloperidol is the cleanest
+illustration available in this project's own sourced numbers: in the mouse
+its Kp is 13.0 and its Kp,uu is 1.06, because fu_brain is 0.007. A Kp of 13
+sounds like avid brain uptake and is in fact passive equilibrium plus very
+heavy binding to brain lipid and protein. Multiplying a plasma concentration
+by 13 and feeding it to the occupancy ODE would overstate the driving
+concentration by 1/fu_b ≈ 140-fold.
+
+So the layer added here refuses that substitution structurally rather than
+warning about it in a comment. `brain_partition.BrainPartition` requires an
+explicit `basis` of `"Kp"` or `"Kp,uu"` (no default), and:
+
+- a Kp-basis partition **with no measured fu_brain** exposes
+  `total_brain_factor` and raises `UnusablePartitionError` from
+  `unbound_brain_factor`;
+- a Kp,uu-basis partition **with no measured fu_plasma** also raises, because
+  `pk.py` produces *total* plasma and Cu_b = Kp,uu · fu_p · C_p;
+- attaching a non-drivable partition to a PK model raises **at construction**,
+  with the drug's own citation in the message, not at the first RHS
+  evaluation.
+
+This is the same "Refusing to default" rule P1.1 applied to bioavailability,
+applied to the factor that most changes occupancy.
+
+### Why the partition is a scalar and not a compartment
+
+The alternative implementation is a brain compartment with its own state and
+its own influx/efflux clearances. It was rejected for this task on evidence,
+not convenience: both drugs for which an equilibration observation could be
+found equilibrate fast relative to this codebase's minute-scale time unit.
+Friedman et al. measured a diazepam brain half-life of 0.89 h against a
+plasma half-life of 0.88 h in the same animals - parallel decline, i.e. brain
+tracks plasma. Hug & Murphy report that after 50 µg/kg IV fentanyl,
+"concentrations in brain, heart, and lung equilibrated with that in plasma
+before 1.5 min and declined at the same rate". Under that condition an
+instantaneous linear partition is the correct reduction, and a kinetic brain
+compartment would need influx/efflux clearances that are not published for
+these drugs - it would add three invented numbers to model a transient that
+lasts under two minutes.
+
+The assumption is tracked rather than assumed globally:
+`BrainPartition.equilibration_evidence` holds the published observation, and
+`assumes_rapid_equilibrium_unverified` is True where none was found (which is
+the case for haloperidol). A drug that is a strong P-gp substrate with a long
+brain equilibration half-life would need the larger model, and that is
+recorded as a limitation rather than approximated.
+
+Because the partition is linear, the whole layer collapses to one scalar per
+ligand. `pk.py` gains `receptor_concentration_factor` (exactly 1.0 with no
+partition) and `receptor_concentration(state)`; `engine.Simulation` holds
+`receptor_concentration_factors` and computes `C_receptor = C * factors` once
+per RHS call, driving `occupancy_rhs` from that instead of from `C`. Keeping
+it a scalar rather than a callable makes the linearity assumption impossible
+to violate by accident and keeps the per-step work vectorized.
+
+`result["concentrations"]` keeps its original name, meaning and values
+(central compartment, i.e. plasma or blood); `result["plasma_concentrations"]`
+is an explicit alias for call sites that want to say which they mean, and
+`result["receptor_concentrations"]` is what the receptor layer actually saw.
+`model.receptor_compartment` returns `"unbound brain"` or `"total plasma (no
+brain partition attached)"`, so "this simulation ran on plasma" is an
+inspectable fact rather than something a reader has to infer from an absent
+attribute.
+
+### What was found, per drug
+
+Coverage came out uneven, and the unevenness is the result rather than an
+accident of effort: the literature reports Kp far more often than Kp,uu,
+because Kp needs only two assays and Kp,uu needs a brain-tissue-binding
+measurement as well.
+
+**Diazepam, rat - complete, and attached by default.** Every factor exists
+and two of the three come from the same study and the same animals as the IP
+disposition parameters P1.4 already uses:
+
+| quantity | value | source |
+|---|---|---|
+| Kp (total brain : total plasma) | 4.5 ± 0.1 | [Friedman1986], rat, 5 mg/kg IP |
+| fu,plasma | 0.196 | [Friedman1986], same study |
+| fu,brain (whole brain) | 0.040 ± 0.006 | [Gustafsson2019], Sprague-Dawley rat, brain-homogenate equilibrium dialysis |
+| **Kp,uu (derived)** | **0.918** | Kp · fu,brain / fu,plasma |
+
+[Gustafsson2019] (Sci Rep 9:5308, open access, Table 2 read directly) is a
+different laboratory and a different method, so this is a two-study
+composite, labeled as one exactly like P1.4's IP disposition model. Its
+independent corroboration is [Friden2009], which measured rat diazepam
+Kp,uu = 1.07 directly, 14% from the derived 0.918.
+
+The disagreement worth recording is in the *other* coefficient: [Friden2009]
+reports Kp = 2.28 against [Friedman1986]'s 4.5, a factor of 2. That the two
+studies agree twice as well on Kp,uu as on Kp is the behaviour the
+distinction predicts, and it is asserted as a test
+(`test_the_two_rat_diazepam_kp_values_disagree_and_that_is_recorded`) rather
+than mentioned: Kp depends on the tissue-binding assay and on when brain and
+plasma were sampled, Kp,uu divides both out.
+
+One asymmetry is worth stating because it is counter-intuitive: the factor
+the model actually multiplies by is `fu_brain · Kp = 0.18`, which does **not**
+contain fu_plasma. So the 43% disagreement between [Friedman1986]'s
+fu_plasma of 0.196 and [Klotz1976]'s 0.137 - recorded in P1.4 and left
+unresolved - moves the *reported* Kp,uu (0.918 vs 1.31) and does not move the
+receptor-driving concentration at all.
+
+[Gustafsson2019]'s central finding is that brain tissue binding is **not**
+homogeneous across regions (rat diazepam fu,brain runs 0.037 in frontal
+cortex to 0.055 in cerebellum, a factor of 1.5). The default partition uses
+the whole-brain value because a non-regional model is not entitled to more;
+the regional values are stored, because Phases 3-4 make this codebase
+regional and this is precisely the number that will stop being scalar then.
+
+**Haloperidol, rat - a Kp, and nothing else.** [Sunderland1987] reports a rat
+brain:plasma ratio of 22 (abstract quoted verbatim; the full text is closed,
+so dose, route, timing, strain, sex and n were not obtainable, and the assay
+is a *radioreceptor* assay, which measures neuroleptic-equivalent D2-binding
+activity rather than chemically specific haloperidol). No rat fu,brain was
+found, so this cannot yield an unbound brain concentration and is not
+attached to the rat IV model, which reports itself as plasma-driven.
+
+**Fentanyl, rat - a Kp read off a figure, and nothing else.**
+[Canfield2025] - the same open-access study, the same six 355 g male
+Sprague-Dawley rats and the same 300 µg/kg SC dose that already supply this
+module's fentanyl SC disposition constants - reports region-resolved
+brain:plasma ratios at 1 h post-dose. The catch is that it reports them
+**only in Fig. 5B**: there is no printed value in text, table or supplement.
+The constants recorded are therefore figure reads (hippocampus ~15, medulla
+~18, striatum ~16, frontal cortex ~17, ±2 ratio units), explicitly labeled as
+such in `BrainPartition.source`, and cross-checked against the same figure's
+panel A: mean brain concentration ~1185 ng/g divided by mean ratio 16.5 gives
+a 1 h plasma concentration of 71.8 ng/mL, against 59.9 ng/mL propagated from
+the paper's *printed* Cmax (82.12 ng/mL at 0.5 h) and half-life (1.10 h) - a
+20% gap in the direction the crude mono-exponential estimate is biased
+(`fentanyl_rat_brain_plasma_figure_read_cross_check`, and a one-sided test).
+No rat fu,brain was found here either, so fentanyl is also plasma-driven.
+
+**Mouse, diazepam and haloperidol - complete, and deliberately unused.**
+[Doran2005] (Kp) and its companion [Maurer2005] (fu,plasma, fu,brain) give
+diazepam 2.00 / 0.098 / 0.050 → Kp,uu 1.02, and haloperidol 13.0 / 0.087 /
+0.007 → Kp,uu 1.06. Both primaries are closed access; the values reach this
+project as attributed quotes in [Ma2024]'s Table 1 (open access, read
+directly), and that second-hand status is recorded on every constant. They
+are recorded and **not** used, because this module has no mouse PK for either
+drug - a partition is not a licence to invent the kinetics it multiplies -
+and the roadmap's eventual move to mouse should start from a sourced number
+rather than a search. The one check available on a second-hand quote is
+internal consistency: Kp · fu,b / fu,p reproduces the printed Kp,uu for both
+drugs to within the table's rounding, which a transcription error in any of
+the four numbers would break.
+
+### What was searched for and not found
+
+Recorded as data in `SEARCHED_AND_EMPTY_BRAIN_PARTITION`, so the error a
+caller hits is the search record, following the Track E / P1.2-P1.4 pattern.
+
+**Rat fu,brain for fentanyl.** Yu et al. (Toxicol Sci 2018;164:353-62) *did*
+measure a rat unbound brain-to-plasma ratio for fentanyl at 40 µg/kg IV - the
+abstract says so, reporting that tariquidar raised it 2.9-fold - but gives no
+baseline value, and although Unpaywall marks the article open access, the
+Oxford Academic PDF endpoint returns 403 to every automated request tried
+(direct, browser-headered, and via a text-extraction proxy), so the value was
+never seen and no reachable paper restates it. Kalvass et al. (JPET
+2007;323:346-55) reports unbound brain concentrations for fentanyl and six
+other opioids but in *mice* and behind a paywall - wrong species and
+unreadable. Björkman et al. (Anesthesiology 1990;72:865-73) measured
+steady-state tissue/**blood** partition coefficients for fentanyl in 13 rat
+tissues including brain, which would be a better-controlled Kp than a figure
+read, and is likewise 403-blocked at the publisher. A rat brain value of 4
+appears in Table 1 of Front Pharmacol 2025 (PMC12575352) under the heading
+"Kp of fentanyl in rats from report", with 13 tissue columns matching
+Björkman's 13 tissues - but that table carries no citation in its text, so
+the attribution is an inference and the number is not used. It leaves an
+unresolved tension on the record: 4 (steady-state infusion, tissue:blood)
+against ~16 (1 h post-SC, tissue:plasma), a 4-fold disagreement only a
+readable primary can settle.
+
+**Rat fu,brain and fu,plasma for haloperidol.** Loryan et al. (Mol Psychiatry
+2016;21:1527-36) is exactly the right study - regional rat Kp,uu,brain *and*
+regional rat fu,brain for haloperidol and four other antipsychotics in awake
+Sprague-Dawley rats - and is closed access with no repository copy Unpaywall
+or DiVA would produce; its abstract reports only qualitative regional
+findings and fold-differences. [Gustafsson2019], which *is* open and supplies
+the diazepam fu,brain used here, cites that paper for exactly these
+haloperidol numbers without reproducing them. Kapetanovic et al. (JPET
+1982;221:434-8) measured rat plasma and regional brain haloperidol by GC after
+0.5 mg/kg IP and reports brain/plasma ratios, but only their variation with
+age is in the abstract. Tsuneizumi et al. (Biol Psychiatry 1992;32:817-24)
+gives rat brain:serum ratios for nine neuroleptics by HPLC-EC - which would
+be both chemically specific and a good check on [Sunderland1987]'s
+radioreceptor assay - but its abstract reports only the across-drug range
+0.18-62.5.
+
+**What was deliberately not done about the haloperidol gap.** The mouse
+fu,brain of 0.007 is in hand. Applying it to the rat Kp of 22 would give a
+plausible-looking rat Kp,uu of about 1.8, and it is not done: it would be a
+cross-species substitution in the one factor that carries all the difference
+between the two coefficients, which is rule 2. Worth noting that this
+project's own data gives some support to the species-independence claim that
+would license it - rat diazepam fu,brain 0.040 [Gustafsson2019] against mouse
+0.050 [Maurer2005], 25% apart - and that this is exactly the argument that
+should not be used to move a number by a factor of 140.
+
+**Human, every drug.** None found, which is why the pre-P1.5 calibrated
+scenarios were left alone. `mu_opioid_pk_models_calibrated`,
+`gaba_a_pk_models_calibrated` and `d2_pk_models_calibrated` run on *human*
+clinical PK (the fentanyl citrate label's 13 min redistribution half-life,
+naloxone's ~64 min serum half-life, [Mandelli1978]'s diazepam distribution
+phase, [Kudo1999]'s haloperidol terminal half-life) and dose in an achieved
+plasma concentration rather than mg/kg. Attaching a rat partition to human
+kinetics is the substitution rule 2 forbids, and human brain:plasma data for
+these drugs is postmortem forensic material, where postmortem redistribution
+makes a brain:blood ratio a property of the interval since death as much as
+of the drug.
+
+### Existing scenario results: nothing moved, and why
+
+Every pre-P1.5 result is unchanged, bit for bit, and this is structural
+rather than fortunate. A PK model with no partition has
+`receptor_concentration_factor` exactly `1.0` (a float literal, not a
+computed 0.9999...), so `C_receptor = C * 1.0` is the identical array; the
+engine's occupancy path is otherwise untouched. Every scenario in
+`scenarios.py` - illustrative and calibrated alike - is built on
+`OneCompartmentPK` with no partition, for the human-PK reason above, so all
+of them take that path. `test_the_human_gap_is_recorded_and_the_legacy_
+scenarios_stay_plasma_driven` asserts it directly on all three calibrated
+model sets rather than leaving it to the other tests to notice, and the
+pre-existing suite (154 gate tests plus 7 `slow`) passes unchanged.
+
+The rat dose-driven models in `drug_pk.py` are the ones that changed, and
+only diazepam's changed behaviourally: `diazepam_rat_iv_pk`,
+`diazepam_rat_ip_pk` and `diazepam_rat_pk` now attach the rat partition by
+default and drive occupancy with unbound brain concentration at 0.18× plasma.
+Their *plasma* output is unchanged - same `initial_state`, same
+`concentration_rhs`, same terminal half-life, same AUC
+(`test_the_partition_does_not_touch_the_plasma_curve`) - because P1.5 adds a
+layer rather than perturbing P1.1-P1.4. The haloperidol and fentanyl rat
+builders accept the same argument and resolve it to "no partition", for the
+sourcing reason above.
+
+The default is the attaching one (`brain_partition=USE_SOURCED_BRAIN_
+PARTITION`, a sentinel distinct from `None`, which means "plasma-driven, and
+I know it"). A default of `None` would have silently reproduced the bug this
+task exists to fix, every time Phase 2 built a model without thinking about
+it.
+
+### The answer to P1.4's question
+
+P1.4 ended by asking whether the benzodiazepine site sees 8× Ki or 40× Ki at
+1 mg/kg diazepam IP in a 250 g rat. It sees **7.3× Ki**: 145.1 nM peak total
+plasma × 0.18 = 26.1 nM unbound brain, against the 3.6 nM [Mohler1977] Kd.
+
+The near-coincidence with the unbound-*plasma* estimate P1.4 offered as the
+lower bound (28.4 nM, 7.9× Ki) is not luck and is worth stating, because it
+is the single most useful thing Kp,uu tells you about this drug: Kp,uu = 0.918
+means diazepam sits at passive equilibrium across the rat blood-brain
+barrier, so unbound brain ≈ unbound plasma, and the 4.5-fold total-brain
+enrichment is entirely brain tissue binding that the receptor never sees. The
+40× figure was the wrong answer, and it was the one the model would have used
+before this task.
+
+### What this does not do
+
+- It removes no illustrative label, and adds no PK parameter. Every
+  circuit-layer parameter and every binding constant is where Track A/E left
+  it.
+- It does not give fentanyl or haloperidol a brain-driven receptor. Both have
+  a cited rat Kp and neither has a rat fu,brain, so both remain plasma-driven
+  and say so. That is P1.5's honest coverage, not a placeholder: the two
+  searched-and-empty records above name the exact papers that would close each
+  gap if they became readable.
+- It does not model brain uptake kinetics, regional partition, active
+  transport, or a metabolite's own partition. Nordiazepam's rat brain:plasma
+  ratio of 3.5 ± 0.2 is in [Friedman1986] alongside the parent's 4.5 and is
+  *not* recorded as a partition here, because P1.4 already established that
+  nordiazepam has no ligand in this model to attach it to; that remains the
+  metabolite limitation P1.4 recorded, now with the note that its brain side
+  is also known and also unusable until the metabolite is modeled.
+- It does not validate any simulated brain concentration against a published
+  one. The checks here are consistency checks (derivation identities,
+  independent-source agreement, figure-read cross-checks); comparing a
+  simulated concentration-time curve to a measured one is still P1.6.

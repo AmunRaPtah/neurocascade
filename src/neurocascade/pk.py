@@ -22,12 +22,33 @@ of the global state and reports that slice's derivative. The protocol is:
     model.n_states            -> int, how many state variables this model owns
     model.initial_state(dose) -> ndarray, shape (n_states,), state at t=0
     model.concentration_rhs(state) -> ndarray, shape (n_states,), d(state)/dt
-    model.concentration(state)     -> the central-compartment concentration,
-                                      i.e. the quantity the receptor layer
-                                      binds; by convention this is always
-                                      `state[0]`, and it is `state[..., 0]`-
-                                      safe so a whole (n_states, n_times)
-                                      solution block can be reduced at once.
+    model.concentration(state)     -> the central-compartment (plasma/blood)
+                                      concentration; by convention this is
+                                      always `state[0]`, and it is
+                                      `state[..., 0]`-safe so a whole
+                                      (n_states, n_times) solution block can
+                                      be reduced at once.
+    model.receptor_concentration_factor -> float, the constant the central
+                                      concentration is multiplied by to get
+                                      the concentration the RECEPTOR layer
+                                      binds. 1.0 when no brain partition is
+                                      attached (plasma-driven, the pre-P1.5
+                                      behavior); otherwise the partition's
+                                      unbound-brain factor.
+    model.receptor_concentration(state) -> that product.
+
+Plasma is not what a receptor binds
+-----------------------------------
+
+The central compartment is plasma (or blood); receptors sit in brain tissue
+behind the blood-brain barrier and bind only the *unbound* drug there. Every
+model here therefore accepts an optional `brain_partition` (a
+`brain_partition.BrainPartition`, whose numbers live in `drug_pk.py`), and
+`engine.Simulation` drives occupancy from `receptor_concentration`, not from
+`concentration`. With no partition attached the two are equal and every
+pre-P1.5 result is bit-for-bit unchanged; `receptor_compartment` records
+which case a given instance is in, so "plasma-driven" is a visible property
+rather than a silent default. See docs/architecture.md, P1.5.
 
 `dose` is whatever quantity that model's dosing is expressed in:
 concentration (nM, or whatever unit the receptor constants use) for
@@ -61,6 +82,8 @@ instance is producing.
 import math
 
 import numpy as np
+
+from .brain_partition import BrainPartition
 
 LN2 = math.log(2.0)
 
@@ -168,7 +191,67 @@ def intercompartmental_clearance_from_terminal_rate(
     return Q_L_per_min_per_kg * 1000.0
 
 
-class OneCompartmentPK:
+class _BrainPartitionMixin(object):
+    """Shared plasma -> receptor-site concentration handling (P1.5).
+
+    Every PK model in this module owns an optional `brain_partition`. Two
+    invariants are enforced here rather than left to the caller:
+
+    1. **The partition must be able to produce an unbound brain
+       concentration.** A total-brain Kp with no measured brain unbound
+       fraction is refused *at construction*, not at the first integration
+       step, so the failure is a build-time error with the drug's own
+       citation in the message rather than a silently wrong occupancy trace.
+       (`BrainPartition` still exposes such a Kp for reporting total brain
+       concentration; it just may not drive a receptor.)
+    2. **Species must match.** A PK model that knows its species hands it to
+       `BrainPartition.check_species`, so a rat partition cannot be attached
+       to mouse kinetics. `OneCompartmentPK` has no species (its `ke` is
+       whatever the caller sourced), so it passes None and the check is
+       skipped - which is why the drug-specific builders in `drug_pk.py`,
+       not this module, are where a species-matched pairing is guaranteed.
+    """
+
+    #: Set by `_attach_brain_partition`; None means "plasma-driven".
+    brain_partition = None
+    _receptor_factor = 1.0
+
+    def _attach_brain_partition(self, brain_partition, species=None):
+        if brain_partition is None:
+            self.brain_partition = None
+            self._receptor_factor = 1.0
+            return
+        if not isinstance(brain_partition, BrainPartition):
+            raise TypeError(
+                "brain_partition must be a BrainPartition (from "
+                "neurocascade.brain_partition), got %r" % (brain_partition,)
+            )
+        brain_partition.check_species(species)
+        # Raises UnusablePartitionError here, at construction, if the sourced
+        # numbers cannot give an unbound brain concentration.
+        self._receptor_factor = float(brain_partition.unbound_brain_factor)
+        self.brain_partition = brain_partition
+
+    @property
+    def receptor_concentration_factor(self):
+        return self._receptor_factor
+
+    @property
+    def receptor_compartment(self):
+        """What `receptor_concentration` actually is, as a string, so that
+        "this simulation drove occupancy with plasma" is inspectable instead
+        of implicit."""
+        if self.brain_partition is None:
+            return "total plasma (no brain partition attached)"
+        return "unbound brain"
+
+    def receptor_concentration(self, state):
+        """The concentration the receptor layer binds. Equal to
+        `concentration(state)` when no partition is attached."""
+        return self._receptor_factor * self.concentration(state)
+
+
+class OneCompartmentPK(_BrainPartitionMixin):
     """First-order elimination from a single compartment: dC/dt = -ke * C.
 
     Dosing is expressed as an initial concentration (bolus) rather than an
@@ -183,8 +266,9 @@ class OneCompartmentPK:
     n_states = 1
     concentration_unit = "unspecified"  # whatever unit the caller's C0 is in
 
-    def __init__(self, ke):
+    def __init__(self, ke, brain_partition=None):
         self.ke = ke
+        self._attach_brain_partition(brain_partition, species=None)
 
     def rhs(self, C):
         return -self.ke * C
@@ -206,10 +290,15 @@ class OneCompartmentPK:
         return LN2 / self.ke
 
     def __repr__(self):
-        return "OneCompartmentPK(ke=%g)" % self.ke
+        if self.brain_partition is None:
+            return "OneCompartmentPK(ke=%g)" % self.ke
+        return "OneCompartmentPK(ke=%g, brain_partition=%r)" % (
+            self.ke,
+            self.brain_partition,
+        )
 
 
-class _DosedPKBase(object):
+class _DosedPKBase(_BrainPartitionMixin):
     """Shared dose -> initial-condition arithmetic and route validation.
 
     The one modeling decision worth stating here rather than burying in each
@@ -269,6 +358,8 @@ class _DosedPKBase(object):
         molar_mass_g_per_mol=None,
         name=None,
         apparent_parameters=False,
+        brain_partition=None,
+        species=None,
     ):
         route = str(route).upper()
         if route not in ROUTES:
@@ -350,6 +441,12 @@ class _DosedPKBase(object):
         #: because "F is 1" and "F was measured to be 1" are different
         #: claims, and only the second one licenses reporting a true Vd.
         self.F_is_measured = not apparent_parameters and route != "IV"
+        #: Species this parameter set was measured in, when the builder knows
+        #: it. Only used to refuse a cross-species brain partition; the
+        #: kinetics themselves are already per-kg and species-agnostic in
+        #: form (see "Body weight cancels", above).
+        self.species = None if species is None else str(species)
+        self._attach_brain_partition(brain_partition, species=self.species)
 
     @property
     def is_extravascular(self):
@@ -451,6 +548,8 @@ class DosedOneCompartmentPK(_DosedPKBase):
         molar_mass_g_per_mol=None,
         name=None,
         apparent_parameters=False,
+        brain_partition=None,
+        species=None,
     ):
         super(DosedOneCompartmentPK, self).__init__(
             route=route,
@@ -460,6 +559,8 @@ class DosedOneCompartmentPK(_DosedPKBase):
             molar_mass_g_per_mol=molar_mass_g_per_mol,
             name=name,
             apparent_parameters=apparent_parameters,
+            brain_partition=brain_partition,
+            species=species,
         )
         if Vd_L_per_kg <= 0.0:
             raise ValueError("Vd_L_per_kg must be positive")
@@ -574,6 +675,8 @@ class DosedTwoCompartmentPK(_DosedPKBase):
         molar_mass_g_per_mol=None,
         name=None,
         apparent_parameters=False,
+        brain_partition=None,
+        species=None,
     ):
         super(DosedTwoCompartmentPK, self).__init__(
             route=route,
@@ -583,6 +686,8 @@ class DosedTwoCompartmentPK(_DosedPKBase):
             molar_mass_g_per_mol=molar_mass_g_per_mol,
             name=name,
             apparent_parameters=apparent_parameters,
+            brain_partition=brain_partition,
+            species=species,
         )
         if V1_L_per_kg <= 0.0:
             raise ValueError("V1_L_per_kg must be positive")
@@ -702,16 +807,25 @@ class DosedTwoCompartmentPK(_DosedPKBase):
         )
 
 
-class _LegacySingleStatePK(object):
+class _LegacySingleStatePK(_BrainPartitionMixin):
     """Adapter presenting a bare `rhs(C)`-only PK object (the pre-P1.1
     protocol) as an ODE-protocol model, so external/duck-typed PK models
-    written against the v0 interface keep working inside `Simulation`."""
+    written against the v0 interface keep working inside `Simulation`.
+
+    Such a model has no brain partition (it predates the concept), so it is
+    plasma-driven and `receptor_concentration_factor` stays 1.0. Note that
+    `__getattr__` below reads through to the wrapped object, so if a caller
+    ever attaches a partition to their own model it would be visible but not
+    honored; the factor here is deliberately the mixin's own, not the wrapped
+    model's, because a bare `rhs(C)` object has no sanctioned way to declare
+    one."""
 
     n_states = 1
     concentration_unit = "unspecified"
 
     def __init__(self, model):
         self.model = model
+        self._attach_brain_partition(None)
 
     def initial_state(self, dose):
         return np.array([float(dose)], dtype=float)

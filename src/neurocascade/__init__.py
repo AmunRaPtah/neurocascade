@@ -10,6 +10,7 @@ from .pk import (
     concentration_mg_per_L_to_nM,
     intercompartmental_clearance_from_terminal_rate,
 )
+from .brain_partition import BrainPartition, UnusablePartitionError
 from .receptor import Ligand, ReceptorSite
 from .circuit import CircuitNode, sigmoid
 from .network import CircuitNetwork
@@ -29,6 +30,8 @@ __all__ = [
     "clearance_L_per_h_per_kg_to_mL_per_min_per_kg",
     "concentration_mg_per_L_to_nM",
     "intercompartmental_clearance_from_terminal_rate",
+    "BrainPartition",
+    "UnusablePartitionError",
     "Ligand",
     "ReceptorSite",
     "CircuitNode",

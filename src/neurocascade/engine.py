@@ -91,6 +91,16 @@ class Simulation(object):
     `examples/fentanyl_reward_circuit.py`) a state edit rather than a
     re-derivation.
 
+    Plasma is not what a receptor binds (P1.5): each ligand's PK model may
+    carry a `brain_partition`, in which case the occupancy ODE is driven by
+    that ligand's unbound BRAIN concentration rather than by its plasma
+    concentration. The conversion is one constant per ligand
+    (`receptor_concentration_factors`, exactly 1.0 when no partition is
+    attached), so `result["concentrations"]` keeps its original meaning and
+    values (plasma) and `result["receptor_concentrations"]` is what the
+    receptor layer saw. See pk.py's protocol section and
+    docs/architecture.md, P1.5.
+
     Composing multiple systems' contributions to the shared circuit:
 
     - `coupling`: each system's receptor activation is added to its target
@@ -182,6 +192,7 @@ class Simulation(object):
         self._ode_pk_models = []
         self._pk_blocks = []  # (start, stop) into the PK region of y, per ligand
         concentration_rows = []
+        receptor_factors = []
         cursor = 0
         for system in receptor_systems:
             for model in system.pk_models:
@@ -190,9 +201,27 @@ class Simulation(object):
                 self._ode_pk_models.append(ode_model)
                 self._pk_blocks.append((cursor, cursor + n_states))
                 concentration_rows.append(cursor)  # central concentration first
+                receptor_factors.append(
+                    float(getattr(ode_model, "receptor_concentration_factor", 1.0))
+                )
                 cursor += n_states
         self.d = cursor  # total PK states; == self.r iff every model is 1-state
         self.concentration_rows = np.array(concentration_rows, dtype=int)
+        #: Per-ligand constant converting the central (plasma/blood)
+        #: concentration into the concentration the receptor actually binds
+        #: (unbound brain, when that ligand's PK model carries a
+        #: `brain_partition`). Exactly 1.0 for every plasma-driven model.
+        #: `getattr(..., 1.0)` keeps duck-typed external PK models working
+        #: without change. See pk.py's protocol and docs/architecture.md, P1.5.
+        self.receptor_concentration_factors = np.array(receptor_factors, dtype=float)
+        #: True when no ligand carries a partition, in which case `rhs` hands
+        #: the plasma array itself to the receptor layer rather than a scaled
+        #: copy. Not only an allocation saved per RHS call: it makes "no
+        #: partition reproduces the pre-P1.5 result" an identity of objects
+        #: rather than of values, so it cannot drift.
+        self._all_receptor_factors_are_one = bool(
+            np.all(self.receptor_concentration_factors == 1.0)
+        )
 
     # Backward-compatible single-system attribute access.
     # These proxy to the sole ReceptorSystem when there is exactly one
@@ -272,8 +301,17 @@ class Simulation(object):
         for model, (start, stop) in zip(self._ode_pk_models, self._pk_blocks):
             d_pk[start:stop] = model.concentration_rhs(pk_state[start:stop])
         # One concentration per ligand, in the same flattened ligand order
-        # the receptor systems are laid out in.
+        # the receptor systems are laid out in. `C` is the central-compartment
+        # (plasma/blood) concentration; `C_receptor` is what the receptor
+        # binds, which is unbound BRAIN concentration for any ligand whose PK
+        # model carries a brain partition and identically `C` for one that
+        # does not (P1.5).
         C = pk_state[self.concentration_rows]
+        C_receptor = (
+            C
+            if self._all_receptor_factors_are_one
+            else C * self.receptor_concentration_factors
+        )
 
         d_occ = np.empty(self.r)
         drive = self.network.baseline_drive()
@@ -281,7 +319,7 @@ class Simulation(object):
 
         for system, offset in zip(self.receptor_systems, self._offsets):
             n = system.n
-            C_i = C[offset : offset + n]
+            C_i = C_receptor[offset : offset + n]
             occ_i = occ[offset : offset + n]
 
             d_occ[offset : offset + n] = system.receptor_site.occupancy_rhs(occ_i, C_i)
@@ -353,9 +391,23 @@ class Simulation(object):
         drive `solve_ivp` themselves (mid-run dosing, in the examples) don't
         have to hand-reproduce the layout."""
         d, r = self.d, self.r
+        plasma = sol.y[self.concentration_rows]
         return {
             "t": sol.t,
-            "concentrations": sol.y[self.concentration_rows],
+            # Unchanged meaning and unchanged values: the central-compartment
+            # (plasma/blood) concentration.
+            "concentrations": plasma,
+            # Explicit alias, so a call site can say which compartment it
+            # means instead of relying on the historical name.
+            "plasma_concentrations": plasma,
+            # What the receptor layer actually bound: unbound brain
+            # concentration for ligands carrying a brain partition, and the
+            # plasma array itself when none does.
+            "receptor_concentrations": (
+                plasma
+                if self._all_receptor_factors_are_one
+                else plasma * self.receptor_concentration_factors[:, None]
+            ),
             "pk_states": sol.y[0:d],
             "occupancy": sol.y[d : d + r],
             "rates": sol.y[d + r : d + r + self.c],
