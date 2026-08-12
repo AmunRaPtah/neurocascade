@@ -39,6 +39,12 @@ arguments. There is no default, on purpose. Every returned
 `RegionalExpression` records which policy produced it and how many
 experiments actually contributed to each cell.
 
+P4.2 has since measured what the deferred choice was worth, which is the
+point of having deferred it rather than defaulted: over the ten regions
+with published mouse D1 densities, all fourteen plane x combine policies
+give a Spearman correlation between 0.709 and 0.794. See
+`validation.policy_sensitivity()`.
+
 NaN is not zero
 ---------------
 

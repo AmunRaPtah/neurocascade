@@ -60,6 +60,25 @@ FIXTURE_REGION_IDS = (
     147,   # LC    pons, locus ceruleus
 )
 
+#: Structures that get NO row or column in the connectome fixture matrices
+#: but that the shared fixture ontology must still resolve, because a
+#: downstream package's fixture is cut against this ontology and needs them.
+#:
+#: These five are P4.2's: the regions where Yoo et al. 2010 measured mouse
+#: D1 and DAT binding densities and this codebase has ISH expression for the
+#: matching gene, minus the ones already above. They are ontology entries
+#: only - adding them to `FIXTURE_REGION_IDS` would change the committed
+#: Knox and Oh matrices and every number the P3.x tests assert on them, for
+#: no gain, since P4.2 compares expression against autoradiography and never
+#: touches a connection weight.
+EXTRA_ONTOLOGY_REGION_IDS = (
+    754,   # OT    olfactory areas, olfactory tubercle
+    583,   # CLA   cortical subplate, claustrum
+    952,   # EPd   cortical subplate, endopiriform nucleus, dorsal part
+    31,    # ACA   isocortex, anterior cingulate area
+    1080,  # HIP   hippocampal formation, hippocampal region
+)
+
 #: The region absent from Oh et al. 2014's 213-region set. See the module
 #: docstring; `docs/architecture.md` records why it matters here.
 FIXTURE_REGION_MISSING_FROM_OH2014 = 147

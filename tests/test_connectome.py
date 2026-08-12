@@ -171,8 +171,16 @@ def test_fixture_ontology_covers_the_fixture_regions_and_all_divisions(ccf):
     # every structure its sign table names (RT, ZI, SNc, PALv, PALm, CBX,
     # CBN and their ancestors), so that `SignRules`' acronym-vs-id
     # cross-check runs against the committed fixture rather than only
-    # against the gitignored full ontology.
-    assert len(ccf) == 55
+    # against the gitignored full ontology; 61 since P4.2 added
+    # `EXTRA_ONTOLOGY_REGION_IDS` (OT, CLA, EPd, ACA, HIP and EPd's parent
+    # EP), which carry no connectome row and exist so the expression
+    # fixture can be cut over the autoradiography comparison regions.
+    assert len(ccf) == 61
+    for structure_id in fixtures.EXTRA_ONTOLOGY_REGION_IDS:
+        assert structure_id in ccf
+        # An ontology-only entry, deliberately: it must NOT have acquired a
+        # connectome row, because the committed matrices are P3.1's numbers.
+        assert structure_id not in fixtures.FIXTURE_REGION_IDS
     for structure_id in fixtures.FIXTURE_REGION_IDS:
         assert structure_id in ccf
     divisions = ccf.major_divisions()

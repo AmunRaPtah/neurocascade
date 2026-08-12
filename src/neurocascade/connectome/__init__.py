@@ -81,6 +81,7 @@ from .build import (
     parcellation,
 )
 from .fixtures import (
+    EXTRA_ONTOLOGY_REGION_IDS,
     FIXTURE_CONNECTOME_KEY,
     FIXTURE_DIR,
     FIXTURE_REGION_IDS,
@@ -117,6 +118,7 @@ __all__ = [
     "TransmitterRule",
     "FIXTURE_CONNECTOME_KEY",
     "FIXTURE_DIR",
+    "EXTRA_ONTOLOGY_REGION_IDS",
     "FIXTURE_REGION_IDS",
     "KNOX_FIXTURE_KEYS",
     "build_circuit_network",

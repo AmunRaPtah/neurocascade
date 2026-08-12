@@ -522,6 +522,19 @@
                "hemisphere_id": 3,
                "parent_structure_id": 493,
                "children": []
+              },
+              {
+               "id": 754,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "OT",
+               "name": "Olfactory tubercle",
+               "color_hex_triplet": "80CDF8",
+               "graph_order": 577,
+               "st_level": 8,
+               "hemisphere_id": 3,
+               "parent_structure_id": 493,
+               "children": []
               }
              ]
             }
@@ -646,6 +659,19 @@
              "parent_structure_id": 695,
              "children": [
               {
+               "id": 31,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "ACA",
+               "name": "Anterior cingulate area",
+               "color_hex_triplet": "40A666",
+               "graph_order": 220,
+               "st_level": 8,
+               "hemisphere_id": 3,
+               "parent_structure_id": 315,
+               "children": []
+              },
+              {
                "id": 500,
                "atlas_id": null,
                "ontology_id": 1,
@@ -711,7 +737,21 @@
              "st_level": 5,
              "hemisphere_id": 3,
              "parent_structure_id": 695,
-             "children": []
+             "children": [
+              {
+               "id": 1080,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "HIP",
+               "name": "Hippocampal region",
+               "color_hex_triplet": "7ED04B",
+               "graph_order": 455,
+               "st_level": 6,
+               "hemisphere_id": 3,
+               "parent_structure_id": 1089,
+               "children": []
+              }
+             ]
             }
            ]
           },
@@ -739,6 +779,46 @@
              "hemisphere_id": 3,
              "parent_structure_id": 703,
              "children": []
+            },
+            {
+             "id": 583,
+             "atlas_id": null,
+             "ontology_id": 1,
+             "acronym": "CLA",
+             "name": "Claustrum",
+             "color_hex_triplet": "8ADA87",
+             "graph_order": 557,
+             "st_level": 8,
+             "hemisphere_id": 3,
+             "parent_structure_id": 703,
+             "children": []
+            },
+            {
+             "id": 942,
+             "atlas_id": null,
+             "ontology_id": 1,
+             "acronym": "EP",
+             "name": "Endopiriform nucleus",
+             "color_hex_triplet": "A0EE9D",
+             "graph_order": 558,
+             "st_level": 8,
+             "hemisphere_id": 3,
+             "parent_structure_id": 703,
+             "children": [
+              {
+               "id": 952,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "EPd",
+               "name": "Endopiriform nucleus, dorsal part",
+               "color_hex_triplet": "A0EE9D",
+               "graph_order": 559,
+               "st_level": 9,
+               "hemisphere_id": 3,
+               "parent_structure_id": 942,
+               "children": []
+              }
+             ]
             }
            ]
           }

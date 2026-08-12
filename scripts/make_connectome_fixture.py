@@ -138,6 +138,10 @@ def write_ontology_fixture(ontology, path):
     keep = set()
     for structure_id in FIXTURE_REGION_IDS:
         keep.update(ontology.ancestors(structure_id, include_self=True))
+    # Structures with no fixture matrix row that a downstream fixture still
+    # has to be able to name; P4.2's autoradiography comparison regions.
+    for structure_id in fixtures.EXTRA_ONTOLOGY_REGION_IDS:
+        keep.update(ontology.ancestors(structure_id, include_self=True))
     # Keep every major division too, so `major_divisions()` resolves on the
     # fixture and the division-lookup test is not testing a special case.
     for division_id in ontology_module.MAJOR_DIVISION_IDS:

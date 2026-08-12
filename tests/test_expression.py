@@ -530,7 +530,7 @@ def test_combine_rules_agree_with_numpy_on_real_rows():
 
 
 def test_n_experiments_records_who_actually_voted():
-    """Drd1's experiment 354 reports only 30 of the fixture's 55 structures,
+    """Drd1's experiment 354 reports only 33 of the fixture's 61 structures,
     so the count is not uniform across a row, and a caller can see it."""
     atlas = fixtures.load_fixture_atlas(symbols=["Drd1"])
     ids = [int(i) for i in connectome.FIXTURE_REGION_IDS]
@@ -618,7 +618,7 @@ def test_fixture_counts_are_checked_on_load():
                 "Htr2a"
             ].experiments
         )
-    assert "parsed 55 unionize rows, 1 were recorded" in str(caught.value)
+    assert "parsed 61 unionize rows, 1 were recorded" in str(caught.value)
 
 
 def test_regional_expression_refuses_a_value_with_no_contributor():

@@ -39,14 +39,30 @@ small structures, so picking among them is a modelling decision this
 package refuses to make silently; `atlas.py`'s docstring says why at
 length, and P4.2 owns the choice.
 
-What this package does NOT do
------------------------------
+Energy is not density: what P4.2 added
+--------------------------------------
 
-It does not convert expression energy into a receptor density, a Bmax or a
-concentration. Expression energy is a transcript-abundance measure in
-arbitrary units; mRNA is not protein and protein is not binding sites. That
-conversion is P4.2, and P4.2 owns stating its proportionality assumption as
-an assumption.
+`atlas.py` returns expression energy, a transcript-abundance measure in
+arbitrary units. `density.py` converts it to the relative-density scale the
+receptor layer consumes, under one assumption stated as an assumption -
+density is proportional to transcript, within a gene - and three modules
+exist to keep that honest:
+
+    density.py          the conversion, the assumption, and the
+                        density-times-mechanism-gain factorization
+    mismatch.py         the genes whose receptor protein is not in the
+                        region that transcribes it, with the error measured
+    autoradiography.py  published mouse receptor densities to test against
+    validation.py       the test, reported as three numbers because rank
+                        agreement and proportionality are different claims
+
+    rho = expression.relative_density(energy, "Drd1", normalization="max")
+    rho.as_coupling(mechanism_gain, {"striatum": 672})
+
+Measured, not assumed: over ten mouse regions with published D1 densities
+the map ranks regions well (Spearman 0.71) and scales them badly
+(proportional R2 0.31). `results/expression_density_validation.txt` is the
+committed record.
 """
 
 from .genes import (
@@ -105,6 +121,49 @@ from .atlas import (
     check_counts,
     load_expression_atlas,
 )
+from .density import (
+    ASSUMPTION,
+    NORMALIZATIONS,
+    PROPORTIONALITY_EXPONENT,
+    AbsoluteScale,
+    ReceptorDensityMap,
+    relative_density,
+)
+from .mismatch import (
+    MISMATCHES,
+    MISMATCHES_BY_SYMBOL,
+    SEVERITIES,
+    TERMINAL_FIELD_SYMBOLS,
+    Displacement,
+    TerminalFieldMismatch,
+    measured_displacement,
+    mismatch_for,
+)
+from .autoradiography import (
+    BACKGROUNDS,
+    DATASETS,
+    LOTHMANN2021,
+    PRIMARY_BACKGROUND,
+    REGION_MAPPING,
+    SEARCHED_AND_EMPTY,
+    YOO2010,
+    AutoradiographyDataset,
+    LigandBinding,
+    comparable_lothmann_receptors,
+    lothmann2021,
+    lothmann2021_receptors,
+    yoo2010_d1,
+    yoo2010_d2,
+    yoo2010_dat,
+)
+from .validation import (
+    DensityComparison,
+    compare,
+    compare_lothmann,
+    dropped_regions,
+    fit_absolute_scale,
+    policy_sensitivity,
+)
 from .fixtures import (
     FIXTURE_COUNTS,
     FIXTURE_DIR,
@@ -116,13 +175,23 @@ from .fixtures import (
 
 __all__ = [
     "ALLEN_ISH_CITATION",
+    "ASSUMPTION",
     "AVAILABLE_SYMBOLS",
+    "AbsoluteScale",
+    "AutoradiographyDataset",
+    "BACKGROUNDS",
     "COMBINE_RULES",
+    "ChecksumMismatch",
+    "DATASETS",
+    "DATASET_INDEX_KEY",
     "DATA_FILES",
     "DATA_FILES_BY_KEY",
-    "DATASET_INDEX_KEY",
     "DEFAULT_CACHE_DIR",
+    "DensityComparison",
+    "Displacement",
     "EXPRESSION_ENERGY_UNITS",
+    "ExperimentUnionizes",
+    "ExpressionAtlas",
     "FIXTURE_COUNTS",
     "FIXTURE_DIR",
     "FIXTURE_SAGITTAL_ONLY_SYMBOL",
@@ -130,41 +199,66 @@ __all__ = [
     "GENES_BY_SYMBOL",
     "GENES_WITHOUT_DATA",
     "GENES_WITHOUT_DATA_BY_SYMBOL",
+    "GeneExpression",
+    "LOTHMANN2021",
+    "LigandBinding",
     "MANIFEST_VERSION",
+    "MISMATCHES",
+    "MISMATCHES_BY_SYMBOL",
     "MISSING_FROM_ISH",
+    "MissingCachedFile",
+    "NORMALIZATIONS",
     "PLANES",
     "PLANE_POLICIES",
+    "PRIMARY_BACKGROUND",
+    "PROPORTIONALITY_EXPONENT",
     "RECEPTOR_GENES",
     "REFERENCE_SPACE_BY_PLANE",
-    "SAGITTAL_ONLY_SYMBOLS",
-    "SYSTEMS",
-    "UNIONIZE_COLUMNS",
-    "ChecksumMismatch",
-    "ExperimentUnionizes",
-    "ExpressionAtlas",
-    "GeneExpression",
-    "MissingCachedFile",
+    "REGION_MAPPING",
+    "SEARCHED_AND_EMPTY",
+    "ReceptorDensityMap",
     "ReceptorGene",
     "RegionalExpression",
+    "SAGITTAL_ONLY_SYMBOLS",
+    "SEVERITIES",
+    "SYSTEMS",
     "SectionDataSet",
     "SectionDataSetIndex",
+    "TERMINAL_FIELD_SYMBOLS",
+    "TerminalFieldMismatch",
+    "UNIONIZE_COLUMNS",
     "UnionizeFile",
+    "YOO2010",
     "cache_path",
     "check_counts",
     "checksum_lines",
+    "comparable_lothmann_receptors",
+    "compare",
+    "compare_lothmann",
     "data_file",
+    "dropped_regions",
     "fetch_all",
+    "fit_absolute_scale",
     "gene",
     "genes_for_system",
     "is_cached",
     "load_expression_atlas",
     "load_fixture_atlas",
     "load_fixture_index",
+    "lothmann2021",
+    "lothmann2021_receptors",
+    "measured_displacement",
+    "mismatch_for",
+    "policy_sensitivity",
     "read_dataset_index",
     "read_unionize_csv",
+    "relative_density",
     "sha256_of",
     "symbols",
     "unionize_file",
     "unionize_key",
     "verify",
+    "yoo2010_d1",
+    "yoo2010_d2",
+    "yoo2010_dat",
 ]

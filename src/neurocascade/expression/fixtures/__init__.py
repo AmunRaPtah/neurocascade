@@ -20,8 +20,10 @@ same real numbers.
 The ontology is the connectome's, deliberately
 ----------------------------------------------
 
-The structures kept are exactly the 55 in
-`connectome/fixtures/allen_structure_graph_1_fixture.json`. There is no
+The structures kept are exactly the 61 in
+`connectome/fixtures/allen_structure_graph_1_fixture.json` (55 until P4.2
+added the five autoradiography-comparison regions and one ancestor of
+them). There is no
 expression-specific ontology fixture and there must not be one: P4.1's
 whole claim is that expression and connectivity are indexed by the same CCF
 structure graph, and two fixture ontologies free to drift apart would let
@@ -33,7 +35,7 @@ What each of the eight genes is here for
     Oprm1     the receptor the model already simulates; 3 experiments in
               both planes; its sagittal experiment 69860840 does not report
               DR, so the "absent row means NaN" path runs on real data
-    Drd1      4 experiments, one of which (354) reports only 30 of the 55
+    Drd1      4 experiments, one of which (354) reports only 33 of the 61
               structures - the widest coverage gap in the fixture
     Drd2      the other receptor the model already simulates; striatal
     Gabra1    the third modelled system; cortex-dominant
@@ -48,7 +50,7 @@ What each of the eight genes is here for
               sharpest "is this map anatomically real" check available
 
 These fixtures are for tests and offline exploration. They are NOT a
-substitute for the real files in any modelling result: 55 structures out of
+substitute for the real files in any modelling result: 61 structures out of
 the ~800 an experiment unionizes is a test input, not a receptor map.
 """
 
@@ -97,14 +99,14 @@ UNIONIZE_FIXTURE_PATHS = {
 #: them for the same reason: a truncated read hashes consistently and would
 #: otherwise pass every other check while silently dropping experiments.
 FIXTURE_COUNTS = {
-    "Oprm1": (164, 3),
-    "Drd1": (195, 4),
-    "Drd2": (165, 3),
-    "Gabra1": (109, 2),
-    "Htr2a": (55, 1),
-    "Cnr1": (220, 4),
-    "Adora2a": (165, 3),
-    "Slc6a3": (219, 4),
+    "Oprm1": (182, 3),
+    "Drd1": (216, 4),
+    "Drd2": (183, 3),
+    "Gabra1": (121, 2),
+    "Htr2a": (61, 1),
+    "Cnr1": (244, 4),
+    "Adora2a": (183, 3),
+    "Slc6a3": (243, 4),
 }
 
 

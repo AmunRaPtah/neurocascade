@@ -5358,3 +5358,366 @@ skip without the gitignored cache.
   full 42-gene responses and skip when the gitignored cache is absent. They
   are extras, not substitutes: every acceptance criterion is covered
   offline.
+
+## Phase 4: expression energy as a receptor density (P4.2)
+
+### What this task is, and the sentence it exists to make honest
+
+P4.1 stopped at expression energy and said, in four places, that the
+conversion to a density and the statement of its assumption belong to P4.2.
+This is that task. The whole of it reduces to one line and what surrounds
+it:
+
+    ASSUMPTION: within one gene, receptor density in a region is
+    proportional to that gene's Allen ISH expression energy in that region.
+    density(region) = k_gene * energy(region).
+
+Four new modules, none of which changes an existing parameter:
+
+    density.py          the conversion, the assumption as a named constant,
+                        and the density-times-mechanism-gain factorization
+    mismatch.py         the genes whose receptor protein is not in the
+                        region that transcribes it, with the error measured
+    autoradiography.py  published mouse receptor densities, transcribed
+                        from two open-access papers with full conditions
+    validation.py       the comparison, reported as three numbers
+
+plus `scripts/report_density_validation.py`, which writes the committed
+`results/expression_density_validation.txt`, and 43 tests, 38 of which run
+offline.
+
+### What "the density scale the receptor layer consumes" actually is
+
+The task's phrasing invites a wrong answer. `ReceptorSite` holds
+*fractional* occupancy; the binding ODE is dimensionless and needs no
+density at all, and that is not an oversight, because competitive occupancy
+really is density-independent when the ligand pool is not depleted by
+binding. There is no `Bmax` field waiting to be filled in.
+
+Density enters one step later, in `Simulation.rhs`, which adds
+`gain * activation` to a node's drive. That single number folds two things
+together, and P4.2 supplies exactly one of them:
+
+    coupling[node] = mechanism_gain[node] * rho[region]
+
+`rho` is what `relative_density()` returns: dimensionless, per region,
+normalized by an explicitly chosen policy. `mechanism_gain` stays whatever
+it already is - illustrative in `scenarios.py`, fitted in P2.2 - and keeps
+its label.
+
+The reason for the split is a lesson this document already records. The
+multi-region mu-opioid scenario gives LC the *smallest* coupling gain of its
+three targets even though LC has the *highest* published mu-receptor density
+of the three, because LC's receptor acts directly on the node being read out
+while the other two act through an interposed interneuron-disinhibition step
+that amplifies them. Density and gain are different axes. A P4.2 that
+returned "the coupling constant" would have quietly asserted they were the
+same one, and would have made every future density improvement look like a
+recalibration of circuit mechanism. `ReceptorDensityMap.as_coupling()`
+performs the multiplication so that the factorization is executable and
+testable rather than only described here.
+
+### Normalization has no default, for P4.1's reason
+
+`relative_density()` requires `normalization=`, exactly as `energy_matrix()`
+requires `plane=` and `combine=`. "Relative to the peak region", "relative
+to the average region" and "relative to one named region" are three
+different quantities whose difference is invisible in the output array, and
+`reference-region` is the one a caller wants when a scenario already has one
+calibrated node and the others should be expressed against it. `none` passes
+energy through and keeps P4.1's units string, which says in full that the
+number is not a density.
+
+The exponent of the assumed relation is a module constant,
+`PROPORTIONALITY_EXPONENT = 1.0`, so the one place the assumption enters the
+arithmetic is greppable. It is a parameter rather than a hard-coded 1
+because the measurement below finds the real exponent is nowhere near 1 -
+but the parameter's default stays 1.0 and no per-gene exponent table is
+shipped, because one gene's measured exponent is not evidence about another
+gene's and a table of them would invite exactly that misuse.
+
+### The comparison: Drd1 against measured mouse D1 density
+
+The acceptance criterion is a comparison against independent density data
+for at least one receptor. The primary one is:
+
+  [Yoo2010] Yoo JH, Bailey A, Ansonoff M, Pintar JE, Matifas A, Kieffer BL,
+            Kitchen I. "Lack of genotype effect on D1, D2 receptors and
+            dopamine transporter binding in triple MOP-, DOP-, and
+            KOP-opioid receptor knockout mice of three different genetic
+            backgrounds." Synapse. 2010;64(7):520-527. PMID 20196137,
+            doi 10.1002/syn.20757. Male wild-type mice >9 weeks, three
+            backgrounds (congenic B6, coisogenic 129, B6 x 129),
+            quantitative in vitro autoradiography, [3H]SCH-23390 4 nM for
+            D1, [3H]raclopride 4 nM for D2, [3H]mazindol 4 nM with 0.3 uM
+            desipramine for DAT, fmol/mg tissue equivalent.
+
+It is the primary one for a specific reason beyond being mouse and
+quantitative: it measured D1, D2 and the dopamine transporter *in the same
+animals on the same films*, which is what lets the terminal-field section
+below separate "the conversion is wrong" from "this receptor is trafficked
+away from the cell that transcribes it".
+
+Ten of its fifteen D1 regions join unambiguously to CCF structures. The result,
+under `plane="coronal"`, `combine="mean"`:
+
+| quantity | value | what it answers |
+|---|---|---|
+| Spearman rho | **+0.709** (p = 0.022, n = 10) | does the map rank regions correctly? |
+| Pearson r | +0.601 | |
+| proportional R^2 (through 0) | **+0.310** | is one constant enough? |
+| log-log slope | **0.460 +/- 0.105** | is the relation proportional at all? |
+| transcript dynamic range | 340x | |
+| measured dynamic range | 20x | |
+
+**The map is a good ordering and a bad scale.** Region ranks agree; a single
+`k_gene` explains a third of the variance; and the log-log slope is more
+than four standard errors below the 1.0 that proportionality requires. The
+worst regions are reported, not dropped: VTA's measured D1 is 29x what the
+proportional model predicts, thalamus 8.8x, hypothalamus 6.3x. All three are
+low-transcript regions, which is the compression the slope describes.
+
+Two explanations for a slope near 0.5 are live and this data cannot separate
+them. Saturating translation and trafficking would compress a wide
+transcript range into a narrow protein range. So would an autoradiographic
+detection floor: [3H]SCH-23390 in thalamus, hypothalamus, hippocampus and
+VTA all read 20-25 fmol/mg, suspiciously flat for four unrelated regions,
+and a floor there would flatten the low end artificially. Because the two
+cannot be distinguished here, the exponent is reported and **not applied**.
+Applying 0.46 would be fitting a shape to one gene's confound.
+
+### The one honest use of the word "absolute"
+
+`AbsoluteScale` exists and there is exactly one path to constructing it:
+`validation.fit_absolute_scale()`, from a comparison against measured
+densities of that gene in that species. It carries the fit's R^2 with it,
+because `k_Drd1 = 17 fmol/mg per energy unit` fitted at R^2 = 0.31 is a real
+number and a bad one, and separating the constant from its quality is how a
+bad number turns into a quoted number. `to_absolute()` refuses a different
+gene with an error that says why: expression energy is not comparable
+between genes, because probe and segmentation threshold differ per
+experiment, so a `k` fitted on Drd1 says nothing about Oprm1. Extending it
+would be inventing a number.
+
+### The presynaptic / terminal-field mismatch, measured
+
+The task named this as the important failure case and it is. In situ
+hybridization measures mRNA and mRNA is in the cell body; the protein is
+wherever the neuron trafficked it, and for a large class of receptors that
+is the axon terminal, in a region that transcribes none of the gene. For a
+*circuit* model this is worse than imprecision: it puts the receptor in the
+wrong node, and the model then propagates that into a behavioural
+prediction.
+
+Two cases have both sides measured in mouse, so both are numbers. Both are
+quoted here under `plane="coronal"`, the tests' policy;
+`results/expression_density_validation.txt` recomputes them under
+`coronal-else-sagittal` and gets 120x/173 and 63.2x/31.9, which is the
+size of the policy's effect on them:
+
+- **Slc6a3 (DAT).** Transcript puts 119x as much in SNr as in CP.
+  [3H]mazindol binding puts 0.69x as much - the striatum has slightly *more*
+  than the substantia nigra. The proportionality assumption misstates the
+  SNr:CP ratio by a factor of **172**. This is not a receptor map that needs
+  refining; it is a map of where the transporter is made.
+- **Drd1.** Transcript puts 63x as much in CP as in SNr. [3H]SCH-23390 puts
+  2.0x as much, because nigral D1 protein sits on striatonigral terminals.
+  The error factor is **32**. SNr is out of the headline comparison for an
+  unrelated reason - CCF has no combined "substantia nigra" structure to
+  join Yoo et al.'s region to - but the effect of the exclusion is to drop
+  the single worst-disagreeing region, so the comparison is reported *with*
+  SNr included as well (rho falls 0.709 -> 0.591, proportional R^2 0.310 ->
+  0.147). Excluding the region that disagrees most and reporting only the
+  better number would have been the dishonest move available here. The nigrostriatal bundle is the same mechanism caught in
+  transit: 91 fmol/mg of D1 binding in a fibre tract with no cell bodies at
+  all.
+
+Six further genes are documented and not quantified, because no mouse table
+with both sides exists for them: Cnr1 (striatal transcript, pallidal and
+nigral protein - [Herkenham1991] PMID 1909204, [Mailleux1992] PMID 1376455),
+Slc6a4 (PMID 8783244), Slc6a2 (PMID 10753308), Oprm1's medial-habenula to
+interpeduncular projection ([Gardon2014] PMID 25086313), Adra2a, and Drd2 -
+whose record cites the transcript map itself rather than a paper, because
+unlike the transporters SNc and VTA do express Drd2, so both ends of the
+nigrostriatal projection are already in the map and its `partial` severity
+follows from that observation.
+
+Each record carries a severity: `terminal-field` when the dominant pool is
+elsewhere, `partial` when a named minority pool is.
+
+Two design decisions came out of this:
+
+**A `terminal-field` gene refuses to convert silently.** `relative_density()`
+raises for Slc6a3, Cnr1, Slc6a4 and Slc6a2 unless the caller passes
+`acknowledge_mismatch=True`. The flag changes no arithmetic. Its whole
+function is that using a dopamine-transporter *transcript* map as a
+dopamine-transporter *density* map has to be something a caller typed. This
+is P4.1's refusal-to-default pattern applied to a hazard rather than a
+choice.
+
+**No correction is applied.** The tempting one - push each source nucleus's
+transcript out along the P3.1 connectome's projection weights - needs the
+fraction of each receptor pool that is trafficked to terminals, per gene,
+and that fraction is not published for any gene here. Multiplying by a
+plausible-looking fraction is exactly the invented number this project
+forbids. Correcting these maps is what Phase 6's projection-system
+abstraction is for, and Phase 6 goes and gets the projection-density and
+release data it would need. Until then the honest output is a flagged map
+with a measured error bar.
+
+**The genes deliberately absent from the registry are a claim too.** The
+ionotropic receptors (`Grin*`, `Gria*`, `Gabra*`, `Gabrb*`) are
+predominantly postsynaptic on the dendrites of the cell that transcribes
+them, which is the case the proportionality assumption is built for. Their
+absence is an assertion about them, recorded as one in `mismatch.py`'s
+docstring, not an oversight.
+
+### Breadth: seven receptor systems, and the AMPA null result
+
+One receptor satisfies the acceptance criterion; one receptor also makes it
+impossible to tell whether 0.71 is typical. So a second dataset:
+
+  [Lothmann2021] Lothmann K, Amunts K, Herold C. "The Neurotransmitter
+            Receptor Architecture of the Mouse Olfactory System."
+            Front Neuroanat. 2021;15:632549. PMID 33967704,
+            doi 10.3389/fnana.2021.632549. Ten male C57BL/6 mice, 27 weeks,
+            quantitative autoradiography with ten tritiated ligands over
+            fourteen olfactory-system regions, converted to Bmax at
+            saturation, fmol/mg protein.
+
+Same fourteen regions, same expression policy, one gene per row (Spearman
+rho, n = 14 in every row shown). The full 25-row table is in
+`results/expression_density_validation.txt`; these are the rows that carry
+the result, and the one omitted AMPA subunit, Gria3, is +0.132 over its 13
+reported regions, which changes nothing about the paragraph below it:
+
+| ligand | gene | rho | | ligand | gene | rho |
+|---|---|---|---|---|---|---|
+| [3H]prazosin (a1) | Adra1d | **+0.763** | | [3H]muscimol | Gabra1 | **+0.723** |
+| [3H]prazosin (a1) | Adra1a | **+0.714** | | [3H]flumazenil (BZ) | Gabra3 | **+0.789** |
+| [3H]MK-801 | Grin2a | **+0.754** | | [3H]flumazenil (BZ) | Gabra1 | +0.578 |
+| [3H]MK-801 | Grin1 | +0.090 | | [3H]SCH-23390 | Drd1 | +0.512 |
+| [3H]AMPA | Gria1 | -0.182 | | [3H]RX-821002 (a2) | Adra2a | +0.116 |
+| [3H]AMPA | Gria2 | -0.007 | | [3H]RX-821002 (a2) | Adra2b | **-0.688** |
+| [3H]AMPA | Gria4 | -0.209 | | [3H]RX-821002 (a2) | Adra2c | -0.433 |
+
+Three things worth saying about that table.
+
+**The conversion's quality is receptor-specific, not global.** Alpha-1 and
+GABA-A track the measured density about as well as D1 did; *no* AMPA subunit
+tracks AMPA binding at all, in either direction. A whole-brain receptor map
+built on this assumption inherits that unevenness receptor by receptor, and
+the honest form of a P4.2 deliverable is therefore a per-receptor quality
+number rather than one headline.
+
+**A subunit's transcript is not its receptor's density, and the spread
+inside a family shows it.** Grin2a correlates at +0.75 while Grin1 - the
+obligatory subunit present in every NMDA receptor - correlates at +0.09.
+Gabra1 at +0.72 while Gabra2 is at -0.25. Which subunit's map should stand
+for the assembled receptor is not answerable from this data, and summing
+them is not available either, because energies are not comparable across
+genes. This is the pentamer problem P4.1's gene table warned about, now with
+numbers on it.
+
+**Alpha-2 is the worst case, and only half of it has an explanation.**
+Adra2a at +0.12 and Adra2b at -0.69 are the sweep's failures. Adra2a has a
+documented mechanism and a `partial` mismatch record: alpha-2A is the
+locus-coeruleus autoreceptor on noradrenergic terminals as well as a
+postsynaptic cortical receptor, and a binding assay cannot separate the two
+pools. Adra2b's *negative* correlation has no such explanation and is not
+given one here. What can be said about it is that all three alpha-2
+transcripts sit near the floor in these regions (median energy 0.06-0.13
+against Gabra1's 6.5-20 in the same structures), so the ordering being
+measured may be mostly noise - which is a caveat, not a mechanism, and is
+recorded as the former.
+
+The benzodiazepine row deserves a note of its own: it is the site this
+codebase's diazepam scenario actually acts at, and it is compared against
+Gabra1/2/3/5 only. Gabra4 is excluded because alpha4-containing pentamers
+are classical-benzodiazepine-insensitive. P4.1 ingested Gabra4 specifically
+so that P4.2 could exclude it deliberately rather than pool it in by
+accident; this is that exclusion, and a test asserts it.
+
+### How much P4.1's deferred choice was worth
+
+P4.1 refused to pick a plane policy or a combining rule and handed the
+choice to P4.2. P4.2's answer, for the D1 comparison, is that it was worth
+almost nothing: all fourteen plane x combine policies give Spearman between
+**0.709 and 0.794**. The refusal cost one required keyword argument and
+bought the ability to say that, which is the right trade. It would not have
+been possible to say it if the loader had defaulted.
+
+For the record the headline numbers use `plane="coronal"`, `combine="mean"`
+in the tests (the fixture's Drd1 has one coronal experiment, so this is the
+least reduced option available) and `plane="coronal-else-sagittal"`,
+`combine="mean"` in the report, where three sagittal-only genes would
+otherwise vanish.
+
+### Two smaller decisions
+
+**Region joins are name-based and every one is written down.** The
+autoradiography papers delineate on their own atlases (Hof et al. 2000;
+Franklin & Paxinos), the ISH unionizes are over CCF structures, and
+`REGION_MAPPING` records a reason string for each of the 29 published region
+names - including the six that are deliberately left unmapped. "Nucleus
+accumbens core" and "shell" are unmapped because CCF's ACB is undivided and
+merging them would be an averaging rule invented by this module; "amygdala"
+because CCF splits the amygdalar nuclei between CTXsp and sAMY; "substantia
+nigra" because CCF has SNc and SNr as siblings with no combined parent and
+the two differ by an order of magnitude in Drd1 transcript; "nigrostriatal
+bundle" because it is a fibre tract; "subthalamic area" because the phrase
+is not CCF's STN. Each of those is a comparison point that would have
+measured the atlas join rather than the conversion.
+
+**Both datasets are mouse, and that was a constraint on which datasets could
+be used.** Kitchen et al. 1997's mu-opioid autoradiography is the obvious
+first candidate for a receptor this model already simulates, and it is
+paywalled; the open-access mu-opioid alternative found (Effah et al. 2024,
+EJN, PMC11612844) publishes its region-wise MOPr densities only as bar
+figures, with a whole-brain mean in the one numeric table. So there is no
+Oprm1 comparison here. Substituting the abundant *rat* mu-opioid
+autoradiography would have violated rule 2 for the sake of covering a
+receptor the model uses, and it was not done. What Oprm1 has instead is the
+qualitative anatomy check P4.1 already runs (medial habenula, then midline
+thalamus) and a documented, unquantified mismatch record.
+`autoradiography.SEARCHED_AND_EMPTY` carries both this search and the
+extrastriatal-D2 one in the Track E format, with the queries and the dates,
+so neither gets repeated and neither turns into a silent gap.
+
+### Fixture extension, and why it did not touch the connectome matrices
+
+The offline comparison needs OT, CLA, EPd, ACA and HIP, which the committed
+fixture ontology did not have. Adding them to `FIXTURE_REGION_IDS` would
+have changed the committed Knox and Oh matrices and every number the P3.x
+tests assert on them, for no gain, since P4.2 never touches a connection
+weight. So they went into a new `EXTRA_ONTOLOGY_REGION_IDS`: ontology
+entries with no matrix row. The shared fixture ontology went from 55
+structures to 61 (the five, plus EPd's parent EP), the expression fixtures
+were recut over the larger structure set from the same verified bytes, and
+two assertions that count fixture rows were updated. The Knox CSVs are
+byte-identical. There is still exactly one fixture ontology, which is the
+property P4.1 said must not be lost.
+
+The payoff is that the acceptance criterion runs in the offline gate: the
+D1 comparison, both measured displacements and the policy sweep are
+fixture-backed, and a `real_data` test asserts the full 291-region matrix
+gives the same rho to three decimals, so a fixture that stopped being a
+slice of the data would fail loudly.
+
+### What this task changes, and what it does not
+
+- **No parameter changed, no illustrative label moved, no scenario
+  touched.** Nothing in `engine.py`, `receptor.py`, `scenarios.py`,
+  `connectome_scenarios.py` or any calibration module imports the new code.
+  Every existing result is unchanged, and the whole suite passes with the
+  fixture extension.
+- **One new fitted constant exists**, `k_Drd1 = 17 fmol/mg tissue
+  equivalent per expression-energy unit`, and it is not stored anywhere: it
+  is recomputed from the published table every time, carries its own R^2 of
+  0.31, and refuses to be applied to any other gene.
+- **The three numbers that matter are negative results and are reported as
+  the headline.** Proportional R^2 of 0.31, a log-log slope of 0.46 where
+  proportionality needs 1.0, and a 172-fold misplacement for the dopamine
+  transporter. No tolerance was widened and no region was dropped to
+  improve any of them.
+- **43 new tests**, 38 offline and 5 requiring the gitignored cache.

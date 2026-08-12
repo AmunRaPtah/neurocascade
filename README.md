@@ -108,14 +108,14 @@ more single-dose studies.
 | `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1), and the `CircuitNetwork` builder with its neurotransmitter sign rule (P3.2) |
 | `src/neurocascade/connectome_scenarios.py` | The hand-built scenarios re-wired from the connectome, with per-edge provenance (P3.3) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4) |
-| `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1) |
+| `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), and the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2) |
 | `src/neurocascade/datafetch.py` | Checksummed download/verify/cache, shared by both ingestion packages |
 | `scripts/`           | `fetch_connectome.py`, `fetch_expression.py` (download + checksum-verify source data), maintenance |
 | `data/`              | Gitignored cache of downloaded source data; checksums live in `connectome/sources.py` and `expression/sources.py` |
 | `examples/`          | Worked end-to-end scenarios                      |
 | `tests/`             | Unit tests per layer                             |
 | `docs/`              | Architecture and design notes                    |
-| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage |
+| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage, `expression_density_validation.txt` P4.2 density validation |
 
 ### Connectome data
 
@@ -209,9 +209,37 @@ that P4.2 owns. 279 of the connectome's 291 regions carry ISH data;
 `expression.MISSING_FROM_ISH` names the twelve that do not and
 `docs/architecture.md`, "Phase 4: ingesting Allen receptor-gene expression
 (P4.1)", explains why. Expression energy is transcript abundance in
-arbitrary units, not a receptor density; nothing in the package converts it.
+arbitrary units and not a receptor density; the conversion, its assumption
+and its measured error are P4.2, below.
 `results/expression_coverage.txt` is the committed record of per-gene
 coverage, the missing regions, and how much a gene's experiments disagree.
+
+### Expression as a receptor density, and how far that holds
+
+```python
+from neurocascade import expression
+
+rho = expression.relative_density(energy, "Drd1", normalization="max")
+rho.as_coupling(mechanism_gain=-3.0, nodes={"striatum": 672})
+```
+
+The conversion assumes, within one gene, that density is proportional to
+expression energy. That is stated as an assumption in
+`expression.ASSUMPTION` and measured against published mouse receptor
+autoradiography: over ten regions with measured D1 densities (Yoo et al.
+2010) the map **ranks regions well** (Spearman 0.71) and **scales them
+badly** (proportional R^2 0.31; log-log slope 0.46 where proportionality
+needs 1.0). Across seven receptor systems (Lothmann et al. 2021) the quality
+is receptor-specific: alpha-1 and GABA-A track measured density, AMPA does
+not track it at all.
+
+Some receptors are not in the region that transcribes them.
+`expression.MISMATCHES` records those with citations, and
+`relative_density()` refuses to convert `Slc6a3`, `Cnr1`, `Slc6a4` or
+`Slc6a2` without `acknowledge_mismatch=True`: the dopamine transporter's
+transcript puts 119x as much in SNr as in CP while [3H]mazindol binding puts
+0.7x as much, a 172-fold misstatement that no correction here can fix.
+`results/expression_density_validation.txt` is the committed record.
 
 ### Scenarios on connectome regions
 
