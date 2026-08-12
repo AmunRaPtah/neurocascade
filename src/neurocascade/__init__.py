@@ -18,6 +18,7 @@ from .behavior import BehaviorReadout
 from .engine import Simulation
 from . import scenarios
 from . import drug_pk
+from . import pk_validation
 
 __all__ = [
     "OneCompartmentPK",
@@ -41,4 +42,5 @@ __all__ = [
     "Simulation",
     "scenarios",
     "drug_pk",
+    "pk_validation",
 ]

@@ -2482,3 +2482,353 @@ before this task.
   one. The checks here are consistency checks (derivation identities,
   independent-source agreement, figure-read cross-checks); comparing a
   simulated concentration-time curve to a measured one is still P1.6.
+
+---
+
+## Phase 1: validating the simulated curves against published PK (P1.6)
+
+### The problem this task had to solve before it could do anything
+
+P1.2-P1.5 built five PK models out of published *parameter sets*: a
+clearance, some volumes, an absorption constant. The obvious way to "validate
+simulated concentration-time curves against published PK curves" is to run
+each model, compute Cmax/Tmax/half-life/AUC off the trajectory, and compare
+them to the paper the parameters came from. That comparison cannot fail for
+any reason connected to a rat. AUC would come back as Dose/CL because
+Dose/CL is what was typed in; the terminal half-life would come back as
+ln2/beta for the same reason. Reporting agreement of that kind as validation
+against the literature is the quantitative equivalent of citing yourself, and
+it is exactly the trap this task was most likely to fall into, because it
+produces a table of green ticks.
+
+So `pk_validation.py` splits every comparison into three tiers and refuses to
+let them be read as one number:
+
+| tier | target is | what a pass means | n |
+|---|---|---|---|
+| `ROUND_TRIP` | the model's own closed-form value | the integrator, the NCA and the unit arithmetic work | 16 |
+| `SOURCE_CONSISTENCY` | a number the parameterising source *printed* but that was not an input | the source agrees with itself at the precision it printed | 3 |
+| `INDEPENDENT` | a study that contributed no parameter to any model | the model is right about the rat | 15 |
+
+Only the third tier can say anything, and 9 of its 15 comparisons say the
+model is wrong.
+
+### Finding independent data was most of the work
+
+`drug_pk.py`'s existing searched-and-empty records were written looking for
+the things needed to *build* a model: an F and a ka. P1.6 needs something
+different and weaker - any second measurement of the same drug in the same
+species - so the searches were redone from that angle, and two studies that
+were useless for P1.2-P1.4 turned out to be exactly what P1.6 needed.
+
+- **[Lei2018]** Lei K, He GF, Zhang CL, et al., *Exp Anim* 2018;67(2):163-73,
+  doi 10.1538/expanim.17-0091, PMID 29225304, open access (PMC5955748, read
+  in full). A herb-drug interaction study whose control arm is a clean rat
+  haloperidol PK experiment: male Sprague-Dawley 180-200 g, n = 7, 0.7 mg/kg
+  i.v., HPLC-MS/MS on plasma, Table 2 - AUC(0-inf) 188.4 ± 20.5 ng·h/mL,
+  t½ 2.9 ± 0.7 h, CL 3.8 ± 0.4 L/h/kg. It contributes nothing to any model
+  here, and it is the only independent rat haloperidol concentration-time
+  dataset the project has ever found.
+- **[Rautiola2019]** Rautiola D, Maglalang PD, Cheryala N, et al.,
+  *J Pharmacol Exp Ther* 2019;370(3):796-805, doi 10.1124/jpet.118.255943,
+  PMID 30837282, open access (PMC6806351, read in full). An intranasal
+  diazepam-prodrug study whose IV reference arm is a clean rat diazepam PK
+  experiment: male Sprague-Dawley 0.271 ± 0.023 kg, 1.00 mg/kg IV bolus,
+  naive-pooled NCA, Table 2 - C0 (extrapolated) 441 ng/mL, t½,z 32.9 min,
+  AUC(0-15 min) 1910 ± 70 and AUC(0-90 min) 5430 ± 190 min·ng/mL (± S.E.).
+
+Both were checked for internal consistency before use rather than trusted.
+[Lei2018]'s IV column hangs together (Dose/AUC = 3.715 L/h/kg against a
+printed CL of 3.8, a 2.2% mean-of-per-animal-ratios gap); its *oral* column
+does not (the printed CL/F of 17.1 L/h/kg implies an oral AUC of 82 ng·h/mL
+against the 43.3 it prints, a 1.9-fold contradiction), so nothing from the
+oral column is used as a target and that is recorded in the module.
+
+P1.3 named one specific follow-up for a later pass - Johnson et al.,
+*Pharm Res* 2014;31:2605-17 (doi 10.1007/s11095-014-1358-7, PMID 24792824),
+which fits rat haloperidol plasma PK from IV/IP/SC data and would close the
+missing F and ka for the routes the behavioural literature uses. It was
+retried here. Unpaywall now reports it as open access with a repository copy
+at research.rug.nl, and the record page does list a PDF, but the file
+endpoint returns 403 to a browser-identified request; the parameter tables
+were still not readable. So P1.3's blocker stands exactly as written, and the
+one thing this pass adds to it is that the obstacle is a repository
+misconfiguration rather than a missing deposit, which is worth knowing for
+whoever tries next.
+
+For fentanyl the search came up empty and the record says so
+(`SEARCHED_AND_EMPTY_VALIDATION[("fentanyl","rat","IV")]`): Ohtsuka et al.
+2007 dosed rats 0.03 mg/kg IV, squarely inside [Yassen2008]'s own dose range,
+and is closed access with an abstract that prints no parameter; Yu et al.
+2018 *Toxicol Sci* has full rat IV plasma and brain profiles at 40 and
+80 µg/kg and the publisher returns 403 to both the article and the PDF with
+no PMC deposit; and a 2025 QSAR-PBPK paper prints an "observed" rat fentanyl
+row (CLsys 0.493 L/h, i.e. 8.2 mL/min against [Yassen2008]'s 17.0 - a
+disagreement that would have been the most interesting number in this
+section) but attributes it only to "experimentally measured data reported in
+the literature" and names no source, which is the same objection that kept
+the Groningen haloperidol tables out of P1.3. Fentanyl is therefore validated
+cross-route only, and that limitation is the reason its two failures are the
+hardest to interpret.
+
+### Criteria, and why none of them is a dial
+
+Each comparison declares a `criterion_kind` chosen by *what the target number
+is*, before looking at how close the model got:
+
+- `NUMERICAL` (round trip): |rel err| ≤ 0.5%, which is ~25× the largest error
+  the simulation grid actually produces.
+- `DISPERSION`: inside observed mean ± 2 × the dispersion the source prints.
+  SEM is inflated to SD by √n where n is stated; where the design pools
+  different n at different time points ([Rautiola2019]'s leapfrog sampling)
+  the SEM is used unconverted, which makes the interval about 2× too narrow -
+  i.e. it makes the model's job *harder*, and `dispersion_is_understated`
+  flags every record where that happens.
+- `TWO_FOLD`: 0.5 ≤ predicted/observed ≤ 2.0, the conventional
+  predictive-performance criterion of the PBPK literature, used where the
+  source prints no dispersion at all.
+- `INTERVAL`: inside the interval the source's own printed rounding leaves
+  open ("1.5 h" → 87-93 min). This is the same device P1.3 used for the
+  haloperidol half-life instead of inventing a percentage.
+- `UPPER_BOUND`: a structural impossibility test rather than a fit - an
+  implied bioavailability must be ≤ 1.
+
+Both the dispersion and the two-fold verdict are computed for *every* record
+regardless of which is primary, so a comparison that passes one and fails the
+other says so, and several do.
+
+The guarantee that no tolerance was widened to reach green is structural
+rather than a promise: `tests/test_pk_validation.py` asserts the **relative
+error itself** for every independent comparison to five significant figures,
+and asserts the failing set by key. Widening a criterion does not make any of
+those assertions pass; it makes `test_the_failing_comparisons_are_exactly_
+these` fail. The only way to move a comparison out of the failing set is to
+change the model or the target, and either way a test says so out loud.
+
+### What the independent tier actually found
+
+#### Haloperidol vs [Lei2018]: 25% low on exposure, 47% low on half-life
+
+| quantity | model | [Lei2018] | error | verdict |
+|---|---|---|---|---|
+| AUC(0-inf) at 0.7 mg/kg | 140.6 ng·h/mL | 188.4 ± 20.5 | **−25.4%** (z = −2.33) | FAIL |
+| clearance | 4.98 L/h/kg | 3.8 ± 0.4 | **+31.1%** (z = +2.95) | FAIL |
+| terminal half-life | 92.7 min | 174 ± 42 | **−46.7%** (z = −1.94) | pass |
+
+The AUC and clearance rows are one finding measured twice, not two
+corroborating hits, and the module says so. The half-life row is worse than
+its verdict: it is a 1.88-fold under-prediction that clears the dispersion
+criterion at z = -1.94 only because [Lei2018]'s SD is 24% of its own mean,
+and scrapes inside the two-fold criterion at 0.53x. Calling that agreement
+would be overclaiming, and the test that pins it is named accordingly.
+
+The clearance gap has a specific candidate explanation that is deliberately
+*not* applied. [ChengPaalzow1992] reports **blood** clearance and blood-based
+volumes; [Lei2018] measured **plasma**. CL_blood = CL_plasma / Rb, so a rat
+haloperidol blood:plasma ratio of 0.76 would reconcile the two exactly. That
+is a physically ordinary value, and no rat Rb for haloperidol exists - the
+gap was already recorded in
+`drug_pk.SEARCHED_AND_EMPTY[("haloperidol","rat","blood:plasma")]` during
+P1.3. So the discrepancy is reported at full size with the candidate named,
+rather than dissolved by a conversion factor nobody measured. That is the
+rule-1 discipline applied to an *error* rather than to a parameter: you may
+not invent a number to explain a miss away any more than to make a fit
+succeed.
+
+The half-life gap is not covered by that escape route: a terminal half-life
+is invariant to a time-independent blood:plasma ratio. The most likely cause
+is sampling design - [Lei2018] sampled to 24 h with HPLC-MS/MS, and the 1992
+paper's window and assay sensitivity are unknown because it is closed
+access - but that is a hypothesis, and the reported error is −46.7%.
+
+#### Diazepam vs [Rautiola2019]: the peak is 3.4× low, and now we know by how much
+
+| quantity | model | [Rautiola2019] | error | verdict |
+|---|---|---|---|---|
+| C0 (the IV bolus Cmax) | 128.7 ng/mL | 441 | **−70.8%**, i.e. 3.43× low | FAIL |
+| AUC(0-15 min) | 1786 ng·min/mL | 1910 ± 70 | −6.5% | pass |
+| AUC(0-90 min) | 7493 ng·min/mL | 5430 ± 190 | **+38.0%** (z = +10.9) | FAIL |
+| terminal half-life | 66.0 min | 32.9 | **+100.6%**, 2.006× | FAIL |
+
+This is the most informative block in the task, because P1.4 predicted the
+first row and could not size it. `diazepam_rat_iv_pk`'s docstring says the
+model starts at Dose/V_beta where the real drug starts at Dose/Vc, that
+Vc < V_beta always, and that "here it cannot be computed at all, only bounded
+below by 1" because [Klotz1976] publishes no central volume. [Rautiola2019]'s
+extrapolated C0 sizes it: Dose/C0 = 2.27 L/kg is an empirical central volume
+against the model's V_beta of 7.77 L/kg, a factor of 3.4. That number is an
+observation from a different study and does **not** become a parameter -
+no `DIAZEPAM_RAT_IV_VC_L_PER_KG` was added, and a test asserts its absence -
+but the open question P1.4 left is now answered quantitatively.
+
+The two AUC rows disagree in *sign*, and that is the shape of the error
+rather than noise: the missing distribution phase makes the model start 3.4×
+too low, the too-long half-life makes it fall too slowly, and over the first
+15 minutes those two errors nearly cancel (−6.5%). By 90 minutes the second
+one dominates (+38.0%). A single AUC number would have hidden this
+completely.
+
+Both AUC comparisons are made over the source's **own** windows rather than
+extrapolated to infinity, because that study stopped sampling at 90 min and
+reported no AUC(0-inf). The model's AUC(0-inf) is 2.26× the observed
+90-minute AUC; quoting that as a +126% error would have been manufacturing a
+discrepancy out of the study design, and a test pins the 2.26 factor so the
+choice stays visible.
+
+The half-life row fails the two-fold criterion by 0.3%, which is close enough
+that the verdict alone is misleading and the fold error (2.006) is what gets
+reported. It is also the one comparison where the *observed* value is the
+more suspect of the two: [Rautiola2019] sampled to 90 min, under three of its
+own half-lives, so its λz may still contain distribution. [Klotz1976]'s 1.1 h
+is the other candidate and its sampling window is not readable, because that
+paper is closed access and its abstract states only that disposition was
+biexponential in all four species it studied. Neither value can be declared
+correct from here. The model is pinned to [Klotz1976], so the disagreement is
+reported at full size.
+
+#### Fentanyl: no same-route check exists, and both cross-route checks fail
+
+With no independent rat IV dataset, the [Yassen2008] disposition can only be
+held against the two extravascular rat studies `drug_pk.py` records but does
+not model. Two kinds of check are possible, and the structural one is the
+stronger:
+
+For any route CL/F ≥ CL, because F ≤ 1. So CL(IV) ÷ (CL/F)(extravascular) is
+an implied bioavailability. A value above 1 is an impossibility: the two
+studies cannot both describe rat fentanyl.
+
+| comparison | implied F | verdict |
+|---|---|---|
+| [Yassen2008] IV ÷ [CanfieldSprague2025] SC | **1.530** | FAIL |
+| [Yassen2008] IV ÷ [Almousa2011] IP | **1.135** (a *lower* bound) | FAIL |
+| [Klotz1976] IV ÷ [Friedman1986] IP (diazepam) | 0.320 | pass |
+| [Klotz1976] IV ÷ [Hua2025] PO (diazepam) | 0.082 | pass |
+| [ChengPaalzow1992] IV ÷ [Lei2018] PO (haloperidol) | 0.291 | pass |
+
+The last three rows are the control group, and they are why the first two are
+evidence about fentanyl rather than about the test: the same arithmetic on
+cross-study pairs assembled the same way gives ordinary bioavailabilities for
+the other two drugs. (The haloperidol row is also a check on the
+cross-study substitution itself: [Lei2018]'s own within-study answer is
+23.0 ± 5.7%, and swapping in the 1992 blood clearance moves it to 29% - the
+substitution costs about a quarter of the answer and does not change its sign
+or order of magnitude.)
+
+The Almousa row is the weaker of the two failures and is labelled as such: it
+is a lower bound, because that paper's clearance is Dose/AUC(0-180) on a
+truncated AUC so the true CL/F is smaller and the implied F larger still, and
+that source is independently known to contradict itself two-fold
+(`fentanyl_rat_ip_auc_consistency`, from P1.2). It corroborates the direction,
+not the magnitude.
+
+Half-life and exposure tell the same story more mildly:
+
+| quantity | model | observed | error | verdict |
+|---|---|---|---|---|
+| terminal half-life vs SC | 53.6 min | 66.0 ± 0.6 (SEM) | −18.8% | FAIL (dispersion), pass (two-fold) |
+| terminal half-life vs IP | 53.6 min | 198.3 ± 44.7 | −73.0% | FAIL both |
+| AUC(0-inf) at 0.3 mg/kg vs SC | 69.9 ng·h/mL | 112.8 ± 10.8 (SEM) | −38.1% | pass both |
+
+The AUC row is worth reading carefully, because it is the one place where a
+"pass" is the misleading answer. The model has no SC route, so what it can
+offer for 0.3 mg/kg SC is the F = 1 value - an **upper bound** on any SC
+prediction it could make. That upper bound lands 38% *below* the observed
+mean. It clears the dispersion criterion because [CanfieldSprague2025]'s
+between-animal spread is wide (SEM 10.82 on n = 6, so an SD of 26.5 on a mean
+of 112.8), and it clears the two-fold criterion at 0.62x. The same
+disagreement reads as a pass one way round and as an impossibility the other
+way round, which is precisely why the structural row is kept alongside it
+instead of being replaced by it.
+
+What would explain a fentanyl clearance that is too high by half: the SC
+study dosed 0.300 mg/kg against [Yassen2008]'s 0.015-0.085 mg/kg, a
+3.5-20x gap, so saturable elimination at the higher dose is the leading
+candidate.
+The studies also differ in strain (Wistar vs Sprague-Dawley), weight (237 vs
+327 g) and administration (20-40 min infusion vs bolus). None of this is
+resolvable without the same-route dataset the searched-and-empty record says
+is behind a paywall.
+
+### Tmax: not validated, for a structural reason
+
+Tmax is one of the four quantities P1.6 was asked to validate and it is the
+one that could not be validated at all. This is recorded as data
+(`pk_validation.TMAX_IS_NOT_VALIDATABLE`) with a test asserting it is still
+on the record, because a silently missing quantity looks like an oversight.
+
+Four of the five models are IV bolus models, whose Tmax is 0 by construction:
+there is no absorption phase to get right. The fifth, `diazepam_rat_ip_pk`, is
+the only absorption model in the project; it predicts Tmax = 17.1 min, and no
+rat intraperitoneal diazepam study in reach reports an observed Tmax.
+[Friedman1986], whose disposition the composite uses, is closed access with
+no Tmax in its abstract and a first post-dose sample at 5 min. The search was
+extended beyond P1.4's sweep specifically for a rat IP diazepam Tmax; the
+nearest hit, Nelson et al. 2024 (PMC11296087, read in full), does dose male
+Sprague-Dawley rats diazepam IP at 0.75-6 mg/kg with LC-MS plasma sampling,
+but it samples 10 min after the *last* of three hourly injections and reports
+no non-compartmental parameters, so there is no single-dose ascending limb in
+it to read a Tmax from.
+
+Observed rat Tmax values do exist in this project's records - fentanyl IP
+28.3 min, fentanyl SC 0.5 h (and that one is the first sampling time, not a
+resolved peak), diazepam PO 1.33 h - but every one of them belongs to a route
+with no model, and each of those routes is unmodelled precisely because its
+ka was never measured. ka is the parameter Tmax would test. **Validating Tmax
+and building the missing absorption models are the same missing piece, not
+two.** That is a sharper statement of the gap than P1.2-P1.4 had, and it is
+the most useful thing this task produced for Phase 2 planning.
+
+### The source-consistency tier, and its one failure
+
+Three comparisons hold a simulated curve against a number the parameterising
+source printed but did not contribute:
+
+- **haloperidol, 92.7 min against a printed "1.5 h"** (+3.0%): passes,
+  because it sits inside the 87-93 min that two significant figures leave
+  open. P1.3 chose to anchor on the printed V_beta (three significant
+  figures) rather than the printed half-life (two); this is the check that
+  the choice did not push the terminal phase outside what the paper allows.
+- **fentanyl, point estimates vs the source's own 1,000-replicate bootstrap**
+  (+2.1%): passes, and both sit inside the 44.3-63.6 min the source's
+  confidence intervals leave open. [Yassen2008] publishes no half-life at
+  all, so this is the only within-paper check available for that drug.
+- **diazepam IP, 52.46 min against a printed "0.88 h"** (−0.64%): **fails**
+  its interval by 0.07% at the low edge. This one is the source's arithmetic
+  and not the model's, and the module shows why: ln2/((CL/F)/(V/F)) from the
+  printed 255 and 19.3 gives 52.23-52.71 min across those two numbers' own
+  rounding, and the printed 52.8 min lies just outside *that*. The source's
+  three printed values are mutually inconsistent at the fourth significant
+  figure, the model reproduces two of them exactly, and it therefore cannot
+  reproduce the third. `diazepam_rat_ip_reported_half_life_consistency` from
+  P1.4 already pinned the same −0.64%; P1.6 keeps the failure visible instead
+  of reclassifying it.
+
+### What this task changes, and what it does not
+
+- **No parameter changed and no illustrative label moved.** Not one number in
+  `drug_pk.py`, `pk.py` or `scenarios.py` was touched. A validation task that
+  edits the thing it is validating is not a validation task.
+- **No tolerance was widened.** 10 of 34 comparisons fail. The failing set is
+  asserted by key, and every independent comparison's relative error is
+  asserted to five significant figures.
+- **The models are still the best available and are still wrong by these
+  amounts.** Nothing here says to stop using them; it says what Phase 2 is
+  buying when it spends the PK bridge. The concrete carry-forwards: rat
+  haloperidol exposure is over-cleared by ~31% and its terminal phase is
+  ~1.9× too fast; rat diazepam's IV bolus peak is ~3.4× too low for the first
+  minutes and its exposure over an hour and a half is ~38% too high; rat
+  fentanyl's clearance is high enough to be structurally incompatible with
+  both published extravascular datasets, by at least 13% and probably 53%.
+- **Two named papers would close the biggest gap.**
+  `SEARCHED_AND_EMPTY_VALIDATION[("fentanyl","rat","IV")]` names Ohtsuka et
+  al. 2007 and Yu et al. 2018, either of which is a rat IV fentanyl
+  concentration-time dataset and either of which would turn the drug's two
+  cross-route failures into a same-route answer. Both are paywalled rather
+  than nonexistent, which is a more tractable problem than the ones Track E
+  hit. The Tmax gap needs something else again: a rat IP diazepam study with
+  a resolved ascending limb, which `TMAX_IS_NOT_VALIDATABLE` records as
+  searched and not found.
+- **It validates plasma/blood curves only.** The brain concentrations P1.5
+  introduced are the plasma curve times a scalar, so nothing here tests the
+  partition itself; validating a simulated *brain* concentration against a
+  measured one needs brain time-course data and is not attempted.
