@@ -2832,3 +2832,190 @@ source printed but did not contribute:
   introduced are the plasma curve times a scalar, so nothing here tests the
   partition itself; validating a simulated *brain* concentration against a
   measured one needs brain time-course data and is not attempted.
+
+## Phase 2: dose-to-behaviour evidence module (P2.1)
+
+### The question this task actually had to answer
+
+Track E, above, ends with a specific diagnosis: circuit-layer calibration is
+blocked because real behavioural pharmacology reports an administered **dose**
+while this codebase's state variable was a **concentration**, and no honest
+route existed between them. Phase 1 built that route. P2.1 is the first task
+to spend it, and its brief names the three papers Track E named: Yoshida et
+al. 1999 (fentanyl → nucleus accumbens dopamine), Gao et al. 2021 (haloperidol
+locomotor suppression), Pellow et al. 1985 (diazepam → elevated plus maze).
+
+So the question is narrow and answerable: **with the bridge in place, are
+those three usable now?**
+
+**They are not, and none of the three fails for the reason Track E predicted.**
+That is the finding, and `src/neurocascade/calibration/behavioral_evidence.py`
+is the record of it. The blocker moved, per system, to a different and more
+specific place:
+
+| paper | bridge covers its drug/species/route? | effect size obtainable? | what actually blocks it now |
+|---|---|---|---|
+| Yoshida 1999 (fentanyl, rat, IV) | **yes**, via `drug_pk.fentanyl_rat_iv_pk`, [Yassen2008] | no | the 1999 article is closed access; its abstract carries neither the doses nor the percentages |
+| Gao 2021 (haloperidol, mouse, PO) | no: no mouse haloperidol PK at all, no haloperidol PO in any species | yes (ED50 0.11 mg/kg) | route/species coverage, *and* Track E's untouched second objection that an ED50 is not a likelihood target |
+| Pellow 1985 (diazepam, rat, route unstated) | unanswerable, because the source gives neither dose nor route | no | dataset access; there is nothing for a bridge to convert |
+
+Two of those are worth stating plainly because they change what the next task
+should do. For **fentanyl**, Phase 1 did its job completely: the moment a dose
+and a percent-of-baseline figure are obtained from that paper,
+`BehavioralEvidenceEntry.brain_exposure` runs on it unchanged. "Get a 1999
+closed-access PDF" is a materially cheaper problem than "build a
+pharmacokinetic submodel this project has for no drug". For **haloperidol**,
+the gap is structural in a way no single paper closes: the routes the rat PK
+literature covers (IV only, [ChengPaalzow1992]) and the routes the behavioural
+literature uses (IP, SC, PO, essentially without exception in every paper
+screened) do not intersect for this drug. That is recorded in
+`SEARCHED_AND_EMPTY_BEHAVIORAL[("haloperidol","rat","IV","locomotor
+activity")]` together with the two things that would close it.
+
+### A correction to Track E, made rather than inherited
+
+Track E states that Yoshida et al.'s abstract "confirms fentanyl
+dose-dependently increased NAc dopamine at 5 and 10 ug/kg IV". Re-checked in
+this pass against PubMed EFetch, Semantic Scholar, OpenAlex and the publisher
+page, that could not be reproduced: the abstract PubMed carries states every
+dose as a bare unit, "(microg/kg)" or "(nmol)", and contains no dose value at
+all. The two numbers may well be right; nothing this project can reach
+confirms them.
+
+They are therefore **not stored as a dose**. The entry's
+`provenance_gaps["doses_mg_per_kg"]` holds the claim, the list of sources
+checked, and the reason each did not confirm it, and
+`test_track_e_unverified_fentanyl_dose_claim_is_not_stored_as_a_dose` asserts
+that the entry's dose stays `None`. Rule 1 of this codebase, never invent a
+number, applies to numbers copied from our own prose exactly as it applies to
+numbers copied from a paper, and this is the first time that has actually
+bitten. What the PubMed record *does* establish is used: species and strain
+(MeSH "Rats, Sprague-Dawley"), sex (MeSH "Male"), route (MeSH "Injections,
+Intravenous") and the endpoint.
+
+### Why there is a fourth entry, and what it is for
+
+A module of three absences would be an accurate record and a useless one: it
+would not demonstrate that the bridge works on real behavioural dosing, which
+is the acceptance criterion this task was actually given. So the module also
+carries **Stickling & Rosenkranz 2024** (Behav Neurosci 139(2):60-73,
+doi:10.1037/bne0000612, PMC11966652, read in full): male Sprague Dawley rats
+(Envigo), PND 90-95, a single **1.5 mg/kg IP** diazepam injection, elevated
+plus maze **60 min** later for a 5 min trial at 25-30 lux, n = 12-13 per
+group, with means and SEMs printed in its Table 1.
+
+Its role is to exercise the bridge, and it stands on its own sourcing: the same
+drug, the same species and the same assay as Pellow, found independently. It is
+in the module because `drug_pk` has a rat IP diazepam model and diazepam/rat is the
+one drug/species pair in this codebase with a *receptor-drivable* brain
+partition (Kp,uu 0.918 × fu,plasma 0.196, P1.5). So it converts all the way:
+
+    1.5 mg/kg IP  →  Cmax 218 nM plasma (Tmax ≈ 17 min)
+                  →  135 nM plasma at the source's own 60 min timepoint
+                  →  **24.3 nM unbound brain**
+
+That last number is the quantity a `ReceptorSite` may legitimately bind, and
+it lands in a pharmacologically sensible range against diazepam's
+benzodiazepine-site affinity. It is the first time in this project that a
+published *behavioural* dose has been carried through to a receptor-driving
+concentration.
+
+Two caveats travel with it, on the entry rather than in a footnote, because
+they are why it is recorded and not yet fitted:
+
+1. The paper's introduction says "diazepam (1 mg/kg)" while its Methods and
+   Figure 1 legend both say 1.5 mg/kg. The Methods value is used; the
+   discrepancy is stored.
+2. The only EPM measure it prints numerically is "closed arm preference"
+   (saline 77.5 ± 12.1 s, diazepam 76.7 ± 24.4 s), and the paper never defines
+   that measure. Its open-arm times, which would be the usable quantity, are
+   in Figure 4A only. A target whose operational definition is unknown cannot
+   be compared with a model readout, so `calibration_ready_entries()` returns
+   empty and `test_no_entry_is_calibration_ready_yet_and_that_is_recorded`
+   pins that.
+
+### Design decisions worth recording
+
+**A missing field is `None` *and* is listed in `provenance_gaps`, enforced by
+the constructor.** `BehavioralEvidenceEntry.__init__` raises if any of
+`strain`, `sex`, `body_weight_kg`, `doses_mg_per_kg`, `timepoint_min` or
+`route` is absent without a recorded reason, and raises again if a gap is
+recorded for a field that does have a value. This is the Track E discipline
+turned into a type invariant: "not reported" becomes a fact with a citation
+context attached rather than a silent hole. `test_constructor_refuses_an_
+unexplained_gap` proves the enforcement bites.
+
+**Bridge coverage is computed, never asserted.** `pk_route_status()` calls the
+`drug_pk` builder and reports one of `available` / `no-dosing-recorded` /
+`unsourced` / `no-species`, so the verdicts in this module cannot go stale: if
+a later phase sources haloperidol IP kinetics, the Gao entry's status changes
+by itself and `test_every_entry_has_a_bridge_verdict_and_a_matching_status`
+fails until the prose is updated to match. The alternative, a hand-written
+"unusable" flag, is exactly the kind of claim that rots.
+
+**`brain_exposure` integrates rather than solving in closed form.** It goes
+through `pk_validation.simulate_curve`, i.e. the same `solve_ivp` path
+`engine.Simulation` runs, so the concentration it reports is what a simulation
+would actually see, integrator error included. It also refuses to invent a
+timepoint or a dose: an entry that has neither raises rather than defaulting.
+
+**No `sd` is exposed anywhere in this module.** `evidence.py` has
+`OCCUPANCY_LIKELIHOOD_SD`, an explicitly-flagged engineering allowance, and it
+is defensible there because a target existed and only its uncertainty had to
+be supplied. Here no computable target exists at all, so a likelihood width
+would be an allowance for nothing. P2.2 is where that question belongs.
+
+**Body weight is not defaulted, and where it does not matter, that is proved
+rather than claimed.** The Stickling entry records no body weight (the paper
+reports PND, not grams). For that entry it is harmless, because the rat IP
+diazepam parameter set is per-kg, so weight cancels, and
+`test_bridged_concentration_is_weight_invariant_for_the_per_kg_model` asserts
+it instead of the docstring asserting it. It would *not* be harmless for
+fentanyl, whose [Yassen2008] parameters are absolute mL and mL/min;
+`PK_SOURCE_BODY_WEIGHT_BANDS_KG` records the 225-250 g band those estimates
+came from as the defensible choice for a caller who must pick one.
+
+**Rule 2 is enforced structurally.** Track E found real, usable numbers for
+morphine (NAc dopamine) and chlordiazepoxide (EPM open-arm time) and refused
+to use them for fentanyl and diazepam. `test_no_cross_drug_substitution_is_
+present` scans every entry's endpoint, measure and group labels for the names
+of the obvious substitutes, so that refusal cannot be quietly undone later.
+
+### What was searched and not found
+
+`SEARCHED_AND_EMPTY_BEHAVIORAL` carries three records, one per system, each
+naming what was searched, which candidates were found, why each is unusable,
+and what would close it. The diazepam one is the largest sweep this project
+has run: all 600 open-access Europe PMC articles matching (diazepam AND
+"elevated plus" AND rats) were fetched in full and screened programmatically
+for an article that (a) never mentions mice, (b) contains a diazepam mg/kg IP
+dosing statement, and (c) contains a table with an open-arm measure carrying a
+"±". **Zero of 600 matched.** The rat EPM literature reports open-arm data in
+bar charts; the studies that tabulate it are overwhelmingly mouse studies, and
+this codebase has no mouse diazepam PK
+(`drug_pk.SEARCHED_AND_EMPTY[("diazepam","mouse","*")]`).
+
+The fentanyl record names the one near-miss worth knowing about:
+Sustkova-Fiserova et al., Int J Mol Sci 2017;18(11):2486,
+doi:10.3390/ijms18112486 (PMC5713452) is the right
+drug, species and region and prints real percent-of-baseline numbers, but its
+systemic fentanyl is 30 µg/kg **subcutaneous**, a route
+`drug_pk.SEARCHED_AND_EMPTY[("fentanyl","rat","SC")]` already records as
+having no obtainable `ka`, and its analytes are anandamide, 2-AG and GABA
+rather than dopamine.
+
+### What this task changes, and what it does not
+
+- **No parameter changed and no illustrative label moved.** Every circuit-layer
+  gain, weight, tau and baseline in `scenarios.py` is exactly as illustrative
+  as it was before P2.1, for the reasons above.
+  `tests/test_bayesian_calibration.py::test_no_circuit_layer_parameter_is_fit`
+  continues to guard that by construction.
+- **Nothing here is a fit.** `calibration_ready_entries()` returns empty, and a
+  test pins it. P2.2 inherits a module with one entry that reaches a receptor-
+  driving concentration and no entry that yet has a comparable model readout;
+  the honest next moves are named per entry rather than assumed.
+- **The Phase 1 bridge is validated as a behavioural-dosing tool, once.** One
+  real published behavioural dose now goes mg/kg → plasma → unbound brain nM
+  through the production code path. That is one, not three, and the module
+  says which two are missing and why.

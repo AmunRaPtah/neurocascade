@@ -33,6 +33,13 @@ of the three likelihood terms below reads another system's parameters.
                  `scenarios.py`'s calibrated sections (Moss et al. 2020 for
                  mu-opioid, Kapur et al. 1997 for D2, Savic et al. 1991 for
                  GABA-A), turned into Gaussian-likelihood (mean, sd) targets.
+  - behavioral_evidence.py: (P2.1) the DOSE-to-BEHAVIOUR datasets, as
+                 distinct from evidence.py's concentration-to-occupancy ones.
+                 Holds the three papers Track E named, re-examined through
+                 the Phase 1 dose-to-brain-concentration bridge, plus one
+                 additional rat/IP diazepam dataset that exercises the bridge
+                 end to end. Nothing in it is a likelihood target yet, and
+                 the module records per entry exactly why not.
   - forward.py:  the forward model, built on `ReceptorSite.occupancy_rhs`
                  (integrated via `scipy.integrate.solve_ivp`, the same
                  integrator `engine.py` uses elsewhere) rather than a
