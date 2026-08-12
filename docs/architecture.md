@@ -1469,3 +1469,302 @@ fentanyl PK parameter set exists in the tree. P1.3 therefore had to create
 `drug_pk.py` itself, and it is structured for one drug/species/route record
 per block so P1.2 can be redone into it without rework. The backlog file is
 left alone (the runner owns it), but P1.2 should be reopened.
+
+## Phase 1: literature PK parameters, fentanyl in rat and mouse (P1.2)
+
+P1.2 is the second drug to get real numbers, and it went into the block
+structure P1.3 left behind in `src/neurocascade/drug_pk.py` without needing
+to change `pk.py` at all. (P1.2 was originally recorded as done in error;
+see "A note on P1.2's state" in the P1.3 section above. This is the redo.)
+
+The short version: **one route, in one species, is fully sourced and
+modelled: rat, intravenous.** Rat SC, rat IP and rat PO each have real
+published data that fall short in a different, specific way, and each of
+those ways is recorded as a searched-and-empty entry rather than patched.
+The **mouse is empty for every route**, and the rat parameters are not
+scaled into it.
+
+### What was found, and what it supports
+
+**IV, rat, fully sourced.** Yassen A, Olofsen E, Kan J, Dahan A, Danhof M.
+"Pharmacokinetic-pharmacodynamic modeling of the effectiveness and safety of
+buprenorphine and fentanyl in rats." Pharm Res. 2008;25(1):183-93.
+doi:10.1007/s11095-007-9440-z, PMID 17914664. Open access, read in full from
+PMC2190336, not from an abstract and not from a secondary summary. Male
+Wistar rats (Charles River NL), 225-250 g, chronically cannulated (femoral
+artery for sampling, jugular vein for dosing), conscious; fentanyl
+0.015-0.085 mg/kg as a zero-order IV infusion over 20-40 min; arterial
+plasma by LC-MS/MS, LLOQ 0.118 ng/mL. The paper selected among one-, two-
+and three-compartment models and reports, in Table II, a NONMEM population
+two-compartment fit:
+
+| parameter | estimate | 95% CI | bootstrap (1,000 replicates) |
+|---|---|---|---|
+| Cl | 17.0 mL/min | 16.9–18.1 | 16.6 |
+| V1 | 250 mL | 218–282 | 255 |
+| V2 | 440 mL | 404–476 | 444 |
+| Q | 9.7 mL/min | 8.3–11.1 | 9.7 |
+
+This is a better evidential position than haloperidol's in three ways worth
+naming, because they change what the tests can assert. The source reports
+**Q**, so nothing has to be back-solved and none of P1.3's ill-conditioning
+applies here. It reports a **bootstrap**, so the point estimate can be shown
+not to be an artefact of one fit. And it reports **confidence intervals on
+every parameter**, so the uncertainty on quantities derived from them can be
+propagated rather than asserted.
+
+It is worse in one way: it reports **no half-life**, of any phase. So for
+fentanyl the half-life is the derived quantity and the parameter set is the
+primary one, the exact inverse of the haloperidol record.
+
+Two models are built from that one source:
+
+- `fentanyl_rat_iv_pk` (primary), two-compartment. Derived terminal half-life
+  **53.60 min**, distribution half-life **5.98 min**, Vss = V1 + V2 = 690 mL,
+  Vz = CL/beta = 1314.5 mL.
+- `fentanyl_rat_iv_one_compartment_pk`, a documented collapse with
+  Vd = Vz, which preserves the terminal phase and AUC = Dose/CL and
+  understates the bolus peak **5.3-fold** (Vz/V1 = 1314.5/250). That is a far
+  worse trade than haloperidol's two-fold, and the docstring says so: for
+  fentanyl the distribution phase is most of what happens in the first half
+  hour, which is most of what the drug does.
+
+**Absolute parameters, not per-kg ones, and why that is stored as such.**
+[Yassen2008] publishes absolute mL and mL/min for a rat in a 225-250 g band
+and never normalises by weight. `drug_pk.py` therefore stores the absolute
+numbers and divides by the caller's `body_weight_kg` at construction. The
+alternative (picking one weight inside the band and baking per-kg constants
+in) would have hidden a choice inside a constant. The division is safe
+because the disposition rate constants (k10 = Cl/V1, k12 = Q/V1, k21 = Q/V2)
+and therefore both half-lives are weight-invariant; only the concentration a
+mg/kg dose achieves scales with the weight passed.
+`test_derived_half_lives_do_not_depend_on_the_body_weight_passed` proves
+that rather than asserting it, and also checks that `V_central_L`,
+`V_peripheral_L` and `CL_L_per_min` come back out as the paper's absolute
+numbers whichever weight went in.
+
+**The derived half-life carries its source's uncertainty.**
+`fentanyl_rat_iv_terminal_half_life_interval_min()` enumerates the 16 corners
+of the (Cl, V1, V2, Q) 95% CI box and returns **44.3–63.6 min**. That is an
+outer bound, not a joint confidence region, because the four estimates are
+correlated and the covariance is not published. It is used as one: the
+half-life test asserts the exact derived value (53.60 min, to 0.05 min), and
+the interval is asserted separately so its width is on the record for P1.6.
+
+**How the "simulated half-life matches the cited half-life" criterion is
+met.** There is no cited rat IV half-life to match, so the check is stated
+precisely instead of stretched: `test_fentanyl_pk.py` integrates the model
+through the same ODE protocol `engine.Simulation` uses, fits the terminal
+slope by log-linear regression over 180-360 min (thirty distribution
+half-lives past the dose), and requires agreement with the closed-form
+half-life the source's own four parameters imply, to a relative 1e-4. It
+lands at 53.60 min. The one *reported* rat fentanyl half-life anywhere in
+this record, Canfield & Sprague's 1.10 h by the SC route, is a different
+strain, dose and route and is not used as a tolerance for the IV model; it
+is recorded below as an independent cross-check.
+
+### What was searched for and not found
+
+**SC, rat: disposition sourced, absorption absent.** Canfield JR, Sprague JE.
+"In vivo pharmacokinetic, pharmacodynamic and brain concentration comparison
+of fentanyl and para-fluorofentanyl in rats." Arch Toxicol.
+2025;99(1):287-97. doi:10.1007/s00204-024-03887-z, PMID 39419833. Open
+access, read in full from PMC11748481. Six jugular-vein-cannulated male
+Sprague-Dawley rats, 326.92 ± 3.99 g, 300 µg/kg SC, plasma LC-MS/MS,
+non-compartmental analysis. Table 1 (fentanyl): t1/2 1.10 ± 0.01 h,
+AUC(0-∞) 112.83 ± 10.82 ng/mL·h, Cmax 82.12 ± 11.78 ng/mL, Tmax 0.5 h,
+Clp/F 917.60 ± 110.11 mL/h, VD/F 1524.90 ± 368.52 mL (mean ± SEM).
+
+Every one of those numbers is stored as a constant. None of them is enough
+to build an SC model, for two independent reasons:
+
+1. **ka is unresolved.** The sampling grid is 0, 30, 60, 120, 240, 480 min,
+   so the reported "Tmax 0.5 h" is the *first post-dose sample*, not a
+   located peak. The true peak lies somewhere in (0, 30] min. That bounds ka
+   from below and measures nothing.
+2. **The reported means are incompatible with a one-compartment absorption
+   model at any ka.** For any such model the whole curve sits under
+   C = F·Dose/V, and F·Dose/V = AUC(0-∞)·ke exactly, so `Cmax ≤ AUC·ke` is a
+   structural ceiling. Here AUC·ke = 112.83 × ln2/1.10 = 71.10 ng/mL against
+   a reported Cmax of 82.12 ng/mL, so the peak is **15.5% above the
+   ceiling**.
+   `fentanyl_rat_sc_one_compartment_ceiling()` returns all three numbers and
+   a test pins the ratio.
+
+Reason 2 is not a criticism of the paper: it is the fingerprint of a
+distribution phase, and it agrees with [Yassen2008]'s finding that rat
+fentanyl needs two disposition compartments. But a two-compartment SC model
+would need that distribution phase parameterised, and a first sample at
+30 min cannot do it either. Also recorded: the paper's own Vz/F has two
+readings, the printed mean 1524.9 mL and the 1456.2 mL that its CL/F and
+half-life imply, 4.5% apart because a mean of per-animal ratios is not the
+ratio of the means. `fentanyl_rat_sc_apparent_volume_ml()` returns both.
+
+Other SC candidates and why each is unusable: Canfield, Fry & Sprague, Drug
+Alcohol Depend 2025;272:112710 (PMID 40382854) doses the same route at
+50-200 µg/kg but reports the same apparent parameters with no IV comparator;
+Kendall et al., J Am Assoc Lab Anim Sci 2014;53(5):478-84 (PMC4181689) is
+the only other rodent study found reporting a subcutaneous fentanyl
+concentration-time profile, and it dosed a *sustained-release* formulation,
+whose half-life is set by the formulation's release rate rather than by
+fentanyl's disposition. The paper says so itself: "due to the short duration
+of action of Fent and Butp, only the SR formulations were assessed".
+
+**IP, rat: sourced, and self-contradictory by a factor of two.** Almousa AA,
+Ikeda R, Wada M, Kuroda N, Hanajiri RK, Nakashima K. J Chromatogr B.
+2011;879(27):2941-4. doi:10.1016/j.jchromb.2011.08.029, PMID 21917532;
+author copy read in full from the Nagasaki University repository
+(hdl 10069/26235). Three male Wistar rats, 295-320 g, 0.1 mg/kg IP, plasma
+at 0/10/15/20/25/30/40/90/120/180 min, HPLC-UV (LOD 0.8 ng/mL, calibrators
+5-100 ng/mL). Table 3: Tmax 28.3 ± 2.9 min, Cmax 21.3 ± 4.9 ng/mL,
+T1/2 198.3 ± 44.7 min, AUC(0-180) 1560 ± 290 ng·min/mL, MRT(0-180)
+75.3 ± 8.7 min, CL 19.4 ± 2.6 mL/min.
+
+This is the only rodent fentanyl dataset found with a *resolved* Tmax, which
+would make it the only source of a real ka. It is still not usable:
+
+- No IV arm, so no F, and its "CL" is defined by the paper as
+  dose/AUC(0-180), a truncated AUC, so it is an upper bound on an apparent
+  clearance, not a clearance.
+- Its own three primary numbers do not agree. Reconstructing the curve from
+  its Cmax, Tmax and T1/2 (ke = ln2/T1/2; F·D/V = Cmax·exp(ke·Tmax), which
+  is exact at the peak; ka from Tmax = ln(ka/ke)/(ka−ke)) and integrating to
+  180 min gives **3044 ng·min/mL against a reported 1560**, a factor of
+  1.95. `fentanyl_rat_ip_auc_consistency()` returns both and a test pins the
+  ratio.
+- The most likely single cause is T1/2 = 198 min. It was fitted on 90-180
+  min points sitting at or below the assay's lowest calibrator, in n = 3
+  rats, and it is roughly three times the terminal half-life two
+  better-powered rat studies give (53.6 min derived from [Yassen2008] by IV,
+  66 min reported by Canfield & Sprague by SC).
+
+What *does* corroborate: the apparent volume implied by that study's Cmax
+and Tmax is **4.25 L/kg** (`fentanyl_rat_ip_apparent_volume_ml()`), against
+Canfield & Sprague's SC VD/F of 4.45-4.66 L/kg by its two readings: two
+labs, strains, routes and assays within ~5% on the one quantity both can
+estimate. So the record is "partly corroborated, and internally
+inconsistent where it matters", not "wrong". Other IP candidates: Immelman
+et al., Can J Anaesth 1990;37(1):63-8 (PMID 2295107) reports serum fentanyl after IP
+dosing but only as a comparator arm for extradural/subdural analgesia, with
+no PK parameters and no IV arm; Yu et al., Toxicol Sci 2018;164(1):353-62 (PMID 29669042)
+gives rat brain-versus-plasma exposure but only after IV dosing.
+
+**PO, rat: F sourced, ka absent.** Schneider E, Brune K. "Distribution of
+fentanyl in rats: an autoradiographic study." Naunyn Schmiedebergs Arch
+Pharmacol. 1985;331(4):359-63. doi:10.1007/BF00500820, PMID 4094625.
+Intragastric against intravenous fentanyl in the rat: "Its oral
+bioavailability was found to be only 1.5%." This is the **only absolute
+bioavailability for fentanyl in a rodent by any route** that this project
+found, and it is stored as `FENTANYL_RAT_PO_F = 0.015`. It is still not a
+route: a whole-body autoradiography paper reports no absorption-phase
+parameter, and no other rat oral fentanyl concentration-time dataset turned
+up. PO is recorded for completeness rather than need, since the rodent
+behavioural pharmacology this project must fit against does not dose
+fentanyl orally.
+
+That 1.5% is also the strongest single argument against the tempting
+shortcut of setting F(SC) = 1 because subcutaneous dosing bypasses first
+pass. It shows how far below 1 an extravascular route can be for this
+compound. The supporting inequality is kept checkable rather than asserted:
+`fentanyl_hepatic_extraction_note()` returns 71.6 mL/min/kg of plasma
+clearance ([Yassen2008], at the midpoint weight) against ~55 mL/min/kg of
+rat hepatic blood flow ([DaviesMorris1993]). Unlike the haloperidol case,
+this is *not* claimed to prove extrahepatic elimination, because converting
+plasma clearance to blood clearance needs a rat blood:plasma ratio that was
+searched for and not found; it establishes high extraction and stops there.
+
+**Mouse: empty for every route.** No Vd, no CL, no terminal half-life and no
+F for fentanyl in the mouse was found, by any route. Searched (August 2026):
+PubMed (`fentanyl AND (mice OR mouse) AND pharmacokinetic* AND (serum OR
+plasma OR clearance OR half-life)`, 11 hits, every abstract read; a broader
+44-hit sweep screened by title), Europe PMC restricted to open access for
+mouse fentanyl noncompartmental/Cmax/AUC/half-life full text, Unpaywall on
+every closed candidate, and a web search for a repository or thesis copy of
+the canonical study. Candidates and the specific reason each fails:
+
+- Kalvass JC, Olson ER, Cassidy MP, Selley DE, Pollack GM. J Pharmacol Exp
+  Ther 2007;323:346-55 (PMID 17646430, doi:10.1124/jpet.107.119560) is *the*
+  source: seven opioids including fentanyl, equipotent subcutaneous doses in
+  mice, serum and brain concentration time courses, unbound fractions. It is
+  closed access (Unpaywall `is_oa` false with no repository copy, the
+  publisher returns 403 to the article page and to both full-text PDF paths,
+  and there is no PMC deposit), and its abstract reports no PK parameter.
+  **This is the first paper a future pass with journal access should read.**
+  It would close this gap and very likely P1.5's mouse Kp,uu as well.
+- Kendall LV, Hansen RJ, Dorsey K, Kang S, Lunghofer PJ, Gustafson DL.
+  J Am Assoc Lab Anim Sci 2014;53(5):478-84 (PMC4181689, read in full):
+  sustained-release formulation only, as above. Female CD1 mice 20-27 g,
+  3.5 mg/kg SC interscapular, Tmax 2 h, Cmax 62.1 ng/mL, t1/2 6.28 h,
+  AUC(inf) 288 h·ng/mL, Cl/Fpred 12.2 L/h/kg.
+- Shao et al., Drug Metab Dispos 2026;54(7):100319 (PMID 42424960) measured
+  mouse fentanyl PK after an IV dose as the anchor for a cross-species
+  PBPK-PD model; closed access.
+- The mouse fentanyl-*analogue* literature (Bilel et al. on
+  isobutyrylfentanyl and 4F-furanylfentanyl; Chen et al., Int J Mol Sci 2026
+  on 25 analogues) reports PK for the analogues. Substituting an analogue's
+  disposition for fentanyl's is the cross-drug substitution rule 2 forbids.
+- The mouse anti-fentanyl vaccine and monoclonal-antibody literature reports
+  serum and brain fentanyl under antibody sequestration, a deliberately
+  perturbed system, and reports PK parameters for the antibody.
+
+So `fentanyl_mouse_pk` raises `UnsourcedParameterError` for every route,
+carrying that record, and it exists purely so that mouse-facing code gets
+the record rather than an `AttributeError` and a temptation to reach for the
+rat function. The rat parameters are **not** scaled allometrically into the
+mouse. A single 10× body-mass allometric step with no mouse datum to check
+it against produces a number with a citation attached that nobody measured,
+which is the exact failure mode this codebase's rules exist to prevent.
+
+### Design decisions worth recording
+
+- **Apparent parameters are named apparent.** The SC and IP disposition
+  constants are all divided by an unknown F, so they are named
+  `..._CL_OVER_F_...` and `..._VD_OVER_F_...`. A test asserts that no
+  `FENTANYL_RAT_SC_CL_ML_PER_H` or `FENTANYL_RAT_IP_CL_ML_PER_MIN` exists,
+  because the single most likely way this block decays is someone dropping
+  the `OVER_F` while tidying and thereby turning an apparent clearance into
+  a clearance.
+- **The unusable datasets are kept as data, not only as prose.** Every
+  number from Canfield & Sprague and from Almousa et al. is a module
+  constant, and the two contradictions are functions
+  (`fentanyl_rat_sc_one_compartment_ceiling`,
+  `fentanyl_rat_ip_auc_consistency`) whose arithmetic a test re-runs. A
+  future pass that finds the missing ka can build the model without
+  re-reading the papers, and cannot quietly inherit the contradiction.
+- **Refusals distinguish "absent" from "present and unusable".** Rat SC has
+  published disposition and no absorption; rat IP has a published but
+  self-contradictory set; rat PO has a measured F and no absorption; mouse
+  has nothing. Each raises a different record, because "not available" and
+  "available and unusable" call for different next steps.
+- **A separate test file.** `tests/test_fentanyl_pk.py` rather than an
+  extension of `test_drug_pk.py`, because the two drugs sit in inverted
+  evidential positions (haloperidol: half-life reported, Q derived;
+  fentanyl: Q reported, half-life derived) and the tests have to be shaped
+  differently as a result. Merging them would have blurred that.
+
+### What this changes, and what it does not
+
+- It removes no illustrative label. Every circuit-layer parameter and every
+  binding constant is exactly where Track A/E left it. What changed is that
+  fentanyl can now be dosed in mg/kg in the **rat, by the IV route only**.
+- The existing calibrated mu-opioid scenario is untouched. That scenario
+  still uses a one-compartment model with a *human* FDA-label redistribution
+  half-life (13 min); this block is rat, plasma, and two-compartment, and
+  the two are not merged here. A rat cross-check worth noting: 0.05 mg/kg IV
+  into V1 = 250 mL for a 237.5 g rat is 141 nM, the same order as the
+  148.6 nM (50 ng/mL) human overdose exposure the calibrated mu-opioid
+  evidence uses. That is weak evidence on its own, but a unit error would have
+  shown up as orders of magnitude, and a test asserts it.
+- It does not unblock Phase 2 for fentanyl. The rodent behavioural
+  literature doses fentanyl SC and IP, and both routes still lack a ka.
+  That is a narrower blocker than Track E's, and a specific one: what is
+  needed is a rat fentanyl study with sampling in the first 30 minutes and,
+  ideally, a matched IV arm. Neither this record's SC source (first sample
+  at 30 min) nor its IP source (self-inconsistent, n = 3) is it.
+- It is plasma, not brain. P1.5's Kp is still required before any of this
+  is a statement about what a receptor sees, and for fentanyl P1.5 also
+  inherits the P-glycoprotein question: Yu et al., Toxicol Sci
+  2018;164(1):353-62 (PMID 29669042) report that co-administering the P-gp
+  inhibitor tariquidar raises the rat unbound brain-to-plasma concentration
+  ratio 2.9-fold at 40 µg/kg fentanyl. A single partition coefficient will
+  not represent a ratio that moves that much with a co-administered drug.
