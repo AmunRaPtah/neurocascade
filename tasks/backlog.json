@@ -121,10 +121,13 @@
       "deps": [
         "P1.5"
       ],
-      "status": "running",
+      "status": "done",
       "attempts": 1,
       "started_at": "2026-08-12T08:00:26.850917+00:00",
-      "baseline": "b8654175dc470997988b2098b23d5f62e176e85a"
+      "baseline": "b8654175dc470997988b2098b23d5f62e176e85a",
+      "finished_at": "2026-08-12T08:41:43.495075+00:00",
+      "result": "complete",
+      "commits": "1"
     },
     {
       "id": "P2.1",
