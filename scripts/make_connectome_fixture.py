@@ -55,6 +55,7 @@ import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from neurocascade.connectome import fetch, fixtures, matrix  # noqa: E402
+from neurocascade.connectome import neurotransmitter  # noqa: E402
 from neurocascade.connectome import ontology as ontology_module  # noqa: E402
 from neurocascade.connectome import sources  # noqa: E402
 
@@ -64,10 +65,10 @@ from neurocascade.connectome import sources  # noqa: E402
 FIXTURE_DIR = fixtures.FIXTURE_DIR
 FIXTURE_REGION_IDS = list(fixtures.FIXTURE_REGION_IDS)
 
-KNOX_FIXTURE_KEY = fixtures.FIXTURE_CONNECTOME_KEY
+KNOX_FIXTURE_KEYS = list(fixtures.KNOX_FIXTURE_KEYS)
 OH_FIXTURE_KEY = fixtures.FIXTURE_OH_KEY
 
-KNOX_FIXTURE_PATH = fixtures.KNOX_FIXTURE_PATH
+KNOX_FIXTURE_PATHS = dict(fixtures.KNOX_FIXTURE_PATHS)
 OH_FIXTURE_PATH = fixtures.OH_FIXTURE_PATH
 ONTOLOGY_FIXTURE_PATH = fixtures.ONTOLOGY_FIXTURE_PATH
 
@@ -141,6 +142,12 @@ def write_ontology_fixture(ontology, path):
     # fixture and the division-lookup test is not testing a special case.
     for division_id in ontology_module.MAJOR_DIVISION_IDS:
         keep.update(ontology.ancestors(division_id, include_self=True))
+    # Keep every structure P3.2's sign table names, so `SignRules` resolves
+    # against the fixture exactly as it does against the full ontology -
+    # including the acronym-vs-id cross-check, which is the part that would
+    # otherwise only ever run on data that is not committed.
+    for rule in neurotransmitter.SIGN_RULES:
+        keep.update(ontology.ancestors(rule.structure_id, include_self=True))
 
     def build(structure_id):
         structure = ontology[structure_id]
@@ -182,24 +189,26 @@ def main(argv=None):
     parser.add_argument("--cache-dir", default=None)
     args = parser.parse_args(argv)
 
-    for key in (sources.ONTOLOGY_KEY, KNOX_FIXTURE_KEY, OH_FIXTURE_KEY):
+    for key in [sources.ONTOLOGY_KEY, OH_FIXTURE_KEY] + KNOX_FIXTURE_KEYS:
         fetch.verify(key, cache_dir=args.cache_dir)
 
     ontology = ontology_module.load_ontology(cache_dir=args.cache_dir)
-    knox = matrix.load_connectome(
-        key=KNOX_FIXTURE_KEY, ontology=ontology, cache_dir=args.cache_dir
-    )
-    small_knox = write_knox_fixture(knox, KNOX_FIXTURE_PATH)
-    print(
-        "%s: %d sources x %d targets (from %d x %d)"
-        % (
-            os.path.basename(KNOX_FIXTURE_PATH),
-            small_knox.n_source,
-            small_knox.n_target,
-            knox.n_source,
-            knox.n_target,
+    for key in KNOX_FIXTURE_KEYS:
+        knox = matrix.load_connectome(
+            key=key, ontology=ontology, cache_dir=args.cache_dir
         )
-    )
+        path = KNOX_FIXTURE_PATHS[key]
+        small_knox = write_knox_fixture(knox, path)
+        print(
+            "%s: %d sources x %d targets (from %d x %d)"
+            % (
+                os.path.basename(path),
+                small_knox.n_source,
+                small_knox.n_target,
+                knox.n_source,
+                knox.n_target,
+            )
+        )
 
     oh = matrix.load_connectome(
         key=OH_FIXTURE_KEY, ontology=ontology, cache_dir=args.cache_dir

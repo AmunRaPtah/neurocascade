@@ -144,6 +144,19 @@
                "children": []
               }
              ]
+            },
+            {
+             "id": 374,
+             "atlas_id": null,
+             "ontology_id": 1,
+             "acronym": "SNc",
+             "name": "Substantia nigra, compact part",
+             "color_hex_triplet": "FFA6FF",
+             "graph_order": 866,
+             "st_level": 8,
+             "hemisphere_id": 3,
+             "parent_structure_id": 348,
+             "children": []
             }
            ]
           }
@@ -254,6 +267,19 @@
              "parent_structure_id": 549,
              "children": [
               {
+               "id": 262,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "RT",
+               "name": "Reticular nucleus of the thalamus",
+               "color_hex_triplet": "FF909F",
+               "graph_order": 703,
+               "st_level": 8,
+               "hemisphere_id": 3,
+               "parent_structure_id": 856,
+               "children": []
+              },
+              {
                "id": 444,
                "atlas_id": null,
                "ontology_id": 1,
@@ -320,6 +346,19 @@
                "hemisphere_id": 3,
                "parent_structure_id": 290,
                "children": []
+              },
+              {
+               "id": 797,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "ZI",
+               "name": "Zona incerta",
+               "color_hex_triplet": "F2483B",
+               "graph_order": 802,
+               "st_level": 8,
+               "hemisphere_id": 3,
+               "parent_structure_id": 290,
+               "children": []
               }
              ]
             }
@@ -340,7 +379,34 @@
        "st_level": 2,
        "hemisphere_id": 3,
        "parent_structure_id": 8,
-       "children": []
+       "children": [
+        {
+         "id": 519,
+         "atlas_id": null,
+         "ontology_id": 1,
+         "acronym": "CBN",
+         "name": "Cerebellar nuclei",
+         "color_hex_triplet": "F0F080",
+         "graph_order": 1096,
+         "st_level": 5,
+         "hemisphere_id": 3,
+         "parent_structure_id": 512,
+         "children": []
+        },
+        {
+         "id": 528,
+         "atlas_id": null,
+         "ontology_id": 1,
+         "acronym": "CBX",
+         "name": "Cerebellar cortex",
+         "color_hex_triplet": "F0F080",
+         "graph_order": 1015,
+         "st_level": 5,
+         "hemisphere_id": 3,
+         "parent_structure_id": 512,
+         "children": []
+        }
+       ]
       },
       {
        "id": 567,
@@ -512,6 +578,32 @@
                "children": []
               }
              ]
+            },
+            {
+             "id": 826,
+             "atlas_id": null,
+             "ontology_id": 1,
+             "acronym": "PALm",
+             "name": "Pallidum, medial region",
+             "color_hex_triplet": "96A7D3",
+             "graph_order": 615,
+             "st_level": 6,
+             "hemisphere_id": 3,
+             "parent_structure_id": 803,
+             "children": []
+            },
+            {
+             "id": 835,
+             "atlas_id": null,
+             "ontology_id": 1,
+             "acronym": "PALv",
+             "name": "Pallidum, ventral region",
+             "color_hex_triplet": "A2B1D8",
+             "graph_order": 612,
+             "st_level": 6,
+             "hemisphere_id": 3,
+             "parent_structure_id": 803,
+             "children": []
             }
            ]
           }

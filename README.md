@@ -105,7 +105,7 @@ more single-dose studies.
 | Path                 | Purpose                                          |
 |----------------------|---------------------------------------------------|
 | `src/neurocascade/`  | The engine (pk, drug_pk, receptor, circuit, network, behavior, engine, scenarios) |
-| `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1) |
+| `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1), and the `CircuitNetwork` builder with its neurotransmitter sign rule (P3.2) |
 | `scripts/`           | `fetch_connectome.py` (download + checksum-verify source data), maintenance |
 | `data/`              | Gitignored cache of downloaded source data; checksums live in `connectome/sources.py` |
 | `examples/`          | Worked end-to-end scenarios                      |
@@ -126,6 +126,27 @@ small real-data fixtures, so this is only needed for whole-brain work:
 Every file is verified against a committed SHA-256; a mismatch fails the
 fetch rather than being accepted. See `docs/architecture.md`, "Phase 3:
 ingesting the Allen mouse connectome (P3.1)".
+
+With the cache present, a whole-brain network at any of three resolutions
+(291 regions, 60 subdivisions, 12 major divisions) is two calls:
+
+```python
+from neurocascade import connectome
+
+strength, voxels = connectome.load_knox_inputs()
+built = connectome.build_circuit_network(
+    strength, voxel_counts=voxels, resolution="major_divisions"
+)
+print(built.report.summary())   # sign coverage, units, what was excluded
+```
+
+Excitatory/inhibitory sign comes from region neurotransmitter identity
+(`connectome/neurotransmitter.py`), which is cited per rule; regions the
+rule cannot reach are left unsigned and reported rather than guessed. Read
+"Phase 3: building the circuit from the connectome (P3.2)" in
+`docs/architecture.md` before using the output: at `weight_scale=1.0` the
+published weights saturate the illustrative sigmoid, which P3.4 is the task
+that fixes.
 
 ## Environment
 

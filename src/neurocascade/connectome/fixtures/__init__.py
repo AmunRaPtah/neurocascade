@@ -67,10 +67,25 @@ FIXTURE_REGION_MISSING_FROM_OH2014 = 147
 FIXTURE_CONNECTOME_KEY = "knox2019_normalized_connection_density"
 FIXTURE_OH_KEY = "oh2014_supplementary_table_3"
 
-ONTOLOGY_FIXTURE_PATH = os.path.join(FIXTURE_DIR, "allen_structure_graph_1_fixture.json")
-KNOX_FIXTURE_PATH = os.path.join(
-    FIXTURE_DIR, "knox2019_normalized_connection_density_fixture.csv"
+#: The three Knox normalizations that have a fixture, and their filenames.
+#: P3.1 needed only the normalized connection density. P3.2 added the other
+#: two because building a network at a coarse resolution needs the RAW
+#: summed weight (the only additive normalization) and needs the region
+#: voxel counts, which are recovered from the strength/density ratio rather
+#: than written down anywhere (`connectome/volumes.py`). All three are cut
+#: from the same verified files in the same way, so this costs nothing but
+#: two more small CSVs.
+KNOX_FIXTURE_KEYS = (
+    "knox2019_normalized_connection_density",
+    "knox2019_connection_strength",
+    "knox2019_connection_density",
 )
+
+ONTOLOGY_FIXTURE_PATH = os.path.join(FIXTURE_DIR, "allen_structure_graph_1_fixture.json")
+KNOX_FIXTURE_PATHS = {
+    key: os.path.join(FIXTURE_DIR, "%s_fixture.csv" % key) for key in KNOX_FIXTURE_KEYS
+}
+KNOX_FIXTURE_PATH = KNOX_FIXTURE_PATHS[FIXTURE_CONNECTOME_KEY]
 OH_FIXTURE_PATH = os.path.join(
     FIXTURE_DIR, "oh2014_supplementary_table_3_fixture.xlsx"
 )
@@ -87,10 +102,8 @@ def load_fixture_connectome(key=FIXTURE_CONNECTOME_KEY, ontology=None):
     """Load one fixture matrix. No cache, no network, no download path."""
     from ..matrix import read_connectome
 
-    paths = {
-        FIXTURE_CONNECTOME_KEY: KNOX_FIXTURE_PATH,
-        FIXTURE_OH_KEY: OH_FIXTURE_PATH,
-    }
+    paths = dict(KNOX_FIXTURE_PATHS)
+    paths[FIXTURE_OH_KEY] = OH_FIXTURE_PATH
     if key not in paths:
         raise KeyError(
             "no fixture for %r; fixtures exist for %s" % (key, sorted(paths))
@@ -98,3 +111,18 @@ def load_fixture_connectome(key=FIXTURE_CONNECTOME_KEY, ontology=None):
     if ontology is None:
         ontology = load_fixture_ontology()
     return read_connectome(key, paths[key], ontology=ontology)
+
+
+def load_fixture_build_inputs(ontology=None):
+    """`(strength, voxel_counts)` off the fixtures, for P3.2's builder.
+
+    The offline mirror of `build.load_knox_inputs()`: same two matrices,
+    same voxel-count recovery, fifteen regions instead of 291.
+    """
+    from ..volumes import target_voxel_counts
+
+    if ontology is None:
+        ontology = load_fixture_ontology()
+    strength = load_fixture_connectome("knox2019_connection_strength", ontology)
+    density = load_fixture_connectome("knox2019_connection_density", ontology)
+    return strength, target_voxel_counts(strength, density)

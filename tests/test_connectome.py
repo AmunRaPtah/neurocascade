@@ -166,7 +166,13 @@ def test_loaders_do_not_download_by_default(tmp_path):
 
 
 def test_fixture_ontology_covers_the_fixture_regions_and_all_divisions(ccf):
-    assert len(ccf) == 48
+    # 48 structures when P3.1 cut this fixture (the fifteen regions, their
+    # ancestors, and the twelve divisions with theirs); 55 since P3.2 added
+    # every structure its sign table names (RT, ZI, SNc, PALv, PALm, CBX,
+    # CBN and their ancestors), so that `SignRules`' acronym-vs-id
+    # cross-check runs against the committed fixture rather than only
+    # against the gitignored full ontology.
+    assert len(ccf) == 55
     for structure_id in fixtures.FIXTURE_REGION_IDS:
         assert structure_id in ccf
     divisions = ccf.major_divisions()

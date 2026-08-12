@@ -3992,3 +3992,303 @@ deleted.
   47th checks the real 291-region file and skips when the gitignored cache
   is absent. It is an extra, not a substitute: every acceptance criterion
   is covered by the 46 offline tests.
+
+## Phase 3: building the circuit from the connectome (P3.2)
+
+### What this task is, and the line it must not cross
+
+P3.1 ingested two published matrices and refused to make a single
+modelling decision with them. P3.2 is where the decisions get made, and
+there are only four of them that matter: which published number becomes a
+weight, where the sign comes from, what a "resolution" is, and what
+happens to the regions the sign rule cannot reach. Each is recorded below
+with the alternative that was rejected, because every one of them has a
+convenient wrong answer that would produce a whole-brain network that
+looks completely healthy.
+
+The line that must not be crossed is the one this codebase has held
+since Track A: no number may enter that is not either published, derived
+from published numbers by stated arithmetic, or labelled illustrative.
+P3.2 adds exactly one *kind* of new content to the project - a
+categorical, region-level claim about neurotransmitter identity - and it
+is sourced the same way a `Ki` is.
+
+The new modules are
+
+    neurotransmitter.py  the sign-assignment rule, its citations and its
+                         exceptions
+    volumes.py           region voxel counts, recovered from ratios of the
+                         published matrices
+    build.py             parcellation, aggregation, and the builder
+
+and nothing in `network.py`, `circuit.py`, `engine.py` or `scenarios.py`
+was touched.
+
+### The sign rule
+
+    sign(edge j -> i) = sign of the transmitter released by the
+                        long-range PROJECTION neurons of source region j
+        glutamatergic +1,  GABAergic -1,  anything else: no sign
+
+Three properties of that sentence are load-bearing.
+
+**Sign is a property of the source region alone.** That is what makes it
+assignable from region-level anatomy at all, and it is an approximation
+whose failure mode (a source with two projection populations of opposite
+sign innervating different targets) is named in the module's exception
+list rather than hidden.
+
+**Projection neurons, not neurons.** Cortex holds a substantial GABAergic
+minority by cell count and its *edges* are still excitatory, because
+essentially all of those interneurons are local. The striatum runs the
+other way: its GABAergic spiny neurons both project and dominate
+numerically. A rule that counted cells would get cortex wrong; a rule that
+counts the axons leaving the region gets both right.
+
+**The rule is applied at the nearest ANCESTOR with a rule**, over the CCF
+hierarchy P3.1 already loads. Each entry is stated at the coarsest level
+of the ontology at which it is true (`TH -> +1`), and a more specific
+entry below it wins (`RT -> -1`). Nineteen rules cover the brain this
+way, and adding a twentieth cannot silently move any of the other
+nineteen.
+
+The table is sourced per entry: Isocortex/OLF/HPF/CTXsp glutamatergic
+[Yao2023, Melzer2020]; STR and PAL GABAergic [Gerfen2011, Smith1998];
+TH glutamatergic with RT the exception [Arcelli1997, Pinault2004]; STN
+glutamatergic [Schweizer2014]; ZI GABAergic [Mitrofanis2005]; SNr
+GABAergic [Smith1998]; CBX GABAergic and CBN glutamatergic
+[Uusisaari2011]; VTA/SNc dopaminergic [Morales2017], DR serotonergic and
+LC noradrenergic [Yao2023]; PALv/PALm mixed [Do2016]. Full citations with
+species and what each supports are in `neurotransmitter.CITATIONS`, and a
+test asserts every rule carries at least one.
+
+Two sourcing choices are worth stating explicitly. The **thalamic** rule
+is defensible in mouse and would not be in primate: [Arcelli1997] is a
+comparative study showing GABAergic local neurons in dorsal thalamus
+increase with species complexity and are close to absent in rodent
+outside the visual nuclei. Species discipline cuts both ways here, and
+this is a case where it favours the simple rule rather than blocking it.
+And [Yao2023] (the whole-brain mouse single-cell atlas) is cited for
+region-level transmitter identity but **not ingested**: its per-cluster
+neurotransmitter assignments over 5,322 clusters are what would replace
+this hand-curated table with measured per-region compositions, and doing
+that is a P3.1-shaped data ingestion task, not something to approximate
+here. That is written into the module docstring as the intended
+successor.
+
+### The regions that get no sign, and the number that matters
+
+Three classes fall outside glutamate/GABA and are recorded with a
+transmitter class and **no sign** rather than being pushed to +/-1:
+
+- **Neuromodulatory nuclei** (VTA, SNc, DR, LC). A dopaminergic axon does
+  not add a term to its target's synaptic input; it changes how the
+  target responds, through metabotropic receptors - which is precisely
+  the layer this codebase already models explicitly, and precisely what
+  roadmap Phase 6 is for. Giving VTA a +1 in the connectivity matrix
+  would double-count the mechanism the receptor layer exists to
+  represent. This is the same argument the multi-region opioid scenario
+  already makes about LC's receptor density not setting its coupling
+  gain.
+- **Genuinely mixed output nuclei** (basal forebrain PALv/PALm), whose
+  long-range output is cholinergic and GABAergic and glutamatergic in
+  comparable measure [Do2016].
+- **Regions with no rule**: most of hypothalamus, midbrain tegmentum,
+  pons and medulla.
+
+On the full 291-region ipsilateral block the rules sign **151 of 291
+regions, carrying 90.9% of all outgoing tracer weight**; the 140 unsigned
+regions (131 no-rule, 5 mixed, 4 neuromodulatory) carry 9.1%. Both
+numbers are asserted by a test so they cannot drift, and they are the
+honest measure of how far the rule reaches. The sharpest consequence is
+stated rather than buried: **no pons or medulla region has a sign**, so a
+twelve-node major-division network has two nodes with no outgoing edges
+at all. A test asserts that those two nodes are exactly `P` and `MY`, so
+the hole is a checked fact rather than something a reader has to notice.
+
+### Which published number becomes a weight
+
+P3.1's default matrix is the *normalized* connection density,
+`s_ij/(|X_i||Y_j|)`. The builder deliberately uses the **connection
+density**, `s_ij/|Y_j|`, instead. The reason is in the Wilson-Cowan
+equation: `r_j` is a mean rate *per neuron*, so the drive a source
+delivers scales with how many neurons it has, and dividing by the
+source's size `|X_j|` would assert that a 13,009-voxel caudoputamen and a
+7-voxel locus coeruleus deliver the same input at the same firing rate.
+Dividing by the *target's* size is right for the opposite reason: what
+enters the target's sigmoid is input per target neuron. So P3.1's default
+is the right measure for the question "how connected are these two
+regions" and the wrong one for a rate model's drive, and this is recorded
+here rather than left as an unexplained key change.
+
+### Voxel counts, recovered rather than fetched
+
+Aggregating regions requires the region sizes, because a normalized
+quantity does not sum. The coarse density of a region pair is
+`(sum of s_ij) / (sum of |Y_j|)`, i.e. what Knox et al. would have
+published had they regionalized at that level.
+
+Those voxel counts are not in any file this project fetched - and they
+did not need to be. They are recovered from ratios of matrices already in
+P3.1's manifest:
+
+    connection_strength / connection_density                        = |Y_j|
+    normalized_connection_strength / normalized_connection_density  = |Y_j|
+    connection_density / normalized_connection_density              = |X_i|
+    connection_strength / normalized_connection_strength            = |X_i|
+
+On the published 291 x 577 files each ratio is constant along its axis to
+2.2e-16 (one ulp) and **every recovered value is an exact integer**. The
+291 ipsilateral regions sum to 209,134 voxels = 209.1 mm^3 at the model's
+100 um grid, the right order for one hemisphere of mouse grey matter.
+That is the same fact derived four ways, and it is also an independent
+test of P3.1's `units` strings: if Allen ever re-published
+`connection_density.csv.gz` with the source size divided out instead of
+the target size, `volumes.py`'s constancy check fails loudly rather than
+producing a plausible wrong network. No new source, no new checksum, and
+no new number entered the project to get this.
+
+### Resolutions, and where the roadmap's "43" actually comes from
+
+    "regions"          the dataset's own set: 291 (Knox) or 213 (Oh)
+    "subdivisions"     one CCF level below the divisions: 60 for both
+    "major_divisions"  the twelve Knox et al. published as their own mask
+
+The roadmap asks for "major divisions -> ~43 regions -> ~213 regions".
+The 213 is Oh et al. 2014's region count and is reproduced exactly. **The
+43 is not a whole-brain parcellation.** It is the number of isocortical
+areas in CCFv3 - "43 isocortical areas and their layers, 314 subcortical
+grey matter structures, 81 fibre tracts and 8 ventricular structures"
+(Wang Q, Ding SL, Li Y, et al. "The Allen Mouse Brain Common Coordinate
+Framework: A 3D Reference Atlas." Cell. 2020;181(4):936-953.
+doi:10.1016/j.cell.2020.04.007) - and it appears in this data as a
+checkable fact rather than as a resolution: exactly 43 of Knox's 291
+regions lie in the isocortex, which a test asserts.
+
+Every natural whole-brain cut of the CCF was computed before concluding
+that: nearest-ancestor at tree depth <=4/5/6 gives 16/70/212 groups, the
+CCF's own `st_level` 6 gives 38 but splits VIS into one node while
+lumping seventeen frontal areas into "Isocortex", and one literal level
+below the twelve divisions gives **60** for both datasets, uniformly (MO,
+SS, VIS, ..., DORsm, DORpm, MBmot, PALd, ...). 60 is the honest answer,
+so `"subdivisions"` is 60 and the module reports its own count rather
+than claiming a number it does not have.
+
+### Sign is applied before aggregation, and why that is not cosmetic
+
+Signing after aggregation would be a different and worse model. "Midbrain"
+has no sign of its own, but SNr inside it does, so a coarse edge out of MB
+is the signed sum of its members' edges - which today means SNr's
+GABAergic output and nothing else, and means something richer the moment a
+rule is added for another midbrain nucleus. Doing it in this order means
+the twelve-node matrix has
+net-excitatory and net-inhibitory entries that were *computed* from 291
+regions rather than assigned by hand, which is the difference between a
+coarse model and a cartoon. It also means a coarse node's own
+`SignAssignment` (reported as `node_assignments`) is informational only -
+no edge was signed with it - and the report says so.
+
+### Two policies that would otherwise be silent defaults
+
+**Unsigned sources are excluded, loudly.** `unsigned_sources="exclude"`
+zeroes those columns and the report records which regions and what
+fraction of tracer weight left with them. `"raise"` is available for a
+build that must be complete. There is deliberately no option that assigns
+them a sign.
+
+**The self-connection diagonal is dropped within a region and kept
+between regions.** Both matrices have large non-zero diagonals - the
+largest entry in 109 of Knox's 291 rows - which for a bulk tracer is
+mostly local intra-regional collaterals, and a Wilson-Cowan node already
+carries its local recurrence in its gain and threshold. So the fine
+diagonal is zeroed *before* aggregation, and the coarse diagonal that
+survives (MOp -> MOs landing on the isocortex diagonal) is genuine
+inter-areal connectivity. `"keep"` and `"drop"` are both available; the
+default is stated in the report.
+
+### The check that says the rule is doing anatomy
+
+Nothing in this task was tuned against a circuit, so the following is a
+result rather than a construction: reading the signed 291-region matrix
+off, the D2 indirect pathway this codebase already models by hand comes
+out with textbook polarity at every step -
+
+    MOp -> CP  +3.06     corticostriatal, glutamatergic
+    CP  -> GPe -12.56    striatopallidal, GABAergic
+    GPe -> STN -2.38     pallidosubthalamic, GABAergic
+    STN -> GPi +0.32     subthalamic, glutamatergic
+    GPi -> MD  -0.11     pallidothalamic, GABAergic
+    SNr -> MD  -0.27     nigrothalamic, GABAergic
+    MD  -> MOp +0.04     thalamocortical, glutamatergic
+
+and so does the GABA-A scenario's amygdala circuit (BLA -> CEA +1.65,
+CEA -> PAG -0.04). Nine signs, all correct, from nineteen rules and a
+tracer matrix that contains no signs at all. A test asserts all nine, and
+it is also the first evidence that P3.3 (porting the hand-built scenarios
+onto connectome regions) has a chance of working.
+
+### The finding this task hands to P3.4
+
+`weight_scale` defaults to 1.0, meaning the published densities enter the
+matrix unrescaled, and that is **not a usable coupling**. Individual
+entries are small (median non-zero |w| = 2.2e-3 at region resolution) but
+the row sums are not: the signed input weight per node runs from -17.6 to
++32.5 with a median of +7.4. With the illustrative `gain=4.0` that pins
+every node at the top of its sigmoid. This is the GPi-saturation lesson
+from the D2 scenario reappearing at 291 nodes, and it is exactly what
+P3.4 exists to fix. A test asserts the row-sum range so the claim cannot
+rot, and `build.py`'s docstring says in as many words that a network built
+with all defaults is not ready to simulate.
+
+The reason the builder does not simply pick a scale is P2.3: coupling gain
+and connection weight are degenerate against behavioural data - only their
+product is identified - so choosing a scale here would be choosing a
+calibration, and it would then propagate silently into every result
+labelled "connectome-based". P2.3's relief still stands, but it is
+narrower than it looked: the connectome fixes the *relative* weights
+within `W` and leaves one global scale to be identified.
+
+### What was deliberately not built
+
+**Both hemispheres.** Every network here is the ipsilateral square block.
+Both datasets inject tracer into one hemisphere only, so a bilateral
+network needs a left-right symmetry assumption *and* a decision about the
+five midline structures (RM, RO, RPA, OV, EW) that have an ipsilateral
+column and no contralateral one - duplicating a midline nucleus across
+hemispheres is anatomically wrong, and dropping it removes real regions
+from a "whole-brain" network. Neither choice has data behind it in these
+files. The contralateral block is loaded and untouched, so a later task
+can spend it deliberately.
+
+**Any node parameter.** `tau=1.0`, `gain=4.0`, `threshold=0.0`,
+`baseline_input=0.0` (`build.DEFAULT_NODE`) are the hand-built scenarios'
+illustrative values, are labelled ILLUSTRATIVE in the code and in every
+`BuildReport.summary()`, and no mouse population time constant or
+transfer-function slope was sourced for any region. P3.4 owns
+`baseline_input`.
+
+### Effect on the existing codebase
+
+- **`CircuitNetwork` and `CircuitNode` are unchanged** - no method, no
+  attribute, no keyword. The builder constructs the existing classes and
+  returns a plain `CircuitNetwork` inside a `ConnectomeCircuit` wrapper
+  that carries the provenance. A test pins both constructor signatures and
+  `rhs`'s, which is the acceptance criterion about soma-twin's import path
+  turned into something that fails if anyone moves it.
+- **No existing parameter, scenario or calibration moved.** Nothing in
+  `engine.py`, `scenarios.py` or `calibration/` imports this module yet;
+  P3.3 is the task that connects them.
+- **The fixtures grew**: two more Knox CSVs (strength and density, needed
+  for the voxel-count recovery and the aggregation) and seven more
+  ontology structures, so that `SignRules`' acronym-vs-id cross-check runs
+  against committed data. One existing test asserted the fixture ontology
+  has 48 structures; it now asserts 55, with the reason in the test. That
+  is a fact about the fixture changing because the fixture legitimately
+  grew, not an expectation weakened to get to green.
+- **45 new tests**, 40 of them offline off the fixtures and 5 skipped
+  without the gitignored cache. The three that carry the most weight are
+  the one that rebuilds Allen's own published `connection_density` file
+  from the raw strength matrix and the recovered voxel counts (exactly,
+  `array_equal`), the one that asserts MOp->CP and CP->MOp separately with
+  opposite signs (which a transpose or a sign inversion cannot pass), and
+  the one that pins the `CircuitNetwork` API.
