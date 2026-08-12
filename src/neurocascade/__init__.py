@@ -20,6 +20,7 @@ from . import scenarios
 from . import drug_pk
 from . import pk_validation
 from . import connectome
+from . import connectome_scenarios
 
 __all__ = [
     "OneCompartmentPK",
@@ -45,4 +46,5 @@ __all__ = [
     "drug_pk",
     "pk_validation",
     "connectome",
+    "connectome_scenarios",
 ]

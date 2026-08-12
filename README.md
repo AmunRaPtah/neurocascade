@@ -106,6 +106,7 @@ more single-dose studies.
 |----------------------|---------------------------------------------------|
 | `src/neurocascade/`  | The engine (pk, drug_pk, receptor, circuit, network, behavior, engine, scenarios) |
 | `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1), and the `CircuitNetwork` builder with its neurotransmitter sign rule (P3.2) |
+| `src/neurocascade/connectome_scenarios.py` | The hand-built scenarios re-wired from the connectome, with per-edge provenance (P3.3) |
 | `scripts/`           | `fetch_connectome.py` (download + checksum-verify source data), maintenance |
 | `data/`              | Gitignored cache of downloaded source data; checksums live in `connectome/sources.py` |
 | `examples/`          | Worked end-to-end scenarios                      |
@@ -147,6 +148,30 @@ rule cannot reach are left unsigned and reported rather than guessed. Read
 `docs/architecture.md` before using the output: at `weight_scale=1.0` the
 published weights saturate the illustrative sigmoid, which P3.4 is the task
 that fixes.
+
+### Scenarios on connectome regions
+
+The hand-built scenarios are also runnable with their weights replaced by
+published ones. Every entry of a ported network carries a provenance, and
+the two categories that stay ILLUSTRATIVE (edges inside a single CCF region,
+and edges out of a region with no transmitter sign) are exactly the ones the
+connectome structurally cannot supply:
+
+```python
+from neurocascade import connectome_scenarios as cs
+
+circuit = cs.scenario_connectome()          # or source="fixture", offline
+ported = cs.port_scenario(cs.SCENARIO_PORTS["mu_opioid_reward"], circuit)
+print(ported.report.summary())              # provenance, contradictions, costs
+```
+
+Agonism, inert antagonism and antagonist reversal survive the substitution
+for the mu-opioid and GABA-A scenarios. The D2 basal-ganglia scenario's
+result does not, and the diagnosis - a pallidothalamic projection the
+textbook diagram does not have - is in "Phase 3: porting the hand-built
+scenarios onto connectome regions (P3.3)" in `docs/architecture.md`. The
+hand-built networks in `scenarios.py` are untouched; they are what the
+comparison is against.
 
 ## Environment
 

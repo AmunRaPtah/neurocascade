@@ -4292,3 +4292,333 @@ transfer-function slope was sourced for any region. P3.4 owns
   `array_equal`), the one that asserts MOp->CP and CP->MOp separately with
   opposite signs (which a transpose or a sign inversion cannot pass), and
   the one that pins the `CircuitNetwork` API.
+
+## Phase 3: porting the hand-built scenarios onto connectome regions (P3.3)
+
+### The task, and the answer
+
+P3.2 ended with a signed 291-region matrix and one piece of evidence that
+this task might work: nine textbook basal-ganglia and amygdala signs fell
+out of the tracer data with no tuning. P3.3 is where the scenarios
+themselves are re-wired from that matrix and the qualitative results are
+re-run.
+
+Three of the four ported scenarios reproduce all three results - agonism,
+inert antagonism alone, antagonist reversal - with published weights, no
+retuning, and no rescaling. **The D2 basal-ganglia indirect pathway does
+not**, and most of this section is the diagnosis, because the reason is a
+specific, quantified disagreement between the textbook box-and-arrow
+diagram the scenario encodes and what the mouse connectome actually
+contains.
+
+The new module is `connectome_scenarios.py`, at the top level rather than
+inside `connectome/`, because it depends on both the data layer and
+`scenarios.py` and the arrow has to point that way. **Nothing in
+`scenarios.py`, `network.py`, `circuit.py` or `engine.py` was touched.**
+Every hand-built network is still there, is still what
+`tests/test_d2_scenario.py` and its siblings exercise, and is what the port
+reads *from*: a `ScenarioPort` holds the hand-built factory, and a ported
+network is that network with its connectivity replaced entry by entry.
+
+### The thing that makes this a design problem rather than a lookup
+
+The hand-built scenarios do not have one node per brain region. They have
+one node per *population*, and every one of the four scenarios has at least
+one node the CCF cannot address on its own. Three of them place a pair of
+populations inside a single region:
+
+    VTA_GABA / VTA_DA             both are VTA   (CCF 749)
+    PAG_Interneuron / PAG_Output  both are PAG   (CCF 795)
+    GABA_Interneuron / BLA        both are BLA   (CCF 295)
+
+and the fourth, D2, names a cell type instead:
+
+    Striatum_D2_MSN               one of two intermingled cell types in CP
+
+A region-level tracer matrix has one row for each of those regions, and
+P3.2 zeroes the within-region diagonal deliberately (for a bulk tracer it
+is mostly local collaterals, and a Wilson-Cowan node already carries its
+local recurrence in its gain). So the single most important edge in each of
+those three scenarios - the GABAergic interneuron that inhibits the
+projection population next to it, which is where every one of these drugs
+acts - is an edge the connectome is *structurally* silent about. It is not
+missing data; it is the wrong resolution for the question.
+
+The port therefore refuses to produce a bare matrix. Every entry carries a
+provenance, and there are six:
+
+    connectome                    the published density x the source's sign
+    intra_regional                same region both ends; hand-built weight
+                                  retained, still ILLUSTRATIVE
+    neuromodulatory_illustrative  source region carries no sign; hand-built
+                                  weight retained, still ILLUSTRATIVE
+    unsigned_source               same, with the weight dropped instead
+    local_interneuron_source      a local population has no long-range axon
+    restricted                    a cell-type node's declared target set
+
+`PortReport.summary()` prints the illustrative edges, the edges where the
+published data *contradicts* the hand-built guess, and the published weights
+the map deliberately declined to use. Those three lists are the honest
+content of a "connectome-based" scenario, and a test asserts each of them.
+
+### Two approximations, made rather than hidden
+
+**Long-range input is shared by every population in the target region.**
+`PL -> VTA` is one published number and both `VTA_DA` and `VTA_GABA` sit in
+those voxels, so both receive it. The alternative - giving the whole
+projection to the principal population - would assert that cortical
+afferents avoid local interneurons, which is the opposite of the
+feedforward-inhibition motif the scenario's own hand-drawn
+`PFC -> VTA_GABA` edge exists to represent.
+
+**Long-range output leaves only from the projection population.** This one
+is not cosmetic: without it the single published `BLA -> CEA` projection
+would be delivered twice, once from each of the two BLA-resident nodes -
+which is why `port_scenario` refuses a map with two projection populations
+in one region rather than summing them. The
+report names the published number it declined (`CeA <- GABA_Interneuron,
+published +1.6489`) rather than showing a zero and leaving the reader to
+work out whether that zero was in the data or was a decision. In the
+mu-opioid scenario the same rule costs nothing at all, because VTA and PAG
+are unsigned sources and their published outgoing weight is already zero.
+
+**A ported scenario is a sub-network, not a small brain.** Every path
+through the other ~285 regions has been deleted, exactly as
+`connectome/fixtures/` warns about slicing. What is being tested is whether
+a scenario's qualitative result survives having its *weights* replaced by
+published ones - not whether four regions are a model of anything.
+
+### The one Restriction, and why it needs a citation
+
+`Striatum_D2_MSN` is the only node in this module that names a cell type
+rather than a population-in-a-region, and the caudoputamen row over-claims
+for it badly. In Knox et al. 2019:
+
+    CP -> GPe   -12.56    indirect pathway (D2/A2a spiny neurons)
+    CP -> GPi   -12.21    direct pathway   (D1 spiny neurons)
+    CP -> SNr   -16.34    direct pathway   (D1 spiny neurons)
+
+The direct-pathway targets carry *more* weight than the indirect one, and
+the two cell types are intermingled in the same voxels, so a region-level
+matrix cannot separate them at all. Without a restriction the node is not
+the cell type the scenario names; with one, the port is making an
+anatomical claim and has to say on whose authority. `Restriction` therefore
+refuses to be constructed without a citation, the same way
+`connectome/neurotransmitter.py`'s rules do: here Gerfen & Surmeier 2011
+(Annu Rev Neurosci 34:441-466, doi:10.1146/annurev-neuro-061010-113641) for
+D1 -> SNr/GPi and D2/A2a -> GPe in mouse and rat, and Albin, Young & Penney
+1989 (Trends Neurosci 12:366-375) for the direct/indirect formulation the
+scenario encodes. The report states the cost: over the full 291-region
+matrix the restriction discards **90.5%** of the caudoputamen's published
+outgoing weight.
+
+What would replace the declaration with a measurement is Cre-line-specific
+tracer data - Allen has Drd1a-Cre and Adora2a-Cre experiments - which is a
+P3.1-shaped ingestion task and is named in the module rather than
+approximated here, the same way P3.2 named [Yao2023] as the successor to
+its hand-curated transmitter table.
+
+### No new constant: why weight_scale stays at P3.2's 1.0
+
+P3.2 refused to pick a `weight_scale` (P2.3: coupling gain and connection
+weight are degenerate against behavioural data, so choosing a scale is
+choosing a calibration) and reported that at 291 nodes the unrescaled
+densities drive every node into saturation - signed row sums from -17.6 to
++32.5 against an illustrative `gain=4.0`.
+
+At scenario scale that does not happen, and the measurement says so.
+Mean per-node total input weight, `mean_i sum_j |W_ij|`:
+
+    scenario                 hand-built   ported   ratio
+    mu_opioid_reward            1.850      2.015    1.09
+    mu_opioid_multi_region      1.414      1.690    1.20
+    d2_indirect                 1.600      3.668    2.29
+    gaba_a_amygdala             1.500      1.562    1.04
+
+So the port's default is P3.2's default - the published number, unrescaled
+- and **P3.3 introduces no new numeric constant at all**. The whole-brain
+saturation P3.2 reported is a property of summing 291 rows, not of the
+densities themselves. `weight_scale` remains a keyword and the tests assert
+it rescales the published edges and only those, because "the result
+survives at exactly one scale" and "the result survives" are different
+claims.
+
+### The baseline rule, and where it came from
+
+The default port changes the connectivity and nothing else: `tau`, `gain`,
+`threshold` and `baseline_input` come over unchanged from the hand-built
+node, so any change in a result is attributable to the connectome alone.
+That is the right default and it has one known weakness, which the D2
+scenario runs straight into: `baseline_input` in the hand-built scenarios
+was chosen *against the hand-built weights*.
+
+`rest_balanced_baselines()` restates that intent as arithmetic. A
+Wilson-Cowan node is at equilibrium when `r_i = sigmoid(net_i)` and
+`sigmoid(x) = 0.5` exactly at `x = threshold`, so
+
+    baseline_i = threshold_i - sum_j W[i, j] * 0.5
+
+makes `r = 0.5` an exact fixed point for every node, in closed form, with
+nothing fitted. The reason this is a legitimate move rather than a new
+modelling decision is that it is not new: applied to the hand-built
+basal-ganglia network's own weights it returns that network's own
+`baseline_input` values, `(0, 1, 1, -1, 1)`, exactly. `scenarios.py` says
+those values "are chosen so each node sits near the sensitive
+(non-saturating) part of its sigmoid at rest"; solving that sentence gives
+back the five numbers. A test asserts it. P3.4 owns the general version of
+this problem; P3.3 uses it only as a diagnostic, to separate "the result
+died because a node saturated" from "the result died because the anatomy
+disagrees".
+
+### What survived
+
+Agonism, inert antagonism alone and antagonist reversal, ported, under both
+baseline policies, for `mu_opioid_reward`, `mu_opioid_multi_region` and
+`gaba_a_amygdala`. Effect sizes move in both directions - two of the four
+grow, two shrink - and none inverts; with hand-built baselines the ported
+agonist effects are +0.144 (incentive salience, hand-built +0.235), +0.806
+(analgesia, +0.607), +0.620 (arousal, +0.500) and +0.341 (anxiety, +0.499),
+and every antagonist-alone deviation is at
+solver noise: the largest across all four scenarios and both baseline
+policies is 3.3e-16.
+
+The multi-region scenario's actual point survives too: one occupancy trace
+still drives three readouts in two directions at once (analgesia and
+incentive salience up, arousal down) on published wiring.
+
+Two hand-drawn arrows in the reward circuit turn out to be wrong, and the
+port reports both rather than silently overwriting them:
+
+    PFC -| VTA_DA   hand -0.800   published +0.5008   sign flip
+    NAc ->  PFC     hand +1.500   published -0.0098   sign flip, 150x weaker
+
+The first is the more instructive. `PFC -| VTA_DA = -0.8` was a shortcut for
+disynaptic top-down inhibition; the corticotegmental projection is
+glutamatergic, and in the ported network the inhibition is represented
+explicitly instead, by the same cortical input also exciting `VTA_GABA`.
+The second is accumbal output being GABAergic, which the hand-drawn "NAc
+drives PFC" had backwards, and which the tracer data also finds two orders
+of magnitude weaker than the guess. Neither reverses the scenario's result.
+
+### What did not survive: the D2 indirect pathway
+
+Hand-built, a D2 agonist raises the locomotor readout by +0.110. Ported, the
+effect is zero to four decimal places under either baseline policy - and
+comparing the two trajectories pointwise rather than by their maxima says
+something sharper. Hand-built, the agonist run is never below its own
+drug-free run and rises 0.472 above it. Ported, it is never *above* its
+drug-free run at any time, and goes 0.311 (hand-built baselines) or 0.326
+(rebalanced) below it. **The agonist does something to the ported circuit;
+what it does is the opposite of what the scenario claims.** There are two
+independent causes, and the second is the interesting one.
+
+**Cause 1: a baseline chosen against one W does not fit another one.** GPe's
+`baseline_input = 1.0` was set against a hand-built striatopallidal weight
+of -2.0. The published striatopallidal density is -12.56, so at rest GPe
+receives about -9, and `gain=4.0` pins it at zero. Nothing downstream of it
+can respond to anything. This is the GPi-saturation lesson of `scenarios.py`
+reappearing at five nodes, it is exactly what P3.4 exists to fix, and it is
+not a statement about the connectome.
+
+**Cause 2, once cause 1 is removed: the pathway inverts.** With baselines
+rebalanced, every node rests at exactly 0.5, nothing is saturated, and the
+chain runs - correctly, at every step but the last. Under a D2 agonist:
+
+    Striatum_D2_MSN   0.500 -> 0.007   suppressed by the Gi-coupled receptor
+    GPe               0.500 -> 1.000   disinhibited, as the diagram says
+    STN               0.500 -> 0.014   inhibited by GPe, as the diagram says
+    GPi               0.500 -> 0.104   loses STN drive, as the diagram says
+    Thalamus          0.500 -> 0.174   FALLS
+
+The locomotor readout is the thalamus, so the scenario's result is not
+merely damped, it is reversed.
+
+**The single number responsible is the pallidothalamic projection.** Knox et
+al. 2019 has GPe projecting to the thalamus directly, and much more densely
+than GPi does:
+
+    GPe -> MD   -0.859     GPi -> MD   -0.113     ratio 7.58
+    GPe -> VAL  -0.473     GPi -> VAL  -0.054     ratio 8.82
+    GPe -> VM   -0.336     GPi -> VM   -0.046     ratio 7.27
+    GPe -> CM   -0.750     GPi -> CM   -0.097     ratio 7.73
+    GPe -> PF   -1.598     GPi -> PF   -0.181     ratio 8.82
+
+The textbook indirect-pathway diagram routes GPe's entire influence on the
+thalamus through STN and GPi and gives it no thalamic projection of its
+own. The mouse connectome gives it one seven to nine times denser than the
+GPi projection the diagram is built on, at every candidate motor or limbic
+thalamic nucleus. So when GPe rises, the thalamus is inhibited harder than
+the falling GPi disinhibits it, and the sign of the whole pathway follows
+GPe rather than GPi.
+
+Three checks make that a diagnosis rather than a guess, and all three are
+tests:
+
+* Removing only the GPe -> thalamus edge (as an explicitly labelled
+  counterfactual `Restriction`, not as a shipped default) restores the
+  result: +0.039.
+* Remapping the scenario's `GPi` node onto SNr does *not* restore it. That
+  matters, because "the hand-built diagram uses the primate output nucleus;
+  in rodents SNr is the main basal-ganglia output" is the obvious first
+  objection, and it is not the cause.
+* The failure is identical with VAL, VM, CM or PF in place of MD, so it is
+  not an artefact of MD being the thalamic nucleus that happens to be in the
+  test fixture.
+
+**Is the GPe -> thalamus edge real, or an artefact?** It is not obviously an
+artefact. Mastro KJ, Bouchard RS, Holt HAK, Gittis AH. "Transgenic mouse
+lines subdivide external segment of the globus pallidus (GPe) neurons and
+reveal distinct GPe output pathways." J Neurosci. 2014;34(6):2087-2099.
+doi:10.1523/JNEUROSCI.4646-13.2014 reports mouse GPe axons in the reticular
+thalamic nucleus from both GPe subpopulations ("axonal projections from both
+populations of neurons were found in the RT with no significant difference
+in density") and dense PV-GPe projections to the parafascicular nucleus.
+What these files cannot settle is whether the *MD-specific* density Knox
+reports is a genuine GPe -> MD projection or signal shared with the
+neighbouring reticular nucleus in a voxel-scale interpolated model. That
+would need single-neuron reconstructions, not a regional matrix, and it is
+recorded here as the open question rather than resolved by assertion.
+
+The honest summary is therefore not "the connectome broke the D2 scenario".
+It is that **the hand-built D2 scenario is a drawing of the Albin-DeLong
+diagram, and the diagram is a statement about which projections matter, not
+a list of which projections exist.** Replacing its weights with measured
+ones replaces that editorial judgment with a measurement, and the
+measurement disagrees. Fixing it properly needs the cell-type-resolved
+striatal output the `Restriction` currently stands in for, and a decision
+about the pallidothalamic projection that has anatomy behind it rather than
+a diagram - neither of which is a number this task could invent.
+
+### Why the whole regression suite runs offline, and the check that says so
+
+A ported network only ever reads region-pair entries of the matrix, and a
+connection density is a per-region-pair quantity, so slicing the published
+file down to the fifteen fixture regions cannot change any of them. That is
+a claim, so it is checked rather than believed:
+`test_fixture_and_full_connectome_give_the_same_ported_networks` builds
+every port off both sources and asserts `np.array_equal` on the
+connectivity. It passes exactly, for all four scenarios. Nine tests in all
+need the gitignored cache and skip without it; the other eight are extras
+(the thalamic and prefrontal robustness sweeps, the 90.5% restriction cost,
+the report summary), and every acceptance criterion is covered offline.
+
+### What this task changes, and what it does not
+
+- **`scenarios.py` is untouched.** Every hand-built network, coupling,
+  ligand set, readout and calibrated constant is where it was, and a test
+  asserts that porting does not mutate them. The acceptance criterion is
+  "hand-built networks retained for comparison, not deleted"; they are also
+  what the comparison is *against*, so deleting them would have removed the
+  experiment.
+- **No new numeric constant enters the project.** `weight_scale` stays 1.0,
+  the node parameters come from `scenarios.py`, the weights come from Knox
+  et al. 2019, and the one derived quantity (`rest_balanced_baselines`) is
+  closed-form arithmetic that reproduces an existing scenario's own numbers.
+  The single reporting threshold in the module, `CONTRADICTION_FLOOR = 0.01`,
+  decides what gets *printed* and nothing else.
+- **No label moved.** The intra-regional and neuromodulatory edges are still
+  ILLUSTRATIVE, and are now labelled per edge in a report rather than only in
+  a module docstring.
+- **70 new tests**, 61 of them offline off the fixtures and 9 skipped without
+  the cache. The five that carry the most weight are the four D2 diagnosis
+  tests and the fixture-equals-full-data one.
