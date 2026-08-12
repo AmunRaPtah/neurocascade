@@ -60,11 +60,19 @@ def reward_circuit_network():
 def mu_opioid_coupling():
     # Mu receptors are Gi-coupled and sit on VTA GABAergic interneurons:
     # agonist activation SUPPRESSES that node's drive (disinhibition).
-    # This gain has no literature target: Track E (docs/architecture.md)
-    # searched specifically for a real fentanyl-induced NAc/VTA dopamine
-    # release effect size and found the right paper (Yoshida et al. 1999)
-    # confirms the mechanism but not an accessible quantitative figure, so
-    # this remains illustrative rather than fit.
+    # ILLUSTRATIVE. This gain still has no literature target. Track E
+    # (docs/architecture.md) searched for a real fentanyl-induced NAc/VTA
+    # dopamine release effect size and found the right paper (Yoshida et al.
+    # 1999) confirms the mechanism but publishes no accessible figure; P2.2
+    # re-ran that search over all 421 open-access Europe PMC articles
+    # matching fentanyl/accumbens/dopamine/rat and found no percent-of-
+    # baseline dopamine figure at an INTRAVENOUS dose, which is the only
+    # fentanyl route drug_pk has kinetics for. See
+    # calibration.behavioral_evidence.SEARCHED_AND_EMPTY_BEHAVIORAL and
+    # docs/architecture.md's P2.2 section, which also names the one
+    # concentration-anchored fentanyl PD dataset that does exist
+    # ([Yassen2008]) and why it belongs to the PAG/analgesia gain rather
+    # than to this one.
     return {"VTA_GABA": -3.0}
 
 
@@ -359,11 +367,20 @@ def basal_ganglia_indirect_pathway_network():
 def d2_coupling():
     # Gi-coupled D2 receptor on indirect-pathway MSNs: agonist activation
     # SUPPRESSES that node's drive (same disinhibition motif as mu-opioid).
-    # This gain has no literature target: Track E (docs/architecture.md)
-    # found real haloperidol-specific locomotor-suppression data (Gao et
-    # al. 2021), but it is dose-based (mg/kg) with no route into this
-    # codebase's nM-concentration-driven model, so this remains
-    # illustrative rather than fit.
+    # ILLUSTRATIVE. This gain still has no literature target. Track E
+    # (docs/architecture.md) found real haloperidol-specific locomotor-
+    # suppression data (Gao et al. 2021) that is dose-based (mg/kg) by a
+    # route this codebase has no haloperidol kinetics for. P2.2 re-ran that
+    # search over all 1303 open-access Europe PMC articles matching
+    # haloperidol/rat/locomotor-or-catalepsy-or-plasma-concentration and
+    # confirmed the non-intersection: the behavioural literature doses IP,
+    # SC or PO essentially without exception, and drug_pk has haloperidol
+    # kinetics for IV only. P2.2 also searched for the route-free
+    # alternative (a rat study pairing measured D2 occupancy with a
+    # locomotor or cataleptic effect, which would need no PK step at all);
+    # the two papers that do that are closed access. See
+    # calibration.behavioral_evidence.SEARCHED_AND_EMPTY_BEHAVIORAL and
+    # docs/architecture.md's P2.2 section.
     return {"Striatum_D2_MSN": -3.0}
 
 
@@ -554,12 +571,15 @@ def gaba_a_coupling():
 
 
 def gaba_a_connection_modulation():
-    # This potentiation gain has no literature target: Track E
-    # (docs/architecture.md) found real diazepam elevated-plus-maze dose
-    # data (qualitative/dose-threshold only, no extractable percent figure)
-    # and a same-class chlordiazepoxide percent-effect figure, neither
-    # usable without substituting a different drug's number or inventing a
-    # dose-to-concentration bridge, so this remains illustrative.
+    # ILLUSTRATIVE, and deliberately kept that way. This is the
+    # illustrative section's own function, the counterpart of every other
+    # hand-set number above it, and P2.2 left its value alone so that the
+    # illustrative and calibrated sections stay distinguishable at a
+    # glance. The gain that P2.2 actually fitted, against real published
+    # elevated-plus-maze data, is in
+    # gaba_a_connection_modulation_calibrated() at the bottom of this file.
+    # This function's KEYS - which connection diazepam modulates - are what
+    # the calibration reuses; only the value differs.
     return {("BLA", "GABA_Interneuron"): 0.5}
 
 
@@ -863,17 +883,52 @@ def gaba_a_pk_models_calibrated():
     return [OneCompartmentPK(ke=0.011552), OneCompartmentPK(ke=0.012836)]
 
 
+#: Posterior mean of `gaba_a_connection_modulation_gain` (P2.2), the first
+#: circuit-layer parameter in this project fitted against real data rather
+#: than hand-set. Posterior: mean 0.0742, sd 0.0189, 89% ETI [0.043, 0.106],
+#: r_hat 1.02, ESS(bulk) 309; full summary in
+#: `results/calibration/gaba_a_summary.csv`, `InferenceData` alongside it,
+#: and `tests/test_gaba_a_scenario_calibrated.py::test_calibrated_
+#: modulation_gain_matches_the_committed_posterior` checks this constant
+#: against that artefact so the two cannot drift apart.
+#:
+#: Fitted against [Graziani2022] (Graziani D, et al., Braz J Med Biol Res
+#: 2022;55:e12314, doi:10.1590/1414-431X2022e12314, PMC9728632): diazepam
+#: 2 mg/kg IP in drug-naive male Wistar rats, elevated plus maze, vehicle
+#: (n=11) 30.7 +/- 6.4 s versus diazepam (n=8) 89.0 +/- 13.0 s on the open
+#: arms. The dose reaches the receptor through the Phase 1 bridge
+#: (drug_pk.diazepam_rat_ip_pk + brain_partition; 32.3 nM unbound brain at
+#: 60 min), and the comparison with the model is made as a DRUG/VEHICLE
+#: RATIO of anxiety, because `anxiety_index_readout()` returns a firing rate
+#: and the plus maze returns seconds, with no published constant between
+#: them. A ratio needs no such constant; what it does assume is that the two
+#: anxiety scales move proportionally under drug, which is the one
+#: assumption in this fit that no citation backs. It is stated here, in
+#: `calibration/circuit_forward.py`, and in docs/architecture.md's P2.2
+#: section, and its consequence is bounded by refitting against a second,
+#: independently defined EPM anxiety index.
+GABA_A_CONNECTION_MODULATION_GAIN = 0.0742
+
+
 def gaba_a_connection_modulation_calibrated():
-    # No literature-derived target exists for the potentiation GAIN itself:
-    # it is a circuit-level parameter (how strongly diazepam's receptor
-    # activation scales the interneuron -> BLA synapse's connectivity
-    # weight), not a receptor-binding or PK constant, and no dataset
-    # quantifying that circuit-level gain against real diazepam
-    # dose/exposure data was identified (see docs/architecture.md and
-    # gaba_a_connection_modulation() above, which this reuses unmodified).
-    # Reusing the same illustrative value here, explicitly flagged, rather
-    # than inventing a "calibrated-sounding" number with no real source.
-    return gaba_a_connection_modulation()
+    # CALIBRATED as of P2.2 (see GABA_A_CONNECTION_MODULATION_GAIN above for
+    # the source, the posterior and the one assumption). This is the only
+    # circuit-layer number in this module that is no longer illustrative:
+    # the potentiation gain scaling the interneuron -> BLA synapse under
+    # diazepam. Every other circuit-layer quantity in this file - the
+    # amygdala network's own weights, taus, gains and baseline inputs
+    # included, and `gaba_a_connection_modulation()` above - is unchanged
+    # and still illustrative.
+    #
+    # What the fit moved, and by how much: the hand-set placeholder was 0.5,
+    # roughly seven times the fitted value, and it predicted a 43%
+    # suppression of the anxiety index against the ~11% the published
+    # elevated-plus-maze effect actually supports. So this is a real,
+    # data-driven correction, not a confirmation of a lucky guess.
+    return {
+        connection: GABA_A_CONNECTION_MODULATION_GAIN
+        for connection in gaba_a_connection_modulation()
+    }
 
 
 # ---------------------------------------------------------------------------

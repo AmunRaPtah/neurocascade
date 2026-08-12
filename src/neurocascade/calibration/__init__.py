@@ -33,17 +33,24 @@ of the three likelihood terms below reads another system's parameters.
                  `scenarios.py`'s calibrated sections (Moss et al. 2020 for
                  mu-opioid, Kapur et al. 1997 for D2, Savic et al. 1991 for
                  GABA-A), turned into Gaussian-likelihood (mean, sd) targets.
-  - behavioral_evidence.py: (P2.1) the DOSE-to-BEHAVIOUR datasets, as
-                 distinct from evidence.py's concentration-to-occupancy ones.
-                 Holds the three papers Track E named, re-examined through
-                 the Phase 1 dose-to-brain-concentration bridge, plus one
-                 additional rat/IP diazepam dataset that exercises the bridge
-                 end to end. Nothing in it is a likelihood target yet, and
-                 the module records per entry exactly why not.
-  - forward.py:  the forward model, built on `ReceptorSite.occupancy_rhs`
-                 (integrated via `scipy.integrate.solve_ivp`, the same
-                 integrator `engine.py` uses elsewhere) rather than a
-                 hand-derived closed-form occupancy formula.
+  - behavioral_evidence.py: (P2.1, extended in P2.2) the DOSE-to-BEHAVIOUR
+                 datasets, as distinct from evidence.py's
+                 concentration-to-occupancy ones. Holds the three papers
+                 Track E named, re-examined through the Phase 1
+                 dose-to-brain-concentration bridge, plus two further
+                 rat/IP diazepam datasets - one that exercises the bridge
+                 end to end and one, added in P2.2, that is an actual
+                 likelihood target. The module records per entry exactly
+                 why each of the others is not.
+  - forward.py:  the RECEPTOR-layer forward model, built on
+                 `ReceptorSite.occupancy_rhs` (integrated via
+                 `scipy.integrate.solve_ivp`, the same integrator
+                 `engine.py` uses elsewhere) rather than a hand-derived
+                 closed-form occupancy formula.
+  - circuit_forward.py: (P2.2) the CIRCUIT-layer forward model, built the
+                 same way on `CircuitNetwork.rhs`. Returns a drug/vehicle
+                 RATIO of a behavioural readout, because the readout has no
+                 published scale and a ratio needs none.
   - bayesian_calibration.py: builds the combined `pm.Model` (8 parameters, 5
                  likelihood terms), samples with `DEMetropolisZ`, and saves
                  posterior + prior-predictive `InferenceData` plus a summary
@@ -51,25 +58,34 @@ of the three likelihood terms below reads another system's parameters.
                  `cct-bayesian-validation/bayesian_calibration.py`'s
                  `build_model()`/`main()` structure.
 
-What this scaffold deliberately does NOT fit (see `docs/architecture.md` and
-the module docstrings below for the full reasoning): circuit-layer
-weights/gains/taus in any scenario. Every calibrated section in
-`scenarios.py` explicitly documents that no literature target exists for
-those parameters, and `evidence.py`'s validation targets are all
-receptor-occupancy measurements (Moss/Kapur/Savic), not behavioral-readout
-data, so a circuit-layer likelihood term would have nothing real to compare
-against. Forcing a fit there would be exactly the kind of invented number
-this codebase's documentation repeatedly warns against.
+What this scaffold fits at the CIRCUIT layer, and what it still does not
+(see `docs/architecture.md`'s P2.2 section for the full reasoning).
 
-Track E (`docs/architecture.md`, "Track E: circuit-layer calibration
-attempt") searched specifically for real behavioral anchors for
+Through Track C2 and P2.1 the answer was "nothing": every validation target
+in `evidence.py` was a receptor-occupancy measurement (Moss/Kapur/Savic),
+and Track E had searched per system for a real behavioural anchor for
 `mu_opioid_coupling()`/`d2_coupling()`/`gaba_a_connection_modulation()`'s
-gains and confirmed this gap by name, per system, rather than leaving it a
-general statement: real papers on the right drug/mechanism were found for
-all three, but none supplied a number usable without either substituting a
-different drug's measured effect or inventing a dose-to-concentration PK
-submodel this codebase has for no drug. `FREE_PARAM_NAMES` in `priors.py`
-still contains only the eight receptor-binding parameters from Track C2;
-`tests/test_bayesian_calibration.py::test_no_circuit_layer_parameter_is_fit`
-guards that by construction.
+gains and found none usable without either substituting a different drug's
+measured effect or inventing a dose-to-concentration PK submodel. A
+circuit-layer likelihood term would have had nothing real to compare
+against.
+
+P2.2 changed that for exactly ONE of the three. `gaba_a_connection_
+modulation`'s gain is now fitted against [Graziani2022], a rat/IP diazepam
+elevated-plus-maze dataset with a vehicle group, printed SEMs and group
+sizes, reached through the Phase 1 bridge. `mu_opioid_coupling` and
+`d2_coupling` remain unfitted and their scenario functions remain labelled
+illustrative: P2.2 re-ran both searches at full scale (421 open-access
+fentanyl/accumbens articles, 1303 haloperidol/behaviour articles) and both
+came back empty, for reasons recorded per system in
+`behavioral_evidence.SEARCHED_AND_EMPTY_BEHAVIORAL`.
+
+`priors.CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS` is the list of circuit-layer
+parameters this scaffold fits and the dataset behind each, and
+`tests/test_bayesian_calibration.py::test_only_evidence_backed_circuit_
+layer_parameters_are_fit` enforces it: a circuit-layer parameter may be here
+only if it names a behavioural entry that is still calibration-ready when
+the test runs, and anything not so declared must still be a `Ki_`/`kon_`/
+`koff_` receptor-binding constant. That test replaced P2.1's blanket
+`test_no_circuit_layer_parameter_is_fit`.
 """

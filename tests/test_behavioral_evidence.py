@@ -169,8 +169,14 @@ def test_track_e_unverified_fentanyl_dose_claim_is_not_stored_as_a_dose():
 
 def test_exactly_the_expected_entries_are_bridgeable():
     bridgeable = {e.key for e in be.bridgeable_entries()}
-    assert bridgeable == {"diazepam/elevated-plus-maze/Stickling2024"}
-    assert len(be.unbridgeable_entries()) == len(be.BEHAVIORAL_EVIDENCE) - 1
+    # P2.2 added a second bridgeable entry, [Graziani2022]; both are
+    # diazepam/rat/IP, the one drug/species/route triple this codebase has a
+    # PK model AND a receptor-drivable brain partition for.
+    assert bridgeable == {
+        "diazepam/elevated-plus-maze/Stickling2024",
+        "diazepam/elevated-plus-maze/Graziani2022",
+    }
+    assert len(be.unbridgeable_entries()) == len(be.BEHAVIORAL_EVIDENCE) - 2
 
 
 def test_bridgeable_entry_converts_a_published_dose_to_an_unbound_brain_nM():
@@ -361,10 +367,107 @@ def test_every_entry_has_a_bridge_verdict_and_a_matching_status():
         assert any(phrase in verdict for phrase in required), (key, status)
 
 
-def test_no_entry_is_calibration_ready_yet_and_that_is_recorded():
-    """P2.1 delivers evidence, not a fit. If a later pass makes an entry
-    usable it must also update this test, deliberately."""
-    assert be.calibration_ready_entries() == ()
+def test_exactly_one_entry_is_calibration_ready_and_it_is_the_graziani_one():
+    """P2.1's version of this test asserted `calibration_ready_entries() ==
+    ()` and said that a later pass making an entry usable "must also update
+    this test, deliberately". P2.2 is that pass, and this is that update.
+
+    The expectation P2.1 encoded was right when it was written and is wrong
+    now for a reason outside the code: [Graziani2022] was found, and it
+    satisfies all three readiness conditions (the bridge reaches it, it
+    carries a published effect with error bars, and the measure's
+    operational definition is the assay's own primary variable rather than
+    an undefined composite). The test is tightened rather than merely
+    relaxed - it now names the entry, so an accidental fourth entry
+    slipping into the fit still fails here.
+    """
+    ready = be.calibration_ready_entries()
+    assert [e.key for e in ready] == ["diazepam/elevated-plus-maze/Graziani2022"]
+    # The three entries that are NOT ready are still not ready, each for its
+    # own recorded reason; P2.2 loosened no criterion to get here.
+    assert be.DIAZEPAM_EPM_STICKLING2024 not in ready  # measure undefined in source
+    assert be.FENTANYL_NAC_DOPAMINE_YOSHIDA1999 not in ready  # no effect size
+    assert be.HALOPERIDOL_HYPERLOCOMOTION_GAO2021 not in ready  # no bridge, ED50
+
+
+def test_graziani_table_is_internally_consistent_so_its_units_are_not_assumed():
+    """The source's Table 2 prints no unit on its EPM columns. Rather than
+    assume seconds and a 300 s trial, check the table against itself: open +
+    closed + centre time must be the stated 5 min trial, and open + closed
+    entries must be the printed total. Both rows pass, in both respects,
+    which is what licenses `open_arm_avoidance_fraction` to divide by
+    `GRAZIANI2022_EPM_TRIAL_DURATION_S`."""
+    values = be.DIAZEPAM_EPM_GRAZIANI2022.effect.values
+    duration = be.GRAZIANI2022_EPM_TRIAL_DURATION_S
+    assert duration == 300.0
+    # Time rows: the module stores only the open-arm column, so the closed
+    # and centre columns are quoted here from the same table row.
+    for prefix, closed_s, centre_s in (
+        ("vehicle", 197.0, 75.0),
+        ("diazepam 2 mg/kg", 147.4, 63.5),
+    ):
+        total_s = values["%s open_arm_time_s" % prefix] + closed_s + centre_s
+        assert abs(total_s - duration) < 0.05 * duration, prefix
+    # Entry rows, against the printed totals.
+    for prefix, closed_entries in (("vehicle", 5.8), ("diazepam 2 mg/kg", 6.4)):
+        summed = values["%s open_arm_entries" % prefix] + closed_entries
+        assert abs(summed - values["%s total_entries" % prefix]) <= 0.15
+
+
+def test_anxiolysis_ratio_is_computed_from_the_sources_own_numbers():
+    """No number in the P2.2 likelihood is hand-entered: both the ratio and
+    its width fall out of [Graziani2022]'s printed means and SEMs."""
+    effect = be.DIAZEPAM_EPM_GRAZIANI2022.effect
+    duration = be.GRAZIANI2022_EPM_TRIAL_DURATION_S
+
+    vehicle_mean, vehicle_sd = be.open_arm_avoidance_fraction(effect, "vehicle", duration)
+    drug_mean, drug_sd = be.open_arm_avoidance_fraction(
+        effect, "diazepam 2 mg/kg", duration
+    )
+    assert vehicle_mean == pytest.approx(1.0 - 30.7 / 300.0)
+    assert drug_mean == pytest.approx(1.0 - 89.0 / 300.0)
+    assert vehicle_sd == pytest.approx(6.4 / 300.0)
+    assert drug_sd == pytest.approx(13.0 / 300.0)
+
+    ratio, sd = be.anxiolysis_ratio(effect, "vehicle", "diazepam 2 mg/kg", duration)
+    assert ratio == pytest.approx(drug_mean / vehicle_mean)
+    assert ratio < 1.0  # diazepam is anxiolytic in this dataset
+    # Delta-method width, and it is a real width: the effect is about 4 sd
+    # from "no effect", which is why the gain comes out identified.
+    assert sd == pytest.approx(
+        ratio * np.sqrt((drug_sd / drug_mean) ** 2 + (vehicle_sd / vehicle_mean) ** 2)
+    )
+    assert (1.0 - ratio) / sd > 3.0
+
+
+def test_composite_anxiety_index_is_a_sensitivity_check_and_carries_no_width():
+    """The composite index mixes a time term and an entry term that share
+    the open-arm entry count, so its uncertainty needs a covariance the
+    source does not print. It must therefore return a point estimate only,
+    and must be refused as a likelihood target."""
+    effect = be.DIAZEPAM_EPM_GRAZIANI2022.effect
+    duration = be.GRAZIANI2022_EPM_TRIAL_DURATION_S
+    vehicle = be.epm_composite_anxiety_index(effect, "vehicle", duration)
+    drug = be.epm_composite_anxiety_index(effect, "diazepam 2 mg/kg", duration)
+    assert not isinstance(vehicle, tuple)
+    assert 0.0 < drug < vehicle < 1.0
+    with pytest.raises(ValueError):
+        be.anxiolysis_ratio(
+            effect, "vehicle", "diazepam 2 mg/kg", duration,
+            index=be.epm_composite_anxiety_index,
+        )
+
+
+def test_the_superseded_zero_of_600_claim_is_corrected_in_place():
+    """P2.1 reported "Zero of 600" for the query [Graziani2022] answers. The
+    record must say so where a reader will meet it, not only in
+    docs/architecture.md."""
+    record = be.SEARCHED_AND_EMPTY_BEHAVIORAL[
+        ("diazepam", "rat", "IP", "elevated plus maze open-arm time")
+    ]
+    assert "SUPERSEDED" in record
+    assert "Zero of 600" in record
+    assert "Graziani2022" in record
 
 
 def test_searched_and_empty_records_exist_for_all_three_systems():

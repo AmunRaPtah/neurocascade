@@ -81,9 +81,60 @@ PRIOR_SPECS = {
     # flumazenil occupancy only). Posterior = prior here, the same
     # informed-prior-only category as naloxone and dopamine above.
     "Ki_diazepam_nM": ("truncnorm", 3.6, 0.1, 1.0, 8.0),
+
+    # ------------------------------------------------------------------
+    # GABA-A, CIRCUIT LAYER (P2.2). The first non-receptor-binding
+    # parameter this scaffold has ever fitted.
+    # ------------------------------------------------------------------
+    # The potentiation gain g in `gaba_a_connection_modulation()`: the
+    # GABAergic interneuron -> BLA synapse's weight is scaled by
+    # (1 + g * receptor_activation), so g = 0 is "diazepam does nothing to
+    # this synapse" and larger g is stronger potentiation.
+    #
+    # UNINFORMED, and more uninformed than that label usually means here.
+    # The other uninformed prior in this module (Ki_fentanyl_nM) is uniform
+    # over 0.1x-10x a MEASURED point estimate. There is no measured point
+    # estimate for a circuit-layer gain in any literature this project has
+    # reached across Track E, P2.1 and P2.2; the only number to centre on
+    # would be the hand-set illustrative 0.5 this parameter has carried
+    # since v0, which is not evidence, and centring a prior on it would
+    # smuggle a placeholder into the posterior.
+    #
+    # So the bounds are chosen from the MECHANISM instead, which is the one
+    # thing here that is not arbitrary:
+    #   lower 0.0 - the null. A gain of exactly zero is "diazepam does not
+    #     potentiate this synapse at all", a physically meaningful and
+    #     falsifiable value, not a numerical floor. Applying the 0.1x-10x
+    #     convention instead would have put the lower bound at 0.05, and
+    #     the [Graziani2022] posterior sits near 0.07, i.e. that bound
+    #     would have been ACTIVE and the reported posterior would have been
+    #     a truncation artefact. Checked before sampling, not after.
+    #   upper 5.0 - at the near-saturating occupancy this exposure
+    #     produces, a gain of 5 multiplies the GABAergic synapse's weight
+    #     by about 5.5, far beyond any potentiation a benzodiazepine
+    #     produces at a GABA-A synapse. It is a wide box, not a claim.
+    # `tests/test_bayesian_calibration.py` asserts the posterior stays
+    # clear of BOTH bounds; if a future scenario change pushed it against
+    # one, that test fails rather than a truncated posterior being reported
+    # as a fit.
+    "gaba_a_connection_modulation_gain": ("uniform", 0.0, 5.0),
 }
 
 FREE_PARAM_NAMES = list(PRIOR_SPECS.keys())
+
+#: Free parameters that are CIRCUIT-layer quantities rather than
+#: receptor-binding constants, each mapped to the
+#: `behavioral_evidence.BEHAVIORAL_EVIDENCE_BY_KEY` entry that calibrates
+#: it. Guarded by
+#: `tests/test_bayesian_calibration.py::test_only_evidence_backed_circuit_
+#: layer_parameters_are_fit`, which replaced P2.1's blanket
+#: "no circuit-layer parameter is fit" guard: a circuit-layer parameter may
+#: now enter this scaffold, but only if it names a calibration-ready
+#: behavioural dataset, and that dataset has to still be calibration-ready
+#: when the test runs.
+CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS = {
+    "gaba_a_connection_modulation_gain": "diazepam/elevated-plus-maze/Graziani2022",
+}
 
 # Parameters that get an actual likelihood-driven update in
 # bayesian_calibration.py (i.e. NOT simply reproducing their prior in the
@@ -97,6 +148,16 @@ LIKELIHOOD_UPDATED_PARAM_NAMES = [
     "kon_haloperidol_nM_min",
     "koff_haloperidol_min",
     "Ki_flumazenil_nM",
+    # Added in P2.2. `gaba_a_connection_modulation_gain` is updated by the
+    # [Graziani2022] elevated-plus-maze term, and `Ki_diazepam_nM` moves out
+    # of the prior-only list with it: that same term is the first likelihood
+    # in this scaffold that depends on how much diazepam is actually bound,
+    # so diazepam's affinity now has data behind it and not only a prior.
+    # Its update is weak by construction and that is reported rather than
+    # overstated - at this exposure the site is near saturation, so the
+    # behavioural ratio constrains the gain sharply and the Ki barely.
+    "gaba_a_connection_modulation_gain",
+    "Ki_diazepam_nM",
 ]
 
 # Parameters carried as informed priors only, with no likelihood term in

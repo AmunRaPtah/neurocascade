@@ -5,6 +5,9 @@ source citations; each test below cites the specific literature figure it
 checks against. Mirrors the structure of test_scenarios_calibrated.py.
 """
 
+import csv
+import os
+
 import numpy as np
 from scipy.integrate import solve_ivp
 
@@ -103,6 +106,29 @@ def build_calibrated_sim():
         coupling=scenarios.gaba_a_coupling(),
         connection_modulation=scenarios.gaba_a_connection_modulation_calibrated(),
     )
+
+
+def test_calibrated_modulation_gain_matches_the_committed_posterior():
+    """P2.2 fitted this gain, so the constant in `scenarios.py` and the
+    posterior summary committed under `results/calibration/` have to agree.
+    Storing the number inline (the way every literature constant in this
+    codebase is stored) and checking it against the artefact keeps it
+    readable without letting it drift away from the run that produced it.
+    """
+    summary_path = os.path.join(
+        os.path.dirname(__file__), "..", "results", "calibration", "gaba_a_summary.csv"
+    )
+    with open(summary_path) as handle:
+        rows = {row[""]: row for row in csv.DictReader(handle)}
+    posterior_mean = float(rows["gaba_a_connection_modulation_gain"]["mean"])
+
+    fitted = scenarios.gaba_a_connection_modulation_calibrated()
+    assert set(fitted) == set(scenarios.gaba_a_connection_modulation())
+    (gain,) = fitted.values()
+    # The summary CSV is written rounded, so the tolerance is that rounding
+    # and nothing else.
+    assert abs(gain - posterior_mean) <= 0.0005
+    assert gain != scenarios.gaba_a_connection_modulation()[("BLA", "GABA_Interneuron")]
 
 
 def test_calibrated_diazepam_lowers_anxiety_index_below_baseline():

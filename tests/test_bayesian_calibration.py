@@ -32,10 +32,14 @@ import numpy as np
 import pytest
 
 from neurocascade.calibration import bayesian_calibration as bc
+from neurocascade.calibration import behavioral_evidence
+from neurocascade.calibration import evidence as ev
 from neurocascade.calibration.priors import (
+    CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS,
     FREE_PARAM_NAMES,
     LIKELIHOOD_UPDATED_PARAM_NAMES,
     PRIOR_ONLY_PARAM_NAMES,
+    PRIOR_SPECS,
 )
 from neurocascade.engine import Simulation
 from neurocascade.pk import OneCompartmentPK
@@ -52,7 +56,16 @@ pytestmark = pytest.mark.slow
 # equilibrium-occupancy values its forward model returns), used by the
 # smoke tests below; must match each `_simulate_*_raw` function's return
 # length in bayesian_calibration.py.
-_PREDICTED_LENGTH = {"mu_opioid": 1, "d2": 2, "gaba_a": 2}
+_PREDICTED_LENGTH = {"mu_opioid": 1, "d2": 2, "gaba_a": 3}
+
+#: Which entries of each system's `predicted` vector are receptor
+#: occupancies (bounded in [0, 1] by construction) and which are something
+#: else. GABA-A's third entry is P2.2's behavioural quantity, a drug/vehicle
+#: ratio of the anxiety index, which is bounded ABOVE by 1 rather than
+#: below: the fitted gain cannot be negative, so diazepam cannot raise the
+#: anxiety index, and exactly 1 is reachable at gain 0.
+_OCCUPANCY_ENTRIES = {"mu_opioid": (0,), "d2": (0, 1), "gaba_a": (0, 1)}
+_RATIO_ENTRIES = {"mu_opioid": (), "d2": (), "gaba_a": (2,)}
 
 
 def _run_smoke_test_for_system(system_name):
@@ -76,8 +89,17 @@ def _run_smoke_test_for_system(system_name):
     assert "predicted" in idata.posterior.data_vars
     predicted = idata.posterior["predicted"].values
     assert predicted.shape == (2, 120, _PREDICTED_LENGTH[system_name])
-    assert np.all(predicted >= 0.0)
-    assert np.all(predicted <= 1.0)
+    assert np.all(np.isfinite(predicted))
+    for index in _OCCUPANCY_ENTRIES[system_name]:
+        occupancies = predicted[:, :, index]
+        assert np.all(occupancies >= 0.0)
+        assert np.all(occupancies <= 1.0)
+    for index in _RATIO_ENTRIES[system_name]:
+        ratios = predicted[:, :, index]
+        assert np.all(ratios > 0.0)
+        # 1e-9 is integrator noise around the exactly-attainable value 1,
+        # not a tolerance on a fitted quantity.
+        assert np.all(ratios <= 1.0 + 1e-9)
 
     assert prior_idata is not None
     assert len(summary) == len(param_names)
@@ -110,19 +132,19 @@ def test_system_param_names_partition_all_free_parameters_with_no_overlap():
     assert len(all_system_params) == len(set(all_system_params))
 
 
-def test_no_circuit_layer_parameter_is_fit():
-    # Track E ("circuit-layer calibration", see docs/architecture.md)
-    # searched specifically for real behavioral anchors for
-    # mu_opioid_coupling()/mu_opioid_multi_region_coupling()/d2_coupling()/
-    # gaba_a_connection_modulation()'s gains and found none usable without
-    # either substituting a different drug's measured effect for the one
-    # each scenario actually models, or inventing a dose-to-concentration
-    # PK submodel this codebase does not have for any drug. So this scaffold
-    # still fits only the eight receptor-binding parameters from Track C2;
-    # no circuit-layer weight/gain/tau was added. This guards that claim by
-    # construction (not just in prose) against every one of this scaffold's
-    # actual free parameters, so it cannot silently go stale if a future
-    # pass adds a circuit-layer parameter without updating docs/architecture.md.
+def test_only_evidence_backed_circuit_layer_parameters_are_fit():
+    """The successor to P2.1's `test_no_circuit_layer_parameter_is_fit`.
+
+    That test asserted a blanket "no free parameter here is a circuit-layer
+    quantity", which was the correct guard while Track E and P2.1 could find
+    no behavioural dataset at all. P2.2 found one ([Graziani2022]), so the
+    blanket ban would now block a fit that has real data behind it. It is
+    replaced, not deleted, and the replacement is STRICTER in the way that
+    matters: a circuit-layer parameter may enter this scaffold only if it
+    names a behavioural evidence entry, that entry exists, and that entry is
+    still calibration-ready when this test runs. An uncalibrated circuit
+    parameter is refused exactly as before.
+    """
     circuit_layer_markers = (
         "coupling",
         "connection_modulation",
@@ -131,15 +153,56 @@ def test_no_circuit_layer_parameter_is_fit():
         "baseline_input",
         "weight",
     )
+    ready_keys = {
+        entry.key for entry in behavioral_evidence.calibration_ready_entries()
+    }
+
     for name in FREE_PARAM_NAMES:
-        lowered = name.lower()
-        assert not any(marker in lowered for marker in circuit_layer_markers), (
-            f"{name} looks like a circuit-layer parameter, not a receptor-binding one"
+        looks_like_circuit_layer = any(
+            marker in name.lower() for marker in circuit_layer_markers
         )
-        assert name.startswith(("Ki_", "kon_", "koff_")), (
-            f"{name} is not one of the receptor-binding parameter families "
-            "this pass fits (Ki_/kon_/koff_)"
+        declared_circuit_layer = name in CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS
+
+        if not declared_circuit_layer:
+            # Unchanged from P2.1: anything not declared as an
+            # evidence-backed circuit parameter must be a receptor-binding
+            # constant, by name and by family.
+            assert not looks_like_circuit_layer, (
+                f"{name} looks like a circuit-layer parameter but is not "
+                "declared in priors.CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS with "
+                "the dataset that calibrates it"
+            )
+            assert name.startswith(("Ki_", "kon_", "koff_")), (
+                f"{name} is not one of the receptor-binding parameter "
+                "families this scaffold fits (Ki_/kon_/koff_)"
+            )
+            continue
+
+        # A declared circuit-layer parameter has to earn its place.
+        evidence_key = CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS[name]
+        assert evidence_key in behavioral_evidence.BEHAVIORAL_EVIDENCE_BY_KEY, (
+            f"{name} names {evidence_key!r}, which is not in the behavioural "
+            "evidence module"
         )
+        assert evidence_key in ready_keys, (
+            f"{name} is fitted against {evidence_key!r}, which is no longer "
+            "calibration-ready. Either the evidence regressed or the fit "
+            "should not be running."
+        )
+        entry = behavioral_evidence.BEHAVIORAL_EVIDENCE_BY_KEY[evidence_key]
+        assert entry.is_bridgeable
+        assert entry.effect.has_error_bars
+
+
+def test_every_declared_circuit_layer_parameter_is_actually_fit():
+    """The other direction: a name may not sit in
+    CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS unless it is a real free parameter
+    that a likelihood term actually updates. Without this, the declaration
+    list could be used to launder a parameter that no data touches."""
+    for name in CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS:
+        assert name in FREE_PARAM_NAMES
+        assert name in LIKELIHOOD_UPDATED_PARAM_NAMES
+        assert name not in PRIOR_ONLY_PARAM_NAMES
 
 
 def test_prior_only_parameters_have_no_matching_likelihood_term():
@@ -156,11 +219,15 @@ def test_prior_only_parameters_have_no_matching_likelihood_term():
         FREE_PARAM_NAMES
     )
     assert set(LIKELIHOOD_UPDATED_PARAM_NAMES) & set(PRIOR_ONLY_PARAM_NAMES) == set()
+    # Ki_diazepam_nM left this set in P2.2 and that is a real change, not a
+    # bookkeeping one: the [Graziani2022] behavioural term is the first
+    # likelihood in this scaffold whose value depends on how much diazepam
+    # is bound, so diazepam's affinity is now touched by data. The other
+    # three are unchanged, still informed-prior-only.
     assert set(PRIOR_ONLY_PARAM_NAMES) == {
         "Ki_naloxone_nM",
         "kon_dopamine_nM_min",
         "koff_dopamine_min",
-        "Ki_diazepam_nM",
     }
 
     raw_sources = {
@@ -177,6 +244,99 @@ def test_prior_only_parameters_have_no_matching_likelihood_term():
                 f"{name} (informed-prior-only) unexpectedly referenced in "
                 f"{system_name}'s forward model"
             )
+
+
+# ---------------------------------------------------------------------------
+# P2.2: the circuit-layer gain. These four are deterministic (a root find on
+# the forward model, milliseconds), not MCMC runs: each one asks a question
+# about the SHAPE of the problem the sampler is given, and the answers must
+# hold whether or not a chain has been run.
+# ---------------------------------------------------------------------------
+
+def _gain_reproducing(target_ratio, brain_nM=None, Ki_diazepam=3.6):
+    """The gain at which the forward model reproduces `target_ratio`
+    exactly. With one free gain and one scalar target this is the maximum
+    of the likelihood, and the posterior sits on it up to the prior."""
+    from scipy.optimize import brentq
+
+    def residual(gain):
+        vector = np.array([1.0, Ki_diazepam, gain])
+        return bc._simulate_gaba_a_raw(vector, epm_brain_nM=brain_nM)[2] - target_ratio
+
+    return brentq(residual, 0.0, 5.0, xtol=1e-9)
+
+
+def test_the_published_effect_lands_well_inside_the_gain_prior():
+    """A uniform prior only reports a fit if the data localises the
+    posterior strictly inside it. The [Graziani2022] target, and its whole
+    +/-3 sd interval, must map to gains clear of both bounds - otherwise the
+    posterior summary would be describing the box, not the evidence."""
+    lower, upper = PRIOR_SPECS["gaba_a_connection_modulation_gain"][1:]
+    target = ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_mean"]
+    sd = ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_sd"]
+
+    # A weaker anxiolysis (larger ratio) maps to a smaller gain, so the
+    # +3 sd end of the target is the one that probes the LOWER bound.
+    gain_at_weakest = _gain_reproducing(min(target + 3.0 * sd, 0.999999))
+    gain_at_strongest = _gain_reproducing(target - 3.0 * sd)
+    assert lower < gain_at_weakest < gain_at_strongest < upper
+
+    # Stated the other way round, which is the way that actually shows the
+    # posterior is not piled against a bound: what the model predicts AT
+    # each bound has to be far from what was observed, in units of the
+    # observation's own uncertainty. The lower bound is the mechanistic
+    # null - a gain of zero is "diazepam does not potentiate this synapse",
+    # which predicts a ratio of exactly 1 - so this doubles as the
+    # significance of the fit.
+    for bound in (lower, upper):
+        predicted = bc._simulate_gaba_a_raw(np.array([1.0, 3.6, bound]))[2]
+        assert abs(predicted - target) / sd > 3.0, bound
+
+
+def test_the_gain_is_identified_by_the_data_not_by_the_prior():
+    """The property that makes this a fit rather than a restatement of the
+    prior: the target's own uncertainty maps to a gain interval far
+    narrower than the prior's range."""
+    lower, upper = PRIOR_SPECS["gaba_a_connection_modulation_gain"][1:]
+    target = ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_mean"]
+    sd = ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_sd"]
+    interval = _gain_reproducing(target - sd) - _gain_reproducing(target + sd)
+    assert 0.0 < interval < 0.05 * (upper - lower)
+
+
+def test_the_fit_barely_moves_over_the_unstated_exposure_timepoint():
+    """[Graziani2022] does not state its diazepam pre-test interval, and the
+    entry refuses to invent one; `evidence.py` passes 60 min explicitly.
+    This is the check that the choice does not carry the result: across the
+    whole plausible window the benzodiazepine site stays near saturation, so
+    every timepoint implies essentially the same gain."""
+    target = ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_mean"]
+    sd = ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_sd"]
+    one_sd_in_gain = _gain_reproducing(target - sd) - _gain_reproducing(target + sd)
+
+    gains = [
+        _gain_reproducing(target, brain_nM=ev.gaba_a_epm_unbound_brain_nM(t))
+        for t in ev.EXPOSURE_TIMEPOINT_SENSITIVITY_MIN
+    ]
+    assert max(gains) - min(gains) < 0.5 * one_sd_in_gain
+
+
+def test_the_fit_is_reported_under_a_second_behavioural_index_too():
+    """The one assumption in this fit that no citation backs is that the
+    model's anxiety index and the behavioural one move proportionally. It
+    cannot be tested directly, but its consequence can be bounded: refitting
+    against an independently defined EPM anxiety index built from the same
+    paper's numbers must not change the gain by more than the target's own
+    uncertainty already does. If it did, the reported gain would be an
+    artefact of the index rather than of the drug."""
+    primary = ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_mean"]
+    sd = ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_sd"]
+    composite = ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE[
+        "anxiety_ratio_composite_index_mean"
+    ]
+    spread = abs(_gain_reproducing(composite) - _gain_reproducing(primary))
+    one_sd_in_gain = _gain_reproducing(primary - sd) - _gain_reproducing(primary + sd)
+    assert spread < one_sd_in_gain
 
 
 def _generate_synthetic_engine_observation(true_kd_nM, concentration_nM, t_span=(0, 240)):

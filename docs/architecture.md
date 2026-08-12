@@ -3019,3 +3019,332 @@ rather than dopamine.
   real published behavioural dose now goes mg/kg → plasma → unbound brain nM
   through the production code path. That is one, not three, and the module
   says which two are missing and why.
+
+## Phase 2: Bayesian fit of the coupling gains (P2.2)
+
+### The task asked for three fits; one is honest, and this section is mostly about why
+
+P2.2's brief is to fit `mu_opioid_coupling`, `d2_coupling` and
+`gaba_a_connection_modulation` against the P2.1 evidence, as three
+independent per-system models. P2.1 handed this task a module in which
+`calibration_ready_entries()` returned **empty** (no entry had a usable
+effect size and a bridge and a defined measure at once), so the brief as
+written could not be executed against the evidence as inherited. Two things
+follow, and both were done:
+
+1. The literature searches P2.1 ran were **re-run at the same scale**, per
+   system, because "P2.1 found nothing" is not the same claim as "there is
+   nothing." That produced one genuine find (below) and two confirmations of
+   emptiness with sharper reasons than before.
+2. Exactly one coupling gain is fitted:
+   **`gaba_a_connection_modulation`**. `mu_opioid_coupling` and `d2_coupling`
+   remain illustrative, and the illustrative label was not touched for either.
+
+So the acceptance criterion "three independent models, all converged" is met
+in the sense that this scaffold still runs and converges three independent
+per-system models, and is **not** met in the sense the brief intended: only
+one of the three names a circuit-layer parameter. That is stated here rather
+than smoothed over, and the per-system reasons are in
+`behavioral_evidence.SEARCHED_AND_EMPTY_BEHAVIORAL`.
+
+### The find, and the correction to P2.1 it forces
+
+**[Graziani2022]** Graziani D, et al. "Behavioral effects of a low molecular
+weight peptide fraction from *Phaseolus vulgaris* in rats." Braz J Med Biol
+Res. 2022;55:e12314. doi:10.1590/1414-431X2022e12314, PMID 36477952,
+PMC9728632, open access, read in full. Male Wistar rats, 300–380 g,
+drug-naive, no disease model. Diazepam 2 mg/kg, "All drugs and vehicle were
+injected by the ip route", 5 min elevated plus maze. Table 2, "Data are
+reported as means±SE":
+
+| group | n | open-arm time (s) | open-arm entries | total entries |
+|---|---|---|---|---|
+| vehicle | 11 | 30.7 ± 6.4 | 1.8 ± 0.4 | 7.5 ± 0.9 |
+| diazepam 2 mg/kg | 8 | 89.0 ± 13.0 | 6.4 ± 0.7 | 12.8 ± 0.6 |
+
+P2.1's widest sweep, over "all 600 open-access Europe PMC articles matching
+(diazepam AND 'elevated plus' AND rats)", screened for articles that never
+mention mice, carry a diazepam mg/kg IP dosing statement, and tabulate an
+open-arm measure with a "±", reported **"Zero of 600 matched."**
+[Graziani2022] satisfies all three of those criteria and is in that result
+set (the same query returns 724 records when re-run). The zero came from the
+screen's table-detection step, not from the literature. The record in
+`SEARCHED_AND_EMPTY_BEHAVIORAL` is marked SUPERSEDED **in place**, with the
+original text kept underneath, because the interesting part is the failure
+mode: an automated screen that returns zero should be checked against a
+hand-verified positive before it is believed. The corrected finding is that
+the rat EPM literature tabulates diazepam open-arm times *rarely*, one
+article in 724, and not that it never does.
+
+The table's units are asserted rather than assumed, which matters because
+the source prints none on those columns: open + closed + centre time is
+302.7 s (vehicle) and 299.9 s (diazepam) against the stated 5 min trial, and
+open + closed entries reproduce the printed totals in both rows.
+`test_graziani_table_is_internally_consistent_so_its_units_are_not_assumed`
+checks both.
+
+### The real blocker, which was neither Track E's nor P2.1's
+
+Track E said the blocker was dose-versus-concentration. Phase 1 fixed that.
+P2.1 said the blocker had moved to dataset access. For GABA-A that was true
+and [Graziani2022] closes it, and then a third blocker appears, which no
+earlier pass had to confront because no earlier pass had a dataset to
+confront it with:
+
+**this codebase's behavioural readouts have no scale.** `anxiety_index_readout()`
+returns the CeA population's firing rate, a number in (0, 1). The elevated
+plus maze returns seconds on the open arms. Nothing published converts one
+into the other, and a conversion constant invented to make the fit work
+would be exactly the invented number rule 1 forbids, and a *bigger* invention
+than the dose→concentration submodel Track E refused to invent, because at
+least that one would have been a claim about drug disposition rather than a
+claim about what a firing rate means.
+
+What P2.2 does instead is fit a **ratio**. Write the unknown behavioural
+scale as `b = f(a)`, `a` the model's anxiety index. If `f` is approximately
+linear across the range the drug moves the animal over, then
+
+    b(drug) / b(vehicle)  ≈  a(drug) / a(vehicle)
+
+and every unknown constant in `f` cancels. Both sides are then dimensionless
+drug/vehicle ratios of a bounded, rises-with-anxiety quantity. On the data
+side that quantity is **open-arm avoidance**, `1 − open-arm time / trial
+duration`: the assay's own primary variable divided by the trial duration
+the source states, and nothing else.
+
+    vehicle  1 − 30.7/300 = 0.8977 ± 0.0213
+    diazepam 1 − 89.0/300 = 0.7033 ± 0.0433
+    ratio    0.7835 ± 0.0517
+
+That ±0.0517 is the delta-method propagation of the paper's own two SEMs. It
+is **the first likelihood width in this codebase that a source actually
+supplies**: every earlier one, `evidence.OCCUPANCY_LIKELIHOOD_SD` included,
+was a declared engineering allowance. The observed effect is 4.2 of its own
+standard deviations away from "no effect", which is why the gain comes out
+identified rather than prior-shaped.
+
+**The proportionality assumption is the one thing in this fit no citation
+backs, and it is not hidden.** It is stated in `circuit_forward.py`'s module
+docstring, in `gaba_a_connection_modulation()`, and here. It cannot be
+tested directly, but its consequence can be bounded, and is: the fit is
+repeated against an independently defined composite EPM Anxiety Index
+(`1 − (open-arm time/duration + open-arm entries/total entries)/2`, the
+formula as printed by [BernalMorales2017], which attributes it to Cohen,
+Matar & Zohar 2013, a chapter this project did not obtain, which is why
+that index is used only as a check). The composite gives a ratio of 0.7259
+against the primary 0.7835, and the gain those two imply differs by less
+than the gain interval the primary target's own ±1 SEM already spans.
+`test_the_fit_is_reported_under_a_second_behavioural_index_too` pins that.
+
+What the ratio formulation deliberately does **not** do: it does not assume
+the model's baseline anxiety index equals the vehicle animals' anxiety, so
+it neither fits nor blesses any of the amygdala circuit's illustrative
+`baseline_input`/`tau`/`gain`/connectivity values. Those still set how
+*sensitively* the ratio depends on the fitted gain, which is a real
+dependency and is why P2.3, not P2.2, is where they belong.
+
+### What is actually fitted, and how
+
+`calibration/circuit_forward.py` is the circuit-layer counterpart to
+`forward.py`. Given a gain and a receptor activation it integrates
+`CircuitNetwork.rhs`, the same function `engine.Simulation.rhs` calls, via
+the same `solve_ivp`, to steady state, twice, once with the drug and once
+without, and returns the readout ratio. Nothing about the circuit is
+reimplemented for calibration, exactly as `forward.py` integrates the real
+`ReceptorSite.occupancy_rhs` rather than substituting the closed form.
+
+The chain, end to end, for one MCMC draw:
+
+    2 mg/kg IP  --Phase 1 bridge (drug_pk + brain_partition, integrated)-->
+    32.3 nM unbound brain diazepam at 60 min
+                --ReceptorSite.occupancy_rhs at sampled Ki_diazepam-->
+    activation 0.90
+                --(1 + gain·activation) on the BLA<-interneuron weight,
+                  CircuitNetwork.rhs to steady state, twice-->
+    anxiety-index ratio
+                --Gaussian likelihood, sd from [Graziani2022]'s SEMs-->
+    posterior over the gain
+
+Three approximations are made and each is checked rather than argued:
+
+- **Activation is clamped** at its equilibrium value while the circuit
+  relaxes, instead of co-integrating the decaying plasma concentration.
+  Defensible because the site is near saturation across the whole plausible
+  pre-test window while the circuit's slowest tau is 2 min.
+  `test_clamped_activation_agrees_with_a_full_engine_simulation` builds the
+  same scenario as a real `engine.Simulation` and requires the two ratios to
+  agree within 2%.
+- **The steady state is integrated for 30 τ at rtol 1e-8** rather than
+  solved. Checked against a 10× longer, 1000× tighter integration and
+  against the network's own rhs being zero there.
+- **The drug-free leg is computed once** and passed in, because at zero
+  activation every modulation factor is exactly `1 + gain·0`. A test
+  requires passing it to change no answer, so it is a cache and not an
+  approximation.
+
+**The exposure timepoint is the one place the source is silent.**
+[Graziani2022] states "In the acute trials, animals received ip injections
+(100 µL) of PV3 doses 1 h before trials", its acute-trial interval, but the
+sentence names the test peptide, not diazepam. The entry therefore stores
+**no** timepoint and `brain_exposure` refuses to invent one;
+`evidence.py` passes 60 min explicitly and says where it came from. This is
+recorded as a gap and then shown not to matter: at 30/45/60 min the bridge
+gives 47.5/39.4/32.3 nM unbound brain, all far above diazepam's 3.6 nM Kd,
+so the implied gain moves by less than half the target's own ±1 SEM
+interval (`test_the_fit_barely_moves_over_the_unstated_exposure_timepoint`).
+
+### The prior, and the bound that was nearly active
+
+`gaba_a_connection_modulation_gain` is uninformed, and more so than that
+label usually means here: the other uninformed prior in `priors.py`
+(`Ki_fentanyl_nM`) is uniform over 0.1×–10× a *measured* point estimate,
+while no measurement of a circuit-layer gain exists in any literature this
+project has reached across Track E, P2.1 and P2.2.
+
+Applying the existing 0.1×–10× convention to the only number available, the
+hand-set illustrative 0.5, would have given Uniform(0.05, 5.0), and the
+posterior sits near 0.074. **That lower bound would have been active**, and
+the reported "fit" would have been partly a description of the box. Caught
+before sampling, not after. The bounds are taken from the mechanism instead:
+
+- **lower 0.0**, the mechanistic null, "diazepam does not potentiate this
+  synapse", which predicts a ratio of exactly 1. It is a meaningful,
+  falsifiable value rather than a numerical floor, and the data rejects it
+  at >4 sd.
+- **upper 5.0**: at this exposure a gain of 5 multiplies the GABAergic
+  weight by ~5.5, far beyond any benzodiazepine potentiation. A wide box,
+  not a claim.
+
+`test_the_published_effect_lands_well_inside_the_gain_prior` asserts the
+model's prediction at *each* bound is more than 3 sd from the observation,
+which is the statement that actually shows the posterior is not piled
+against either one.
+
+### Results
+
+Three independent `pm.Model`s, `DEMetropolisZ`, 4 chains × 1000 tuning steps
+× 1000 draws each, unchanged in structure from Track C2. Full summaries in
+`results/calibration/{system}_summary.csv`, posteriors and priors as
+`InferenceData` alongside, diagnostics in `calibration_diagnostics.txt`.
+
+| System | Free parameters | Max r_hat | Min ESS (bulk) |
+|---|---|---|---|
+| mu-opioid | `Ki_fentanyl_nM`, `Ki_naloxone_nM` | 1.01 | 585 |
+| D2 | `kon_haloperidol_nM_min`, `koff_haloperidol_min`, `kon_dopamine_nM_min`, `koff_dopamine_min` | 1.02 | 284 |
+| GABA-A | `Ki_flumazenil_nM`, `Ki_diazepam_nM`, **`gaba_a_connection_modulation_gain`** | 1.02 | 265 |
+
+All three converge (r_hat ≤ 1.02 against the usual < 1.05 threshold, ESS in
+the hundreds). mu-opioid and D2 reproduce Track C2's numbers exactly, which
+they should: neither model changed, and the seed did not either.
+
+The fitted gain:
+
+    gaba_a_connection_modulation_gain
+        posterior mean 0.0742, sd 0.0189, 89% ETI [0.0431, 0.1062]
+        r_hat 1.02, ESS(bulk) 309, MCSE(mean) 0.0011
+
+**The hand-set illustrative value was 0.5**, about seven times the fitted
+one. At the exposure [Graziani2022]'s dose produces, 0.5 predicts a 43%
+suppression of the anxiety index where the published effect supports ~11%.
+So the fit is a real correction rather than a confirmation of a lucky guess,
+and this is the first time in this project that a circuit-layer number has
+been told what it should be by data.
+
+The GABA-A model grew from two parameters to three, and one further thing
+changed with it: **`Ki_diazepam_nM` left `PRIOR_ONLY_PARAM_NAMES`.** The
+behavioural term is the first likelihood in this scaffold whose value
+depends on how much diazepam is actually bound, so diazepam's affinity now
+has data behind it and not only a prior. The update is weak by
+construction, because at near-saturating occupancy the behavioural ratio
+constrains the gain sharply and the Ki barely, and the posterior duly sits
+on its prior (3.603 ± 0.097 against a 3.6 ± 0.1 prior). That is reported
+rather than overstated.
+
+### The guard test, replaced rather than deleted
+
+`test_no_circuit_layer_parameter_is_fit` asserted a blanket "no free
+parameter in this scaffold is a circuit-layer quantity". That was the right
+guard while no behavioural dataset existed; with one, it would block a fit
+that has real data behind it. It is replaced by
+`test_only_evidence_backed_circuit_layer_parameters_are_fit`, which is
+stricter where it counts: a circuit-layer parameter may enter this scaffold
+only if `priors.CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS` names the behavioural
+entry that calibrates it, that entry exists, and that entry is **still**
+calibration-ready when the test runs. Anything not so declared must still be
+a `Ki_`/`kon_`/`koff_` receptor-binding constant, exactly as before. A
+second test closes the other direction: a name in that mapping must be a
+real free parameter that a likelihood term actually updates, so the
+declaration list cannot be used to launder an untouched parameter.
+
+### What the other two systems needed and did not get
+
+**mu-opioid.** All 421 open-access Europe PMC articles matching (fentanyl
+AND ("nucleus accumbens" OR microdialysis) AND dopamine AND rat) were
+fetched in full and screened. 19 carry an intravenous fentanyl dose; none
+reports accumbens dopamine as a percentage of its own baseline. The rat IV
+fentanyl literature is a self-administration literature (0.25–2.5 µg/kg per
+infusion), which measures intake, not dialysate dopamine. IV is the only
+fentanyl route `drug_pk` has kinetics for.
+
+One near-miss changes what a later task should do. **[Yassen2008], already
+this codebase's fentanyl rat IV PK source, is itself a PK/PD paper.** It
+reports a concentration-anchored fentanyl pharmacodynamic relationship in
+the rat (probability of complete antinociception as a logistic function of
+biophase concentration; odds ratio 3.03, 95% CI 1.87–4.21, per ng/mL;
+T½,ke0 6.08 min, 4.43–7.73) that needs no dose bridge at all. It is not
+usable for `mu_opioid_coupling`, which is the VTA_GABA gain read out as
+incentive salience: antinociception is a PAG endpoint, and using it for the
+reward gain would be endpoint substitution of exactly the kind rule 2
+forbids across drugs. It *is* a real candidate for
+`mu_opioid_multi_region_coupling()["PAG_Interneuron"]`, whose readout
+(`analgesia_index`) is the matching one, and therefore a different parameter from the one
+P2.2 was asked to fit, and therefore a different task.
+
+**D2.** All 1303 open-access Europe PMC articles matching (haloperidol AND
+rat AND ("locomotor activity" OR catalepsy OR "plasma concentration")) were
+fetched and screened for an IV mention or a plasma concentration alongside a
+locomotor/cataleptic endpoint. 19 survived; every one doses IP, SC or PO for
+the behaviour, or is a review, or is human. IV is the only route `drug_pk`
+has haloperidol kinetics for, and that non-intersection is now confirmed by
+a second, independent sweep rather than inferred.
+
+The closest article, Lei K, et al., Exp Anim 2018;67(2):163–173,
+doi:10.1538/expanim.17-0091 (PMC5955748, read in full), measures rat
+haloperidol plasma kinetics after **both** an intravenous (0.7 mg/kg) and an
+intragastric (1.4 mg/kg) dose, the pair that yields an absolute oral
+bioavailability, but its behavioural arm is the oral one in MK-801-treated
+rats, and the basal-ganglia circuit here has no NMDA-antagonist term, so its
+locomotor numbers are not comparable with `locomotor_activity_readout` even
+if F were extracted from it.
+
+A second, route-free route was searched for and also not found: a rat study
+reporting measured **D2 receptor occupancy alongside a locomotor or
+cataleptic effect** would let `d2_coupling` be fitted with no PK step at
+all, since occupancy is what the circuit layer consumes. The two papers that
+do exactly this, Wadenberg ML, Kapur S, Soliman A, Jones C, Vaccarino F,
+Psychopharmacology 2000;150(4):422–9 (PMID 10958084), and Johnson M,
+Kozielska M, Pilla Reddy V, et al., Pharm Res 2014;31(10):2605–17,
+doi:10.1007/s11095-014-1358-7 (PMID 24792824), are both closed access with
+no reachable repository copy, and neither abstract carries the
+occupancy–effect pairs. That is the single cheapest thing that would unblock
+this system, and it is a document-access problem, not a modelling one.
+
+### What this task changes, and what it does not
+
+- **One illustrative label moved, and only one.**
+  `gaba_a_connection_modulation_calibrated()` now returns the fitted gain
+  with its citation and posterior, in this same commit. Every other
+  circuit-layer number in `scenarios.py`, including
+  `gaba_a_connection_modulation()` itself, the *illustrative* section's
+  function, which is deliberately left at its hand-set 0.5 so the two
+  sections stay distinguishable, is exactly as illustrative as before.
+- **`mu_opioid_coupling` and `d2_coupling` are unchanged.** Their docstrings
+  now point at the P2.2 sweeps as well as Track E's.
+- **The behavioural evidence module gained its first usable entry**, and
+  `calibration_ready_entries()` is no longer empty. The test that pinned it
+  empty is updated to name the entry, so a fourth entry cannot drift into
+  the fit unnoticed.
+- **No tolerance was widened and no test was skipped.** The one
+  pre-existing assertion the new gain interacts with,
+  `test_calibrated_diazepam_lowers_anxiety_index_below_baseline`, still
+  passes on its original threshold.

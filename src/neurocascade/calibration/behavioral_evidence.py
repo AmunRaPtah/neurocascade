@@ -81,11 +81,30 @@ Design rules, and why each exists
 3. **Bridge coverage is computed, never asserted.** `pk_route_status()` asks
    `drug_pk` itself, so if a later phase sources haloperidol PO kinetics, the
    verdicts in this module change with it instead of going stale.
-4. **Nothing here is a likelihood target yet.** P2.2 is the task that fits
-   `mu_opioid_coupling`/`d2_coupling`/`gaba_a_connection_modulation`. This
-   module deliberately exposes no `sd`, because inventing an allowance for a
-   target nobody can compute yet would be the same error
-   `evidence.OCCUPANCY_LIKELIHOOD_SD` at least declares itself to be.
+4. **Every uncertainty here is the source's own.** P2.1 exposed no `sd` at
+   all, because no target was computable and an allowance for nothing would
+   have been the same error `evidence.OCCUPANCY_LIKELIHOOD_SD` at least
+   declares itself to be. P2.2 changed the first half of that: one entry now
+   IS a likelihood target, and the width it carries
+   (`anxiolysis_ratio`) is propagated from the source's own printed SEMs by
+   the delta method, not chosen. The second half stands: nothing in this
+   module invents a dispersion.
+
+What P2.2 added
+---------------
+
+[Graziani2022], below: diazepam 2 mg/kg IP in drug-naive male Wistar rats,
+5 min elevated plus maze, vehicle and drug open-arm times printed with SEMs
+and group sizes. It is the first entry in this module that is
+calibration-ready, and it is the target `bayesian_calibration.py` fits
+`gaba_a_connection_modulation`'s gain against. It also corrects a P2.1
+result: P2.1's widest sweep reported "Zero of 600" for exactly this query
+and criteria, and [Graziani2022] meets all three of them. The correction is
+recorded in `SEARCHED_AND_EMPTY_BEHAVIORAL` next to the claim it supersedes.
+
+The same P2.2 pass re-ran the fentanyl and haloperidol sweeps at the same
+scale and they are still empty, for reasons now stated more precisely in
+those two records. So P2.2 fits one of the three coupling gains, not three.
 """
 
 import numpy as np
@@ -880,12 +899,166 @@ DIAZEPAM_EPM_STICKLING2024 = BehavioralEvidenceEntry(
 )
 
 
+# [Graziani2022]  Graziani D, Ribeiro JVV, Cruz VS, Gomes RM, Araújo EG,
+#               Santos ACM Jr, Ferreira PM, Xavier CH, Rebelo ACS, Gomes RM,
+#               Pedrino GR, et al. "Behavioral effects of a low molecular
+#               weight peptide fraction from Phaseolus vulgaris in rats."
+#               Braz J Med Biol Res. 2022;55:e12314.
+#               doi:10.1590/1414-431X2022e12314, PMID 36477952, PMC9728632,
+#               open access, read in full here.
+#               Found in P2.2 by re-running P2.1's own sweep with the
+#               screening step that had excluded it (see below). Male Wistar
+#               rats, 300-380 g, drug-naive, no disease model. Methods,
+#               verbatim: "the benzodiazepine diazepam (Sigma, USA) at
+#               2 mg/kg, used as positive control for anxiety and locomotion
+#               tests"; "All drugs and vehicle were injected by the ip
+#               route"; "In the acute trials, animals received ip injections
+#               (100 uL) of PV3 doses 1 h before trials"; EPM trial "5 min".
+#               Table 2 ("Data are reported as means+/-SE"), the two rows this
+#               module uses, in seconds and counts:
+#                   Vehicle      n=11  open-arm time 30.7+/-6.4
+#                                      open-arm entries 1.8+/-0.4
+#                                      total entries 7.5+/-0.9
+#                   DZP 2 mg/kg  n=8   open-arm time 89.0+/-13.0
+#                                      open-arm entries 6.4+/-0.7
+#                                      total entries 12.8+/-0.6
+#               The table is internally consistent, which is why its units
+#               (seconds, and a 300 s trial) can be asserted rather than
+#               assumed: open + closed + centre time is 302.7 s (vehicle) and
+#               299.9 s (diazepam) against a stated 5 min trial, and open +
+#               closed entries reproduce the printed total in both rows.
+#               `test_behavioral_evidence.py` checks both sums instead of
+#               trusting this comment.
+#
+# Why P2.1's sweep missed it, stated plainly rather than quietly fixed:
+# P2.1 screened "all 600 open-access Europe PMC articles matching (diazepam
+# AND 'elevated plus' AND rats)" and kept only articles that "(a) never
+# mention mice, (b) contain a diazepam mg/kg IP dosing statement, and (c)
+# contain a table with an open-arm measure carrying a '+/-'", reporting
+# "Zero of 600 matched". Re-run here, the same query returns 724 records and
+# [Graziani2022] satisfies all three criteria, so criterion (c)'s
+# table-detection step, not the literature, is what returned zero. The
+# reproducible finding: the rat EPM literature does tabulate diazepam
+# open-arm times; it is scarce, not absent. `SEARCHED_AND_EMPTY_BEHAVIORAL`
+# below is corrected accordingly rather than left standing.
+
+#: Trial duration of [Graziani2022]'s EPM, s. "The rat was placed in the
+#: centre of the maze facing one of the closed arms and allowed to explore
+#: the maze for 5 min." Needed because the fraction of the trial spent on
+#: the open arms, not the raw seconds, is the bounded quantity P2.2 fits
+#: against (see `open_arm_avoidance_fraction`).
+GRAZIANI2022_EPM_TRIAL_DURATION_S = 300.0
+
+#: Body-weight band [Graziani2022] reports, kg. Recorded rather than
+#: averaged into a single number at the point of use; the rat IP diazepam
+#: model is per-kg, so the band's width does not propagate into any
+#: concentration (proved by
+#: `test_bridged_concentration_is_weight_invariant_for_the_per_kg_model`).
+GRAZIANI2022_BODY_WEIGHT_BAND_KG = (0.300, 0.380)
+
+DIAZEPAM_EPM_GRAZIANI2022 = BehavioralEvidenceEntry(
+    key="diazepam/elevated-plus-maze/Graziani2022",
+    drug="diazepam",
+    species="rat",
+    strain="Wistar",
+    sex="male",
+    route="IP",
+    doses_mg_per_kg=(2.0,),
+    timepoint_min=None,
+    endpoint=(
+        "elevated plus maze, 5 min trial, drug-naive rats, no disease model; "
+        "time spent on the open arms and entries, vehicle vs diazepam"
+    ),
+    effect=PublishedEffect(
+        kind="group_means",
+        measure=(
+            "time spent in the open arms (s), entries into the open arms, "
+            "and total arm entries, elevated plus maze"
+        ),
+        units="s (time rows); count (entry rows)",
+        values={
+            "vehicle open_arm_time_s": 30.7,
+            "diazepam 2 mg/kg open_arm_time_s": 89.0,
+            "vehicle open_arm_entries": 1.8,
+            "diazepam 2 mg/kg open_arm_entries": 6.4,
+            "vehicle total_entries": 7.5,
+            "diazepam 2 mg/kg total_entries": 12.8,
+        },
+        dispersion={
+            "vehicle open_arm_time_s": 6.4,
+            "diazepam 2 mg/kg open_arm_time_s": 13.0,
+            "vehicle open_arm_entries": 0.4,
+            "diazepam 2 mg/kg open_arm_entries": 0.7,
+            "vehicle total_entries": 0.9,
+            "diazepam 2 mg/kg total_entries": 0.6,
+        },
+        dispersion_kind="SEM",
+        group_sizes={
+            "vehicle open_arm_time_s": 11,
+            "diazepam 2 mg/kg open_arm_time_s": 8,
+            "vehicle open_arm_entries": 11,
+            "diazepam 2 mg/kg open_arm_entries": 8,
+            "vehicle total_entries": 11,
+            "diazepam 2 mg/kg total_entries": 8,
+        },
+        source_location="Table 2, rows 'Vehicle' and 'DZP 2 mg/kg'",
+        note=(
+            "The measure this entry is fitted through is the paper's own "
+            "primary EPM variable ('Six variables were measured: i) time "
+            "spent in the open arms; ...'), not a composite the source does "
+            "not define - the objection that keeps [Stickling2024]'s 'closed "
+            "arm preference' out of the fit. The entry rows are carried "
+            "because they support the alternative anxiety index used in the "
+            "P2.2 sensitivity analysis, not because the primary fit needs "
+            "them."
+        ),
+    ),
+    citation=(
+        "Graziani D, et al. Braz J Med Biol Res. 2022;55:e12314. "
+        "doi:10.1590/1414-431X2022e12314, PMID 36477952, PMC9728632"
+    ),
+    source_access="open access (PMC9728632), read in full",
+    provenance_gaps={
+        "body_weight_kg": (
+            "The paper gives a band (300-380 g), not a single weight, so no "
+            "single value is stored; see GRAZIANI2022_BODY_WEIGHT_BAND_KG. "
+            "The rat IP diazepam model is parameterised per kg, so the band "
+            "does not propagate into a concentration."
+        ),
+        "timepoint_min": (
+            "Not stated for diazepam specifically. The paper's acute-trial "
+            "protocol is 'In the acute trials, animals received ip "
+            "injections (100 uL) of PV3 doses 1 h before trials', and Table "
+            "1 lists 'DZP 2 mg/kg' among the acute treatments, but the "
+            "sentence that carries the interval names PV3 and not diazepam. "
+            "One hour is therefore the paper's stated acute-trial interval "
+            "and NOT an explicitly stated diazepam interval, so it is not "
+            "stored on this entry: a caller must pass a timepoint and say "
+            "where it came from. P2.2 passes 60 min and reports the "
+            "posterior at 30 and 45 min as well, because at this dose the "
+            "benzodiazepine site is near saturation across that whole "
+            "window and the choice barely moves the fit."
+        ),
+    },
+    note=(
+        "The one entry in this module that is calibration-ready. Drug-naive "
+        "rats, no stress or disease model the amygdala circuit does not "
+        "represent; the route (IP) and species (rat) are the pair drug_pk "
+        "models and brain_partition.py can drive a receptor with; the effect "
+        "is the assay's own primary measure with an error bar, an n, and a "
+        "vehicle group measured in the same session. It is the target P2.2 "
+        "fits gaba_a_connection_modulation against."
+    ),
+)
+
+
 #: Every entry, in the order the Track E section discusses them.
 BEHAVIORAL_EVIDENCE = (
     FENTANYL_NAC_DOPAMINE_YOSHIDA1999,
     HALOPERIDOL_HYPERLOCOMOTION_GAO2021,
     DIAZEPAM_EPM_PELLOW1985,
     DIAZEPAM_EPM_STICKLING2024,
+    DIAZEPAM_EPM_GRAZIANI2022,
 )
 
 #: Keyed access, for tests and for P2.2.
@@ -960,7 +1133,120 @@ BRIDGE_VERDICT = {
         "EPM measure it prints is undefined in the source and its open-arm "
         "times are figure-only."
     ),
+    "diazepam/elevated-plus-maze/Graziani2022": (
+        "Bridge available and exercised end to end, and then SPENT: 2 mg/kg "
+        "IP -> plasma -> unbound brain "
+        "nM, and the effect is the assay's own primary measure with a "
+        "vehicle group, SEMs and group sizes. This is the entry P2.2 fits "
+        "gaba_a_connection_modulation against; it is the first behavioural "
+        "dataset in this project to become a likelihood target."
+    ),
 }
+
+
+# ---------------------------------------------------------------------------
+# Turning one entry into a comparable quantity (P2.2)
+# ---------------------------------------------------------------------------
+#
+# A circuit-layer gain cannot be fitted against "89.0 s on the open arms",
+# because nothing in this codebase produces seconds. What it does produce is
+# `anxiety_index_readout()`, the CeA population's firing rate, a number
+# bounded in (0, 1) that rises with anxiety. The two functions below turn a
+# published EPM row into a quantity of the SAME shape - bounded in [0, 1],
+# rising with anxiety - so that the comparison P2.2 makes is between two
+# anxiety scales rather than between a rate and a duration.
+#
+# Neither function converts the model's units into behavioural units, and
+# P2.2 does not fit an absolute readout value. It fits the DRUG/VEHICLE
+# RATIO of these quantities, which is why no scale factor between "CeA rate"
+# and "avoidance fraction" has to be invented: a common multiplicative scale
+# cancels out of a ratio. The residual assumption, stated here because it is
+# the one assumption in the P2.2 fit that no citation backs, is that the two
+# scales change PROPORTIONALLY under drug. See docs/architecture.md, P2.2.
+
+#: [BernalMorales2017] Bernal-Morales B, Cueto-Escobedo J, Guillen-Ruiz G,
+#: Rodriguez-Landa JF, Contreras CM. "A Fatty Acids Mixture Reduces
+#: Anxiety-Like Behaviors in Infant Rats Mediated by GABA-A Receptors."
+#: Biomed Res Int. 2017;2017:8798546. doi:10.1155/2017/8798546, PMID
+#: 29392140, PMC5748109, open access, read in full here. Prints the composite
+#: EPM Anxiety Index formula used by `epm_composite_anxiety_index` verbatim:
+#: "Anxiety Index (AI = 1 - [([Open arm time/Test duration] + [Open arm
+#: entries/Total number of entries])/2])", attributing it to Cohen H, Matar
+#: MA, Zohar J, "Animal models of post-traumatic stress disorder", Curr
+#: Protoc Neurosci 2013;64:9.45, doi:10.1002/0471142301.ns0945s64, PMID
+#: 23853112. The formula quoted here was read from [BernalMorales2017]'s own
+#: full text; the Cohen chapter itself was not obtained, and that is why this
+#: index is used only for the P2.2 sensitivity check and not for the fit.
+EPM_COMPOSITE_ANXIETY_INDEX_SOURCE = (
+    "Bernal-Morales et al., Biomed Res Int 2017;2017:8798546, "
+    "doi:10.1155/2017/8798546 (PMC5748109), printing the index it attributes "
+    "to Cohen, Matar & Zohar, Curr Protoc Neurosci 2013;64:9.45, "
+    "doi:10.1002/0471142301.ns0945s64 (that chapter itself not obtained here)"
+)
+
+
+def open_arm_avoidance_fraction(effect, group_prefix, trial_duration_s):
+    """`(mean, sd_of_mean)` of the fraction of the trial spent OFF the open
+    arms, from one published group's open-arm time.
+
+    This is the primary P2.2 quantity: it is the assay's own primary
+    variable rescaled by the trial duration the source states, nothing more.
+    `sd_of_mean` is the source's own SEM divided by the same duration; no
+    uncertainty is invented and none is converted between SEM and SD.
+    """
+    if effect.dispersion_kind != "SEM":
+        raise ValueError(
+            "expected SEM-reported group means; got %r" % (effect.dispersion_kind,)
+        )
+    key = "%s open_arm_time_s" % group_prefix
+    mean_s = float(effect.values[key])
+    sem_s = float(effect.dispersion[key])
+    duration = float(trial_duration_s)
+    return 1.0 - mean_s / duration, sem_s / duration
+
+
+def epm_composite_anxiety_index(effect, group_prefix, trial_duration_s):
+    """The composite EPM Anxiety Index (see
+    `EPM_COMPOSITE_ANXIETY_INDEX_SOURCE`), point estimate only.
+
+    Used by P2.2 ONLY as a sensitivity check against
+    `open_arm_avoidance_fraction`: it mixes a time term with an entry-count
+    term, and the two terms share the open-arm entries count, so their
+    covariance - which the source does not report - would be needed to
+    propagate an honest uncertainty. No sd is returned rather than one being
+    fabricated.
+    """
+    duration = float(trial_duration_s)
+    time_term = float(effect.values["%s open_arm_time_s" % group_prefix]) / duration
+    entry_term = (
+        float(effect.values["%s open_arm_entries" % group_prefix])
+        / float(effect.values["%s total_entries" % group_prefix])
+    )
+    return 1.0 - 0.5 * (time_term + entry_term)
+
+
+def anxiolysis_ratio(effect, vehicle_prefix, drug_prefix, trial_duration_s,
+                     index=open_arm_avoidance_fraction):
+    """`(ratio, sd)` of drug-group to vehicle-group anxiety on `index`.
+
+    The ratio is what P2.2's likelihood compares against the model's own
+    drug/baseline anxiety-index ratio. `sd` is the first-order (delta
+    method) propagation of the two groups' own SEMs, and is therefore a
+    literature-derived likelihood width rather than the kind of explicitly
+    declared engineering allowance `evidence.OCCUPANCY_LIKELIHOOD_SD` is.
+    Raises if `index` supplies no uncertainty (the composite index above).
+    """
+    vehicle = index(effect, vehicle_prefix, trial_duration_s)
+    drug = index(effect, drug_prefix, trial_duration_s)
+    if not isinstance(vehicle, tuple):
+        raise ValueError(
+            "%r returns a point estimate only and cannot carry a likelihood "
+            "width; it is a sensitivity check, not a target" % (index,)
+        )
+    (mean_v, sd_v), (mean_d, sd_d) = vehicle, drug
+    ratio = mean_d / mean_v
+    sd = abs(ratio) * np.sqrt((sd_d / mean_d) ** 2 + (sd_v / mean_v) ** 2)
+    return ratio, sd
 
 
 # ---------------------------------------------------------------------------
@@ -989,7 +1275,32 @@ SEARCHED_AND_EMPTY_BEHAVIORAL = {
         "does measure accumbens dopamine, is closed access.\n"
         "What would close it: full text of [Yoshida1999], or any rat study "
         "reporting accumbens dopamine as percent of baseline after an "
-        "INTRAVENOUS fentanyl dose."
+        "INTRAVENOUS fentanyl dose.\n"
+        "----\n"
+        "RE-RUN IN P2.2, still empty. All 421 open-access Europe PMC "
+        "articles matching (fentanyl AND ('nucleus accumbens' OR "
+        "microdialysis) AND dopamine AND rat) were fetched in full and "
+        "screened for an intravenous fentanyl mg/kg or ug/kg dosing "
+        "statement together with an accumbens dopamine percentage. 19 "
+        "articles carried an IV fentanyl dose; none reports accumbens "
+        "dopamine as a percentage of its own baseline. The IV fentanyl "
+        "literature in the rat is a self-administration literature (0.25-2.5 "
+        "ug/kg/infusion), which measures intake, not dialysate dopamine.\n"
+        "One near-miss worth naming because it changes what a later pass "
+        "should do, not what this one can: [Yassen2008], already this "
+        "codebase's fentanyl rat IV PK source (drug_pk), is itself a PK/PD "
+        "paper. It reports a concentration-anchored fentanyl "
+        "pharmacodynamic relationship in the rat - the probability of "
+        "complete antinociception (tail flick) as a logistic function of "
+        "biophase concentration, odds ratio 3.03 (95% CI 1.87-4.21) per "
+        "ng/mL, T(1/2,ke0) 6.08 min (4.43-7.73) - that needs no dose bridge "
+        "at all. It is not usable for mu_opioid_coupling, which is the "
+        "VTA_GABA gain read out as incentive salience: antinociception is a "
+        "PAG endpoint, and using it for the reward gain would be exactly the "
+        "endpoint substitution rule 2 forbids in the drug dimension. It is a "
+        "real candidate target for mu_opioid_multi_region_coupling's "
+        "PAG_Interneuron gain, whose readout (analgesia_index) is the "
+        "matching one, and that is a different task from this one."
     ),
     ("haloperidol", "rat", "IV", "locomotor activity"): (
         "No haloperidol locomotor-activity dose-response by the INTRAVENOUS "
@@ -1011,9 +1322,56 @@ SEARCHED_AND_EMPTY_BEHAVIORAL = {
         "What would close it: an absolute bioavailability and absorption rate "
         "constant for haloperidol IP or SC in the rat (which would make the "
         "large IP behavioural literature reachable), or mouse haloperidol PK "
-        "plus an oral ka (which would make [Gao2021] reachable)."
+        "plus an oral ka (which would make [Gao2021] reachable).\n"
+        "----\n"
+        "RE-RUN IN P2.2, still empty, and the second search this pass ran "
+        "says why more sharply. All 1303 open-access Europe PMC articles "
+        "matching (haloperidol AND rat AND ('locomotor activity' OR "
+        "catalepsy OR 'plasma concentration')) were fetched in full and "
+        "screened for a haloperidol IV mention or a haloperidol plasma "
+        "concentration alongside a locomotor/catalepsy endpoint. 19 "
+        "survived; every one of them either doses IP/SC/PO for the "
+        "behaviour, or is a review, or is human. The single closest article, "
+        "Lei K, He GF, Zhang CL, et al., Exp Anim 2018;67(2):163-173, "
+        "doi:10.1538/expanim.17-0091 (PMC5955748, read in full), does "
+        "measure rat haloperidol plasma kinetics after BOTH an intravenous "
+        "(0.7 mg/kg) and an intragastric (1.4 mg/kg) dose - the pair that "
+        "would yield an absolute oral bioavailability - but its own "
+        "behavioural arm is the oral one, in MK-801-treated rats, and the "
+        "basal-ganglia circuit here has no NMDA-antagonist term, so its "
+        "locomotor numbers are not comparable with locomotor_activity_"
+        "readout even if its F were extracted.\n"
+        "A second, route-free way to reach this gain was searched for and "
+        "also not found: a rat study reporting measured D2 RECEPTOR "
+        "OCCUPANCY alongside a locomotor or cataleptic effect would let "
+        "d2_coupling be fitted with no PK step at all, since occupancy is "
+        "what the circuit layer consumes. The two papers that do exactly "
+        "this - Wadenberg ML, Kapur S, Soliman A, Jones C, Vaccarino F, "
+        "Psychopharmacology 2000;150(4):422-9 (PMID 10958084) and Johnson M, "
+        "Kozielska M, Pilla Reddy V, et al., Pharm Res 2014;31(10):2605-17, "
+        "doi:10.1007/s11095-014-1358-7 (PMID 24792824) - are both closed "
+        "access, with no PMC or repository copy reachable here, and neither "
+        "abstract carries the occupancy-effect pairs.\n"
+        "What would close it, restated: haloperidol rat IP/SC F and ka, OR "
+        "the full text of either occupancy-versus-behaviour paper above."
     ),
     ("diazepam", "rat", "IP", "elevated plus maze open-arm time"): (
+        "SUPERSEDED IN P2.2, and kept rather than deleted because the way it "
+        "was wrong is the useful part. This record read 'Zero of 600 "
+        "matched'. Re-running the same Europe PMC query in P2.2 returns 724 "
+        "open-access records and one of them, [Graziani2022] (PMC9728632), "
+        "satisfies every one of this record's own three criteria: it never "
+        "mentions mice, it states 'the benzodiazepine diazepam (Sigma, USA) "
+        "at 2 mg/kg' with 'All drugs and vehicle were injected by the ip "
+        "route', and its Table 2 prints open-arm time as 30.7+/-6.4 s "
+        "(vehicle, n=11) against 89.0+/-13.0 s (diazepam, n=8). The zero was "
+        "produced by the screen's table-detection step, not by the "
+        "literature. The finding to carry forward is therefore 'the rat EPM "
+        "literature tabulates diazepam open-arm times rarely - one article "
+        "in 724 - but it does tabulate them', and a screen that reports zero "
+        "hits should be checked against a hand-verified positive before it "
+        "is believed. The original record follows unchanged.\n"
+        "----\n"
         "No diazepam-specific percent-open-arm-time figure with an error bar, "
         "for the rat by the IP route, was found in text or table form.\n"
         "Searched (2026-08): Europe PMC full-text search over the open-access "
@@ -1061,6 +1419,10 @@ __all__ = [
     "HALOPERIDOL_HYPERLOCOMOTION_GAO2021",
     "DIAZEPAM_EPM_PELLOW1985",
     "DIAZEPAM_EPM_STICKLING2024",
+    "DIAZEPAM_EPM_GRAZIANI2022",
+    "GRAZIANI2022_EPM_TRIAL_DURATION_S",
+    "GRAZIANI2022_BODY_WEIGHT_BAND_KG",
+    "EPM_COMPOSITE_ANXIETY_INDEX_SOURCE",
     "BEHAVIORAL_EVIDENCE",
     "BEHAVIORAL_EVIDENCE_BY_KEY",
     "BRIDGE_VERDICT",
@@ -1068,4 +1430,7 @@ __all__ = [
     "bridgeable_entries",
     "unbridgeable_entries",
     "calibration_ready_entries",
+    "open_arm_avoidance_fraction",
+    "epm_composite_anxiety_index",
+    "anxiolysis_ratio",
 ]
