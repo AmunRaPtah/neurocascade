@@ -4622,3 +4622,382 @@ the report summary), and every acceptance criterion is covered offline.
 - **70 new tests**, 61 of them offline off the fixtures and 9 skipped without
   the cache. The five that carry the most weight are the four D2 diagnosis
   tests and the fixture-equals-full-data one.
+
+## Phase 3: whole-brain baseline stability (P3.4)
+
+### The task, and the shape of the answer
+
+This codebase learned the same lesson twice by hand. The D2 scenario's
+first parameter draft put GPi's net input far outside `[-1, 1]` before
+the gain multiplier, so GPi sat against its sigmoid's ceiling at rest and
+"stopped responding to anything upstream of it". P3.3's port of that same
+scenario onto published weights hit it again: GPe's hand-set
+`baseline_input = 1.0` was chosen against a hand-drawn striatopallidal
+weight of `-2.0`, met the published density of `-12.56`, and was pinned
+at zero. Both times the diagnosis was made by printing five rates and
+looking at them.
+
+At 291 nodes that is not available, so P3.4 turns the lesson into three
+things: a **measure** of saturation that is not a band anyone chose, a
+**procedure** for assigning baseline drive that is closed-form and
+therefore scales, and a **certificate** that says the procedure's answer
+is not merely *a* fixed point but the only one, reachable from anywhere.
+They live in one new module, `src/neurocascade/stability.py`, which
+imports only `circuit.py` and `network.py` and works on any
+`CircuitNetwork` - hand-built, ported or connectome-built - because the
+failure it is about is not a property of the connectome.
+
+Nothing in `network.py`, `circuit.py`, `engine.py`, `scenarios.py` or
+`connectome/build.py` changed behaviourally. `connectome_scenarios.py`'s
+`rest_balanced_baselines` now delegates to the general rule and returns
+identical numbers, which a test asserts.
+
+### The measure: sensitivity, not a rate band
+
+The obvious check is "is every rate inside `[0.05, 0.95]`", and the
+numbers in it would be invented. The non-invented version starts from
+what "saturated" means: the node's output has stopped depending on its
+input, which is a statement about a derivative. Linearizing
+
+    tau_i dr_i/dt = -r_i + S_i(net_i),   net_i = sum_j W[i,j] r_j + b_i
+
+gives `J = diag(1/tau) (-I + diag(S_i'(net_i)) W)`, and at a fixed point
+(`r_i = S_i(net_i)`) the slope is the rate's own quadratic,
+`S_i' = g_i r_i (1 - r_i)`. That factor is exactly the channel through
+which everything upstream of node `i` reaches everything downstream of
+it; if it is zero, the node's row of the Jacobian is dead and the node is
+a constant. Dividing by its own maximum, `g_i/4` at `r_i = 1/2`, removes
+the gain and leaves a dimensionless index:
+
+    sensitivity_i = S_i'(net_i) / (g_i/4) = 4 r_i (1 - r_i)   in (0, 1]
+
+so 1 is the most responsive a node can be and 0 is a rail. This is the
+linearization's own coefficient written in units where 1 is the best
+available, not a threshold on rate.
+
+`SATURATION_FLOOR = 0.01` is the one reporting convention, and it is
+labelled as such: nothing in the codebase is fitted against it and every
+report carries the raw sensitivities so another floor can be applied
+afterwards. It is 0.01 because two independent readings land there. A
+node at `sensitivity = 0.01` transmits 1% of the input change an
+optimally-placed node would, i.e. sits within 0.0025 of a rail; and
+solving `4r(1-r) = 0.01` gives `|g (net - theta)| = 5.99`, so at the
+illustrative `gain = 4.0` the flag fires at `|net - theta| = 1.50` -
+just outside the `[-1, 1]` band the original GPi note in this document
+already used to describe the failure it saw. A test asserts both
+arithmetics, so the docstring cannot drift from the constant.
+
+### The procedure, in four steps
+
+**1. Choose the operating point.** `r*_i = 1/2` for every node. This is a
+derivation and not a preference: `S_i'` is maximized at `S_i = 1/2`, so
+`r* = 1/2` is the unique point at which every node is as far from
+saturation as it can be. Per-node targets are supported and exact (step 2
+below), and are where region-wise baseline firing rates would go; this
+project has sourced none, so a heterogeneous `r*` today would mean
+inventing 291 numbers.
+
+**2. Solve for the drive, in closed form.** `r*` is an exact fixed point
+iff `S_i(net_i) = r*_i`, i.e. `net_i = theta_i + logit(r*_i)/g_i`, so
+
+    b_i = theta_i + logit(r*_i)/g_i - sum_j W[i,j] r*_j
+
+At `r* = 1/2` the logit term vanishes and this is P3.3's
+`rest_balanced_baselines`, whose credential stands unchanged: applied to
+the hand-built basal-ganglia network's own weights it returns that
+network's own `baseline_input` values `(0, 1, 1, -1, 1)` exactly. This is
+one matrix-vector product; nothing is searched, iterated or tuned per
+node, and that is the whole reason the procedure scales.
+
+**3. Certify.** Being an exact fixed point is not being a stable one, and
+this is where the task earns its keep. Two conditions:
+
+    LOCAL   max Re eig(J) < 0,  J = diag(1/tau)(-I + diag(S') W)
+            <=> r* is locally asymptotically stable
+
+    GLOBAL  kappa = sigma_max(diag(g/4) W) < 1
+            ==>  r* is the UNIQUE fixed point, and every trajectory from
+                 every initial condition converges to it exponentially
+
+The global condition is Kelly's contraction argument - Kelly DG,
+"Stability in contractive nonlinear neural networks", IEEE Trans Biomed
+Eng. 1990;37(3):231-242, doi:10.1109/10.52325, whose abstract states it
+in the form this codebase needs: "if the map WF(x) is a contraction, the
+system has a unique equilibrium which is globally asymptotically stable".
+Kelly writes the current-form equation `mu x' = -x + p + WF(x)`; the
+translation to this codebase's rate form is three lines and is written
+out in `stability.py` rather than left as a reference, because the
+Lyapunov function that makes it tau-independent (`V = (1/2) sum_i tau_i
+u_i^2`) is the part that matters for a network whose time constants
+differ per node. The bound uses `S_i' <= g_i/4` everywhere, which is why
+`kappa` is evaluated at `r = 1/2` regardless of where the network sits.
+
+The local criterion is deliberately not written as
+`max Re eig(diag(S')W) < 1`. That is the same statement only when every
+`tau` is equal; `J`'s eigenvalues are that matrix's rescaled row by row,
+and a positive diagonal scaling can move the eigenvalues of a
+non-symmetric matrix. Every network built in this project happens to have
+uniform `tau` at connectome resolution and non-uniform `tau` in the
+hand-built scenarios, so `spectral_abscissa` computes `eig(J)` and does
+not take the shortcut.
+
+**4. Verify by integration.** A certificate that is never checked against
+the integrator is a certificate about a different model than the one this
+package solves. `stability.assess` integrates from several spread,
+seeded initial conditions (all-silent, all-saturated, the target, then
+uniform draws), checks that they all land on the same point, that
+`max |dr/dt|` there is at solver noise, and that every node clears the
+floor.
+
+### The one free number, and why it is dimensionless
+
+Steps 1-4 say whether a given `(W, gain)` has a usable rest state. They
+do not say what to do when it does not, and the whole-brain connectome
+does not. P2.3 already established that a coupling gain and a connection
+weight are degenerate against behavioural data - only their product is
+identified - so the honest move is to name the product rather than to
+pick a `weight_scale`. Define the **operating gain**
+
+    rho = kappa(weight_scale * W) = weight_scale * kappa(W)
+
+a single dimensionless number that is the network's loop gain at its most
+sensitive operating point, and set `weight_scale = rho / kappa(W)`. That
+is `stability.stabilize()`. `DEFAULT_OPERATING_GAIN = 0.9` is
+ILLUSTRATIVE and labelled so in the module, in `StabilizedNetwork.
+summary()` and in the committed results file; what it replaces is the
+*pair* (`weight_scale`, `gain`) that P3.2 deliberately refused to choose,
+with one number that has a meaning (`rho < 1` is the certificate,
+`rho -> 1` is the edge of instability) and that leaves every relative
+weight the connectome fixed exactly where it was. A test asserts that
+stabilizing preserves every non-zero weight ratio to 1e-12 and touches no
+`tau`, `gain` or `threshold`.
+
+### The whole-brain result
+
+Knox et al. 2019 connection density, signed per P3.2, one hemisphere.
+The full run is `scripts/check_whole_brain_stability.py` and its output is
+committed at `results/whole_brain_stability.txt`.
+
+    resolution        nodes   kappa   critical weight_scale
+    regions             291   44.70          0.02237
+    subdivisions         60   35.15          0.02845
+    major_divisions      12   30.57          0.03271
+
+At region resolution, as `connectome/build.py` ships it
+(`weight_scale=1.0`, `baseline_input=0.0`): **218 of 291 nodes are past
+the saturation floor** - 210 against the ceiling and 8 against the floor,
+the latter being the regions whose input is dominated by GABAergic
+sources (GPe, GPi, SNr, SNc, PS and three cerebellar cortical lobules).
+That is P3.2's warning measured rather than asserted.
+
+Balancing the baselines and *not* rescaling is worse in an instructive
+way: `r = 1/2` becomes an exact fixed point of the 291-node network
+(`max |dr/dt|` there is 0 to machine precision) and it is a **repeller**.
+Three initial conditions give two different saturated answers a full unit
+apart, and 194 of 291 nodes end up past the floor. Step 2 without step 3
+produces a rest state that exists and that the model never visits.
+
+With the procedure applied at `rho = 0.9`
+(`weight_scale = 0.0201324` at region resolution):
+
+    fixed point residual max |dr/dt| = 1.6e-08
+    same point from all 5 starts, spread = 2.0e-08
+    local: max Re eig(J) = -0.678
+    global: kappa = 0.9 < 1, unique and globally attracting
+    saturation: min sensitivity 1.000, no node below the floor
+
+and identically at `subdivisions` and `major_divisions`. That is the
+acceptance criterion: a stable, unique, non-saturating fixed point on the
+published whole-brain connectome, reached from every initial condition
+tried, with a certificate saying there is no other one to find.
+
+### The check a stabilized network has to survive, and does
+
+A network can be made to pass every test above by shrinking every weight
+until nothing propagates, so the last block of the results file asks
+whether anything still does. The linear response of every region to a
+unit drive step at the caudoputamen, `(I - A)^-1 diag(S')`:
+
+    CP  +1.000   SNr -0.325   SNc -0.295   GPe -0.251   GPi -0.240   STN -0.150
+
+166 of 291 regions move by more than 1e-3. The six largest responses are
+the caudoputamen and its five basal-ganglia targets, every one of them
+negative because CP's projection neurons are GABAergic - which is the
+same "the rule is doing anatomy" check P3.2 made, now run through the
+dynamics rather than off the matrix. A step at MOp instead reaches 193
+regions and its largest responses are thalamic (PCN, VAL, PO) and
+somatosensory (SSp-m), all positive. Both are asserted by tests.
+
+### What the check says about the scenarios that already existed
+
+Run over every hand-built network in `scenarios.py`, at the drug-free
+baseline:
+
+    basal_ganglia_indirect_pathway   min sensitivity 1.000   passes
+    amygdala_anxiety_circuit         min sensitivity 0.420   passes
+    reward_circuit                   VTA_DA at 4.9e-06       flagged
+    multi_region_mu_opioid           + PAG_Output at 3.3e-04 flagged
+    combined_mu_opioid_d2            VTA_DA                  flagged
+
+The two networks whose docstrings make the claim satisfy it. The
+mu-opioid circuits do not, and that is a real property of them rather
+than a new bug: they are built as disinhibition relays, so the node the
+drug recruits (`VTA_DA`, `PAG_Output`) is *meant* to be silent at rest.
+
+This is the point at which a check that only looks at the resting state
+would be pedantic rather than useful, so P3.4 draws the distinction
+explicitly and tests it. Evaluate the same check at the drive the
+scenario's own agonist approaches (baseline plus each receptor system's
+coupling at activation 1):
+
+    at rest        VTA_DA, PAG_Output              against the floor
+    with drug      VTA_GABA, PAG_Interneuron, LC   against the floor
+    in both        (none)
+
+The saturated set is disjoint between the two states. Every node that is
+silent at rest is one the drug recruits, and the nodes that go to a rail
+under the drug are the drug's own Gi-coupled targets - which is precisely
+what a disinhibition relay looks like from the outside. Contrast P3.3's
+ported D2 network, where `GPe` is against the rail *with and without* the
+drug: that is the intersection being non-empty, and it is what "it
+stopped responding to anything upstream" actually means. So the criterion
+worth carrying forward is not "no node may be saturated at rest" but
+**"no node may be saturated in every state the drug can produce"**, and
+`stability.assess` supports it by accepting a drive vector.
+
+No parameter in `scenarios.py` was changed on the strength of any of
+this. The flagged nodes are recorded in tests as facts about the shipped
+scenarios, with the drugged-state test alongside them saying why those
+scenarios still work.
+
+### A correction to P3.3, found by the certificate
+
+P3.3's D2 section says: "With baselines rebalanced, every node rests at
+exactly 0.5, nothing is saturated, and the chain runs". The first half is
+true and the conclusion drawn from it needed one more step, which is
+exactly the step P3.4 exists to add.
+
+`r = 1/2` is an exact fixed point of the rebalanced ported D2 network -
+`rhs` there is identically zero - and it is **unstable**: the Jacobian's
+spectral abscissa at that point is `+0.733`. The network is bistable, and
+neither branch is `r = 1/2`:
+
+    from r = 0   [0.3345, 0.9996, 0.0135, 0.1044, 0.1737]
+    from r = 1   [0.6655, 0.0004, 0.9865, 0.8956, 0.8263]
+
+The cause is anatomical and not numerical. The published striatopallidal
+density is `-12.56` and the pallidostriatal return is `-0.22`; two
+inhibitory links in series are positive feedback, and at `gain = 4.0`
+that loop is strong enough to make CP and GPe a latch. P3.3 therefore
+read its rebalanced D2 trajectories off a repeller, with `rates0` set to
+exactly `0.5` - which is why the drug-free run stayed at `0.5` (an
+integration started exactly on a fixed point does not move) while the
+drugged run fell off it.
+
+**The finding survives the correction, and is now better supported.** Put
+the same ported network through the P3.4 procedure at `rho = 0.9`: the
+bistability is gone, `r = 1/2` is the unique globally attracting rest
+state, no node is saturated, and under a D2 agonist the chain runs with
+textbook signs at every step - striatum down, GPe up, STN down, GPi down
+- and the thalamus falls anyway, never rising above its drug-free value
+at any time (peak deviation `-0.020`). So the pallidothalamic diagnosis
+P3.3 reached is a property of the anatomy rather than an artefact of the
+operating point it was measured at. Both halves are tests.
+
+P3.3's own tests are unchanged and still pass: their assertions are about
+trajectories from `rates0 = 0.5`, and those trajectories are what they
+were. What changed is the docstring of the one test whose prose implied
+that `0.5` was a rest state the network would find, which now points at
+the two P3.4 tests that say what it actually is.
+
+### The three surviving ported scenarios, re-run where the check passes
+
+Stabilizing multiplies every published weight by one scalar, so it cannot
+change a relative weight; what it can change is an effect size, and it
+does. At `rho = 0.9`, all three of P3.3's surviving results keep their
+sign and their mechanism:
+
+    mu_opioid_reward        incentive salience   +0.216
+    mu_opioid_multi_region  analgesia +0.330  arousal +0.493  salience +0.214
+    gaba_a_amygdala         anxiety index        +0.103
+
+and they shrink monotonically with `rho` (at `rho = 0.2`: +0.035, +0.088,
++0.005), which is what a loop gain should do and is another reason `rho`
+rather than `weight_scale` is the parameter worth naming. The sign is the
+part that has to survive, and a test asserts it for every readout.
+
+### What was deliberately not done
+
+**No region-wise baseline firing rates were sourced: searched, and the
+one good candidate is structurally unusable.** The uniform `r* = 1/2` is
+a derivation from the sigmoid, not a claim that every mouse brain region
+fires at the same rate, and `balanced_baselines` accepts a per-node
+target vector precisely so that real data can be spent on it.
+
+What was searched for: a whole-brain, region-wise, awake-mouse baseline
+firing-rate table aligned to the Allen CCF parcellation. What exists:
+
+- **IBL Brain-Wide Map** (International Brain Laboratory. "A brain-wide
+  map of neural activity during complex behaviour." Nature. 2025.
+  doi:10.1038/s41586-025-09235-0), 621,733 neurons, 699 Neuropixels
+  insertions, **279 brain areas**, mouse, CCF-registered. This is the
+  right shape - it is the only dataset that covers a comparable fraction
+  of the brain to Knox et al.'s 291 regions.
+- **Allen Brain Observatory Neuropixels** (de Vries, Siegle et al.),
+  awake mouse, spontaneous *and* evoked, but visual cortex, hippocampus
+  and visual thalamus only - roughly a dozen of the 291 regions.
+
+Neither is usable here, and the reason is not coverage. A Wilson-Cowan
+`r_i` is **the fraction of the population that is active**, dimensionless
+and bounded in `[0, 1]`, not a firing rate in spikes/s. Converting a
+published median firing rate into an `r*_i` requires a per-region
+*maximum* firing rate to divide by - a second table that does not exist
+for 291 CCF regions in any species - and the quotient would then be read
+through `gain = 4.0` and `threshold = 0.0`, both of which are themselves
+ILLUSTRATIVE. Substituting spikes/s for an activation fraction would be
+inventing the denominator, so the honest position is the derived uniform
+`r* = 1/2` plus the parameter hook, and the record of what would have to
+exist for that to change. It is the same class of gap as Track E's, and
+it belongs to the same later phase that sources per-region node
+parameters at all.
+
+**`rho` was not calibrated.** It is one ILLUSTRATIVE number, and by
+P2.3's degeneracy argument it is not identifiable from anything this
+project currently has. What P3.4 changes is that the free parameter is
+now *one* dimensionless quantity with a stated meaning and a stated
+critical value, instead of two coupled ones with neither.
+
+**No sparse or iterative linear algebra.** `kappa` is a dense SVD, which
+is fine at 291 nodes (the 291-node `assess` is dominated by the Python
+loop inside `CircuitNetwork.rhs`, not by the algebra) and is not fine at
+the few thousand states Phase 9 is about. `stability.py` is written so
+that the two places it would have to change are `contraction_number` and
+`jacobian`.
+
+**Both hemispheres, still.** Every network here is the ipsilateral block,
+for P3.2's reasons.
+
+### Effect on the existing codebase
+
+- **One new module** (`stability.py`), one new script
+  (`scripts/check_whole_brain_stability.py`), one committed results file
+  (`results/whole_brain_stability.txt`).
+- **No behaviour changed anywhere else.**
+  `connectome_scenarios.rest_balanced_baselines` delegates to
+  `stability.balanced_baselines` and a test asserts the numbers are
+  identical for all four ports; `connectome/build.py` gained documentation
+  only.
+- **No numeric constant entered the project except one labelled
+  ILLUSTRATIVE** (`DEFAULT_OPERATING_GAIN = 0.9`) and one labelled a
+  reporting convention (`SATURATION_FLOOR = 0.01`, whose arithmetic is
+  asserted by a test). `MAX_SENSITIVITY_RATE = 0.5` is the argmax of the
+  logistic slope, and the integration tolerances are numerical settings
+  that are arguments everywhere they are used.
+- **No label moved.** Every ILLUSTRATIVE label in `build.py` and
+  `scenarios.py` is where it was.
+- **50 new tests**, 43 of them offline off the fifteen-region fixtures and
+  7 skipped without the gitignored cache. The ones that carry the most
+  weight are the whole-brain assessment at all three resolutions, the
+  reconstruction of the original GPi draft (the check names GPi without
+  being told to look at it), the recruited-versus-dead pair, and the two
+  that state and then resolve the correction to P3.3.

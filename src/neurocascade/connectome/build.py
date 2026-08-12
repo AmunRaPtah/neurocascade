@@ -117,16 +117,33 @@ not: the 291-node network's signed input weight per node runs from -17.6 to
 is driven deep into saturation at rest. A network built from this module
 with all defaults is therefore *not* a ready-to-simulate model, and this
 paragraph is the warning. It is also the GPi-saturation lesson from the D2
-scenario reappearing at 291 nodes, which is exactly what P3.4 exists to
-solve; a test asserts the row-sum range so the claim cannot rot.
+scenario reappearing at 291 nodes; a test asserts the row-sum range so the
+claim cannot rot, and `stability.assess()` measures the consequence - 218
+of the 291 nodes end up past the saturation floor.
 
 The reason this module does not fix it by picking a scale is P2.3: a
 coupling gain and a connection weight are degenerate against behavioural
 data - only their product is identified - so choosing a scale here would be
 choosing a calibration, and that scale would then propagate silently into
-every result labelled "connectome-based". Setting `weight_scale` is a
-one-line, explicit, illustrative act by the caller; P3.4 owns the
-principled version of it.
+every result labelled "connectome-based".
+
+P3.4 built the principled version, and it lives in `neurocascade.stability`
+rather than here, because it applies to any `CircuitNetwork` and not only to
+a connectome-built one:
+
+    from neurocascade import stability
+
+    built = connectome.build_circuit_network(strength, voxel_counts=voxels)
+    network = stability.stabilize(built.network).network   # ready to simulate
+    assert stability.assess(network).ok
+
+`stabilize` rescales every weight by the single scalar that puts the
+network's dimensionless loop gain at `stability.DEFAULT_OPERATING_GAIN`
+(ILLUSTRATIVE, 0.9; below 1 it carries a global-uniqueness certificate),
+then solves in closed form for the `baseline_input` that makes every node
+rest at its most sensitive point. Relative weights are untouched. Setting
+`weight_scale` by hand is still available and is still a one-line, explicit,
+illustrative act by the caller.
 """
 
 import numpy as np
@@ -147,8 +164,9 @@ SELF_CONNECTION_POLICIES = ("drop_within_region", "drop", "keep")
 #: `scenarios.py` use, and they are placeholders there too: no mouse
 #: population time constant or transfer-function slope has been fitted or
 #: sourced for any of these regions. They are here so a network can be
-#: built at all, and P3.4 (baseline stability at scale) is the task that
-#: has to replace `baseline_input` with something principled.
+#: built at all; `baseline_input=0.0` is the placeholder P3.4 replaces -
+#: `stability.balanced_baselines` solves for it in closed form instead of
+#: leaving it at zero, and `stability.assess` checks the result.
 DEFAULT_NODE = {"tau": 1.0, "baseline_input": 0.0, "gain": 4.0, "threshold": 0.0}
 
 

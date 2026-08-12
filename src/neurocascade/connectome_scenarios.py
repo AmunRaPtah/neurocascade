@@ -109,10 +109,19 @@ arithmetic rule instead of a hand-set number, and the rule is not invented
 here - applied to the hand-built basal-ganglia network it reproduces that
 network's own `baseline_input` values exactly (0, 1, 1, -1, 1), which is
 asserted by a test. Passing `baselines="rest_balanced"` applies the same rule
-to the ported weights. It is a preview of P3.4, which owns baseline stability
-at scale; this module uses it only as a diagnostic, to separate "the result
-died because a node saturated" from "the result died because the anatomy
-disagrees".
+to the ported weights. This module uses it only as a diagnostic, to separate
+"the result died because a node saturated" from "the result died because the
+anatomy disagrees".
+
+`rest_balanced_baselines()` now delegates to `stability.balanced_baselines`,
+P3.4's general form of the same rule, and P3.4 supplies the two things this
+module's diagnostic cannot: `stability.assess` (is the resulting fixed point
+stable, unique, and off the rails?) and `stability.stabilize` (the operating
+point at which the answer is yes). One of P3.4's findings is about this
+module: rebalancing the ported D2 network makes r = 1/2 exact but *unstable*,
+so the numbers below were read off a repeller. The inversion they describe
+holds anyway - `tests/test_stability.py` re-measures it where the rest state
+is the one the network actually settles into.
 
 What this module found
 ----------------------
@@ -677,22 +686,19 @@ def rest_balanced_baselines(network, target_rate=0.5):
 
     Being an exact fixed point is not the same as being the fixed point the
     system settles into: whether it is stable, and whether it is the one an
-    integration from r = 0 finds, are properties of `W`, and for the ported
-    D2 network they are the substance of P3.3's finding. P3.4 owns the
-    general version of this problem.
+    integration from r = 0 finds, are properties of `W`.
+
+    P3.4 built the general version, and this function now delegates to it:
+    `stability.balanced_baselines` is the same rule with per-node target
+    rates (`b_i = theta_i + logit(r*_i)/g_i - sum_j W[i,j] r*_j`, of which
+    the line above is the `r* = 1/2` case), and `stability.assess` is the
+    automated check of whether the resulting fixed point is stable, unique
+    and non-saturating. This name is kept because P3.3's tests and results
+    are stated in terms of it.
     """
-    W = network.connectivity
-    nodes = [
-        CircuitNode(
-            name=node.name,
-            tau=node.tau,
-            baseline_input=node.threshold - float(W[i].sum()) * target_rate,
-            gain=node.gain,
-            threshold=node.threshold,
-        )
-        for i, node in enumerate(network.nodes)
-    ]
-    return CircuitNetwork(nodes=nodes, connectivity=W)
+    from .stability import balanced_baselines
+
+    return balanced_baselines(network, target_rates=target_rate)
 
 
 # ---------------------------------------------------------------------------

@@ -107,12 +107,13 @@ more single-dose studies.
 | `src/neurocascade/`  | The engine (pk, drug_pk, receptor, circuit, network, behavior, engine, scenarios) |
 | `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1), and the `CircuitNetwork` builder with its neurotransmitter sign rule (P3.2) |
 | `src/neurocascade/connectome_scenarios.py` | The hand-built scenarios re-wired from the connectome, with per-edge provenance (P3.3) |
+| `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4) |
 | `scripts/`           | `fetch_connectome.py` (download + checksum-verify source data), maintenance |
 | `data/`              | Gitignored cache of downloaded source data; checksums live in `connectome/sources.py` |
 | `examples/`          | Worked end-to-end scenarios                      |
 | `tests/`             | Unit tests per layer                             |
 | `docs/`              | Architecture and design notes                    |
-| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis |
+| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification |
 
 ### Connectome data
 
@@ -146,8 +147,32 @@ Excitatory/inhibitory sign comes from region neurotransmitter identity
 rule cannot reach are left unsigned and reported rather than guessed. Read
 "Phase 3: building the circuit from the connectome (P3.2)" in
 `docs/architecture.md` before using the output: at `weight_scale=1.0` the
-published weights saturate the illustrative sigmoid, which P3.4 is the task
-that fixes.
+published weights saturate the illustrative sigmoid (218 of 291 nodes), so a
+network built with all defaults is not ready to simulate.
+
+### Baseline stability at scale
+
+`stability.py` makes that a check rather than a surprise, and supplies the
+rest state it is missing:
+
+```python
+from neurocascade import stability
+
+network = stability.stabilize(built.network).network   # ready to simulate
+print(stability.assess(network).summary())             # every node, every check
+```
+
+`stabilize` rescales every weight by one scalar so the network's
+dimensionless loop gain is `DEFAULT_OPERATING_GAIN` (ILLUSTRATIVE, 0.9 -
+below 1 the fixed point is provably unique and globally attracting), then
+solves in closed form for the `baseline_input` that puts every node at its
+most sensitive operating point. Relative weights are untouched. `assess`
+integrates from several initial conditions and reports saturation per node,
+local stability, and the certificate. On the published 291-region network
+the result is a unique, stable, non-saturating rest state reached from every
+start; `results/whole_brain_stability.txt` is the recorded run, produced by
+`scripts/check_whole_brain_stability.py`. See "Phase 3: whole-brain baseline
+stability (P3.4)" in `docs/architecture.md`.
 
 ### Scenarios on connectome regions
 

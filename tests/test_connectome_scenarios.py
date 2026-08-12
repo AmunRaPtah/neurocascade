@@ -729,6 +729,17 @@ def test_diagnosis_2_with_baselines_rebalanced_the_pathway_inverts_instead(circu
     the chain is free to run - and it runs backwards. Striatum falls, GPe
     rises, STN falls and GPi falls, all as the indirect-pathway diagram says,
     and the thalamus then falls too instead of rising.
+
+    P3.4 corrects one thing about the setup, without changing the finding:
+    that r = 1/2 fixed point is exact but UNSTABLE (the ported CP<->GPe pair
+    is a two-inhibitory-link positive-feedback latch), so `rates0` here is
+    sitting on a repeller. `tests/test_stability.py` shows both halves of
+    that - the instability
+    (`test_the_rebalanced_ported_d2_fixed_point_is_exact_but_unstable`) and
+    the fact that the inversion this test measures survives on a
+    certified-stable operating point where the rest state is the one the
+    network actually finds
+    (`test_p3_3s_d2_inversion_survives_on_a_certified_stable_network`).
     """
     port = cs.SCENARIO_PORTS["d2_indirect"]
     network = cs.port_scenario(port, circuit, baselines="rest_balanced").network
