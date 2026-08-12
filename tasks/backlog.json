@@ -289,10 +289,13 @@
       "deps": [
         "P3.1"
       ],
-      "status": "running",
+      "status": "done",
       "attempts": 1,
       "started_at": "2026-08-12T19:30:04.826999+00:00",
-      "baseline": "a5ee9abb96994883ff963202808702c3651e01f3"
+      "baseline": "a5ee9abb96994883ff963202808702c3651e01f3",
+      "finished_at": "2026-08-12T20:49:24.063154+00:00",
+      "result": "complete",
+      "commits": "1"
     },
     {
       "id": "P4.2",
