@@ -100,10 +100,13 @@
         "P1.3",
         "P1.4"
       ],
-      "status": "running",
+      "status": "done",
       "attempts": 1,
       "started_at": "2026-08-12T06:20:09.627675+00:00",
-      "baseline": "4f3fd0af93a2e79560f15e56dfdc7494f4b54dec"
+      "baseline": "4f3fd0af93a2e79560f15e56dfdc7494f4b54dec",
+      "finished_at": "2026-08-12T07:57:46.203912+00:00",
+      "result": "complete",
+      "commits": "1"
     },
     {
       "id": "P1.6",
