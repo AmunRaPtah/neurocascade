@@ -185,11 +185,13 @@
       "deps": [
         "P2.2"
       ],
-      "status": "running",
+      "status": "done",
       "attempts": 2,
       "baseline": "34b64ba2f6b15d9cd81171385cfdeaf62c0a04bf",
-      "result": "agent did not start: API Error: Connection closed mid-response. The response above may be incomplete.",
-      "started_at": "2026-08-12T12:30:13.621954+00:00"
+      "result": "complete",
+      "started_at": "2026-08-12T12:30:13.621954+00:00",
+      "finished_at": "2026-08-12T14:39:25.500684+00:00",
+      "commits": "1"
     },
     {
       "id": "P3.1",
