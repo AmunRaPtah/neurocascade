@@ -157,6 +157,20 @@ def git(*args, check=True) -> str:
     return r.stdout.strip()
 
 
+def commit_backlog(data: dict, message: str) -> None:
+    """
+    Persist backlog state and commit it on its own.
+
+    backlog.json is tracked, so a bare save_backlog leaves the tree dirty and
+    the next tick aborts on the cleanliness check. Committing it here keeps the
+    tree clean between ticks, and keeping it in a separate commit stops
+    bookkeeping from masquerading as agent work in the `made_commits` gate.
+    """
+    save_backlog(data)
+    if git("status", "--porcelain", "--", str(BACKLOG)):
+        git("commit", "-q", "-m", message, "--", str(BACKLOG))
+
+
 def recover_stale(data: dict) -> bool:
     """
     Reclaim tasks left `running` by a tick that died.
@@ -302,7 +316,7 @@ def format_acceptance(items) -> str:
 def run_tick(dry_run: bool = False) -> int:
     data = load_backlog()
     if not dry_run and recover_stale(data):
-        save_backlog(data)
+        commit_backlog(data, "chore(backlog): reclaim tasks from an interrupted tick")
     task = next_task(data)
     if task is None:
         remaining = [t for t in data["tasks"] if t["status"] == "pending"]
@@ -343,9 +357,15 @@ def run_tick(dry_run: bool = False) -> int:
     task["attempts"] = task.get("attempts", 0) + 1
     task["started_at"] = now()
     task["baseline"] = baseline
-    save_backlog(data)
+    commit_backlog(data, f"chore(backlog): start {task['id']} (autonomous)")
+
+    # Re-anchor after the bookkeeping commit. `baseline` recorded in the backlog
+    # stays pre-marker so recovery can discard the marker too, but the gate below
+    # must compare against HEAD-as-the-agent-found-it, or a run that produces
+    # nothing still looks productive.
+    gate_baseline = git("rev-parse", "HEAD")
     log_event("started", task=task["id"], title=task["title"],
-              attempt=task["attempts"], quota=why, baseline=baseline[:8])
+              attempt=task["attempts"], quota=why, baseline=gate_baseline[:8])
 
     rules = PROJECT_RULES.format(repo=REPO, venv=VENV_PY)
     prompt = TASK_PROMPT.format(
@@ -384,20 +404,20 @@ def run_tick(dry_run: bool = False) -> int:
         tests_ok, failure = run_tests(log_path)
 
     head = git("rev-parse", "HEAD")
-    made_commits = head != baseline
+    made_commits = head != gate_baseline
 
     if tests_ok and made_commits:
+        task["status"] = "blocked" if blocked_reason else "done"
+        task["finished_at"] = now()
+        task["result"] = blocked_reason or "complete"
+        task["commits"] = git("rev-list", "--count", f"{gate_baseline}..HEAD")
+        commit_backlog(data, f"chore(backlog): {task['id']} {task['status']} (autonomous)")
         try:
             git("push", "origin", "main")
             pushed = True
         except RuntimeError as e:
             pushed = False
             log_event("push_failed", task=task["id"], error=str(e)[:200])
-        task["status"] = "blocked" if blocked_reason else "done"
-        task["finished_at"] = now()
-        task["result"] = blocked_reason or "complete"
-        task["commits"] = git("rev-list", "--count", f"{baseline}..HEAD")
-        save_backlog(data)
         log_event("finished", task=task["id"], status=task["status"],
                   commits=task["commits"], pushed=pushed, note=blocked_reason[:120])
         return 0
@@ -406,7 +426,7 @@ def run_tick(dry_run: bool = False) -> int:
         task["status"] = "blocked" if blocked_reason else "failed"
         task["finished_at"] = now()
         task["result"] = blocked_reason or "agent produced no commits"
-        save_backlog(data)
+        commit_backlog(data, f"chore(backlog): {task['id']} {task['status']} (autonomous)")
         log_event("finished", task=task["id"], status=task["status"],
                   note=task["result"][:160])
         return 0
@@ -414,11 +434,11 @@ def run_tick(dry_run: bool = False) -> int:
     # Tests still red: park the work, restore main to its green baseline.
     quarantine = f"failed/{task['id']}-attempt{task['attempts']}"
     git("branch", "-f", quarantine, "HEAD")
-    git("reset", "--hard", baseline)
+    git("reset", "--hard", gate_baseline)
     task["status"] = "failed"
     task["finished_at"] = now()
     task["result"] = f"test gate failed, work parked on {quarantine}"
-    save_backlog(data)
+    commit_backlog(data, f"chore(backlog): {task['id']} failed the test gate (autonomous)")
     log_event("quarantined", task=task["id"], branch=quarantine,
               attempts=task["attempts"], agent_ok=agent_ok)
     return 0
