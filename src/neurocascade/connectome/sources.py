@@ -103,7 +103,13 @@ that have not actually been retrieved and hashed. If a later task needs
 voxel resolution, it downloads them, hashes them, and adds them here.
 """
 
+from ..datafetch import DataFile as _DataFile
+
 MANIFEST_VERSION = "2026-08-12"
+
+#: What a human should run when the cache is missing a file. Read by
+#: `datafetch.Fetcher` so the error message names the right script.
+FETCH_COMMAND = "scripts/fetch_connectome.py"
 
 # Retrieval date shared by every entry below: all files were downloaded and
 # hashed in one session while writing P3.1.
@@ -139,45 +145,18 @@ ALLEN_ONTOLOGY_CITATION = (
 )
 
 
-class DataFile(object):
+class DataFile(_DataFile):
     """One external file: where it comes from, what it hashes to, what it means.
 
-    `sha256` and `size_bytes` are measured values, recorded from the bytes
-    actually retrieved on `retrieved`. They are not to be edited to make a
-    failing fetch pass; a mismatch means the upstream file changed and the
-    change has to be looked at (see `fetch.ChecksumMismatch`).
+    The behaviour lives in `neurocascade.datafetch.DataFile`, which P4.1's
+    expression manifest also uses; this subclass exists only to default
+    `retrieved` to this manifest's single retrieval date, since every entry
+    below was downloaded and hashed in one session.
     """
 
-    def __init__(
-        self,
-        key,
-        filename,
-        url,
-        sha256,
-        size_bytes,
-        citation,
-        description,
-        units,
-        retrieved=_RETRIEVED,
-        volatility="static",
-    ):
-        self.key = key
-        self.filename = filename
-        self.url = url
-        self.sha256 = sha256
-        self.size_bytes = size_bytes
-        self.citation = citation
-        self.description = description
-        self.units = units
-        self.retrieved = retrieved
-        self.volatility = volatility
-
-    def __repr__(self):
-        return "DataFile(%r, %d bytes, sha256=%s...)" % (
-            self.key,
-            self.size_bytes,
-            self.sha256[:12],
-        )
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("retrieved", _RETRIEVED)
+        _DataFile.__init__(self, *args, **kwargs)
 
 
 # ---------------------------------------------------------------------------

@@ -5001,3 +5001,360 @@ for P3.2's reasons.
   reconstruction of the original GPi draft (the check names GPi without
   being told to look at it), the recruited-versus-dead pair, and the two
   that state and then resolve the correction to P3.3.
+
+## Phase 4: ingesting Allen receptor-gene expression (P4.1)
+
+### What this task is, and the two things it must not become
+
+P4.1 is an ingestion task, the P3.1 shape applied to a second body of
+external data. It pins one Allen Brain Atlas query per receptor gene,
+verifies the bytes, and hands back a (gene x region) expression-energy
+matrix whose columns are the connectome's regions in the connectome's
+order. It does **not** convert expression to a receptor density, and it does
+not pick which of a gene's several ISH experiments is "the" map. Those are
+P4.2 and they are the two places this task could have quietly become a
+modelling task instead of an ingestion one.
+
+The new package is `src/neurocascade/expression/`:
+
+    genes.py      the 43 receptor/transporter genes and what each encodes
+    sources.py    the manifest: query URLs, digests, citations, units, and
+                  the searched-and-empty record
+    fetch.py      download, verify, cache; thin over `datafetch.Fetcher`
+    unionize.py   readers for the two published shapes
+    atlas.py      ExpressionAtlas / RegionalExpression
+    fixtures/     real data, eight genes and 55 structures of it, committed
+
+plus `scripts/fetch_expression.py` (the CLI),
+`scripts/build_expression_manifest.py` (measures the digests),
+`scripts/make_expression_fixture.py` (regenerates the fixtures from the
+verified cache) and `scripts/report_expression_coverage.py`, which writes
+the committed `results/expression_coverage.txt`. That file exists so the
+two things this task must not hide - the gene with no data, and the regions
+the ISH data cannot reach - are readable in a clean checkout without the
+gitignored caches and without running anything.
+
+### One fetcher, two manifests
+
+P3.1's `connectome/fetch.py` and this package's `expression/fetch.py` are
+now both thin bindings of `neurocascade/datafetch.py`, parameterised by a
+manifest module and a cache directory. The alternative was copying 150
+lines and editing two names, which would have left two implementations of
+"what happens on a checksum mismatch" free to drift apart. The behaviour
+that must not drift is exactly the strict part: reject, keep the bytes as
+`.rejected`, and say in the error message that editing the expected digest
+is not one of the legitimate responses. `connectome.fetch`'s public
+function names and signatures are unchanged and its 47 tests are untouched.
+
+The caches are deliberately separate (`data/connectome/`,
+`data/expression/`) so re-fetching the more volatile ISH half cannot
+disturb the connectome, and so `sha256sum -c` can be run against either
+directory alone.
+
+### The gene list, and why a gene table rather than a list of strings
+
+The task named "Oprm1, Oprk1, Oprd1, Drd1, Drd2, Gabra1-5, Gabrb, Htr1a,
+Htr2a, Chrm1-5, Chrna4/7, Adra1/2, Adrb1/2, Grin1/2a/2b, Gria1-4, Hrh1,
+Cnr1, Adora2a, Slc6a2/3/4". Expanded to actual mouse symbols that is 43
+genes: `Gabrb` becomes Gabrb1/2/3, `Adra1/2` becomes Adra1a/1b/1d and
+Adra2a/2b/2c, `Adrb1/2` becomes Adrb1 and Adrb2. The expansion is written
+out as a set in the tests so a later edit cannot silently drop a subunit.
+
+Three things made a table (symbol, Entrez id, protein, receptor system,
+consuming phase) preferable to a list of symbols:
+
+- **A receptor is not always a gene.** There is no `Gabaa` to look up;
+  GABA-A is a pentamer and this project's benzodiazepine site exists only
+  on alpha1/2/3/5-containing receptors. `Gabra4` is ingested precisely so
+  P4.2 can *exclude* it from a diazepam-site map deliberately rather than
+  pool it in by accident; the table says so and a test asserts the flag.
+- **A gene is not always the receptor's name.** DAT is `Slc6a3`, SERT
+  `Slc6a4`, NET `Slc6a2`.
+- **Symbols move.** The mouse D1 gene was `Drd1a` and is now `Drd1`. A
+  query for the old symbol returns *zero datasets*, not an error, so a
+  symbol drift would have produced an empty map indistinguishable from
+  "not expressed". Every entry therefore carries its NCBI Entrez id, and
+  `build_expression_manifest.py` checks all 43 against Allen's own gene
+  table before it measures a single digest. All 43 resolved.
+
+### Which quantity, and how the definition was verified
+
+Allen's ISH pipeline segments each image into expressing and non-expressing
+pixels, grids the result into 200 um voxels registered to the adult (P56)
+reference space, and unionizes those voxels over every CCF structure. The
+structure-level quantity the roadmap wants is
+
+    expression energy = (sum of intensity of expressing pixels in A)
+                        / (sum of all pixels in A)
+
+which is Allen's own documented definition. That was not taken on trust.
+Over all 843 graph-1 unionizes of the coronal Oprm1 experiment,
+`sum_expressing_pixel_intensity / sum_pixels` reproduces the published
+`expression_energy` to a maximum relative error of 1.1e-5, and
+`sum_expressing_pixels / sum_pixels` reproduces `expression_density` to
+9.6e-6: consistent with the API's six significant figures and nothing else.
+A test re-runs both identities on the committed fixture rows.
+
+**Expression energy is not a receptor density**, and nothing in this
+package pretends otherwise. It is transcript abundance in arbitrary units,
+not even comparable in absolute terms between genes, because probe
+efficiency and segmentation threshold differ per experiment. The `units`
+string on every manifest entry says this in full. P4.2 owns the conversion
+and owns stating its proportionality assumption as an assumption.
+
+### The provenance problem: a live API, and what was searched for instead
+
+Every file in this manifest is a live query, which is the weaker of the two
+situations P3.1 distinguished, and it was chosen only after looking for the
+stronger one.
+
+- `informatics-archive/october-2014/mouse_expression/` **is** a genuinely
+  static archive of the adult-mouse expression data, and it publishes
+  per-experiment *voxel grids*, not structure unionizes. Turning those into
+  per-region numbers means re-implementing Allen's unionization against
+  `P56_Mouse_gridAnnotation.zip` and publishing our arithmetic as if it
+  were theirs. The published unionize is the quantity the roadmap asks for;
+  recomputing an approximation of it from a static file would have traded a
+  provenance problem for a correctness problem, which is the worse trade.
+- No static dump of the unionizes exists on the archive. Its
+  `current-release` tree holds `brain_observatory`, `mouse_annotation`,
+  `mouse_ccf` and `rna_seq` only; the dated trees (`october-2014`,
+  `june-2016`, `september-2017`) hold projection data, cell types,
+  annotation volumes and the voxel grids.
+
+So the queries are pinned by digest and labelled `volatility="live-api"`,
+the same treatment P3.1 gave the CCF structure graph for the same reason.
+Both the index query and a per-gene query were verified byte-identical
+across repeated requests. What the checksum buys is not immutability, which
+nobody can promise for an API; it is that a new experiment or a pipeline
+re-run becomes a dated, loud failure instead of a silent move in every
+receptor map.
+
+Two details fall straight out of that. **Row order is pinned explicitly**
+in both queries, because RMA's default order is undocumented and a permuted
+response would fail the digest for no real reason. (`order$eq
+'section_data_sets.id'` is rejected by the API as ambiguous on the
+SectionDataSet model, so the index orders by `genes.acronym`,`data_sets.id`
+instead: found by trying it, not by reading it anywhere.) And the manifest
+records **row and experiment counts** per gene alongside the digest,
+because the digest cannot detect a *truncated* response: RMA paginates, and
+a short response hashes perfectly consistently. `build_expression_manifest.py`
+cross-checks each CSV's row count against the API's own `total_rows` before
+pinning, and the loader re-checks offline.
+
+### Sharing the connectome's ontology, and the twelve regions where it fails
+
+Every query filters `structure[graph_id$eq1]`: the same CCF structure graph
+the Knox et al. 2019 connectome is indexed by and that
+`connectome/ontology.py` already loads. This package has no ontology of its
+own and refuses to name a region without one being passed in. That is what
+makes the acceptance criterion "regions line up exactly" enforceable in the
+query rather than patched up downstream, and a test asserts the filter is
+in every criteria string.
+
+Measured coverage: **279 of the connectome's 291 source regions** carry ISH
+unionizes, 95.9%. The twelve that do not are AP, ASO, EW, ICB, IV, NR, PST,
+PVa, VISa, VISli, VISpor and VISrl, and they are the *same twelve* in six
+independent experiments (Oprm1, Drd2, Gabra1, Cnr1, Slc6a3, Grin1), which
+is what identifies the cause as structural rather than gene-specific. The
+ISH grid is registered to the pre-CCFv3 P56 reference space (id 9 coronal,
+10 sagittal) while Knox et al. regionalize onto CCFv3; four of the twelve
+(VISa, VISli, VISpor, VISrl) are visual areas CCFv3 delineates and the
+older annotation does not, and the rest are small nuclei in the same
+position. `sources.MISSING_FROM_ISH` records them and a test on the real
+files asserts the list is exactly right, so it cannot be quietly edited.
+
+This is a real limitation of the alignment and it is recorded as one. It is
+not a reason to prefer a different connectome: LC, the region that decided
+P3.1's choice of Knox over Oh, is present in both layers.
+
+### One invariant found worth enforcing: plane implies reference space
+
+Coronal experiments are registered to Allen reference space 9 ("P56 Brain")
+and sagittal ones to space 10 ("P56 Brain (L/R Flipped)"), with no
+exceptions across all 106 indexed experiments. `SectionDataSet` checks the
+two against each other on construction and raises rather than accepting a
+differently registered experiment, because such an experiment would not be
+commensurable with the rest and pooling it into a gene's map is exactly the
+kind of thing that produces a plausible-looking wrong answer. Both spaces
+predate CCFv3, which is the same fact that causes the twelve missing
+regions above; recording it as an enforced invariant rather than a comment
+means a future Allen re-registration announces itself.
+
+### The two decisions the loader refuses to make
+
+P3.1's `RegionalConnectome` offers `without_self_connections()` as an
+explicit method rather than a default, because every convenience a loader
+might add is a modelling decision. The same pressure exists here and it is
+sharper, because a gene does not have one expression map.
+
+**Which plane.** Allen's sagittal pipeline sections and processes the left
+hemisphere only; coronal experiments cover the whole brain, and Allen's own
+Mouse Brain Atlas documentation puts the coronal set at 4,104 genes with the
+rest of the genome sectioned sagittally. Measured on this data: Oprm1's
+coronal experiment carries unionizes for 279 of the 291
+connectome regions, its two sagittal siblings for 262 and 274. Three of the
+42 genes with data (Adra2c, Adrb2, Htr2a) are **sagittal-only**, so a
+coronal-only atlas loses them entirely.
+
+**Which experiment.** Oprm1 has three experiments, Chrm4 five, and they
+disagree far more than one would like. Measured over the 291 connectome
+regions, writing `r` for the max/min ratio across the experiments that
+report a region, the median `r` per gene ranges from **1.18 (Gria3) to 31.5
+(Chrm3)**, with Oprm1 at 6.2, Drd1 at 8.8, Adora2a at 11.6 and Slc6a3 at
+9.3. Only 5 of the 38 multi-experiment genes have a median `r` below 1.4.
+(The per-gene maxima are much larger still, up to 1e9, but they are
+dominated by regions where one experiment saw essentially nothing and are
+not worth reading; the median is.) `results/expression_coverage.txt` has
+the whole table.
+
+Averaging is defensible; taking the coronal experiment alone is defensible;
+treating the spread as the measurement uncertainty it evidently is may be
+the most defensible of the three. Which is right depends on what the
+receptor layer needs, which is P4.2's question, and a loader with a default
+would have hidden the size of the question.
+
+So `energy_matrix()` takes `plane` and `combine` as **required** keyword
+arguments and raises a `TypeError` naming the reason if either is omitted.
+`plane` is one of `coronal` / `sagittal` / `any` /
+`coronal-else-sagittal`; the last picks per gene and never pools the two
+geometries for one gene, so a gene's map always comes from one sectioning
+plane. `combine` is `mean` / `median` / `max` / `single`, and `single`
+raises unless the plane filter left exactly one experiment: the strict
+option, under which no averaging of anything happens at all. Every returned
+matrix records which policy produced it, which experiment ids went into it,
+and how many experiments contributed to each individual cell.
+
+### NaN is not zero, again
+
+An absent unionize row means *not measured*, and it is NaN. It is never
+0.0. This is the same refusal P3.1 made for Oh et al. 2014's `#NUM!`
+p-value cells, and it matters more here rather than less: a zero in a
+receptor map is the claim "a drug acting at this receptor has no target in
+this region", which is a scientific assertion, while NaN is the truth.
+
+There is a second, sharper distinction underneath it: an unmeasured region
+comes back NaN and is reported, while a structure id that is not in the
+ontology at all is *refused*. Both would otherwise produce an identical
+all-NaN column, and one of them is a mis-join.
+
+`RegionalExpression` enforces the NaN correspondence as an invariant - a
+finite value with no contributing experiment, or a NaN with contributors, is
+a construction error - and reports the gaps through
+`genes_without_values()`, `regions_without_values()` and `coverage()`
+rather than leaving a caller to discover them. The combining rules are
+NaN-aware for the same reason: an experiment that does not report a region
+does not vote, so it cannot drag that region's mean toward zero. A test
+constructs the zero-filled alternative and asserts the real values are
+strictly larger everywhere the two differ.
+
+### Adra1b: searched and empty
+
+**`Adra1b` (adrenergic alpha-1B receptor, Entrez 11548) has no in situ
+hybridization experiment in any Allen mouse product.**
+
+What was searched, on 2026-08-12: `model::Gene[acronym$eq'Adra1b']` returns
+three records, two of them *Mus musculus* (Allen gene ids 11335 and
+500726721, both Entrez 11548, "adrenergic receptor, alpha 1b"), so the gene
+is in Allen's table and this is not a spelling or symbol-drift problem.
+`model::SectionDataSet,rma::criteria,genes[acronym$eq'Adra1b']` with **no
+product filter and no `failed` filter**, the widest query the API supports,
+returns `total_rows = 0`.
+
+The consequence, recorded rather than worked around: alpha-1B stays in
+`genes.RECEPTOR_GENES` with no expression map, and any alpha-1 map built
+from this package is explicitly alpha-1A + alpha-1D only. Substituting
+another alpha-1 subtype's map for it would be inventing a number and is
+refused; a test asserts that `Adra1b` is absent from the available symbols,
+that its record says what was searched, and that asking the atlas for it
+raises an error containing the search rather than a bare `KeyError`.
+
+### Four experiments that exist and yielded nothing
+
+Of the 106 non-failed ISH experiments the index lists for these genes,
+**four have no structure unionizes in any graph**: 282 (Cnr1), 359 (Drd2),
+526 (Gria1) and 534 (Grin1), all from the original sagittal release. Not
+merely none in graph 1: none at all.
+
+Nothing in the API's `SectionDataSet` record explains why, and the first
+plausible explanation checked was wrong, which is worth recording. The
+`expression` flag is false for 28 of the 106, so it looked like the
+distinguishing field; but 24 of those 28 do have unionizes, so it is not.
+Neither is `delegate`, `failed`, `failed_facet`, `section_thickness`,
+`weight`, `reference_space_id`, nor any channel field: every one of them is
+identical between experiment 282 and its sibling 284, same gene, same
+plane, one with unionizes and one without. The cause is not recoverable
+from this data, so it is not guessed at.
+
+What is done instead is to keep the four visible. The index query does not
+filter them out; adding `[expression$eq'true']` would have made the counts
+add up and made the fact invisible (and would also have dropped 24
+experiments that are fine). `ExpressionAtlas.experiments_without_unionizes()`
+reports them, and the fixture deliberately includes two (282 and 359) so
+the index-versus-data mismatch path runs offline on real data.
+
+### The fixtures, and the ontology they do not have
+
+Eight genes and 55 structures, ~155 kB, cut from the verified responses and
+written back out in their own formats. The structures are exactly the 55 in
+the *connectome's* committed fixture ontology, and there is deliberately no
+expression-specific ontology fixture: P4.1's whole claim is that the two
+layers are indexed by the same structure graph, and two fixture ontologies
+free to drift apart would let the offline tests keep passing after that
+stopped being true.
+
+The eight genes were chosen for what each one exercises, not for coverage.
+`Htr2a` is the sagittal-only case, so `plane="coronal"` produces an all-NaN
+row that has to be reported rather than read as "not expressed". `Drd1`'s
+experiment 354 reports only 30 of the 55 structures, the widest real
+coverage gap available. `Cnr1` and `Drd2` each carry one of the four
+indexed-but-empty experiments. `Oprm1`, `Drd2` and `Gabra1` are the three
+receptor systems the model already simulates; `Adora2a` and `Slc6a3` are
+P4.3 validation targets. Rows are copied through `csv.reader`/`csv.writer`
+without ever being parsed as floats, so the fixtures are character-identical
+to the bytes Allen served, and a real-data test asserts the arrays match
+over all 55 structures of all 24 experiments.
+
+### Anatomy, as a bug check rather than a finding
+
+P4.3 owns the validation. Some of its checks are already running here,
+because a mis-joined or mis-attributed ingestion would otherwise look
+completely healthy - same sparsity, same distribution, plausible numbers -
+and these are the cheapest available evidence that it is not:
+
+- **Drd1, Drd2, Adora2a peak in CP / ACB.** On the full 291-region matrix
+  the top regions are CLA, CP, EPd, ACB, OT for Drd1 and Drd2, and CP, CLA,
+  ACB, OT for Adora2a.
+- **Oprm1 peaks in the medial habenula**, then PVT, RH, CM, IAM, IMD: the
+  midline thalamus. That is the classic Oprm1 distribution and it is the
+  roadmap's stated P4.3 expectation.
+- **Slc6a3 (DAT) sits in SNr/IPN/SNc/VTA, not in the striatum.** DAT is
+  expressed by dopamine neurons, so it belongs in their somata; the
+  striatum is where dopamine is *released*. A DAT map peaking in CP would
+  mean projection data had been attached to a gene. (SNr above SNc is the
+  well-known spillover between two adjacent structures at 200 um, not a
+  parse error.)
+- **Slc6a4 (SERT) peaks in the dorsal raphe**, and Cnr1 in cerebellar
+  cortex and amygdala.
+
+Four of these (Drd2, Adora2a, Slc6a3, Oprm1) run offline on the fifteen
+fixture regions; the full versions run on the real 291-region matrix and
+skip without the gitignored cache.
+
+### What this task changes, and what it does not
+
+- **No parameter changed, no illustrative label moved, no scenario
+  touched.** The expression package is additive; nothing in `engine.py`,
+  `receptor.py`, `scenarios.py`, `connectome/` or any calibration module
+  imports it. Every existing result is unchanged.
+- **No number in this package is a modelling choice.** Every value is a
+  published unionize, a measured SHA-256, a measured row count, or an NCBI
+  Entrez id. There is nothing here to label illustrative and nothing here
+  calibrates anything.
+- **`connectome/fetch.py` was refactored, not changed.** Its function
+  names, signatures and behaviour are identical; `DataFile` moved to
+  `datafetch.py` and is re-exported. All 47 P3.1 tests pass untouched.
+- **65 new tests.** 59 run offline off the committed fixtures; 6 check the
+  full 42-gene responses and skip when the gitignored cache is absent. They
+  are extras, not substitutes: every acceptance criterion is covered
+  offline.

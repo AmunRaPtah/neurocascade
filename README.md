@@ -108,12 +108,14 @@ more single-dose studies.
 | `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1), and the `CircuitNetwork` builder with its neurotransmitter sign rule (P3.2) |
 | `src/neurocascade/connectome_scenarios.py` | The hand-built scenarios re-wired from the connectome, with per-edge provenance (P3.3) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4) |
-| `scripts/`           | `fetch_connectome.py` (download + checksum-verify source data), maintenance |
-| `data/`              | Gitignored cache of downloaded source data; checksums live in `connectome/sources.py` |
+| `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1) |
+| `src/neurocascade/datafetch.py` | Checksummed download/verify/cache, shared by both ingestion packages |
+| `scripts/`           | `fetch_connectome.py`, `fetch_expression.py` (download + checksum-verify source data), maintenance |
+| `data/`              | Gitignored cache of downloaded source data; checksums live in `connectome/sources.py` and `expression/sources.py` |
 | `examples/`          | Worked end-to-end scenarios                      |
 | `tests/`             | Unit tests per layer                             |
 | `docs/`              | Architecture and design notes                    |
-| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification |
+| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage |
 
 ### Connectome data
 
@@ -173,6 +175,43 @@ the result is a unique, stable, non-saturating rest state reached from every
 start; `results/whole_brain_stability.txt` is the recorded run, produced by
 `scripts/check_whole_brain_stability.py`. See "Phase 3: whole-brain baseline
 stability (P3.4)" in `docs/architecture.md`.
+
+### Receptor-gene expression data
+
+The Allen ISH expression energies are pinned API queries, downloaded and
+checksum-verified the same way, into a separate cache:
+
+```
+/root/projects/pardalos/.venv/bin/python scripts/fetch_expression.py
+/root/projects/pardalos/.venv/bin/python scripts/fetch_expression.py --missing
+```
+
+`--missing` prints the searched-and-empty record: of the 43 receptor and
+transporter genes the model uses or will use, 42 have ISH data and `Adra1b`
+has none in any Allen mouse product. Nothing is substituted for it.
+
+```python
+from neurocascade import connectome, expression
+
+ontology = connectome.load_ontology()
+matrix   = connectome.load_connectome(ontology=ontology)
+atlas    = expression.load_expression_atlas(ontology=ontology)
+
+energy = atlas.for_connectome(matrix, plane="coronal-else-sagittal", combine="mean")
+energy.values              # (42 genes, 291 regions), NaN where not measured
+energy.for_gene("Oprm1")
+```
+
+`plane` and `combine` are required arguments with no default: a gene has
+several ISH experiments in two sectioning geometries that disagree by up to
+~30-fold in small structures, so choosing among them is a modelling decision
+that P4.2 owns. 279 of the connectome's 291 regions carry ISH data;
+`expression.MISSING_FROM_ISH` names the twelve that do not and
+`docs/architecture.md`, "Phase 4: ingesting Allen receptor-gene expression
+(P4.1)", explains why. Expression energy is transcript abundance in
+arbitrary units, not a receptor density; nothing in the package converts it.
+`results/expression_coverage.txt` is the committed record of per-gene
+coverage, the missing regions, and how much a gene's experiments disagree.
 
 ### Scenarios on connectome regions
 
