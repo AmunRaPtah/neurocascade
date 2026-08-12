@@ -12,9 +12,15 @@ Designed to be called repeatedly from cron under flock. A tick that finds
 nothing to do, or that hits a resource guard, exits 0 without side effects.
 
 Usage:
-  autonomous_runner.py            run one tick
-  autonomous_runner.py --status   print backlog progress and exit
-  autonomous_runner.py --dry-run  show what would run, change nothing
+  autonomous_runner.py               run one tick
+  autonomous_runner.py --status      print backlog progress and exit
+  autonomous_runner.py --dry-run     show what would run, change nothing
+  autonomous_runner.py --verify-full run the whole suite, slow included
+  autonomous_runner.py --pause "why" stop new ticks; --resume undoes it
+
+Before editing this repo by hand, check --status for a tick in flight. A tick
+commits whatever it finds uncommitted at the end, so an edit made while one is
+running is attributed to the agent.
 """
 
 from __future__ import annotations
@@ -31,6 +37,10 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 BACKLOG = REPO / "tasks" / "backlog.json"
 LOGS = REPO / "logs"
+# Both live under logs/, which is gitignored, so neither can be swept into a
+# commit by the very sweep ACTIVE exists to make safe.
+ACTIVE = LOGS / ".tick-active"   # a tick is holding the tree right now
+PAUSED = LOGS / ".paused"        # --pause, so humans need not edit crontab
 EVENTS = LOGS / "events.jsonl"
 VENV_PY = Path("/root/projects/pardalos/.venv/bin/python")
 
@@ -362,6 +372,18 @@ def format_acceptance(items) -> str:
 
 
 def run_tick(dry_run: bool = False) -> int:
+    """Wrapper so the active-tick marker is cleared on every exit path."""
+    try:
+        return _run_tick(dry_run=dry_run)
+    finally:
+        ACTIVE.unlink(missing_ok=True)
+
+
+def _run_tick(dry_run: bool = False) -> int:
+    if PAUSED.exists() and not dry_run:
+        log_event("paused", reason=PAUSED.read_text().strip()[:160] or "no reason given")
+        return 0
+
     data = load_backlog()
     if not dry_run and recover_stale(data):
         commit_backlog(data, "chore(backlog): reclaim tasks from an interrupted tick")
@@ -412,6 +434,7 @@ def run_tick(dry_run: bool = False) -> int:
     # must compare against HEAD-as-the-agent-found-it, or a run that produces
     # nothing still looks productive.
     gate_baseline = git("rev-parse", "HEAD")
+    ACTIVE.write_text(f"{task['id']} pid={os.getpid()} since={now()}\n")
     log_event("started", task=task["id"], title=task["title"],
               attempt=task["attempts"], quota=why, baseline=gate_baseline[:8])
 
@@ -448,10 +471,21 @@ def run_tick(dry_run: bool = False) -> int:
             blocked_reason = line.split("BLOCKED", 1)[1].strip()
 
     # Commit anything the agent left uncommitted so the gate sees all of it.
-    if git("status", "--porcelain"):
+    #
+    # The tree was verified clean before the agent started, so in principle
+    # everything here is the agent's. In practice this cannot tell the agent's
+    # work from an edit someone made by hand while the tick was running, and it
+    # will silently attribute the latter to the agent. Naming the paths in the
+    # event log is what makes that recoverable after the fact; logs/.tick-active
+    # is what lets a human avoid causing it in the first place.
+    swept = git("status", "--porcelain")
+    if swept:
+        paths = [ln[3:] for ln in swept.splitlines()]
         git("add", "-A")
         git("commit", "-m",
             f"{task['id']}: {task['title']} (autonomous, uncommitted remainder)")
+        log_event("swept_uncommitted", task=task["id"], count=len(paths),
+                  paths=",".join(paths[:12])[:400])
 
     tests_ok, failure = run_tests(log_path)
 
@@ -517,6 +551,11 @@ def print_status() -> None:
     done = counts.get("done", 0)
     print(f"neurocascade autonomous build: {done}/{total} done")
     print("  " + ", ".join(f"{k}={v}" for k, v in sorted(counts.items())))
+    if PAUSED.exists():
+        print(f"  PAUSED: {PAUSED.read_text().strip()}")
+    if ACTIVE.exists():
+        print(f"  tick in flight: {ACTIVE.read_text().strip()} "
+              f"(do not edit the repo until it lands)")
     print()
     for t in data["tasks"]:
         mark = {"done": "x", "running": ">", "failed": "!", "blocked": "?",
@@ -532,7 +571,25 @@ def main() -> int:
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--verify-full", action="store_true",
                     help="run the whole suite including slow, and report")
+    ap.add_argument("--pause", metavar="REASON", nargs="?", const="paused by hand",
+                    help="stop new ticks starting, without touching crontab")
+    ap.add_argument("--resume", action="store_true", help="undo --pause")
     args = ap.parse_args()
+    if args.pause is not None:
+        LOGS.mkdir(exist_ok=True)
+        PAUSED.write_text(f"{args.pause} (since {now()})\n")
+        active = ACTIVE.read_text().strip() if ACTIVE.exists() else ""
+        print(f"paused: {args.pause}")
+        # Pausing stops the *next* tick; it does not stop the one already in
+        # flight, and that distinction is the whole point of waiting for a
+        # clean tree before editing anything.
+        print(f"a tick is STILL RUNNING: {active}" if active
+              else "no tick in flight; the tree is yours")
+        return 0
+    if args.resume:
+        PAUSED.unlink(missing_ok=True)
+        print("resumed")
+        return 0
     if args.status:
         print_status()
         return 0
