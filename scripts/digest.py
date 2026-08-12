@@ -65,11 +65,14 @@ def build_digest(events: list[dict]) -> str:
     skipped = [e for e in events if e["kind"] == "skipped"]
     launch_failed = [e for e in events if e["kind"] == "agent_launch_failed"]
     aborted = [e for e in events if e["kind"] == "aborted"]
+    full_suite = [e for e in events if e["kind"] == "full_suite"]
+    full_skipped = [e for e in events if e["kind"] == "full_suite_skipped"]
 
     # A build that is stuck emits no finished events at all, so keying the
     # digest on those alone means the one day it matters is the one day nothing
     # is sent. Faults are news too.
-    if not finished and not quarantined and not launch_failed and not aborted:
+    if not (finished or quarantined or launch_failed or aborted
+            or full_suite or full_skipped):
         return ""
 
     lines = [f"neurocascade autonomous build: {done}/{total} tasks done", ""]
@@ -86,6 +89,23 @@ def build_digest(events: list[dict]) -> str:
 
     for e in quarantined:
         lines.append(f"  {e['task']}: FAILED test gate, work parked on {e['branch']}")
+
+    for e in full_suite:
+        lines.append("")
+        if e.get("ok"):
+            lines.append(f"  full suite (incl. slow) green at {e.get('head', '?')}: "
+                         f"{e.get('summary', '')}")
+        else:
+            lines.append(f"  FULL SUITE RED at {e.get('head', '?')}: "
+                         f"{e.get('summary', '')}")
+            lines.append("     The per-task gate does not run these. Nothing was reverted.")
+
+    if full_skipped:
+        # Silence here reads as "the slow tests are fine" when it actually means
+        # they have not run since the last time this said anything.
+        lines.append("")
+        lines.append(f"  full suite did not run ({len(full_skipped)}x): "
+                     f"{full_skipped[-1].get('reason', '?')}")
 
     if launch_failed:
         lines.append("")
