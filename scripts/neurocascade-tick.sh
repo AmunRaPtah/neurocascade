@@ -9,6 +9,13 @@ set -uo pipefail
 export HOME=/root
 export PATH="/root/.nvm/versions/node/v24.18.0/bin:/usr/local/bin:/usr/bin:/bin"
 
+# The runner drives `claude -p --permission-mode bypassPermissions`, which the
+# CLI refuses to start as root unless IS_SANDBOX is set. An interactive session
+# exports it, so ticks launched by hand inherited it and worked; cron starts
+# from an empty environment, so every cron tick failed at agent launch and did
+# nothing. Set it explicitly rather than depending on who started the tick.
+export IS_SANDBOX=1
+
 # BW_SESSION and any vault-backed credentials.
 # shellcheck disable=SC1091
 [ -f /etc/profile.d/claude-vault.sh ] && . /etc/profile.d/claude-vault.sh

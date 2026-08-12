@@ -35,13 +35,9 @@
       "deps": [
         "P1.1"
       ],
-      "status": "done",
-      "attempts": 1,
-      "started_at": "2026-08-12T01:10:08.963801+00:00",
-      "baseline": "ccf8d128df2211c02bea6ceddbb1fb0b99dcbc9a",
-      "finished_at": "2026-08-12T01:22:14.301609+00:00",
-      "result": "complete",
-      "commits": "1"
+      "status": "pending",
+      "attempts": 0,
+      "result": "previously recorded done in error: commit 595a25b contains only backlog bookkeeping and logs/task-P1.2.log shows the agent never started (IS_SANDBOX missing under cron). No fentanyl parameter set exists; redo into src/neurocascade/drug_pk.py."
     },
     {
       "id": "P1.3",
@@ -77,10 +73,9 @@
       "deps": [
         "P1.1"
       ],
-      "status": "running",
-      "attempts": 1,
-      "started_at": "2026-08-12T03:10:10.528332+00:00",
-      "baseline": "ef3466517fd34a2967840b6b0542b9206aad06ca"
+      "status": "pending",
+      "attempts": 0,
+      "result": "agent did not start (IS_SANDBOX missing under cron); requeued"
     },
     {
       "id": "P1.5",

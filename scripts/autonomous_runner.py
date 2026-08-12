@@ -260,6 +260,7 @@ def run_agent(prompt: str, log_path: Path) -> tuple[bool, str]:
         "--verbose",
     ]
     final_text = ""
+    plain = []  # non-JSON output: where the CLI puts startup refusals
     started = time.time()
     with log_path.open("a") as logf:
         logf.write(f"\n===== agent start {now()} =====\n")
@@ -274,6 +275,8 @@ def run_agent(prompt: str, log_path: Path) -> tuple[bool, str]:
                 logf.flush()
                 line = line.strip()
                 if not line.startswith("{"):
+                    if line:
+                        plain.append(line)
                     continue
                 try:
                     obj = json.loads(line)
@@ -289,6 +292,10 @@ def run_agent(prompt: str, log_path: Path) -> tuple[bool, str]:
             proc.kill()
             return False, f"agent crashed: {e}"
 
+    if proc.returncode != 0 and not final_text:
+        # A session that never produced a result line failed to start. Surface
+        # the CLI's own words; they are the whole diagnosis.
+        return False, " | ".join(plain[-3:])
     return proc.returncode == 0, final_text
 
 
@@ -378,6 +385,22 @@ def run_tick(dry_run: bool = False) -> int:
     )
 
     agent_ok, final_text = run_agent(prompt, log_path)
+
+    if (not agent_ok and not git("status", "--porcelain")
+            and git("rev-parse", "HEAD") == gate_baseline):
+        # The session never ran: no output, no edits, no commits. That is an
+        # infrastructure fault (refused flags, missing CLI, dead auth), not a
+        # task the agent tried and lost. Put the task back to pending so a
+        # repaired environment retries it, and name the cause in the event log
+        # instead of recording a silent empty completion.
+        task["status"] = "pending"
+        task["result"] = f"agent did not start: {final_text.strip()[:200]}"
+        task.pop("started_at", None)
+        commit_backlog(data, f"chore(backlog): {task['id']} agent did not start (autonomous)")
+        log_event("agent_launch_failed", task=task["id"], attempts=task["attempts"],
+                  detail=final_text.strip()[:160] or "no output")
+        return 1
+
     blocked_reason = ""
     for line in (final_text or "").splitlines():
         if line.strip().startswith("TASK_RESULT: BLOCKED"):
