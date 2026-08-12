@@ -394,6 +394,69 @@ def test_iv_route_rejects_absorption_parameters():
         DosedOneCompartmentPK(route="intrathecal", **common)
 
 
+def test_apparent_parameterisation_is_flagged_and_cannot_double_apply_f():
+    """`apparent_parameters=True` (added by P1.4 for diazepam's rat IP and PO
+    data) is the only way to build an extravascular model without a measured
+    F, and it must stay distinguishable from a measured F = 1.
+
+    The distinction is not cosmetic: with apparent parameters the model still
+    predicts the right *concentration* (F is inside V/F and CL/F, and cancels
+    out of the concentration equation), but its `Vd_L_per_kg` is not a volume
+    of distribution and its `CL_mL_per_min_per_kg` is not a clearance, so
+    anything reading those as true values is wrong. `F_is_measured` is the
+    flag that says which situation you are in.
+    """
+    common = dict(
+        Vd_L_per_kg=VD_L_PER_KG,
+        CL_mL_per_min_per_kg=CL_ML_PER_MIN_PER_KG,
+        body_weight_kg=BODY_WEIGHT_KG,
+        ka_per_min=0.2,
+    )
+    apparent = DosedOneCompartmentPK(
+        route="IP", apparent_parameters=True, **common
+    )
+    assert apparent.apparent_parameters is True
+    assert apparent.F == 1.0
+    assert apparent.F_is_measured is False
+    assert "apparent parameters" in repr(apparent)
+
+    measured = DosedOneCompartmentPK(route="IP", F=1.0, **common)
+    assert measured.apparent_parameters is False
+    assert measured.F_is_measured is True
+    assert "apparent" not in repr(measured)
+
+    # Identical curves: the two differ only in what they claim, which is
+    # exactly why the flag has to exist.
+    t = np.linspace(0.0, 300.0, 601)
+    np.testing.assert_allclose(
+        integrate_pk(apparent, 1.0, t), integrate_pk(measured, 1.0, t), rtol=1e-12
+    )
+
+    # F must not be supplied on top of parameters that already contain it.
+    with pytest.raises(ValueError, match="must not be given again"):
+        DosedOneCompartmentPK(
+            route="IP", F=0.5, apparent_parameters=True, **common
+        )
+    # ka is still required: absorption is a separate, unrelated gap.
+    with pytest.raises(ValueError, match="ka_per_min"):
+        DosedOneCompartmentPK(
+            route="IP",
+            apparent_parameters=True,
+            Vd_L_per_kg=VD_L_PER_KG,
+            CL_mL_per_min_per_kg=CL_ML_PER_MIN_PER_KG,
+            body_weight_kg=BODY_WEIGHT_KG,
+        )
+    # And it is meaningless intravenously, where F is 1 by definition.
+    with pytest.raises(ValueError, match="meaningless for route 'IV'"):
+        DosedOneCompartmentPK(
+            route="IV",
+            apparent_parameters=True,
+            Vd_L_per_kg=VD_L_PER_KG,
+            CL_mL_per_min_per_kg=CL_ML_PER_MIN_PER_KG,
+            body_weight_kg=BODY_WEIGHT_KG,
+        )
+
+
 def test_negative_dose_is_rejected():
     model = DosedOneCompartmentPK(
         route="IV",

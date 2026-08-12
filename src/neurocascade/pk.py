@@ -231,6 +231,25 @@ class _DosedPKBase(object):
     absorption, local degradation), only that it did not reach systemic
     circulation.
 
+    `apparent_parameters=True` is the one sanctioned way to build an
+    extravascular model without a measured F, and it is not a loophole: it
+    is the statement that the volume and clearance being passed are the
+    *apparent* ones, V/F and CL/F, as non-compartmental analysis of an
+    extravascular study reports them. Those are exactly the quantities that
+    determine the observed concentration-time course,
+
+        C(t) = Dose / (V/F) * ka/(ka - ke) * (exp(-ke t) - exp(-ka t)),
+        ke = (CL/F) / (V/F),
+
+    with F appearing nowhere: for predicting what concentration a given
+    mg/kg dose achieves, F is not separately identifiable and not separately
+    needed. So `F` is set to 1 as *bookkeeping* (it has already been folded
+    into the passed volume and clearance), the model records
+    `apparent_parameters = True` and `F_is_measured = False`, and `repr`
+    says so. What such a model cannot tell you is the true Vd, the true CL,
+    or what fraction of the dose reached the circulation; asking it for
+    those is asking for the one number that was divided out.
+
     Body weight is required, but note that it cancels exactly when dose,
     volume and clearance are all expressed per kg: C0 = F*dose_mg_kg*BW /
     (Vd_L_kg*BW). It is kept in the API because absolute amounts (mg dosed,
@@ -249,6 +268,7 @@ class _DosedPKBase(object):
         ka_per_min=None,
         molar_mass_g_per_mol=None,
         name=None,
+        apparent_parameters=False,
     ):
         route = str(route).upper()
         if route not in ROUTES:
@@ -257,6 +277,13 @@ class _DosedPKBase(object):
             )
         if body_weight_kg is None or body_weight_kg <= 0.0:
             raise ValueError("body_weight_kg must be positive")
+        apparent_parameters = bool(apparent_parameters)
+        if apparent_parameters and route == "IV":
+            raise ValueError(
+                "apparent_parameters is meaningless for route 'IV': an "
+                "intravenous dose has F = 1 by definition, so V/F is V and "
+                "CL/F is CL"
+            )
 
         if route == "IV":
             # Bioavailability of an intravenous bolus is 1 by definition, not
@@ -270,6 +297,21 @@ class _DosedPKBase(object):
                     "route 'IV' has no absorption phase; ka_per_min must be None"
                 )
             F = 1.0
+        elif apparent_parameters:
+            # V/F and CL/F were passed, so F is already inside them. It must
+            # not be passed again (that would apply it twice), and it is 1
+            # only as bookkeeping.
+            if F is not None and F != 1.0:
+                raise ValueError(
+                    "apparent_parameters=True means the volume and clearance "
+                    "passed are already V/F and CL/F, so F must not be given "
+                    "again; got F=%r" % (F,)
+                )
+            if ka_per_min is None or ka_per_min <= 0.0:
+                raise ValueError(
+                    "route %r requires a positive absorption rate ka_per_min" % route
+                )
+            F = 1.0
         else:
             # Deliberately NO default for F or ka on extravascular routes.
             # Both are measured, drug- and route-specific quantities;
@@ -279,7 +321,9 @@ class _DosedPKBase(object):
                 raise ValueError(
                     "route %r requires an explicit bioavailability F "
                     "(measured, drug- and route-specific; it is not "
-                    "defaulted here on purpose)" % route
+                    "defaulted here on purpose), or apparent_parameters=True "
+                    "if the volume and clearance passed are already V/F and "
+                    "CL/F" % route
                 )
             if not (0.0 < F <= 1.0):
                 raise ValueError("F must be in (0, 1]; got %r" % (F,))
@@ -298,6 +342,14 @@ class _DosedPKBase(object):
         self.molar_mass_g_per_mol = molar_mass_g_per_mol
         self.name = name
         self.concentration_unit = "mg/L" if molar_mass_g_per_mol is None else "nM"
+        #: True when the volume and clearance passed are V/F and CL/F rather
+        #: than V and CL, so `F == 1.0` is bookkeeping and not a measurement.
+        self.apparent_parameters = apparent_parameters
+        #: False whenever F == 1 by convention rather than by measurement or
+        #: by the definition of the intravenous route. Kept as its own flag
+        #: because "F is 1" and "F was measured to be 1" are different
+        #: claims, and only the second one licenses reporting a true Vd.
+        self.F_is_measured = not apparent_parameters and route != "IV"
 
     @property
     def is_extravascular(self):
@@ -382,6 +434,10 @@ class DosedOneCompartmentPK(_DosedPKBase):
         extravascular routes, forbidden for IV
     molar_mass_g_per_mol : optional; when given, concentrations are produced
         in nM instead of mg/L
+    apparent_parameters : set True when `Vd_L_per_kg` and
+        `CL_mL_per_min_per_kg` are the *apparent* V/F and CL/F an
+        extravascular non-compartmental analysis reports. F is then folded
+        into them and must not be passed separately; see `_DosedPKBase`.
     """
 
     def __init__(
@@ -394,6 +450,7 @@ class DosedOneCompartmentPK(_DosedPKBase):
         ka_per_min=None,
         molar_mass_g_per_mol=None,
         name=None,
+        apparent_parameters=False,
     ):
         super(DosedOneCompartmentPK, self).__init__(
             route=route,
@@ -402,6 +459,7 @@ class DosedOneCompartmentPK(_DosedPKBase):
             ka_per_min=ka_per_min,
             molar_mass_g_per_mol=molar_mass_g_per_mol,
             name=name,
+            apparent_parameters=apparent_parameters,
         )
         if Vd_L_per_kg <= 0.0:
             raise ValueError("Vd_L_per_kg must be positive")
@@ -464,6 +522,12 @@ class DosedOneCompartmentPK(_DosedPKBase):
         return np.array([ka * D - ke * C, -ka * D], dtype=float)
 
     def __repr__(self):
+        if self.apparent_parameters:
+            return (
+                "DosedOneCompartmentPK(route=%r, Vd/F=%g L/kg, "
+                "CL/F=%g mL/min/kg, F folded in (apparent parameters))"
+                % (self.route, self.Vd_L_per_kg, self.CL_mL_per_min_per_kg)
+            )
         return "DosedOneCompartmentPK(route=%r, Vd=%g L/kg, CL=%g mL/min/kg, F=%g)" % (
             self.route,
             self.Vd_L_per_kg,
@@ -509,6 +573,7 @@ class DosedTwoCompartmentPK(_DosedPKBase):
         ka_per_min=None,
         molar_mass_g_per_mol=None,
         name=None,
+        apparent_parameters=False,
     ):
         super(DosedTwoCompartmentPK, self).__init__(
             route=route,
@@ -517,6 +582,7 @@ class DosedTwoCompartmentPK(_DosedPKBase):
             ka_per_min=ka_per_min,
             molar_mass_g_per_mol=molar_mass_g_per_mol,
             name=name,
+            apparent_parameters=apparent_parameters,
         )
         if V1_L_per_kg <= 0.0:
             raise ValueError("V1_L_per_kg must be positive")

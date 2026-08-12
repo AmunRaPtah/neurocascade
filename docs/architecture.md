@@ -1768,3 +1768,399 @@ which is the exact failure mode this codebase's rules exist to prevent.
   inhibitor tariquidar raises the rat unbound brain-to-plasma concentration
   ratio 2.9-fold at 40 µg/kg fentanyl. A single partition coefficient will
   not represent a ratio that moves that much with a co-administered drug.
+
+## Phase 1: literature PK parameters, diazepam in rat and mouse (P1.4)
+
+P1.4 is the third drug, and the first one where **no single paper covers a
+single route**. Haloperidol and fentanyl each had one source per modelled
+route; diazepam's intravenous disposition, intraperitoneal disposition,
+intraperitoneal absorption and oral data come from four different papers,
+spanning 1976 to 2025. That changed what the task is: less transcription,
+more deciding which seams may be crossed and recording every one that is.
+
+The short version: **two routes are modelled in the rat, IV and IP.** IV is
+a single-paper collapse. IP is an explicit cross-study composite and is
+flagged as one everywhere it appears. PO has a complete, modern, open-access
+apparent parameter set that turns out **not to identify an absorption rate
+constant**, so it is recorded and not implemented. SC and the whole mouse are
+empty. And diazepam brought a question the other two drugs did not: an
+active metabolite that demonstrably matters inside the simulated window,
+which P1.4 was required to address explicitly and does, as a documented model
+limitation.
+
+### What was found, and what it supports
+
+**IV, rat, single source.** Klotz U, Antonin KH, Bieck PR. "Pharmacokinetics
+and plasma binding of diazepam in man, dog, rabbit, guinea pig and rat."
+J Pharmacol Exp Ther. 1976;199(1):67-73, PMID 789856. Closed access
+(Unpaywall `is_oa` false, no repository copy, publisher 403), so the abstract
+is the whole record, and it is quoted verbatim in `drug_pk.py` rather than
+paraphrased. Rat: **terminal half-life 1.1 h, total plasma clearance
+81.6 mL/min/kg**, plasma binding 86.3% (diazepam) and 90.5%
+(desmethyldiazepam), disposition explicitly biexponential and fitted with a
+two-compartment open model.
+
+`diazepam_rat_iv_pk` is a one-compartment collapse with
+`Vd = V_beta = CL/beta = 7.77 L/kg`, which reproduces the 1.1 h terminal
+half-life exactly and keeps `AUC = Dose/CL`. The limitation is worse than
+the other two drugs' collapses and is stated as such: Klotz et al. report
+**no central volume and no Vss for any species**, so the distribution phase
+is not recoverable at all. Haloperidol's collapse understates the bolus peak
+2-fold and fentanyl's 5.3-fold, both computable because both sources printed
+a central volume; here the factor cannot be computed, only bounded below by
+1. The paper's own alpha half-life figure, "0.3-1.0 hours", is a range
+across all four animal species and is stored under the name
+`DIAZEPAM_ALPHA_HALF_LIFE_RANGE_ALL_SPECIES_H` with a test asserting no
+rat-specific distribution half-life constant exists, because taking the
+middle of a four-species range and calling it the rat's is precisely the
+invented number this codebase forbids.
+
+**IP, rat, a two-paper composite — the route Phase 2 actually needs.** The
+diazepam target Track E named is the elevated plus maze at 1-2 mg/kg, and
+that literature doses intraperitoneally. No rat study found reports both the
+disposition and the absorption for this route, so the model is built from
+two, and both halves are named after their own paper in code:
+
+- *Disposition:* Friedman H, Abernethy DR, Greenblatt DJ, Shader RI.
+  Psychopharmacology (Berl). 1986;88(3):267-70, doi:10.1007/BF00180822,
+  PMID 3083446. Closed access; abstract is the record. Single 5 mg/kg IP
+  dose, four rats sacrificed at each of ten times from 5 min to 6 h, plasma
+  and brain assayed for diazepam and desmethyldiazepam. Plasma half-life
+  **0.88 h**, brain half-life 0.89 h, **apparent Vd 19.3 L/kg**, **apparent
+  clearance 255 mL/min/kg**, free fraction 19.6%, brain:plasma 4.5 ± 0.1.
+- *Absorption:* Hironaka T, Fuchino K, Fujii T. J Pharmacol Exp Ther.
+  1984;229(3):809-15, PMID 6726659. Closed access; abstract is the record.
+  0.9 mg/kg IP in **21-day-old** male rats: **ka = 0.158/min**, with k12
+  0.015, k21 0.136 and kel 0.013/min.
+
+There is no IV arm in either, so the volume and clearance are apparent, and
+they are named `..._VD_OVER_F_...` and `..._CL_OVER_F_...` with a test
+asserting the un-suffixed names do not exist.
+
+**The apparent parameterisation, and why it is not a loophole.** `pk.py`
+refuses to build an extravascular model without an explicit F, on purpose
+(P1.1's "refusing to default"). P1.4 adds one sanctioned alternative,
+`apparent_parameters=True`, because the diazepam IP data are the case that
+rule was not written for. For a one-compartment extravascular model,
+
+    C(t) = Dose / (V/F) · ka/(ka − ke) · (e^(−ke·t) − e^(−ka·t)),
+    ke = (CL/F)/(V/F),
+
+and **F appears nowhere**. It is not that F is unknown and we are pretending;
+it is that F is not separately identifiable from, and not separately needed
+for, the concentration a given mg/kg dose achieves. So the flag sets `F = 1`
+as bookkeeping, records `apparent_parameters = True` and
+`F_is_measured = False`, and says so in `repr`. What such a model cannot
+report is a true Vd, a true CL, or the absorbed fraction — and asking it for
+those is asking for the one number that was divided out.
+`test_pk.py::test_apparent_parameterisation_is_flagged_and_cannot_double_apply_f`
+holds the distinction: the apparent and measured-F=1 models produce
+bit-comparable curves and differ only in what they claim, which is exactly
+why the flag has to exist. Passing an F alongside apparent parameters raises,
+and the flag is rejected outright for IV.
+
+**How the "simulated half-life matches the cited value" criterion is met,
+twice, without widening anything.**
+
+| route | model | simulated t½ | cited t½ | note |
+|---|---|---|---|---|
+| IV | Klotz collapse | 66.00 min | 1.1 h = 66 min | inside the 1.05–1.15 h interval "1.1 h" rounds from; exact by construction |
+| IP | Friedman + Hironaka | 52.46 min | 0.88 h = 52.8 min | **−0.64%**, and the gap is asserted at that value |
+
+The IP row is the interesting one. Friedman et al. print three mutually
+constrained numbers, and CL/F ÷ V/F = ln2/52.46 min, not ln2/52.8 min. The
+model is built from the volume and clearance, because those are what set the
+concentration scale, so it lands at 52.46. Rather than widening the tolerance
+to swallow the printed 0.88 h, `diazepam_rat_ip_reported_half_life_consistency()`
+returns the real relative error and the test asserts it exactly and requires
+it to stay under 1%. Both readings are inside what the printed precision of
+19.3 and 255 leaves open, so the source is internally consistent; the point
+is that the check reports the discrepancy instead of hiding it.
+
+**What licenses the composite, and what does not.** The one available check
+is that the three independent rat diazepam studies in this record agree on
+the disposition envelope: 59.7 min (Hironaka's own constants, derived through
+the two-compartment identities), 52.8 min (Friedman), 66.0 min (Klotz IV).
+A **25% spread** across two routes, three assays and two decades, asserted at
+that width by `test_the_three_rat_studies_agree_on_the_disposition_envelope`.
+This is deliberately not called good agreement, and it is a weak check: three
+studies agreeing on elimination does not prove an absorption constant
+transfers between them. It only rules out the failure mode where the ka
+source's animals were handling the drug so differently that nothing about
+them transfers.
+
+**The composite's most likely error, stated with its direction.** ka =
+0.158/min puts Tmax at **17.1 min**, while Friedman et al.'s first post-dose
+sample — the one that would locate the true peak in those animals — is at
+5 min. If their curve was already falling at 5 min, the true ka is
+several-fold higher and this model absorbs too slowly, understating early
+concentrations.
+That cannot be settled: the paper is closed and its abstract reports no Tmax.
+And the ka that *is* available comes from 21-day-old weanlings at a 5.6-fold
+lower dose, which is recorded as data (`DIAZEPAM_RAT_IP_KA_SOURCE_AGE_DAYS`)
+so a test can assert the caveat is still on the record. A weanling rat is not
+a small adult.
+
+**Bioavailability, derived and kept derived.** F = (AUC/Dose)_extravascular ÷
+(AUC/Dose)_IV is algebraically identical to CL_IV ÷ (CL/F)_extravascular, so
+the two clearances already published give:
+
+| route | derivation | F |
+|---|---|---|
+| IV | by definition | 1 |
+| IP | 81.6 ÷ 255 | **0.320** |
+| PO | 81.6 ÷ 996.3 (printed CL/F), or ÷ 915.7 (Dose/AUC) | **0.082–0.089** |
+
+These are cross-study derivations and inherit everything that differs between
+a 1976 GLC-ECD study and a 1986 or 2025 one. So they are returned by
+functions, not stored as constants, and a test asserts that no
+`DIAZEPAM_RAT_IP_F` or `DIAZEPAM_RAT_PO_F` constant exists — because the
+likely decay path is someone promoting a derived number to a measured-looking
+one. Critically, **the IP model does not use its F**: the apparent
+parameterisation needs none. The numbers are recorded because P1.4 asked for
+an F by route, and because ~32% by IP against ~8% orally is the coherent
+shape for a high-extraction drug given by a partly-portal route.
+`diazepam_hepatic_extraction_note()` keeps the supporting inequality
+checkable: 81.6 mL/min/kg of plasma clearance against ~55 mL/min/kg of rat
+hepatic blood flow (Davies & Morris 1993). As with fentanyl, that is not
+claimed to prove extrahepatic elimination — a rat blood:plasma ratio would be
+needed and was searched for and not found — it establishes high extraction
+and stops.
+
+### What was searched for and not found
+
+**PO, rat: sourced, and it does not identify ka.** Hua A, Wang L, Zhu Y,
+Zhou Q, Mamun AA, Wang S, Wu F, Xu M. "Effects of Acacetin on the
+Pharmacokinetics of Diazepam in vivo and in vitro." Iran J Pharm Res.
+2025;24(1):e164825, doi:10.5812/ijpr-164825, PMID 41477118, open access
+(PMC12749239, read in full). Its **control arm** is a real rat oral diazepam
+dataset: six male Sprague-Dawley rats, 220 ± 20 g, diazepam 10 mg/kg by
+gavage, plasma at 0.083–8 h by UPLC-MS/MS. Table 1: Cmax 57.75 ± 24.81 µg/L,
+Tmax 1.33 ± 0.52 h, t½z 1.81 ± 1.26 h, AUC(0–∞) 182.02 µg/L·h, CLz/F
+59.78 ± 18.43 L/h/kg, Vz/F 164.39 ± 141.97 L/kg. Every number is stored.
+
+No model is built from it, for a reason that is arithmetic rather than
+judgement. Two absorption rate constants come out of the same paper depending
+on which of its numbers you read, both computed with the same
+ke = ln2/1.81 h:
+
+- from the reported **Tmax** alone, solving Tmax = ln(ka/ke)/(ka − ke) at
+  1.33 h: **ka = 0.0217/min**;
+- from the reported **Cmax and AUC** alone — for any one-compartment
+  extravascular model F·Dose/V = AUC(0–∞)·ke exactly, and
+  Cmax/(F·Dose/V) = (ke/ka)^(ke/(ka−ke)), a function of ka/ke only; the
+  reported Cmax is 82.9% of AUC·ke, needing ka/ke = 15.6, i.e.
+  **ka = 0.0996/min** — which would put Tmax at 29.5 min, not 80.
+
+**4.6-fold apart** (`diazepam_rat_po_ka_is_not_identified()`, with a test).
+Unlike the fentanyl SC case, the reported Cmax does *not* breach the
+structural ceiling AUC·ke, so a one-compartment model is not excluded here;
+what is excluded is any single ka reproducing the study's own three headline
+numbers. Two smaller inconsistencies are pinned alongside it: printed Vz/F is
+5.0% from (CL/F)/λz, and printed CL/F is 8.1% from Dose/AUC — both the usual
+mean-of-per-animal-ratios artefact, the same one the fentanyl SC record
+found. The likely cause of the ka split is ordinary and not a fault in the
+paper: a mean of per-animal Cmax on a discrete grid is biased upward relative
+to the mean curve's peak. But an absorption constant that moves 4.6-fold
+depending on which reported number it is read from is not one to build on.
+Two further caveats recorded rather than smoothed: the controls were
+vehicle-pretreated (DMSO/PEG200/water i.p. for two weeks) rather than naive,
+which is not obviously neutral for a CYP-cleared drug, and the
+terminal-phase estimates carry ~80% relative dispersion.
+
+The study that would fix this was found and could not be read: Díaz-García
+JM, Oliver-Botana J, Fos-Galve D, J Pharm Sci 1992;81(8):768-72
+(doi:10.1002/jps.2600810810, PMID 1403721) with its companion Eur J Drug
+Metab Pharmacokinet 1991;Spec No 3:94-101 (PMID 1820943) gave **4 mg/kg IV
+and 4 mg/kg oral in the same rats** — exactly the crossover needed — but both
+are closed access and neither abstract prints a single control-group value,
+reporting only that the cirrhotic group's half-life and volume rose. That is
+the first paper a future pass with journal access should read for this route.
+
+**SC, rat: nothing at all.** No F, no ka, no Cmax/Tmax, no apparent clearance
+or volume. Searched (August 2026): Europe PMC `TITLE:"diazepam" AND
+(TITLE:"subcutaneous" OR ABSTRACT:"subcutaneous")` (36 hits, every title
+screened), plus a rat/plasma/kinetics-qualified variant, plus the sweeps run
+for the oral route. Every subcutaneous hit is one of three things: a
+different drug in the same paper (rectal diazepam against subcutaneous
+morphine-scopolamine, PMID 4072591), the word used for a non-diazepam
+co-treatment, or a chronic-dependence study dosing by implanted capsule or
+minipump — where the implant's release rate, not diazepam's absorption, sets
+the profile, the same objection that disqualified the sustained-release
+fentanyl studies in P1.2. This route is recorded for completeness rather than
+need, since the EPM literature doses IP and that route is modelled. F(SC) is
+not set to 1 on the grounds that SC bypasses first pass, for a reason this
+block makes concrete rather than assert: the one extravascular route with a
+derivable F here comes out at 8–9%.
+
+**Mouse: empty for every route.** Searched (August 2026): Europe PMC
+`TITLE:"diazepam" AND (TITLE:"mice" OR TITLE:"mouse")` (444 hits screened by
+title), three further clearance/half-life/volume-qualified queries including
+one sorted by citation count, a `TITLE:"benzodiazepine"` cross-query, web
+search for the classic mouse disposition studies, and Unpaywall on every
+closed candidate. Candidates and why each fails:
+
+- Greenblatt DJ, Sethy VH. Psychopharmacology (Berl) 1990;102(3):373-8
+  (doi:10.1007/BF02244106, PMID 1979181) is the closest thing to the right
+  study: male CF-1 mice, IV diazepam at 3 and 10 µmol/kg, **plasma and brain
+  concentrations from 1 min to 24 h**, with ex vivo ³H-flunitrazepam
+  displacement occupancy in the same animals. Closed access, no PMC deposit,
+  and its abstract reports no PK parameter at all — only that diazepam
+  "entered brain rapidly, and was also cleared rapidly". **This is the first
+  paper a future pass with journal access should read**; it would close this
+  gap and P1.5's mouse brain:plasma partition together.
+- File SE, Greenblatt DJ, Martin IL, Brown C, Psychopharmacology
+  1985;86:137-41 reports mouse brain diazepam concentrations and receptor
+  occupancy across strains, but as correlates of anticonvulsant duration, not
+  as a parameterised time course; closed.
+- The Marcucci/Garattini series (Eur J Pharmacol 1968-70; Br J Pharmacol
+  1968;34:667P-668P and 1970;39:455P-457P) compared mouse and rat brain and
+  blood levels after 5 mg/kg IV and is the origin of the finding that
+  N-desmethyl metabolites accumulate in mouse brain but not rat brain. The
+  Eur J Pharmacol papers are closed; the two Br J Pharmacol items are two-
+  and three-page **scanned meeting proceedings** whose text is not
+  machine-readable. No number from them is quoted here.
+- Takahashi Y et al., Br J Pharmacol 2026, doi:10.1111/bph.70430,
+  PMID 42037156, gives IV diazepam PK in midgestational
+  **pregnant** mice with fetal Cmax for diazepam, nordazepam, oxazepam and
+  oxazepam-glucuronide. Pregnancy is a deliberately altered disposition
+  state, the reported parameters are fetal-transfer ratios rather than
+  maternal PK, and it is closed access.
+- The intranasal-formulation mouse literature (e.g. PMC12963071, 2026: C57
+  mice, 1 mg/kg intranasal, plasma 49.1 ng/mL and brain 156.3 ng/g at 10 min)
+  reports two-timepoint concentrations in pilocarpine-treated animals, no PK
+  parameter, and a route this model does not have.
+
+So `diazepam_mouse_pk` raises for every route and the rat parameters are not
+scaled allometrically. Beyond the general objection to a single unchecked 10×
+allometric step, this drug has a specific one: rat and mouse are documented
+to differ in *which metabolite dominates*, so rat numbers would import the
+wrong metabolic picture along with the wrong disposition.
+
+**Rat blood:plasma ratio: absent.** Klotz et al. state they measured diazepam
+"in blood and plasma", so the ratio was within that paper's reach, but the
+abstract reports only the bound fractions and the full text is closed. All
+three diazepam parameter sets here are therefore plasma, which is at least
+self-consistent, and the missing Rb is why the clearance-versus-hepatic-flow
+comparison is left as an inequality about extraction.
+
+### The active-metabolite question, answered
+
+P1.4 was required to state explicitly whether nordiazepam, oxazepam or
+temazepam matter on the timescale this model simulates. **Nordiazepam
+(desmethyldiazepam) does, and it is not modelled.** That is recorded as a
+documented limitation, in code as `DIAZEPAM_ACTIVE_METABOLITE_LIMITATION`
+with a test that fails if the record loses any leg of the argument. Three
+facts settle it, each from a primary source read for this task:
+
+1. **Exposure.** After diazepam 10 mg/kg PO in the rat, nordiazepam's plasma
+   AUC(0–∞) is 139.73 µg/L·h against the parent's 182.02. In *molar* terms —
+   the units that matter for receptor occupancy, at 270.71 vs 284.74 g/mol —
+   that is 0.516 vs 0.639 µmol/L·h: the metabolite carries **81% of the
+   parent's molar exposure** (Hua et al. 2025, Tables 1 and 2, same animals).
+   The mass-based ratio, 0.768, understates it by 5%, so the conversion is
+   done in code (`diazepam_nordiazepam_molar_exposure_ratio()`) rather than
+   in a comment. Independently, by the IP route, Friedman et al. 1986 find
+   nordiazepam in rat plasma and brain with half-lives of 1.11 and 1.09 h
+   against diazepam's 0.88 and 0.89 h, and brain:plasma 3.5 against 4.5.
+2. **Potency.** Nordiazepam is not a bystander at the site this codebase
+   models. Gobbi M, Barone D, Mennini T, Garattini S, J Pharm Pharmacol
+   1987;39(5):388-91 (doi:10.1111/j.2042-7158.1987.tb03404.x, PMID 2886589)
+   find, in rat cerebral cortex and cerebellum, that diazepam and
+   desmethyldiazepam have **equal affinity** at the central benzodiazepine
+   receptor while desmethyldiazepam "acts as a partial agonist" there. No
+   numeric Ki appears in the reachable abstract and the full text is closed,
+   so no Ki is recorded — the equal-affinity and partial-agonist findings are
+   qualitative and are used qualitatively.
+3. **Timescale.** Nordiazepam's rat Tmax is 1.25 h by the oral route and it
+   is already measurable in plasma and brain at Friedman et al.'s early IP
+   time points. The existing GABA-A scenario runs to t = 40 min and the EPM
+   protocols Phase 2 must fit test 30–60 min after an IP dose. The metabolite
+   is inside the window by both routes measured — this is not a late
+   accumulation effect a short simulation could ignore.
+
+**Consequence, stated and not patched:** every diazepam simulation this
+codebase produces **understates total benzodiazepine-site occupancy**,
+because roughly 80% more equal-affinity ligand, at reduced efficacy, is
+present and unmodelled. This sharpens, with numbers, the qualitative caveat
+`scenarios.gaba_a_pk_models_calibrated()` already carried from Track A.
+
+It is not fixed here, and the reason is the codebase's first rule. The fix is
+structural — a metabolite compartment feeding a second `Ligand` at the same
+`ReceptorSite` — and it needs two numbers this project does not have: a rat
+formation fraction for the demethylation step (the reported nordiazepam
+CL/F of 85.13 L/h/kg is apparent in *both* the parent's F and the formation
+fraction, so it does not give one), and a numeric Ki and efficacy for
+nordiazepam at the benzodiazepine site. Inventing an efficacy for a partial
+agonist is exactly the kind of number this codebase forbids, and
+`test_active_metabolite_limitation_is_recorded_and_not_modelled` asserts both
+that the record is intact and that no nordiazepam ligand has quietly appeared
+in `scenarios.gaba_a_benzodiazepine_ligands_calibrated()`.
+
+**Temazepam and oxazepam** are not quantified for the rat by either rat
+dataset in this record: Hua et al. measured diazepam and nordiazepam only,
+Friedman et al. diazepam and desmethyldiazepam only. A rat plasma or brain
+concentration-time course for either after diazepam was searched for and not
+found, so nothing is asserted about their magnitude in the rat either way.
+They are demonstrably measurable in the *mouse* (Takahashi et al. 2026 report
+nordazepam and oxazepam in midgestational mice after IV diazepam, both
+exceeding the parent's fetal Cmax), which is one more reason the mouse is not
+modelled from rat numbers.
+
+### Design decisions worth recording
+
+- **`apparent_parameters` is a new flag on `pk.py`, not a new default.** It
+  is the minimum structural change that lets an honest extravascular model
+  exist without an F, and it is refused for IV, refused when an F is passed
+  alongside it, and visible in `repr`. P1.1's refusal to default F is
+  otherwise untouched.
+- **Composites are named after their sources.** `diazepam_rat_ip_pk`'s
+  `name` string carries both papers, its docstring says which half came from
+  where, and the ka source's animal age and dose are module constants so a
+  test can assert the caveat has not been dropped. The alternative — one
+  parameter set with four citations in a comment — would have made the seam
+  invisible within a release.
+- **Derived numbers are functions; measured numbers are constants.** Both
+  bioavailabilities and every consistency check are functions that recompute
+  from the transcribed values. A test asserts the corresponding constants do
+  *not* exist. This is the same discipline P1.2 applied to apparent
+  clearances, generalised: the module's shape should make it hard to mistake
+  a derivation for a measurement.
+- **The real errors are asserted at their real values.** −0.64% (IP half-life
+  vs printed), 25% (three-study disposition spread), 4.6× (PO ka ambiguity),
+  5.0% and 8.1% (PO internal inconsistencies). No tolerance in this task was
+  widened to make a check pass; where a model and its source disagree, the
+  test states the size of the disagreement.
+- **A third test file.** `tests/test_diazepam_pk.py`, for the same reason
+  P1.2 got its own: this drug's evidential position is a third distinct one
+  (no single source covers a route), and it needs a class of assertion the
+  other two files do not have — that the composite's seams stay visible.
+
+### What this changes, and what it does not
+
+- It removes no illustrative label. Every circuit-layer parameter and every
+  binding constant is where Track A/E left it. What changed is that diazepam
+  can now be dosed in mg/kg in the rat by the IV and **IP** routes.
+- **It is the first task that partially unblocks Phase 2.** Haloperidol and
+  fentanyl both ended with "the behavioural literature uses a route we cannot
+  model". Diazepam does not: the EPM literature doses IP, and IP is modelled.
+  The remaining blockers for the GABA-A system are therefore no longer
+  PK-structural — they are Track E's original one (no directly quotable
+  diazepam percent-open-arm-time figure) plus P1.5's brain partition plus the
+  unmodelled metabolite above. That is a different and much more tractable
+  list than the one Track E left.
+- **The margin over Ki is smaller than it looks, which is why P1.5 matters.**
+  1 mg/kg IP in a 250 g rat peaks at 145 nM total plasma, about 40× the
+  3.6 nM benzodiazepine-site Ki the calibrated scenario uses — but only 19.6%
+  of that is unbound, so unbound plasma peaks near 28 nM, about 8× Ki. Brain
+  total is a further 4.5-fold higher and brain binding is unknown here.
+  Whether the receptor sees 8× Ki or 40× Ki is exactly P1.5's question, and
+  `test_ip_dose_reaches_concentrations_above_the_calibrated_ki` records that
+  the answer is not obvious rather than asserting a comfortable margin.
+- It is plasma, not brain. Unusually for this project, the brain half of the
+  answer is already partly in hand for this drug: Friedman et al. report a
+  rat brain:plasma ratio of 4.5 ± 0.1 for diazepam and 3.5 ± 0.2 for
+  nordiazepam, stored as `DIAZEPAM_RAT_IP_BRAIN_PLASMA_RATIO` and untouched
+  by P1.4, because converting a total-brain:total-plasma ratio into the
+  Kp,uu a receptor layer needs is P1.5's job and needs a brain unbound
+  fraction this task did not search for.
