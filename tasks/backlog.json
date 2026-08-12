@@ -56,8 +56,10 @@
       "deps": [
         "P1.1"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "running",
+      "attempts": 1,
+      "started_at": "2026-08-12T01:55:54.419596+00:00",
+      "baseline": "3dbdb7f2c8d383d01f5aa1c0fecc70773efff655"
     },
     {
       "id": "P1.4",
