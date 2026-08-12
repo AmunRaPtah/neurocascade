@@ -74,11 +74,24 @@ The engine runs end to end on three worked examples, all reusing the same
   connection's weight instead of adding drive to a node; `ReceptorSite`
   itself needed no change.
 
-**The receptor-binding constants, circuit time constants, and connection
-weights are hand-set placeholders**, chosen to get the mechanism right, not
-sourced from any specific dataset. Calibrating them against real Ki/kon/koff
-and connectivity literature is the next phase, the same literature-elicited
-priors approach used for the CCT model.
+**The circuit time constants and connection weights are hand-set
+placeholders**, chosen to get the mechanism right, not sourced from any
+specific dataset. The receptor-binding constants and the PK are no longer:
+`scenarios.py` carries a separate, literature-calibrated set of `*_
+calibrated()` builders alongside the illustrative ones, and the two are
+never mixed.
+
+The circuit layer stays illustrative for a measured reason rather than for
+want of trying. `results/identifiability/` holds a profile-likelihood and
+Fisher-information analysis of every parameter in the one circuit that has
+a published behavioural dataset behind it: the node time constants cannot
+be identified by *any* endpoint measured after the circuit has equilibrated,
+the node gains, baselines and weights enter the observable through only four
+combinations rather than eight independent numbers, and a single scalar
+observation carries a single degree of freedom. See
+[`docs/architecture.md`](docs/architecture.md)'s P2.3 section for what data
+would change that; the short answer is a dose-response series rather than
+more single-dose studies.
 
 ## Quickstart
 
@@ -95,7 +108,7 @@ priors approach used for the CCT model.
 | `examples/`          | Worked end-to-end scenarios                      |
 | `tests/`             | Unit tests per layer                             |
 | `docs/`              | Architecture and design notes                    |
-| `results/`           | Generated figures                                |
+| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis |
 
 ## Environment
 

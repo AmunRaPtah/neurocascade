@@ -907,6 +907,21 @@ def gaba_a_pk_models_calibrated():
 #: `calibration/circuit_forward.py`, and in docs/architecture.md's P2.2
 #: section, and its consequence is bounded by refitting against a second,
 #: independently defined EPM anxiety index.
+#:
+#: P2.3 CONDITIONALITY, added by the identifiability analysis in
+#: `calibration/identifiability.py`. P2.2 recorded that the amygdala
+#: circuit's illustrative values set how sensitively the ratio depends on
+#: this gain; P2.3 measured how much. The number below is a posterior GIVEN
+#: that circuit. Free the circuit and it is not determined at all: the
+#: eleven circuit parameters enter the observable through only four
+#: combinations, and one scalar observation gives a rank-one Fisher
+#: information matrix, so a large gain on a weak GABAergic synapse and a
+#: small gain on a strong one are indistinguishable from this datum.
+#: What does NOT depend on any illustrative number is the rejection of the
+#: mechanistic null: a gain of exactly zero predicts a drug/vehicle ratio of
+#: exactly one for EVERY circuit, and [Graziani2022] rejects that at
+#: delta-chi-square 17.5, i.e. 4.2 sd. See docs/architecture.md's P2.3
+#: section and `results/identifiability/`.
 GABA_A_CONNECTION_MODULATION_GAIN = 0.0742
 
 

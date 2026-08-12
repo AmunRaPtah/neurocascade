@@ -3348,3 +3348,351 @@ this system, and it is a document-access problem, not a modelling one.
   pre-existing assertion the new gain interacts with,
   `test_calibrated_diazepam_lowers_anxiety_index_below_baseline`, still
   passes on its original threshold.
+
+## Phase 2: identifiability of connectivity weights and time constants (P2.3)
+
+### The task, and the answer
+
+P2.3's brief is to attempt to fit the amygdala circuit's **connectivity
+weights** and **node time constants** against the same behavioural evidence
+P2.2 used, and to say which of them are identifiable at all. The answer is
+**none of them**, and the interesting part is that this is provable rather
+than merely observed: two of the three reasons are exact structural
+properties of the model, and only the third is a statement about how much
+data happens to exist.
+
+`src/neurocascade/calibration/identifiability.py` runs the analysis,
+`scripts/run_identifiability.py` produces the artifacts under
+`results/identifiability/`, and `tests/test_identifiability.py` pins the
+claims. Every circuit-layer weight, tau, node gain and baseline input in
+`scenarios.py` keeps its illustrative label, and no number in that file
+changed.
+
+### Why this needed three layers and not one profile plot
+
+A profile likelihood answers "given everything else, what does the data say
+about this parameter?" - and in this model the "given everything else" is
+carrying almost all of the weight. Running the profiles alone would have
+produced a table with several parameters marked identifiable, and every one
+of those marks would have been an artefact. So the analysis is built in
+three layers, weakest assumption first, and each layer subsumes the one
+before it.
+
+**Layer 1, structural: two exact degeneracies, proved.**
+
+The behavioural observable is a drug/vehicle ratio of a **steady-state**
+readout (the elevated plus maze runs 60 min after injection; the circuit's
+slowest tau is 2 min, so it has equilibrated by a factor of 30 before the
+animal is on the maze). Two things follow exactly.
+
+*Time constants drop out entirely.* The Wilson-Cowan fixed point solves
+`r* = sigmoid(W r* + drive)`; `tau` appears only in `tau_i dr_i/dt = -r_i +
+sigmoid(...)`, i.e. only in how fast the approach is, never in where it
+lands. So `d(ratio)/d(tau_i)` is identically zero. Measured, the three tau
+sensitivities come out at 3e-8 to 1.7e-7 against non-tau sensitivities of
+4.3e-2 to 2.8, five orders of magnitude apart and consistent with the
+integrator's own rtol of 1e-8 rather than with any real dependence.
+`test_time_constants_do_not_move_the_observable_at_all` sweeps each tau over
+its whole 0.1x-10x range and requires the prediction not to move.
+
+*The eight remaining parameters collapse into four combinations.* The
+amygdala circuit is feedforward (`GABA_Interneuron -| BLA -> CeA`), so its
+fixed point can be written in closed form, and when it is, the three node
+gains, three baseline inputs and two connectivity weights enter only through
+
+    A = gain_BLA * W[BLA, GABA_Interneuron] * L(gain_I * baseline_I)
+    B = gain_BLA * (baseline_BLA - threshold_BLA)
+    C = gain_CeA * W[CeA, BLA]
+    D = gain_CeA * (baseline_CeA - threshold_CeA)
+
+with the drug entering as `A -> A * (1 + g * activation)`, so that the entire
+observable is
+
+    ratio = L(C*L(A*(1 + g*a) + B) + D) / L(C*L(A + B) + D)
+
+Eight parameters, four combinations: a **four-dimensional exact degeneracy**
+on top of the three dead tau directions. This is not inferred from flat
+profiles. `equivalent_parameterisation()` constructs a numerically very
+different amygdala circuit with identical `{A,B,C,D}` - node gains
+4/1.5/4 -> 2/0.6/1.1, the GABAergic weight -2.5 -> -7.53, the CeA weight
+2.0 -> 7.27 - and `results/identifiability/structural_degeneracy.png` shows
+the two predicting the same ratio at every drug gain, to within 2e-9, i.e.
+to the integrator's tolerance and no worse.
+
+The closed form is used for the argument and the integrator is used for the
+model, so the two are checked against each other rather than assumed equal:
+`test_closed_form_reproduces_the_integrated_forward_model` and
+`test_closed_form_still_matches_away_from_the_nominal_circuit` require
+agreement to 1e-7 and 1e-6 at the nominal circuit and at three perturbed
+ones. If they ever disagree, the structural argument would be about a
+different model than the one this codebase runs, which is the failure mode
+worth guarding.
+
+**Layer 2, information content: one datum, one direction.**
+
+`behavioral_evidence.calibration_ready_entries()` returns exactly one entry.
+For a scalar Gaussian observation the Fisher information matrix of any
+parameter vector is `F = s s^T / sd^2`, which is **rank one** however many
+parameters it is built over. Computed over all twelve parameters, its
+eigenvalues are
+
+    3.09e+03,  then 5.0e-13 and below
+
+i.e. one informed direction and eleven at machine zero
+(`results/identifiability/fisher_spectrum.png`). The single informed
+eigenvector is dominated by the drug-action gain, with exactly zero
+component on any tau.
+
+That is the whole budget. P2.2 spent it on `gaba_a_connection_modulation_
+gain`, and this analysis is where that choice gets defended rather than
+assumed: the gain is the only parameter in the set that is about the **drug**
+rather than about the circuit, so a drug/vehicle contrast is the matching
+kind of evidence for it and is not the matching kind of evidence for a
+synaptic weight or a membrane time constant.
+
+**Layer 3, profile likelihood, in three regimes.**
+
+`results/identifiability/profile_likelihood_amygdala.png` shows, per
+parameter, the 95% (delta-chi-square = 3.84) profile in two regimes, and
+`reduced_profile_likelihood.png` the third:
+
+- **A** - only the scanned parameter free; every other circuit number,
+  including P2.2's gain, held at its current value.
+- **B** - the scanned parameter *and* the drug gain free, the gain
+  re-optimised at every grid point.
+- **C** - the scanned parameter and every other circuit parameter free.
+  Because the observable depends on the originals only through
+  `{A,B,C,D}`, profiling in that reduced space **is** regime C, which is
+  what makes it computable at all.
+
+In regime A, several parameters have finite intervals. In regime B most of
+those intervals open up. In regime C nothing is localised. The three
+regimes differ only in how many illustrative numbers are being treated as
+known, and that is the point:
+`test_freeing_the_drug_gain_removes_the_apparent_bounds` requires at least
+four parameters to be bounded in regime A and strictly fewer in regime B,
+so the collapse cannot quietly stop happening.
+
+`weight_BLA__GABA_Interneuron` is the clearest case. In regime B it has a
+finite interval, which looks like the connectivity-weight fit P2.3 was asked
+for. It is not one: that weight enters only inside `A`, so its "interval" is
+an interval on `A` re-labelled through a fixed `gain_BLA` and a fixed
+interneuron rate, both illustrative.
+
+### The explicit list
+
+Amygdala anxiety circuit, the only circuit in the codebase with a
+calibration-ready behavioural observation attached to it:
+
+| parameter | kind | verdict | why |
+|---|---|---|---|
+| `tau_GABA_Interneuron` | tau | **structurally unidentifiable** | steady-state observable; sensitivity 1.1e-7 |
+| `tau_BLA` | tau | **structurally unidentifiable** | sensitivity 3.1e-8 |
+| `tau_CeA` | tau | **structurally unidentifiable** | sensitivity -1.7e-7 |
+| `gain_GABA_Interneuron` | node gain | **structurally degenerate** | enters only inside `A` |
+| `gain_BLA` | node gain | **structurally degenerate** | enters only inside `A` and `B` |
+| `gain_CeA` | node gain | **structurally degenerate** | enters only inside `C` and `D` |
+| `baseline_input_GABA_Interneuron` | baseline | **structurally degenerate** | enters only inside `A` |
+| `baseline_input_BLA` | baseline | **structurally degenerate** | enters only inside `B` |
+| `baseline_input_CeA` | baseline | **structurally degenerate** | enters only inside `D` |
+| `weight_BLA__GABA_Interneuron` | connectivity | **structurally degenerate** | enters only inside `A` |
+| `weight_CeA__BLA` | connectivity | **structurally degenerate** | enters only inside `C` |
+| `gaba_a_connection_modulation_gain` | drug action | **one-sided identifiable** | bounded away from zero, unbounded above once the circuit is free |
+
+Reward (mu-opioid, 17 circuit parameters), basal-ganglia indirect pathway
+(D2, 19) and multi-region mu-opioid (27): **all unidentifiable, trivially**.
+Those circuits have zero calibration-ready behavioural observations
+(`behavioural_observation_counts()` counts them from the evidence module
+rather than asserting it), so their Fisher information matrix is the zero
+matrix. That is 63 further circuit-layer parameters with no data behind
+them, and saying so by name is more useful than saying "the rest".
+
+**So: zero identifiable connectivity weights, zero identifiable time
+constants, and one partially identifiable drug-action gain.** Every one of
+the eleven circuit-structure parameters keeps its illustrative label.
+`gaba_a_connection_modulation_calibrated()` keeps the P2.2 fit it already
+had, which was never illustrative and is not being made illustrative here;
+what it gains is the conditionality statement below.
+
+### What P2.3 says about P2.2, said plainly
+
+P2.2 fitted `gaba_a_connection_modulation_gain = 0.0742 [0.0431, 0.1062]`
+and recorded that the circuit's illustrative values "set how *sensitively*
+the ratio depends on the fitted gain, which is a real dependency and is why
+P2.3, not P2.2, is where they belong." P2.3 quantifies that, and the answer
+is stronger than "some dependency":
+
+- **Conditional on the illustrative circuit**, the gain is well determined.
+  The regime-A profile interval is
+  [0.0390, 0.1108], which brackets P2.2's independently sampled 89% ETI, as
+  it must - `test_the_drug_gains_own_profile_agrees_with_p2_2s_posterior`
+  makes that a cross-check between an optimiser here and PyMC there, over
+  what should be the same likelihood.
+- **Unconditionally**, that interval is gone. In regime C the gain's profile
+  is flat from the bottom of the searched range up to the top of its prior
+  box: with the circuit free, a large gain acting on a weak GABAergic
+  synapse and a small gain acting on a strong one are indistinguishable from
+  one drug/vehicle ratio.
+- **What survives unconditionally is one thing, and it is a real one.** A
+  drug gain of *exactly zero* predicts a ratio of *exactly one* for every
+  possible circuit - both legs of the ratio become the same expression - so
+  its delta-chi-square of 17.5 (4.2 sd) does not depend on a single
+  illustrative number. The mechanistic null "diazepam does not potentiate
+  this synapse" is rejected by the data, unconditionally.
+  `test_the_mechanistic_null_is_rejected_whatever_the_circuit` asserts the
+  exact-1.0 identity in closed form and to integrator tolerance in the
+  integrated path, over four arbitrary circuits.
+
+This does not retract P2.2's fit and does not move its label. It says what
+the fit is: a posterior for one gain *given* a circuit this project has not
+measured, whose one circuit-independent content is the rejection of zero.
+
+### Design decisions worth recording
+
+**The verdict "bounded" is not the verdict "calibrated", and the threshold
+that separates them is borrowed, not invented.** The reduced-space profiles
+do produce finite bounds - `A`'s 95% interval is [-84.6, -4.4e-4] - and
+reporting those bare would be misleading, because both ends are just the
+corners where the circuit saturates and no drug effect of *any* size is
+possible. Excluding "the circuit is dead" is not measuring a parameter. So a
+both-sided interval is only called identifiable if it is also narrower than
+`IGNORANCE_SPAN_RATIO`, which is the width of this codebase's own
+UNINFORMED prior box (`priors.py`'s 0.1x-10x convention), i.e. the span
+this project already uses to mean "we know essentially nothing". An interval
+spanning 1.9e5 fails that by more than three orders of magnitude. Reusing
+an existing convention rather than picking a new number keeps this from
+being one more free dial.
+
+**Bounds are labelled by where they land.** `bounds_at_searched_edge()`
+reports whether each finite endpoint sits in the outermost searched cell,
+because a crossing in the interior is the data excluding a value while a
+crossing at the edge is the box running out and would move if the box moved.
+Both occur here and they read very differently.
+
+**The scan ranges are derived, not chosen.** Strictly-signed parameters
+(taus, node gains, connectivity weights) get 0.1x-10x their `scenarios.py`
+value, which is `priors.py`'s existing UNINFORMED convention. `baseline_
+input` can legitimately be zero or negative, so a multiplicative range is
+meaningless for it; it gets `+/- 4.595/gain`, the additive shift over which
+that node's own logistic sweeps 1% to 99% of its range. The drug gain gets
+P2.2's mechanism-derived prior box. `test_scan_ranges_are_derived_rather_
+than_typed_in` checks every range brackets its own nominal value and that
+the multiplicative ones all have exactly the same span.
+
+**The inner optimiser is an exhaustive lattice, not a gradient method, and
+that choice is a correctness matter rather than a performance one.** The
+reduced-space profile's inner problem is a 4-parameter minimisation of a
+non-convex chi-square over a box spanning several orders of magnitude.
+Multistart L-BFGS-B fails on it, and it fails in the dangerous direction: a
+stuck optimiser returns a chi-square that is too **high**, which is reported
+as identifiability that is not there. The first version of this analysis did
+exactly that, reporting the drug gain as bounded above at 0.15 when a
+feasible parameter set at gain 5 can be written down by hand. Replacing it
+with a vectorised lattice plus local polish removed the bound. Since
+chi-square is bounded below by zero, any feasible point found is an upper
+bound on the profile, so a profile reported as flat is the conservative
+claim: the truth can only be flatter, never more identifiable.
+
+**Nothing here enters `priors.PRIOR_SPECS`.** The joint models this module
+builds are diagnostics that measure a posterior correlation, not
+calibrations, so they carry their own local prior specs and never pass
+through `test_only_evidence_backed_circuit_layer_parameters_are_fit`.
+`test_this_module_adds_no_parameter_to_the_production_fit` asserts that the
+only overlap between this module's parameter list and `FREE_PARAM_NAMES` is
+the one P2.2 already declared.
+
+**Every verdict is computed, none is written down.** `classify()` encodes no
+expected answer; `test_no_weight_and_no_tau_comes_out_identifiable` runs the
+real analysis and fails if a future task's data changes the result, with a
+message naming the two things that would then have to be revisited (the
+illustrative label, and this section).
+
+### The posterior-correlation view
+
+The rank argument and the profile likelihoods say the same thing, and a
+reader who wants to see it rather than accept it gets
+`results/identifiability/posterior_correlation.png`: two joint
+`DEMetropolisZ` posteriors over the drug gain and one circuit parameter,
+against the single [Graziani2022] observation, with uniform priors over
+exactly the same boxes the profiles scan.
+
+- `weight_CeA__BLA` and the gain trade off along a ridge: posterior
+  correlation **+0.965**, and the weight's own marginal is only 16% narrower
+  than its uniform prior (posterior sd / prior sd = 0.840). Practical
+  non-identifiability, seen directly.
+- `tau_BLA`'s marginal **is** its prior (posterior sd / prior sd = 0.954)
+  and its correlation with the gain is **+0.063**, i.e. zero: structural
+  non-identifiability, seen directly. A likelihood cannot depend on a
+  parameter the observable does not depend on.
+
+**One of those two chains did not converge, and that is reported rather
+than dropped.** The `tau_BLA` run is clean (max r_hat 1.01, min bulk ESS
+205). The `weight_CeA__BLA` run is not: max r_hat **1.11** against the usual
+< 1.05, min bulk ESS **14**. Those numbers are in
+`results/identifiability/joint_posterior_diagnostics.csv` and are not
+presented as a converged posterior. The failure is the expected one and is
+part of the result rather than an obstacle to it: `DEMetropolisZ` proposes
+from a shared history, and on a one-dimensional ridge with no mode there is
+nothing for the chains to agree about, so they wander along the ridge at
+different rates. A well-mixed chain would have been the surprising outcome.
+What the run therefore supports is the qualitative shape - a ridge, a
+near-prior marginal - and not a precise correlation coefficient, which is
+why the two `slow` tests assert `|corr| > 0.5` and `posterior sd / prior sd
+> 0.5` rather than the specific values above. The quantitative
+non-identifiability statement rests on the profile likelihoods and the
+rank-one Fisher matrix, which are deterministic and need no chain.
+
+Both are tests as well as figures
+(`test_a_time_constants_posterior_is_exactly_its_prior`,
+`test_a_connectivity_weight_trades_off_against_the_drug_gain`), marked
+`slow` for the same reason `test_bayesian_calibration.py` is: they run real
+chains.
+
+### What would actually identify these, which is the useful output
+
+This analysis says more than "no". It says what each class of parameter
+needs, and the three answers are different, which matters for what Phases 3
+and 7 should collect.
+
+- **Time constants need a time-resolved measurement, and no amount of
+  endpoint data of any kind will do.** The obstruction is not sample size;
+  an equilibrium observable is exactly independent of tau. A behavioural or
+  physiological readout sampled on the 1-2 min timescale of the circuit's
+  own relaxation would identify them; a hundred more elevated-plus-maze
+  studies would not. This is a constraint on P7.1's endpoint library, not
+  on the size of P2.1's evidence module.
+- **The four combinations `{A,B,C,D}` need at least four independent
+  behavioural observations, and the cheapest source is a dose-response
+  curve.** Every entry in the evidence module is currently a single dose,
+  which gives one activation `a` and therefore one equation. A published
+  rat elevated-plus-maze **dose series** for diazepam would give one
+  equation per dose against the same four unknowns. That is the single
+  highest-value thing a future P2.1-style pass could look for, and it is a
+  different search from the one P2.2 ran (which screened for *any* usable
+  dataset, and found one).
+- **The individual parameters inside each combination need node-level
+  observables, not more behaviour.** `anxiety_index_readout()` reads CeA
+  alone, so `gain_CeA` and `W[CeA, BLA]` can never be separated by it. A
+  readout that also scores BLA would split `A` from `B`; a measured
+  connection density would fix `W` directly and let the behavioural datum
+  constrain the gain instead. That is what Phase 3's Allen connectome
+  backbone actually buys, stated as an identifiability gain rather than as
+  a data-source upgrade.
+
+### What this task changes, and what it does not
+
+- **No parameter changed and no illustrative label moved**, in either
+  direction. `test_no_illustrative_circuit_parameter_changed_value` pins the
+  amygdala circuit's eleven numbers at their v0 hand-set values.
+- **P2.2's fit is unchanged and now carries its conditionality explicitly.**
+  `GABA_A_CONNECTION_MODULATION_GAIN` still returns 0.0742;
+  `gaba_a_connection_modulation_calibrated()`'s comment now records that the
+  point value is conditional on the illustrative circuit and that the
+  circuit-independent content of the fit is the rejection of zero.
+- **Three circuits are now on record as having no behavioural data at all**,
+  by name and by parameter count, computed from the evidence module rather
+  than asserted.
+- **No tolerance was widened and no test was skipped.** One tolerance in a
+  new test is set from `circuit_forward._STEADY_STATE_RTOL` rather than
+  chosen, and a second test backs it by showing the residual it admits
+  shrinks by three orders of magnitude when the integration is tightened.
