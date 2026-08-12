@@ -5721,3 +5721,359 @@ slice of the data would fail loudly.
   transporter. No tolerance was widened and no region was dropped to
   improve any of them.
 - **43 new tests**, 38 offline and 5 requiring the gitignored cache.
+
+## Phase 4: validating the receptor maps against known anatomy (P4.3)
+
+### The task, and the sentence in it that sets the standard
+
+The roadmap's P4.3 line ends "A map that fails these is a bug, not a
+finding", and that sentence is the whole design. Everything in
+`expression/anatomy.py` is a bug detector rather than a result: a
+transposed matrix, a gene column shifted by one, a structure-id mis-join or
+a normalization applied along the wrong axis all produce a receptor map
+with the right shape, the right sparsity and entirely plausible numbers,
+and anatomy is the cheapest thing that tells them apart from a real map.
+A2A is a striatal receptor; alpha-1 GABA-A is a cortical one; mu-opioid
+peaks in the medial habenula. A map that says otherwise is broken, and the
+right response is to go and find the defect.
+
+Three modules and two test files:
+
+    anatomy.py        the cited expectations, as executable claims, and the
+                      checker that measures them
+    scenario_maps.py  the join from a gene symbol plus {node: structure id}
+                      to the density factor a scenario's coupling needs
+    scenarios.py      the multi-region mu-opioid map, now atlas-derived
+
+plus `scripts/report_receptor_map_validation.py`, which writes the
+committed `results/receptor_map_validation.txt`, and the tests: the two
+files `tests/test_expression_anatomy.py` and
+`tests/test_multi_region_scenario.py` now collect 42 items where the second
+of them used to collect 7, and 5 of the 42 need the gitignored cache.
+
+### Six receptors, and what each source actually is
+
+The acceptance bar is five receptors with cited expected distributions.
+There are six, and the constraint that decided which six was not
+importance but whether a *mouse* source exists that says something
+falsifiable about regions this project can resolve.
+
+| gene | source | species | modality |
+|---|---|---|---|
+| Drd1 | [Yoo2010] (P4.2's transcription, reused) | mouse | protein, quantitative |
+| Drd2 | [Yoo2010] + [Bello2011] | mouse | protein / genetic |
+| Oprm1 | [Erbs2015] mu-mCherry knock-in atlas | mouse | protein |
+| Gabra1 | [Hoertnagl2013] | mouse | **mRNA** |
+| Cnr1 | [Marsicano1999]; [Herkenham1991], [Mailleux1992] | mouse; rat | mRNA; protein |
+| Adora2a | [Wang2022] A2AR-tag knock-in | mouse | protein |
+
+  [Erbs2015] Erbs E, Faget L, Scherrer G, et al. "A mu-delta opioid
+            receptor brain atlas reveals neuronal co-occurrence in
+            subcortical networks." Brain Struct Funct. 2015;220(2):677-702.
+            PMID 24623156. Table 1's MOR column, read from the PMC deposit:
+            MHb ++++, CPu +++, AcbC ++, PVA +++, PV ++, MD +, VTA ++,
+            SNC +/++, SNR +, LC +, LPAG +/++, VLPAG +, DLPAG +, DMPAG -,
+            M1/M2 +, PrL +, CA1/CA3 +, DG +, CbCx -. Scale: "- not
+            detectable, +/- weak, + moderate, ++ dense, +++ very dense".
+  [Hoertnagl2013] Hoertnagl H, Tasan RO, Wieselthaler A, Kirchmair E,
+            Sieghart W, Sperk G. "Patterns of mRNA and protein expression
+            for 12 GABAA receptor subunits in the mouse brain."
+            Neuroscience. 2013;236:345-372. PMID 23337532. alpha1 ISH:
+            cortex layer 4 +++, layers 2/3/6 ++, CA1 +++, DG ++(+), CA3 +,
+            caudate putamen (+), globus pallidus +++, STN +++, SNr +++,
+            SNc ++, cerebellar Purkinje +++, granule ++, molecular +.
+  [Wang2022] Wang M, Li Z, Song Y, et al. "Genetic tagging of the adenosine
+            A2A receptor reveals its heterogeneous expression in brain
+            regions." Front Neuroanat. 2022;16:978641. PMID 36059431.
+  [Marsicano1999] Marsicano G, Lutz B. Eur J Neurosci. 1999;11(12):4213-25.
+            PMID 10594647.
+  [Mailleux1992] Mailleux P, Vanderhaeghen JJ. Neuroscience.
+            1992;48(3):655-68. PMID 1376455. RAT.
+  [Herkenham1991] Herkenham M, Lynn AB, de Costa BR, Richfield EK. Brain
+            Res. 1991;547(2):267-74. PMID 1909204. RAT.
+  [Bello2011] Bello EP, Mateo Y, Gelman DM, et al. Nat Neurosci.
+            2011;14(8):1033-8. PMID 21743470.
+
+[Hoertnagl2013] is the one whose modality matches the map exactly, and it
+is the most valuable of the six for that reason alone. Every other source
+measured protein or binding, so every other claim is crossing the
+mRNA-to-protein step that P4.2 measured separately and found to be worth a
+factor of 172 for the dopamine transporter. `AnatomySource.modality` is a
+required field with only two legal values precisely so that this is
+visible per claim rather than buried.
+
+**Two rat sources, and what they are allowed to do.** Cnr1's protein claim
+is [Herkenham1991] and its "no CB1 mRNA in dorsal thalamus" half leans on
+[Mailleux1992]; both are rat, both say so in their record, and neither
+supplies a number. They are used for a presence/absence ordering whose
+mouse half [Marsicano1999] independently supports. P4.2 refused rat
+mu-opioid autoradiography for a *quantitative* comparison and that refusal
+still stands; what would have been dishonest here is quoting a rat density
+and calling the difference the conversion's error.
+
+### Three rules that make an anatomical expectation testable
+
+**Ordinal, never proportional.** A claim is `min(map[high]) >
+max(map[low])` and nothing else. P4.2 measured this conversion to be a good
+ordering (Spearman 0.71 against mouse D1 autoradiography) and a bad scale
+(proportional R^2 0.31, log-log slope 0.46 where proportionality needs
+1.0), so an ordering is the only thing it can be validated as. Every
+`ClaimResult` reports its fold-difference and no test asserts on one.
+
+**Asserted only at two tiers or more.** Five of the six sources are
+semiquantitative: [Erbs2015] scores on `-/+/++/+++`, [Hoertnagl2013] on
+`-/(+)/+/++/+++`. One tier is one observer's judgement of one section, and
+P4.2's compression means one tier of protein can correspond to anything
+from no difference to a 20-fold difference of transcript. So each claim
+carries a `separation` counted from the source's own labels *before* any
+measurement was made, and the test suite asserts a claim only at
+`separation >= 2`. Fourteen of the eighteen claims clear that bar.
+
+The obvious risk of such a rule is that it becomes a place to put
+inconvenient results, so the four single-tier claims are pinned by a test
+that asserts *which* of them hold: three do, one does not, and any change
+to any of the four fails. The rule is not a filter for failures.
+
+**A divergence is a claim too.** Two claims are recorded with
+`expected_to_hold=False`, and the `Claim` constructor refuses one unless it
+carries a mechanism and a citation for that mechanism - otherwise
+"expected to fail" is just a dropped inconvenient result with a nicer name.
+Both are genes `mismatch.py` already flags:
+
+- **Cnr1: SNr and GPe above CP.** [Herkenham1991]: "In rat brain, the
+  highest receptor densities are in the globus pallidus and substantia
+  nigra pars reticulata." The transcript map puts SNr at 0.23 and GPe at
+  0.34 of CP. The same paper's ibotenic-acid lesion is the mechanism: those
+  receptors sit on the axons and terminals of striatal projection neurons.
+- **Drd1: SNr above cortex.** Yoo et al. measure mouse nigral D1 at 206.3
+  against 22.8 fmol/mg in motor cortex; the transcript puts SNr at 0.29 of
+  MOp. Mechanism [Gerfen2011]: striatonigral terminals.
+
+An expected failure that is asserted to fail still fails loudly if somebody
+"fixes" it, and its measured size is the error bar on using that gene's map.
+
+### The result: seventeen of eighteen, and the one that did not
+
+Fourteen asserted claims all behaved as recorded. Of the four reported
+single-tier claims, three held and one did not: **Oprm1, cortex above
+cerebellar cortex**, where [Erbs2015] scores M1/M2 `+` against CbCx `-`.
+
+Traced rather than left. MOp reads 0.1150 and CBX 0.1157 - a 0.6%
+difference, with both regions at the 11th percentile of the whole-brain
+Oprm1 distribution (min 0.0495, 10th percentile 0.1082, median 0.3307).
+There is no ordering in the map to be right or wrong about; two regions at
+the floor are not inverted, they are indistinguishable. Two further
+measurements say the same thing. The disagreement disappears entirely under
+`plane="any"`, which pools Oprm1's three experiments, and P4.1 measured
+Oprm1's median between-experiment ratio at 6.2, so a 0.6% gap is far inside
+the data's own spread. And a mis-join would move a region by orders of
+magnitude, which is exactly what the same gene's MH does in the other
+direction: 6.04, 52x these two, at the 99.6th percentile.
+
+So: no ingestion or normalization defect was found, and the one
+disagreement is a floor effect with two independent measurements of its
+size. That is the honest form of "the validation passed", and it is
+recorded that way rather than as eighteen ticks.
+
+### The claustrum, run down and left as an open question
+
+The most conspicuous oddity in these maps is that **CLA is the single
+highest region of both the Drd1 and the Drd2 transcript maps, above CP**,
+and second for Adora2a. P4.1 recorded the fact without comment. The cheap
+explanation is partial-volume contamination: the claustrum is a thin sheet
+against the striatum and the ISH grid is 200 um, so CLA voxels could be
+carrying striatal signal.
+
+That hypothesis makes a testable prediction, because the geometry is one
+geometry: a single mixing fraction should explain CLA across all genes.
+Fitting `CLA = f*CP + (1-f)*AIv` per gene over the 31 genes where CP and
+insular cortex differ enough to be informative gives f from **-0.37**
+(Gria4; Chrna4, Adrb1 and Htr2a are also near zero, i.e. CLA reads as
+cortex) to **+2.23** (Adra2b; Drd1 1.44 and Gabra2 1.45 read as more
+striatal than the striatum), median 0.64, interquartile range 0.30 to 0.94.
+One geometric mixture cannot produce that spread, so the hypothesis is
+refuted by its own prediction. Independently, Slc6a3 ranks CLA 241st of
+291, so the claustrum is not a globally "hot" structure either.
+
+Independent corroboration for the D1 half: Yoo et al. measured mouse
+claustral D1 at 87.3 fmol/mg, fourth of their fifteen regions and 3.8x
+motor cortex. So high claustral D1 is real in protein, and the Drd1
+CLA-above-MOp claim is asserted for that reason. What remains unexplained
+is claustral Adora2a at 82% of CP, for which no source in reach says
+anything either way. Recorded as an open question about claustral biology
+with the refutation of the artefact hypothesis attached, and deliberately
+not asserted as a claim in either direction.
+
+### One cross-gene check, and the only legitimate shape for one
+
+P4.2's rule is that expression energy is not comparable between genes:
+probe, riboprobe length and segmentation threshold differ per experiment.
+That rules out "is Drd2 higher than Drd1 in VTA", which is exactly the
+question that would catch two gene rows swapped into each other. The shape
+that survives the rule is a ratio of *within-gene* ratios:
+
+    (Drd2[VTA] / Drd2[CP]) / (Drd1[VTA] / Drd1[CP]) = 62.2
+    (Drd2[SNc] / Drd2[CP]) / (Drd1[SNc] / Drd1[CP]) = 28.9
+
+Both halves are internal to one gene, so the probe difference cancels
+rather than being ignored. Well above 1 is the D2-autoreceptor anatomy
+[Bello2011] against a midbrain D1 that Yoo et al. measure at cortical
+levels (VTA 24.8 against motor cortex 22.8 fmol/mg). Near 1 would mean the
+rows had been shuffled.
+
+### Replacing the hand-written mu-opioid map
+
+The third acceptance criterion. `mu_opioid_multi_region_coupling()` used to
+return three hand-tuned numbers whose docstring cited [TempelZukin1987] and
+[Mansour1987] for a qualitative density ordering and then, correctly, said
+the numbers were not a density-to-gain conversion. P4.2 gave that folding a
+factorization, so the replacement is exact rather than a rescaling:
+
+    coupling[node] = mechanism_gain * rho[region]
+
+`rho` now comes from the Allen Oprm1 ISH map over VTA (749), PAG (795) and
+LC (147); `mechanism_gain` stays hand-set and stays labelled illustrative.
+
+| node | region | rho (VTA = 1) | atlas coupling | hand-written |
+|---|---|---|---|---|
+| VTA_GABA | VTA | 1.00 | -1.72 | -3.0 |
+| PAG_Interneuron | PAG | 2.52 | -4.34 | -2.5 |
+| LC | LC | 4.27 | -7.35 | -1.5 |
+
+**The normalization is `reference-region`, and that is load-bearing.**
+Dividing the row by one named region makes the result depend only on the
+rows of the regions the scenario names, where dividing by the peak or the
+mean does not. That is what lets the committed 69-structure fixture and the
+gitignored 7.5 MB cache give the same three numbers - the fixtures are
+byte-identical slices, so this is an identity and not an approximation -
+and it is why `scenarios.py` can import the expression package without
+making every existing scenario test require the cache. A `real_data` test
+checks the identity against the cache rather than leaving it as prose.
+
+**The ordering changes, and the direction is the one the old citations
+already asked for.** [TempelZukin1987] put LC among the highest-density mu
+regions and the hand-tuned numbers gave it the smallest coupling. The
+transcript map puts LC 4.3x VTA. It disagrees with [Erbs2015], the one
+mouse whole-brain mu-opioid *protein* atlas, which scores VTA ++ against
+LPAG +/++ and LC +, i.e. the reverse order by one tier. Both are recorded
+as Oprm1 claims with their citations and neither is used to adjust the
+other; what the disagreement bounds is how much of the analgesia/sedation
+split is data, and the answer is "a 4.3-fold transcript spread against one
+semiquantitative protein tier".
+
+The plane policy is worth something here, unlike in P4.2's correlation: LC
+above VTA survives all fourteen plane x combine policies, but PAG above VTA
+does not - the sagittal experiments put PAG at 0.82-0.90 of VTA where the
+single whole-brain coronal experiment puts it at 2.52. The scenario uses
+`coronal-else-sagittal`, i.e. the coronal experiment, because the sagittal
+pipeline processes one hemisphere only. `results/receptor_map_validation.txt`
+prints the whole table.
+
+### A correction the substitution forced: one mechanism gain, not three
+
+Factoring density out made the old rationale for LC's smaller gain
+inspectable, and it was double-counting. `Simulation.rhs` computes
+`drive[idx] += gain * activation`: `coupling` is added to a node's *own*
+input, and the amplification that reaches `VTA_DA` and `PAG_Output` one
+synapse later is carried by the connectivity weight (-2.5 in both cases).
+"LC's activation is not amplified" is therefore a statement about the
+readout - which `arousal_index_readout()` already expresses by reading LC's
+own rate - and not about how much receptor activation moves LC's drive.
+Folded into the gain as well, it was counted twice.
+
+With that removed, nothing distinguishes the three nodes at this layer
+except receptor density, and no data in reach distinguishes per-receptor
+efficacy between a VTA interneuron, a PAG interneuron and an LC
+noradrenergic neuron. So there is one illustrative gain and the map
+supplies all three ratios. Asserting a per-cell-type efficacy difference on
+top of a measured density difference would have been inventing a number.
+
+### The scale of that gain, and the P3.4 lesson it ran into
+
+rho is dimensionless and its normalization is a choice, so the gain's scale
+is not determined by the data. Setting it by preserving VTA_GABA's old
+-3.0 was the first thing tried, and it fails in an informative way: PAG's
+coupling follows the density to -7.57, which drives the PAG interneuron out
+of the sensitive part of its sigmoid, and under P3.4's rest-balanced
+baselines the naloxone reversal of `analgesia_index` on the ported
+connectome network falls to **1.9e-4**, below the suite's 1e-3 directional
+margin. That is P3.4's saturation lesson reappearing under *drug drive*
+rather than at rest, which is a case P3.4's procedure does not cover
+because it balances the network at rest.
+
+So the scale is set by a rule instead: leave the geometric mean of the two
+interneuron-motif couplings where the hand-tuning put it, `sqrt(3.0 * 2.5 /
+2.5227) = 1.724`, rounded to **-1.72**. LC is excluded from the rule
+because its density moved most and including it would let the least
+constrained node set the scale for the other two.
+
+The value is not load-bearing, and that is measured rather than asserted.
+Sweeping the scale over the four network-by-baseline combinations (hand-
+built and ported, `hand_built` and `rest_balanced` baselines) x three
+readouts x agonism and reversal, every qualitative result survives for any
+scale in roughly [1.3, 2.0]. The tightest directional margin at -1.72 is
+2.7e-3, against **2.6e-3 for the hand-written map itself**: the
+substitution does not cost margin, it moves where the margin is.
+
+A note on what this is and is not. Re-tuning an explicitly illustrative,
+hand-set number after changing the factor it multiplies is what the
+illustrative label has always meant for these gains, and the rule and the
+surviving interval are both written down. It would have been tuning if a
+tolerance had been widened, if a test had been weakened, or if the value
+had been picked by searching for one that passed; none of those happened,
+and the failure that motivated it is reported with its number.
+
+### What runs offline, and the seven regions that made that possible
+
+Every one of the eighteen claims runs in the offline gate. That needed
+seven more structures in the shared fixture ontology - CA1, CA3, DG, MH,
+PVT, SNc, CBX - which went into a new `ANATOMY_ONLY_REGION_IDS` alongside
+P4.2's `AUTORADIOGRAPHY_ONLY_REGION_IDS`, and the expression fixtures were
+recut over the enlarged set from the same verified bytes. The ontology went
+from 61 structures to 69 (five new regions, since SNc and CBX were already
+there for P3.2's sign table, plus their three ancestors CA, EPI and MTN).
+The Knox matrices are byte-identical, because these are ontology entries
+with no matrix row.
+
+Splitting the two tuples rather than growing one was deliberate. P4.2's
+test asserts that every region it added is a region it compares, and
+widening that to the union would have made it assert nothing; now each task
+owns its block and P4.3 has the converse test, that every region it added
+is named by a claim.
+
+### What this task changes, and what it does not
+
+- **`scenarios.py` now imports the expression package.** P4.1 and P4.2 were
+  both additive and said so; this is the task that spends that. The import
+  is lazy and inside the function, and it reads the committed fixture by
+  default, so no existing test acquired a dependency on the gitignored
+  cache.
+- **One illustrative number changed value and one changed shape.** The
+  multi-region mu-opioid coupling is now `-1.72 * rho`, and its three
+  per-node gains became one gain plus a measured map. The illustrative
+  label stays on the gain, because nothing calibrated it; the density
+  factor is data and carries P4.2's assumption with it.
+- **No other parameter moved, no other scenario touched, no tolerance
+  widened.** `mu_opioid_coupling()` (the single-region VTA scenario, and
+  the one P2.2 fitted a posterior around) is untouched, as are the D2 and
+  GABA-A scenarios.
+- **The headline result is a negative one and is reported as the
+  headline**: seventeen of eighteen claims behaved as their records say,
+  the eighteenth is a 0.6% difference between two regions at the floor of
+  the map, and the validation rules out ingestion defects while ruling out
+  nothing about the mRNA-to-protein step.
+- **35 net new test items**: the two P4.3 test files collect 42 where the
+  pre-existing multi-region suite collected 7, 5 of them needing the
+  gitignored cache. Every one of the eighteen claims runs in the offline
+  gate, and every qualitative result of the multi-region scenario is now
+  asserted under both density maps.
+- **Two existing tests changed, both because a number they pinned moved
+  for a stated reason.** `test_a_recruited_node_leaves_the_rail_and_a_dead_
+  one_does_not` no longer lists VTA_GABA among the nodes the agonist rails,
+  because at -1.72 it lands at sensitivity 0.28 rather than 0.002; the
+  property that test exists for, no node saturated both at rest and under
+  drug, is unchanged, and the test now also asserts VTA_GABA is driven down
+  without being railed. `test_the_fixture_ontology_covers_the_offline_
+  comparison` now iterates P4.2's own five ontology-only regions instead of
+  the union of P4.2's and P4.3's, because the union would have made it
+  assert nothing.

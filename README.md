@@ -108,14 +108,14 @@ more single-dose studies.
 | `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1), and the `CircuitNetwork` builder with its neurotransmitter sign rule (P3.2) |
 | `src/neurocascade/connectome_scenarios.py` | The hand-built scenarios re-wired from the connectome, with per-edge provenance (P3.3) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4) |
-| `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), and the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2) |
+| `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2), and the cited anatomical validation of the resulting maps (P4.3) |
 | `src/neurocascade/datafetch.py` | Checksummed download/verify/cache, shared by both ingestion packages |
 | `scripts/`           | `fetch_connectome.py`, `fetch_expression.py` (download + checksum-verify source data), maintenance |
 | `data/`              | Gitignored cache of downloaded source data; checksums live in `connectome/sources.py` and `expression/sources.py` |
 | `examples/`          | Worked end-to-end scenarios                      |
 | `tests/`             | Unit tests per layer                             |
 | `docs/`              | Architecture and design notes                    |
-| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage, `expression_density_validation.txt` P4.2 density validation |
+| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage, `expression_density_validation.txt` P4.2 density validation, `receptor_map_validation.txt` P4.3 anatomy validation |
 
 ### Connectome data
 
@@ -240,6 +240,40 @@ Some receptors are not in the region that transcribes them.
 transcript puts 119x as much in SNr as in CP while [3H]mazindol binding puts
 0.7x as much, a 172-fold misstatement that no correction here can fix.
 `results/expression_density_validation.txt` is the committed record.
+
+### Is it the map of the gene it claims to be
+
+```python
+from neurocascade import connectome, expression
+
+atlas   = expression.load_expression_atlas(ontology=connectome.load_ontology())
+results = expression.check_atlas(atlas)      # eighteen cited claims
+```
+
+A transposed matrix, a gene column off by one and a structure-id mis-join
+all produce a map with the right shape and plausible numbers, so the maps
+are checked against independently published anatomy: **Drd1, Drd2 and
+Adora2a striatum-dominant, Oprm1 peaking in the medial habenula, Gabra1
+cortical and pallidal rather than striatal, Cnr1 hippocampal**. Every
+expectation carries its citation, species, method and whether it measured
+mRNA or protein; claims are ordinal only, because P4.2 measured this
+conversion to be a good ordering and a bad scale.
+
+Seventeen of the eighteen behaved as recorded, including two that are
+expected to **fail** and assert that they do: Cnr1's receptors sit on
+striatal axon terminals in SNr and GPe (Herkenham et al. 1991) and D1's on
+striatonigral terminals, so neither transcript map can reproduce the
+protein distribution. The eighteenth is a 0.6% difference between two
+regions at the floor of the Oprm1 map.
+`results/receptor_map_validation.txt` is the committed record.
+
+The first consumer is the multi-region mu-opioid scenario, whose
+hand-written density map is now the Allen Oprm1 one:
+`coupling = mechanism_gain * rho`, with rho = 1.00 (VTA), 2.52 (PAG), 4.27
+(LC) and the gain still illustrative.
+`scenarios.mu_opioid_multi_region_coupling_handwritten()` keeps the old map
+as the regression baseline, and every qualitative result is asserted under
+both.
 
 ### Scenarios on connectome regions
 

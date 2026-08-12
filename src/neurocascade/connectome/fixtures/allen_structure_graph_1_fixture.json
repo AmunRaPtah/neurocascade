@@ -305,6 +305,60 @@
                  "children": []
                 }
                ]
+              },
+              {
+               "id": 571,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "MTN",
+               "name": "Midline group of the dorsal thalamus",
+               "color_hex_triplet": "FF909F",
+               "graph_order": 691,
+               "st_level": 7,
+               "hemisphere_id": 3,
+               "parent_structure_id": 856,
+               "children": [
+                {
+                 "id": 149,
+                 "atlas_id": null,
+                 "ontology_id": 1,
+                 "acronym": "PVT",
+                 "name": "Paraventricular nucleus of the thalamus",
+                 "color_hex_triplet": "FF909F",
+                 "graph_order": 692,
+                 "st_level": 8,
+                 "hemisphere_id": 3,
+                 "parent_structure_id": 571,
+                 "children": []
+                }
+               ]
+              },
+              {
+               "id": 958,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "EPI",
+               "name": "Epithalamus",
+               "color_hex_triplet": "FF909F",
+               "graph_order": 711,
+               "st_level": 7,
+               "hemisphere_id": 3,
+               "parent_structure_id": 856,
+               "children": [
+                {
+                 "id": 483,
+                 "atlas_id": null,
+                 "ontology_id": 1,
+                 "acronym": "MH",
+                 "name": "Medial habenula",
+                 "color_hex_triplet": "FF909F",
+                 "graph_order": 712,
+                 "st_level": 8,
+                 "hemisphere_id": 3,
+                 "parent_structure_id": 958,
+                 "children": []
+                }
+               ]
               }
              ]
             }
@@ -749,7 +803,61 @@
                "st_level": 6,
                "hemisphere_id": 3,
                "parent_structure_id": 1089,
-               "children": []
+               "children": [
+                {
+                 "id": 375,
+                 "atlas_id": null,
+                 "ontology_id": 1,
+                 "acronym": "CA",
+                 "name": "Ammon's horn",
+                 "color_hex_triplet": "7ED04B",
+                 "graph_order": 456,
+                 "st_level": 8,
+                 "hemisphere_id": 3,
+                 "parent_structure_id": 1080,
+                 "children": [
+                  {
+                   "id": 382,
+                   "atlas_id": null,
+                   "ontology_id": 1,
+                   "acronym": "CA1",
+                   "name": "Field CA1",
+                   "color_hex_triplet": "7ED04B",
+                   "graph_order": 457,
+                   "st_level": 9,
+                   "hemisphere_id": 3,
+                   "parent_structure_id": 375,
+                   "children": []
+                  },
+                  {
+                   "id": 463,
+                   "atlas_id": null,
+                   "ontology_id": 1,
+                   "acronym": "CA3",
+                   "name": "Field CA3",
+                   "color_hex_triplet": "7ED04B",
+                   "graph_order": 467,
+                   "st_level": 9,
+                   "hemisphere_id": 3,
+                   "parent_structure_id": 375,
+                   "children": []
+                  }
+                 ]
+                },
+                {
+                 "id": 726,
+                 "atlas_id": null,
+                 "ontology_id": 1,
+                 "acronym": "DG",
+                 "name": "Dentate gyrus",
+                 "color_hex_triplet": "7ED04B",
+                 "graph_order": 473,
+                 "st_level": 8,
+                 "hemisphere_id": 3,
+                 "parent_structure_id": 1080,
+                 "children": []
+                }
+               ]
               }
              ]
             }

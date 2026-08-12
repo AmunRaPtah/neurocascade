@@ -618,7 +618,7 @@ def test_fixture_counts_are_checked_on_load():
                 "Htr2a"
             ].experiments
         )
-    assert "parsed 61 unionize rows, 1 were recorded" in str(caught.value)
+    assert "parsed 69 unionize rows, 1 were recorded" in str(caught.value)
 
 
 def test_regional_expression_refuses_a_value_with_no_contributor():

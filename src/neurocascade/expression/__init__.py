@@ -63,6 +63,26 @@ Measured, not assumed: over ten mouse regions with published D1 densities
 the map ranks regions well (Spearman 0.71) and scales them badly
 (proportional R2 0.31). `results/expression_density_validation.txt` is the
 committed record.
+
+Is it the map of the gene it claims to be: what P4.3 added
+----------------------------------------------------------
+
+A transposed matrix, a gene column off by one and a structure-id mis-join
+all produce a map with the right shape and plausible numbers. Anatomy is
+what tells them apart:
+
+    anatomy.py        eighteen cited ordinal expectations over six
+                      receptors, each with species, method and modality,
+                      including two that are expected to FAIL and say why
+    scenario_maps.py  the join from a gene plus {node: structure id} to the
+                      density factor a scenario's coupling needs
+
+    results = expression.check_atlas(atlas)          # every claim, measured
+    scenarios.mu_opioid_multi_region_coupling()      # the first consumer
+
+Seventeen of the eighteen behaved as recorded; the one that did not is a
+0.6% difference between two regions at the floor of the Oprm1 map.
+`results/receptor_map_validation.txt` is the committed record.
 """
 
 from .genes import (
@@ -164,6 +184,22 @@ from .validation import (
     fit_absolute_scale,
     policy_sensitivity,
 )
+from .anatomy import (
+    ANATOMY_SOURCES,
+    CLAIMS,
+    CLAIMS_BY_SYMBOL,
+    VALIDATED_SYMBOLS,
+    AnatomySource,
+    Claim,
+    ClaimResult,
+    check,
+    check_atlas,
+    claim_regions,
+)
+from .scenario_maps import (
+    scenario_coupling,
+    scenario_density_map,
+)
 from .fixtures import (
     FIXTURE_COUNTS,
     FIXTURE_DIR,
@@ -175,6 +211,13 @@ from .fixtures import (
 
 __all__ = [
     "ALLEN_ISH_CITATION",
+    "ANATOMY_SOURCES",
+    "AnatomySource",
+    "CLAIMS",
+    "CLAIMS_BY_SYMBOL",
+    "Claim",
+    "ClaimResult",
+    "VALIDATED_SYMBOLS",
     "ASSUMPTION",
     "AVAILABLE_SYMBOLS",
     "AbsoluteScale",
@@ -237,6 +280,9 @@ __all__ = [
     "compare_lothmann",
     "data_file",
     "dropped_regions",
+    "check",
+    "check_atlas",
+    "claim_regions",
     "fetch_all",
     "fit_absolute_scale",
     "gene",
@@ -253,6 +299,8 @@ __all__ = [
     "read_dataset_index",
     "read_unionize_csv",
     "relative_density",
+    "scenario_coupling",
+    "scenario_density_map",
     "sha256_of",
     "symbols",
     "unionize_file",

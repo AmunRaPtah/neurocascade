@@ -384,6 +384,16 @@ def test_a_recruited_node_leaves_the_rail_and_a_dead_one_does_not(circuit):
     saturated in BOTH states. P3.3's ported GPe is: it is against the rail
     with and without the drug, which is what "it stopped responding to
     anything upstream" means.
+
+    `with_drug` was {VTA_GABA, PAG_Interneuron, LC} until P4.3 replaced the
+    hand-written mu-opioid density map with the atlas-derived one. VTA_GABA
+    left that set because its coupling went from -3.0 to -1.72: at full
+    activation it now sits at rate 0.076, sensitivity 0.28, where under the
+    hand-written map it sat at rate 4.9e-4, sensitivity 0.002. It is still
+    suppressed hard; it is no longer against the rail while being it. The
+    property this test exists for - no node saturated in both states - is
+    unchanged, and the assertion below now pins VTA_GABA being driven down
+    without being railed.
     """
     port = cs.SCENARIO_PORTS["mu_opioid_multi_region"]
     network = port.hand_built()
@@ -394,8 +404,14 @@ def test_a_recruited_node_leaves_the_rail_and_a_dead_one_does_not(circuit):
     at_rest = {state.name for state in rest.saturated}
     with_drug = {state.name for state in drugged.saturated}
     assert at_rest == {"VTA_DA", "PAG_Output"}
-    assert with_drug == {"VTA_GABA", "PAG_Interneuron", "LC"}
+    assert with_drug == {"PAG_Interneuron", "LC"}
     assert at_rest & with_drug == set()
+
+    by_name = {state.name: state for state in drugged.states}
+    vta_gaba = by_name["VTA_GABA"]
+    assert vta_gaba.rate < 0.1  # driven hard toward the floor
+    assert vta_gaba.sensitivity > 0.1  # and still responsive there
+    assert not vta_gaba.saturated
 
     d2 = cs.SCENARIO_PORTS["d2_indirect"]
     ported = cs.port_scenario(d2, circuit, baselines="rest_balanced").network

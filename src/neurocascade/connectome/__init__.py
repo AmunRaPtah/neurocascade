@@ -81,6 +81,8 @@ from .build import (
     parcellation,
 )
 from .fixtures import (
+    ANATOMY_ONLY_REGION_IDS,
+    AUTORADIOGRAPHY_ONLY_REGION_IDS,
     EXTRA_ONTOLOGY_REGION_IDS,
     FIXTURE_CONNECTOME_KEY,
     FIXTURE_DIR,
@@ -118,6 +120,8 @@ __all__ = [
     "TransmitterRule",
     "FIXTURE_CONNECTOME_KEY",
     "FIXTURE_DIR",
+    "ANATOMY_ONLY_REGION_IDS",
+    "AUTORADIOGRAPHY_ONLY_REGION_IDS",
     "EXTRA_ONTOLOGY_REGION_IDS",
     "FIXTURE_REGION_IDS",
     "KNOX_FIXTURE_KEYS",

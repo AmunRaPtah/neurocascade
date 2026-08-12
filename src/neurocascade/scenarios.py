@@ -201,24 +201,112 @@ def incentive_salience_readout():
 # seriously (same spirit as Track A's naloxone-koff finding): LC is the
 # HIGHEST-density region of these three per [TempelZukin1987], with VTA and
 # PAG both in the "moderate" tier per [Hawkins1988]/[Mansour1987] -- yet the
-# gain chosen for `LC` below is the SMALLEST of the three, not the largest.
-# That is not a contradiction, it is the reason a raw density number cannot
-# be dropped into `coupling` unmodified: `coupling`'s gain is a NODE-LEVEL
-# drive-coupling constant in this mean-field abstraction, which folds
-# together (a) receptor density and (b) how much a unit of receptor
-# activation actually changes that node's net input given the surrounding
-# circuit mechanism. VTA_GABA and PAG_Interneuron's activation is amplified
-# by an interposed GABAergic-interneuron-disinhibition step reaching a
-# separate output node one synapse downstream; LC's activation acts
-# directly on the same node being read out, with no such amplification
-# step. So even though LC has the highest receptor density of the three,
-# its illustrative node-coupling gain is smaller, and that is a real
-# property of this level of abstraction, not an error: density sets which
-# nodes plausibly deserve a nonzero coupling entry at all (all three do),
-# it does not by itself set the gain's magnitude. All three magnitudes
-# below remain hand-tuned illustrative numbers chosen to produce clear,
-# checkable qualitative dynamics (see docs/architecture.md) -- they are not
-# a density-to-gain unit conversion.
+# gain chosen for `LC` in the ORIGINAL hand-written map was the SMALLEST of
+# the three, not the largest. That is not a contradiction, it is the reason
+# a raw density number cannot be dropped into `coupling` unmodified:
+# `coupling`'s gain is a NODE-LEVEL drive-coupling constant in this
+# mean-field abstraction, which folds together (a) receptor density and (b)
+# how much a unit of receptor activation actually changes that node's net
+# input given the surrounding circuit mechanism. VTA_GABA and
+# PAG_Interneuron's activation is amplified by an interposed
+# GABAergic-interneuron-disinhibition step reaching a separate output node
+# one synapse downstream; LC's activation acts directly on the same node
+# being read out, with no such amplification step. Density sets which nodes
+# plausibly deserve a nonzero coupling entry at all (all three do), it does
+# not by itself set the gain's magnitude.
+#
+# The half of that paragraph about LC's amplification is WRONG, and P4.3
+# below says why and drops it: the amplification it describes is carried by
+# the connectivity weight, so folding it into the gain counted it twice.
+# The half about density and gain being different axes stands, and is the
+# reason the replacement below is a factorization rather than a rescaling.
+#
+# ---------------------------------------------------------------------------
+# P4.3: the density half of that product is no longer hand-written
+# ---------------------------------------------------------------------------
+#
+# P4.2 named the factorization
+#
+#     coupling[node] = mechanism_gain * rho[region]
+#
+# and `mu_opioid_multi_region_coupling()` below now computes exactly that:
+# `rho` from the Allen Mouse Brain Atlas Oprm1 ISH map over the three CCF
+# structures the nodes stand for (VTA 749, PAG 795, LC 147), normalized to
+# VTA; `mechanism_gain` still hand-set, still illustrative, and now stated
+# on its own in `mu_opioid_mechanism_gain()` where it can be labelled as
+# such without a density number hidden inside it.
+#
+#   node              hand-written   atlas-derived   Oprm1 rho (VTA = 1)
+#   VTA_GABA              -3.0           -1.72            1.00
+#   PAG_Interneuron       -2.5           -4.34            2.52
+#   LC                    -1.5           -7.35            4.27
+#
+# The ORDERING of the three couplings changes, and the direction it changes
+# in is the one the citations above already asked for and the hand-tuned
+# numbers did not deliver: the transcript map puts LC highest of the three,
+# as [TempelZukin1987] does. It disagrees with the one mouse whole-brain
+# mu-receptor PROTEIN atlas, [Erbs2015], which scores VTA ++ against LC +
+# and LPAG +/++, i.e. the reverse order by one tier. Both statements are in
+# `expression/anatomy.py` with their citations, and neither is smoothed
+# over here: a 4.3-fold transcript spread across three regions and a
+# one-tier protein disagreement are the same size of claim, and P4.2's
+# measurement (transcript is a good ordering and a bad scale, log-log slope
+# 0.46) is the reason they can both be true.
+#
+# One mechanism gain, not three: a correction to the paragraph above
+# --------------------------------------------------------------------------
+#
+# Factoring density out forced a question the hand-tuned numbers never had
+# to answer, and answering it showed the LC paragraph above was
+# double-counting. `Simulation.rhs` does `drive[idx] += gain * activation`:
+# `coupling` is added to a node's OWN input, and the amplification that
+# reaches `VTA_DA` and `PAG_Output` one synapse later is carried by the
+# connectivity weight (-2.5 in both cases), not by the gain. So "LC's
+# activation is not amplified" is a statement about the READOUT, which
+# `arousal_index_readout()` already expresses by reading LC's own rate, and
+# not about how much a unit of receptor activation moves LC's drive. Folded
+# into the gain as well, it was counted twice.
+#
+# With that removed, nothing distinguishes the three nodes at this layer
+# except receptor density: all three are the same Gi-coupled receptor
+# reducing its own node's drive, and no data in reach distinguishes
+# per-receptor efficacy between a VTA interneuron, a PAG interneuron and an
+# LC noradrenergic neuron. So there is ONE illustrative mechanism gain and
+# the density map supplies all three ratios. Asserting a per-cell-type
+# efficacy difference on top of a measured density difference would be
+# inventing a number.
+#
+# The scale that gain is set at, and why it is not tuning
+# --------------------------------------------------------------------------
+#
+# rho is dimensionless and its normalization is a choice, so the gain's
+# scale is not determined by the data and never was. It is set by a stated
+# rule: leave the geometric mean of the two interneuron-motif couplings
+# (VTA_GABA, PAG_Interneuron) where the hand-tuning put it, which gives
+# sqrt(3.0 * 2.5 / 2.5227) = 1.724, rounded to 1.72. LC is excluded from the
+# rule because its density moved most, so including it would let the least
+# constrained node set the scale for the other two.
+#
+# That the specific value is not load-bearing is measured rather than
+# asserted: every qualitative result of this scenario and of its P3.3
+# connectome port survives for any scale in roughly [1.3, 2.0], and the
+# tightest directional margin at 1.72 (2.7e-3) is slightly BETTER than the
+# hand-written map's own (2.6e-3). The scan is in
+# `results/receptor_map_validation.txt`. What does not survive is holding
+# VTA_GABA at -3.0 and letting PAG follow the density to -7.57: that drives
+# the PAG interneuron out of the sensitive part of its sigmoid, and under
+# P3.4's rest-balanced baselines the naloxone reversal of `analgesia_index`
+# falls to 1.9e-4, below the 1e-3 directional margin. That is P3.4's
+# saturation lesson reappearing under drug drive rather than at rest, and
+# it is the reason the scale is set by a rule instead of by preserving one
+# node's old number.
+#
+# The hand-written map is kept, exactly as it was, as
+# `mu_opioid_multi_region_coupling_handwritten()`. It is the regression
+# baseline: `tests/test_multi_region_scenario.py` runs every qualitative
+# result under both maps and asserts the conclusions survive the
+# substitution, which is the same discipline P3.3 applied when it moved the
+# scenarios onto connectome regions.
 
 
 def multi_region_mu_opioid_network():
@@ -259,14 +347,89 @@ def multi_region_mu_opioid_network():
     return CircuitNetwork(nodes=nodes, connectivity=W)
 
 
-def mu_opioid_multi_region_coupling():
-    # Relative gain magnitudes are illustrative and hand-tuned for
-    # qualitative clarity, NOT a density-to-gain unit conversion; see the
-    # section docstring above for why LC's real receptor density (highest
-    # of the three, per literature) does not translate into the largest
-    # gain here. As with mu_opioid_coupling() above, Track E
-    # (docs/architecture.md) looked for a real behavioral anchor for these
-    # gains and did not find one usable; they remain illustrative.
+#: The CCF structure each mu-opioid-bearing node stands for. Same ids and
+#: same anatomy as P3.3's `connectome_scenarios.MULTI_REGION_PORT`
+#: mappings; they are written here too because the density lookup needs
+#: them and importing the port module would make `scenarios.py` depend on
+#: its own consumer.
+MU_OPIOID_MULTI_REGION_STRUCTURES = {
+    "VTA_GABA": 749,        # VTA, ventral tegmental area
+    "PAG_Interneuron": 795,  # PAG, periaqueductal gray
+    "LC": 147,              # LC, locus ceruleus
+}
+
+#: The node whose region is 1.0 in the normalized density map. VTA, because
+#: `VTA_GABA` is the node `mu_opioid_coupling()` also uses and the node
+#: P2.2 fitted a posterior for: expressing the other two against it is what
+#: keeps the atlas-derived map from silently moving a calibrated number.
+MU_OPIOID_REFERENCE_NODE = "VTA_GABA"
+
+
+#: The non-density half of every mu-opioid coupling. ILLUSTRATIVE.
+#:
+#: How much a unit of receptor activation moves a node's own drive, with
+#: receptor density factored out (P4.2's `coupling = mechanism_gain *
+#: rho`). One number for all three nodes: the same Gi-coupled receptor
+#: reducing the drive of the cell that carries it, and no data in reach
+#: distinguishes its per-receptor efficacy between a VTA interneuron, a PAG
+#: interneuron and an LC noradrenergic neuron. Track E and P2.2 both
+#: searched for a behavioural anchor and found none usable.
+#:
+#: Set by the rule in the section docstring above: it leaves the geometric
+#: mean of the two interneuron-motif couplings where the hand-tuning put
+#: it, sqrt(3.0 * 2.5 / 2.5227) = 1.724, rounded to three significant
+#: figures. Any value in roughly [1.3, 2.0] preserves every qualitative
+#: result of this scenario and its connectome port.
+MU_OPIOID_MECHANISM_GAIN = -1.72
+
+
+def mu_opioid_mechanism_gain():
+    """`MU_OPIOID_MECHANISM_GAIN`. ILLUSTRATIVE; see the constant."""
+    return MU_OPIOID_MECHANISM_GAIN
+
+
+def mu_opioid_multi_region_coupling(source=None, atlas=None):
+    """`mechanism_gain * rho`, with rho from the Allen Oprm1 ISH map.
+
+    The replacement P4.3 owes: the density factor is measured rather than
+    hand-written. See the section docstring above for what changed and by
+    how much, `expression/scenario_maps.py` for why the normalization is
+    `reference-region` and why the committed fixture gives the same three
+    numbers as the full 7.5 MB cache, and
+    `mu_opioid_multi_region_coupling_handwritten()` for the baseline the
+    regression tests compare against.
+    """
+    from .expression import scenario_maps
+
+    kwargs = {}
+    if source is not None:
+        kwargs["source"] = source
+    return scenario_maps.scenario_coupling(
+        "Oprm1",
+        nodes=MU_OPIOID_MULTI_REGION_STRUCTURES,
+        mechanism_gains=mu_opioid_mechanism_gain(),
+        reference_node=MU_OPIOID_REFERENCE_NODE,
+        atlas=atlas,
+        **kwargs
+    )
+
+
+def mu_opioid_multi_region_coupling_handwritten():
+    """The pre-P4.3 hand-written map, kept as the regression baseline.
+
+    Relative gain magnitudes are illustrative and hand-tuned for
+    qualitative clarity, NOT a density-to-gain unit conversion; see the
+    section docstring above for why LC's real receptor density (highest
+    of the three, per literature) did not translate into the largest
+    gain here. As with mu_opioid_coupling() above, Track E
+    (docs/architecture.md) looked for a real behavioral anchor for these
+    gains and did not find one usable; they remain illustrative.
+
+    This function is not dead code and is not deprecated scaffolding: every
+    qualitative claim the multi-region scenario makes is asserted under
+    both maps, so that "the atlas-derived map preserves the result" is a
+    test rather than a sentence.
+    """
     return {
         "VTA_GABA": -3.0,  # reward; unchanged from mu_opioid_coupling()
         "PAG_Interneuron": -2.5,  # analgesia; moderate density, same

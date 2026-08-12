@@ -331,7 +331,12 @@ def test_mapped_acronyms_resolve_in_the_shared_ontology(ontology):
 def test_the_fixture_ontology_covers_the_offline_comparison(ontology):
     for acronym in COMPARISON_ACRONYMS:
         ontology.id_for_acronym(acronym)
-    for structure_id in connectome.EXTRA_ONTOLOGY_REGION_IDS:
+    # P4.3 added a second block of ontology-only regions for its anatomy
+    # claims, so this asserts over P4.2's own five rather than over the
+    # union: the property being protected is "every region P4.2 added is a
+    # region P4.2 compares", and widening it to P4.3's would have made it
+    # assert nothing.
+    for structure_id in connectome.AUTORADIOGRAPHY_ONLY_REGION_IDS:
         assert ontology.acronym_for_id(structure_id) in COMPARISON_ACRONYMS
 
 
