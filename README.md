@@ -125,6 +125,26 @@ The engine runs end to end on five worked examples, all reusing the same
   drugs. Full tables in
   [`results/opioid_cross_affinity.txt`](results/opioid_cross_affinity.txt).
 
+- [`examples/monoamine_transporter_psychostimulants.py`](examples/monoamine_transporter_psychostimulants.py)
+  adds the first target class in this model that is **not a receptor**. A
+  transporter produces no signal for a circuit node to read; it clears a
+  transmitter, so blocking it raises that transmitter's extracellular
+  concentration, and receptors then bind that. The mechanism is a
+  Michaelis-Menten mass balance on one pool per transporter, and its central
+  prediction falls out of the algebra with every uncertain constant
+  cancelling: a pure uptake blocker raises the transmitter **exactly
+  `1 + [drug]/Ki`-fold**, independent of Km, Vmax and the basal level.
+  Amphetamine is represented as the transporter SUBSTRATE it is rather than
+  as a blocker, which is worth 87.5-fold at DAT: it releases dopamine with an
+  EC50 of 6.4 nM and blocks uptake with a Ki of 560 nM. Wiring the
+  transporter's dopamine pool into the existing calibrated D2 site gives this
+  codebase its **first endogenous transmitter tone** (a measured 5.0 nM, which
+  puts D2 at 71% occupancy at rest), and with it the first configuration in
+  which an antagonist given alone is not inert: haloperidol on its own now
+  moves the circuit, because there is finally something for it to displace.
+  Full tables in
+  [`results/transporter_constants.txt`](results/transporter_constants.txt).
+
 **The circuit time constants and connection weights are hand-set
 placeholders**, chosen to get the mechanism right, not sourced from any
 specific dataset. The receptor-binding constants and the PK are no longer:
@@ -167,6 +187,8 @@ more single-dose studies.
 | `src/neurocascade/cannabinoid.py` | The CB1 receptor system, handled as connection modulation because the receptor is presynaptic and its signal retrograde, with a connection-modulation gain that is a measured IPSC suppression rather than an illustrative constant (P5.6) |
 | `src/neurocascade/adenosine.py` | The A2A receptor system on the striatopallidal node the D2 scenario already carries, its literature binding constants, and the record that caffeine is not an A2A-selective drug and that adenosine's own affinity cannot be measured (P5.6) |
 | `src/neurocascade/opioid.py` | The kappa and delta receptor systems, the cross-affinities and cross-efficacies of every ligand at all three opioid receptors from one single-laboratory panel, and the record that naloxone is 1.79-fold mu-over-kappa selective and fentanyl a partial kappa agonist (P5.7) |
+| `src/neurocascade/transport.py` | The transporter MECHANISM, beside `receptor.py`: Michaelis-Menten uptake, rapid-equilibrium competitive inhibition, substrate-driven efflux, and one ODE state that is a concentration rather than an occupancy (P5.8) |
+| `src/neurocascade/monoamine_transporters.py` | DAT, SERT and NET: mouse uptake kinetics and basal levels, cited constants for cocaine, methylphenidate, amphetamine, fluoxetine and atomoxetine, the substrate/blocker distinction as two measured constants, and the documented Phase 6 transmitter-concentration interface (P5.8) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4) |
 | `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2), and the cited anatomical validation of the resulting maps (P4.3) |
 | `src/neurocascade/datafetch.py` | Checksummed download/verify/cache, shared by both ingestion packages |
@@ -175,7 +197,7 @@ more single-dose studies.
 | `examples/`          | Worked end-to-end scenarios                      |
 | `tests/`             | Unit tests per layer                             |
 | `docs/`              | Architecture and design notes                    |
-| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage, `expression_density_validation.txt` P4.2 density validation, `receptor_map_validation.txt` P4.3 anatomy validation, `opioid_cross_affinity.txt` P5.7 cross-affinity re-run |
+| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage, `expression_density_validation.txt` P4.2 density validation, `receptor_map_validation.txt` P4.3 anatomy validation, `opioid_cross_affinity.txt` P5.7 cross-affinity re-run, `transporter_constants.txt` P5.8 transporter constants |
 
 ### Connectome data
 

@@ -28,9 +28,30 @@ class ReceptorSystem(object):
     orthosteric ligand plus a channel-block pool (P5.4). Sites that predate
     P5.4 have no `n_states` attribute at all, hence the `getattr` default,
     so a duck-typed external receptor site keeps working unchanged.
+
+    transmitter_sources: optional dict of ligand_name -> transporter-system
+                  name. THIS IS THE PHASE 6 INTERFACE (P5.8). A ligand named
+                  here has its concentration taken from that transporter
+                  system's extracellular transmitter state instead of from
+                  its own PK model, which is what closes the loop
+                  "transporter blocked -> transmitter accumulates ->
+                  occupancy at the receptor rises". The ligand keeps a PK
+                  model (the engine sizes `doses` by ligand count either
+                  way); that model's state is integrated and then ignored
+                  for this ligand's binding, so the natural thing to give it
+                  is a `pk.OneCompartmentPK` dosed at 0. See
+                  `Simulation`'s docstring, section "Transporter systems".
     """
 
-    def __init__(self, pk_models, receptor_site, coupling, connection_modulation=None, name=None):
+    def __init__(
+        self,
+        pk_models,
+        receptor_site,
+        coupling,
+        connection_modulation=None,
+        name=None,
+        transmitter_sources=None,
+    ):
         if len(pk_models) != receptor_site.n:
             raise ValueError("need one PK model per ligand on the receptor site")
         self.pk_models = list(pk_models)
@@ -40,9 +61,62 @@ class ReceptorSystem(object):
         self.name = name or receptor_site.name
         self.n = receptor_site.n
         self.n_states = int(getattr(receptor_site, "n_states", receptor_site.n))
+        self.transmitter_sources = dict(transmitter_sources or {})
+        known = {lig.name for lig in receptor_site.ligands}
+        unknown = set(self.transmitter_sources) - known
+        if unknown:
+            raise ValueError(
+                "transmitter_sources names ligands that are not on this "
+                "receptor site: %s" % sorted(unknown)
+            )
 
     def __repr__(self):
         return "ReceptorSystem(name=%r, n_ligands=%d)" % (self.name, self.n)
+
+
+class TransporterSystem(object):
+    """One transporter's full stack: drugs, their PK, and the transmitter
+    pool the transporter clears (P5.8).
+
+    The deliberate parallel to `ReceptorSystem`, and the deliberate
+    differences:
+
+    * it has NO `coupling` and NO `connection_modulation`, because a
+      transporter produces no activation for a node to read. Its entire
+      output is one number, the extracellular transmitter concentration,
+      which lives in the shared state vector and is reported as
+      `result["transmitter"]`;
+    * its state does not start at zero. A transporter's pool starts at the
+      transmitter's drug-free basal concentration;
+    * `transporter.release_rate` is the input Phase 6 replaces. P6.1's
+      projection-system abstraction ends in "region-wise transmitter
+      concentration"; this class is the object that owns that concentration
+      and integrates it, and the release term is the hook a firing-rate-
+      driven release model plugs into.
+
+    pk_models  : one PK model per ligand on `transporter` (same order).
+    transporter: a `transport.MonoamineTransporter`.
+    name       : optional label (defaults to `transporter.name`); it is what
+                 a `ReceptorSystem.transmitter_sources` entry refers to, so
+                 it must be unique within one `Simulation`.
+    """
+
+    def __init__(self, pk_models, transporter, name=None):
+        if len(pk_models) != transporter.n:
+            raise ValueError("need one PK model per ligand on the transporter")
+        self.pk_models = list(pk_models)
+        self.transporter = transporter
+        self.name = name or transporter.name
+        self.n = transporter.n
+        self.n_states = int(getattr(transporter, "n_states", 1))
+        self.transmitter = transporter.transmitter
+
+    def __repr__(self):
+        return "TransporterSystem(name=%r, transmitter=%r, n_ligands=%d)" % (
+            self.name,
+            self.transmitter,
+            self.n,
+        )
 
 
 class Simulation(object):
@@ -69,6 +143,16 @@ class Simulation(object):
        attributes). Passing both forms at once is an error; passing
        neither is an error.
 
+    3. With one or more TRANSPORTER systems (P5.8), which may accompany
+       receptor systems or stand alone::
+
+           Simulation(network=net, transporter_systems=[dat_system])
+           Simulation(network=net, receptor_systems=[d2], transporter_systems=[dat])
+
+       A transporter is not a receptor (see `transport.py`): it produces no
+       activation, it owns one state -- the extracellular transmitter
+       concentration -- and that state is what Phase 6 consumes.
+
     State vector layout, generalizing to k receptor systems with n_1..n_k
     ligands respectively (r = sum(n_i) ligands; reduces to the original
     [C_1..C_d, occ_1..occ_d, r_1..r_n] layout when k == 1 and every ligand's
@@ -76,13 +160,18 @@ class Simulation(object):
 
         y = [<PK states of every ligand, in flattened ligand order>,  # d of them
              <receptor states of system 1>, <system 2>, ...,         # r of them
+             <transmitter state of transporter system 1>, ...,       # m of them
              r_1, ..., r_n]                                          # shared rates
 
     i.e. every ligand's PK state block, in system order, then every system's
-    receptor-state block, in the same order, then one shared set of circuit
+    receptor-state block, in the same order, then one transmitter
+    concentration per transporter system, then one shared set of circuit
     firing rates. `doses` passed to `run()` must be given in that same
-    flattened per-system LIGAND order, one entry per ligand (see
-    `dose_vector()` for a name-based helper that builds it for you).
+    flattened LIGAND order -- every receptor system's ligands first, in
+    system order, then every transporter system's -- one entry per ligand
+    (see `dose_vector()` for a name-based helper that builds it for you).
+    With no transporter systems m is 0 and the layout is exactly the
+    pre-P5.8 one.
 
     A system's receptor-state block is one occupancy per ligand for the
     ordinary two-state `ReceptorSite`, so for every scenario before P5.4
@@ -152,6 +241,28 @@ class Simulation(object):
       nothing to compose), so this choice only matters once two systems are
       deliberately wired to modulate the exact same connection, which is an
       unusual, explicit scenario design choice rather than the default.
+
+    Transporter systems, and the Phase 6 hand-off (P5.8)
+    ----------------------------------------------------
+
+    A `TransporterSystem` contributes nothing to `drive` and nothing to
+    `connectivity`. What it does is integrate one extracellular transmitter
+    concentration alongside everything else, driven by its own drugs'
+    concentrations. Two consequences worth stating:
+
+    * `result["transmitter"]` is a (m, n_times) array in nM, one row per
+      transporter system in the order given, and
+      `transmitter_index[name]` maps a system name to its row. **This array
+      is the documented interface Phase 6's projection systems consume.**
+    * a receptor system may declare `transmitter_sources={ligand: system}`,
+      in which case that ligand's binding is driven by that transporter's
+      transmitter state instead of by its own PK model. That is the closed
+      loop -- block the transporter, the transmitter accumulates, occupancy
+      at the receptor rises -- and it is opt-in, so every result predating
+      P5.8 is unchanged. Receptor binding does NOT deplete the transmitter
+      pool here: the receptor population is a vanishing sink beside uptake,
+      and modelling it as one would need a receptor density in absolute
+      molar terms, which P4.2 explicitly does not provide.
     """
 
     def __init__(
@@ -162,6 +273,7 @@ class Simulation(object):
         receptor_site=None,
         coupling=None,
         connection_modulation=None,
+        transporter_systems=None,
     ):
         if network is None:
             raise TypeError("Simulation requires a network")
@@ -172,16 +284,26 @@ class Simulation(object):
             or coupling is not None
             or connection_modulation is not None
         )
+        transporter_systems = list(transporter_systems or [])
         if receptor_systems is None:
             if pk_models is None or receptor_site is None or coupling is None:
-                raise TypeError(
-                    "Simulation needs either receptor_systems=[...] or the "
-                    "single-receptor-system trio pk_models=/receptor_site=/"
-                    "coupling= (connection_modulation= optional)"
-                )
-            receptor_systems = [
-                ReceptorSystem(pk_models, receptor_site, coupling, connection_modulation)
-            ]
+                # A transporter-only Simulation is legitimate (P5.8): the
+                # transmitter pool is a complete model on its own, and the
+                # receptor layer is what Phase 6 will attach to it.
+                if not transporter_systems:
+                    raise TypeError(
+                        "Simulation needs receptor_systems=[...], "
+                        "transporter_systems=[...], or the single-receptor-"
+                        "system trio pk_models=/receptor_site=/coupling= "
+                        "(connection_modulation= optional)"
+                    )
+                receptor_systems = []
+            else:
+                receptor_systems = [
+                    ReceptorSystem(
+                        pk_models, receptor_site, coupling, connection_modulation
+                    )
+                ]
         elif legacy_kwargs_given:
             raise TypeError(
                 "pass either receptor_systems=[...] or the legacy single-"
@@ -190,11 +312,19 @@ class Simulation(object):
             )
 
         receptor_systems = list(receptor_systems)
-        if not receptor_systems:
-            raise ValueError("need at least one receptor system")
+        if not receptor_systems and not transporter_systems:
+            raise ValueError("need at least one receptor or transporter system")
+
+        transporter_names = [system.name for system in transporter_systems]
+        if len(set(transporter_names)) != len(transporter_names):
+            raise ValueError(
+                "transporter system names must be unique within a Simulation; "
+                "they are what transmitter_sources refers to"
+            )
 
         self.network = network
         self.receptor_systems = receptor_systems
+        self.transporter_systems = transporter_systems
         self._n_per_system = [system.n for system in receptor_systems]
         self._offsets = np.cumsum([0] + self._n_per_system[:-1]).tolist()
         # Receptor-state block lengths, which equal the ligand counts for
@@ -207,12 +337,27 @@ class Simulation(object):
         ]
         self._state_offsets = np.cumsum([0] + self._n_states_per_system[:-1]).tolist()
 
+        # Transporter ligands sit AFTER every receptor ligand in the flat
+        # `doses` order, so adding a transporter system cannot renumber an
+        # existing receptor system's doses.
+        self._n_per_transporter = [system.n for system in transporter_systems]
+        self._transporter_offsets = (
+            np.cumsum([sum(self._n_per_system)] + self._n_per_transporter[:-1]).tolist()
+            if transporter_systems
+            else []
+        )
+
         #: Number of ligands across all systems: the length of `doses`.
-        self.n_ligands = sum(self._n_per_system)
+        self.n_ligands = sum(self._n_per_system) + sum(self._n_per_transporter)
         #: Number of receptor STATES across all systems: the length of the
-        #: occupancy region of y. Equal to `n_ligands` unless a
+        #: occupancy region of y. Equal to the receptor-ligand count unless a
         #: desensitizing site is present.
         self.r = sum(self._n_states_per_system)
+        #: Number of TRANSMITTER states: one per transporter system, 0 before
+        #: P5.8 and 0 for every simulation that declares none.
+        self.m = sum(
+            int(getattr(system, "n_states", 1)) for system in transporter_systems
+        )
         self.c = network.n
 
         # Flat, ligand-ordered PK view. Every model is normalized to the ODE
@@ -225,7 +370,7 @@ class Simulation(object):
         concentration_rows = []
         receptor_factors = []
         cursor = 0
-        for system in receptor_systems:
+        for system in list(receptor_systems) + list(transporter_systems):
             for model in system.pk_models:
                 ode_model = as_ode_pk_model(model)
                 n_states = int(ode_model.n_states)
@@ -253,6 +398,55 @@ class Simulation(object):
         self._all_receptor_factors_are_one = bool(
             np.all(self.receptor_concentration_factors == 1.0)
         )
+
+        #: Where each transporter system's block starts in the transmitter
+        #: region. One state each today, so this is 0, 1, 2, ...; kept as a
+        #: cumulative table so a multi-pool transporter would not silently
+        #: misalign anything.
+        self._n_states_per_transporter = [
+            int(getattr(system, "n_states", 1)) for system in transporter_systems
+        ]
+        self._transmitter_state_offsets = np.cumsum(
+            [0] + self._n_states_per_transporter[:-1]
+        ).tolist()
+        #: Row index into `result["transmitter"]` for each transporter
+        #: system, by name. Public because it is half of the Phase 6
+        #: interface: the other half is `result["transmitter"]` itself.
+        self.transmitter_index = {
+            system.name: offset
+            for system, offset in zip(
+                transporter_systems, self._transmitter_state_offsets
+            )
+        }
+        #: (flat ligand index, transmitter row) pairs, resolved once, for
+        #: every ligand whose concentration comes from a transporter's
+        #: transmitter pool rather than from its own PK model (P5.8).
+        self._transmitter_overrides = []
+        for system, offset in zip(receptor_systems, self._offsets):
+            sources = getattr(system, "transmitter_sources", None)
+            if not sources:
+                continue
+            positions = {
+                lig.name: i for i, lig in enumerate(system.receptor_site.ligands)
+            }
+            for ligand_name, transporter_name in sources.items():
+                if transporter_name not in self.transmitter_index:
+                    raise ValueError(
+                        "receptor system %r sources ligand %r from transporter "
+                        "system %r, which is not in this Simulation; have %s"
+                        % (
+                            system.name,
+                            ligand_name,
+                            transporter_name,
+                            sorted(self.transmitter_index),
+                        )
+                    )
+                self._transmitter_overrides.append(
+                    (
+                        offset + positions[ligand_name],
+                        self.transmitter_index[transporter_name],
+                    )
+                )
 
     # Backward-compatible single-system attribute access.
     # These proxy to the sole ReceptorSystem when there is exactly one
@@ -308,6 +502,12 @@ class Simulation(object):
                     doses[offset] = dose_by_ligand_name[lig.name]
                     seen.add(lig.name)
                 offset += 1
+        for system in self.transporter_systems:
+            for lig in system.transporter.ligands:
+                if lig.name in dose_by_ligand_name:
+                    doses[offset] = dose_by_ligand_name[lig.name]
+                    seen.add(lig.name)
+                offset += 1
         unknown = set(dose_by_ligand_name) - seen
         if unknown:
             raise ValueError("unknown ligand name(s): %s" % sorted(unknown))
@@ -325,20 +525,30 @@ class Simulation(object):
         start = self._state_offsets[system_index]
         return np.arange(start, start + self._n_states_per_system[system_index])
 
+    def transmitter_rows(self, system_index):
+        """Row indices, into `result["transmitter"]`, of one transporter
+        system's states. One row each today; kept as a range so a future
+        multi-pool transporter does not change the call sites."""
+        start = self._transmitter_state_offsets[system_index]
+        return np.arange(start, start + self._n_states_per_transporter[system_index])
+
     def _unpack(self, y):
-        """Split y into (PK states, occupancies, rates). The first return
-        value is the whole PK region, which is per-ligand *concentration*
-        only when every PK model owns a single state; use
+        """Split y into (PK states, occupancies, transmitters, rates). The
+        first return value is the whole PK region, which is per-ligand
+        *concentration* only when every PK model owns a single state; use
         `self.concentration_rows` to pull the per-ligand concentrations out
-        of it in the general case."""
-        d, r = self.d, self.r
+        of it in the general case. The transmitter region is empty for every
+        Simulation with no transporter systems, which is every one that
+        predates P5.8."""
+        d, r, m = self.d, self.r, self.m
         pk_state = y[0:d]
         occ = y[d : d + r]
-        rates = y[d + r : d + r + self.c]
-        return pk_state, occ, rates
+        transmitter = y[d + r : d + r + m]
+        rates = y[d + r + m : d + r + m + self.c]
+        return pk_state, occ, transmitter, rates
 
     def rhs(self, t, y):
-        pk_state, occ, rates = self._unpack(y)
+        pk_state, occ, transmitter, rates = self._unpack(y)
 
         d_pk = np.empty(self.d)
         for model, (start, stop) in zip(self._ode_pk_models, self._pk_blocks):
@@ -355,6 +565,17 @@ class Simulation(object):
             if self._all_receptor_factors_are_one
             else C * self.receptor_concentration_factors
         )
+        if self._transmitter_overrides:
+            # The Phase 6 hand-off, applied before the receptor layer runs:
+            # a ligand declared in `transmitter_sources` binds the
+            # extracellular transmitter concentration the transporter layer
+            # is maintaining, not the plasma concentration its own PK model
+            # carries. `C` is already a fresh array (fancy indexing copies),
+            # but copy explicitly so that this cannot silently start writing
+            # into the state vector if that ever changes.
+            C_receptor = np.array(C_receptor, dtype=float)
+            for ligand_row, transmitter_row in self._transmitter_overrides:
+                C_receptor[ligand_row] = transmitter[transmitter_row]
 
         d_occ = np.empty(self.r)
         drive = self.network.baseline_drive()
@@ -392,9 +613,34 @@ class Simulation(object):
                 j = self.network.index[pre_name]
                 connectivity[i, j] = connectivity[i, j] * factor
 
+        # The transporter layer. It contributes nothing to `drive` and
+        # nothing to `connectivity`: its whole output is the transmitter
+        # concentration it maintains, which the receptor layer above has
+        # already read through `transmitter_sources` if anything asked for
+        # it. Placed after the receptor loop so the ordering of the two
+        # reads is explicit rather than incidental.
+        d_transmitter = np.empty(self.m)
+        cursor = 0
+        for system, offset in zip(
+            self.transporter_systems, self._transporter_offsets
+        ):
+            n = system.n
+            # A cursor rather than the loop index, so that a transporter that
+            # ever owns more than one pool cannot silently misalign the block.
+            start, cursor = cursor, cursor + system.n_states
+            # A transporter's drugs are plasma-driven exactly like a
+            # receptor's, so they take the same brain-partition correction
+            # (P1.5); the transporter ligands sit past every receptor ligand
+            # in this array, so no `transmitter_sources` override can touch
+            # them.
+            C_i = C_receptor[offset : offset + n]
+            d_transmitter[start:cursor] = system.transporter.transmitter_rhs(
+                transmitter[start:cursor], C_i
+            )
+
         d_rates = self.network.rhs(rates, drive, connectivity=connectivity)
 
-        return np.concatenate([d_pk, d_occ, d_rates])
+        return np.concatenate([d_pk, d_occ, d_transmitter, d_rates])
 
     def initial_pk_state(self, doses):
         """Assemble the PK region of y0 from one dose per ligand, by asking
@@ -410,6 +656,22 @@ class Simulation(object):
         blocks = [
             model.initial_state(dose)
             for model, dose in zip(self._ode_pk_models, doses)
+        ]
+        return np.concatenate(blocks) if blocks else np.zeros(0)
+
+    def initial_transmitter_state(self):
+        """The transmitter region of y0: each transporter's drug-free basal
+        extracellular concentration, in nM.
+
+        Unlike every other region of the state vector this does NOT start at
+        zero, and that is the point: there is transmitter in the cleft before
+        any drug is given, so a transporter blocker has something to act on.
+        It is also the one place where a "no drug" run is not a run in which
+        every state is initially zero, which is why the check that a drug-free
+        transporter run is exactly flat is a test rather than an assumption.
+        """
+        blocks = [
+            system.transporter.initial_state() for system in self.transporter_systems
         ]
         return np.concatenate(blocks) if blocks else np.zeros(0)
 
@@ -444,7 +706,7 @@ class Simulation(object):
         vector into the same dict `run()` returns. Exists so callers that
         drive `solve_ivp` themselves (mid-run dosing, in the examples) don't
         have to hand-reproduce the layout."""
-        d, r = self.d, self.r
+        d, r, m = self.d, self.r, self.m
         plasma = sol.y[self.concentration_rows]
         return {
             "t": sol.t,
@@ -469,7 +731,14 @@ class Simulation(object):
             # `state_rows(i)` plus the site's `split_states` to read the
             # latter (P5.4).
             "occupancy": sol.y[d : d + r],
-            "rates": sol.y[d + r : d + r + self.c],
+            # One row per transporter system, in nM, in the order the
+            # systems were given: the extracellular transmitter
+            # concentration each one maintains. Empty (shape (0, n_times))
+            # when there are no transporter systems, so every pre-P5.8
+            # caller sees the key and no change. THIS IS WHAT PHASE 6
+            # CONSUMES; `transmitter_index` maps a system name to its row.
+            "transmitter": sol.y[d + r : d + r + m],
+            "rates": sol.y[d + r + m : d + r + m + self.c],
         }
 
     #: Integrator used by `run()` unless overridden. Every result in this
@@ -520,9 +789,12 @@ class Simulation(object):
 
         pk0 = self.initial_pk_state(doses)
         occ0 = np.zeros(self.r)
+        transmitter0 = self.initial_transmitter_state()
         if rates0 is None:
             rates0 = np.zeros(self.c)
-        y0 = np.concatenate([pk0, occ0, np.asarray(rates0, dtype=float)])
+        y0 = np.concatenate(
+            [pk0, occ0, transmitter0, np.asarray(rates0, dtype=float)]
+        )
 
         sol = solve_ivp(
             self.rhs,

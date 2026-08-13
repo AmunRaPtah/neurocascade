@@ -8901,3 +8901,411 @@ a property of the two receptors.
   enkephalin tone (P6.2, and here it is the whole content of the naloxone
   result); and kappa dysphoria as a named behavioural endpoint, which is
   Phase 7's job.
+
+---
+
+## Phase 5: monoamine transporters DAT, SERT and NET (P5.8)
+
+### The sentence in the brief that decided the whole design
+
+"A transporter is not a receptor: blocking it raises synaptic transmitter
+concentration rather than directly producing a signal, so it needs its own
+mechanism that feeds the transmitter concentration consumed by Phase 6's
+projection systems."
+
+Every target class in this codebase before P5.8 is a receptor, and all seven
+of them are the same shape: ligands compete for a finite pool, occupancy is a
+state, and `activation = sum(occupancy_i * efficacy_i)` is a number a circuit
+node reads. A transporter breaks all three, and the temptation is to model it
+as an eighth receptor whose "activation" happens to be interpreted as
+blockade. That would have been wrong three times over:
+
+1. **No efficacy, no signal.** Nothing downstream reads "DAT occupancy".
+   Blocking DAT does not drive a node; it raises extracellular dopamine, and
+   receptors then bind that. The output is a concentration.
+2. **The substrate is the modelled thing.** A receptor's ligands are drugs. A
+   transporter's principal substrate is the transmitter itself, and that
+   concentration is the state variable; the drugs are inhibitors of a process
+   acting on it.
+3. **The published constants are enzyme constants.** What exists for a
+   transporter is `Km`/`Vmax` for transport and `Ki`/`IC50` for inhibition of
+   transport. Turning those into `kon`/`koff` would be a re-derivation with
+   nothing measured behind it.
+
+So `transport.py` is a new mechanism module alongside `receptor.py`, and
+`engine.TransporterSystem` is a new system type alongside `ReceptorSystem`.
+The distinction is structural rather than a naming convention, and a test
+asserts it directly: a `MonoamineTransporter` has no `activation` method, no
+`occupancy_rhs`, and its ligands have no `efficacy`, `kon` or `koff`.
+
+### The mechanism, and the prediction that carries no illustrative number
+
+One ODE state per transporter, the extracellular transmitter concentration in
+nM, and a mass balance:
+
+    a      = 1 + sum_i (I_i / Ki_i)                 competitive inhibition
+    uptake = Vmax * C / (Km * a + C)
+    efflux = release_rate * capacity * sum_j (emax_j * S_j / (EC50_j + S_j))
+    dC/dt  = release_rate + efflux - uptake
+
+Inhibitors get no occupancy state. That is the rapid-equilibrium
+approximation, and it was chosen rather than defaulted to: nothing published
+for any of these five drugs is a transporter association rate constant, so a
+`kon`/`koff` pair would be derivation-3 invention supplying the ONLY timescale
+in the mechanism; and the uptake process itself relaxes the pool with a time
+constant of `Km/Vmax` = 52 ms for mouse striatal dopamine, more than three
+orders of magnitude below the circuit's, so assuming inhibitor binding
+equilibrates on the circuit's timescale is already implicit in using a
+Michaelis-Menten rate law at all.
+
+The payoff of that shape is a result rather than a convenience. With blockers
+only and a fixed release rate, the drug-free steady state satisfies
+`release = Vmax*Cb/(Km+Cb)`, and the inhibited one solves to **exactly
+`C_ss = a * Cb`**, with `Km`, `Vmax` and `Cb` all cancelling. The fold-rise in
+extracellular transmitter that a pure uptake blocker produces is therefore
+
+    [transmitter]_ss / [transmitter]_basal  =  1 + [drug] / Ki
+
+and nothing else. **The transporter layer's central quantitative prediction
+depends on one measured constant per drug and on no illustrative parameter
+whatever**, which is unusual in this codebase and is why this algebraic form
+was preferred to any other. A test integrates the ODE and checks the law
+against it rather than trusting the derivation, and a second test varies `Km`,
+`Vmax` and `Cb` over two orders of magnitude and asserts the fold-rise does
+not move.
+
+The `release_rate` is a plain settable attribute, not a derived constant, and
+that is the Phase 6 hand-off in its smallest form: P6.1 makes release a
+function of a source nucleus's firing rate, and the only thing it has to
+replace is that number.
+
+### Substrate versus blocker, which is two terms and not an adjective
+
+[Rothman2012] (Rothman RB, Partilla JS, Baumann MH, Lightfoot-Siordia C,
+Blough BE, J Pharmacol Exp Ther 2012;341:251-262, PMC3364510) states the
+operational definition and the experiment behind it: "Uptake inhibitors bind
+to the transporter, are not transported into the nerve terminal, but block the
+transport of endogenous substrates. Releasers are transporter substrates ...
+transported into the nerve terminal and, as a result, cytoplasmic
+neurotransmitters are countertransported out." The two are told apart by
+SUBSTRATE REVERSAL: a releaser's effect is attenuated by a blocking
+concentration of an uptake inhibitor, a blocker's is not.
+
+In the model that is two constants on a `TransporterLigand`:
+
+* `ki` -> the drug enters `a`, raising the apparent Km. **Every** drug has
+  this, releasers included: a substrate competes for the same site.
+* `release_ec50` + `release_emax` -> the drug ALSO adds an efflux term. Only
+  a substrate has this, and `is_substrate` is exactly `release_ec50 is not
+  None`.
+
+`release_drive()` is therefore identically zero for any combination of pure
+blockers at any concentration, which makes "a blocker cannot release
+transmitter" a property of the code rather than of the parameter values, and a
+test asserts it at 1 nM, 1 uM, 1 mM and 1 M.
+
+**The measurement that makes this matter is large.** Amphetamine releases
+dopamine with an EC50 of 6.4 +/- 1 nM ([Rothman2012], rat synaptosomes) and
+inhibits dopamine uptake with a Ki of 560 +/- 110 nM ([HanGu2006], mouse DAT):
+its releasing action is **87.5-fold more potent than its blocking action** at
+the same transporter. At NET the ratio is 16.2 and at SERT 12.2. Run at 100 nM
+with the release mechanism on and off:
+
+    100 nM amphetamine        dopamine   serotonin   noradrenaline
+    substrate + blocker         2.39x      1.06x        3.54x
+    blocker only (wrong)        1.18x      1.00x        1.82x
+
+The second row is what the brief says must not happen, and the gap between the
+rows is what "the distinction needs to be represented" is worth.
+
+### Where the constants came from, and why this panel rather than another
+
+The quantity the mechanism consumes is an UPTAKE-INHIBITION constant, not a
+radioligand binding affinity, and the project's species is mouse. One paper
+supplies both for the three psychostimulants:
+
+- **[HanGu2006]** (Han DD, Gu HH, BMC Pharmacol 2006;6:6, PMC1448202, open
+  access). Intestine 407 cells transfected with human or mouse DAT, SERT or
+  NET; uptake of 50 nM [3H]substrate, 10 min, 20 C; `KI = IC50/(1+[S]/KM)`.
+  Mouse column: cocaine 490/730/460 nM, methylphenidate 260/114370/170 nM,
+  amphetamine 560/23820/120 nM at DAT/SERT/NET. One laboratory, one assay, so
+  a selectivity ratio built from it compares two transporters rather than two
+  laboratories -- P5.7's argument for [Toll1998], made again.
+
+  The paper does not state the KM used in its Cheng-Prusoff correction. With
+  [S] = 50 nM and this module's substrate Km values the factor is 1.3, so the
+  correction is bounded at well under two-fold. Recorded because it is a real
+  unresolvable detail of numbers every result here depends on.
+
+- **[JohnJones2007]** (John CE, Jones SR, Neuropharmacology
+  2007;52:1596-1605, PMC2041899). C57BL/6 MICE, brain slices, 32 C, fast-scan
+  cyclic voltammetry on ENDOGENOUSLY released transmitter. Dopamine in
+  caudate-putamen Km 0.16 uM, Vmax 3.1 +/- 0.20 uM/s; serotonin in substantia
+  nigra Km 0.17 uM, Vmax 0.080 +/- 0.006 uM/s. The uptake kinetics the
+  mechanism needs, in mouse, plus its own apparent-Ki table for four of the
+  five drugs -- a second, wholly different preparation to check [HanGu2006]
+  against.
+
+- **[Bosse2011]** (J Neurochem 2011;120:385-395, PMC3385875). Mouse basal
+  extracellular dopamine by ZERO NET FLUX microdialysis, 5.0 +/- 0.2 nM, and
+  a voltammetric Vmax of 4.1 +/- 0.1 uM/s with Km fixed at 0.16 uM "based on
+  an average literature value" -- an independent confirmation of
+  [JohnJones2007]'s Km and a 1.32-fold check on its Vmax.
+
+- **[Mathews2004]** (J Neurosci Methods 2004;140:169-181). Mouse basal
+  extracellular 5-HT by zero net flux, 2.8 +/- 1 nM in striatum.
+
+- **[Bymaster2002]** (Neuropsychopharmacology 2002;27:699-711) for
+  atomoxetine at human NET/SERT/DAT, Ki 5/77/1451 nM; **[Carlier1998]**
+  (Bioorg Med Chem Lett 1998;8:487-492) as the second laboratory, Kd
+  2.03/8.9/1080 nM; **[Tatsumi1997]** (Eur J Pharmacol 1997;340:249-258) for
+  fluoxetine at human SERT, Ki 3 nM.
+
+- **[Rothman2012]** for amphetamine's release EC50 and Emax, and for the
+  substrate/blocker definition; **[Zhu2008]** (CNS Neurol Disord Drug Targets
+  2008;7:393-409, PMC3133725) for the mechanism statements about cocaine and
+  methylphenidate, from which no number is taken.
+
+### Three provenance checks, and the two that fail
+
+Because two of the five drugs come from a different species and a different
+kind of assay, the mixing had to be priced rather than waved through. Three
+comparisons are computed and asserted:
+
+**Two mouse preparations.** [HanGu2006]'s cloned transporters against
+[JohnJones2007]'s brain slices. At DAT they agree within 1.4-fold on all three
+psychostimulants -- cocaine 490 against 350 nM, methylphenidate 260 against
+210, amphetamine 560 against 420 -- which is a striking result on its own: a
+cloned mouse transporter in a gut-derived cell line and a mouse striatal
+terminal in a slice give the same number. At SERT they do not: cocaine
+disagrees 13.7-fold and methylphenidate 6.0-fold, while amphetamine agrees to
+1.04. [JohnJones2007] states the caveat itself ("direct comparisons of
+apparent Km values or Ki values between the DA and 5-HT systems may not be
+valid").
+
+**Two species, from one paper's own two columns.** Eight of [HanGu2006]'s nine
+mouse/human cells agree within 2.4-fold; the ninth, methylphenidate at DAT, is
+4.3-fold. So substituting a human constant for a mouse one costs a factor of
+two to four here.
+
+**Two laboratories on atomoxetine.** NET 2.5-fold, DAT 1.3-fold, SERT
+8.6-fold. The SERT cell is the difference between "atomoxetine is 15.4-fold
+NET-selective over SERT" and "4.4-fold". **The useful ordering is that the
+between-laboratory spread exceeds the between-species spread**, which is what
+licenses using human constants for the two antidepressants, and a test asserts
+that ordering rather than the conclusion.
+
+### Fluoxetine: two measurements twenty thousand fold apart
+
+This is the largest disagreement in the module and it is not hidden.
+[JohnJones2007]'s apparent Ki for fluoxetine at serotonin uptake in mouse
+slices is **59 uM**; the human SERT binding constant is **3 nM**. One says
+fluoxetine is a subnanomolar drug, the other that it is nearly inert. The
+binding constant is used, for three stated reasons: it is the same KIND of
+quantity every receptor module in this codebase is built from; [JohnJones2007]'s
+own DAT column agrees with an independent mouse panel to 1.4-fold while its
+fluoxetine cell misses the published affinity by four orders of magnitude, so
+the outlier is one cell and not the method; and the authors name the mechanism
+themselves, listing "drug sequestration" among the reasons their values
+"differ greatly from those reported in other studies", with fluoxetine by far
+the most lipophilic drug in their panel.
+
+What that choice costs is stated as a number rather than admitted in prose.
+With Ki = 3 nM the exact steady-state law says **1 uM fluoxetine raises
+extracellular 5-HT 334-fold**, which is not what SSRIs do in a living animal.
+Atomoxetine at NET gives 201-fold, the same way. Both are what an OPEN-LOOP
+mass balance gives when nothing lets a rising transmitter cut its own release,
+and real 5-HT1A and alpha2 autoreceptors do exactly that.
+`fluoxetine_fold_rise()` exists so this over-prediction is asserted by a test,
+and it is the sharpest statement in this codebase so far of what P6.1's
+projection-system abstraction is for.
+
+### The gaps, recorded as gaps
+
+`MISSING_KI` holds two cells and their reasons, and a test asserts that a
+missing cell means the drug is ABSENT from that transporter's ligand list
+rather than present with an implied infinite Ki:
+
+* **fluoxetine at DAT** -- no equilibrium constant obtained.
+  BOUNDED omission: [JohnJones2007] measured an apparent Ki of 270 uM against
+  mouse dopamine uptake, so the omitted action is one there is independent
+  evidence is negligible.
+* **fluoxetine at NET** -- no equilibrium constant obtained.
+  UNBOUNDED omission: fluoxetine's noradrenergic action is absent and nothing
+  here bounds its size.
+
+[Tatsumi1997] measured both. Its table was not reachable (subscription, and no
+open reproduction of the fluoxetine row was found), IUPHAR curates only the
+SERT cell of that paper, and ChEMBL's REST API returned HTTP 500 throughout.
+The provenance of the one fluoxetine number that IS used is stated plainly:
+it is IUPHAR interaction 13001's curation of PMID 9537821, not the paper. P5.7
+used IUPHAR curation as a CHECK on a primary source; here it is the source,
+and that difference is named rather than glossed.
+
+Also searched and empty: Michaelis-Menten `Km` and `Vmax` for noradrenaline
+uptake in any rodent preparation (what exists is clearance half-lives), and a
+basal extracellular noradrenaline concentration by any quantitative
+microdialysis method. And found but deliberately not used: [Rothman2001]
+(Synapse 2001;39:32-41), the most-cited source for amphetamine's release
+potencies, which is subscription-only; secondary quotations of its numbers
+were found and NOT used, because a number read from a citing dissertation is
+not a citation. [Rothman2012] is the same laboratory's open-access measurement
+of the same quantities and is used instead.
+
+### NET's first-order form, and a unit that is not a measurement
+
+Those two gaps produced two decisions worth recording.
+
+**NET is built in the first-order limit.** [Park2012] measured a noradrenaline
+clearance half-life of 1.36 +/- 0.07 s in rat ventral BNST by voltammetry in
+vivo. That fixes `Vmax/Km` = 30.6 min^-1 and says nothing about either alone.
+`MonoamineTransporter.first_order()` uses the measured ratio; splitting it into
+two numbers would be inventing one. The steady-state law is exact in this form
+too (it is the `Km >> C` case of the same cancellation), and a test shows the
+two forms agree to 3% at the concentrations these constants imply.
+
+**`NORADRENALINE_BASAL_UNIT_SCALE = 1.0` is a unit, not a number about
+noradrenaline.** With no basal measurement available, and with the fold-rise
+provably independent of the basal level, setting it to 1.0 makes NET's state
+numerically equal to its own fold-of-basal. A test integrates the NET pool at
+three wildly different basal values and asserts the fold-changes are identical
+to 1e-9, so this constant cannot quietly acquire meaning.
+
+The module's other illustrative constant is `RELEASE_CAPACITY`, the absolute
+efflux a saturating substrate drives, as a multiple of the basal release rate.
+[Rothman2012]'s Emax is a percentage of its own assay's maximum and carries no
+absolute rate; the in vivo measurement that would calibrate it is dose-based
+and runs into the same Phase 1 bridge Track E documented for every circuit gain
+in this project. A test asserts that the substrate-beats-blocker ordering holds
+for every positive value of it, so the conclusion it could contaminate does not
+depend on it.
+
+### The engine change, and what it deliberately does not disturb
+
+`Simulation` gains `transporter_systems=[...]`. The state vector becomes
+
+    y = [PK states | receptor states | TRANSMITTER states | rates]
+
+with the transmitter block empty when no transporter is declared, so every
+pre-P5.8 layout is bit-for-bit the one it was. Transporter ligands sit AFTER
+every receptor ligand in the flat `doses` order, so adding a transporter system
+cannot renumber an existing receptor system's doses. `result["transmitter"]` is
+a (m, n_times) array in nM and `Simulation.transmitter_index` maps a system name
+to its row; those two together are the documented Phase 6 interface. A
+transporter-only `Simulation` is legitimate, because a transmitter pool is a
+complete model on its own.
+
+The one place a transporter's state does something unusual: it does not start
+at zero. `initial_transmitter_state()` starts each pool at its measured basal
+concentration, which is the only region of the state vector that is not
+initially empty, and a test asserts that a drug-free run is therefore exactly
+flat rather than a start-up transient.
+
+### The interface, closed, and the first endogenous tone in this codebase
+
+`ReceptorSystem` gains an optional `transmitter_sources={ligand: transporter}`.
+A ligand named there binds the transporter's extracellular concentration
+instead of its own PK concentration. That is the whole of the closed loop, and
+it is opt-in, so nothing predating P5.8 moves.
+
+Wired to the existing calibrated D2 system it produces the result this task
+was worth doing for. Two measurements and no fitting -- [Agren2021]'s dopamine
+`kon`/`koff` give the D2 site a Kd of 2.03 nM, and [Bosse2011]'s zero-net-flux
+basal dopamine is 5.0 nM -- put the striatal D2 receptor at **71.1% occupancy
+before any drug is given**. On the P3.4-stabilized indirect pathway:
+
+    condition              DA (nM)   D2 occ   locomotor readout
+    no drug                  5.00    0.711     0.5000
+    cocaine 1 uM            10.10    0.833     0.6650  (+0.165)
+    methylphenidate 1 uM    14.62    0.878     0.6811  (+0.181)
+    amphetamine 100 nM      10.73    0.841     0.6652  (+0.165)
+    atomoxetine 1 uM         6.72    0.768     0.6089  (+0.109)
+    haloperidol 100 nM       5.00    0.008     0.3000  (-0.200)
+
+Three readings, and the third is new:
+
+1. The psychostimulants raise the readout by raising extracellular dopamine at
+   a receptor that was given no dose of dopamine. The chain is
+   PK -> transporter blockade -> transmitter concentration -> occupancy ->
+   node drive -> circuit -> readout, in one coupled state vector.
+2. Haloperidol lowers it, which is the direction the D2 scenario has claimed
+   since v0.
+3. **Haloperidol given ALONE does anything at all.** Every module from P5.1 to
+   P5.7 had to write "an antagonist given alone is inert here, because P6.2
+   has supplied no endogenous transmitter to displace". That sentence is false
+   for the first time in this codebase. A test asserts both halves: the
+   transporter-fed configuration moves by more than 0.1 in rate, and the
+   identical receptor system with no transporter behind it moves by less than
+   1e-9.
+
+The tone is LOCAL -- one transporter maintaining one pool -- not
+projection-derived, so this closes the gap for one transmitter at one site and
+not the general case, which is still P6.2's.
+
+### P3.4's saturation lesson, for the third time
+
+Attaching the transporter-fed D2 system to the stabilized network without
+further thought pins `Striatum_D2_MSN` at a rate of 2e-4, saturated OFF: 71.1%
+tonic occupancy times a coupling gain of -3.0 is a standing -2.13 on that
+node's drive, and P3.4's certificate is a certificate for the DRUG-FREE
+network, which tonic transmitter is not.
+
+`tonic_compensated_network()` folds that standing drive into the node's
+`baseline_input`, which is what the biology already implies: a real striatum's
+resting firing rate is what it is WITH tonic dopamine present, so the tonic
+inhibition belongs in the baseline the node is balanced around rather than on
+top of it. It changes one node's baseline and no weight, tau or gain, and a
+test asserts both that the compensated network's drug-free run is flat at 0.5
+and that removing the compensation reproduces the saturation. Note what it does
+NOT do: it does not decide how much of the striatum's resting drive is
+dopaminergic; it asserts that the network's own calibration point already
+includes whatever that is, which is the weakest statement that makes the
+question askable.
+
+This is the third time the same lesson has arrived (P3.4 found it, P5.7 hit it
+with the presynaptic kappa modulator, P5.8 hits it with tonic transmitter), and
+it generalizes: **any mechanism that adds a standing term to a node's drive
+invalidates a stability certificate computed without it.**
+
+### What P5.8 delivered, checked against the standing discipline
+
+- **A transporter mechanism structurally distinct from receptor occupancy**:
+  a new `transport.py` beside `receptor.py`, a new `engine.TransporterSystem`
+  beside `ReceptorSystem`, one ODE state that is a concentration rather than an
+  occupancy, no efficacy anywhere, and tests that assert the absence rather
+  than the naming.
+- **Substrate versus blocker represented and tested**: two constants rather
+  than an adjective, `release_drive()` identically zero for any set of pure
+  blockers at any concentration, and the 87.5-fold release-over-block ratio
+  that says what leaving the distinction out would cost.
+- **Cited constants for all five drugs the brief names**: 13 uptake-inhibition
+  constants across three transporters, three release EC50s with their Emax
+  values, a second mouse preparation's 8 cells, a second species' 9 cells and a
+  second laboratory's 3, plus 5 uptake-kinetic constants (two Km, two Vmax and one
+  clearance rate), a second laboratory's Vmax, and 2 measured basal
+  concentrations. Two cells are recorded as gaps with their reasons and their
+  bounds.
+- **A documented interface to the Phase 6 transmitter concentration**:
+  `result["transmitter"]` plus `Simulation.transmitter_index` as the read, and
+  `ReceptorSystem.transmitter_sources` as the closed loop, with
+  `MonoamineTransporter.release_rate` as the settable hook P6.1 replaces. The
+  contract is stated in `engine.Simulation`'s docstring and demonstrated end to
+  end.
+- **Three illustrative numbers, all labelled**: `RELEASE_CAPACITY`,
+  `NORADRENALINE_BASAL_UNIT_SCALE` and the shared `TOOL_COMPOUND_KE`, with
+  tests asserting that no reported conclusion depends on the first two and that
+  the third equals every other P5 module's.
+- **Tests.** 47 new test items, all in the offline gate, none slow, none
+  skipped, and no existing test deleted, weakened or modified. The gate runs
+  990 tests, all green.
+- **Outputs**: `examples/monoamine_transporter_psychostimulants.py` and
+  `scripts/report_transporter_constants.py` -> `results/transporter_constants.txt`.
+- **What was deliberately not built** is enumerated in
+  `monoamine_transporters.py`: VMAT2 and the vesicular half of amphetamine's
+  two-pronged efflux (which is why `RELEASE_CAPACITY` is one lumped constant);
+  transporter-mediated currents, TAAR1 signalling and trafficking;
+  region-wise transporter density, for which `Slc6a2/3/4` ISH data are already
+  in the repository and which is the obvious next step once P6.3 supplies
+  projection densities; cross-clearance (NET clearing dopamine in cortex,
+  which is [Bymaster2002]'s own finding about atomoxetine); and any behavioural
+  endpoint, which is Phase 7's.
