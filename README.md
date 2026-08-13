@@ -51,7 +51,7 @@ rationale and the honesty notes on what's illustrative versus calibrated.
 
 ## Status: v0
 
-The engine runs end to end on three worked examples, all reusing the same
+The engine runs end to end on five worked examples, all reusing the same
 `ReceptorSite`/`CircuitNetwork`/`BehaviorReadout`/`Simulation` classes:
 
 - [`examples/fentanyl_reward_circuit.py`](examples/fentanyl_reward_circuit.py)
@@ -82,6 +82,16 @@ The engine runs end to end on three worked examples, all reusing the same
   including two fractional partial-agonist efficacies; the circuit and the
   tool-compound PK are illustrative. The autoreceptor is an open loop
   until Phase 6 supplies transmitter release, and a test asserts that.
+- [`examples/dopamine_direct_indirect_pathways.py`](examples/dopamine_direct_indirect_pathways.py)
+  runs the D1 (Gs, direct pathway) and D2 (Gi, indirect pathway) systems of
+  `dopamine.py` on ONE seven-node cortico-basal-ganglia-thalamic circuit, so
+  that a drug acting at both is simulated as one coupled system rather than
+  as two models. A D1 agonist and a D2 antagonist move the same locomotor
+  readout in opposite directions and partly cancel when given together,
+  which only happens because both pathways reconverge on one output nucleus.
+  Dopamine's affinity for D2 is ~530x higher than for D1, and that number
+  comes entirely from two matched published measurements rather than from
+  anything hand-set.
 
 **The circuit time constants and connection weights are hand-set
 placeholders**, chosen to get the mechanism right, not sourced from any
@@ -117,6 +127,7 @@ more single-dose studies.
 | `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1), and the `CircuitNetwork` builder with its neurotransmitter sign rule (P3.2) |
 | `src/neurocascade/connectome_scenarios.py` | The hand-built scenarios re-wired from the connectome, with per-edge provenance (P3.3) |
 | `src/neurocascade/serotonin.py` | The 5-HT1A and 5-HT2A receptor systems, their literature binding constants and efficacies, and the raphe/cortex scenario they drive (P5.1) |
+| `src/neurocascade/dopamine.py` | The D1 receptor, its literature binding constants and efficacies, and the shared direct+indirect basal-ganglia network the calibrated D2 system also couples into (P5.2) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4) |
 | `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2), and the cited anatomical validation of the resulting maps (P4.3) |
 | `src/neurocascade/datafetch.py` | Checksummed download/verify/cache, shared by both ingestion packages |

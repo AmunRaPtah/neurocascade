@@ -6415,3 +6415,399 @@ supplied yet.
   mechanism gains, one shared tool-compound `ke` - so that a later
   calibration replaces a documented placeholder rather than an arbitrary
   one.
+
+---
+
+## Phase 5: dopamine D1 and the direct pathway (P5.2)
+
+### The task, and the sentence in the brief that set the difficulty
+
+P5.2 asks for the D1 receptor, the direct basal-ganglia pathway, and one
+sentence more: "direct and indirect pathways must coexist on one shared
+striatal network so that a drug acting at both is simulated correctly
+rather than as two separate models." The new code is
+`src/neurocascade/dopamine.py`, its tests are
+`tests/test_dopamine_d1_scenario.py`, and the worked example is
+`examples/dopamine_direct_indirect_pathways.py`.
+
+That sentence is the whole design constraint, and it is a real one rather
+than a stylistic preference. The striatum's two projection-neuron
+populations are not two circuits: they are two populations of one nucleus,
+receiving the same corticostriatal afferents, and their outputs reconverge
+on the same basal-ganglia output nucleus two synapses later. Two separate
+`Simulation`s would get the receptor layer right and the reconvergence
+wrong - the second arm would never see what the first one did to the
+shared output. Once both arms are on one `CircuitNetwork`, the interesting
+result (a D1 agonist and a D2 antagonist partly cancelling at one readout)
+falls out of the wiring instead of having to be asserted.
+
+As with P5.1, no engine change was needed. Two `ReceptorSystem`s on one
+shared network is what `Simulation(network, receptor_systems=[...])` has
+done since the combined mu-opioid/D2 scenario; what is new here is that
+the two systems are wired into the SAME anatomical structure with a real
+convergence point, where that earlier scenario was a deliberately
+block-diagonal union of two unconnected circuits.
+
+### The pair of measurements this task turned on
+
+The D1 binding constants come from **[Sahlholm2025]** (Sahlholm K,
+Svensson P, Malo M, Andersson DR, Betari N. ACS Chem Neurosci
+2025;16(13):2502-2512, doi:10.1021/acschemneuro.5c00270, open access
+PMC12232300): human D1 co-expressed with GIRK1/4 in Xenopus oocytes,
+two-electrode voltage clamp at 22 C, with `kon` read off the slope of
+`k_obs` against agonist concentration and `koff` off the current
+deactivation on washout. Table 1 gives five agonists; two are instantiated
+(dopamine, dihydrexidine) and all five are recorded in the module
+docstring, because a panel is worth more than a single row.
+
+What makes it the right source is not that it exists but *whose* it is.
+This codebase's D2 numbers already come from **[Agren2021]**, which is the
+same laboratory, the same GIRK-kinetics method, the same expression system
+and the same receptor host species; the D1 paper says in as many words
+that its approach is "analogous to that earlier described for dopamine D2R
+agonists" and cites [Agren2021] for it. So the D1/D2 comparison below is
+the [Volpe2011]-style same-preparation guarantee that the D2 section
+explicitly could not get for dopamine-versus-haloperidol, arriving two
+sections later for the pair that actually needed it.
+
+**Dopamine binds D2 about 530x more tightly than D1.** Kd 2.03 nM at D2
+against 1079 nM at D1, both computed as `koff / kon` from the two papers'
+own rate constants. That is the quantitative content of the textbook
+statement that tonic dopamine engages D2 and phasic dopamine is needed to
+engage D1, and this module gets it entirely from published numbers -
+nothing about it is hand-set, which makes it the one prediction here free
+of illustrative parameters. Set against [Garris1994]'s ~0.25 uM
+extracellular transient from a single stimulus pulse, it says the phasic
+peak sits near D1's Kd and three orders of magnitude above D2's, which is
+the only regime in which the two arms of this circuit can be driven
+differentially at all.
+
+Two things are recorded alongside it because they bound how much weight it
+can carry, and one of them was nearly missed:
+
+- **The same two papers' EC50s differ by 31-fold, not 530-fold** (622 nM
+  at D1, 20 nM at D2). The gap between the two ratios is receptor reserve
+  and signal amplification. This model's `activation = sum(occupancy *
+  efficacy)` is linear in occupancy with no amplification term, so it
+  reproduces the 530-fold OCCUPANCY separation and not the 31-fold
+  POTENCY separation. Which of the two a behavioural endpoint should be
+  fitted against is a Phase 7 question; it is flagged rather than settled,
+  and it is the same class of limitation as P5.1's receptor-reserve note
+  about 8-OH-DPAT at the autoreceptor.
+- **[Agren2021] co-expressed RGS4 and [Sahlholm2025] did not.** The D2
+  paper says why: RGS4 accelerates GTP hydrolysis so that "the time course
+  of the GIRK current more closely follows the time course of D2R agonist
+  occupancy". RGS4 acts on Galpha_i/o and D1 reaches GIRK through Gs, so
+  the D1 measurement has no equivalent. The D1 `koff` is therefore the
+  more likely of the two to be rate-limited by G-protein cycle steps
+  rather than by unbinding. If it is, the true D1 `koff` is FASTER and the
+  true D1 Kd LARGER, which *widens* the gap rather than narrowing it. The
+  caveat points away from the finding being an artefact, which is the only
+  reason it is safe to lean on the number at all.
+
+### SCH-23390, and a derivation checked against a third species
+
+The D1 antagonist needed derivation 3 (share the site's one measured
+`kon`, set `koff = kon * Kd`), because no association or dissociation rate
+constant for SCH-23390 could be obtained. `koff = 0.0073395 * 0.53 =
+0.00389 min^-1` gives a dissociation half-life of 178 minutes, which is a
+large claim to get out of an assumption.
+
+It is checked rather than asserted. [Reader1989] reports that in rabbit
+cortical and striatal membranes "the dissociation kinetics were extremely
+slow and only around 40-60% of the binding was displaced two hours after"
+dissociation was initiated. That brackets the half-life at 91-163 minutes.
+The derived 178 minutes is ~9% beyond the slow end: close enough that
+derivation 3 is not contradicted, far enough that this is a sanity check
+and not a calibration. No number is taken from [Reader1989], because it is
+a third species and rule 2 is rule 2; it is used as a bracket, the test
+says so, and the test asserts the bracket's own arithmetic so the claim
+cannot rot.
+
+That result puts SCH-23390 next to P5.1's WAY-100635 and completes a set
+worth naming. This codebase now carries three distinct
+antagonist-reversal mechanisms, all of them measured or derived rather
+than chosen: naloxone reverses fentanyl by molar excess *because* its
+`koff` is faster (2.375 min^-1); WAY-100635 (0.0078) and SCH-23390
+(0.00389) reverse their agonists by not letting go. A model whose
+antagonists all behaved the same way would have been hiding that.
+
+### Which ligand, and the trade that decided it
+
+The D1 agonist in the locomotor literature is SKF-81297 or SKF-38393. The
+D1 agonist in this module is dihydrexidine, and that is a deliberate
+trade. No binding-kinetics measurement was found for either SKF compound,
+so both would need derivation 3 off a Ki measured in a different assay
+format; dihydrexidine arrives with `kon`, `koff` AND a fractional efficacy
+(0.808 of dopamine's Emax) measured in the same experiment, in the same
+oocyte, as the reference agonist. P5.2 is a receptor-layer task, so the
+ligand with the better-sourced constants won over the ligand with the
+better-known behaviour. That trade inverts the moment Phase 7 needs a
+compound with a published dose-response curve, and the module says so.
+
+Dihydrexidine's 0.808 is the second fractional literature efficacy in the
+codebase, after P5.1's 8-OH-DPAT (0.85) and DOI (0.813), and it hides the
+same kind of shorthand: "dihydrexidine, the full D1 agonist" is a ~19%
+overstatement in the assay that measured it.
+
+### The sign of the D1 gain, which is the one thing chosen rather than read
+
+D1 is Gs/olf-coupled, so the receptor-level sign is not in doubt. The sign
+of its effect on a medium spiny neuron's FIRING RATE is, and the source
+that establishes the effect also establishes the ambiguity:
+[HernandezLopez1997] measures both signs in the same cells, inhibition of
+evoked discharge at ~-80 mV and enhancement at ~-55 mV, the switch being
+an L-type Ca2+ conductance only available from depolarized potentials.
+
+A Wilson-Cowan node has no membrane potential and cannot carry a
+state-dependent sign, so one had to be picked. The positive one is used,
+for the reason that paper itself gives: the up-state is the state an MSN
+is in when corticostriatal input is driving it, and this network's D1 node
+is driven by exactly such an input and sits at rate 0.5 rather than at
+rest. This is the single place in the module where a sign was chosen
+rather than read off a measurement, and it is labelled as such at the
+constant, in the docstring and here.
+
+### The circuit, and three rules that make "illustrative" mean something
+
+Seven nodes: `Cortex_M1`, `Striatum_D1_MSN`, `Striatum_D2_MSN`, `GPe`,
+`STN`, `GPi`, `Thalamus`. Seven edges, and no others:
+
+    Cortex_M1 -> Striatum_D1_MSN -| GPi -| Thalamus          DIRECT
+    Cortex_M1 -> Striatum_D2_MSN -| GPe -| STN -> GPi        INDIRECT
+
+`Striatum_D2_MSN`, `GPe`, `STN`, `GPi` and `Thalamus` keep the names the
+existing five-node indirect-pathway scenario uses, so the calibrated D2
+receptor site and PK models drop in unchanged and
+`scenarios.locomotor_activity_readout()` scores the new network without
+modification. That last point is not cosmetic: "opposing effects on the
+same locomotor readout" is only a claim about the circuit if it is
+literally the same readout function on the same node, and a test asserts
+that the two modules' readout weights are equal objects rather than
+lookalikes. `scenarios.basal_ganglia_indirect_pathway_network()` itself is
+untouched.
+
+Every weight, tau, gain and baseline is illustrative, and three stated
+rules fix them so that "illustrative" does not mean "tuned until the tests
+passed":
+
+1. **Unit weights.** Every connection has magnitude 1.0 and the textbook
+   sign. At the operating point a logistic node's slope is exactly 1, so a
+   unit weight makes the per-synapse loop gain exactly 1 - a cascade that
+   neither attenuates to nothing over five hops nor amplifies out of the
+   sensitive region. Equal magnitudes are also what make the two arms
+   comparable BY CONSTRUCTION, which is the point of the scenario: any
+   asymmetry in a D1-versus-D2 result then comes from the topology and the
+   published binding constants, not from a hand-set weight difference.
+2. **Baselines put every node at rate 0.5 at rest.** Given rule 1 that
+   determines all seven values exactly;
+   `stability.balanced_baselines` reproduces them and a test asserts it.
+   One value is worth naming: GPi's baseline comes out exactly 0.0, i.e.
+   at rest the direct and indirect inputs to the output nucleus cancel.
+   That is a consequence of rules 1 and 2, not a target.
+3. **No node saturates under a saturating dose of a full agonist at
+   either receptor.** This is what sets the mechanism gains to magnitude
+   1.0, and it is the reason `scenarios.d2_coupling()`'s -3.0 is *not*
+   reused: at magnitude 3 in this network the minimum sigmoid sensitivity
+   under a saturating D1 agonist falls to 7.5e-4, an order of magnitude
+   below `stability.SATURATION_FLOOR`, and a railed node stops responding
+   to the other pathway. At magnitude 1 it is 0.199. The test asserts
+   both halves, including the counterfactual - the rule has to be able to
+   reject a value or it is not a rule.
+
+The -3.0 was set against a five-node network with weight-2.0 connections
+and is correct there; the honest reading is that a coupling gain is not
+portable across networks because P2.3 established that only the *product*
+of a gain and a weight is identified. Carrying the old number into a new
+topology would have been carrying a calibration of a different system.
+
+### Acyclicity, and why it is the better uniqueness argument here
+
+The connectivity matrix is nilpotent: the graph is a directed acyclic
+cascade. For a DAG the fixed point is unique and globally attracting for
+free, by topological order - each node's steady rate is a function of its
+upstream nodes' rates alone, so solving in order gives one and only one
+solution whatever the taus.
+
+That matters because P3.4's contraction certificate, which P5.1's
+serotonin circuit was built to satisfy, **is not satisfied here**:
+`kappa = sigma_max(diag(g/4) W) = 1.414`. Satisfying it would have meant
+weights of 0.707 or below, which buys nothing this network does not
+already have and costs the legibility of unit weights. The certificate is
+sufficient, not necessary, and this is the first place in the codebase
+where the distinction does real work. So the test asserts *both* that
+`kappa >= 1` and that `W**7 == 0`, and runs `stability.assess` to confirm
+convergence, uniqueness across five initial conditions, local stability
+and non-saturation empirically as well. Writing down "the certificate
+fails and here is the stronger argument that replaces it" is the point;
+quietly rescaling the weights until `kappa < 1` would have hidden it.
+
+The same observation applies retrospectively to every hand-built
+basal-ganglia scenario in this codebase, all of which are cascades, and it
+is why they were fine without a certificate nobody had computed for them
+yet.
+
+### One start-up detail that is not cosmetic
+
+`Simulation.run` starts from zero rates by default. On a network built to
+rest at 0.5 that means the first minutes of every trace are a start-up
+transient rather than a drug effect, and comparisons between conditions
+are then differences of two transients. `dopamine.rest_rates()` returns
+the fixed point and every test and the example pass it as `rates0`, so the
+drug-free trace is exactly flat to 1e-6 and every deviation is the drug. A
+test asserts that flatness, which is what makes the small effects below
+(the second-order cortical-drive residual, the segregation check) legible
+at all.
+
+### What the model says, and the result the brief asked for
+
+All of these are qualitative direction checks, on an illustrative circuit,
+against the direct/indirect model - not fits.
+
+**The pathways oppose each other, tested as a statement about pathways.**
+[Kravitz2010] is optogenetics, not pharmacology: exciting direct-pathway
+MSNs increased locomotion, exciting indirect-pathway MSNs produced
+freezing and bradykinesia. So it is tested by adding drive to each MSN
+node directly with no ligand anywhere, which is as close as a rate model
+gets to channelrhodopsin. Direct up raises the readout; indirect up lowers
+it.
+
+**A D1 agonist and a D2 antagonist move one readout in opposite
+directions.** Against a 1000 nM dopamine background on the shared network,
+1000 nM dihydrexidine raises the locomotor readout from 0.6055 to 0.8094
+and 200 nM haloperidol lowers it to 0.5545. Both are the direction the pathway each
+drug acts on predicts. This is the acceptance criterion, and it is one
+`solve_ivp` call over one state vector.
+
+**Given together they partly cancel**, landing between the two
+single-drug results - the thing two separate models cannot produce,
+because the cancellation happens at the shared GPi node and nowhere else.
+
+**Cortical drive alone almost does not move the output.** A perturbation
+of the shared corticostriatal input drives both MSN populations
+identically, and their two paths to GPi have opposite net sign, so to
+first order at the operating point the output nucleus does not move at
+all: a 0.097 shift in both MSNs produces a 0.0024 shift in GPi, 2.5% of
+it. The residual is second order, because the direct path passes through
+one sigmoid and the indirect through three. This is a consequence of rules
+1 and 2 rather than a claim about the brain, and it is stated that way -
+but it is the reason the scenario is about dopamine acting
+*differentially* on two populations rather than about drive.
+
+### The one result readers expect to be opposite and is not
+
+D1 and D2 agonism are **not** opposing on locomotion in this model, and
+should not be. D1 activation excites the direct MSN, which inhibits GPi;
+D2 activation inhibits the indirect MSN, which via GPe -| STN also ends up
+inhibiting GPi. Opposite receptor-level signs, one direction at the output.
+A test asserts exactly that - opposite signs at the two striatal
+populations, one sign at GPi - because it is the kind of thing that would
+otherwise get "fixed" by someone who remembered "D1 and D2 oppose each
+other" without remembering what they oppose each other *at*. The
+oppositions that are real here are between pathway activations
+([Kravitz2010]) and between a D1 agonist and a D2 antagonist.
+
+There is one further genuine D1-versus-D2 opposition, and this model
+cannot express it: D2 autoreceptors on nigrostriatal terminals and on
+SNc/VTA somata, where an agonist reduces dopamine release, which is the
+mechanism behind the biphasic locomotor dose-response of D2 agonists. It
+is blocked for exactly the reason P5.1's 5-HT1A autoreceptor was:
+`Simulation`'s ligand concentrations come from the PK layer and no circuit
+rate has a path back into them. P5.1's
+`test_autoreceptor_is_an_open_loop_until_phase_6` already asserts that gap
+in general form, so it is recorded here and not re-asserted.
+
+### Searched and empty
+
+- **Binding kinetics for SCH-23390 at D1.** Searched Europe PMC for
+  "SCH 23390" crossed with "dissociation rate constant", "koff" and
+  "residence time"; for D1 with "TR-FRET", "NanoBRET" and "association
+  rate constant"; and through the Rinken group's D1 work, which is the
+  same group [Parkel2006] came from in P5.1. Allikalt A, Kopanchuk S,
+  Rinken A (Eur J Pharmacol 2018;839:40-46) report association and
+  dissociation half-lives of 40 s and 70 s and Kd 5.2 nM - for the
+  FLUORESCENT ligand BodipyFL-SKF83566, not for SCH-23390. Farrell CB,
+  O'Boyle KM (Eur J Pharmacol 1994;268(1):79-88) is the obvious source,
+  measures [3H]SCH 23390 dissociation from rat striatum, and is paywalled
+  with an abstract that reports the *effect of dopamine on* k-1 without
+  reporting k-1. Billard W et al. (Life Sci 1984;35:1885-1893) gives the
+  saturation Kd (0.53 nM, rat striatum) that derivation 3 uses instead.
+- **Rodent pharmacokinetics for dihydrexidine and SCH-23390.** Searched
+  each compound crossed with "pharmacokinetics", "half-life", "plasma
+  concentration" and "brain concentration" in rat and mouse. Nothing
+  usable: dihydrexidine's hits are in-vitro pharmacology and reviews of
+  tavapadon; SCH-23390's are studies using it as a tool at a stated mg/kg
+  without measuring its disposition. Both therefore share ONE illustrative
+  `ke`, deliberately the same number as P5.1's
+  `serotonin.TOOL_COMPOUND_KE`, for P5.1's stated reason - two invented
+  values would assert a clearance ORDERING nothing supports. A test
+  asserts the two constants are equal so they cannot drift apart, and
+  another asserts this module's dopamine `ke` equals the D2 set's, because
+  one dopamine dose is applied to both systems by name and the alternative
+  is one molecule with two elimination rate constants.
+- **A locomotor dose-response usable as a circuit-layer target.** Not
+  searched again: Track E and P2.2 already established the blocker for
+  this whole drug class, which is that behavioural pharmacology reports
+  mg/kg by IP/SC/PO and this codebase has no such kinetics for these
+  compounds. Phase 1's bridge is where such a dataset enters.
+
+### What was deliberately not built
+
+- **A cortico-thalamo-cortical feedback edge.** `Thalamus -> Cortex_M1`
+  exists anatomically, and adding it turns the acyclic cascade into a loop
+  whose gain nothing in reach fixes - and the uniqueness argument above goes with it,
+  since `kappa = 1.414` means the contraction certificate would not cover
+  the loop either.
+- **An atlas-derived density factor.** `Drd1` is already in
+  `expression/genes.py` tagged P5.2, `Drd2` is already in the model, P4.3
+  scored both as striatum-dominant, and the two mechanism gains are
+  explicitly the `mechanism_gain` half of P4.2's
+  `coupling = mechanism_gain * rho[region]`. Two measured facts stop the
+  upgrade rather than one guessed one. First, `rho` is a per-REGION factor
+  and here both receptors sit in the SAME region on two different CELL
+  TYPES, which a regional ISH map cannot separate - a real limit of the
+  P4.2 factorization at exactly this scenario. Second, the direct
+  pathway's own anatomy is the terminal-field mismatch P4.3 already
+  records as an expected FAILURE for `Drd1`: nigral D1 protein is on the
+  terminals of striatonigral neurons whose somata, and so whose
+  transcript, are in the caudoputamen, and P4.2 measured the resulting
+  CP:SNr error at 32-fold. A transcript-derived `rho` for the direct
+  pathway's output nucleus would be wrong by that factor, in a known
+  direction. This scenario is therefore the one that would benefit most
+  from a cell-type-resolved density source and is furthest from having
+  one.
+- **The connectome-ported version.** P3.3 established that the ported
+  indirect pathway inverts, because Knox et al. give GPe a thalamic
+  projection seven to nine times denser than GPi's and the Albin-DeLong
+  diagram gives it none. That finding applies unchanged to the direct
+  pathway's ported form and would need the cell-type-resolved striatal
+  output P3.3's `Restriction` stands in for. This scenario is the diagram,
+  and P3.3 already documents at length what the diagram is and is not.
+- **Endogenous dopamine tone.** Without it an antagonist given alone is
+  inert, as everywhere else here; real SCH-23390 and real haloperidol both
+  suppress locomotion given alone. P6.2. The test that asserts inertness
+  says so, so the day P6.2 lands the expectation is already written down.
+
+### What this task changes, and what it does not
+
+- **One new module, and no change to any existing model file.**
+  `dopamine.py` is additive; `scenarios.py`, `engine.py`, `receptor.py`,
+  `network.py` and `serotonin.py` are untouched. The only edit outside the
+  new files is adding `dopamine` to the package exports.
+- **The calibrated D2 parameter set is reused, not re-derived.**
+  `d2_receptor_site_calibrated()` and `d2_pk_models_calibrated()` are the
+  same objects; only the coupling gain differs, for the stated saturation
+  reason. So the D1/D2 comparison is a comparison of two independently
+  sourced parameter sets rather than of two sets fitted to make it come
+  out.
+- **No existing test changed, none skipped, marked slow or weakened, and
+  no tolerance widened.** 21 new test items, all in the offline gate.
+- **Three D1 ligands' binding constants and efficacies are
+  literature-sourced**, one of the three efficacies fractional and
+  measured, one antagonist `koff` derived by the codebase's stated
+  derivation 3 and checked against an independent bracket.
+- **The circuit remains illustrative and is labelled as such**, as in
+  every scenario before Phase 7 - but its parameters now follow three
+  rules with a rejection criterion attached to one of them, and the
+  uniqueness argument for the network is written down and asserted rather
+  than inherited.

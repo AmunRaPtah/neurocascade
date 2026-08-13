@@ -18,6 +18,7 @@ from .behavior import BehaviorReadout
 from .engine import Simulation
 from . import scenarios
 from . import serotonin
+from . import dopamine
 from . import drug_pk
 from . import pk_validation
 from . import connectome
@@ -46,6 +47,7 @@ __all__ = [
     "Simulation",
     "scenarios",
     "serotonin",
+    "dopamine",
     "drug_pk",
     "pk_validation",
     "connectome",
