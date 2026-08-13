@@ -17,6 +17,7 @@ from .network import CircuitNetwork
 from .behavior import BehaviorReadout
 from .engine import Simulation
 from . import scenarios
+from . import serotonin
 from . import drug_pk
 from . import pk_validation
 from . import connectome
@@ -44,6 +45,7 @@ __all__ = [
     "BehaviorReadout",
     "Simulation",
     "scenarios",
+    "serotonin",
     "drug_pk",
     "pk_validation",
     "connectome",

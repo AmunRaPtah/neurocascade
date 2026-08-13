@@ -59,8 +59,22 @@ are not in this registry, and their absence is an assertion about them and
 not an oversight. (Presynaptic ionotropic receptors exist - kainate
 autoreceptors, presynaptic NMDA - but they are a minority pool rather than
 the dominant one, and no quantitative region-wise split is published.)
-`Adora2a`, `Drd2` and `Htr1a` are the intermediate cases and are recorded
-with severity `partial`.
+`Drd1`, `Oprm1`, `Adra2a` and `Drd2` are the intermediate cases and are
+recorded with severity `partial`.
+
+`Htr1a` is absent, and P5.1 is where that was checked rather than assumed.
+An earlier version of this paragraph named it as a `partial` case; it is
+not one, and no record was ever written for it. 5-HT1A is the textbook
+somatodendritic autoreceptor, and "somatodendritic" is exactly the property
+that makes a transcript map work: Riad M, Garcia S, Watkins KC, Jodoin N,
+Doucet E, Langlois X, el Mestikawy S, Hamon M, Descarries L.
+"Somatodendritic localization of 5-HT1A and preterminal axonal localization
+of 5-HT1B serotonin receptors in adult rat brain." J Comp Neurol.
+2000;417(2):181-194 (rat; immunogold electron microscopy) finds 5-HT1A on
+cell bodies and dendrites in both its autoreceptor role in the raphe and
+its heteroreceptor role in the hippocampus, and not on axon terminals.
+`Htr1b` in the same paper is the opposite case and would belong here if the
+model used it. See the P5.1 section of docs/architecture.md.
 """
 
 import numpy as np

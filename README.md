@@ -73,6 +73,15 @@ The engine runs end to end on three worked examples, all reusing the same
   [`docs/architecture.md`](docs/architecture.md)) that scales an existing
   connection's weight instead of adding drive to a node; `ReceptorSite`
   itself needed no change.
+- [`examples/serotonin_raphe_cortex_circuit.py`](examples/serotonin_raphe_cortex_circuit.py)
+  runs the 5-HT1A (Gi) and 5-HT2A (Gq) systems of `serotonin.py` on one
+  shared raphe/cortex circuit: 8-OH-DPAT suppressing raphe firing through
+  the somatodendritic autoreceptor, DOI exciting cortical pyramidal
+  neurons, and each reversed by its antagonist (WAY-100635, ketanserin).
+  Every binding constant and efficacy there is literature-sourced,
+  including two fractional partial-agonist efficacies; the circuit and the
+  tool-compound PK are illustrative. The autoreceptor is an open loop
+  until Phase 6 supplies transmitter release, and a test asserts that.
 
 **The circuit time constants and connection weights are hand-set
 placeholders**, chosen to get the mechanism right, not sourced from any
@@ -107,6 +116,7 @@ more single-dose studies.
 | `src/neurocascade/`  | The engine (pk, drug_pk, receptor, circuit, network, behavior, engine, scenarios) |
 | `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1), and the `CircuitNetwork` builder with its neurotransmitter sign rule (P3.2) |
 | `src/neurocascade/connectome_scenarios.py` | The hand-built scenarios re-wired from the connectome, with per-edge provenance (P3.3) |
+| `src/neurocascade/serotonin.py` | The 5-HT1A and 5-HT2A receptor systems, their literature binding constants and efficacies, and the raphe/cortex scenario they drive (P5.1) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4) |
 | `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2), and the cited anatomical validation of the resulting maps (P4.3) |
 | `src/neurocascade/datafetch.py` | Checksummed download/verify/cache, shared by both ingestion packages |

@@ -6077,3 +6077,341 @@ is named by a claim.
   comparison` now iterates P4.2's own five ontology-only regions instead of
   the union of P4.2's and P4.3's, because the union would have made it
   assert nothing.
+
+---
+
+## Phase 5: serotonin 5-HT1A and 5-HT2A (P5.1)
+
+### The task, and where its difficulty actually was
+
+P5.1 asks for two receptor systems with literature Ki, kon, koff and
+efficacy for serotonin itself and for four representative ligands
+(8-OH-DPAT, WAY-100635, DOI, ketanserin), a scenario showing agonism,
+antagonism and reversal, and the 5-HT1A autoreceptor's role documented as a
+Phase 6 dependency. The new code is `src/neurocascade/serotonin.py`, its
+tests are `tests/test_serotonin_scenario.py`, and the worked example is
+`examples/serotonin_raphe_cortex_circuit.py`.
+
+The difficulty was not the circuit and it was not the engine: this task
+needed no engine change at all, for the same reason the multi-region
+mu-opioid track did not. Two `ReceptorSystem`s on one shared
+`CircuitNetwork` is what `Simulation(network, receptor_systems=[...])`
+already does, and a receptor whose activation drives two nodes is what a
+two-key `coupling` dict already does. The difficulty was the sourcing, and
+specifically that the four ligands' rate constants are published in four
+different states of completeness. Three derivations were needed rather than
+one, and each is stated at the ligand it applies to:
+
+1. **Both constants measured** - use them. 8-OH-DPAT's kon at 5-HT1A
+   ([Satala2016]) and serotonin's kon and koff at 5-HT2A ([Denomme2024]).
+2. **koff and an equilibrium affinity measured, kon missing** -
+   `kon = koff / Kd`, the mu-opioid pattern. WAY-100635 ([Parkel2006]).
+3. **Only an equilibrium affinity measured** - share the site's one
+   measured kon and set `koff = kon * Ki`, the GABA-A pattern. Serotonin at
+   5-HT1A, DOI and ketanserin at 5-HT2A.
+
+Derivation 3 is the assumption in this task, and it is the same one the
+GABA-A section makes, but better anchored. There, `kon_shared = 0.2` was
+chosen to match the order of magnitude of the mu-opioid numbers and was
+sourced from nothing. Here the shared kon is a *measured association rate
+constant for a ligand binding the same site in the same kind of
+preparation*: 0.34 nM^-1 min^-1 at 5-HT1A from [Satala2016], 0.0252
+nM^-1 min^-1 at 5-HT2A from [Denomme2024]. What is assumed is that the
+other ligands at that site associate at a comparable rate, not what that
+rate is. The full source list, with species, preparation, radioligand and
+temperature per number, is in `serotonin.py`'s module docstring and is not
+repeated here.
+
+### Two sources that carry most of the weight, and why they were preferred
+
+**[Satala2016]** (Satała G et al., Mol Neurobiol 2016;53:6869-6881,
+PMC5104769) is a paper about zinc, and its 5-HT1A pharmacology is the
+control arm. That control arm happens to be exactly the [Volpe2011]-shaped
+thing the D2 section looked for and could not find: one preparation (human
+5-HT1A in HEK293), one radioligand ([3H]-8-OH-DPAT), and in it both a
+saturation Kd for the agonist (2.9 nM), its association rate constant
+(3.4e8 M^-1 min^-1), its dissociation rate constants, and serotonin's Ki
+(8.7 nM) measured against it. Two of the three 5-HT1A ligands are therefore
+directly comparable rather than merely each-trustworthy-alone, which is the
+guarantee the dopamine/haloperidol pair does not have.
+
+**[Denomme2024]** (Denomme N et al., Mol Pharmacol 2024;106:92-106) is a
+paper about a novel antagonist, and again the reference ligand is what this
+project needed: serotonin's kon and koff at human 5-HT2A measured by
+NanoBRET *in live cells*. It is the only 5-HT2A binding-kinetics
+measurement found for any ligand in this set, and being a live-cell
+measurement is what makes it the anchor for the affinity-state problem
+below.
+
+Both were preferred over the obvious alternatives (a PDSP-style Ki table, a
+review's summary table) because the derivations above need rate constants
+and an assay description, not an affinity number stripped of its context.
+
+### The affinity state problem, which is the largest real uncertainty here
+
+[McKenna1989] measures serotonin's affinity for 5-HT2A twice in the same rat
+cortex: **3.0 nM** against the agonist radioligand [125I]DOI and **750 nM**
+against the antagonist radioligand [3H]ketanserin. That 250-fold spread is
+not a discrepancy to be averaged away. It is the two-state behaviour of an
+agonist at a G-protein-coupled receptor: the agonist radioligand labels the
+G-protein-coupled high-affinity state, the antagonist radioligand labels the
+whole population. The same split shows up for DOI itself, 0.71 nM at cloned
+human 5-HT2A against [125I]DOI ([Nelson1999]) versus 19.05 nM in rat cortex
+against [3H]ketanserin ([Seggel1990]).
+
+`ReceptorSite` has one pool and one affinity per ligand, so one of them has
+to be chosen, and choosing is a modelling decision that changes results by
+more than any other number in this task. The choice made, and the three
+reasons for it:
+
+- Serotonin takes its **live-cell** value, Kd ~150 nM ([Denomme2024]).
+  Intact cells contain the coupled and uncoupled states in whatever ratio
+  they actually occur in, which is closer to the tissue the circuit layer
+  is about than either membrane preparation is.
+- It is the only affinity in the set that arrives with both rate constants
+  measured, so choosing it means the reference ligand of both scales needs
+  no derivation at all.
+- It lands *between* the two membrane values, 3.0 and 750, which is what a
+  mixed-state population should do. That is a consistency check across
+  three independent labs, not a preference.
+
+DOI and ketanserin then take antagonist-radioligand membrane values, so the
+5-HT2A set is mixed-format, exactly the flag the D2 section raised for
+dopamine-versus-haloperidol. The consequence is bounded rather than waved
+at: with serotonin at 150 nM the model's ketanserin/serotonin affinity ratio
+is 150, where an all-[3H]ketanserin set makes it 750. So
+`ligands_5ht2a(affinity_state="antagonist-radioligand")` builds that second
+set, and **every qualitative result is asserted under both** - the same
+discipline P4.3 used when it kept the hand-written mu-opioid map alongside
+the atlas-derived one. Nothing in the agonist, antagonist, reversal or
+opposite-sign results depends on which state is chosen; what depends on it
+is only how much ketanserin it takes to displace a given serotonin
+concentration, and no result in this task turns on that number.
+
+### Three findings, none of them assumed going in
+
+**WAY-100635 is a nearly irreversible antagonist, and that inverts the
+mu-opioid reversal story.** [Parkel2006] measures koff = 7.8e-3 min^-1 in
+rat hippocampal membranes and remarks that equilibrium is not reached before
+7.5 h of incubation. That is a dissociation half-life of 89 minutes, ~130x
+slower than the agonist it competes with here. Track A's finding about
+naloxone was that the antagonist has the *faster* off-rate and reverses only
+by molar excess; 5-HT1A is the opposite case, where the antagonist reverses
+because it does not let go. The two facts are visible in the same codebase
+now, which is worth more than either alone. Independent corroboration comes
+from a different kind of experiment entirely: [Forster1995] reports
+WAY-100635 is an *insurmountable* antagonist at high concentrations in
+guinea-pig ileum, which is what a residence time that long looks like from
+the functional-pharmacology side.
+
+**The 5-HT1A/5-HT2A affinity split for serotonin is large, and it is
+measured.** 8.7 nM at 5-HT1A ([Satala2016]) against ~150 nM at 5-HT2A
+([Denomme2024]), two independent labs, a ~17-fold difference. Every
+statement this module makes about which receptor a given serotonin
+concentration engages first follows from those two published numbers and
+from nothing hand-set. It is the one prediction here that is entirely
+free of illustrative parameters, and it is tested as such.
+
+**Both selective agonists are strong partial agonists, not full ones.**
+[NewmanTancredi2003] ran one [35S]GTPgammaS panel in rat hippocampal
+membranes and reports, relative to 5-HT = 100: (+)8-OH-DPAT 85,
+WAY100,635 0. [Cussac2008] reports DOI at 81.3% of the serotonin maximum in
+h5-HT2A Gq/11-coupled calcium mobilisation. So two of this task's four
+efficacies come from a single panel with the antagonist measured in the same
+experiment as the agonist, and the textbook shorthand ("8-OH-DPAT, the
+prototypical 5-HT1A agonist") hides a 15% efficacy deficit that
+`Ligand.efficacy` carries directly. This is the first place in the codebase
+where `efficacy` is a fractional literature value rather than 1.0 or 0.0.
+
+### The autoreceptor, and the Phase 6 dependency stated as a test
+
+The 5-HT1A autoreceptor's function is a feedback loop: serotonin in the
+raphe activates it, raphe firing falls, and *less serotonin is released in
+the forebrain*. This model can express the first half of that sentence and
+not the second, because `Simulation`'s ligand concentrations come from the
+PK layer alone and no circuit rate has a path back into them.
+
+Three consequences, all recorded in `serotonin.py` and one of them asserted:
+
+- **The autoreceptor is an open loop here.** It suppresses the node that
+  carries it and stops.
+  `test_autoreceptor_is_an_open_loop_until_phase_6` doses the model with
+  serotonin plus 8-OH-DPAT, checks that the raphe node is suppressed by
+  ~0.4, and checks that the serotonin concentration and occupancy at the
+  cortical 5-HT2A pool are unchanged to within 1e-4 relative. Closing the
+  loop in P6.1/P6.2 must break that test, which is why it is written as an
+  assertion rather than a paragraph. (The residual is ~2e-6 and is
+  integrator step-size selection, not physics: RK45 picks one step for the
+  whole shared state vector, so adding a ligand perturbs the last digits of
+  every other trace. That is why the tolerance is 1e-4 and not zero.)
+- **No raphe -> cortex edge is wired.** In a Wilson-Cowan network a weight
+  is a fixed-sign synaptic drive, and the raphe's influence on cortex is not
+  that: it is receptor-mediated and of both signs at once, 5-HT1A inhibitory
+  and 5-HT2A excitatory on the same pyramidal cell ([AmargosBosch2004],
+  [Santana2017]). Representing it as a signed weight would double-count the
+  receptor layer, which is the layer this codebase exists for. The
+  `DRN_5HT` node is therefore unconnected, the same shape as `LC` in the
+  multi-region mu-opioid scenario and for a related reason.
+- **An antagonist given alone is inert here and is not inert in vivo.**
+  Real WAY-100635 has effects alone because real raphe neurons carry tonic
+  autoreceptor activation to remove. Supplying that tone is P6.2. The test
+  that asserts inertness says so in its comment, so the day P6.2 lands the
+  expectation is already written down.
+
+One smaller finding fell out of the same reading. `expression/mismatch.py`'s
+docstring named `Htr1a` as a `partial` terminal-field-mismatch case, and no
+record was ever written for it. It is not one: [Riad2000] finds 5-HT1A
+protein on cell bodies and dendrites in *both* its raphe autoreceptor and
+its hippocampal heteroreceptor role, and not on axon terminals, which is
+precisely the case the transcript-to-density proportionality assumption is
+built for. (5-HT1B, in the same paper, is the opposite case and would belong
+in that registry if the model used it.) The docstring is corrected in this
+commit rather than inherited, and it now names the four genes that actually
+have records.
+
+### What the circuit is, and the two rules that set its illustrative values
+
+Three nodes. `DRN_5HT` (dorsal raphe serotonin neurons, somatodendritic
+5-HT1A autoreceptor, [Sprouse1987]); `PFC_Pyramidal` (layer V prefrontal
+pyramidal neurons, carrying *both* postsynaptic 5-HT1A and 5-HT2A, which is
+the anatomy [AmargosBosch2004] reports); `PFC_GABA` (local interneurons,
+carrying no receptor, providing the recurrent inhibition that makes the
+pyramidal response finite).
+
+Every weight, tau, gain and baseline in it is illustrative, and "illustrative"
+here does not mean "tuned until the tests passed". Two stated rules fix them:
+
+1. **Baselines put every node at rate 0.5 at rest**, the maximum-sensitivity
+   point `stability.MAX_SENSITIVITY_RATE` derives. Given the two loop
+   weights that fixes `baseline_input` at +0.45 and -0.4 exactly; nothing is
+   left to choose.
+2. **The loop weights satisfy P3.4's global-uniqueness certificate.**
+   `contraction_number = sigma_max(diag(g/4) W)` is 0.9 < 1, so this
+   network has exactly one fixed point and every trajectory converges to it
+   whatever the taus. `stability.assess` is called on it in the tests rather
+   than the property being claimed in prose.
+
+This is the first hand-built scenario in the codebase constructed to carry
+P3.4's certificate from the start, instead of being checked against it
+afterwards.
+
+The two mechanism gains (`HT1A_MECHANISM_GAIN = -1.0`,
+`HT2A_MECHANISM_GAIN = +1.0`) are illustrative and follow their own stated
+rule: activation is a dimensionless fraction in [0, 1], so magnitude 1 means
+a fully occupied receptor bound by a full agonist shifts its node's input by
+one unit, which at gain 4 carries the node most of the way across its
+sigmoid. Their signs are not free - 5-HT1A is Gi/o-coupled and
+hyperpolarizing, 5-HT2A is Gq/11-coupled and depolarizing - and their equal
+magnitudes are a consequence of the rule rather than a claim that the two
+receptors are equally powerful. P2.3 already established that only the
+product of a coupling gain and a connection weight is identifiable even when
+behavioural data exists, so no behavioural anchor was sought for these: Phase
+5 is a receptor-layer task and Phase 7 is where endpoints get fitted.
+
+One gain serves both of 5-HT1A's target nodes, following P4.3's correction:
+the same Gi-coupled receptor reducing the drive of the cell that carries it,
+with no data in reach distinguishing its per-receptor efficacy between a
+raphe serotonin neuron and a cortical pyramidal neuron. The density
+difference between those regions is the missing `rho` factor of P4.2's
+`coupling = mechanism_gain * rho`; see the next section for why it is not
+supplied yet.
+
+### What was deliberately not built
+
+- **5-HT2A on cortical interneurons.** It is really there ([Willins1997]),
+  and it is why [Puig2003] finds intravenous DOI exciting 21 of 56 and
+  inhibiting 17 of 56 identified mPFC pyramidal neurons. Adding it needs the
+  ratio of the interneuron gain to the pyramidal gain, and in this network
+  that ratio sets both the size and, in the small-signal regime, the sign of
+  the cortical response. Linearized at rest the response is
+  `(u_pyr - w * u_gaba) / (1 + w * w')` with `w = 0.9`, `w' = 0.8`, so it
+  changes sign once the interneuron gain exceeds `1/w = 1.11` times the
+  pyramidal one; running the model at a 1 nM DOI dose confirms the flip
+  between ratios 1.0 and 1.5. At a saturating dose the interneuron rails
+  and the response stays positive but is compressed from +0.26 to +0.04 as
+  the ratio goes from 0 to 2. So the ratio is load-bearing over the whole
+  range, no source found supplies it, and supplying one would be choosing
+  the sign of a published-as-mixed result by hand. The interneuron node
+  exists and carries no drug target.
+- **An atlas-derived density factor.** `Htr1a` and `Htr2a` are already in
+  `expression/genes.py` tagged P5.1, and `scenario_maps.scenario_coupling`
+  is one call away. It is not used because the committed expression fixture
+  carries `Htr2a` and not `Htr1a`, so a density-derived 5-HT1A map would make
+  every test in this module depend on the gitignored 7.5 MB cache - the
+  precise failure mode P4.3's fixture discussion set out to avoid. The
+  mechanism gains are already stated as the `mechanism_gain` half of P4.2's
+  factorization, so the upgrade is additive when an `Htr1a` fixture slice
+  lands.
+- **A second 5-HT1A efficacy for the autoreceptor.** [NewmanTancredi2003]'s
+  85% is measured at postsynaptic hippocampal receptors; 8-OH-DPAT is widely
+  described as behaving as a *full* agonist at somatodendritic
+  autoreceptors. That difference is receptor reserve - the same intrinsic
+  efficacy producing a maximal response where receptors exceed the G
+  proteins needed - and receptor reserve is not representable at all in a
+  model whose activation term is linear in occupancy. Using 85% everywhere
+  understates the autoreceptor response, which is the honest direction to be
+  wrong in; the alternative is asserting a second, unmeasured efficacy.
+- **An inverse-agonist ketanserin.** [Egan1998] shows competitive 5-HT2A
+  antagonists reduce basal signalling at a constitutively active receptor,
+  i.e. they are inverse agonists rather than neutral. `Ligand.efficacy`
+  supports negative values, but `ReceptorSite.activation` is
+  `sum(occupancy * efficacy)` with no constitutive term, so a negative
+  efficacy would drive the node *below* its drug-free baseline, which is not
+  what an inverse agonist does to a receptor with no constitutive tone.
+  Ketanserin is modelled with efficacy 0.0 and that zero is labelled as the
+  one modelling simplification among this task's efficacies, rather than as
+  a measurement. Adding constitutive activity is an engine extension with
+  its own literature requirement (how much constitutive activity, per
+  receptor, in vivo).
+
+### Searched and empty
+
+- **Rodent pharmacokinetics for 8-OH-DPAT, WAY-100635, DOI and ketanserin.**
+  Searched Europe PMC for each compound crossed with "pharmacokinetics",
+  "half-life", "plasma" and "brain concentration" in rat and mouse. The hits
+  are reviews of other drugs, PET occupancy studies that report occupancy
+  over time without a plasma curve, and papers using these compounds as
+  tools without measuring their disposition. So all four share ONE
+  illustrative elimination rate constant, `TOOL_COMPOUND_KE = ln(2)/30 min`,
+  rather than four separately invented ones: four guesses would assert a
+  clearance *ordering* that nothing supports, where one asserts only that
+  all four are still on board across the scenario's window. Phase 1's
+  dose-to-brain bridge is what a real dataset would plug into.
+- **Binding kinetics for DOI and ketanserin at 5-HT2A, and for serotonin at
+  5-HT1A.** Searched for "[3H]ketanserin" with "association"/"dissociation
+  rate constant", for 5-HT2A "residence time" with NanoBRET/TR-FRET, and for
+  the 5-HT2A entries of [Sykes2017]-style antipsychotic kinetic panels. The
+  classic [3H]ketanserin characterisation (Leysen JE et al., Mol Pharmacol
+  1982;21:301-314) does report association and dissociation kinetics, but it
+  is paywalled with no abstract in Europe PMC and its rate constants could
+  not be read; nothing citable was obtained from it. Hence derivation 3 for
+  those three ligands.
+- **Serotonin's own clearance rate.** The same gap dopamine has in the D2
+  section, for the same reason: 5-HT in the extracellular space is cleared
+  by SERT-mediated reuptake, a saturable Michaelis-Menten transporter
+  process on a sub-second-to-second timescale, not first-order elimination.
+  `SEROTONIN_KE = 5.0 min^-1` is an explicit flagged proxy that preserves
+  the only property the dynamics need - transmitter clears far faster than
+  any dosed drug - at a timescale the integrator resolves. The real quantity
+  belongs to P5.8 (SERT) and P6.2 (endogenous tone).
+
+### What this task changes, and what it does not
+
+- **One new module, and no change to any existing model file.**
+  `serotonin.py` is additive; `engine.py`, `receptor.py`, `network.py` and
+  `scenarios.py` are untouched. The only edit to pre-existing code outside
+  the package export is the `expression/mismatch.py` docstring correction
+  above, which changes no behaviour and no number.
+- **No existing test changed, none was skipped, marked slow or weakened,
+  and no tolerance was widened.** 24 new test items, all in the offline
+  gate, running in ~40 s.
+- **Six ligands' binding constants and efficacies are literature-sourced.**
+  Four efficacies come from functional panels rather than being assumed to
+  be 1.0 or 0.0, and two of the four are fractional.
+- **The circuit and the pharmacokinetics remain illustrative and are
+  labelled as such**, as in every scenario before Phase 7. What is different
+  is that both sets of illustrative values now follow stated rules -
+  maximum-sensitivity baselines, the P3.4 certificate, unit-magnitude
+  mechanism gains, one shared tool-compound `ke` - so that a later
+  calibration replaces a documented placeholder rather than an arbitrary
+  one.
