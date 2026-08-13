@@ -9309,3 +9309,515 @@ invalidates a stability certificate computed without it.**
   projection densities; cross-clearance (NET clearing dopamine in cortex,
   which is [Bymaster2002]'s own finding about atomoxetine); and any behavioural
   endpoint, which is Phase 7's.
+
+## Phase 6: neuromodulatory projection systems (P6.1)
+
+### The sentence in the brief, and the shape it forces
+
+"Implement the abstraction that makes this a brain model rather than a large
+graph: source nucleus firing rate drives transmitter release, which produces a
+region-wise transmitter concentration weighted by projection density, which
+drives receptor occupancy at every target region. Replace the current pattern
+in which a receptor sits on one designated node."
+
+Every receptor system in this codebase before P6.1 is the same shape:
+
+    drive[node] += gain * activation(occupancy)
+
+one occupancy, one activation number, one node. That is right for a locally
+released transmitter and wrong for a neuromodulator, because the quantity that
+couples a midbrain nucleus to a forebrain receptor is not an occupancy, it is a
+CONCENTRATION FIELD. For three of the five transmitters the ultrastructure
+settles which of the two the anatomy supports: [Ozcete2024] (Ozcete OD,
+Banerjee A, Kaeser PS, Mol Psychiatry 2024, PMC11540752), reviewing the
+quantitative EM literature, reports that for dopamine "only ~1% of the
+dopamine varicosities have them [synaptic appositions]", that for serotonin
+"synaptic appositions are overall rare", and that for noradrenaline they "are
+largely absent". A model driven by a region-wise extracellular concentration
+is not a coarse stand-in for a synaptic model there; it is closer to the
+anatomy than a synaptic model would be.
+
+For acetylcholine the same question is open and is recorded as open.
+[Sarter2009] reviews studies concluding "the great majority of cholinergic
+terminals in the cortex of rats and humans form synaptic contacts" alongside
+studies contradicting it, and states plainly that "the reasons for the
+discrepancy between these studies remain unclear". So the acetylcholine field
+here is built on the same abstraction as the others because a uniform
+mechanism was worth more than a per-transmitter special case, and NOT because
+the anatomy was found to demand it.
+
+So P6.1 adds two objects and replaces none:
+
+* `projection.ProjectionSystem` is the SOURCE side. One ODE state per target
+  region, that region's extracellular transmitter concentration, and a mass
+  balance whose release term reads a circuit node's firing rate. It produces
+  no activation and touches no node's drive, exactly like P5.8's
+  `TransporterSystem`, of which it is the firing-rate-driven generalization.
+* `projection.RegionalReceptorSystem` is the TARGET side: one receptor type,
+  one occupancy state block PER REGION, each driven by its own region's
+  concentration and contributing to its own region's node.
+
+`engine.ReceptorSystem` is untouched and is still what a scenario should use
+when a drug reaches its one receptor through plasma.
+
+### The volume-transmission timescale assumption, which is the load-bearing one
+
+The abstraction says a target region has ONE transmitter concentration. That
+is a spatial approximation, it is the one thing in P6.1 that could be
+quietly wrong, and the acceptance criteria ask for it to be documented and
+cited. It is stated as an argument with numbers, and
+`projection_systems.timescale_report()` recomputes it so a reader can re-run
+it rather than believe it.
+
+**The claim is NOT that a region is diffusively well mixed.** It is not.
+[Dreyer2010] (Dreyer JK, Herrik KF, Berg RW, Hounsgaard JD, J Neurosci
+2010;30:14273-14283) measures the effective diffusion constant for dopamine in
+striatal extracellular space as `D* = 322 um^2/s`. A region is of order a
+millimetre across, and `x^2/(6 D*)` for `x = 1 mm` is **518 s**, longer than most
+simulations here run. Diffusion does not mix a region and this model does not
+claim it does.
+
+**The claim is that the field is near-uniform at the scale of the innervation
+mesh, and that the region-wise concentration is an average over that mesh.**
+The relevant length is the spacing between release sites:
+
+- [Dreyer2010]'s release-site density `rho = 0.104 um^-3` gives a mean
+  spacing of `rho^(-1/3)` = **2.13 um**;
+- [Ozcete2024], from a different measurement: "On average, there is one
+  dopamine release site every ~4 um of dopamine axon, which leads to an
+  estimate of one site per 25 um^3 of the striatum", i.e. **2.92 um**.
+
+The two agree within **1.38-fold**, which is the kind of cross-check P5.8's
+two-mouse-preparation comparison established as the standard here. Diffusion
+over 2.13 um takes `x^2/(6 D*)` = **2.3 ms**. So beyond a few milliseconds
+every point in the tissue is within diffusive reach of many release sites.
+
+**The chemistry agrees with the geometry.** Each transmitter's extracellular
+clearance time constant, computed from constants the earlier phases sourced
+and not restated as new ones:
+
+    transmitter      clearance tau   circuit tau   ratio   source
+    dopamine            0.0516 s         90 s      1744    [JohnJones2007] Km/Vmax
+    acetylcholine       0.0577 s         90 s      1560    ILLUSTRATIVE
+    noradrenaline        1.962 s         90 s        46    [Park2012] 1/k
+    serotonin            2.125 s         90 s        42    [JohnJones2007] Km/Vmax
+    histamine            2.125 s         90 s        42    ILLUSTRATIVE
+
+against the 1.5 min Wilson-Cowan population time constant every cortical node
+in this codebase uses. The smallest ratio is 42.
+
+What follows is that a region's concentration can be one ODE state whose
+relaxation is fast compared with the circuit's. What does NOT follow, and is
+recorded because it bounds every claim this abstraction can make, is that
+concentration gradients within a region are absent: striatal dopamine is
+patchy at the 10-100 um scale, the model's number is the mean over that
+structure, and any prediction that depends on the variance is outside what
+P6.1 can say.
+
+One thing was deliberately not done with this result. The pool is fast enough
+to eliminate adiabatically, and P6.1 keeps it as a state anyway, because an
+uptake blocker changes the pool's own kinetics rather than only its steady
+state, and because "everything reacts to everything else's current state" is
+the decision at the top of this document.
+
+### The release law, and the numbers the model does not consume
+
+`projection.ProportionalRelease` is `L(r) = max(r, 0) / r_rest`: release rate
+proportional to firing rate, normalized to 1 at the source node's own drug-free
+resting rate. Three notes, in the order they matter.
+
+It is a spike-count model of release, a fixed quantity of transmitter per
+action potential, which is exactly what [Dreyer2010] builds its dopamine model
+on ("N0 = 3000" molecules per fusion event, a fixed release probability per
+spike, tonic firing as "random Poisson spikes at an average rate of 4 Hz").
+
+It is known to be imperfect: short-term depression makes per-pulse release
+fall with frequency and bursts can release supralinearly.
+`projection.PowerLawRelease` exists so a test can price that, and no exponent
+other than 1.0 produces any number reported here.
+
+**No firing rate in Hz enters any equation.** The model consumes the ratio of
+dimensionless Wilson-Cowan rates. The Hz values collected are context for what
+a resting rate of 0.5 stands for, and a test asserts they are not parameters
+by replacing the whole table with nonsense and checking that nothing moves:
+
+    dopamine        tonic 0.2-10 Hz, bursts >10 Hz            [Ozcete2024]
+    serotonin       tonic 0.03-3 Hz, bursts to 17 Hz          [Ozcete2024]
+    noradrenaline   0.88 +/- 0.23 Hz quiet rest, 0.1-5.0 Hz   [Devilbiss2011]
+    histamine       <10 Hz waking, silent in sleep, MOUSE     [Takahashi2006]
+    acetylcholine   SEARCHED AND EMPTY                        see below
+
+### The release scale is derived, and the prediction that follows
+
+The one thing that could have been a free parameter is how much transmitter a
+unit of firing releases. It is not free. It is fixed by requiring that at the
+source's resting rate the REFERENCE region reproduces the measured basal
+extracellular concentration the clearance object already carries:
+
+    release_scale = clearance.basal_release_rate() / rho_reference
+
+This is P5.8's `basal_release_rate` move ("what the mass balance requires given
+the measured uptake kinetics and the measured basal concentration") lifted one
+level. **The projection layer introduces no new absolute concentration scale**,
+and a test asserts the identity for all five transmitters.
+
+The consequence is that every non-reference region's basal concentration is a
+PREDICTION of the density map rather than an input. In the first-order
+clearance limit it is exactly proportional to density. Under Michaelis-Menten
+clearance the map is CONVEX, because `C(R) = R*Km/(Vmax - R)` is: a region at a
+quarter of the reference's density sits at slightly less than a quarter of its
+concentration, and doubling a source's firing takes the field to 2.03x rather
+than 2.00x. At the concentrations the measured constants put this model in
+(2.8 nM of serotonin against a Km of 170 nM) that departure is 1-2%. It is
+stated and asserted rather than corrected for.
+
+Two decisions came out of the same algebra and are recorded rather than
+hidden.
+
+**Uptake kinetics are held UNIFORM across regions.** `Km` and `Vmax` are
+measured in one region and there is no measured region-wise `Vmax` map here.
+The alternative, scaling `Vmax` with density on the ground that transporter
+density tracks innervation density, would make every region's basal
+concentration identical to the reference's, i.e. would erase exactly the
+regional variation this abstraction exists to produce. Neither choice is
+measured; this one is named, and `Slc6a2/3/4` ISH data are already in the
+repository for whoever answers it properly.
+
+**A region denser than uptake can serve is an error, not a number.** Under
+uniform kinetics there is a density above which `release >= Vmax` and no finite
+steady state exists. `ProjectionSystem` raises at construction with the reason,
+because that is the model saying something and not a numerical accident.
+
+### Two generalizations, and the case that forces each
+
+The abstraction had to be wider than "one nucleus, one target" in two
+independent directions, and each was forced by a concrete case rather than
+anticipated.
+
+**Many targets per nucleus** is the obvious one, and the serotonin port uses
+it: one 5-HT1A receptor type in three regions with three independent occupancy
+blocks.
+
+**Many nuclei per field** is the one that would have been a bug. VTA and SNc
+innervate overlapping forebrain territory. Modelled as two independent
+projection systems, each pinned to [Bosse2011]'s measured 5.0 nM striatal
+dopamine, they would put ten nanomolar of dopamine in the striatum. So a
+`ProjectionSystem` takes a LIST of `SourceNucleus`, each target carries a
+`{source_node: density}` map, and the release into a region is
+`release_scale * sum_s rho_{k,s} * L_s(r_s)`. A test asserts that two nuclei at
+half density each reproduce one at full density exactly, and that silencing one
+halves the release.
+
+### Where the constants came from
+
+Reused unchanged, through `monoamine_transporters.py`: dopamine and serotonin
+`Km`/`Vmax` ([JohnJones2007], mouse), noradrenaline's clearance rate
+([Park2012], rat), basal dopamine ([Bosse2011], mouse zero net flux, 5.0 nM),
+basal serotonin ([Mathews2004], mouse zero net flux, 2.8 nM), and P5.8's whole
+uptake-inhibition panel, so cocaine, methylphenidate, amphetamine and
+atomoxetine act on a projection field exactly as they acted on a transporter.
+
+New in P6.1:
+
+- **[Dreyer2010]** for the volume-transmission geometry (`D*` = 322 um^2/s,
+  `rho` = 0.104 um^-3, `alpha` = 0.21) and for the spike-count release law.
+- **[Ozcete2024]** for the independent release-site spacing, the asynaptic
+  varicosity fractions, the acetylcholine degradation and latency statements,
+  and the tonic firing-rate ranges.
+- **[Itoh1991]** (Itoh Y, Oishi R, Nishibori M, Saeki K, J Neurochem
+  1991;56:769-774) for basal extracellular histamine: anaesthetized rat, medial
+  hypothalamus, "extracellular HA concentration was assumed to be 7.8 nM, by a
+  calculation from in vitro recovery through the dialysis membrane", with
+  potassium-evoked release calcium-dependent (+170%). Four caveats travel with
+  it and are attached to the constant rather than to a footnote: rat not mouse;
+  hypothalamus, i.e. the tuberomammillary nucleus's own neighbourhood rather
+  than a forebrain target; recovery-corrected dialysate rather than zero net
+  flux; and [Cumming1991]'s finding that striatal extracellular histamine was
+  tetrodotoxin-insensitive and only 20% calcium-dependent, so part of what a
+  probe collects may not be neuronal.
+- **[Devilbiss2011]**, **[Takahashi2006]**, **[Sarter2009]**, **[Lee2005]** for
+  firing-rate and mechanism context, none of it consumed by an equation.
+- **[AllenCCF]**: every source nucleus is named by its CCF acronym and id
+  (VTA 749, SNc 374, DR 872, CS 679, LC 147, NDB 596, PPN 1052, LDT 162,
+  TM 557) and a test checks all nine against the ontology already vendored in
+  `data/connectome/`, so P6.3 can look their connectivity rows up without a
+  second naming convention. The median raphe is CCF `CS`, "Superior central
+  nucleus raphe", which is worth writing down because nothing else in the
+  ontology is called MRN.
+
+### Searched and empty
+
+**A first-order extracellular clearance rate constant for acetylcholine in any
+rodent preparation.** What exists is the enzyme's turnover number ("one
+molecule of AChE can hydrolyse 5,000 molecules of ACh per second",
+[Sarter2009]), which is not a clearance rate constant without an extracellular
+AChE concentration, and functional delays that BOUND an acetylcholine
+transient's lifetime at tens of milliseconds ([Ozcete2024]: the
+cholinergic-stimulation to dopamine-release delay is "~10 ms"; "M4-IPSCs have a
+lag of ~40 ms and a rise time of ~80 ms"). `ACETYLCHOLINE_CLEARANCE_RATE` is
+ILLUSTRATIVE, derived from a 40 ms half-life taken from that bound, and it is
+labelled "DO NOT CITE THIS AS A MEASURED CLEARANCE RATE".
+
+**A basal extracellular acetylcholine concentration corrected for probe
+recovery.** Reviewed dialysate values range 0.1-3 nM and are near the detection
+limit without a cholinesterase inhibitor in the perfusate, which perturbs the
+quantity being measured. A dialysate concentration is not an extracellular
+concentration, no zero-net-flux acetylcholine measurement was found, and a
+review is not a primary source. So `ACETYLCHOLINE_BASAL_UNIT_SCALE = 1.0` is a
+UNIT, exactly as P5.8's `NORADRENALINE_BASAL_UNIT_SCALE` is.
+
+**A first-order extracellular clearance rate constant for histamine.**
+[Cumming1991] (J Neurochem 1991;56:1797-1803) measured half-lives of "32 min
+and 7.7 h" for the decline of extracellular histamine after synthesis
+inhibition. Those are FOUND AND DELIBERATELY NOT USED: they measure how fast
+the releasable pool runs down when synthesis stops, not how fast released
+histamine leaves the extracellular space, and using them as the latter would be
+a category error of unknown size.
+
+**A mouse basal extracellular noradrenaline concentration**, still, exactly as
+P5.8 recorded it.
+
+**Discharge rates in Hz for identified cholinergic basal forebrain or PPT/LDT
+neurons.** [Lee2005] and [Boucetta2014] are the juxtacellular identified-cell
+recordings and both sit behind Journal of Neuroscience's HTTP 403 for the
+fetcher available here. The qualitative result was reachable ("discharge in
+bursts at maximal rates during active waking and paradoxical sleep") and the
+numbers were not. Since the model consumes no Hz value the gap costs a line of
+documentation and nothing else, and it is recorded rather than filled from a
+citing secondary source, which is P5.8's rule about [Rothman2001].
+
+### The engine change, and what it deliberately does not disturb
+
+`Simulation` gains `projection_systems=[...]`. The state vector becomes
+
+    y = [PK states | receptor states | transmitter states | PROJECTION field | rates]
+
+with the projection block empty when none is declared, so every pre-P6.1 layout
+is bit-for-bit the one it was. Projection ligands sit after every receptor and
+transporter ligand in the flat `doses` order, so adding a projection system
+cannot renumber an existing system's doses, and a test asserts that.
+`result["projection"]` is a (p, n_times) array in nM,
+`Simulation.projection_index[(name, region)]` maps a pair to its row, and
+`projection_trace(result, name, region)` reads one by name.
+
+P5.8's `transmitter_sources` is WIDENED and not changed: a bare string still
+names a transporter system, a `(system, region)` pair names a projection
+system's region, and for a `RegionalReceptorSystem` a bare string naming a
+projection system means "this block's own region", which is the whole point of
+the class. A `Simulation` now requires transporter and projection names to be
+disjoint so that the bare string is never ambiguous.
+
+One genuinely new option, `run(occupancy0="resting")`, and it is not
+cosmetic. "The drug-free brain" and "the brain with every receptor empty" stop
+being the same state once there is endogenous transmitter. Starting from the
+second puts a start-up transient on every tonically occupied node of exactly
+the size of the standing drive the tonic compensation subtracts, which for
+`Striatum_D2_MSN` is 2.13 units. A test asserts both that the default ported
+run is flat to 1e-6 and that `occupancy0=None` reproduces the transient.
+
+### The ports, and the result they were built to produce
+
+`projection_scenarios.py` ports five scenarios and moves nothing in the modules
+it ports from, exactly as P3.3's `connectome_scenarios.py` does for
+`scenarios.py`. A port changes three things and carries everything else
+(binding constants, efficacies, coupling gains, weights, taus, gains, readouts)
+unchanged: where the transmitter comes from, where the receptor is, and whether
+the source nucleus is a node. Three ports add isolated nucleus nodes the
+hand-built scenario did not carry (the median raphe, the PPT and LDT, the VTA
+and SNc), each with the same parameters the hand-built scenarios give their own
+nucleus node.
+
+**Two of the four illustrative transmitter-clearance proxies become measured
+constants under this port.** `serotonin.SEROTONIN_KE`,
+`noradrenaline.NORADRENALINE_KE`, `acetylcholine.ACETYLCHOLINE_KE` and
+`histamine.HISTAMINE_KE` were all 5.0 min^-1 with a comment saying "the real
+quantity belongs to P5.8 and P6.2". In a ported scenario the transmitter is not
+a dosed ligand at all, and for serotonin and noradrenaline its clearance is
+[JohnJones2007]'s and [Park2012]'s measured process. Histamine's and
+acetylcholine's are replaced by differently-labelled illustrative ones, for the
+reasons in "Searched and empty"; histamine gains a measured basal level in the
+exchange and acetylcholine gains nothing but the structure. Counting this as
+two rather than four is the point of the exercise: a port that could not say
+which of its numbers had improved would not be worth running.
+
+The headline result is the serotonin port, and it is the sentence every module
+from P5.1 to P5.8 had to write that it could not say. 100 nM 8-OH-DPAT at the
+somatodendritic 5-HT1A autoreceptor:
+
+                             no drug    8-OH-DPAT       change
+    DRN_5HT                   0.5000       0.0957      -0.4043
+    cortical 5-HT (nM)        2.8000       0.5286      -2.2714
+    cortical 5-HT1A occupancy 0.2435       0.0033      -0.2402
+    PFC_Pyramidal             0.5000       0.1867      -0.3133
+
+Rows 2 to 4 did not exist before P6.1. `serotonin.py`'s and
+`noradrenaline.py`'s own tests assert that their hand-built scenarios CANNOT
+produce them, and both still pass unmodified, because a port is a new object
+rather than an edit. P5.3's test even names the structural reason it will fail
+one day ("every ligand's concentration is driven by a PK model whose right-hand
+side is a function of its own state only, so no circuit rate can reach it");
+the reason no longer holds for the ported object and still holds for the one
+that test examines.
+
+The second result is P5.8's, generalized. An antagonist given ALONE was inert
+by construction in every module from P5.1 to P5.7:
+
+    port           antagonist       terminal r   basal scale
+    dopamine       haloperidol        -0.20005   measured
+    serotonin      WAY-100635         +0.14447   measured
+    histamine      mepyramine         -0.00183   measured
+    noradrenaline  yohimbine          +0.00001   UNIT
+    acetylcholine  scopolamine        -0.00001   UNIT
+
+Haloperidol's -0.20005 is P5.8's own -0.200 on the transporter-fed D2 system,
+reproduced to 5 decimal places by a two-source projection field. That is the
+sharpest available check that P6.1's mass balance reduces to P5.8's at rest,
+and a test asserts it against a live re-run of the P5.8 configuration rather
+than against a remembered number.
+
+### Where the loop closes and cannot be seen, and why that is a literature gap
+
+The honest half of the result table.
+
+    port           drug         source r   field fold   occupancy   terminal r
+    serotonin      8-OH-DPAT     -0.4043      -0.8112   -2.40e-01      -0.3133
+    noradrenaline  clonidine     -0.2332      -0.4663   -3.01e-05      -0.0001
+    acetylcholine  scopolamine   +0.0002      +0.0005   +2.93e-07      -0.0000
+
+Clonidine lowers LC firing and halves the cortical noradrenaline field, which
+is the loop P5.3 recorded as impossible, and the cortical alpha1 and beta
+receptors still do not move. The reason is not the abstraction. It is that
+P5.8 searched for a rodent basal extracellular noradrenaline concentration and
+found none, so NET carries a unit scale, and 1.0 nM is three to four orders of
+magnitude below noradrenaline's Kd at any receptor in this codebase. Tonic
+occupancy is ~1e-4 and halving it is invisible. Acetylcholine is the same story
+for the same kind of gap. **A missing measurement, in a place where the model
+is otherwise complete, is now visible as a number rather than as a caveat**,
+and `MEASURED_BASAL` names which three of the five fields carry a real
+concentration scale.
+
+Acetylcholine's probe is also worth a line because its sign is a prediction
+rather than a convention. The only muscarinic drug in `acetylcholine.py` is
+scopolamine, an ANTAGONIST, and the M2 agonist is acetylcholine itself, which
+the port no longer doses. Blocking an inhibitory autoreceptor disinhibits the
+nucleus, so the source rate goes UP where the other two probes take it down,
+and a test asserts the flip.
+
+### The density maps are illustrative and uniform, on purpose
+
+Every `ProjectionTarget` in `projection_scenarios.py` has density 1.0 from
+every source that innervates it, tagged `provenance="illustrative-uniform"`.
+That is the map that asserts nothing, because P6.1 has no measured ordering
+between regions to assert; P6.3 is the task that derives real densities from
+the Phase 3 connectome.
+
+Two consequences are recorded rather than presented as results. Under a uniform
+map every region's predicted basal concentration equals the reference's, so no
+port here claims that cortical dopamine is lower than striatal dopamine even
+though the model says so given a real density map. And a uniform map makes
+every region's transmitter trajectory identical, so the ported 5-HT1A blocks in
+the two raphe nuclei and in the cortex agree to machine precision. A test
+asserts that agreement AND its counterfactual: given the cortex a quarter of
+the raphe's innervation, the same three blocks separate. Without the
+counterfactual the first assertion would read as the abstraction failing to do
+what it exists for.
+
+### P3.4's saturation lesson, for the fourth time
+
+P3.4 found it, P5.7 hit it with a presynaptic kappa modulator, P5.8 hit it with
+tonic dopamine and fixed it by hand for one node. Tonic transmitter across a
+projection field creates a standing drive at every target region at once, so
+the hand fix had to become a computation:
+`projection.standing_drive` solves each region's resting occupancy and
+multiplies through the coupling gains, and
+`projection.compensate_baselines` folds the result into `baseline_input`.
+
+It asserts exactly what P5.8's `tonic_compensated_network` asserts and no more:
+a real region's resting firing rate is what it is WITH tonic neuromodulator
+present, so the tonic term belongs inside the baseline the region is balanced
+around rather than on top of it. It moves baselines only, and a test checks
+that no weight, tau, gain or threshold changes. Independently of that, it lands
+on P5.8's own hand-computed number: `d2_coupling` of -3.0 times
+`resting_d2_occupancy` of 0.711 is -2.1334, and the generic computation
+produces -2.1334.
+
+**The generalization is now stated once and tested five times: any mechanism
+that adds a standing term to a node's drive invalidates a stability certificate
+computed without it.**
+
+### What was deliberately not built
+
+- **Conduction delay** from nucleus to terminal field. Axonal conduction and
+  the release cascade take milliseconds to tens of milliseconds against a
+  circuit integrating over minutes.
+- **Terminal autoreceptors.** A somatodendritic autoreceptor here works by
+  changing the source node's firing rate, which is the loop P6.1 closes.
+  Terminal autoreceptors gate release locally without changing somatic firing
+  and would need a release-gain term this abstraction does not carry.
+- **An H3 receptor**, which is why the histamine port has no closed loop: the
+  histamine autoreceptor is H3 and P5.6 built H1 only. The port is honest about
+  this rather than substituting a different receptor.
+- **A D2 autoreceptor on the VTA/SNc nodes.** It is real, and adding it would
+  have closed the dopamine loop, but it would also have added anatomy and a
+  coupling gain the hand-built scenario does not have, to a port whose job is
+  regression. It is the obvious next scenario and not part of this one.
+- **Corelease, cotransmission, and any vesicular machinery.**
+- **Region-wise uptake kinetics**, discussed above.
+- **Real projection densities**, which are P6.3's, and endogenous tone as a
+  general statement, which is P6.2's. P6.1 supplies tone as a side effect of
+  the field wherever the field's basal concentration is a measurement.
+
+### What P6.1 delivered, checked against the standing discipline
+
+- **A projection-system abstraction inside the coupled ODE system**: one state
+  per (system, target region), release driven by a circuit node's rate, and the
+  first term in this codebase's right-hand side carrying information from the
+  circuit layer back into the concentration layer. `result["projection"]` and
+  `projection_index` are the public read.
+- **The one-receptor-one-node pattern replaced**, opt-in and without touching
+  the class that implements it: `RegionalReceptorSystem` gives one receptor
+  type an occupancy block per region, each reading its own region's
+  concentration and driving its own region's node, with a per-region receptor
+  density hook for P4.2's missing `rho`.
+- **All six transmitters and all nine nuclei the brief names**: VTA and SNc,
+  DR and CS (median raphe), LC, NDB, PPN and LDT, TM, each by CCF acronym and
+  id, each checked against the vendored ontology.
+- **Five scenarios ported and regression-tested**, with the hand-built modules
+  unmoved and their own tests unmodified and green.
+- **Volume-transmission timescale assumptions documented and cited**, as a
+  computation (`timescale_report()`) with both halves asserted: the mesh mixes
+  in 2.3 ms and a region does not mix in 518 s.
+- **Two results**: the autoreceptor loop closed end to end for the first time
+  in this project, and a lone antagonist that is not inert across a projection
+  field rather than at one site.
+- **Four illustrative numbers, all labelled**: `ACETYLCHOLINE_CLEARANCE_RATE`,
+  `ACETYLCHOLINE_BASAL_UNIT_SCALE`, `HISTAMINE_CLEARANCE_RATE`, and every
+  projection density. Tests assert that no reported fold moves when the two
+  illustrative clearance rates are swept over two orders of magnitude or when
+  the acetylcholine unit scale is changed by four.
+- **Tests.** 119 new test items, all in the offline gate, none slow, none
+  skipped, and no existing test deleted or weakened. TWO existing tests
+  changed, and only in the counts they assert, both for one reason: making
+  `projection_systems.NUCLEI`'s CCF acronyms and ids checkable OFFLINE meant
+  adding the five source nuclei the fixture did not already carry (CS, NDB,
+  PPN, LDT, TM) to `PROJECTION_NUCLEUS_ONLY_REGION_IDS`, which recut the
+  committed fixture ontology from 69 structures to 77.
+  `test_fixture_ontology_covers_the_fixture_regions_and_all_divisions`
+  asserts that size; its comment records the change alongside P3.1's,
+  P3.2's, P4.2's and P4.3's, which is how that number has moved every time
+  before. `test_fixture_counts_are_checked_on_load` asserts Htr2a's fixture
+  row count, which IS the ontology's size because that gene's one experiment
+  reports every structure; it now takes the number from `FIXTURE_COUNTS`, the
+  manifest the loader already checks against, so it cannot go stale again and
+  the assertion is no weaker.
+
+  P4.1's shared-ontology rule forced the rest: the expression fixtures are cut
+  against the connectome's ontology fixture, so all eight were recut from the
+  same verified bytes, exactly as P4.2 and P4.3 recut them when they grew the
+  set. The recut is purely additive (184 rows added, none removed or changed)
+  and `test_real_fixtures_are_slices_of_the_real_files` re-verifies every one
+  against the pinned response. **No connectome matrix fixture was
+  regenerated**, so every weight, density and voxel count the P3.x tests
+  assert on is byte-identical.
+- **Outputs**: `examples/projection_systems_demo.py` and
+  `scripts/report_projection_systems.py` -> `results/projection_systems.txt`.

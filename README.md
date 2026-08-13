@@ -189,6 +189,9 @@ more single-dose studies.
 | `src/neurocascade/opioid.py` | The kappa and delta receptor systems, the cross-affinities and cross-efficacies of every ligand at all three opioid receptors from one single-laboratory panel, and the record that naloxone is 1.79-fold mu-over-kappa selective and fentanyl a partial kappa agonist (P5.7) |
 | `src/neurocascade/transport.py` | The transporter MECHANISM, beside `receptor.py`: Michaelis-Menten uptake, rapid-equilibrium competitive inhibition, substrate-driven efflux, and one ODE state that is a concentration rather than an occupancy (P5.8) |
 | `src/neurocascade/monoamine_transporters.py` | DAT, SERT and NET: mouse uptake kinetics and basal levels, cited constants for cocaine, methylphenidate, amphetamine, fluoxetine and atomoxetine, the substrate/blocker distinction as two measured constants, and the documented Phase 6 transmitter-concentration interface (P5.8) |
+| `src/neurocascade/projection.py` | The projection-system MECHANISM: a source nucleus's firing rate driving release into a region-wise transmitter field, one ODE state per target region, plus `RegionalReceptorSystem`, which gives one receptor type an occupancy block per region instead of a single node (P6.1) |
+| `src/neurocascade/projection_systems.py` | The nine source nuclei by CCF acronym and id (VTA, SNc, DR, CS, LC, NDB, PPN, LDT, TM), their clearance models, the cited volume-transmission timescale argument, and the constants recorded as illustrative or searched-and-empty (P6.1) |
+| `src/neurocascade/projection_scenarios.py` | The hand-built monoamine, cholinergic and histaminergic scenarios ported onto projection systems, with the closed autoreceptor loop and the non-inert lone antagonist (P6.1) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4) |
 | `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2), and the cited anatomical validation of the resulting maps (P4.3) |
 | `src/neurocascade/datafetch.py` | Checksummed download/verify/cache, shared by both ingestion packages |
@@ -197,7 +200,7 @@ more single-dose studies.
 | `examples/`          | Worked end-to-end scenarios                      |
 | `tests/`             | Unit tests per layer                             |
 | `docs/`              | Architecture and design notes                    |
-| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage, `expression_density_validation.txt` P4.2 density validation, `receptor_map_validation.txt` P4.3 anatomy validation, `opioid_cross_affinity.txt` P5.7 cross-affinity re-run, `transporter_constants.txt` P5.8 transporter constants |
+| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage, `expression_density_validation.txt` P4.2 density validation, `receptor_map_validation.txt` P4.3 anatomy validation, `opioid_cross_affinity.txt` P5.7 cross-affinity re-run, `transporter_constants.txt` P5.8 transporter constants, `projection_systems.txt` P6.1 projection systems |
 
 ### Connectome data
 

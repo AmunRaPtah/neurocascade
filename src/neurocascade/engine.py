@@ -2,6 +2,7 @@ import numpy as np
 from scipy.integrate import solve_ivp
 
 from .pk import as_ode_pk_model
+from .projection import as_projection_source
 
 
 class ReceptorSystem(object):
@@ -41,7 +42,22 @@ class ReceptorSystem(object):
                   for this ligand's binding, so the natural thing to give it
                   is a `pk.OneCompartmentPK` dosed at 0. See
                   `Simulation`'s docstring, section "Transporter systems".
+
+                  P6.1 WIDENS THIS, without changing what a string means: a
+                  value may instead be a `projection.ProjectionSource`
+                  (equivalently a `(projection_system_name, region)` pair),
+                  in which case the ligand binds that projection system's
+                  concentration in that named region. A plain string still
+                  names a transporter system and behaves exactly as it did.
+                  A receptor that should sit in MANY regions at once is a
+                  `projection.RegionalReceptorSystem`, not this class.
     """
+
+    #: This class is the one-block, one-node receptor system; the regional
+    #: code path in `Simulation.rhs` is opt-in through
+    #: `projection.RegionalReceptorSystem`.
+    is_regional = False
+    n_regions = 1
 
     def __init__(
         self,
@@ -153,6 +169,21 @@ class Simulation(object):
        activation, it owns one state -- the extracellular transmitter
        concentration -- and that state is what Phase 6 consumes.
 
+    4. With one or more PROJECTION systems (P6.1), which turn a source
+       nucleus's firing rate into a region-wise transmitter concentration
+       field::
+
+           Simulation(network=net,
+                      receptor_systems=[d2_in_striatum_and_cortex],
+                      projection_systems=[vta_dopamine])
+
+       A projection system is not a receptor either (see `projection.py`):
+       it produces no activation, it owns one state PER TARGET REGION -- that
+       region's extracellular transmitter concentration -- and those states
+       are what a `projection.RegionalReceptorSystem`, or a
+       `ReceptorSystem` whose `transmitter_sources` names a
+       `(system, region)` pair, binds.
+
     State vector layout, generalizing to k receptor systems with n_1..n_k
     ligands respectively (r = sum(n_i) ligands; reduces to the original
     [C_1..C_d, occ_1..occ_d, r_1..r_n] layout when k == 1 and every ligand's
@@ -161,17 +192,20 @@ class Simulation(object):
         y = [<PK states of every ligand, in flattened ligand order>,  # d of them
              <receptor states of system 1>, <system 2>, ...,         # r of them
              <transmitter state of transporter system 1>, ...,       # m of them
+             <transmitter field of projection system 1>, ...,        # p of them
              r_1, ..., r_n]                                          # shared rates
 
     i.e. every ligand's PK state block, in system order, then every system's
     receptor-state block, in the same order, then one transmitter
-    concentration per transporter system, then one shared set of circuit
+    concentration per transporter system, then one concentration per
+    (projection system, target region), then one shared set of circuit
     firing rates. `doses` passed to `run()` must be given in that same
     flattened LIGAND order -- every receptor system's ligands first, in
-    system order, then every transporter system's -- one entry per ligand
-    (see `dose_vector()` for a name-based helper that builds it for you).
-    With no transporter systems m is 0 and the layout is exactly the
-    pre-P5.8 one.
+    system order, then every transporter system's, then every projection
+    system's -- one entry per ligand (see `dose_vector()` for a name-based
+    helper that builds it for you). With no transporter systems m is 0 and
+    with no projection systems p is 0, so the layout is bit-for-bit the
+    pre-P5.8 one for every simulation that declares neither.
 
     A system's receptor-state block is one occupancy per ligand for the
     ordinary two-state `ReceptorSite`, so for every scenario before P5.4
@@ -263,6 +297,26 @@ class Simulation(object):
       pool here: the receptor population is a vanishing sink beside uptake,
       and modelling it as one would need a receptor density in absolute
       molar terms, which P4.2 explicitly does not provide.
+
+    Projection systems, and what makes them different (P6.1)
+    --------------------------------------------------------
+
+    A `projection.ProjectionSystem` is a `TransporterSystem` with two things
+    added and nothing taken away: its release term is driven by a CIRCUIT
+    NODE's firing rate rather than being a constant, and it owns one pool per
+    TARGET REGION rather than one pool. That first difference is the one that
+    matters structurally, because it is the first term in this codebase's
+    right-hand side that carries information from the circuit layer BACK into
+    the concentration layer. Every module from P5.1 to P5.8 had to record the
+    autoreceptor loop as open for exactly this reason; with a projection
+    system attached it is closed.
+
+    * `result["projection"]` is a (p, n_times) array in nM, one row per
+      (projection system, target region), and `projection_index[(name,
+      region)]` maps a pair to its row.
+    * `projection.RegionalReceptorSystem` is the receptor side: one receptor
+      type, one occupancy block per region, each block reading its own
+      region's row and driving its own region's node.
     """
 
     def __init__(
@@ -274,6 +328,7 @@ class Simulation(object):
         coupling=None,
         connection_modulation=None,
         transporter_systems=None,
+        projection_systems=None,
     ):
         if network is None:
             raise TypeError("Simulation requires a network")
@@ -285,16 +340,21 @@ class Simulation(object):
             or connection_modulation is not None
         )
         transporter_systems = list(transporter_systems or [])
+        projection_systems = list(projection_systems or [])
         if receptor_systems is None:
             if pk_models is None or receptor_site is None or coupling is None:
                 # A transporter-only Simulation is legitimate (P5.8): the
                 # transmitter pool is a complete model on its own, and the
-                # receptor layer is what Phase 6 will attach to it.
-                if not transporter_systems:
+                # receptor layer is what Phase 6 will attach to it. A
+                # projection-only one is legitimate for the same reason
+                # (P6.1): the transmitter FIELD is a complete model on its
+                # own, and it is what the receptor layer attaches to.
+                if not transporter_systems and not projection_systems:
                     raise TypeError(
                         "Simulation needs receptor_systems=[...], "
-                        "transporter_systems=[...], or the single-receptor-"
-                        "system trio pk_models=/receptor_site=/coupling= "
+                        "transporter_systems=[...], projection_systems=[...], "
+                        "or the single-receptor-system trio pk_models=/"
+                        "receptor_site=/coupling= "
                         "(connection_modulation= optional)"
                     )
                 receptor_systems = []
@@ -312,8 +372,10 @@ class Simulation(object):
             )
 
         receptor_systems = list(receptor_systems)
-        if not receptor_systems and not transporter_systems:
-            raise ValueError("need at least one receptor or transporter system")
+        if not receptor_systems and not transporter_systems and not projection_systems:
+            raise ValueError(
+                "need at least one receptor, transporter or projection system"
+            )
 
         transporter_names = [system.name for system in transporter_systems]
         if len(set(transporter_names)) != len(transporter_names):
@@ -321,10 +383,32 @@ class Simulation(object):
                 "transporter system names must be unique within a Simulation; "
                 "they are what transmitter_sources refers to"
             )
+        projection_names = [system.name for system in projection_systems]
+        if len(set(projection_names)) != len(projection_names):
+            raise ValueError(
+                "projection system names must be unique within a Simulation; "
+                "they are what transmitter_sources refers to"
+            )
+        shared = set(transporter_names) & set(projection_names)
+        if shared:
+            raise ValueError(
+                "transporter and projection system names must be disjoint, so "
+                "that a bare string in transmitter_sources is unambiguous; "
+                "shared: %s" % sorted(shared)
+            )
+        for system in projection_systems:
+            for node in system.source_nodes:
+                if node not in network.index:
+                    raise ValueError(
+                        "projection system %r is driven by node %r, which is "
+                        "not in this network; have %s"
+                        % (system.name, node, sorted(network.index))
+                    )
 
         self.network = network
         self.receptor_systems = receptor_systems
         self.transporter_systems = transporter_systems
+        self.projection_systems = projection_systems
         self._n_per_system = [system.n for system in receptor_systems]
         self._offsets = np.cumsum([0] + self._n_per_system[:-1]).tolist()
         # Receptor-state block lengths, which equal the ligand counts for
@@ -346,9 +430,25 @@ class Simulation(object):
             if transporter_systems
             else []
         )
+        # Projection ligands sit after every receptor and transporter ligand,
+        # for the same reason: adding a projection system must not renumber
+        # anything that already exists.
+        self._n_per_projection = [system.n for system in projection_systems]
+        self._projection_offsets = (
+            np.cumsum(
+                [sum(self._n_per_system) + sum(self._n_per_transporter)]
+                + self._n_per_projection[:-1]
+            ).tolist()
+            if projection_systems
+            else []
+        )
 
         #: Number of ligands across all systems: the length of `doses`.
-        self.n_ligands = sum(self._n_per_system) + sum(self._n_per_transporter)
+        self.n_ligands = (
+            sum(self._n_per_system)
+            + sum(self._n_per_transporter)
+            + sum(self._n_per_projection)
+        )
         #: Number of receptor STATES across all systems: the length of the
         #: occupancy region of y. Equal to the receptor-ligand count unless a
         #: desensitizing site is present.
@@ -358,6 +458,9 @@ class Simulation(object):
         self.m = sum(
             int(getattr(system, "n_states", 1)) for system in transporter_systems
         )
+        #: Number of PROJECTION states: one per (system, target region), 0
+        #: before P6.1 and 0 for every simulation that declares none.
+        self.p = sum(int(system.n_states) for system in projection_systems)
         self.c = network.n
 
         # Flat, ligand-ordered PK view. Every model is normalized to the ODE
@@ -370,8 +473,12 @@ class Simulation(object):
         concentration_rows = []
         receptor_factors = []
         cursor = 0
-        for system in list(receptor_systems) + list(transporter_systems):
-            for model in system.pk_models:
+        for system in (
+            list(receptor_systems)
+            + list(transporter_systems)
+            + list(projection_systems)
+        ):
+            for model in getattr(system, "pk_models", []):
                 ode_model = as_ode_pk_model(model)
                 n_states = int(ode_model.n_states)
                 self._ode_pk_models.append(ode_model)
@@ -418,35 +525,112 @@ class Simulation(object):
                 transporter_systems, self._transmitter_state_offsets
             )
         }
-        #: (flat ligand index, transmitter row) pairs, resolved once, for
-        #: every ligand whose concentration comes from a transporter's
-        #: transmitter pool rather than from its own PK model (P5.8).
+        #: Where each projection system's block starts in the projection
+        #: region, and the (system name, region) -> row map that is the
+        #: public read of the transmitter FIELD (P6.1).
+        self._n_states_per_projection = [
+            int(system.n_states) for system in projection_systems
+        ]
+        self._projection_state_offsets = np.cumsum(
+            [0] + self._n_states_per_projection[:-1]
+        ).tolist()
+        self.projection_index = {}
+        for system, offset in zip(projection_systems, self._projection_state_offsets):
+            for region in system.regions:
+                self.projection_index[(system.name, region)] = offset + system.row(
+                    region
+                )
+        self._projection_by_name = {
+            system.name: system for system in projection_systems
+        }
+        #: Row indices into the shared `rates` vector of each projection
+        #: system's source nuclei, in that system's own `sources` order.
+        #: Resolved once so the RHS does no name lookup.
+        self._projection_source_rows = [
+            np.array(
+                [network.index[node] for node in system.source_nodes], dtype=int
+            )
+            for system in projection_systems
+        ]
+
+        # Pool rows. Transporter pools and projection pools are addressed by
+        # one index space -- transporters first, then projections -- so that
+        # a single override table serves both and P5.8's rows keep their
+        # exact meaning. `_pool_row_of_projection` is that offset.
+        self._pool_row_of_projection = self.m
+
+        #: (flat ligand index, pool row) pairs, resolved once, for every
+        #: ligand of a NON-regional receptor system whose concentration comes
+        #: from a transmitter pool rather than from its own PK model. P5.8
+        #: built this for transporters; P6.1 lets a pair name a projection
+        #: system's region instead.
         self._transmitter_overrides = []
         for system, offset in zip(receptor_systems, self._offsets):
             sources = getattr(system, "transmitter_sources", None)
-            if not sources:
+            if not sources or getattr(system, "is_regional", False):
                 continue
             positions = {
                 lig.name: i for i, lig in enumerate(system.receptor_site.ligands)
             }
-            for ligand_name, transporter_name in sources.items():
-                if transporter_name not in self.transmitter_index:
-                    raise ValueError(
-                        "receptor system %r sources ligand %r from transporter "
-                        "system %r, which is not in this Simulation; have %s"
-                        % (
-                            system.name,
-                            ligand_name,
-                            transporter_name,
-                            sorted(self.transmitter_index),
-                        )
-                    )
+            for ligand_name, source in sources.items():
                 self._transmitter_overrides.append(
                     (
                         offset + positions[ligand_name],
-                        self.transmitter_index[transporter_name],
+                        self._resolve_pool_row(system.name, ligand_name, source),
                     )
                 )
+
+        #: Per regional receptor system, the per-region override table:
+        #: a list of (ligand index WITHIN the system, array of pool rows, one
+        #: per region). Resolved once, so the RHS does no name lookup.
+        self._regional_overrides = []
+        for system in receptor_systems:
+            if not getattr(system, "is_regional", False):
+                self._regional_overrides.append([])
+                continue
+            positions = {
+                lig.name: i for i, lig in enumerate(system.receptor_site.ligands)
+            }
+            table = []
+            for ligand_name, source in system.transmitter_sources.items():
+                rows = [
+                    self._resolve_pool_row(
+                        system.name, ligand_name, source, region=region
+                    )
+                    for region in system.regions
+                ]
+                table.append((positions[ligand_name], np.array(rows, dtype=int)))
+            self._regional_overrides.append(table)
+
+    def _resolve_pool_row(self, system_name, ligand_name, source, region=None):
+        """Turn one `transmitter_sources` value into a row of the combined
+        (transporter pools | projection pools) index space.
+
+        `region` is the block's own region for a regional receptor system,
+        used when the source names a projection system without one.
+        """
+        projection = as_projection_source(
+            source, projection_names=self._projection_by_name, region=region
+        )
+        if projection is None:
+            if source not in self.transmitter_index:
+                raise ValueError(
+                    "receptor system %r sources ligand %r from transporter "
+                    "system %r, which is not in this Simulation; have %s"
+                    % (system_name, ligand_name, source,
+                       sorted(self.transmitter_index))
+                )
+            return self.transmitter_index[source]
+        target_region = projection.region if projection.region is not None else region
+        key = (projection.system, target_region)
+        if key not in self.projection_index:
+            raise ValueError(
+                "receptor system %r sources ligand %r from projection system "
+                "%r region %r, which is not in this Simulation; have %s"
+                % (system_name, ligand_name, projection.system, target_region,
+                   sorted(self.projection_index))
+            )
+        return self._pool_row_of_projection + self.projection_index[key]
 
     # Backward-compatible single-system attribute access.
     # These proxy to the sole ReceptorSystem when there is exactly one
@@ -508,6 +692,12 @@ class Simulation(object):
                     doses[offset] = dose_by_ligand_name[lig.name]
                     seen.add(lig.name)
                 offset += 1
+        for system in self.projection_systems:
+            for lig in system.ligands:
+                if lig.name in dose_by_ligand_name:
+                    doses[offset] = dose_by_ligand_name[lig.name]
+                    seen.add(lig.name)
+                offset += 1
         unknown = set(dose_by_ligand_name) - seen
         if unknown:
             raise ValueError("unknown ligand name(s): %s" % sorted(unknown))
@@ -532,23 +722,48 @@ class Simulation(object):
         start = self._transmitter_state_offsets[system_index]
         return np.arange(start, start + self._n_states_per_transporter[system_index])
 
+    def projection_rows(self, system_index):
+        """Row indices, into `result["projection"]`, of one projection
+        system's target regions, in that system's own target order."""
+        start = self._projection_state_offsets[system_index]
+        return np.arange(start, start + self._n_states_per_projection[system_index])
+
+    def projection_trace(self, result, system_name, region):
+        """The (n_times,) concentration trace of one target region of one
+        projection system, in nM. A named read, so a call site never has to
+        reconstruct the row arithmetic."""
+        return result["projection"][self.projection_index[(system_name, region)]]
+
     def _unpack(self, y):
-        """Split y into (PK states, occupancies, transmitters, rates). The
-        first return value is the whole PK region, which is per-ligand
-        *concentration* only when every PK model owns a single state; use
-        `self.concentration_rows` to pull the per-ligand concentrations out
-        of it in the general case. The transmitter region is empty for every
-        Simulation with no transporter systems, which is every one that
-        predates P5.8."""
-        d, r, m = self.d, self.r, self.m
+        """Split y into (PK states, occupancies, transmitters, projection
+        field, rates). The first return value is the whole PK region, which
+        is per-ligand *concentration* only when every PK model owns a single
+        state; use `self.concentration_rows` to pull the per-ligand
+        concentrations out of it in the general case. The transmitter region
+        is empty for every Simulation with no transporter systems, and the
+        projection region for every one with no projection systems, which
+        together is every Simulation that predates P5.8."""
+        d, r, m, p = self.d, self.r, self.m, self.p
         pk_state = y[0:d]
         occ = y[d : d + r]
         transmitter = y[d + r : d + r + m]
-        rates = y[d + r + m : d + r + m + self.c]
-        return pk_state, occ, transmitter, rates
+        projection = y[d + r + m : d + r + m + p]
+        rates = y[d + r + m + p : d + r + m + p + self.c]
+        return pk_state, occ, transmitter, projection, rates
+
+    def _pools(self, transmitter, projection):
+        """The combined (transporter pools | projection pools) vector the
+        override tables index into. Avoids an allocation in the two common
+        cases where only one kind of pool exists."""
+        if self.p == 0:
+            return transmitter
+        if self.m == 0:
+            return projection
+        return np.concatenate([transmitter, projection])
 
     def rhs(self, t, y):
-        pk_state, occ, transmitter, rates = self._unpack(y)
+        pk_state, occ, transmitter, projection, rates = self._unpack(y)
+        pools = self._pools(transmitter, projection)
 
         d_pk = np.empty(self.d)
         for model, (start, stop) in zip(self._ode_pk_models, self._pk_blocks):
@@ -574,36 +789,69 @@ class Simulation(object):
             # but copy explicitly so that this cannot silently start writing
             # into the state vector if that ever changes.
             C_receptor = np.array(C_receptor, dtype=float)
-            for ligand_row, transmitter_row in self._transmitter_overrides:
-                C_receptor[ligand_row] = transmitter[transmitter_row]
+            for ligand_row, pool_row in self._transmitter_overrides:
+                C_receptor[ligand_row] = pools[pool_row]
 
         d_occ = np.empty(self.r)
         drive = self.network.baseline_drive()
         modulation_factors = {}  # (post_name, pre_name) -> composed factor
 
-        for system, offset, s_offset, n_states in zip(
+        for system, offset, s_offset, n_states, overrides in zip(
             self.receptor_systems,
             self._offsets,
             self._state_offsets,
             self._n_states_per_system,
+            self._regional_overrides,
         ):
             n = system.n
             C_i = C_receptor[offset : offset + n]
             occ_i = occ[s_offset : s_offset + n_states]
 
-            d_occ[s_offset : s_offset + n_states] = system.receptor_site.occupancy_rhs(
-                occ_i, C_i
-            )
+            if not getattr(system, "is_regional", False):
+                # The pre-P6.1 path, unchanged: one state block, one
+                # activation, one set of coupled nodes.
+                d_occ[s_offset : s_offset + n_states] = (
+                    system.receptor_site.occupancy_rhs(occ_i, C_i)
+                )
 
-            activation = system.receptor_site.activation(occ_i)
+                activation = system.receptor_site.activation(occ_i)
 
-            for node_name, gain in system.coupling.items():
-                idx = self.network.index[node_name]
-                drive[idx] += gain * activation
+                for node_name, gain in system.coupling.items():
+                    idx = self.network.index[node_name]
+                    drive[idx] += gain * activation
 
-            for key, gain in system.connection_modulation.items():
-                factor = 1.0 + gain * activation
-                modulation_factors[key] = modulation_factors.get(key, 1.0) * factor
+                for key, gain in system.connection_modulation.items():
+                    factor = 1.0 + gain * activation
+                    modulation_factors[key] = modulation_factors.get(key, 1.0) * factor
+                continue
+
+            # The P6.1 path: the SAME receptor site, one state block per
+            # region, each block reading its own region's transmitter
+            # concentration and driving its own region's node.
+            site = system.receptor_site
+            block = system.block
+            for k, region in enumerate(system.regions):
+                if overrides:
+                    C_k = np.array(C_i, dtype=float)
+                    for ligand_row, pool_rows in overrides:
+                        C_k[ligand_row] = pools[pool_rows[k]]
+                else:
+                    C_k = C_i
+                lo = s_offset + k * block
+                sub = occ[lo : lo + block]
+                d_occ[lo : lo + block] = site.occupancy_rhs(sub, C_k)
+
+                # The receptor DENSITY factor: P4.2's `rho` in
+                # `coupling = mechanism_gain * rho`, defaulting to 1.0.
+                activation = site.activation(sub) * system.density[region]
+
+                for node_name, gain in system.coupling.get(region, {}).items():
+                    idx = self.network.index[node_name]
+                    drive[idx] += gain * activation
+
+                for key, gain in system.connection_modulation.get(region, {}).items():
+                    factor = 1.0 + gain * activation
+                    modulation_factors[key] = modulation_factors.get(key, 1.0) * factor
 
         connectivity = None
         if modulation_factors:
@@ -638,9 +886,30 @@ class Simulation(object):
                 transmitter[start:cursor], C_i
             )
 
+        # The projection layer (P6.1). Like the transporter layer it adds
+        # nothing to `drive` and nothing to `connectivity`; unlike it, its
+        # release term READS a circuit rate, which is the one place in this
+        # right-hand side where information travels from the circuit layer
+        # back into the concentration layer.
+        d_projection = np.empty(self.p)
+        cursor = 0
+        for system, offset, source_rows in zip(
+            self.projection_systems,
+            self._projection_offsets,
+            self._projection_source_rows,
+        ):
+            n = system.n
+            start, cursor = cursor, cursor + system.n_states
+            C_i = C_receptor[offset : offset + n]
+            d_projection[start:cursor] = system.concentration_rhs(
+                projection[start:cursor], rates[source_rows], C_i
+            )
+
         d_rates = self.network.rhs(rates, drive, connectivity=connectivity)
 
-        return np.concatenate([d_pk, d_occ, d_transmitter, d_rates])
+        return np.concatenate(
+            [d_pk, d_occ, d_transmitter, d_projection, d_rates]
+        )
 
     def initial_pk_state(self, doses):
         """Assemble the PK region of y0 from one dose per ligand, by asking
@@ -675,6 +944,70 @@ class Simulation(object):
         ]
         return np.concatenate(blocks) if blocks else np.zeros(0)
 
+    def initial_projection_state(self):
+        """The projection region of y0: each (system, region) pool's
+        drug-free extracellular concentration in nM, with every source
+        nucleus at its own resting firing rate.
+
+        Like the transporter region and unlike everything else, this does not
+        start at zero. Unlike the transporter region, only ONE region per
+        system is a measured number: the rest are what the density map and
+        the uptake kinetics predict (see `projection.ProjectionSystem`).
+        """
+        blocks = [system.initial_state() for system in self.projection_systems]
+        return np.concatenate(blocks) if blocks else np.zeros(0)
+
+    def resting_occupancy_state(self):
+        """The occupancy region of y0 with TONIC TRANSMITTER already bound.
+
+        Zero everywhere except at ligands whose concentration comes from a
+        transmitter pool (`transmitter_sources`), which start at the
+        equilibrium occupancy their pool's drug-free concentration supports.
+
+        Opt-in through `run(occupancy0="resting")`, so nothing that predates
+        it moves. It exists because "the drug-free brain" and "the brain with
+        every receptor empty" are not the same state once there is endogenous
+        transmitter, and starting from the second one puts a start-up
+        transient on every node that carries a tonically occupied receptor:
+        the tonic compensation in `projection.compensate_baselines` subtracts
+        a standing drive that the first integration steps have not yet
+        produced. The transient is brief (occupancy equilibrates in seconds
+        against a circuit relaxing over minutes) and it is exactly as large
+        as the standing drive, which for the striatal D2 receptor is 2.13
+        units, so it is not small.
+        """
+        from .projection import resting_occupancy
+
+        pools = self._pools(
+            self.initial_transmitter_state(), self.initial_projection_state()
+        )
+        blocks = []
+        for index, system in enumerate(self.receptor_systems):
+            site = system.receptor_site
+            sources = getattr(system, "transmitter_sources", None)
+            n_states = self._n_states_per_system[index]
+            if not sources:
+                blocks.append(np.zeros(n_states))
+                continue
+            positions = {lig.name: i for i, lig in enumerate(site.ligands)}
+            if not getattr(system, "is_regional", False):
+                offset = self._offsets[index]
+                concentrations = np.zeros(system.n)
+                for ligand_name, source in sources.items():
+                    row = self._resolve_pool_row(system.name, ligand_name, source)
+                    concentrations[positions[ligand_name]] = pools[row]
+                blocks.append(resting_occupancy(site, concentrations))
+                continue
+            for region in system.regions:
+                concentrations = np.zeros(system.n)
+                for ligand_name, source in sources.items():
+                    row = self._resolve_pool_row(
+                        system.name, ligand_name, source, region=region
+                    )
+                    concentrations[positions[ligand_name]] = pools[row]
+                blocks.append(resting_occupancy(site, concentrations))
+        return np.concatenate(blocks) if blocks else np.zeros(0)
+
     def add_dose(self, y, doses):
         """Return a copy of state vector `y` with a further administration
         applied: each ligand's PK block gets that ligand's own
@@ -706,7 +1039,7 @@ class Simulation(object):
         vector into the same dict `run()` returns. Exists so callers that
         drive `solve_ivp` themselves (mid-run dosing, in the examples) don't
         have to hand-reproduce the layout."""
-        d, r, m = self.d, self.r, self.m
+        d, r, m, p = self.d, self.r, self.m, self.p
         plasma = sol.y[self.concentration_rows]
         return {
             "t": sol.t,
@@ -738,7 +1071,15 @@ class Simulation(object):
             # caller sees the key and no change. THIS IS WHAT PHASE 6
             # CONSUMES; `transmitter_index` maps a system name to its row.
             "transmitter": sol.y[d + r : d + r + m],
-            "rates": sol.y[d + r + m : d + r + m + self.c],
+            # One row per (projection system, target region), in nM, in
+            # system order and then in each system's own target order: the
+            # region-wise transmitter FIELD (P6.1). Empty (shape
+            # (0, n_times)) when there are no projection systems, so every
+            # pre-P6.1 caller sees the key and no change. `projection_index`
+            # maps a (system name, region) pair to its row and
+            # `projection_trace()` reads one by name.
+            "projection": sol.y[d + r + m : d + r + m + p],
+            "rates": sol.y[d + r + m + p : d + r + m + p + self.c],
         }
 
     #: Integrator used by `run()` unless overridden. Every result in this
@@ -747,7 +1088,7 @@ class Simulation(object):
     DEFAULT_METHOD = "RK45"
 
     def run(self, dose_concentrations=None, t_span=None, t_eval=None, rates0=None,
-            doses=None, method=None):
+            doses=None, method=None, occupancy0=None):
         """Integrate the coupled system from one dose per ligand.
 
         `method` is passed straight to `solve_ivp` and defaults to
@@ -777,6 +1118,14 @@ class Simulation(object):
         meaning, unchanged), or an administered dose in mg/kg for the
         dose-administered models in `pk.py`. In both cases 0 means "no
         drug", so dosed-vs-baseline comparisons are unit-agnostic.
+
+        `occupancy0` (P6.1): `None` (the default, and every result before
+        P6.1) starts every receptor empty. `"resting"` starts the ligands fed
+        by a transmitter pool at the equilibrium occupancy that pool's
+        drug-free concentration supports, which is what a drug-free brain
+        actually is once there is endogenous transmitter; see
+        `resting_occupancy_state`. An array is taken as the occupancy region
+        of y0 directly.
         """
         if doses is not None and dose_concentrations is not None:
             raise TypeError("pass doses= or dose_concentrations=, not both")
@@ -788,12 +1137,28 @@ class Simulation(object):
             raise TypeError("run() requires t_span=")
 
         pk0 = self.initial_pk_state(doses)
-        occ0 = np.zeros(self.r)
+        if occupancy0 is None:
+            occ0 = np.zeros(self.r)
+        elif isinstance(occupancy0, str):
+            if occupancy0 != "resting":
+                raise ValueError(
+                    "occupancy0 must be None, 'resting', or an array; got %r"
+                    % (occupancy0,)
+                )
+            occ0 = self.resting_occupancy_state()
+        else:
+            occ0 = np.asarray(occupancy0, dtype=float)
+            if occ0.shape != (self.r,):
+                raise ValueError(
+                    "occupancy0 must have length %d (one per receptor state)"
+                    % self.r
+                )
         transmitter0 = self.initial_transmitter_state()
+        projection0 = self.initial_projection_state()
         if rates0 is None:
             rates0 = np.zeros(self.c)
         y0 = np.concatenate(
-            [pk0, occ0, transmitter0, np.asarray(rates0, dtype=float)]
+            [pk0, occ0, transmitter0, projection0, np.asarray(rates0, dtype=float)]
         )
 
         sol = solve_ivp(

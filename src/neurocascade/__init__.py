@@ -36,6 +36,11 @@ from . import pk_validation
 from . import connectome
 from . import connectome_scenarios
 from . import stability
+from . import transport
+from . import monoamine_transporters
+from . import projection
+from . import projection_systems
+from . import projection_scenarios
 
 __all__ = [
     "OneCompartmentPK",
@@ -74,4 +79,9 @@ __all__ = [
     "connectome",
     "connectome_scenarios",
     "stability",
+    "transport",
+    "monoamine_transporters",
+    "projection",
+    "projection_systems",
+    "projection_scenarios",
 ]

@@ -91,13 +91,14 @@ gap because CSV lets us write the exact shortest round-tripping form.
 
 ### `allen_structure_graph_1_fixture.json`
 
-69 of the 1327 structures: the fifteen fixture regions, all of their
+77 of the 1327 structures: the fifteen fixture regions, all of their
 ancestors, all twelve major divisions with their ancestors, every
 structure named by P3.2's sign table (`connectome/neurotransmitter.py`:
-RT, ZI, SNc, PALv, PALm, CBX, CBN and the rest) with theirs, and the two
+RT, ZI, SNc, PALv, PALm, CBX, CBN and the rest) with theirs, and the three
 blocks of ontology-only entries that carry no matrix row -
-`AUTORADIOGRAPHY_ONLY_REGION_IDS` (P4.2: OT, CLA, EPd, ACA, HIP) and
-`ANATOMY_ONLY_REGION_IDS` (P4.3: CA1, CA3, DG, MH, PVT, SNc, CBX) - with
+`AUTORADIOGRAPHY_ONLY_REGION_IDS` (P4.2: OT, CLA, EPd, ACA, HIP),
+`ANATOMY_ONLY_REGION_IDS` (P4.3: CA1, CA3, DG, MH, PVT, SNc, CBX) and
+`PROJECTION_NUCLEUS_ONLY_REGION_IDS` (P6.1: CS, NDB, PPN, LDT, TM) - with
 theirs, in the same nested `{"msg": [root]}` shape the API returns, cut
 from
 

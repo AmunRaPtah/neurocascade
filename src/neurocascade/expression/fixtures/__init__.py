@@ -20,11 +20,13 @@ same real numbers.
 The ontology is the connectome's, deliberately
 ----------------------------------------------
 
-The structures kept are exactly the 69 in
+The structures kept are exactly the 77 in
 `connectome/fixtures/allen_structure_graph_1_fixture.json` (55 until P4.2
 added the five autoradiography-comparison regions and one ancestor of them,
 then 69 when P4.3 added the seven regions its cited expected distributions
-name - CA1, CA3, DG, MH, PVT, SNc, CBX - and one ancestor). There is no
+name - CA1, CA3, DG, MH, PVT, SNc, CBX - and one ancestor, then 77 when
+P6.1 added the five neuromodulatory source nuclei the projection systems
+name - CS, NDB, PPN, LDT, TM - and three ancestors). There is no
 expression-specific ontology fixture and there must not be one: P4.1's
 whole claim is that expression and connectivity are indexed by the same CCF
 structure graph, and two fixture ontologies free to drift apart would let
@@ -100,14 +102,14 @@ UNIONIZE_FIXTURE_PATHS = {
 #: them for the same reason: a truncated read hashes consistently and would
 #: otherwise pass every other check while silently dropping experiments.
 FIXTURE_COUNTS = {
-    "Oprm1": (206, 3),
-    "Drd1": (244, 4),
-    "Drd2": (207, 3),
-    "Gabra1": (137, 2),
-    "Htr2a": (69, 1),
-    "Cnr1": (276, 4),
-    "Adora2a": (207, 3),
-    "Slc6a3": (275, 4),
+    "Oprm1": (230, 3),
+    "Drd1": (268, 4),
+    "Drd2": (231, 3),
+    "Gabra1": (153, 2),
+    "Htr2a": (77, 1),
+    "Cnr1": (308, 4),
+    "Adora2a": (231, 3),
+    "Slc6a3": (307, 4),
 }
 
 

@@ -618,7 +618,17 @@ def test_fixture_counts_are_checked_on_load():
                 "Htr2a"
             ].experiments
         )
-    assert "parsed 69 unionize rows, 1 were recorded" in str(caught.value)
+    # Htr2a has one experiment and it reports every structure in the fixture
+    # ontology, so its row count IS that ontology's size and moves every time
+    # the fixture set grows (55 -> 61 with P4.2, 69 with P4.3, 77 with P6.1).
+    # Taken from `FIXTURE_COUNTS`, which is the manifest the loader checks
+    # against, so this cannot go stale again and the assertion is no weaker:
+    # the point is that `check_counts` reports the count it actually parsed.
+    expected_rows = fixtures.FIXTURE_COUNTS["Htr2a"][0]
+    assert expected_rows == len(connectome.load_fixture_ontology().structures)
+    assert "parsed %d unionize rows, 1 were recorded" % expected_rows in str(
+        caught.value
+    )
 
 
 def test_regional_expression_refuses_a_value_with_no_contributor():

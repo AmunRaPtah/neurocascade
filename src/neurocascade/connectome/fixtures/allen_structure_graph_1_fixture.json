@@ -157,6 +157,19 @@
              "hemisphere_id": 3,
              "parent_structure_id": 348,
              "children": []
+            },
+            {
+             "id": 1052,
+             "atlas_id": null,
+             "ontology_id": 1,
+             "acronym": "PPN",
+             "name": "Pedunculopontine nucleus",
+             "color_hex_triplet": "FFA6FF",
+             "graph_order": 867,
+             "st_level": 8,
+             "hemisphere_id": 3,
+             "parent_structure_id": 348,
+             "children": []
             }
            ]
           }
@@ -219,6 +232,32 @@
                "name": "Locus ceruleus",
                "color_hex_triplet": "FFC395",
                "graph_order": 928,
+               "st_level": 8,
+               "hemisphere_id": 3,
+               "parent_structure_id": 1117,
+               "children": []
+              },
+              {
+               "id": 162,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "LDT",
+               "name": "Laterodorsal tegmental nucleus",
+               "color_hex_triplet": "FFC395",
+               "graph_order": 929,
+               "st_level": 8,
+               "hemisphere_id": 3,
+               "parent_structure_id": 1117,
+               "children": []
+              },
+              {
+               "id": 679,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "CS",
+               "name": "Superior central nucleus raphe",
+               "color_hex_triplet": "FFC395",
+               "graph_order": 925,
                "st_level": 8,
                "hemisphere_id": 3,
                "parent_structure_id": 1117,
@@ -413,6 +452,47 @@
                "hemisphere_id": 3,
                "parent_structure_id": 290,
                "children": []
+              }
+             ]
+            },
+            {
+             "id": 467,
+             "atlas_id": null,
+             "ontology_id": 1,
+             "acronym": "MEZ",
+             "name": "Hypothalamic medial zone",
+             "color_hex_triplet": "FF4C3E",
+             "graph_order": 756,
+             "st_level": 6,
+             "hemisphere_id": 3,
+             "parent_structure_id": 1097,
+             "children": [
+              {
+               "id": 331,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "MBO",
+               "name": "Mammillary body",
+               "color_hex_triplet": "FF4C3E",
+               "graph_order": 762,
+               "st_level": 7,
+               "hemisphere_id": 3,
+               "parent_structure_id": 467,
+               "children": [
+                {
+                 "id": 557,
+                 "atlas_id": null,
+                 "ontology_id": 1,
+                 "acronym": "TM",
+                 "name": "Tuberomammillary nucleus",
+                 "color_hex_triplet": "FF4C3E",
+                 "graph_order": 773,
+                 "st_level": 8,
+                 "hemisphere_id": 3,
+                 "parent_structure_id": 331,
+                 "children": []
+                }
+               ]
               }
              ]
             }
@@ -657,7 +737,35 @@
              "st_level": 6,
              "hemisphere_id": 3,
              "parent_structure_id": 803,
-             "children": []
+             "children": [
+              {
+               "id": 904,
+               "atlas_id": null,
+               "ontology_id": 1,
+               "acronym": "MSC",
+               "name": "Medial septal complex",
+               "color_hex_triplet": "96A7D3",
+               "graph_order": 616,
+               "st_level": 8,
+               "hemisphere_id": 3,
+               "parent_structure_id": 826,
+               "children": [
+                {
+                 "id": 596,
+                 "atlas_id": null,
+                 "ontology_id": 1,
+                 "acronym": "NDB",
+                 "name": "Diagonal band nucleus",
+                 "color_hex_triplet": "96A7D3",
+                 "graph_order": 618,
+                 "st_level": 9,
+                 "hemisphere_id": 3,
+                 "parent_structure_id": 904,
+                 "children": []
+                }
+               ]
+              }
+             ]
             },
             {
              "id": 835,

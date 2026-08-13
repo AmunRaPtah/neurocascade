@@ -17,7 +17,7 @@ The slice
 one exercises rather than for coverage - see `fixtures/PROVENANCE.md`.
 
 *Structures*: every CCF structure in the **connectome's** committed fixture
-ontology (`connectome/fixtures/allen_structure_graph_1_fixture.json`, 55
+ontology (`connectome/fixtures/allen_structure_graph_1_fixture.json`, 77
 structures). Reusing that ontology rather than cutting a second one is the
 whole point of P4.1 sharing the connectome's structure graph: if the two
 fixtures could drift apart, the tests would stop testing the alignment they

@@ -1,0 +1,258 @@
+Volume-transmission timescales (P6.1)
+========================================================================
+
+Mean dopamine release-site spacing: 2.13 um [Dreyer2010], 2.92 um [Ozcete2024] (1.38-fold apart)
+Diffusion over that spacing at D* = 322 um^2/s: 2.3 ms
+Diffusion across a 1 mm region at the same D*: 518 s (so a region is NOT diffusively mixed; see the module docstring)
+
+transmitter       clearance tau  circuit tau      ratio
+acetylcholine        0.05771 s        90 s       1560
+dopamine             0.05161 s        90 s       1744
+histamine              2.125 s        90 s         42
+noradrenaline          1.962 s        90 s         46
+serotonin              2.125 s        90 s         42
+
+ILLUSTRATIVE clearance rates: acetylcholine, histamine
+
+Source nuclei
+------------------------------------------------------------------------
+VTA    Ventral tegmental area                 dopamine       tonic (pacemaker) 0.2-10 Hz, bursts >10 Hz [Ozcete2024]; [Dreyer2010] models tonic activity as Poisson spikes at 4 Hz
+SNc    Substantia nigra, compact part         dopamine       tonic (pacemaker) 0.2-10 Hz, bursts >10 Hz [Ozcete2024]; [Dreyer2010] models tonic activity as Poisson spikes at 4 Hz
+DR     Dorsal nucleus raphe                   serotonin      tonic 0.03-3 Hz, bursts up to 17 Hz [Ozcete2024]
+CS     Superior central nucleus raphe (median raphe) serotonin      tonic 0.03-3 Hz, bursts up to 17 Hz [Ozcete2024]
+LC     Locus ceruleus                         noradrenaline  tonic 0.1-5.0 Hz, 0.88 +/- 0.23 Hz at quiet rest, awake rat [Devilbiss2011]
+NDB    Diagonal band nucleus (basal forebrain) acetylcholine  no reachable Hz value; identified cholinergic basal forebrain cells burst at maximal rates in active waking and paradoxical sleep [Lee2005]. SEARCHED AND EMPTY, see the module docstring
+PPN    Pedunculopontine nucleus               acetylcholine  no reachable Hz value; identified cholinergic basal forebrain cells burst at maximal rates in active waking and paradoxical sleep [Lee2005]. SEARCHED AND EMPTY, see the module docstring
+LDT    Laterodorsal tegmental nucleus         acetylcholine  no reachable Hz value; identified cholinergic basal forebrain cells burst at maximal rates in active waking and paradoxical sleep [Lee2005]. SEARCHED AND EMPTY, see the module docstring
+TM     Tuberomammillary nucleus               histamine      slow (<10 Hz) tonic irregular firing in waking, silent in slow-wave and paradoxical sleep; MOUSE [Takahashi2006]
+
+========================================================================
+
+
+Citations
+------------------------------------------------------------------------
+[AllenCCF] Allen Mouse Brain Common Coordinate Framework structure graph 1, the ontology already vendored at data/connectome/. Every source nucleus below is named by its CCF acronym and id so that P6.3 can look up its connectivity row without a second naming convention.
+
+[Bosse2011] Bosse KE et al. J Neurochem 2011;120:385-395, PMC3385875. Mouse basal extracellular dopamine by zero net flux, 5.0 +/- 0.2 nM.
+
+[Cumming1991] Cumming P, Damsma G, Fibiger HC, Vincent SR. Characterization of extracellular histamine in the striatum and bed nucleus of the stria terminalis of the rat: an in vivo microdialysis study. J Neurochem 1991;56:1797-1803. Half-lives of 32 min and 7.7 h for the decline after synthesis inhibition (NOT a clearance rate; see the module docstring), and the tetrodotoxin/calcium caveat.
+
+[Devilbiss2011] Devilbiss DM, Waterhouse BD. Phasic and tonic patterns of locus coeruleus output differentially modulate sensory network function in the awake rat. J Neurophysiol 2011;105:69-87, PMC3023368. 'Tonic activity is exemplified by stochastic discharge across a range of relatively slow rates (0.1-5.0 Hz)'; the authors' own units 'averaged 0.88 +/- 0.23 (SE) Hz under control, quiet resting conditions'.
+
+[Dreyer2010] Dreyer JK, Herrik KF, Berg RW, Hounsgaard JD. Influence of phasic and tonic dopamine release on receptor activation. J Neurosci 2010;30:14273-14283. Computational model of striatal dopamine volume transmission with no free parameters; Table 1 supplies the release-site density, the effective diffusion constant and the extracellular volume fraction used here.
+
+[Itoh1991] Itoh Y, Oishi R, Nishibori M, Saeki K. Characterization of histamine release from the rat hypothalamus as measured by in vivo microdialysis. J Neurochem 1991;56:769-774. Anaesthetized rat, medial hypothalamus: 'The basal HA output was almost constant ... the mean value being 7.1 pg/30 min'; 'extracellular HA concentration was assumed to be 7.8 nM, by a calculation from in vitro recovery through the dialysis membrane'. Potassium-evoked release was calcium-dependent (+170%).
+
+[JohnJones2007] John CE, Jones SR. Voltammetric characterization of the effect of monoamine uptake inhibitors and releasers on dopamine and serotonin uptake in mouse caudate-putamen and substantia nigra slices. Neuropharmacology 2007;52:1596-1605, PMC2041899. C57BL/6 mouse, the source of this codebase's dopamine and serotonin Km and Vmax.
+
+[Lee2005] Lee MG, Hassani OK, Alonso A, Jones BE. Cholinergic basal forebrain neurons burst with theta during waking and paradoxical sleep. J Neurosci 2005;25:4365-4369. Juxtacellularly identified cells; the paper's Hz values were not reachable (see 'Searched and empty').
+
+[Mathews2004] Mathews TA et al. J Neurosci Methods 2004;140:169-181. Mouse basal extracellular serotonin by zero net flux, 2.8 +/- 1 nM in striatum.
+
+[Ozcete2024] Ozcete OD, Banerjee A, Kaeser PS. Mechanisms of neuromodulatory volume transmission. Mol Psychiatry 2024, PMC11540752. Open-access review; used for the release-site spacing cross-check, the asynaptic-varicosity fractions, the acetylcholine degradation and response-latency statements, and the tonic firing-rate ranges.
+
+[Park2012] Park J, Takmakov P, Wightman RM (as cited by P5.8). Noradrenaline clearance half-life 1.36 +/- 0.07 s in rat ventral BNST by in vivo voltammetry, which fixes Vmax/Km and nothing else.
+
+[Sarter2009] Sarter M, Parikh V, Howe WM. Phasic acetylcholine release and the volume transmission hypothesis: time to move on. Nat Rev Neurosci 2009;10:383-390, PMC2699581. Source of the acetylcholinesterase turnover figure ('one molecule of AChE can hydrolyse 5,000 molecules of ACh per second') and of the unresolved status of the cortical cholinergic synaptic-contact fraction.
+
+[Takahashi2006] Takahashi K, Lin JS, Sakai K. Neuronal activity of histaminergic tuberomammillary neurons during wake-sleep states in the mouse. J Neurosci 2006;26:10292-10298. Identified histamine neurons in non-anaesthetized head-restrained MICE: 'slow (<10 Hz) tonic, repetitive, irregular firing' in waking, silent in slow-wave and paradoxical sleep.
+
+
+========================================================================
+
+Ported scenario: dopamine (dopamine)
+========================================================================
+P5.8's transporter-fed D2 scenario, with the transporter's single
+        pool replaced by a two-source projection field. It is the port that
+        exercises the OTHER generalization: one region fed by two nuclei
+        (VTA and SNc), where the serotonin port exercises one nucleus feeding
+        several regions. Under the uniform density map the two contribute
+        equally, which is not the anatomy; P6.3 is what fixes that.
+
+        The uptake blockers travel with the clearance object, so cocaine,
+        methylphenidate, amphetamine and atomoxetine act here exactly as they
+        do in P5.8, and haloperidol competes at the D2 site with 5.0 nM of
+        endogenous dopamine, as it does there. What is new is that the
+        dopamine is now released at a rate proportional to a midbrain node's
+        firing, so silencing that node lowers it.
+
+Source nuclei (CCF -> circuit node, rest rate 0.50):
+  SNc   SNc    -> SNc_DA             added by the port
+  VTA   VTA    -> VTA_DA             added by the port
+
+Target regions and their drug-free concentration:
+  CP     (Caudoputamen (the scenario's Striatum_D2_MSN))  density 2.00 (1.00x reference, illustrative-uniform)  basal 5 nM
+
+Receptors, per region:
+  D2           CP     -> Striatum_D2_MSN-3.000
+
+Standing drive folded into baselines by the tonic compensation:
+  Striatum_D2_MSN    -2.1334
+
+========================================================================
+
+Ported scenario: serotonin (serotonin)
+========================================================================
+The port that closes P5.1's open loop. 5-HT1A becomes ONE receptor
+        type in THREE regions with three independent occupancies: the two
+        raphe nuclei, where it is the somatodendritic autoreceptor, and the
+        cortex, where it is the postsynaptic heteroreceptor. The hand-built
+        scenario gave both roles a single shared occupancy state, because a
+        `ReceptorSystem` has exactly one. The median raphe node is added by
+        the port because the brief names MRN and a projection needs its
+        source to be a node; it carries the same autoreceptor and no other
+        receptor, and it is why an 8-OH-DPAT effect on the cortical field
+        here is smaller than it would be with a single source.
+
+Source nuclei (CCF -> circuit node, rest rate 0.50):
+  CS    CS     -> MRN_5HT            added by the port
+  DR    DR     -> DRN_5HT            already in the hand-built network
+
+Target regions and their drug-free concentration:
+  DR     (Dorsal nucleus raphe)  density 2.00 (1.00x reference, illustrative-uniform)  basal 2.8 nM
+  CS     (Superior central nucleus raphe (median raphe))  density 2.00 (1.00x reference, illustrative-uniform)  basal 2.8 nM
+  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 2.00 (1.00x reference, illustrative-uniform)  basal 2.8 nM
+
+Receptors, per region:
+  5HT1A        DR     -> DRN_5HT-1.000
+  5HT1A        CS     -> MRN_5HT-1.000
+  5HT1A        PFC    -> PFC_Pyramidal-1.000
+  5HT2A        PFC    -> PFC_Pyramidal+1.000
+
+Standing drive folded into baselines by the tonic compensation:
+  DRN_5HT            -0.2435
+  MRN_5HT            -0.2435
+  PFC_Pyramidal      -0.2252
+
+========================================================================
+
+Ported scenario: noradrenaline (noradrenaline)
+========================================================================
+The port `noradrenaline.test_the_autoreceptor_is_an_open_loop_until_
+        phase_6` was written in anticipation of. That test asserts, of the
+        HAND-BUILT scenario, that clonidine moves the LC node while cortical
+        noradrenaline, cortical occupancy and cortical firing do not, and it
+        gives the structural reason: every ligand's concentration is driven
+        by a PK model whose right-hand side is a function of its own state
+        only. Here the noradrenaline concentration is driven by a projection
+        system whose right-hand side reads `LC_NA`'s rate, so the reason no
+        longer holds and the second half moves. Both statements are true, of
+        two different objects, and both are tested.
+
+        Noradrenaline's field is in FOLD-OF-BASAL units, not nM: P5.8
+        searched for a rodent basal extracellular noradrenaline concentration
+        and found none, so NET carries a unit scale.
+
+Source nuclei (CCF -> circuit node, rest rate 0.50):
+  LC    LC     -> LC_NA              already in the hand-built network
+
+Target regions and their drug-free concentration:
+  LC     (Locus ceruleus)  density 1.00 (1.00x reference, illustrative-uniform)  basal 1 nM
+  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 1.00 (1.00x reference, illustrative-uniform)  basal 1 nM
+
+Receptors, per region:
+  alpha1       PFC    -> PFC_Pyramidal+0.500
+  alpha2       LC     -> LC_NA-1.000
+  beta         PFC    -> PFC_Pyramidal+0.500
+
+Standing drive folded into baselines by the tonic compensation:
+  LC_NA              -0.0357
+  PFC_Pyramidal      +0.0003
+
+========================================================================
+
+Ported scenario: acetylcholine (acetylcholine)
+========================================================================
+Three source nuclei into one field, which is what the brief's
+        "basal forebrain, PPT/LDT" grouping is. The M2 autoreceptor is
+        placed in all three, which is what makes the loop closable; the
+        PPT and LDT nodes are added by the port for the same reason the
+        median raphe is added to the serotonin one.
+
+        Acetylcholine's field is the weakest of the five and is labelled as
+        such: neither its clearance rate constant nor its basal
+        concentration is a measurement this project could reach (see
+        `projection_systems.py`, "Searched and empty"), so the field is in
+        fold-of-basal units and its dynamics are illustrative. What the port
+        demonstrates for acetylcholine is the STRUCTURE, and a test asserts
+        that no reported conclusion moves when the illustrative clearance
+        rate is swept over two orders of magnitude.
+
+Source nuclei (CCF -> circuit node, rest rate 0.50):
+  LDT   LDT    -> LDT_Cholinergic    added by the port
+  NDB   NDB    -> BF_Cholinergic     already in the hand-built network
+  PPN   PPN    -> PPN_Cholinergic    added by the port
+
+Target regions and their drug-free concentration:
+  NDB    (Diagonal band nucleus (basal forebrain))  density 3.00 (1.00x reference, illustrative-uniform)  basal 1 nM
+  PPN    (Pedunculopontine nucleus)  density 3.00 (1.00x reference, illustrative-uniform)  basal 1 nM
+  LDT    (Laterodorsal tegmental nucleus)  density 3.00 (1.00x reference, illustrative-uniform)  basal 1 nM
+  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 3.00 (1.00x reference, illustrative-uniform)  basal 1 nM
+
+Receptors, per region:
+  alpha4beta2  PFC    -> PFC_Pyramidal+0.333
+  alpha7       PFC    -> PFC_Pyramidal+0.333
+  M1           PFC    -> PFC_Pyramidal+0.333
+  M2           NDB    -> BF_Cholinergic-1.000
+  M2           PPN    -> PPN_Cholinergic-1.000
+  M2           LDT    -> LDT_Cholinergic-1.000
+
+Standing drive folded into baselines by the tonic compensation:
+  BF_Cholinergic     -0.0003
+  LDT_Cholinergic    -0.0003
+  PFC_Pyramidal      +0.0002
+  PPN_Cholinergic    -0.0003
+
+========================================================================
+
+Ported scenario: histamine (histamine)
+========================================================================
+The port with NO closed loop, and the reason is worth naming rather
+        than working around: the histamine autoreceptor is H3, and P5.6 did
+        not build an H3 receptor. So the tuberomammillary node carries no
+        receptor, nothing can change its firing, and the histamine field is
+        constant in every run here. What the port does demonstrate is the
+        other half of a projection system, the one P5.8 first showed for
+        dopamine: there is now tonic histamine at the cortical H1 receptor,
+        7.8 nM of it ([Itoh1991], with four stated caveats), so mepyramine
+        given alone is no longer inert. P5.6 had to write that it was.
+
+Source nuclei (CCF -> circuit node, rest rate 0.50):
+  TM    TM     -> TMN_HA             already in the hand-built network
+
+Target regions and their drug-free concentration:
+  TM     (Tuberomammillary nucleus)  density 1.00 (1.00x reference, illustrative-uniform)  basal 7.8 nM
+  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 1.00 (1.00x reference, illustrative-uniform)  basal 7.8 nM
+
+Receptors, per region:
+  H1           PFC    -> PFC_Pyramidal+1.000
+
+Standing drive folded into baselines by the tonic compensation:
+  PFC_Pyramidal      +0.0032
+
+========================================================================
+
+Ported scenarios (P6.1)
+========================================================================
+
+The autoreceptor loop, closed: change from the drug-free run at the
+end of a 30 min run. All four columns move only if the loop is
+closed; the hand-built scenario moves the first and nothing else.
+
+port           drug           source r   field fold    occupancy  terminal r  basal scale
+serotonin      8-OH-DPAT       -0.4043      -0.8112    -2.40e-01     -0.3133  measured
+noradrenaline  clonidine       -0.2332      -0.4663    -3.01e-05     -0.0001  UNIT (see MEASURED_BASAL)
+acetylcholine  scopolamine     +0.0002      +0.0005    +2.93e-07     -0.0000  UNIT (see MEASURED_BASAL)
+
+Where the basal concentration is a unit rather than a measurement the
+field moves and the receptor cannot see it: 1.0 nM is 3-4 orders below
+any Kd in this codebase. That is a missing measurement, not a
+property of the abstraction.
+
+An antagonist given ALONE is no longer inert
+port           antagonist       terminal r  basal scale
+dopamine       haloperidol        -0.20005  measured
+serotonin      WAY-100635         +0.14447  measured
+noradrenaline  yohimbine          +0.00001  UNIT
+acetylcholine  scopolamine        -0.00001  UNIT
+histamine      mepyramine         -0.00183  measured

@@ -89,15 +89,37 @@ ANATOMY_ONLY_REGION_IDS = (
     528,   # CBX   cerebellum, cerebellar cortex
 )
 
+#: P6.1's five: the neuromodulatory source nuclei the projection systems
+#: name that no list above already had. VTA, SNc, DR and LC are already in
+#: the fixture; these are the median raphe (the CCF calls it CS, "Superior
+#: central nucleus raphe", which is worth having resolvable so nobody has to
+#: rediscover the name), the two brainstem cholinergic nuclei, the basal
+#: forebrain's diagonal band, and the tuberomammillary nucleus.
+#:
+#: They are here so that `projection_systems.NUCLEI`'s claim to name every
+#: nucleus by its real CCF acronym and id is CHECKABLE OFFLINE. Without them
+#: that claim could only be tested against the gitignored full ontology,
+#: which is exactly the situation P3.2 added the sign-table structures to
+#: avoid.
+PROJECTION_NUCLEUS_ONLY_REGION_IDS = (
+    679,   # CS    midbrain, superior central nucleus raphe (median raphe)
+    596,   # NDB   pallidum, diagonal band nucleus (basal forebrain)
+    1052,  # PPN   midbrain, pedunculopontine nucleus
+    162,   # LDT   pons, laterodorsal tegmental nucleus
+    557,   # TM    hypothalamus, tuberomammillary nucleus
+)
+
 #: Structures that get NO row or column in the connectome fixture matrices
 #: but that the shared fixture ontology must still resolve, because a
 #: downstream package's fixture is cut against this ontology and needs them.
 #: They are ontology entries only - adding them to `FIXTURE_REGION_IDS`
 #: would change the committed Knox and Oh matrices and every number the P3.x
-#: tests assert on them, for no gain, since neither P4.2 nor P4.3 touches a
-#: connection weight.
+#: tests assert on them, for no gain, since none of P4.2, P4.3 or P6.1
+#: touches a connection weight.
 EXTRA_ONTOLOGY_REGION_IDS = (
-    AUTORADIOGRAPHY_ONLY_REGION_IDS + ANATOMY_ONLY_REGION_IDS
+    AUTORADIOGRAPHY_ONLY_REGION_IDS
+    + ANATOMY_ONLY_REGION_IDS
+    + PROJECTION_NUCLEUS_ONLY_REGION_IDS
 )
 
 #: The region absent from Oh et al. 2014's 213-region set. See the module

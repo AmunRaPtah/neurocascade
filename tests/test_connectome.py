@@ -179,8 +179,13 @@ def test_fixture_ontology_covers_the_fixture_regions_and_all_divisions(ccf):
     # expected distributions name: CA1, CA3, DG, MH, PVT plus the three
     # ancestors they pull in (CA, EPI, MTN). SNc and CBX are in that tuple
     # too and cost nothing, because P3.2's sign table had already put them
-    # in this ontology.
-    assert len(ccf) == 69
+    # in this ontology. 77 since P6.1 added
+    # `PROJECTION_NUCLEUS_ONLY_REGION_IDS`, the five neuromodulatory source
+    # nuclei not already present (CS, NDB, PPN, LDT, TM) plus the three
+    # ancestors they pull in, so that `projection_systems.NUCLEI`'s CCF
+    # acronyms and ids can be checked against a COMMITTED ontology rather
+    # than only against the gitignored full one.
+    assert len(ccf) == 77
     for structure_id in fixtures.EXTRA_ONTOLOGY_REGION_IDS:
         assert structure_id in ccf
         # An ontology-only entry, deliberately: it must NOT have acquired a

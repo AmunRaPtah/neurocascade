@@ -66,7 +66,7 @@ slices of the checksum-verified Allen responses (P4.1 cut them through
 test asserts the arrays match over every structure of every experiment), so
 for a quantity that depends only on the three regions' own rows, "from the
 fixture" and "from the full file" are the same number, not an approximation
-of it. `expression/fixtures/__init__.py` warns that 69 structures are a
+of it. `expression/fixtures/__init__.py` warns that 77 structures are a
 test input and not a receptor map, and that warning is about maps whose
 value depends on the region set - a peak-normalized map, a coverage
 statistic, a correlation. This one does not.
