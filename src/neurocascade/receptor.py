@@ -55,6 +55,102 @@ class ReceptorSite:
         return sum(o * lig.efficacy for o, lig in zip(occupancy, self.ligands))
 
 
+class ChannelBlockingReceptorSite(ReceptorSite):
+    """A receptor with a competitive pool AND an independent blocker pool.
+
+    Two structurally distinct sites, so two pools (P5.5):
+
+      * the ORTHOSTERIC pool, exactly `ReceptorSite`: one finite pool of
+        receptor that every orthosteric ligand competes for, so an
+        orthosteric antagonist displaces the agonist;
+      * the CHANNEL-BLOCKER pool, a second finite pool of the same receptors
+        seen from inside the ion channel. A non-competitive open-channel
+        blocker does not displace the agonist -- that is the defining
+        measurement -- so giving it a seat in the competitive pool would
+        assert a mechanism the data contradict.
+
+    ::
+
+        d bound_i/dt   = kon_i*C_i*(1 - sum(bound)) - koff_i*bound_i
+        d blocked_j/dt = konb_j*Cb_j*(1 - sum(blocked)) - koffb_j*blocked_j
+        activation     = (1 - sum(blocked)) * sum(bound_i * efficacy_i)
+
+    which is what a functional IC50 for non-competitive inhibition measures
+    (activation halved when the blocker sits at its Kd) and deliberately not
+    the use- and voltage-dependence of real open-channel block, for which
+    this engine has neither a membrane potential nor a channel state.
+
+    State layout (length `n_states == n == n_orthosteric + n_blockers`)::
+
+        [bound_0..bound_{p-1}, blocked_0..blocked_{b-1}]
+
+    which is also the ligand/concentration/`doses` order.
+
+    Relationship to `DesensitizingReceptorSite` below: that class is this
+    mechanism plus a desensitized state per orthosteric ligand, introduced
+    by P5.4 because nicotinic receptors need both at once. The two are kept
+    as separate classes rather than one inheriting from the other because
+    their state layouts interleave differently (the desensitized states sit
+    between the bound and blocked blocks), so sharing an implementation
+    would buy nothing but a shared indexing bug.
+    """
+
+    def __init__(self, name, ligands, channel_blockers=None):
+        self.name = name
+        self.orthosteric_ligands = list(ligands)
+        self.channel_blockers = list(channel_blockers or [])
+        if not self.orthosteric_ligands:
+            raise ValueError("a channel-blocking site needs at least one orthosteric ligand")
+        self.ligands = self.orthosteric_ligands + self.channel_blockers
+        self.n = len(self.ligands)
+        self.n_orthosteric = len(self.orthosteric_ligands)
+        self.n_blockers = len(self.channel_blockers)
+        self.n_states = self.n
+
+    def split_states(self, state):
+        """(bound, blocked) views onto one state block."""
+        state = np.asarray(state, dtype=float)
+        p = self.n_orthosteric
+        return state[0:p], state[p : p + self.n_blockers]
+
+    def free_fraction(self, state):
+        bound, _ = self.split_states(state)
+        return 1.0 - bound.sum()
+
+    def blocked_fraction(self, state):
+        _, blocked = self.split_states(state)
+        return float(blocked.sum())
+
+    def occupancy_rhs(self, state, concentrations):
+        state = np.asarray(state, dtype=float)
+        concentrations = np.asarray(concentrations, dtype=float)
+        p = self.n_orthosteric
+        bound, blocked = self.split_states(state)
+
+        d_state = np.empty(self.n_states)
+        free = 1.0 - bound.sum()
+        for i, lig in enumerate(self.orthosteric_ligands):
+            d_state[i] = lig.kon * concentrations[i] * free - lig.koff * bound[i]
+
+        if self.n_blockers:
+            free_channel = 1.0 - blocked.sum()
+            for j, lig in enumerate(self.channel_blockers):
+                d_state[p + j] = (
+                    lig.kon * concentrations[p + j] * free_channel
+                    - lig.koff * blocked[j]
+                )
+        return d_state
+
+    def activation(self, state):
+        bound, blocked = self.split_states(state)
+        conducting = sum(
+            o * lig.efficacy for o, lig in zip(bound, self.orthosteric_ligands)
+        )
+        if self.n_blockers:
+            conducting = conducting * (1.0 - blocked.sum())
+        return conducting
+
+
 class DesensitizingReceptorSite(ReceptorSite):
     """A receptor that also has a bound-but-NON-CONDUCTING state (P5.4).
 

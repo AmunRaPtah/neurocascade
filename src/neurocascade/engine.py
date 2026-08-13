@@ -472,9 +472,29 @@ class Simulation(object):
             "rates": sol.y[d + r : d + r + self.c],
         }
 
+    #: Integrator used by `run()` unless overridden. Every result in this
+    #: codebase before P5.5 was produced with RK45 and still is: `method` is
+    #: additive and defaults to this.
+    DEFAULT_METHOD = "RK45"
+
     def run(self, dose_concentrations=None, t_span=None, t_eval=None, rates0=None,
-            doses=None):
+            doses=None, method=None):
         """Integrate the coupled system from one dose per ligand.
+
+        `method` is passed straight to `solve_ivp` and defaults to
+        `DEFAULT_METHOD` ("RK45"), so every pre-existing call is unchanged.
+        It exists because P5.5 is the first module whose binding rate
+        constants are MEASURED rather than illustrative: [Dravid2007]'s
+        association rate for MK-801 at the NMDA channel site is
+        0.234 nM^-1 min^-1, so a micromolar dose gives the occupancy ODE a
+        pseudo-first-order rate of ~10^4 min^-1 while the circuit relaxes
+        with tau = 1.5 min. That is four orders of magnitude of timescale
+        separation in one state vector, i.e. a stiff system, and an explicit
+        Runge-Kutta method pays for it in step count rather than in
+        accuracy: the same 60-minute run takes ~125 s under RK45 and well
+        under a second under LSODA, to the same answer. Passing
+        `method="LSODA"` is therefore a statement about the integrator, not
+        about the model, and a test asserts the two methods agree.
 
         `doses` (equivalently `dose_concentrations`, kept as the original
         name so no existing call site changes): one entry per ligand,
@@ -505,7 +525,12 @@ class Simulation(object):
         y0 = np.concatenate([pk0, occ0, np.asarray(rates0, dtype=float)])
 
         sol = solve_ivp(
-            self.rhs, t_span, y0, method="RK45", t_eval=t_eval, max_step=0.1
+            self.rhs,
+            t_span,
+            y0,
+            method=self.DEFAULT_METHOD if method is None else method,
+            t_eval=t_eval,
+            max_step=0.1,
         )
         if not sol.success:
             raise RuntimeError("integration failed: %s" % sol.message)

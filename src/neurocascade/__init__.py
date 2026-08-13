@@ -11,7 +11,12 @@ from .pk import (
     intercompartmental_clearance_from_terminal_rate,
 )
 from .brain_partition import BrainPartition, UnusablePartitionError
-from .receptor import Ligand, ReceptorSite, DesensitizingReceptorSite
+from .receptor import (
+    Ligand,
+    ReceptorSite,
+    ChannelBlockingReceptorSite,
+    DesensitizingReceptorSite,
+)
 from .circuit import CircuitNode, sigmoid
 from .network import CircuitNetwork
 from .behavior import BehaviorReadout
@@ -21,6 +26,7 @@ from . import serotonin
 from . import dopamine
 from . import noradrenaline
 from . import acetylcholine
+from . import glutamate
 from . import drug_pk
 from . import pk_validation
 from . import connectome
@@ -42,6 +48,7 @@ __all__ = [
     "UnusablePartitionError",
     "Ligand",
     "ReceptorSite",
+    "ChannelBlockingReceptorSite",
     "DesensitizingReceptorSite",
     "CircuitNode",
     "sigmoid",
@@ -53,6 +60,7 @@ __all__ = [
     "dopamine",
     "noradrenaline",
     "acetylcholine",
+    "glutamate",
     "drug_pk",
     "pk_validation",
     "connectome",

@@ -7785,3 +7785,393 @@ of two hand-set numbers.
   as in every scenario before Phase 7 - but rule 3's per-node budget has
   now been tested at three receptors on one node as well as at two, so a
   convention established by P5.3 has survived its first extension.
+
+## Phase 5: glutamate NMDA and AMPA (P5.5)
+
+### The task, and the question in it that is not about constants
+
+The brief for P5.5 has three parts, and only the first is a sourcing
+exercise:
+
+> Add NMDA and AMPA receptors with cited constants for glutamate, ketamine,
+> MK-801 and NBQX. NMDA voltage-dependent magnesium block and the fact that
+> these receptors carry the fast excitatory transmission already implicit in
+> the connectivity matrix both need explicit treatment: say clearly which
+> role the connectivity weights already play, so glutamatergic transmission
+> is not double-counted.
+
+The second and third parts are the task. P5.4 asked a mechanism question
+(is the existing receptor model the wrong size or the wrong shape?) and
+answered it by adding a state. P5.5 asks a *bookkeeping* question, and the
+honest answer turns out to remove a parameter rather than add one.
+
+### The double count, stated precisely
+
+`network.CircuitNetwork` integrates
+
+    tau_i * dr_i/dt = -r_i + sigmoid(sum_j W[i,j] * r_j + drive_i)
+
+Every receptor system from the mu-opioid scenario onward enters through
+`drive_i`: the receptor activates, and `coupling[node] * activation` is
+added to that node's input. That is the right shape for a neuromodulator.
+It is the wrong shape for glutamate, because of what `W[i,j] > 0` already
+means.
+
+A positive entry of `W` is a net excitatory synaptic gain from population
+`j` onto population `i`. In a mammalian forebrain those synapses are
+glutamatergic and the receptors transducing them are AMPA and NMDA
+receptors. This is not an interpretation P5.5 is imposing on the matrix; it
+is the reading the matrix already had, in "Network layer: connectivity as a
+signed matrix", in P3.2's derivation of excitatory/inhibitory sign from
+region neurotransmitter identity, and in every hand-built cortical loop from
+P5.1 onward, where the pyramidal-to-interneuron weight *is* the
+glutamatergic projection.
+
+So fast glutamatergic transmission was already in the model, at full
+strength, in every simulation this codebase has ever run, before this
+module existed. Adding an AMPA system with `coupling={"PFC_GABA": g}` would
+have put the same synapse into the equations twice, as `W[i,j] * r_j` and
+again as `g * activation`. Three things would then be wrong at once: the
+drug-free fixed point would move for no physiological reason, the modelled
+synapse would be roughly twice as strong as the connectome says, and an AMPA
+antagonist could only ever remove one of the two copies, so a saturating
+dose of NBQX would leave a full-strength glutamatergic synapse standing.
+
+### The resolution, and the parameter it deletes
+
+Glutamate receptor systems in `glutamate.py` have **empty `coupling`**, and
+act only through `connection_modulation`:
+
+    W_eff[i,j] = W[i,j] * (1 - share_NMDA * blocked_NMDA
+                              - share_AMPA * blocked_AMPA)
+
+The receptor layer's job for glutamate is not "how much drive does this
+receptor deliver" - the circuit layer already answered that - but "what
+fraction of the transmission already in `W[i,j]` do the drugs on board
+remove". `share_NMDA + share_AMPA == 1` *partitions* the existing weight; it
+does not add to it, and a test asserts the identity exactly rather than
+approximately.
+
+The consequence worth spelling out is that **P5.5 introduces no illustrative
+coupling gain at all**, which no P5 module before it can say. P5.1 to P5.4
+each had one hand-set `mechanism_gain` per receptor, each unidentifiable
+from anything published (P2.3), each carried as a labelled illustrative
+number. Here the corresponding quantity is pinned by algebra:
+`1 + gain * activation` has to equal `1 - (fraction removed)`, so with
+`activation` defined as the negative of the fraction removed, `gain == 1`
+exactly. `GLUTAMATE_CONNECTION_GAIN` exists as a named constant only so that
+the one place it could quietly become a tuning knob is visible, and a test
+pins it.
+
+That is the whole trade. The magnitude of glutamatergic transmission was
+never this module's to set: it is `W[i,j]`, and it comes from the
+connectome.
+
+### Three honest costs of the resolution
+
+1. **Exogenous glutamate cannot be an excitatory drug here.** Dosing the
+   `glutamate` ligand raises occupancy at both sites and displaces a
+   competitive antagonist - both real, both tested - but it cannot push
+   transmission above `W[i,j]`, because `W[i,j]` already represents
+   transmission with the endogenous transmitter present. Letting it would
+   re-introduce exactly the double count. Endogenous transmitter tone as a
+   first-class quantity is P6.2's job; until then this module's glutamate is
+   a competitor at a binding site and nothing more.
+2. **`baseline_input` is not modulated, and that under-states a systemic
+   antagonist.** Each node's `baseline_input` stands in for everything
+   outside the modelled loop, part of which is extrinsic glutamatergic
+   afferents that a systemic NMDA antagonist would also reduce. P5.5
+   deliberately does not scale it, because the term is of mixed and
+   unlabelled origin and scaling it would assert a glutamatergic fraction of
+   it that nothing measures. The model therefore under-states a systemic
+   glutamate antagonist by whatever that fraction is. Stated once, asserted
+   nowhere, because there is no number to assert.
+3. **An antagonist alone is no longer inert, and this is a break with every
+   earlier module.** P5.1 to P5.4 each had to record that their antagonists
+   do nothing without endogenous transmitter tone, because there was no
+   agonist for them to displace. Glutamate antagonists in P5.5 are not
+   inert: the transmission they remove is already in the connectivity
+   weight, so it does not need a dose to exist. That is a direct consequence
+   of the resolution above and it is the first time this codebase can model
+   an antagonist given alone the way pharmacology actually gives one. A test
+   states it in exactly those terms.
+
+### The magnesium block, and the membrane potential this model does not have
+
+An NMDA receptor's conductance is blocked by extracellular Mg2+ in a
+voltage-dependent way ([Nowak1984], [Mayer1984]). This is what makes the
+receptor a coincidence detector, and it is why NMDA-mediated transmission
+is not a fixed conductance but a function of the postsynaptic state.
+
+This codebase's circuit layer is a population-rate model. It has no membrane
+potential, in any node, at any time. There is no way to make the block
+dynamic here without first inventing a rate-to-voltage map, and no
+measurement of "the mean membrane potential of a cortical population firing
+at half its maximum rate" exists to anchor one, because that is a property
+of this model rather than of any preparation (see the searched-and-empty
+record in `glutamate.py`).
+
+The split P5.5 makes is between the two halves of that problem:
+
+- **The block itself is measured and implemented exactly.**
+  `mg_unblocked_fraction(V)` is [ChiuCarter2022]'s conductance-voltage fit -
+  mouse, acute cortical slice, 34.7 C, junction-potential corrected, three
+  physiological ionic conditions, fitted over -78 to +32 mV. Nothing in that
+  function is hand-set, and tests check that each fit reproduces its own
+  published midpoint, that the three conditions order correctly by their
+  Mg2+, and that the function is monotone across the fitted range.
+- **The voltage it is evaluated at is one labelled illustrative constant.**
+  `ILLUSTRATIVE_OPERATING_VOLTAGE = -40 mV`, chosen as a round value inside
+  the measured range and well depolarized from rest because this codebase's
+  nodes sit at half their maximum firing rate at baseline. It is not a
+  measured membrane potential of anything. Every headline result is swept
+  across the measured range rather than asserted at that point.
+
+[JahrStevens1990]'s canonical form, `1/(1 + [Mg2+]/3.57 * exp(-0.062 V))`,
+is recorded and not used, and the reason is specific: the primary is behind
+a publisher block that returned HTTP 403 to every retrieval attempt, so its
+two constants could not be checked against the paper that is supposed to
+contain them. This module does not put unverifiable numbers in its equations
+when a verifiable, same-species, physiological-temperature alternative is in
+hand. `jahr_stevens_unblocked_fraction` exists so the two can be compared,
+and a test reports the comparison: in 1 mM Mg2+ the canonical form is the
+*deeper* block, by 1.2-fold at -60 mV and 1.4-fold at -40 mV, so substituting
+it would shrink every NMDA effect in this module without changing a sign.
+
+Doing the block exactly immediately constrains the whole module. At the
+resting potential [ChiuCarter2022] measured in the same cells (-82.7 mV in
+their awake ionic condition) the block removes 97% of the NMDA conductance,
+so NMDA's share of an excitatory weight there is 0.8% and an NMDA antagonist
+can do essentially nothing. Ketamine's leverage on this circuit is a
+27-fold monotone function of the operating potential, over the measured
+range, entirely from the measured fit. That is the module's most
+load-bearing prediction and it has its own test.
+
+### How the two measurements compose without either being counted twice
+
+    share_NMDA(V) = R * b(V) / (1 + R * b(V))
+
+where `b(V)` is the measured unblocked fraction and `R` is the NMDA:AMPA
+conductance ratio *with the block removed*. The choice of `R` is the reason
+[Myme2003] is the source rather than any of the many papers reporting an
+NMDA:AMPA ratio: [Myme2003] isolated its mixed mEPSCs in **nominally zero
+Mg2+**, which is exactly the Mg2+-free ratio this composition needs. Taking
+a ratio measured in physiological Mg2+ and then applying a Mg2+ block to it
+would have been a second, subtler double count, of the same kind as the one
+this whole section is about.
+
+`R = 0.27` (rat medial PFC layer 2/3, n = 27; the visual-cortex value in the
+same paper is 0.28). Its known error is directional and stated rather than
+corrected: it is a *peak-current* ratio, and [Myme2003] measured the NMDA
+component's decay at 69 ms while an AMPA EPSC decays in a few ms, so the
+share of transmitted *charge* - which is what a rate model integrates - is
+larger than 0.27. The same paper notes that evoked EPSCs in 2 mM Mg2+ at
+depolarized potentials gave a larger ratio still. Both point the same way,
+so P5.5 records that `R` is a lower bound and does not adjust it, because
+the matching AMPA decay constant was not retrievable and a correction
+factor would have been invented.
+
+### Two antagonists, two mechanisms, and why that is not a stylistic choice
+
+- **NBQX is competitive**, and this is a measurement rather than an
+  assumption: [Randle1992]'s Schild analysis gives pA2 7.05 +/- 0.10 against
+  AMPA with slopes near unity. So NBQX gets an ordinary orthosteric ligand
+  entry in the same competitive pool as glutamate, and needs nothing
+  `ReceptorSite` did not already do - the same finding P5.1 recorded for
+  diazepam/flumazenil and P5.4 for scopolamine.
+- **Ketamine and MK-801 are uncompetitive open-channel blockers**
+  ([Huettner1988]: "binding and unbinding of MK-801 seems to be possible
+  only if the N-Me-D-Asp-operated channel is in the transmitter-activated
+  state"). Putting them in the competitive pool would assert that they
+  displace glutamate, which is the one thing they demonstrably do not do.
+  They get an independent pool that scales transmission multiplicatively.
+
+This is P5.4's mecamylamine argument again, and it is reused rather than
+re-derived: `receptor.py` gains `ChannelBlockingReceptorSite`, which is
+`DesensitizingReceptorSite` minus the desensitized states, so that the
+channel-block mechanism is available without dragging in a gating cycle that
+NMDA and AMPA receptors do not need on this timescale. The two classes are
+kept separate rather than made to inherit from one another because their
+state layouts interleave differently (P5.4's desensitized states sit between
+the bound and blocked blocks), so sharing an implementation would buy
+nothing but a shared indexing bug.
+
+A test pins the distinction in the form that matters: raising ambient
+glutamate monotonically reduces NBQX's block and leaves ketamine's exactly
+unchanged.
+
+### The first derivation-1 ligand in the codebase, and the error it carries
+
+P5.1 established a three-way split for turning published affinities into
+`kon`/`koff` pairs, and case 1 - both rate constants measured - had never
+occurred. [Dravid2007] Table 5 supplies it: (+)MK-801 at rat NR1/NR2A,
+`k_ON = 3.9e6 M^-1 s^-1` and `k_OFF = 0.12 s^-1`. Converted, that is
+`kon = 0.234 nM^-1 min^-1` and `koff = 7.2 min^-1`, and their ratio is
+30.8 nM against that table's own printed Kd of 33 nM (7%) and against
+[Wong1986]'s independent [3H]MK-801 binding Kd of 37.2 nM in rat brain
+membranes (17%). Two laboratories, two preparations, two methods, agreeing
+to well under a factor of two: the tightest agreement anywhere in this
+module, and all three numbers are asserted against each other by a test.
+
+Ketamine takes MK-801's measured `kon` under derivation 3, applied within a
+pool rather than within a site, because the two are the same mechanism at
+the same site in the same channel lumen. The two orthosteric pools have no
+measured `kon` anywhere reached and share `ILLUSTRATIVE_KON`, the same
+hand-set 0.01 nM^-1 min^-1 as `acetylcholine.ILLUSTRATIVE_KON`; a test
+asserts the equality so the two cannot drift.
+
+The measured pair also carries this module's largest known error, and it is
+reported rather than smoothed. [Huettner1988] measured recovery from MK-801
+block during continuous agonist at ~90 minutes at -70 to -80 mV and ~2
+minutes at +30 mV; [Dravid2007]'s `k_OFF` is a 5.8-second time constant. The
+same molecule at the same site, 650-fold apart at physiological potentials.
+Both are right about different things: [Dravid2007]'s is a relaxation rate
+fitted at -40 mV in a Mg2+-free Ba2+ bath from a scheme in which the blocker
+leaves an open channel, while [Huettner1988]'s is macroscopic recovery,
+which for a *trapping* blocker requires the channel to reopen with the
+blocker still inside and is therefore gating-limited and strongly voltage
+dependent. MK-801's behavioural signature - effectively irreversible block
+after one dose - is [Huettner1988]'s number, not [Dravid2007]'s. P5.5 uses
+[Dravid2007]'s pair because it needs a pair from one experiment and that is
+the only one reached, states that its MK-801 washout is therefore ~650-fold
+too fast, and asserts the ratio in a test so the claim cannot rot. No
+headline result depends on it.
+
+### Which ketamine constant, and why not the tightest one
+
+Three measured ketamine potencies at a GluN2A-containing receptor are in
+hand and they span 16-fold:
+
+    0.33 uM  [Kotermanski2009]  HEK293T, -66 mV, 0 Mg2+
+    3.31 uM  [Dravid2007]       oocyte,  -40 mV, 0 Mg2+ (0.5 mM Ba2+)
+    5.35 uM  [Kotermanski2009]  HEK293T, -66 mV, 1 mM Mg2+
+
+The two Mg2+-free values differ 10-fold between laboratories, and the
+difference runs the way the mechanism requires - open-channel block deepens
+with hyperpolarization, and the tighter value is the one measured 26 mV
+more negative - which is why neither is discarded.
+
+The instantiated constant is the 1 mM Mg2+ value, because Mg2+ and ketamine
+compete for the same site ([Kotermanski2009]'s whole result) and a brain has
+Mg2+. The stated cost is that the model then carries one ketamine potency,
+measured at one voltage in one Mg2+ concentration, while the operating
+voltage is free to move: ketamine's *potency* does not track the operating
+voltage, though the Mg2+ block of the *conductance* does. The approximation
+runs in the conservative direction as the operating point depolarizes (real
+block would weaken further), and it is not hidden behind an average.
+
+### The circuit result, and exactly what it depends on
+
+[Homayoun2007] gave MK-801 0.1 mg/kg i.p. to awake, freely moving rats and
+recorded prefrontal single units: ~69% of fast-spiking interneurons
+decreased their firing rate while 86% of regular-spiking (pyramidal) neurons
+recorded in the same sessions increased theirs (chi2 = 100.42, p < 0.001),
+with interneuron inhibition preceding pyramidal excitation.
+
+P5.5 reproduces the direction, on the same two-node cortical loop P5.1, P5.3
+and P5.4 use, with the weights, gain and baselines character-for-character
+unchanged. Ketamine at an illustrative 50 uM bolus takes the pyramidal node
+from 0.500 to a peak of 0.520 and the interneuron from 0.500 to 0.474, and
+the interneuron crosses a 0.001 deviation at t = 0.25 min against the
+pyramidal node's t = 0.50 min - the temporal ordering [Homayoun2007]
+reported, which is not put in anywhere. Nothing here is fitted: this is a
+sign test against a sign result, as it should be, because a 0.1 mg/kg
+administered dose cannot be turned into a concentration without an MK-801 PK
+parameter set that `drug_pk.py` does not have. That is the specific,
+buildable follow-up and it is named in the module's searched-and-empty
+record rather than left implicit.
+
+**The tempting shortcut, and why it is refused.** [Homayoun2007]'s own
+explanation is that NMDA receptors preferentially drive interneurons, and
+the easy way to reproduce that is to give the pyramidal-to-interneuron
+connection a larger NMDA share than any other. That is refused, because
+[Bogart2018] measured the NMDAR:AMPAR ratio at excitatory synapses onto
+prefrontal fast-spiking interneurons and onto pyramidal cells - one
+laboratory, one preparation, three separate long-range inputs, mouse - and
+found the interneuron ratio 8 to 10-fold **smaller**, not larger. Setting a
+receptor-layer parameter to contradict a direct receptor-layer measurement
+in order to reproduce a circuit-layer result is exactly the substitution
+this project's rule 2 forbids. Both nodes get the same share, from the same
+two measurements, and a test pins both halves of that.
+
+**What the result actually rests on**, then, is topology: in this loop the
+only glutamatergic connection is the one *onto* the interneuron, and the
+return connection is GABAergic. Reduce glutamatergic transmission and the
+interneuron necessarily loses drive first; the pyramidal population is
+disinhibited as a consequence of the connectivity matrix rather than of a
+tuned receptor parameter.
+
+**And what that costs.** A real cortex also has recurrent
+pyramidal-to-pyramidal excitation, which an NMDA antagonist would also
+reduce, opposing the disinhibition. `cortical_network(recurrent_excitation=
+w)` builds that variant so the question is measured rather than waved at,
+and the test reports the answer: for every `w` at which P3.4's
+global-uniqueness certificate still holds (`contraction_number < 1`, which
+here means `w <= 0.26`) the disinhibition direction survives; the direction
+reverses only at `w = 0.56`, well outside that certificate, where the
+network is no longer guaranteed a unique fixed point in the first place.
+So within the regime this codebase certifies, the result is unconditional,
+and outside it the model stops making a single well-defined prediction
+before it starts making the opposite one.
+
+The AMPA side is the same circuit through the other receptor and is an order
+of magnitude larger - NBQX at 1 uM moves the pyramidal node from 0.500 to
+0.695 - because at any physiological operating potential the Mg2+ block
+leaves AMPA receptors carrying ~90% of the weight. That is what makes
+ketamine's small effect the expected one rather than a disappointing one,
+and a test asserts the 5-fold-plus ordering.
+
+### The one engine change, and why it is about arithmetic rather than biology
+
+`Simulation.run` gains a `method` argument, defaulting to `"RK45"`, passed
+straight to `solve_ivp`. Every pre-existing call and every pre-existing
+result is unchanged.
+
+It exists because P5.5 is the first module whose binding rate constants are
+*measured* rather than illustrative, and measured ones are fast:
+[Dravid2007]'s `kon` of 0.234 nM^-1 min^-1 against a micromolar dose gives
+the occupancy ODE a pseudo-first-order rate around 10^4 min^-1, while the
+circuit relaxes with tau = 1.5 min. Four orders of magnitude of timescale
+separation in one state vector is a stiff system, and an explicit
+Runge-Kutta method pays for that in step count: a 60-minute run at a 50 uM
+ketamine dose takes ~125 s under RK45 and ~0.15 s under LSODA. The two
+methods give the same answer, and a test compares them directly on a run
+short enough for the explicit method to stay affordable, so
+`method="LSODA"` remains a statement about the integrator and not about the
+model.
+
+This is worth flagging forward to Phase 9: the whole-brain numerics task
+already anticipated needing a sparse Jacobian and a steady-state solver, and
+P5.5 is the first concrete demonstration that stiffness, not dimension, is
+what will break RK45 first.
+
+### What P5.5 delivered, checked against the standing discipline
+
+- **The double-counting question is answered explicitly**, in this section,
+  in `glutamate.py`'s docstring, in the example script's output (the
+  "effective weight" line), and as four executable identities: empty
+  `coupling` on every system, a gain pinned at 1.0, shares summing to
+  exactly 1.0, and a drug-free run that holds both nodes at 0.5 to 1e-9.
+- **Every instantiated affinity is literature-sourced**, and one ligand has
+  both rate constants measured for the first time in this codebase.
+  Constants are additionally recorded, and not instantiated, for all four
+  GluN2 subtypes for both channel blockers, for the second AMPA-receptor
+  response component, for NBQX at kainate receptors and in intact tissue,
+  and for the fast-spiking-interneuron NMDA:AMPA ratio that was used to
+  refuse a shortcut.
+- **The Mg2+ block is treated explicitly and its one free parameter is
+  isolated and labelled.** The block function is measured; the voltage it is
+  evaluated at is the module's single illustrative receptor-layer constant,
+  and every result is swept across the measured range instead of being
+  asserted at it.
+- **This module adds no illustrative coupling gain**, which is a first for
+  Phase 5, and it deletes the question rather than answering it: the
+  magnitude of glutamatergic transmission belongs to `W`.
+- **Two quantitative errors are reported rather than fitted away**: MK-801's
+  650-fold-too-fast unblocking rate, and the NMDA:AMPA ratio's known
+  direction of bias as a peak rather than charge measurement.
+- **Tests must pass.** 43 new test items, all in the offline gate, none
+  slow, none skipped, and no existing test deleted, weakened or modified.
+  The gate now runs 810 tests, all green. The engine's `method` argument is
+  additive with an unchanged default, and `ChannelBlockingReceptorSite` is a
+  new class that no pre-existing site uses.
