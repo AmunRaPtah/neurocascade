@@ -10256,3 +10256,442 @@ antagonist effects in that same order.
         scales as though there had always been five.
 - **Outputs**: `examples/endogenous_transmitter_tone.py` and
   `scripts/report_endogenous_tone.py` -> `results/endogenous_tone.txt`.
+
+## Phase 6: projection densities from the connectome (P6.3)
+
+### The sentence in the brief, and the two halves it splits into
+
+"Derive per-system projection densities from the Phase 3 connectome by
+taking the outgoing connection strengths of each source nucleus, rather than
+assigning them by hand. Include autoreceptor feedback (D2 on VTA/SNc, 5-HT1A
+on raphe, alpha2 on LC), which closes a real negative feedback loop and can
+destabilize the system: verify stability explicitly."
+
+Two of the three autoreceptors were already there. P6.1 placed 5-HT1A in the
+dorsal and median raphe and alpha2 at the locus coeruleus, and its own
+section records that a D2 autoreceptor on the VTA and SNc was left out on
+purpose: "it is real, and adding it would have closed the dopamine loop, but
+it would also have added anatomy and a coupling gain the hand-built scenario
+does not have, to a port whose job is regression." P6.3 adds it, and it
+introduces NO new number: D2 becomes one `RegionalReceptorSystem` in three
+regions (CP, VTA, SNc) reusing `scenarios.d2_coupling()`'s own -3.0, exactly
+as `serotonin.HT1A_MECHANISM_GAIN` is already reused for the raphe
+autoreceptor and the cortical heteroreceptor with the stated reason that "no
+data in reach distinguishes its per-receptor efficacy" between the two cells.
+
+The density half is the larger one, and it turned out to have a second
+decision inside it that P6.1's uniform map had hidden: which region the
+measured basal concentration belongs to.
+
+### The formula, and the one line of `build.py` it repeats
+
+`projection_density.derive_density` computes, for source nucleus `s` and
+target region `k`,
+
+    rho(s -> k) = sum_{i in s} sum_{j in k} strength(i, j)
+                    / sum_{j in k} voxels(j)
+
+i.e. Knox et al. 2019's `connection_density` at whatever grouping is asked
+for, with the voxel counts recovered by `volumes.py` from the published
+matrices themselves. No new source, no new checksum, no new number.
+
+Both halves of the normalization are forced rather than chosen, and the
+argument is `connectome/build.py`'s decision 1 restated for a concentration
+instead of a drive. Divide by the TARGET's size, because a concentration is
+an amount per volume and the amount released into a region is proportional
+to the release sites in it. Do NOT divide by the source's size, because the
+release term is `release_scale * rho * L(r)` with `L` the DIMENSIONLESS
+Wilson-Cowan rate ratio, so the number of neurons doing the releasing has to
+be inside `rho`; Knox's `s_ij` is summed over the source's voxels and
+already carries it. The other two published normalizations divide it out.
+
+Only ratios are consumed: `ProjectionSystem.release_scale` is fixed by
+requiring the reference region to reproduce its measured basal
+concentration, so multiplying the whole table by 1000 changes nothing, and
+a test asserts that for all five ports.
+
+### The reference region became load-bearing, and two ports gained a pool
+
+Under P6.1's uniform map every region's predicted concentration equalled the
+reference's, so which target was the reference did not matter and the
+default (the densest one) was harmless. With a real map it is the ONE region
+whose concentration is a measurement and every other one is a prediction
+relative to it, so it has to be the region the measurement was made in:
+
+    dopamine       CP    [Bosse2011]    mouse caudate-putamen, zero net flux
+    serotonin      CP    [Mathews2004]  mouse striatum, zero net flux
+    noradrenaline  PFC   [PanLai1995]   rat medial prefrontal cortex, ZNF
+    acetylcholine  CP    [Vinson1997]   rat striatum, no-net-flux
+    histamine      MEZ   [Itoh1991]     rat medial hypothalamus
+
+Two of those force a region into a port that has no node for it, which is
+what `ProjectionTarget` was built to allow. The serotonin and acetylcholine
+ports gain a caudoputamen pool; the histamine port gains a
+medial-hypothalamus pool, defined as the Knox regions inside the CCF's
+medial hypothalamic zone MINUS the tuberomammillary nucleus itself, since
+[Itoh1991]'s probe placement cannot be resolved more finely than "medial
+hypothalamus" from what the paper reports. `ScenarioPort` now REFUSES to
+build without its reference region, so this cannot quietly regress.
+
+Before this, P6.1's serotonin port was implicitly asserting that
+[Mathews2004]'s STRIATAL 2.8 nM was the dorsal raphe's concentration. That
+was invisible under a uniform map and is the kind of thing a uniform map
+hides.
+
+### The nuclear block: the one density P6.3 does not derive
+
+A region that is itself a source nucleus is not a terminal field, and its
+density is not derived. Two independent reasons, in the order they matter.
+
+**Mechanism.** The extracellular transmitter at a monoamine nucleus comes
+from somatodendritic release; an anterograde tracer measures axonal arbour.
+Substituting one for the other is the same category error
+`projection_systems.py` already refuses when it declines to use
+[Cumming1991]'s pool-run-down half-life as a clearance rate.
+
+**The model refuses the numbers.** Derived anyway, the tracer's self-density
+is 7 to 1750 times the same nucleus's density into its reference region:
+
+    VTA 9.8   SNc 7.2   DR 931   CS 880   LC 1751   NDB 102   PPN 23
+    LDT 1543  TM 1.27
+
+At 931-fold, the dorsal raphe would hold 2.6 uM of serotonin and demand
+20,200 nM/min of release against SERT's measured `Vmax` of 4,800 nM/min, so
+`concentration_for_uptake` raises and there is NO finite steady state. A
+model whose resting state does not exist is not a model of a resting brain.
+A test asserts that refusal on the committed numbers rather than describing
+it. The tuberomammillary row is the exception that shows the argument is
+about the diagonal rather than about nuclei: histamine's reference region is
+the hypothalamus immediately around the nucleus, the ratio is 1.27, and
+nothing would have gone wrong numerically. TM is excluded anyway, because a
+rule with a numerical exception in it is not the same rule.
+
+So each nuclear region keeps P6.1's value -- its own nucleus supplies the
+reference region's total density, every other nucleus supplies zero, and the
+nucleus's concentration therefore equals the reference's measured one --
+relabelled `illustrative-somatodendritic`. It is the one undelivered density
+in this task and it is visible in every `density_report()`.
+
+### What the literature says about that one illustrative number
+
+The rule sets every nucleus:terminal-field concentration ratio to 1. A
+search for the measurement that would replace it found four laboratories'
+worth of evidence and no calibration:
+
+    serotonin      1.86   DRN vs NAcc, ZERO NET FLUX, one study   [Tao2000]
+    serotonin      1.88   DRN vs frontal ctx, one study           [Portas1998]
+    serotonin      ~1     "no significant differences among the   [Adell1991]
+                          brain regions studied", six regions
+    dopamine       0.22   VTA/medial SN 0.79 nM vs NAcc 3.62 nM,  [KalivasDuffy1993]
+                          both NO NET FLUX, companion papers
+    dopamine       0.23   SNr vs striatum, one paper, each        [Robertson1991]
+                          region divided by its own recovery
+    dopamine       1.5    VTA 5.0 nM vs NAcc 3.96 nM, both NNF,   [Engleman2011]
+                          same laboratory, different rat line
+    noradrenaline  1.23   LC and cingulate cortex of the SAME     [Mateo2001]
+                          rats, both "in the range 3-6 nM"
+
+Every value lies between 0.22 and 1.9, i.e. within a factor of five of the
+rule, for a quantity whose tracer-derived alternative would have been 7 to
+1750. None becomes the calibration, and the reasons differ per row and are
+recorded in `projection_density.SEARCHED_AND_EMPTY`: [Tao2000]'s terminal
+field is the accumbens rather than the caudoputamen and its Methods could
+not be reached; [Portas1998] reports fmol/sample and [Sacchetti1999] shows
+an 8-fold swing in a "basal" level from probe geometry alone; [Adell1991]
+contradicts both. Dopamine's own three rows disagree with each other 7-fold
+-- [KalivasDuffy1993] and [Engleman2011] are both primary no-net-flux
+measurements of the same quantity in the same nucleus and report 0.79 nM and
+5.0 nM, with comparable extraction fractions, so the gap is not a fitting
+artefact -- and averaging them would manufacture a number neither laboratory
+measured.
+
+**Acetylcholine is the row where the MECHANISM argument itself is doubtful**,
+which is worse than a missing number. [Consolo1990] measured acetylcholine
+in the basal nuclear complex and concluded it "is largely axonal in nature"
+and "derives substantially from axons of the cholinergic pontomesencephalic
+tegmentum". If that is right the basal-forebrain pool is a terminal field of
+the PPT/LDT, i.e. exactly what the tracer does measure, and the nuclear
+block excludes a number it should have derived. The exclusion is kept and
+the objection is written down, because one paper whose full text could not
+be reached and whose own perfusate contained physostigmine is not enough to
+put a per-transmitter exception into the rule.
+
+### The validation: one pass, one disagreeing second opinion, two failures
+
+Nothing in this module is fitted, so every predicted ratio is a prediction.
+`validation_report()` runs five of them against four papers:
+
+    transmitter    ratio     predicted      measured     error  direction
+    dopamine       CP:PFC         26.2         13-30  in range       same
+    dopamine       CP:PFC         26.2           6.3  4.2x HIGH      same
+    serotonin      CP:PFC        0.292             2  6.8x LOW   OPPOSITE
+    noradrenaline  PFC:CP         1.14          2.49  2.2x LOW       same
+    acetylcholine  MD:PFC         23.9     0.24-0.55   43x HIGH  OPPOSITE
+
+Three of the five get the direction right and land within 4.2-fold; two get
+the direction wrong. The dopamine row is reported TWICE on purpose, against
+[Ihalainen1999]'s mouse 13-30x and against [Devoto2005]'s matched-probe rat
+6.3x, because the two measurements disagree with each other by more than the
+model disagrees with either and picking the agreeing one would be picking a
+result.
+
+The serotonin row is the sharpest, because [Mathews2004] measured both
+regions in the same wild-type mice by the same zero-net-flux method: 2.8 nM
+striatum against 1.4 nM frontal cortex, and the model predicts cortex 3.4x
+ABOVE striatum. The diagnosis is a number rather than a hypothesis: the
+dorsal raphe row ALONE predicts 4.3 (right direction, 2.2-fold), the median
+raphe row alone predicts 0.208, and it is the median raphe that inverts the
+pair. A test asserts all three.
+
+### What the derived map does not know, and the one place it was measured
+
+A Knox et al. 2019 row is the projection of EVERY neuron in a nucleus,
+because the model is fitted to wild-type anterograde injections. None of the
+nine is a purely modulatory nucleus, and whatever non-modulatory projections
+each has are in its row. Using those rows as neuromodulatory projection
+densities assumes the modulatory subtype's target distribution matches the
+nucleus's overall one, and that is the leading suspect for both failures
+above.
+
+**For one transmitter that assumption can be measured, and it survives.**
+[Lin2023] mapped histaminergic fibres whole-brain in HDC-CreERT2 mice by
+fMOST and registered the result to Allen CCFv3: mouse, cell-type specific,
+per-region, same ontology as the connectome, no region mapped by hand. Over
+the 32 regions the paper's own text names, the derived tuberomammillary
+projection density and the measured fibre density have a **Spearman rank
+correlation of 0.83 (p = 3.5e-9)**, with a log-log Pearson of 0.85 and 0.83
+again when every hypothalamic region is dropped, a stricter cut than the
+authors' own injection-site exclusion. A test asserts all three plus a
+permutation control.
+
+That is the strongest statement this task can make, and it is ONE
+transmitter. It licenses nothing about the raphe or the cholinergic nuclei,
+whose rows carry a larger non-modulatory fraction and which are exactly the
+two whose validation rows fail. Allen's Cre-line experiments would settle
+them, and regionalizing those is a P3.1-sized data task rather than a
+paragraph of this one.
+
+### The committed table, and why it is committed
+
+`src/neurocascade/projection_densities.csv` holds all 162 derived numbers,
+generated by `scripts/make_projection_densities.py`, which calls
+`fetch.verify()` on both input files before reading either. It is committed
+for the reason the connectome FIXTURES are committed: the offline gate
+cannot read the gitignored 8 MB cache, and 162 numbers can be reviewed in a
+diff. Its header records the formula, the units and both source checksums,
+and `load_table` refuses a table whose recorded region definitions no longer
+match `REGION_STRUCTURES`.
+
+Three layers check it. The committed table is re-derived from the 15-region
+connectome fixture for every pair the fixture carries and asserted EQUAL,
+which is exact rather than approximate because a connection density depends
+on one row, one column and one voxel count -- the same fact
+`connectome_scenarios.scenario_connectome` already relies on for the circuit
+layer. A `full_data_only` test re-derives all 162 from the 291-region
+verified files. And a third asserts the fixture and the cache agree on every
+pair the fixture has, so the first check stands for the real files.
+
+Extending `FIXTURE_REGION_IDS` to cover the other six nuclei was considered
+and rejected: it would recut the committed Knox and Oh matrices AND the
+expression fixtures cut against the same ontology, and move every count the
+P3.x and P4.x tests assert, to make an already-checked table checkable a
+second way.
+
+### P3.4's check, run where it can see the loop
+
+An autoreceptor's feedback path leaves the circuit at the nucleus's firing
+rate, goes through a projection system's transmitter concentration and a
+receptor block's occupancy, and returns as a term in that node's drive.
+`network.connectivity` has no entry for any of it, so `contraction_number`
+and `spectral_abscissa` are computed from a matrix in which the loop does
+not appear. A network can pass `assess()` and be unstable once the loop is
+closed. `stability.assess_system` therefore runs P3.4's four checks on
+`engine.Simulation.rhs`, whose state vector carries every intermediate.
+
+Three things in it are decisions rather than plumbing.
+
+**The Jacobian is numerical.** The receptor and clearance layers have no
+analytic derivative in this codebase, and a numerical Jacobian of an exact
+right-hand side is a better object than an analytic Jacobian of an
+approximated one. It is validated rather than trusted: on the D2 scenario,
+which has a receptor and no projection system, every eigenvalue of the
+closed-form circuit Jacobian appears in the numerical one to 1e-5.
+
+**The PK block is split off and reported separately.** A PK model's
+right-hand side is a function of its own state only, so the full Jacobian is
+block triangular and its spectrum is exactly the union. The PK eigenvalues
+are drug elimination rate constants -- haloperidol's is 5.8e-4 min^-1, a
+20-hour half-life -- so folding them in made `abscissa` report a drug's
+half-life and stop responding to the feedback loop it exists to measure.
+That is what it did before the split, and it is why amplifying the
+autoreceptor gain 400-fold appeared to change nothing. `assess_system`
+ASSERTS the block-triangularity it relies on rather than assuming it.
+
+**`t_max` is 1000 min rather than P3.4's 200.** The slowest process in this
+codebase is not a circuit mode but P5.4's recovery from nicotinic
+desensitization, whose measured `k_rec` of 0.0115 min^-1 is an 87 min time
+constant. At 200 min the acetylcholine port's residual is 1.4e-6, above
+`RESIDUAL_TOLERANCE`; at 1000 min it is 4.5e-11. The tolerance is P3.4's and
+the integration is what moved. `resting_occupancy` learned the same lesson
+in P6.2.
+
+### The stability result, and why it is not a close call
+
+Every port passes, with every loop open and closed, from five spread starts
+including ones whose transmitter pools begin at a quarter and four times
+basal. The reason is structural rather than lucky, and it is worth stating
+because the brief warns about the opposite.
+
+`autoreceptor_self_weight` measures what the closed loop adds to the
+circuit's own Jacobian: the derivative of the nucleus's drive with respect
+to its own rate, with the pool and the occupancy at their steady states.
+
+    dopamine       VTA  -1.271   SNc  -1.271
+    serotonin      DR   -0.374   CS   -0.374
+    noradrenaline  LC   -0.105
+    acetylcholine  NDB  -0.009   PPN  -0.009   LDT  -0.009
+
+All eight are NEGATIVE, because all three receptors are Gi-coupled on the
+cell that releases the transmitter. A negative self-weight moves a logistic
+node's Jacobian entry `(-1 + (g/4) w) / tau` further LEFT, and the pool it
+acts through relaxes 40 to 2000 times faster than the circuit, so there is
+no lag for it to oscillate around. Negative feedback through a fast pool
+cannot destabilize this system, and the check confirming it is not a
+coincidence.
+
+To show the check is not vacuous, one test flips the sign of the D2
+autoreceptor and nothing else. The loop becomes positive feedback,
+`assess_system` reaches different fixed points from different starts, and
+`unique` goes false -- a failure no circuit-only Jacobian could have
+reported.
+
+### What the derived map cost, reported rather than remembered
+
+`port(key, density_map="uniform")` rebuilds P6.1's map, so every number this
+task moved is a difference the suite computes.
+
+**Cortical serotonin 2.8 -> 9.97 nM**, and the held-out measurement it is
+now checkable against says 1.4.
+
+**Cortical acetylcholine 18.4 -> 10.1 nM**, and the striatal caveat that
+`ACETYLCHOLINE_BASAL` already carried became load-bearing: the caudoputamen
+is now the reference, so [Vinson1997]'s 18.4 nM sets the whole field's
+scale while the model attributes striatal acetylcholine entirely to three
+projection nuclei when most of it is interneuronal. Every fold-change is
+invariant to that error because it multiplies all regions alike, and a test
+asserts the invariance.
+
+**Cortical histamine 7.8 -> 0.016 nM**, a factor of 489, and the largest
+single number this task moves. It is also the least checkable: no cortical
+extracellular histamine measurement was found, so what the port now says
+about mepyramine rests entirely on a tracer ratio. P6.2's result survives in
+kind and not in size: the lone antagonist is still not inert, and its effect
+is -3.76e-6 where the uniform map gave -1.83e-3. That is a ratio of 487
+rather than the density map's 489, because the readout is not exactly linear
+in the tone; both numbers are computed and neither is the other rounded.
+Histamine is split out of the test it used to share rather than dropped from
+it, and both halves and the ratio between the two maps are pinned.
+
+**Cocaine's effect on striatal dopamine 2.02 -> 1.34 fold.** This one is the
+new autoreceptor rather than the density map, and it is the clearest thing
+P6.3 adds. P5.8's law `1 + [drug]/Ki` is derived holding RELEASE fixed;
+the D2 autoreceptor does not hold it fixed, because blocking uptake raises
+striatal dopamine, which raises dopamine at the VTA and SNc, which lowers
+their firing to 0.335, which lowers release. The test asserts P5.8's law
+where it is still exact -- the same port with that one loop opened, which
+reproduces 2.0204 -- and asserts that closing it buffers the psychostimulant.
+
+**The start-up transient 0.0224 -> 0.0173**, by the same negative feedback,
+and the test asserts the ordering rather than a threshold.
+
+One existing test outside these files changed.
+`test_endogenous_tone.py::test_the_size_of_the_lone_antagonist_effect_
+tracks_the_tonic_occupancy` asserted that the ordering of the ports'
+lone-antagonist effects follows `tone_table()`'s tonic occupancies. That
+table is computed at each transmitter's MEASURED basal level, which is its
+REFERENCE region's concentration, and before P6.3 that was the concentration
+everywhere, so the two questions had one answer. They no longer do: at the
+reference concentrations H1 outranks M1, and in the regions the ports
+actually place them M1 outranks H1, and it is the second that predicts the
+effects. The test now asserts both orderings and the fact that they differ,
+which is strictly more than it asserted before.
+
+### What was deliberately not built
+
+- **Cell-type-specific tracer data.** Discussed above; it is a P3.1-sized
+  data task and it is the single thing that would most improve this module.
+- **Region-wise uptake kinetics.** `projection.py` records that `Km`/`Vmax`
+  are held uniform and that "its consequence (basal concentration scales
+  with density) is what P6.3's densities will be judged against". They were,
+  in the validation table, and the answer is that the consequence is right
+  to within 4.2-fold for three of five checks and wrong in direction for
+  two. `concentration_report()` shows the sharper version of the same
+  finding: at uniform uptake the derived serotonin map demands more release
+  in the mediodorsal thalamus and the medial hypothalamus than SERT's
+  measured `Vmax` can clear, so those two regions have no steady state at
+  all. Neither is a region any port uses, so nothing here depends on them,
+  and the report prints the refusal rather than a number. Fixing it needs a
+  measured region-wise `Vmax`, which this project does not have for any
+  transmitter.
+- **A somatodendritic release term.** The nuclear pools are a labelled
+  illustrative density rather than a second release mechanism, because a
+  mechanism with no measured parameter is a bigger claim than a number with
+  an honest label.
+- **An H3 receptor**, so the histamine port still has no closed loop.
+- **The contralateral hemisphere**, unchanged from P3.2.
+
+### What P6.3 delivered, checked against the standing discipline
+
+- **Every projection density derived from the Phase 3 connectome**, by one
+  formula with two forced normalization choices, committed as a reviewable
+  table with its source checksums, and checked three ways (fixture, cache,
+  and fixture-equals-cache).
+- **The third autoreceptor loop closed**, introducing no new number: the D2
+  gain is `scenarios.d2_coupling()`'s own, reused as
+  `HT1A_MECHANISM_GAIN` already is.
+- **P3.4's check run on the whole coupled system**, with the numerical
+  Jacobian validated against the closed-form one, the PK block split off
+  with the block-triangularity asserted, and a test that makes the check
+  fail on purpose so it is known not to be vacuous.
+- **The stability answer, with its reason**: all eight autoreceptor
+  self-weights are negative, negative self-weights move a logistic node's
+  eigenvalue left, and the pools are 40-2000 times faster than the circuit.
+- **A validation that mostly fails, reported quantitatively**: five ratios,
+  one in range, two in the wrong direction, and the median raphe named as
+  the cause of the sharpest failure.
+- **One independent, same-species, same-atlas, cell-type-specific check that
+  passes**: Spearman 0.83 over 32 regions against [Lin2023].
+- **One illustrative density, labelled**, with seven measurements bounding
+  it between 0.22 and 1.9 and none of them promoted to a calibration.
+- **Nineteen new citations.** `projection_density.CITATIONS` has 27 entries;
+  eight of them ([Bosse2011], [Mathews2004], [PanLai1995], [Vinson1997],
+  [Itoh1991], [Abercrombie1988], [Ihalainen1999], [AllenCCF]) are already in
+  `projection_systems.py` and are repeated because the reference-region
+  pairing is what this module is about. The nineteen new ones are [Knox2019]
+  (the derivation's own source, cited here as well as in the P3.1
+  manifest), [Devoto2005], [Lin2023], [Mechawar2000],
+  [Parent2008], [Tao2000], [Portas1998], [Adell1991], [KalivasDuffy1993],
+  [Robertson1991], [Engleman2011], [Franklin2009], [Mateo2001],
+  [Sacchetti1999], [Consolo1990], and the four locus coeruleus studies
+  checked and found to report percentages of control only ([Pudovkina2001],
+  [VanGaalen1997], [FernandezPastor2005], [Walling2004]).
+- **Tests.** A new `tests/test_projection_density.py` (30 items) and 8 new
+  functions in `tests/test_projection_scenarios.py`, which goes from 66 to
+  80 items. None slow, none skipped except the four `full_data_only` ones
+  that need the gitignored cache. NINE existing tests changed, all of them
+  because P6.3 moved a result they were asserting and none of them to make
+  something pass: the density-provenance test (both tags now, and the split
+  is the nuclear/terminal one), the three uniform-map tests (they now build
+  `density_map="uniform"` explicitly, which is the object they were always
+  about), the lone-antagonist test (histamine split into its own test with
+  both maps and the 487-fold ratio between them pinned), the cocaine test
+  (P5.8's law asserted on the open loop, where it is still exact, plus the
+  buffering the closed one adds), the start-up-transient test (the ordering
+  against the open loop rather than a bare threshold), the port-report test
+  (both provenance tags), and `test_endogenous_tone.py`'s ordering test
+  (the occupancy at each receptor's own region rather than at the reference
+  region's, which is strictly more than it asserted before). No test was
+  deleted, weakened or marked slow.
+- **Outputs**: `examples/projection_densities_from_connectome.py` and
+  `scripts/report_projection_densities.py` ->
+  `results/projection_densities.txt`.

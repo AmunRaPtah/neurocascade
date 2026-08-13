@@ -76,34 +76,76 @@ P5.8's transporter-fed D2 scenario, with the transporter's single
         pool replaced by a two-source projection field. It is the port that
         exercises the OTHER generalization: one region fed by two nuclei
         (VTA and SNc), where the serotonin port exercises one nucleus feeding
-        several regions. Under the uniform density map the two contribute
-        equally, which is not the anatomy; P6.3 is what fixes that.
+        several regions.
+
+        P6.3 closes its loop. P6.1 left the D2 AUTORECEPTOR on the VTA and
+        SNc nodes out on purpose, recording that "it is real, and adding it
+        would have closed the dopamine loop, but it would also have added
+        anatomy and a coupling gain the hand-built scenario does not have,
+        to a port whose job is regression". P6.3's brief asks for it by
+        name, so D2 becomes one receptor type in THREE regions: the
+        caudoputamen, where it is the postsynaptic receptor on the
+        indirect-pathway spiny neuron, and the two midbrain nuclei, where it
+        is the somatodendritic autoreceptor on the dopamine neuron itself.
+
+        The autoreceptor's gain is NOT a new number: it is
+        `scenarios.d2_coupling()`'s own -3.0, reused unchanged. That follows
+        the rule `serotonin.HT1A_MECHANISM_GAIN` already states for the
+        5-HT1A autoreceptor and heteroreceptor -- "the same Gi-coupled
+        receptor reducing the drive of the cell that carries it, and no data
+        in reach distinguishes its per-receptor efficacy" between the two
+        cells -- and it stays ILLUSTRATIVE for exactly the reason
+        `d2_coupling` records at length. What the reuse buys is that
+        closing the loop introduces no number at all: the anatomy is the
+        derived density map's, the receptor is P2.2's calibrated site, and
+        the gain is the one already in the file.
 
         The uptake blockers travel with the clearance object, so cocaine,
         methylphenidate, amphetamine and atomoxetine act here exactly as they
         do in P5.8, and haloperidol competes at the D2 site with 5.0 nM of
         endogenous dopamine, as it does there. What is new is that the
         dopamine is now released at a rate proportional to a midbrain node's
-        firing, so silencing that node lowers it.
+        firing, so silencing that node lowers it -- and now that the
+        autoreceptor is in place, lowering it feeds back onto the firing.
 
 Source nuclei (CCF -> circuit node, rest rate 0.50):
   SNc   SNc    -> SNc_DA             added by the port
   VTA   VTA    -> VTA_DA             added by the port
 
 Target regions and their drug-free concentration:
-  CP     (Caudoputamen (the scenario's Striatum_D2_MSN))  density 2.00 (1.00x reference, illustrative-uniform)  basal 5 nM
+  CP     (Caudoputamen (the scenario's Striatum_D2_MSN), and the REFERENCE region: [Bosse2011] measured 5.0 nM here)  density 0.03859 (1x reference, connectome:knox2019)  basal 5 nM
+  VTA    (Ventral tegmental area, the D2 autoreceptor's own pool)  density 0.03859 (1x reference, illustrative-somatodendritic)  basal 5 nM
+  SNc    (Substantia nigra pars compacta, likewise)  density 0.03859 (1x reference, illustrative-somatodendritic)  basal 5 nM
 
 Receptors, per region:
   D2           CP     -> Striatum_D2_MSN-3.000
+  D2           VTA    -> VTA_DA-3.000
+  D2           SNc    -> SNc_DA-3.000
 
 Standing drive folded into baselines by the tonic compensation:
+  SNc_DA             -2.1334
   Striatum_D2_MSN    -2.1334
+  VTA_DA             -2.1334
 
 ========================================================================
 
 Ported scenario: serotonin (serotonin)
 ========================================================================
-The port that closes P5.1's open loop. 5-HT1A becomes ONE receptor
+P6.3: the caudoputamen pool is the reference region and carries
+        [Mathews2004]'s 2.8 nM. The cortical concentration is then a
+        PREDICTION of the derived density map, and the same paper measured
+        it in the same mice: 9.97 nM predicted against 1.4 nM measured. The
+        DENSITY ratio is 3.42 against a measured 2.0-fold the other way, i.e.
+        6.8-fold out and in the wrong direction, and the concentration is a
+        little above 3.42 x 2.8 because Michaelis-Menten clearance is convex.
+        That failure is reported by
+        `projection_density.validation_report()` rather than tuned away, and
+        its leading suspect is that a Knox et al. 2019 row is a nucleus's
+        WHOLE projection rather than its serotonergic subtype's: the dorsal
+        raphe row alone predicts a striatum:cortex ratio of 4.3 against a
+        measured 2.0, and it is the median raphe row that inverts it.
+
+        The port that closes P5.1's open loop. 5-HT1A becomes ONE receptor
         type in THREE regions with three independent occupancies: the two
         raphe nuclei, where it is the somatodendritic autoreceptor, and the
         cortex, where it is the postsynaptic heteroreceptor. The hand-built
@@ -119,9 +161,10 @@ Source nuclei (CCF -> circuit node, rest rate 0.50):
   DR    DR     -> DRN_5HT            already in the hand-built network
 
 Target regions and their drug-free concentration:
-  DR     (Dorsal nucleus raphe)  density 2.00 (1.00x reference, illustrative-uniform)  basal 2.8 nM
-  CS     (Superior central nucleus raphe (median raphe))  density 2.00 (1.00x reference, illustrative-uniform)  basal 2.8 nM
-  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 2.00 (1.00x reference, illustrative-uniform)  basal 2.8 nM
+  DR     (Dorsal nucleus raphe)  density 0.0007305 (1x reference, illustrative-somatodendritic)  basal 2.8 nM
+  CS     (Superior central nucleus raphe (median raphe))  density 0.0007305 (1x reference, illustrative-somatodendritic)  basal 2.8 nM
+  PFC    (Prelimbic cortex (the scenario's PFC_Pyramidal))  density 0.002498 (3.419x reference, connectome:knox2019)  basal 9.971 nM
+  CP     (Caudoputamen: the REFERENCE region, where [Mathews2004] measured 2.8 nM by zero net flux. No node and no receptor)  density 0.0007305 (1x reference, connectome:knox2019)  basal 2.8 nM
 
 Receptors, per region:
   5HT1A        DR     -> DRN_5HT-1.000
@@ -132,7 +175,7 @@ Receptors, per region:
 Standing drive folded into baselines by the tonic compensation:
   DRN_5HT            -0.2435
   MRN_5HT            -0.2435
-  PFC_Pyramidal      -0.2252
+  PFC_Pyramidal      -0.4717
 
 ========================================================================
 
@@ -161,8 +204,8 @@ Source nuclei (CCF -> circuit node, rest rate 0.50):
   LC    LC     -> LC_NA              already in the hand-built network
 
 Target regions and their drug-free concentration:
-  LC     (Locus ceruleus)  density 1.00 (1.00x reference, illustrative-uniform)  basal 1.59 nM
-  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 1.00 (1.00x reference, illustrative-uniform)  basal 1.59 nM
+  LC     (Locus ceruleus)  density 1.291e-05 (1x reference, illustrative-somatodendritic)  basal 1.59 nM
+  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 1.291e-05 (1x reference, connectome:knox2019)  basal 1.59 nM
 
 Receptors, per region:
   alpha1       PFC    -> PFC_Pyramidal+0.500
@@ -183,6 +226,17 @@ Three source nuclei into one field, which is what the brief's
         PPT and LDT nodes are added by the port for the same reason the
         median raphe is added to the serotonin one.
 
+        P6.3 makes the striatal caveat below LOAD-BEARING rather than
+        marginal, and that is worth saying plainly. The caudoputamen is now
+        the reference region, so [Vinson1997]'s 18.4 nM sets the absolute
+        scale of the whole field, and the model attributes striatal
+        acetylcholine entirely to the three projection nuclei when most of
+        it is interneuronal. If interneurons supply the bulk of it, the
+        derived release scale is too high by that factor and every region's
+        predicted concentration is too high with it. Every fold-change this
+        port reports is invariant to the error, because it multiplies all
+        regions alike, and a test asserts that invariance.
+
         Acetylcholine's field is still the weakest of the five. Its basal
         concentration is a measurement since P6.2 ([Vinson1997], 18.4 nM by
         no-net-flux microdialysis), but in RAT STRIATUM, where extracellular
@@ -201,10 +255,11 @@ Source nuclei (CCF -> circuit node, rest rate 0.50):
   PPN   PPN    -> PPN_Cholinergic    added by the port
 
 Target regions and their drug-free concentration:
-  NDB    (Diagonal band nucleus (basal forebrain))  density 3.00 (1.00x reference, illustrative-uniform)  basal 18.4 nM
-  PPN    (Pedunculopontine nucleus)  density 3.00 (1.00x reference, illustrative-uniform)  basal 18.4 nM
-  LDT    (Laterodorsal tegmental nucleus)  density 3.00 (1.00x reference, illustrative-uniform)  basal 18.4 nM
-  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 3.00 (1.00x reference, illustrative-uniform)  basal 18.4 nM
+  NDB    (Diagonal band nucleus (basal forebrain))  density 0.01381 (1x reference, illustrative-somatodendritic)  basal 18.4 nM
+  PPN    (Pedunculopontine nucleus)  density 0.01381 (1x reference, illustrative-somatodendritic)  basal 18.4 nM
+  LDT    (Laterodorsal tegmental nucleus)  density 0.01381 (1x reference, illustrative-somatodendritic)  basal 18.4 nM
+  PFC    (Prelimbic cortex (the scenario's PFC_Pyramidal))  density 0.007554 (0.5469x reference, connectome:knox2019)  basal 10.06 nM
+  CP     (Caudoputamen: the REFERENCE region, where [Vinson1997] measured 18.4 nM by no-net-flux microdialysis. No node and no receptor, and see the notes for what it costs)  density 0.01381 (1x reference, connectome:knox2019)  basal 18.4 nM
 
 Receptors, per region:
   alpha4beta2  PFC    -> PFC_Pyramidal+0.333
@@ -217,7 +272,7 @@ Receptors, per region:
 Standing drive folded into baselines by the tonic compensation:
   BF_Cholinergic     -0.0046
   LDT_Cholinergic    -0.0046
-  PFC_Pyramidal      +0.0034
+  PFC_Pyramidal      +0.0021
   PPN_Cholinergic    -0.0046
 
 ========================================================================
@@ -231,21 +286,35 @@ The port with NO closed loop, and the reason is worth naming rather
         constant in every run here. What the port does demonstrate is the
         other half of a projection system, the one P5.8 first showed for
         dopamine: there is now tonic histamine at the cortical H1 receptor,
-        7.8 nM of it ([Itoh1991], with four stated caveats), so mepyramine
-        given alone is no longer inert. P5.6 had to write that it was.
+        so mepyramine given alone is no longer inert. P5.6 had to write that
+        it was.
+
+        P6.3 shrinks that tonic histamine 489-fold, and it is the largest
+        single number this task moves. [Itoh1991]'s 7.8 nM was measured in
+        the MEDIAL HYPOTHALAMUS, so that is the reference region; the
+        derived map makes the tuberomammillary projection into the prelimbic
+        cortex 489 times thinner than into the hypothalamus around it, hence
+        0.016 nM of cortical histamine. P6.1's uniform map put 7.8 nM in
+        both places, which was never a claim about the cortex. This is one,
+        and nothing checks it: no cortical extracellular histamine
+        measurement was found, so what the port now says about mepyramine
+        rests entirely on a tracer ratio. `summary()` reports the mepyramine
+        effect under both maps side by side rather than replacing one number
+        with the other.
 
 Source nuclei (CCF -> circuit node, rest rate 0.50):
   TM    TM     -> TMN_HA             already in the hand-built network
 
 Target regions and their drug-free concentration:
-  TM     (Tuberomammillary nucleus)  density 1.00 (1.00x reference, illustrative-uniform)  basal 7.8 nM
-  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 1.00 (1.00x reference, illustrative-uniform)  basal 7.8 nM
+  TM     (Tuberomammillary nucleus)  density 0.06207 (1x reference, illustrative-somatodendritic)  basal 7.8 nM
+  PFC    (Prelimbic cortex (the scenario's PFC_Pyramidal))  density 0.000127 (0.002045x reference, connectome:knox2019)  basal 0.01595 nM
+  MEZ    (Medial hypothalamic zone minus the tuberomammillary nucleus itself: the REFERENCE region, where [Itoh1991] put its probe. No node and no receptor)  density 0.06207 (1x reference, connectome:knox2019)  basal 7.8 nM
 
 Receptors, per region:
   H1           PFC    -> PFC_Pyramidal+1.000
 
 Standing drive folded into baselines by the tonic compensation:
-  PFC_Pyramidal      +0.0032
+  PFC_Pyramidal      +0.0000
 
 ========================================================================
 
@@ -257,9 +326,9 @@ end of a 30 min run. All four columns move only if the loop is
 closed; the hand-built scenario moves the first and nothing else.
 
 port           drug           source r   field fold    occupancy  terminal r  basal scale
-serotonin      8-OH-DPAT       -0.4043      -0.8112    -2.40e-01     -0.3133  measured
+serotonin      8-OH-DPAT       -0.4043      -0.8174    -5.23e-01     -0.1844  measured
 noradrenaline  clonidine       -0.2181      -0.4362    -4.48e-05     -0.0001  measured
-acetylcholine  scopolamine     +0.0044      +0.0089    +7.22e-05     -0.0001  measured
+acetylcholine  scopolamine     +0.0044      +0.0089    +4.56e-05     -0.0001  measured
 
 In P6.1 the noradrenaline and acetylcholine fields sat at a unit scale
 of 1.0 nM, so the loop was closed in the concentration and invisible at
@@ -268,8 +337,8 @@ measured scale; `endogenous_tone.py` reports how far each one moved.
 
 An antagonist given ALONE is no longer inert
 port           antagonist       terminal r  basal scale
-dopamine       haloperidol        -0.20005  measured
-serotonin      WAY-100635         +0.14447  measured
+dopamine       haloperidol        -0.20004  measured
+serotonin      WAY-100635         +0.30539  measured
 noradrenaline  yohimbine          +0.00003  measured
-acetylcholine  scopolamine        -0.00012  measured
-histamine      mepyramine         -0.00183  measured
+acetylcholine  scopolamine        -0.00007  measured
+histamine      mepyramine         -0.00000  measured

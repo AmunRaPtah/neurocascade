@@ -70,24 +70,40 @@ balanced around. It changes baselines only. A test asserts that every ported
 network's drug-free run is flat at 0.5 and that removing the compensation
 saturates something.
 
-The density maps are ILLUSTRATIVE AND UNIFORM, on purpose
-----------------------------------------------------------
+The density maps are DERIVED from the connectome since P6.3
+-----------------------------------------------------------
 
-Every `ProjectionTarget` built here has density 1.0 from every source that
-innervates it, tagged `provenance="illustrative-uniform"`. That is the map
-that asserts nothing: no ordering between regions, because P6.1 has no
-measured ordering to assert. P6.3 is the task that derives real densities
-from the Phase 3 connectome, and the shape of what it will change is already
-visible in `ProjectionSystem.density_report()`.
+P6.1 gave every `ProjectionTarget` density 1.0 from every source, tagged
+`provenance="illustrative-uniform"`, and said "P6.3 is the task that derives
+real densities from the Phase 3 connectome". It is, and
+`projection_density.py` is where the derivation and its citations live.
+`port(key)` now builds from that table; `port(key, density_map="uniform")`
+still builds P6.1's map, kept as an object so that every number this task
+moved can be RE-RUN at the old densities rather than remembered.
 
-Two consequences worth naming. Under a uniform map every target region's
-predicted basal concentration equals the reference region's measured one, so
-no port here claims that cortical dopamine is lower than striatal dopamine
-even though the model would say so given a real density map (see
-`test_projection.py`, which exercises a non-uniform map). And where a field
-has two or more sources, a uniform map makes them equal contributors, so
-the dopamine port's VTA and SNc move striatal dopamine by the same amount,
-which is not the anatomy and is not claimed to be.
+Three things follow, and each is a change to what a port asserts:
+
+1. **The reference region is now the region the measurement was made in.**
+   Under a uniform map every region's concentration equalled the
+   reference's, so which region was the reference did not matter. With a
+   real map it is the only region whose concentration is a measurement.
+   Two ports therefore gain a target region they have no node for -- the
+   serotonin and acetylcholine ports gain a caudoputamen pool, because
+   [Mathews2004] and [Vinson1997] measured there -- and the histamine port
+   gains a medial-hypothalamus pool for [Itoh1991]'s probe. A pool with no
+   node is what `ProjectionTarget` was built to allow.
+2. **Regions no longer agree.** Cortical dopamine is 0.19 nM against
+   striatal 5.0 nM, cortical serotonin 10.0 nM against striatal 2.8 nM,
+   cortical acetylcholine 10.1 nM against striatal 18.4 nM, cortical
+   histamine 0.016 nM against hypothalamic 7.8 nM. Two of those are
+   checkable against held-out measurements and one of the two fails; see
+   `projection_density.validation_report()`.
+3. **The one density that is still illustrative is the nucleus's own.** A
+   source nucleus's extracellular pool is somatodendritic and no
+   anterograde tracer measures it, so each nuclear region keeps P6.1's
+   value (the reference region's concentration) under the honest label
+   `illustrative-somatodendritic`. It is the density every autoreceptor in
+   this module sits in, so the tests sweep it.
 
 What the ports are checked for
 ------------------------------
@@ -105,7 +121,14 @@ What the ports are checked for
   green, because a port is a new object rather than an edit;
 * **an antagonist given alone is not inert**, because there is tonic
   transmitter to displace. Every module from P5.1 to P5.7 had to record the
-  opposite.
+  opposite;
+* **the closed loop is stable**, by P3.4's check run on the WHOLE coupled
+  system rather than on the circuit alone (`stability.assess_system`). The
+  autoreceptor's feedback path leaves the circuit, goes through the
+  transmitter concentration and the receptor occupancy, and comes back as a
+  drive, so it is invisible to a Jacobian computed from
+  `network.connectivity`. P6.3 is the task that closes the third of these
+  loops (D2 on the VTA and SNc) and the first that has to check them.
 """
 
 import numpy as np
@@ -115,6 +138,7 @@ from . import histamine as _ha
 from . import monoamine_transporters as _mt
 from . import noradrenaline as _na
 from . import projection as _projection
+from . import projection_density as _pdens
 from . import projection_systems as _ps
 from . import scenarios as _scenarios
 from . import serotonin as _5ht
@@ -137,8 +161,21 @@ NUCLEUS_NODE = {"tau": 1.0, "baseline_input": 0.0, "gain": 4.0}
 #: `rest_rates()` already returns.
 REST_RATE = 0.5
 
-#: The provenance tag every density in this module carries.
+#: The provenance tag P6.1's uniform densities carry. Reachable through
+#: `port(key, density_map="uniform")`, which is how every P6.3 change is
+#: reported as a difference rather than asserted.
 DENSITY_PROVENANCE = "illustrative-uniform"
+
+#: The density maps `port()` accepts. `"connectome"` is P6.3's derived
+#: table; `"uniform"` is P6.1's.
+DENSITY_MAPS = ("connectome", "uniform")
+
+#: The D2 coupling gain, `scenarios.d2_coupling()`'s own, reused unchanged
+#: for the postsynaptic striatal receptor AND for the somatodendritic
+#: autoreceptor P6.3 adds to the VTA and SNc. ILLUSTRATIVE, exactly as it is
+#: there; see the dopamine port's notes for why reuse rather than a second
+#: number.
+D2_GAIN = _scenarios.d2_coupling()["Striatum_D2_MSN"]
 
 
 def add_nodes(network, names):
@@ -179,6 +216,35 @@ class ReceptorPlacement(object):
     def regions(self):
         return tuple(self.coupling)
 
+    def open_loop(self):
+        """A copy with every AUTORECEPTOR coupling gain set to zero.
+
+        An autoreceptor is a receptor whose region is one of the system's
+        own source nuclei, so "which coupling entries are the feedback path"
+        is a question the region names answer and nothing has to declare.
+        Zeroing the gain rather than deleting the region keeps the occupancy
+        block, the concentration and the state layout identical, so an
+        open-loop and a closed-loop port differ in ONE number per
+        autoreceptor and in nothing else. That is what makes
+        `stability.assess_system` on the two of them a measurement of the
+        loop rather than of two different models.
+        """
+        coupling = {
+            region: (
+                {node: 0.0 for node in nodes}
+                if region in _pdens.NUCLEAR_REGIONS
+                else dict(nodes)
+            )
+            for region, nodes in self.coupling.items()
+        }
+        return ReceptorPlacement(
+            name=self.name,
+            site=self.site,
+            pk_models=self.pk_models,
+            transmitter_ligand=self.transmitter_ligand,
+            coupling=coupling,
+        )
+
     def build(self, projection_name):
         return RegionalReceptorSystem(
             pk_models=self.pk_models(),
@@ -215,7 +281,29 @@ class ScenarioPort(object):
         #: Target region name -> the CCF structure it stands for. Regions are
         #: named by CCF acronym so P6.3 can look their rows up directly; the
         #: node they drive is in each placement's `coupling`.
+        #:
+        #: P6.3 requires the REFERENCE region -- the one whose concentration
+        #: is this transmitter's cited measurement -- to be among them,
+        #: because with a real density map every other region's
+        #: concentration is a prediction relative to it. Two ports gain a
+        #: region with no node because of this, which is exactly what
+        #: `ProjectionTarget` allows.
         self.regions = dict(regions)
+        self.reference_region = _pdens.REFERENCE_REGION[transmitter]
+        if self.reference_region not in self.regions:
+            raise ValueError(
+                "port %r must carry its transmitter's reference region %r "
+                "(where %s's cited basal concentration was measured) as a "
+                "target region; it has %s"
+                % (key, self.reference_region, transmitter, sorted(self.regions))
+            )
+        unknown = set(self.regions) - set(_pdens.REGION_STRUCTURES)
+        if unknown:
+            raise ValueError(
+                "port %r names target regions with no CCF structures in "
+                "projection_density.REGION_STRUCTURES, so no density can be "
+                "derived for them: %s" % (key, sorted(unknown))
+            )
         self.placements = list(placements)
         self.readouts = dict(readouts)
         self.source_readout = source_readout
@@ -223,27 +311,47 @@ class ScenarioPort(object):
         self.notes = notes
 
 
-def _targets(port, densities=None):
-    """One `ProjectionTarget` per region.
+def _targets(port, densities=None, density_map="connectome", table=None):
+    """One `ProjectionTarget` per region, from the P6.3 derived table.
 
-    Uniform (1.0 from every nucleus into every region) unless `densities`
-    overrides it, in which case the provenance says so. The override exists
-    for two callers and no third: a test that has to show the abstraction
-    CAN produce region-wise differences, and P6.3, which is the task that
-    supplies real densities.
+    `density_map="uniform"` rebuilds P6.1's map (1.0 from every nucleus into
+    every region) so that any result can be re-run at the old densities.
+    `densities` overrides individual regions and is used by exactly one
+    caller, a test that has to show what a hand-made map would do; nothing in
+    the modelling path passes it.
     """
-    uniform = {node: 1.0 for node in port.nucleus_nodes.values()}
-    densities = dict(densities or {})
-    return [
-        ProjectionTarget(
-            region,
-            dict(densities.get(region, uniform)),
-            provenance=(
-                "override" if region in densities else DENSITY_PROVENANCE
-            ),
+    if density_map not in DENSITY_MAPS:
+        raise ValueError(
+            "density_map must be one of %s, got %r" % (DENSITY_MAPS, density_map)
         )
-        for region in port.regions
-    ]
+    if table is None:
+        table = (
+            _pdens.load_table()
+            if density_map == "connectome"
+            else _pdens.uniform_table()
+        )
+    nuclei = _ps.NUCLEI_BY_TRANSMITTER[port.transmitter]
+    derived = table.target_densities(
+        list(port.regions),
+        nuclei,
+        reference=port.reference_region,
+        nodes=port.nucleus_nodes,
+    )
+    densities = dict(densities or {})
+    out = []
+    for region in port.regions:
+        if region in densities:
+            out.append(
+                ProjectionTarget(region, dict(densities[region]), provenance="override")
+            )
+            continue
+        provenance = (
+            table.provenance(region)
+            if density_map == "connectome"
+            else DENSITY_PROVENANCE
+        )
+        out.append(ProjectionTarget(region, derived[region], provenance=provenance))
+    return out
 
 
 class PortedScenario(object):
@@ -260,17 +368,20 @@ class PortedScenario(object):
     receptor_systems : the `RegionalReceptorSystem`s.
     """
 
-    def __init__(self, port, densities=None, basal=None):
+    def __init__(self, port, densities=None, basal=None,
+                 density_map="connectome", table=None, autoreceptor=True):
         self.port = port
         self.key = port.key
         self.transmitter = port.transmitter
         self.basal = basal
+        self.density_map = density_map
+        self.autoreceptor = bool(autoreceptor)
         self.base_network = add_nodes(
             port.base_network(), sorted(port.nucleus_nodes.values())
         )
         self.projection = _ps.projection_system(
             port.transmitter,
-            _targets(port, densities),
+            _targets(port, densities, density_map=density_map, table=table),
             REST_RATE,
             nodes=port.nucleus_nodes,
             name=port.transmitter,
@@ -279,9 +390,13 @@ class PortedScenario(object):
                 if basal is None
                 else _ps.CLEARANCE_BUILDERS[port.transmitter](basal=basal)
             ),
+            reference_region=port.reference_region,
         )
         self.receptor_systems = [
-            placement.build(port.transmitter) for placement in port.placements
+            (placement if self.autoreceptor else placement.open_loop()).build(
+                port.transmitter
+            )
+            for placement in port.placements
         ]
         self.standing_drive = _projection.standing_drive(
             self.receptor_systems, [self.projection]
@@ -386,7 +501,7 @@ class PortedScenario(object):
         lines.append("Target regions and their drug-free concentration:")
         for region, density, relative, provenance in self.projection.density_report():
             lines.append(
-                "  %-6s (%s)  density %.2f (%.2fx reference, %s)  basal %.4g nM"
+                "  %-6s (%s)  density %.4g (%.4gx reference, %s)  basal %.4g nM"
                 % (
                     region,
                     self.port.regions[region],
@@ -428,7 +543,11 @@ def _serotonin_port():
         regions={
             "DR": "Dorsal nucleus raphe",
             "CS": "Superior central nucleus raphe (median raphe)",
-            "PFC": "Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal)",
+            "PFC": "Prelimbic cortex (the scenario's PFC_Pyramidal)",
+            "CP": (
+                "Caudoputamen: the REFERENCE region, where [Mathews2004] "
+                "measured 2.8 nM by zero net flux. No node and no receptor"
+            ),
         },
         placements=[
             ReceptorPlacement(
@@ -457,6 +576,20 @@ def _serotonin_port():
         source_readout="DRN_5HT",
         terminal_readout="PFC_Pyramidal",
         notes="""
+        P6.3: the caudoputamen pool is the reference region and carries
+        [Mathews2004]'s 2.8 nM. The cortical concentration is then a
+        PREDICTION of the derived density map, and the same paper measured
+        it in the same mice: 9.97 nM predicted against 1.4 nM measured. The
+        DENSITY ratio is 3.42 against a measured 2.0-fold the other way, i.e.
+        6.8-fold out and in the wrong direction, and the concentration is a
+        little above 3.42 x 2.8 because Michaelis-Menten clearance is convex.
+        That failure is reported by
+        `projection_density.validation_report()` rather than tuned away, and
+        its leading suspect is that a Knox et al. 2019 row is a nucleus's
+        WHOLE projection rather than its serotonergic subtype's: the dorsal
+        raphe row alone predicts a striatum:cortex ratio of 4.3 against a
+        measured 2.0, and it is the median raphe row that inverts it.
+
         The port that closes P5.1's open loop. 5-HT1A becomes ONE receptor
         type in THREE regions with three independent occupancies: the two
         raphe nuclei, where it is the somatodendritic autoreceptor, and the
@@ -548,7 +681,12 @@ def _acetylcholine_port():
             "NDB": "Diagonal band nucleus (basal forebrain)",
             "PPN": "Pedunculopontine nucleus",
             "LDT": "Laterodorsal tegmental nucleus",
-            "PFC": "Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal)",
+            "PFC": "Prelimbic cortex (the scenario's PFC_Pyramidal)",
+            "CP": (
+                "Caudoputamen: the REFERENCE region, where [Vinson1997] "
+                "measured 18.4 nM by no-net-flux microdialysis. No node and "
+                "no receptor, and see the notes for what it costs"
+            ),
         },
         placements=[
             ReceptorPlacement(
@@ -597,6 +735,17 @@ def _acetylcholine_port():
         PPT and LDT nodes are added by the port for the same reason the
         median raphe is added to the serotonin one.
 
+        P6.3 makes the striatal caveat below LOAD-BEARING rather than
+        marginal, and that is worth saying plainly. The caudoputamen is now
+        the reference region, so [Vinson1997]'s 18.4 nM sets the absolute
+        scale of the whole field, and the model attributes striatal
+        acetylcholine entirely to the three projection nuclei when most of
+        it is interneuronal. If interneurons supply the bulk of it, the
+        derived release scale is too high by that factor and every region's
+        predicted concentration is too high with it. Every fold-change this
+        port reports is invariant to the error, because it multiplies all
+        regions alike, and a test asserts that invariance.
+
         Acetylcholine's field is still the weakest of the five. Its basal
         concentration is a measurement since P6.2 ([Vinson1997], 18.4 nM by
         no-net-flux microdialysis), but in RAT STRIATUM, where extracellular
@@ -620,7 +769,12 @@ def _histamine_port():
         nucleus_nodes={"TM": "TMN_HA"},
         regions={
             "TM": "Tuberomammillary nucleus",
-            "PFC": "Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal)",
+            "PFC": "Prelimbic cortex (the scenario's PFC_Pyramidal)",
+            "MEZ": (
+                "Medial hypothalamic zone minus the tuberomammillary nucleus "
+                "itself: the REFERENCE region, where [Itoh1991] put its "
+                "probe. No node and no receptor"
+            ),
         },
         placements=[
             ReceptorPlacement(
@@ -645,8 +799,21 @@ def _histamine_port():
         constant in every run here. What the port does demonstrate is the
         other half of a projection system, the one P5.8 first showed for
         dopamine: there is now tonic histamine at the cortical H1 receptor,
-        7.8 nM of it ([Itoh1991], with four stated caveats), so mepyramine
-        given alone is no longer inert. P5.6 had to write that it was.
+        so mepyramine given alone is no longer inert. P5.6 had to write that
+        it was.
+
+        P6.3 shrinks that tonic histamine 489-fold, and it is the largest
+        single number this task moves. [Itoh1991]'s 7.8 nM was measured in
+        the MEDIAL HYPOTHALAMUS, so that is the reference region; the
+        derived map makes the tuberomammillary projection into the prelimbic
+        cortex 489 times thinner than into the hypothalamus around it, hence
+        0.016 nM of cortical histamine. P6.1's uniform map put 7.8 nM in
+        both places, which was never a claim about the cortex. This is one,
+        and nothing checks it: no cortical extracellular histamine
+        measurement was found, so what the port now says about mepyramine
+        rests entirely on a tracer ratio. `summary()` reports the mepyramine
+        effect under both maps side by side rather than replacing one number
+        with the other.
         """,
     )
 
@@ -657,7 +824,14 @@ def _dopamine_port():
         transmitter="dopamine",
         base_network=_mt.stabilized_indirect_pathway_network,
         nucleus_nodes={"VTA": "VTA_DA", "SNc": "SNc_DA"},
-        regions={"CP": "Caudoputamen (the scenario's Striatum_D2_MSN)"},
+        regions={
+            "CP": (
+                "Caudoputamen (the scenario's Striatum_D2_MSN), and the "
+                "REFERENCE region: [Bosse2011] measured 5.0 nM here"
+            ),
+            "VTA": "Ventral tegmental area, the D2 autoreceptor's own pool",
+            "SNc": "Substantia nigra pars compacta, likewise",
+        },
         placements=[
             ReceptorPlacement(
                 name="D2",
@@ -665,9 +839,9 @@ def _dopamine_port():
                 pk_models=_scenarios.d2_pk_models_calibrated,
                 transmitter_ligand="dopamine",
                 coupling={
-                    "CP": {
-                        "Striatum_D2_MSN": _scenarios.d2_coupling()["Striatum_D2_MSN"]
-                    }
+                    "CP": {"Striatum_D2_MSN": D2_GAIN},
+                    "VTA": {"VTA_DA": D2_GAIN},
+                    "SNc": {"SNc_DA": D2_GAIN},
                 },
             )
         ],
@@ -681,15 +855,37 @@ def _dopamine_port():
         pool replaced by a two-source projection field. It is the port that
         exercises the OTHER generalization: one region fed by two nuclei
         (VTA and SNc), where the serotonin port exercises one nucleus feeding
-        several regions. Under the uniform density map the two contribute
-        equally, which is not the anatomy; P6.3 is what fixes that.
+        several regions.
+
+        P6.3 closes its loop. P6.1 left the D2 AUTORECEPTOR on the VTA and
+        SNc nodes out on purpose, recording that "it is real, and adding it
+        would have closed the dopamine loop, but it would also have added
+        anatomy and a coupling gain the hand-built scenario does not have,
+        to a port whose job is regression". P6.3's brief asks for it by
+        name, so D2 becomes one receptor type in THREE regions: the
+        caudoputamen, where it is the postsynaptic receptor on the
+        indirect-pathway spiny neuron, and the two midbrain nuclei, where it
+        is the somatodendritic autoreceptor on the dopamine neuron itself.
+
+        The autoreceptor's gain is NOT a new number: it is
+        `scenarios.d2_coupling()`'s own -3.0, reused unchanged. That follows
+        the rule `serotonin.HT1A_MECHANISM_GAIN` already states for the
+        5-HT1A autoreceptor and heteroreceptor -- "the same Gi-coupled
+        receptor reducing the drive of the cell that carries it, and no data
+        in reach distinguishes its per-receptor efficacy" between the two
+        cells -- and it stays ILLUSTRATIVE for exactly the reason
+        `d2_coupling` records at length. What the reuse buys is that
+        closing the loop introduces no number at all: the anatomy is the
+        derived density map's, the receptor is P2.2's calibrated site, and
+        the gain is the one already in the file.
 
         The uptake blockers travel with the clearance object, so cocaine,
         methylphenidate, amphetamine and atomoxetine act here exactly as they
         do in P5.8, and haloperidol competes at the D2 site with 5.0 nM of
         endogenous dopamine, as it does there. What is new is that the
         dopamine is now released at a rate proportional to a midbrain node's
-        firing, so silencing that node lowers it.
+        firing, so silencing that node lowers it -- and now that the
+        autoreceptor is in place, lowering it feeds back onto the firing.
         """,
     )
 
@@ -705,11 +901,17 @@ SCENARIO_PORTS = {
 PORT_ORDER = ("dopamine", "serotonin", "noradrenaline", "acetylcholine", "histamine")
 
 
-def port(key, densities=None, basal=None):
+def port(key, densities=None, basal=None, density_map="connectome", table=None,
+         autoreceptor=True):
     """Build one ported scenario by name.
 
-    `densities` overrides the uniform map for the named regions; see
-    `_targets`. Nothing in this module passes it.
+    `density_map="uniform"` rebuilds the port at P6.1's illustrative-uniform
+    densities, which is what makes every P6.3 change reportable as a
+    difference. `densities` overrides individual regions; see `_targets`.
+
+    `autoreceptor=False` OPENS every autoreceptor loop in the port by
+    zeroing its coupling gain and changing nothing else, which is how P6.3
+    measures what closing them costs and whether it costs stability.
 
     `basal` overrides the cited endogenous tone of this port's transmitter,
     in nM. It exists for `endogenous_tone.py`, which has to re-run a port at
@@ -720,12 +922,19 @@ def port(key, densities=None, basal=None):
         raise ValueError(
             "unknown port %r; have %s" % (key, sorted(SCENARIO_PORTS))
         )
-    return PortedScenario(SCENARIO_PORTS[key](), densities=densities, basal=basal)
+    return PortedScenario(
+        SCENARIO_PORTS[key](),
+        densities=densities,
+        basal=basal,
+        density_map=density_map,
+        table=table,
+        autoreceptor=autoreceptor,
+    )
 
 
-def all_ports():
+def all_ports(density_map="connectome"):
     """Every ported scenario, in `PORT_ORDER`."""
-    return [port(key) for key in PORT_ORDER]
+    return [port(key, density_map=density_map) for key in PORT_ORDER]
 
 
 # ---------------------------------------------------------------------------
@@ -848,6 +1057,134 @@ def lone_antagonist_effect(key, t_end=30.0, basal=None):
             - scenario.rate_trace(net0, base, terminal)[-1]
         ),
     }
+
+
+def autoreceptor_self_weight(key, region, delta=0.01, density_map="connectome"):
+    """The effective SELF-CONNECTION one closed autoreceptor loop adds.
+
+    The loop this task closes does not appear in `network.connectivity`: it
+    leaves the circuit at the nucleus's firing rate, goes through that
+    region's transmitter concentration and the autoreceptor's occupancy, and
+    comes back as a term in the same node's drive. On the slow manifold --
+    the concentration pool relaxes in 0.05-2 s and the occupancy in seconds,
+    against a circuit time constant of 1-1.5 min -- that is exactly a
+    self-weight:
+
+        w_eff = d(drive at the nucleus) / d(rate of the nucleus)
+
+    evaluated with the pool and the occupancy at their steady states for the
+    held rate. Computed by central difference rather than by differentiating
+    a chain of four functions, because two of the four (the site's occupancy
+    law, the clearance's uptake law) have no analytic derivative in this
+    codebase and a difference of exact values beats a derivative of
+    approximations.
+    """
+    scenario = port(key, density_map=density_map)
+    projection = scenario.projection
+    node = None
+    for nucleus, name in scenario.port.nucleus_nodes.items():
+        if nucleus == region:
+            node = name
+    if node is None:
+        raise ValueError(
+            "region %r is not a source nucleus of the %s port" % (region, key)
+        )
+    rates = np.array([s.rest_rate for s in projection.sources], dtype=float)
+    row = list(projection.source_nodes).index(node)
+
+    def drive_at(rate):
+        held = rates.copy()
+        held[row] = rate
+        concentration = projection.steady_state(region, held)
+        total = 0.0
+        for system in scenario.receptor_systems:
+            if region not in system.regions:
+                continue
+            names = [lig.name for lig in system.receptor_site.ligands]
+            vector = np.zeros(system.n)
+            for ligand_name, source in system.transmitter_sources.items():
+                if _projection.as_projection_source(
+                    source, projection_names={projection.name: projection},
+                    region=region,
+                ) is None:
+                    continue
+                vector[names.index(ligand_name)] = concentration
+            activation = system.receptor_site.activation(
+                _projection.resting_occupancy(system.receptor_site, vector)
+            )
+            scaled = activation * system.density[region]
+            total += sum(
+                gain * scaled for gain in system.coupling.get(region, {}).values()
+            )
+        return total
+
+    rest = float(rates[row])
+    return (drive_at(rest + delta) - drive_at(rest - delta)) / (2.0 * delta)
+
+
+def stability_report(t_end=30.0):
+    """P3.4's check on the WHOLE coupled system, with each loop open and
+    closed. The third acceptance criterion of P6.3, as a computation."""
+    from . import stability as _stability
+
+    lines = [
+        "Closed-loop stability (P6.3): P3.4's check on the whole coupled "
+        "system",
+        "=" * 78,
+        "",
+        "`stability.assess` cannot see an autoreceptor loop: the feedback "
+        "path leaves the",
+        "circuit through a transmitter concentration and a receptor "
+        "occupancy, and neither is",
+        "an entry of `network.connectivity`. So the check is run on "
+        "`Simulation.rhs` instead,",
+        "with every state in it, once with the loops OPEN and once CLOSED.",
+        "",
+        "%-14s %-7s %6s %11s %11s %10s %9s"
+        % ("port", "loop", "ok", "max Re eig", "residual", "spread", "min sens"),
+    ]
+    for key in PORT_ORDER:
+        for closed in (False, True):
+            scenario = port(key, autoreceptor=closed)
+            assessment = _stability.assess_system(scenario.simulation())
+            lines.append(
+                "%-14s %-7s %6s %+11.3e %11.2e %10.2e %9.4f"
+                % (
+                    key,
+                    "closed" if closed else "open",
+                    "ok" if assessment.ok else "NOT OK",
+                    assessment.abscissa,
+                    assessment.residuals.max(),
+                    assessment.spread,
+                    assessment.saturation.min_sensitivity,
+                )
+            )
+    lines.append("")
+    lines.append(
+        "The effective SELF-WEIGHT each closed loop adds to its nucleus, "
+        "which is what the"
+    )
+    lines.append(
+        "circuit-only Jacobian is missing. Negative is negative feedback."
+    )
+    lines.append("")
+    lines.append("%-14s %-6s %14s" % ("port", "region", "w_eff"))
+    for key in PORT_ORDER:
+        scenario = port(key)
+        for nucleus in scenario.port.nucleus_nodes:
+            if nucleus not in scenario.projection.regions:
+                continue
+            carries = any(
+                nucleus in system.regions and system.coupling.get(nucleus)
+                for system in scenario.receptor_systems
+            )
+            if not carries:
+                continue
+            lines.append(
+                "%-14s %-6s %14.6f"
+                % (key, nucleus, autoreceptor_self_weight(key, nucleus))
+            )
+    return "\n".join(lines)
 
 
 def summary():

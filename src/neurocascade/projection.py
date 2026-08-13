@@ -101,7 +101,12 @@ things follow that are worth stating rather than discovering later:
   identical to the reference's, i.e. would erase exactly the regional
   variation this abstraction exists to produce. Neither choice is measured;
   this one is stated here and its consequence (basal concentration scales
-  with density) is what P6.3's densities will be judged against.
+  with density) is what P6.3's densities were judged against. The verdict is
+  `projection_density.validation_report()`: of five predicted concentration
+  ratios checked against held-out measurements, three get the direction
+  right and land within 4.2-fold and two are in the wrong direction, so
+  uniform uptake is neither vindicated nor obviously the larger error next
+  to the tracer rows' own cell-type ambiguity.
 
 The release law
 ---------------
@@ -407,11 +412,14 @@ class ProjectionTarget(object):
         reference) is pinned to the clearance object's measured basal
         concentration.
     provenance : str
-        Where the density came from. `"illustrative"` is the honest default
-        for P6.1, which builds the abstraction; P6.3 is the task that
-        derives real densities from the Phase 3 connectome and replaces
-        these. Carried through to `ProjectionSystem.density_report()` so a
-        caller can see at a glance which numbers are placeholders.
+        Where the density came from. Since P6.3 a terminal field's is
+        `"connectome:knox2019"`, derived in `projection_density.py` from the
+        matrices P3.1 ingested, and a SOURCE NUCLEUS's own region carries
+        `"illustrative-somatodendritic"`, which is the one density that task
+        did not derive. `"illustrative"` is P6.1's default and is what
+        `port(key, density_map="uniform")` still produces. Carried through
+        to `ProjectionSystem.density_report()` so a caller can see at a
+        glance which numbers are placeholders.
     """
 
     def __init__(self, region, density, provenance="illustrative"):

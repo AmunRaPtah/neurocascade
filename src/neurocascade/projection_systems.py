@@ -150,12 +150,23 @@ MEASURED, and reused from the modules that sourced them:
   registry, with each one's species, region, method and caveats attached, and
   `endogenous_tone.tone_report()` prints what each one buys at each receptor.
 
+DERIVED FROM THE CONNECTOME since P6.3:
+  every TERMINAL-FIELD projection density, in `projection_density.py`, from
+  the Knox et al. 2019 matrices P3.1 ingested. `ProjectionSystem.
+  density_report()` tags them `connectome:knox2019`. P6.1 supplied a uniform
+  1.0 everywhere and said "P6.3 is the task that derives densities from the
+  Phase 3 connectome"; it is, and `port(key, density_map="uniform")` still
+  rebuilds P6.1's map so the change is reportable rather than remembered.
+
 NOT MEASURED, and labelled:
-  every PROJECTION DENSITY. P6.1 builds the abstraction; P6.3 is the task
-  that derives densities from the Phase 3 connectome. Every density this
-  module or `projection_scenarios.py` supplies carries
-  `provenance="illustrative"` and `ProjectionSystem.density_report()` shows
-  it.
+  the SOURCE NUCLEUS's own density, i.e. the somatodendritic pool at the
+  raphe, the locus coeruleus, the VTA and SNc, the three cholinergic nuclei
+  and the tuberomammillary nucleus. An anterograde tracer does not measure
+  dendritic release, and the tracer's own diagonal predicts 2.6 uM of
+  serotonin in the dorsal raphe, which exceeds SERT's measured Vmax. Tagged
+  `illustrative-somatodendritic`; `projection_density.py` records the seven
+  measurements that bound it between 0.22 and 1.9 times the reference
+  region's concentration and why none of them is its calibration.
   acetylcholine's and histamine's extracellular clearance rate constants.
   See "Searched and empty" below and `ILLUSTRATIVE_CLEARANCE`.
 

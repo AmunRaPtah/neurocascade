@@ -1,0 +1,291 @@
+Projection densities derived from knox2019_connection_strength
+========================================================================
+units: connection density: summed voxel-pair model weight from the source nucleus divided by the target region's voxel count (Knox et al. 2019 'connection_density', computed at this grouping); dimensionless, and only RATIOS of it are used
+source: committed table (projection_densities.csv)
+
+region kind               CS         DR         LC        LDT        NDB        PPN        SNc         TM        VTA
+ACB    terminal     0.004809   0.000745  7.384e-05   0.001092    0.07321   0.004709   0.006428   0.001171    0.02313
+CP     terminal    0.0005078  0.0002227  1.131e-05  0.0001267   0.002618    0.01107    0.01871  0.0001887    0.01988
+HIP    terminal      0.01511  0.0003055  9.365e-06   0.000152     0.0333  0.0003911  0.0002148  0.0006929   0.001735
+MD     terminal      0.04212   0.007646  0.0008278    0.01653    0.09117    0.07247    0.03016   0.002119    0.03047
+MEZ    terminal      0.05626    0.02018  0.0007098    0.02057    0.06551    0.02614   0.004332    0.06207    0.01438
+MOp    terminal    0.0006172  3.947e-05  2.718e-06  3.911e-05  0.0007678  0.0005325  0.0002722    4.2e-05  0.0001999
+PFC    terminal     0.002446  5.137e-05  1.291e-05  0.0002437   0.007025  0.0002854   0.000282   0.000127   0.001191
+PFC_ACAd terminal     0.003075  1.904e-05  4.276e-06  0.0001888   0.007432  0.0001724  0.0001306   0.000106    0.00075
+PFC_ILA terminal     0.005417  0.0001515  2.626e-05  0.0006146    0.02243  0.0004389   0.000323  0.0006438   0.002445
+CS     nuclear        0.4466    0.03092   0.001424    0.04838    0.02825     0.0236   0.008104   0.005153    0.04589
+DR     nuclear        0.1897     0.2074   0.002125    0.05544    0.04941     0.2283      0.031   0.006506    0.05914
+LC     nuclear       0.02886    0.02892     0.0226      0.275    0.00311    0.09233   0.005751   0.003411    0.01421
+LDT    nuclear        0.1706      0.112    0.01291     0.1955    0.01283     0.1831    0.01464   0.005435    0.04866
+NDB    nuclear        0.1064    0.02225   0.001377    0.04198     0.2668    0.01832   0.003865   0.009505    0.03231
+PPN    nuclear       0.04374    0.03017   0.001839    0.02456   0.002725      0.255    0.04069   0.001714    0.03554
+SNc    nuclear       0.02915    0.01246  0.0003154   0.006451    0.01039     0.1461     0.1337   0.002501     0.1206
+TM     nuclear       0.01807   0.004852  0.0008784    0.01496    0.04856    0.01295   0.001395    0.07858   0.004027
+VTA    nuclear       0.09698    0.04183   0.001579    0.03111     0.1204     0.1075    0.07335   0.008294     0.1951
+
+NUCLEAR rows are recorded and REFUSED: a nucleus's own extracellular pool is
+somatodendritic, which no anterograde tracer measures. See the module docstring.
+
+========================================================================
+
+Predicted basal extracellular concentrations from the derived density map
+==============================================================================
+
+dopamine: nuclei VTA, SNc, reference CP = 5 nM (MEASURED)
+    ACB        0.7659 x reference        3.802 nM   predicted
+    CP              1 x reference            5 nM   MEASURED
+    HIP       0.05054 x reference       0.2454 nM   predicted
+    MD          1.571 x reference            8 nM   predicted
+    MEZ         0.485 x reference        2.387 nM   predicted
+    MOp       0.01224 x reference      0.05934 nM   predicted
+    PFC       0.03818 x reference       0.1854 nM   predicted
+    PFC_ACAd  0.02282 x reference       0.1107 nM   predicted
+    PFC_ILA   0.07173 x reference       0.3486 nM   predicted
+
+serotonin: nuclei DR, CS, reference CP = 2.8 nM (MEASURED)
+    ACB         7.603 x reference        23.89 nM   predicted
+    CP              1 x reference          2.8 nM   MEASURED
+    HIP          21.1 x reference        88.31 nM   predicted
+    MD          68.13 x reference    no steady state (release exceeds Vmax)   predicted
+    MEZ         104.7 x reference    no steady state (release exceeds Vmax)   predicted
+    MOp         0.899 x reference        2.513 nM   predicted
+    PFC         3.419 x reference        9.971 nM   predicted
+    PFC_ACAd    4.236 x reference        12.53 nM   predicted
+    PFC_ILA     7.623 x reference        23.96 nM   predicted
+
+noradrenaline: nuclei LC, reference PFC = 1.59 nM (MEASURED)
+    ACB         5.721 x reference        9.097 nM   predicted
+    CP         0.8767 x reference        1.394 nM   predicted
+    HIP        0.7256 x reference        1.154 nM   predicted
+    MD          64.14 x reference          102 nM   predicted
+    MEZ            55 x reference        87.44 nM   predicted
+    MOp        0.2106 x reference       0.3348 nM   predicted
+    PFC             1 x reference         1.59 nM   MEASURED
+    PFC_ACAd   0.3313 x reference       0.5267 nM   predicted
+    PFC_ILA     2.035 x reference        3.235 nM   predicted
+
+acetylcholine: nuclei NDB, PPN, LDT, reference CP = 18.4 nM (MEASURED)
+    ACB          5.72 x reference        105.3 nM   predicted
+    CP              1 x reference         18.4 nM   MEASURED
+    HIP          2.45 x reference        45.08 nM   predicted
+    MD          13.04 x reference          240 nM   predicted
+    MEZ         8.125 x reference        149.5 nM   predicted
+    MOp       0.09697 x reference        1.784 nM   predicted
+    PFC        0.5469 x reference        10.06 nM   predicted
+    PFC_ACAd   0.5643 x reference        10.38 nM   predicted
+    PFC_ILA       1.7 x reference        31.28 nM   predicted
+
+histamine: nuclei TM, reference MEZ = 7.8 nM (MEASURED)
+    ACB       0.01886 x reference       0.1471 nM   predicted
+    CP        0.00304 x reference      0.02371 nM   predicted
+    HIP       0.01116 x reference      0.08706 nM   predicted
+    MD        0.03414 x reference       0.2663 nM   predicted
+    MEZ             1 x reference          7.8 nM   MEASURED
+    MOp      0.0006766 x reference     0.005278 nM   predicted
+    PFC      0.002045 x reference      0.01595 nM   predicted
+    PFC_ACAd 0.001708 x reference      0.01332 nM   predicted
+    PFC_ILA   0.01037 x reference       0.0809 nM   predicted
+
+Nuclear regions are held at the reference concentration by the one illustrative
+density in this module (`illustrative-somatodendritic`), which is P6.1's value.
+
+========================================================================
+
+Derived-density validation: predicted concentration ratios against held-out measurements
+==============================================================================
+
+transmitter    ratio        predicted       measured     error  direction
+dopamine       CP:PFC            26.2          13-30  in range       same
+dopamine       CP:PFC            26.2            6.3 4.2x HIGH       same
+serotonin      CP:PFC           0.292              2  6.8x LOW   OPPOSITE
+noradrenaline  PFC:CP            1.14           2.49  2.2x LOW       same
+acetylcholine  MD:PFC            23.9      0.24-0.55  43x HIGH   OPPOSITE
+
+  dopamine       [Ihalainen1999] MOUSE dialysate: 'DA in striatum was 13-30 times higher than in other areas'
+  dopamine       [Devoto2005] RAT, anaesthetized, matched 4 mm probes: caudate DA 27.35 vs mPFC 4.34 pg/sample. The second, disagreeing measurement of the same ratio, kept because picking the agreeing one would be picking a result
+  serotonin      [Mathews2004] MOUSE zero net flux, same animals, same method: 2.8 nM striatum vs 1.4 nM frontal cortex
+  noradrenaline  [Devoto2005] RAT, anaesthetized, matched 4 mm probes: mPFC NA 4.26 vs caudate 1.71 pg/sample
+  acetylcholine  [Parent2008] rat thalamus 1.3-2.1e6 ChAT varicosities/mm^3 against [Mechawar2000] rat cortex 3.8-5.4e6, same laboratory and the same ChAT method. A TERMINAL DENSITY rather than a concentration, which the model predicts with the same ratio because concentration is proportional to density at uniform uptake. Both regions' acetylcholine is projection-derived (thalamic from PPN/LDT, cortical from the basal forebrain), which is what makes the pair comparable at all; STRIATAL acetylcholine is not, so the much larger literature on striatal cholinergic terminals cannot be used here
+
+========================================================================
+
+Derived tuberomammillary projection density against [Lin2023]'s measured histaminergic fibre density
+==============================================================================
+
+Mouse, cell-type-specific (HDC-CreERT2), whole-brain, and already in Allen CCFv3, so no
+region is mapped by hand. This is the only check in this module that tests the ORDERING
+over dozens of regions rather than one ratio.
+
+region    derived rho      Lin2023 %
+NDB         0.0095049           1.19
+SO           0.010488           0.87
+MS           0.012821           0.83
+VTA         0.0082935           0.81
+SCH          0.025916           0.80
+MPN          0.070202           0.70
+AHN          0.052406           0.61
+EW          0.0047178           0.61
+PVH          0.044813           0.54
+BST          0.029145           0.52
+SI          0.0048642           0.50
+ARH            0.0522           0.47
+DR          0.0065062           0.38
+SNc         0.0025014           0.36
+CEA         0.0078964           0.33
+PVT          0.015658           0.32
+ACB         0.0011706           0.26
+SNr         0.0018315           0.16
+MD          0.0021189           0.15
+CLA        0.00039215           0.11
+PB          0.0014752           0.11
+LC          0.0034112           0.09
+CP         0.00018872           0.07
+LD         0.00057911           0.07
+SUB        0.00046029           0.07
+LGd        0.00055226           0.06
+RT           0.001703           0.06
+VPM        0.00022604           0.04
+MOB            0.0002           0.03
+CA1        0.00046584           0.02
+CA3        0.00059125           0.02
+NTS        0.00045642           0.02
+
+Spearman rank correlation over 32 regions: 0.8322
+Pearson correlation of the logs:          0.8464
+Same, with every hypothalamic region dropped (the injection was in the
+hypothalamus, and the reader should not have to take the authors' own
+injection-site exclusion on trust): 0.8288
+
+========================================================================
+
+Closed-loop stability (P6.3): P3.4's check on the whole coupled system
+==============================================================================
+
+`stability.assess` cannot see an autoreceptor loop: the feedback path leaves the
+circuit through a transmitter concentration and a receptor occupancy, and neither is
+an entry of `network.connectivity`. So the check is run on `Simulation.rhs` instead,
+with every state in it, once with the loops OPEN and once CLOSED.
+
+port           loop        ok  max Re eig    residual     spread  min sens
+dopamine       open        ok  -5.000e-01    9.09e-13   4.44e-16    1.0000
+dopamine       closed      ok  -5.000e-01    1.82e-12   5.55e-16    1.0000
+serotonin      open        ok  -7.800e-03    1.42e-14   1.59e-16    1.0000
+serotonin      closed      ok  -7.800e-03    5.68e-14   1.78e-16    1.0000
+noradrenaline  open        ok  -4.300e-02    3.70e-16   4.44e-16    1.0000
+noradrenaline  closed      ok  -4.300e-02    2.96e-16   3.89e-16    1.0000
+acetylcholine  open        ok  -1.000e-02    9.27e-11   6.50e-09    1.0000
+acetylcholine  closed      ok  -1.000e-02    4.54e-11   6.62e-09    1.0000
+histamine      open        ok  -2.800e-01    2.84e-14   1.14e-16    1.0000
+histamine      closed      ok  -2.800e-01    2.84e-14   1.14e-16    1.0000
+
+The effective SELF-WEIGHT each closed loop adds to its nucleus, which is what the
+circuit-only Jacobian is missing. Negative is negative feedback.
+
+port           region          w_eff
+dopamine       VTA         -1.271277
+dopamine       SNc         -1.271277
+serotonin      DR          -0.374469
+serotonin      CS          -0.374469
+noradrenaline  LC          -0.105042
+acetylcholine  NDB         -0.009159
+acetylcholine  PPN         -0.009159
+acetylcholine  LDT         -0.009159
+
+========================================================================
+
+
+Citations
+------------------------------------------------------------------------
+[Abercrombie1988] Abercrombie ED, Keller RW Jr, Zigmond MJ. Neuroscience 1988;27:897-904, PMID:3252176. Freely-moving rat hippocampus, in-vitro-recovery-corrected (21%): approximately 14 nM. Already cited by `projection_systems.py` as the 8.8-fold cross-check on [PanLai1995]; used here only to size the cross-laboratory spread.
+
+[Adell1991] Adell A, Carceller A, Artigas F. Regional distribution of extracellular 5-hydroxytryptamine and 5-hydroxyindoleacetic acid in the brain of freely moving rats. J Neurochem 1991;56:709-712, PMID:1703223. Six regions including the raphe: 'The extracellular levels of 5-HT showed no significant differences among the brain regions studied.' The source that CONTRADICTS [Tao2000] and [Portas1998], recorded rather than dropped.
+
+[AllenCCF] Allen Mouse Brain Common Coordinate Framework structure graph 1, vendored at data/connectome/ and sliced into the committed fixture ontology. Every acronym below is a CCF acronym.
+
+[Bosse2011] Bosse KE et al. J Neurochem 2011;120:385-395, PMC3385875. Mouse caudate-putamen basal extracellular dopamine by zero net flux, 5.0 +/- 0.2 nM. The dopamine reference region is CP because this is where the number was measured.
+
+[Consolo1990] Consolo S, Bertorelli R, Forloni GL, Butcher LL. Neuroscience 1990;37:717-723, PMID:2247220. Acetylcholine measured IN the basal nuclear complex of freely-moving rats, concluding that it 'is largely axonal in nature' and 'derives substantially from axons of the cholinergic pontomesencephalic tegmentum'. The sharpest known objection to treating the basal forebrain's acetylcholine pool as somatodendritic. Measured with physostigmine in the perfusate.
+
+[Devoto2005] Devoto P, Flore G, Saba P, Fa M, Gessa GL. Co-release of noradrenaline and dopamine in the cerebral cortex elicited by single train and repeated train stimulation of the locus coeruleus. BMC Neurosci 2005;6:31, PMC1134661. Male Sprague-Dawley RAT, anaesthetized, uncorrected dialysate, and the reason it is used here: the SAME 4 mm membrane, the same 2.2 uL/min flow and the same assay in all three regions, so its cross-region comparison is matched. 'Mean extracellular basal levels of NA and DA, expressed as pg/sample (40 ul) injected on column were: in the mPFC (n = 25) 4.26 +/- 0.49 and 4.34 +/- 0.46, in the Occ (n = 26) 4.90 +/- 0.65 and 4.22 +/- 0.58, in the caudate nucleus (n = 6) 1.71 +/- 0.16 and 27.35 +/- 3.35 for NA and DA, respectively.' Gives TWO of the four checks below: noradrenaline mPFC:caudate = 2.49 and dopamine caudate:mPFC = 6.30.
+
+[Engleman2011] Engleman EA, Keen EJ, Tilford SS, Thielen RJ, Morzorati SL. Alcohol 2011;45:549-557, PMC3154620. Freely-moving alcohol-naive P rats, NO-NET-FLUX quantitative microdialysis in the posterior ventral tegmental area: 'The basal extracellular DA concentrations and DA extraction fractions in the posterior VTA were, respectively, (mean +/- SEM) 5.0 +/- 0.5 nM and 46 +/- 4%'. Selectively bred line, female only, and no terminal field in the same study.
+
+[FernandezPastor2005] Fernandez-Pastor B, Mateo Y, Gomez-Urquijo S, Meana JJ. Psychopharmacology 2005;180:570-579, PMID:15717207. Awake rats, locus coeruleus and cingulate cortex, i.e. a direct replication of [Mateo2001]'s design. The abstract reports percentage changes only and the full text was not reachable. Checked and empty.
+
+[Franklin2009] Franklin KM et al. Alcohol Clin Exp Res 2009;33:1721, PMC2858589. Female Wistar nucleus accumbens by NO NET FLUX in the same laboratory as [Engleman2011]: 'basal DA levels in the NAc (3.96 +/- 0.42 nM), compared with EtOH-naive animals (3.25 +/- 0.23 nM)'. The terminal-field anchor [Engleman2011] lacks; different rat line and probe length, so the 1.5 it implies is a cross-study ratio.
+
+[Ihalainen1999] Ihalainen JA, Riekkinen P Jr, Feenstra MG. Neurosci Lett 1999;277:71-74. MOUSE microdialysate: 'Basal release of NA was similar in these areas, but DA in striatum was 13-30 times higher than in other areas' (prefrontal cortex, striatum, hippocampus). The independent check on the derived DOPAMINE map's striatum:cortex ratio.
+
+[Itoh1991] Itoh Y, Oishi R, Nishibori M, Saeki K. J Neurochem 1991;56:769-774. Anaesthetized rat MEDIAL HYPOTHALAMUS: extracellular histamine 'assumed to be 7.8 nM, by a calculation from in vitro recovery through the dialysis membrane'. The histamine reference region is the CCF's medial hypothalamic zone MINUS the tuberomammillary nucleus itself; see MEZ_TERMINAL_FIELD.
+
+[KalivasDuffy1993] Kalivas PW, Duffy P. Time course of extracellular dopamine and behavioral sensitization to cocaine. I. Dopamine axon terminals (J Neurosci 1993;13:266-275, PMC6576317) and II. Dopamine perikarya (1993;13:276-284, PMC6576314). Freely-moving male Sprague-Dawley rats, QUANTITATIVE NO-NET-FLUX microdialysis in both papers, one laboratory and one protocol: daily-saline controls give 0.79 +/- 0.14 nM in the VTA/medial substantia nigra and 3.62 +/- 0.50 nM in the nucleus accumbens on day 7, i.e. a nucleus:terminal ratio of 0.22. Extraction fractions 0.60 and 0.26. Companion papers rather than one paper, so different animals.
+
+[Knox2019] Knox JE, Harris KD, Graddis N, Whitesell JD, Zeng H, Harris JA, Shea-Brown E, Mihalas S. High-resolution data-driven model of the mouse connectome. Netw Neurosci 2019;3(1):217-236. The regionalized connection_strength and connection_density matrices this table is derived from; the manifest entry, URL and sha256 are in connectome/sources.py.
+
+[Lin2023] Lin W, Xu L, Zheng Y, An S, Zhao M, Hu W, Li M, Dong H, Li A, Li Y, Gong H, Pan G, Wang Y, Luo Q, Chen Z. Whole-brain mapping of histaminergic projections in mouse brain. PNAS 2023;120(14):e2216231120, PMC10083611, open access. MOUSE HDC-CreERT2 (so the labelled fibres ARE the histaminergic ones), AAV-CAG-FLEX-ArchT-GFP into the TMN, n = 3, fMOST at 0.32 x 0.32 x 2 um, REGISTERED TO ALLEN CCFv3. The metric is the percentage of a CCF region's pixels that are labelled. Grading: 'Dense (value >= 0.5%), Moderate (0.1% <= value < 0.5%), and Few (value < 0.1%)', giving '35 brain regions were dense, 204 brain regions were moderate, and 326 brain regions were few'. SI Table S2 lists the 24 regions containing the injection site, which the authors exclude from their grading and which are excluded here.
+
+[Mateo2001] Mateo Y, Fernandez-Pastor B, Meana JJ. Acute and chronic effects of desipramine and clorgyline on alpha2-adrenoceptors regulating noradrenergic transmission in the rat brain: a dual-probe microdialysis study. Br J Pharmacol 2001;133:1362-1370, PMC1621148. Male Sprague-Dawley rat, freely moving, TWO probes in the same animal: 'One probe (exposed tip 2.0 mm x 0.25 mm) was implanted in the vicinity of the right LC' and 'the other one (exposed tip 4.0 mm x 0.25 mm) in the ipsilateral cingulate cortex'. 'Basal extracellular NA concentrations measured in the LC and in the cingulate cortex of control groups were in the range 3-6 nM.' 'Values were not corrected for in vitro recovery.' The only within-animal nucleus-versus-terminal-field comparison found for any of the five transmitters.
+
+[Mathews2004] Mathews TA et al. J Neurosci Methods 2004;140:169-181, PMID:15589347. Mouse, zero net flux: basal extracellular serotonin 2.8 +/- 1 nM in STRIATUM and 1.4 +/- 0.4 nM in FRONTAL CORTEX, in the same wild-type animals by the same method. The striatal value pins this model's serotonin reference region; the frontal-cortex value is then a held-out measurement the density map PREDICTS, which is why it is the sharpest validation in this module.
+
+[Mechawar2000] Mechawar N, Cozzari C, Descarries L. Cholinergic innervation in adult rat cerebral cortex: a quantitative immunocytochemical description. J Comp Neurol 2000;428:305-318, PMID:11064369. Adult rat, ChAT immunocytochemistry: 'The mean density of ACh axons was the highest in the frontal cortex (13.0 m/mm(3) ...), as was the mean density of ACh varicosities (5.4 x 10(6)/mm(3) vs. 3.8 and 4.6 x 10(6)/mm(3))' in somatosensory and visual cortex.
+
+[PanLai1995] Pan WH, Lai YJ. Synapse 1995;21:85-92, PMID:8525466. Conscious rat medial prefrontal cortex by zero net flux: noradrenaline 1.59 +/- 0.37 nM. The noradrenaline reference region.
+
+[Parent2008] Parent M, Descarries L. Acetylcholine innervation of the adult rat thalamus. J Comp Neurol 2008;511:678-691, PMID:18924144. Same laboratory and the same ChAT method as [Mechawar2000], which is what makes the two comparable: 'The acetylcholine (ACh) innervation of thalamus arises mainly from the brainstem pedunculopontine and laterodorsal tegmental nuclei'; 'The regional density of ACh innervation was the highest in PF (2.1 x 10(6) varicosities/mm(3)), followed by Rt (1.7 x 10(6)) and DLG (1.3 x 10(6))'.
+
+[Portas1998] Portas CM, Bjorvatn B, Fagerland S, Gronli J, Mundal V, Sorensen E, Ursin R. Neuroscience 1998;83:807-814, PMID:9483564. Freely-moving rat, dorsal raphe and frontal cortex: waking means 3.2 +/- 0.9 and 1.7 +/- 0.4 fmol/sample, ratio 1.88, i.e. an independent replication of [Tao2000]'s ratio by a different method. fmol/sample rather than concentration, and the two probes' membrane lengths could not be checked.
+
+[Pudovkina2001] Pudovkina OL, Kawahara Y, de Vries J, Westerink BH. Brain Res 2001;906:38-45, PMID:11430860. Dual-probe locus coeruleus and prefrontal cortex in conscious rats, and one of the four locus coeruleus studies checked for an absolute basal concentration: it reports percentages of control only. Its sister paper (Kawahara Y, Kawahara H, Westerink BHC, Naunyn-Schmiedebergs Arch Pharmacol 1999;360:42-49, PMID:10463333) states that 'samples from the LC were collected in the presence of nomifensine ... 50 microM', so this laboratory's locus coeruleus values are reuptake-blocked at one probe only and are not comparable across regions even if the numbers were reachable.
+
+[Robertson1991] Robertson GS, Damsma G, Fibiger HC. J Neurosci 1991;11:2209-2216, PMC6575457. Freely-moving Wistar rat, substantia nigra pars reticulata AND striatum in the SAME study: basal dopamine 0.61 +/- 0.12 against 5.13 +/- 0.58 fmol/min, with the authors' own caveat that 'the exposed length of the nigral probe was approximately 50% that of the striatal probe' and in vitro recoveries of 6.8% and 13.1%. Dividing each region by its own recovery gives 0.23.
+
+[Sacchetti1999] Sacchetti G, Bernini M, Bianchetti A, Parini S, Invernizzi RW, Samanin R. Br J Pharmacol 1999;128:1332-1338, PMC1571760. 'Hippocampal basal levels of NA (fmol/40 ul) are approximately 23 and 3 respectively using the horizontal and vertical probes', i.e. an 8-fold swing in a basal level from probe geometry alone, within one region. The reason an uncorrected dialysate ratio between two regions with different probes is not a concentration ratio.
+
+[Tao2000] Tao R, Ma Z, Auerbach SB. Differential effect of local infusion of serotonin reuptake inhibitors in the raphe versus forebrain. J Pharmacol Exp Ther 2000;294:571-579, PMID:10900234. Rat, unanaesthetized, and the only WITHIN-STUDY zero-net-flux nucleus:terminal-field comparison found for any transmitter: 'The larger increase in 5-HT in raphe was confirmed using zero-net-flux microdialysis. In NAcc, baseline 5-HT was 0.7 nM ... Baseline 5-HT in DRN was greater, 1.3 nM'. Ratio 1.86. Full text closed, so which of the two numbers are the zero-net-flux intercepts could not be confirmed from the Methods; the terminal field is the nucleus accumbens rather than the caudoputamen.
+
+[VanGaalen1997] Van Gaalen M, Kawahara H, Kawahara Y, Westerink BHC. Brain Res 1997;763:56-62, PMID:9272828. Dual probe locus coeruleus to prefrontal cortex; the locus coeruleus probe delivers drug and only the cortex is sampled, and the data are percentages of control. Checked and empty for an absolute value; useful for one qualitative anchor, that tetrodotoxin or clonidine into the locus coeruleus drops cortical noradrenaline to about 20%.
+
+[Vinson1997] Vinson PN, Justice JB Jr. J Neurosci Methods 1997;73:61-67, PMID:9130679. Rat striatum, no-net-flux quantitative microdialysis, no cholinesterase inhibitor: acetylcholine 18.4 +/- 11.8 nM. The acetylcholine reference region, with the caveat `projection_systems.ACETYLCHOLINE_BASAL` already carries: striatal acetylcholine comes largely from tonically active striatal INTERNEURONS rather than from the three projection nuclei this model's acetylcholine field is built from.
+
+[Walling2004] Walling SG, Nutt DJ, Lalies MD, Harley CW. J Neurosci 2004;24:7421-7426, PMC6729640. Urethane-anaesthetized rat; the locus coeruleus is infused and the dentate gyrus is sampled, so it carries no locus coeruleus concentration. Checked and empty.
+
+Searched and empty
+------------------------------------------------------------------------
+**A QUANTITATIVE (zero- or no-net-flux) extracellular concentration in a
+source nucleus, paired with one in its own terminal field.** That single
+pair would replace this module's one illustrative density (the
+somatodendritic one) with a measurement. The search found:
+
+* [Tao2000] is the ONE within-study zero-net-flux pair that exists, and its
+  terminal field is the nucleus accumbens rather than this model's
+  caudoputamen reference; [Mateo2001] is within-animal but reports one
+  range covering both regions; [Portas1998] is within-study but in
+  fmol/sample. All three are recorded above as SUPPORT for the illustrative
+  rule and none is used as its calibration.
+* NO zero-net-flux or no-net-flux noradrenaline measurement in the locus
+  coeruleus at all. Every locus coeruleus microdialysis study reached
+  ([Pudovkina2001], [VanGaalen1997], [FernandezPastor2005], [Mateo2001],
+  [Walling2004]) is conventional microdialysis, and three of the five report
+  only percentage changes from their own baseline. A plausible reason is
+  structural rather than accidental: a locus coeruleus probe has to be short
+  and the noradrenaline in it sits near the assay's detection limit
+  (20-25 fmol/sample in [Mateo2001]), so a no-net-flux regression there
+  would be badly conditioned.
+* Ratios assembled ACROSS laboratories are not usable, because the
+  cross-laboratory spread on this quantity is itself of the size being
+  measured: [PanLai1995]'s 1.59 nM and [Abercrombie1988]'s 14 nM for rodent
+  noradrenaline differ 8.8-fold in two different terminal fields, which is
+  larger than any nucleus:terminal ratio worth arguing about, and
+  [Sacchetti1999] gets an 8-fold swing inside one region from probe geometry
+  alone.
+
+**A cell-type-specific whole-brain regionalized connectome for any of the
+five transmitters.** Allen's Cre-line anterograde experiments exist; a
+regionalized normalized model over them, of the kind Knox et al. 2019
+published for wild type, was not found, and building one from the raw
+experiments is a P3.1-sized data task rather than part of P6.3. The cost of
+its absence is quantified rather than asserted: see the serotonin row of
+`validation_report()`, which is the one prediction that fails, and the
+"What the derived map does NOT know" section above for why cell type is the
+leading suspect.

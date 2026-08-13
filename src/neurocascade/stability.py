@@ -208,6 +208,17 @@ DEFAULT_T_MAX = 200.0
 DEFAULT_RTOL = 1e-8
 DEFAULT_ATOL = 1e-10
 
+#: min. The same setting for `assess_system`, which integrates the WHOLE
+#: coupled system rather than the circuit. Five times `DEFAULT_T_MAX`, and
+#: not a taste: the slowest process in this codebase is not a circuit mode at
+#: all but P5.4's recovery from nicotinic desensitization, whose measured
+#: `k_rec` of 0.0115 min^-1 is an 87 min time constant. 200 min is 2.3 of
+#: those and the acetylcholine port's residual sits at 1.4e-6 there, i.e.
+#: above `RESIDUAL_TOLERANCE`; 1000 min is 11.5 of them and it reaches
+#: 4.5e-11. The tolerance is the one P3.4 set and the integration is what
+#: moved. `resting_occupancy` had to learn the same lesson in P6.2.
+DEFAULT_SYSTEM_T_MAX = 1000.0
+
 #: `max |dr/dt|` below which an endpoint is called a fixed point, and the
 #: distance below which two endpoints are called the same fixed point.
 #: Both are numerical, sit ~2 orders above the integrator's own error, and
@@ -796,10 +807,329 @@ def assess(
     )
 
 
+# --- the check, on the WHOLE coupled system (P6.3) -------------------------
+#
+# Everything above is about a `CircuitNetwork`: `n` rates, one connectivity
+# matrix, one baseline drive. That is the right object for P3.4, where every
+# feedback path in the model is an entry of `W`.
+#
+# P6.1 and P6.3 build paths that are not. An autoreceptor's loop leaves the
+# circuit at the source node's rate, goes through a projection system's
+# transmitter concentration and a receptor block's occupancy, and comes back
+# as a term in that node's drive. `network.connectivity` has no entry for it,
+# so `contraction_number` and `spectral_abscissa` cannot see it: they are
+# computed from a matrix in which the loop does not appear. A network can
+# therefore pass `assess()` and still be unstable once the loop is closed.
+#
+# So P6.3 runs the same four checks on `engine.Simulation.rhs`, whose state
+# vector carries every one of those intermediate states:
+#
+#     converged      max |dy/dt| at the endpoint is at solver noise
+#     unique         every spread initial condition reaches the same point
+#     locally stable max Re eig(J) < 0 for the FULL augmented Jacobian
+#     not saturated  every node's 4r(1-r) clears the floor
+#
+# The Jacobian is taken by central differences on `rhs`, because the receptor
+# and clearance layers have no analytic derivative in this codebase and a
+# numerical Jacobian of an exact right-hand side is a better object than an
+# analytic Jacobian of an approximated one. A test asserts it against the
+# closed-form circuit Jacobian on a Simulation with no projection system,
+# where the two must agree.
+
+
+def _fixed_point_drive(network, rates):
+    """The drive vector that makes `rates` an exact fixed point.
+
+    At a fixed point `r_i = S_i(net_i)`, so `net_i = theta_i + logit(r_i)/g_i`
+    exactly and `drive_i = net_i - (W r)_i`. This recovers the FULL drive --
+    baseline plus every receptor system's contribution -- from the rates
+    alone, without reaching into the engine for it, which is what lets
+    `check_saturation` report a true net input for a coupled system.
+    """
+    r = np.asarray(rates, dtype=float)
+    clipped = np.clip(r, 1e-15, 1.0 - 1e-15)
+    nets = np.array(
+        [
+            node.threshold + np.log(c / (1.0 - c)) / node.gain
+            for c, node in zip(clipped, network.nodes)
+        ]
+    )
+    return nets - network.connectivity @ r
+
+
+def numerical_jacobian(function, y, epsilon=1e-6):
+    """Central-difference Jacobian of `function` at `y`.
+
+    The step is relative to each coordinate's own size, floored, because the
+    state vector mixes occupancies of order 1 with transmitter
+    concentrations of order 1-20 nM and PK states that can be thousands.
+    """
+    y = np.asarray(y, dtype=float)
+    n = y.size
+    base = np.asarray(function(y), dtype=float)
+    jacobian = np.empty((base.size, n))
+    for k in range(n):
+        step = epsilon * max(abs(float(y[k])), 1.0)
+        up, down = y.copy(), y.copy()
+        up[k] += step
+        down[k] -= step
+        jacobian[:, k] = (
+            np.asarray(function(up), dtype=float)
+            - np.asarray(function(down), dtype=float)
+        ) / (2.0 * step)
+    return jacobian
+
+
+def system_initial_conditions(simulation, y0, count=5, seed=0, pool_scales=None):
+    """Spread starting points for the coupled-system check.
+
+    The RATE block gets `default_initial_conditions`'s corners and seeded
+    draws, exactly as P3.4 does. The transmitter and projection blocks get
+    multiplied by `pool_scales`, so that "the same fixed point from every
+    start" is a statement about the concentration field as well as about the
+    rates -- which is the half a circuit-only check cannot make, and the half
+    a closed autoreceptor loop could break.
+    """
+    y0 = np.asarray(y0, dtype=float)
+    n = simulation.c
+    offset = simulation.d + simulation.r
+    pools = slice(offset, offset + simulation.m + simulation.p)
+    rates = slice(y0.size - n, y0.size)
+    scales = (1.0, 0.25, 4.0) if pool_scales is None else tuple(pool_scales)
+    out = []
+    for k, r0 in enumerate(
+        default_initial_conditions(n, count=count, seed=seed)
+    ):
+        y = y0.copy()
+        y[rates] = r0
+        y[pools] = y0[pools] * scales[k % len(scales)]
+        out.append(y)
+    return out
+
+
+def system_steady_state(simulation, y0, t_max=DEFAULT_SYSTEM_T_MAX,
+                        rtol=DEFAULT_RTOL, atol=DEFAULT_ATOL):
+    """Integrate the whole coupled system to `t_max`; return `(y, residual)`."""
+    solution = solve_ivp(
+        simulation.rhs,
+        (0.0, t_max),
+        np.asarray(y0, dtype=float),
+        method="LSODA",
+        rtol=rtol,
+        atol=atol,
+    )
+    if not solution.success:
+        raise RuntimeError("integration failed: %s" % solution.message)
+    y = solution.y[:, -1]
+    return y, float(np.abs(simulation.rhs(0.0, y)).max())
+
+
+class SystemAssessment(object):
+    """P3.4's four checks, run on a whole `Simulation` rather than on its
+    network. `rates` and `saturation` are about the circuit block; `abscissa`
+    and `residual` are about every state."""
+
+    def __init__(self, simulation, fixed_points, residuals, saturation,
+                 abscissa, floor, residual_tolerance, fixed_point_tolerance,
+                 network_contraction, pk_abscissa=0.0):
+        self.simulation = simulation
+        self.fixed_points = [np.asarray(y, dtype=float) for y in fixed_points]
+        self.residuals = np.asarray(residuals, dtype=float)
+        self.saturation = saturation
+        self.abscissa = abscissa
+        self.floor = floor
+        self.residual_tolerance = residual_tolerance
+        self.fixed_point_tolerance = fixed_point_tolerance
+        #: `contraction_number` of the CIRCUIT alone, reported so that the
+        #: gap between it and `abscissa` is visible. It is not a certificate
+        #: for the coupled system and is never used as one.
+        self.network_contraction = network_contraction
+        #: `max Re eig` over the PK block, reported separately for a reason
+        #: that is structural rather than cosmetic. A PK model's right-hand
+        #: side is a function of its own state only, so the full Jacobian is
+        #: BLOCK TRIANGULAR and its spectrum is exactly the union of the PK
+        #: eigenvalues and the rest. The PK eigenvalues are drug elimination
+        #: rate constants: always negative, never touched by any circuit,
+        #: receptor or projection parameter, and in this codebase far slower
+        #: than anything else (haloperidol's is 5.8e-4 min^-1, a 20-hour
+        #: half-life). Folding them into one number would make `abscissa`
+        #: report a drug's half-life and stop responding to the feedback loop
+        #: it is there to measure, which is exactly what it did before this
+        #: split. `assess_system` asserts the block-triangularity it relies
+        #: on rather than assuming it.
+        self.pk_abscissa = pk_abscissa
+
+    @property
+    def rates(self):
+        n = self.simulation.c
+        return self.fixed_points[0][-n:]
+
+    @property
+    def spread(self):
+        if len(self.fixed_points) < 2:
+            return 0.0
+        first = self.fixed_points[0]
+        # Relative, because this vector mixes occupancies of order 1 with
+        # concentrations of order 20 nM, and an absolute tolerance would be
+        # a different test for different blocks.
+        scale = np.maximum(np.abs(first), 1.0)
+        return float(
+            max(np.abs((y - first) / scale).max() for y in self.fixed_points[1:])
+        )
+
+    @property
+    def converged(self):
+        return bool(self.residuals.max() < self.residual_tolerance)
+
+    @property
+    def unique(self):
+        return bool(self.spread < self.fixed_point_tolerance)
+
+    @property
+    def locally_stable(self):
+        return bool(self.abscissa < 0.0)
+
+    @property
+    def ok(self):
+        return (
+            self.converged
+            and self.unique
+            and self.locally_stable
+            and self.saturation.ok
+        )
+
+    def summary(self):
+        lines = [
+            "coupled-system stability: %d states (%d circuit nodes), "
+            "%d initial condition(s)"
+            % (
+                self.fixed_points[0].size,
+                self.simulation.c,
+                len(self.fixed_points),
+            ),
+            "  fixed point: residual max |dy/dt| = %.3g (tol %g) -> %s"
+            % (
+                self.residuals.max(),
+                self.residual_tolerance,
+                "converged" if self.converged else "NOT CONVERGED",
+            ),
+            "  same point from every start: relative spread = %.3g (tol %g) "
+            "-> %s"
+            % (
+                self.spread,
+                self.fixed_point_tolerance,
+                "unique" if self.unique else "MULTIPLE ATTRACTORS",
+            ),
+            "  local: max Re eig(J) over the dynamic block = %+.4g -> %s"
+            % (
+                self.abscissa,
+                "stable" if self.locally_stable else "UNSTABLE",
+            ),
+            "  PK block (decoupled, elimination rates): max Re eig = %+.4g"
+            % self.pk_abscissa,
+            "  circuit-only kappa (NOT a certificate for this system): %.4g"
+            % self.network_contraction,
+        ]
+        lines.extend("  " + line for line in self.saturation.summary().split("\n"))
+        lines.append("  VERDICT: %s" % ("ok" if self.ok else "NOT ok"))
+        return "\n".join(lines)
+
+
+def assess_system(
+    simulation,
+    y0=None,
+    n_initial_conditions=5,
+    seed=0,
+    floor=SATURATION_FLOOR,
+    t_max=DEFAULT_SYSTEM_T_MAX,
+    rtol=DEFAULT_RTOL,
+    atol=DEFAULT_ATOL,
+    residual_tolerance=RESIDUAL_TOLERANCE,
+    fixed_point_tolerance=FIXED_POINT_TOLERANCE,
+    epsilon=1e-6,
+    pool_scales=None,
+):
+    """P3.4's check, on the whole coupled system. DRUG-FREE only.
+
+    `y0` defaults to the simulation's own drug-free initial state (no dose,
+    receptors at their resting occupancy, transmitter and projection pools at
+    their basal concentrations). A DOSED system has no fixed point at all --
+    the drug decays -- so asking this question of one is a category error and
+    the default is the only state it is about.
+    """
+    if y0 is None:
+        doses = np.zeros(simulation.n_ligands)
+        y0 = np.concatenate(
+            [
+                simulation.initial_pk_state(doses),
+                simulation.resting_occupancy_state(),
+                simulation.initial_transmitter_state(),
+                simulation.initial_projection_state(),
+                np.full(simulation.c, MAX_SENSITIVITY_RATE),
+            ]
+        )
+    y0 = np.asarray(y0, dtype=float)
+    conditions = system_initial_conditions(
+        simulation, y0, count=n_initial_conditions, seed=seed,
+        pool_scales=pool_scales,
+    )
+    fixed_points, residuals = [], []
+    for start in conditions:
+        y, residual = system_steady_state(
+            simulation, start, t_max=t_max, rtol=rtol, atol=atol
+        )
+        fixed_points.append(y)
+        residuals.append(residual)
+    y = fixed_points[0]
+    rates = y[-simulation.c:] if simulation.c else np.zeros(0)
+    network = simulation.network
+    jacobian_full = numerical_jacobian(
+        lambda state: simulation.rhs(0.0, state), y, epsilon=epsilon
+    )
+    # Split off the PK block. It is one-way by construction (`pk.py`'s
+    # right-hand sides are functions of their own state only), so the
+    # Jacobian is block triangular and the spectrum is the union of the two
+    # blocks' -- but that is a property of the code and is CHECKED here
+    # rather than assumed, because if a PK model ever started reading a
+    # circuit rate this split would silently drop real eigenvalues.
+    d = simulation.d
+    if d and jacobian_full[:d, d:].size:
+        leak = float(np.abs(jacobian_full[:d, d:]).max())
+        if leak > 1e-6:
+            raise RuntimeError(
+                "the PK block is no longer decoupled (largest coupling term "
+                "%.3g), so the coupled Jacobian is not block triangular and "
+                "its spectrum is not the union of the two blocks" % leak
+            )
+    pk_block = jacobian_full[:d, :d]
+    dynamic = jacobian_full[d:, d:]
+    abscissa = (
+        float(np.linalg.eigvals(dynamic).real.max()) if dynamic.size else 0.0
+    )
+    pk_abscissa = (
+        float(np.linalg.eigvals(pk_block).real.max()) if pk_block.size else 0.0
+    )
+    return SystemAssessment(
+        simulation=simulation,
+        fixed_points=fixed_points,
+        residuals=residuals,
+        saturation=check_saturation(
+            network, rates, drive=_fixed_point_drive(network, rates), floor=floor
+        ),
+        abscissa=abscissa,
+        floor=floor,
+        residual_tolerance=residual_tolerance,
+        fixed_point_tolerance=fixed_point_tolerance,
+        network_contraction=contraction_number(network),
+        pk_abscissa=pk_abscissa,
+    )
+
+
 __all__ = [
     "DEFAULT_ATOL",
     "DEFAULT_OPERATING_GAIN",
     "DEFAULT_RTOL",
+    "DEFAULT_SYSTEM_T_MAX",
     "DEFAULT_T_MAX",
     "FIXED_POINT_TOLERANCE",
     "MAX_SENSITIVITY_RATE",
@@ -809,7 +1139,9 @@ __all__ = [
     "SaturationReport",
     "StabilityAssessment",
     "StabilizedNetwork",
+    "SystemAssessment",
     "assess",
+    "assess_system",
     "balanced_baselines",
     "check_saturation",
     "contraction_number",
@@ -823,6 +1155,9 @@ __all__ = [
     "sigmoid_slopes",
     "spectral_abscissa",
     "stabilize",
+    "numerical_jacobian",
     "steady_state",
+    "system_initial_conditions",
+    "system_steady_state",
     "weight_scale_for_operating_gain",
 ]

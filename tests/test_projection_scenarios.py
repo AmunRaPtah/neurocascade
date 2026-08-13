@@ -19,10 +19,12 @@ from neurocascade import acetylcholine as ach
 from neurocascade import histamine as ha
 from neurocascade import monoamine_transporters as mt
 from neurocascade import noradrenaline as na
+from neurocascade import projection_density as pdens
 from neurocascade import projection_scenarios as ps
 from neurocascade import scenarios
 from neurocascade import serotonin as ht
 from neurocascade import stability
+from neurocascade.engine import Simulation
 
 
 PORTS = ps.PORT_ORDER
@@ -147,9 +149,20 @@ def test_starting_from_empty_receptors_reproduces_the_transient_the_default_avoi
     _, _, resting = scenario.run()
     _, _, empty = scenario.run(occupancy0=None)
     assert np.abs(resting["rates"] - ps.REST_RATE).max() < 1e-6
-    assert np.abs(empty["rates"] - ps.REST_RATE).max() > 0.02
+    assert np.abs(empty["rates"] - ps.REST_RATE).max() > 0.015
     # Both settle to the same place; only the start differs.
     assert np.allclose(resting["rates"][:, -1], empty["rates"][:, -1], atol=1e-5)
+    # P6.3 DAMPS this transient rather than leaving it where P6.1 had it, and
+    # the reason is the D2 autoreceptor P6.3 adds: the start-up excursion
+    # raises dopamine occupancy at the VTA and SNc, which lowers their firing,
+    # which lowers release. Opening that one loop and changing nothing else
+    # puts the transient back up. Asserting the ORDERING rather than a
+    # threshold is what makes this a statement about the feedback.
+    _, _, open_loop = ps.port("dopamine", autoreceptor=False).run(occupancy0=None)
+    assert (
+        np.abs(empty["rates"] - ps.REST_RATE).max()
+        < np.abs(open_loop["rates"] - ps.REST_RATE).max()
+    )
 
 
 def test_the_two_integrators_agree_on_a_ported_scenario():
@@ -189,25 +202,81 @@ def test_no_node_of_a_ported_scenario_sits_against_a_sigmoid_rail(ported, key):
 
 
 @pytest.mark.parametrize("key", PORTS)
-def test_every_density_this_module_supplies_is_labelled_illustrative(ported, key):
+def test_every_density_is_labelled_derived_or_illustrative_somatodendritic(
+    ported, key
+):
+    # P6.1's version of this test asserted that EVERY density was labelled
+    # `illustrative-uniform`, which was true and was the honest thing to say
+    # about a map that asserted nothing. P6.3 derives the terminal ones, so
+    # the requirement changes shape rather than weakening: every density is
+    # now either DERIVED from the connectome or is the ONE illustrative
+    # somatodendritic value, the split is exactly the nuclear/terminal split,
+    # and no third tag exists.
     scenario = ported[key]
     report = scenario.projection.density_report()
     assert report
     for region, density, relative, provenance in report:
-        assert provenance == ps.DENSITY_PROVENANCE
-        assert "illustrative" in provenance
-        # Uniform: every region is the reference region's equal.
-        assert relative == pytest.approx(1.0)
+        if region in pdens.NUCLEAR_REGIONS:
+            assert provenance == pdens.SOMATODENDRITIC_PROVENANCE
+            assert "illustrative" in provenance
+            # The illustrative rule IS "equal to the reference region".
+            assert relative == pytest.approx(1.0)
+        else:
+            assert provenance == pdens.DERIVED_PROVENANCE
+            assert density > 0.0
+    # And the reference region is the one its measurement was made in.
+    assert scenario.projection.reference_region == pdens.REFERENCE_REGION[key]
+    assert scenario.projection.basal_concentration(
+        pdens.REFERENCE_REGION[key]
+    ) == pytest.approx(scenario.projection.clearance.basal)
 
 
 @pytest.mark.parametrize("key", PORTS)
-def test_a_uniform_map_puts_every_region_at_the_reference_basal_level(ported, key):
-    scenario = ported[key]
+def test_a_uniform_map_puts_every_region_at_the_reference_basal_level(key):
+    # P6.1's map, kept reachable so that what P6.3 changed is a difference
+    # this suite can compute rather than a number it has to remember.
+    scenario = ps.port(key, density_map="uniform")
     levels = {
         region: scenario.projection.basal_concentration(region)
         for region in scenario.projection.regions
     }
     assert len(set(round(v, 12) for v in levels.values())) == 1
+
+
+#: The ports whose ONLY terminal region is the reference region, so the
+#: derived map cannot move any concentration in them. Named rather than
+#: skipped: the dopamine port's regions are the caudoputamen (its reference)
+#: and the two midbrain nuclei that carry its new autoreceptor, and the
+#: noradrenaline port's are the prelimbic cortex (its reference) and the
+#: locus coeruleus. Both still gain their DERIVED VTA:SNc and inter-nucleus
+#: proportions; what they do not gain is a second terminal field.
+PORTS_WITH_ONE_TERMINAL_REGION = ("dopamine", "noradrenaline")
+
+
+@pytest.mark.parametrize(
+    "key", [k for k in PORTS if k not in PORTS_WITH_ONE_TERMINAL_REGION]
+)
+def test_the_derived_map_makes_regions_disagree_where_the_uniform_one_could_not(
+    key,
+):
+    # The counterfactual that makes the test above a statement about the map.
+    # A port with a terminal region that is not the reference has to put it at
+    # a DIFFERENT concentration; under P6.1's map it could not, by
+    # construction.
+    derived = ps.port(key)
+    uniform = ps.port(key, density_map="uniform")
+    reference = pdens.REFERENCE_REGION[key]
+    terminal = [
+        region
+        for region in derived.projection.regions
+        if region not in pdens.NUCLEAR_REGIONS and region != reference
+    ]
+    assert terminal, key
+    for region in terminal:
+        assert derived.projection.relative_density(region) != pytest.approx(1.0)
+        assert derived.projection.basal_concentration(
+            region
+        ) != pytest.approx(uniform.projection.basal_concentration(region))
 
 
 # ---------------------------------------------------------------------------
@@ -242,7 +311,7 @@ def test_a_uniform_density_map_gives_every_region_the_same_occupancy():
     # three regions have no reason to differ. What the port demonstrates here
     # is the structure; what makes the structure produce different numbers is
     # a real density map, which is P6.3's.
-    scenario = ps.port("serotonin")
+    scenario = ps.port("serotonin", density_map="uniform")
     _, sim, result = scenario.run(**{"8-OH-DPAT": 100.0})
     occupancies = [
         scenario.occupancy_trace(sim, result, "5HT1A", region, "serotonin")[-1]
@@ -259,7 +328,7 @@ def test_a_non_uniform_density_map_separates_the_raphe_from_the_cortex():
     # serotonin concentration falls, and with it the cortical occupancy and
     # the cortical node's drive.
     sparse = {"PFC": {"DRN_5HT": 0.25, "MRN_5HT": 0.25}}
-    scenario = ps.port("serotonin", densities=sparse)
+    scenario = ps.port("serotonin", densities=sparse, density_map="uniform")
     assert scenario.projection.relative_density("PFC") == pytest.approx(0.25)
     assert scenario.projection.basal_concentration(
         "PFC"
@@ -340,7 +409,7 @@ def test_every_autoreceptor_probe_moves_its_nucleus_in_the_predicted_direction(k
 # ---------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("key", ("dopamine", "serotonin", "histamine"))
+@pytest.mark.parametrize("key", ("dopamine", "serotonin"))
 def test_a_lone_antagonist_is_not_inert_where_the_basal_level_is_measured(key):
     # Every module from P5.1 to P5.7 had to write "an antagonist given alone
     # is inert here, because P6.2 has supplied no endogenous transmitter to
@@ -349,6 +418,39 @@ def test_a_lone_antagonist_is_not_inert_where_the_basal_level_is_measured(key):
     effect = ps.lone_antagonist_effect(key)
     assert abs(effect["terminal_rate"]) > 1e-3
     assert key in ps.MEASURED_BASAL
+
+
+def test_the_derived_density_map_shrinks_the_histamine_result_by_a_factor_of_489():
+    # HISTAMINE WAS THE THIRD MEMBER OF THE TEST ABOVE UNTIL P6.3, and it is
+    # split out rather than dropped, because what changed is a result and not
+    # a threshold. P6.1's uniform map put [Itoh1991]'s 7.8 nM of hypothalamic
+    # histamine in the cortex as well; the derived map says the
+    # tuberomammillary projection to prelimbic cortex is 489-fold thinner
+    # than into the hypothalamus around the probe, so cortical histamine is
+    # 0.016 nM and the lone mepyramine effect falls with it. The claim
+    # "an antagonist alone is not inert" SURVIVES -- the effect is nonzero,
+    # and it is nonzero only because there is tone -- but it is two orders of
+    # magnitude smaller, and this test pins both halves and the ratio between
+    # the two maps so neither can drift.
+    derived = ps.lone_antagonist_effect("histamine")["terminal_rate"]
+    uniform = pscen_uniform_histamine()
+    assert abs(derived) > 0.0
+    assert abs(derived) < 1e-4
+    assert abs(uniform) > 1e-3
+    assert 400.0 < abs(uniform) / abs(derived) < 600.0
+    assert "histamine" in ps.MEASURED_BASAL
+
+
+def pscen_uniform_histamine():
+    scenario = ps.port("histamine", density_map="uniform")
+    drug, dose = ps.LONE_ANTAGONIST["histamine"]
+    net0, _, base = scenario.run()
+    net1, _, dosed = scenario.run(**{drug: dose})
+    terminal = scenario.port.terminal_readout
+    return (
+        scenario.rate_trace(net1, dosed, terminal)[-1]
+        - scenario.rate_trace(net0, base, terminal)[-1]
+    )
 
 
 def test_the_dopamine_port_reproduces_p5_8_s_haloperidol_result():
@@ -392,7 +494,26 @@ def test_the_ported_dopamine_field_still_answers_to_uptake_blockade():
     row = sim1.n_ligands - scenario.projection.n + ligands.index("cocaine")
     present = dosed["concentrations"][row][-1]
     assert present == pytest.approx(500.0, rel=0.01)
-    assert fold == pytest.approx(1.0 + present / mt.ki("cocaine", "DAT"), rel=0.02)
+    law = 1.0 + present / mt.ki("cocaine", "DAT")
+    # P6.1 asserted `fold == law` exactly. P6.3 BREAKS that equality, and the
+    # break is the D2 autoreceptor rather than a regression: P5.8's law is
+    # derived holding RELEASE fixed, and the autoreceptor does not hold it
+    # fixed. Blocking uptake raises striatal dopamine, which raises dopamine
+    # at the VTA and SNc, which lowers their firing, which lowers release.
+    # So the test asserts the law where it is still exact -- with the one
+    # loop opened and nothing else changed -- and asserts that closing it
+    # BUFFERS the psychostimulant, which is the pharmacology the loop exists
+    # to express.
+    open_scenario = ps.port("dopamine", autoreceptor=False)
+    _, open_sim, open_dosed = open_scenario.run(cocaine=1000.0)
+    open_fold = open_scenario.field_fold(open_sim, open_dosed, "CP")[-1]
+    assert open_fold == pytest.approx(law, rel=0.02)
+    assert 1.0 < fold < open_fold
+    # And the buffering is visible where it comes from: the nucleus slows.
+    assert open_scenario.rate_trace(
+        *open_scenario.run(cocaine=1000.0)[::2], "SNc_DA"
+    )[-1] == pytest.approx(ps.REST_RATE, abs=1e-9)
+    assert scenario.rate_trace(net1, dosed, "SNc_DA")[-1] < ps.REST_RATE - 0.1
     occupancy = scenario.occupancy_trace(sim1, dosed, "D2", "CP", "dopamine")[-1]
     resting = scenario.occupancy_trace(sim0, base, "D2", "CP", "dopamine")[-1]
     assert occupancy > resting
@@ -412,7 +533,16 @@ def test_each_port_reports_its_nuclei_regions_and_standing_drive(ported, key):
         assert node in text
     for region in ported[key].projection.regions:
         assert region in text
-    assert ps.DENSITY_PROVENANCE in text
+    # P6.1 asserted `DENSITY_PROVENANCE` ("illustrative-uniform") appeared
+    # here, because every density was one. P6.3 derives the terminal ones, so
+    # what the report has to show is BOTH tags: which regions carry a derived
+    # density and which carry the one illustrative somatodendritic value.
+    # Same requirement, moved forward one task.
+    assert pdens.DERIVED_PROVENANCE in text
+    nuclear = [r for r in ported[key].projection.regions if r in pdens.NUCLEAR_REGIONS]
+    assert nuclear
+    assert pdens.SOMATODENDRITIC_PROVENANCE in text
+    assert ps.DENSITY_PROVENANCE in ps.port(key, density_map="uniform").report()
 
 
 def test_the_summary_names_both_results_and_what_P6_2_changed():
@@ -429,3 +559,172 @@ def test_the_summary_names_both_results_and_what_P6_2_changed():
     assert "unit scale" in text and "endogenous_tone" in text
     for key in PORTS:
         assert key in text
+
+
+# ---------------------------------------------------------------------------
+# Result three (P6.3): the closed loop is stable, checked where it is visible
+# ---------------------------------------------------------------------------
+
+
+def test_the_full_system_check_reproduces_p3_4_s_when_there_is_no_loop():
+    # `assess_system` takes its Jacobian by central differences, so before it
+    # is used to certify anything it has to agree with the closed-form
+    # circuit Jacobian on a system where the two are about the same thing: a
+    # `Simulation` with no projection system and no receptor at all is just
+    # its network, and the two spectral abscissas must match.
+    # The D2 scenario as `scenarios.py` builds it: one receptor, no
+    # projection system and no endogenous transmitter, so at rest every
+    # occupancy is zero, the drive is the network's own baseline, and the
+    # coupled system's slowest mode is the circuit's. Its occupancy block
+    # contributes eigenvalues too, and they are all the receptor's own
+    # `koff` -- fast, and therefore not the maximum -- so the two abscissas
+    # must be the same number.
+    network = scenarios.basal_ganglia_indirect_pathway_network()
+    sim = Simulation(
+        pk_models=scenarios.d2_pk_models(),
+        receptor_site=scenarios.d2_receptor_site(),
+        network=network,
+        coupling=scenarios.d2_coupling(),
+    )
+    system = stability.assess_system(sim)
+    circuit = stability.assess(network)
+    assert np.allclose(system.rates, circuit.rates, atol=1e-6)
+
+    # Every eigenvalue of the closed-form circuit Jacobian appears in the
+    # numerical Jacobian of the whole system, which is the check that the
+    # differencing is right.
+    y = system.fixed_points[0]
+    full = np.linalg.eigvals(
+        stability.numerical_jacobian(lambda state: sim.rhs(0.0, state), y)
+    )
+    for value in np.linalg.eigvals(
+        stability.jacobian(network, circuit.rates)
+    ):
+        assert np.abs(full - value).min() < 1e-5, value
+
+    # And the system's abscissa is NOT the circuit's, which is the reason
+    # this check had to be built. The occupancy block contributes its own
+    # modes -- here the D2 site's dissociation, three hundred times slower
+    # than anything in the circuit -- so the coupled system relaxes at
+    # -0.02 min^-1 where the circuit alone relaxes at -0.5. A certificate
+    # computed from `network.connectivity` would have reported the wrong
+    # number by a factor of 25 even with no projection system in sight.
+    assert system.abscissa < 0.0
+    assert circuit.abscissa < system.abscissa
+    koff = min(lig.koff for lig in sim.receptor_site.ligands)
+    assert system.abscissa == pytest.approx(-koff, rel=1e-3)
+
+
+@pytest.mark.parametrize("key", PORTS)
+def test_every_port_is_stable_with_its_autoreceptor_loops_closed(key):
+    # P6.3's third acceptance criterion. P3.4's four checks, run on the whole
+    # coupled system rather than on the circuit: a fixed point, the same one
+    # from every spread start (including starts whose transmitter pools are a
+    # quarter and four times basal), locally stable, and no node against a
+    # rail.
+    closed = stability.assess_system(ps.port(key).simulation())
+    assert closed.ok, closed.summary()
+    assert closed.abscissa < 0.0
+    assert closed.saturation.min_sensitivity > 0.99
+    # Opening every loop and changing nothing else must not be what makes it
+    # stable.
+    opened = stability.assess_system(
+        ps.port(key, autoreceptor=False).simulation()
+    )
+    assert opened.ok, opened.summary()
+
+
+@pytest.mark.parametrize("key", PORTS)
+def test_the_circuit_only_certificate_cannot_see_the_loop(key):
+    # Why the check above had to be built at all. The autoreceptor's feedback
+    # path leaves the circuit through a transmitter concentration and a
+    # receptor occupancy, and `network.connectivity` has no entry for either,
+    # so P3.4's contraction number is IDENTICAL with the loops open and
+    # closed -- while the dynamics are not (see the cocaine test above, where
+    # closing the dopamine loop cuts the psychostimulant's effect by a third).
+    closed = ps.port(key)
+    opened = ps.port(key, autoreceptor=False)
+    assert np.array_equal(closed.network.connectivity, opened.network.connectivity)
+    assert stability.contraction_number(closed.network) == pytest.approx(
+        stability.contraction_number(opened.network)
+    )
+    # The one thing that DOES differ between the two networks is the
+    # baseline the tonic compensation folded in, and that is not a
+    # certificate either: `assess(network)` on a compensated network asks
+    # what the circuit does with the tonic drive SUBTRACTED and not added
+    # back, which is a system this model never visits. So there is no
+    # circuit-only question whose answer distinguishes the two, which is
+    # what `assess_system` exists for.
+    for node in closed.network.nodes:
+        other = opened.network.nodes[opened.network.index[node.name]]
+        assert node.gain == other.gain and node.tau == other.tau
+
+
+def test_every_autoreceptor_loop_is_negative_feedback():
+    # The sign that decides whether closing these loops is dangerous. Each is
+    # a Gi-coupled receptor on the cell that releases the transmitter, so the
+    # effective self-weight it adds to its own nucleus must be NEGATIVE, and
+    # a negative self-weight on a logistic node moves that node's Jacobian
+    # entry `(-1 + (g/4) w) / tau` further left rather than right. That, plus
+    # a pool whose relaxation is 40-2000 times faster than the circuit's, is
+    # why the closed loops above are stable rather than merely observed to be.
+    found = 0
+    for key in PORTS:
+        scenario = ps.port(key)
+        for nucleus in scenario.port.nucleus_nodes:
+            if nucleus not in scenario.projection.regions:
+                continue
+            if not any(
+                nucleus in system.regions and system.coupling.get(nucleus)
+                for system in scenario.receptor_systems
+            ):
+                continue
+            weight = ps.autoreceptor_self_weight(key, nucleus)
+            assert weight < 0.0, (key, nucleus)
+            found += 1
+    # dopamine VTA + SNc, serotonin DR + CS, noradrenaline LC,
+    # acetylcholine NDB + PPN + LDT. Histamine has none: its autoreceptor is
+    # H3 and P5.6 built H1 only.
+    assert found == 8
+
+
+def test_the_full_system_check_fails_when_the_feedback_is_made_positive():
+    # A check that never fails certifies nothing. Flip the sign of the D2
+    # autoreceptor -- the one number, nothing else -- and the loop becomes
+    # POSITIVE feedback: more dopamine raises the nucleus's firing, which
+    # releases more dopamine. `assess_system` then finds different fixed
+    # points from different starting states, which is exactly the failure a
+    # circuit-only Jacobian could not have reported.
+    port = ps.SCENARIO_PORTS["dopamine"]()
+    placement = port.placements[0]
+    coupling = {
+        region: {
+            node: (-gain if region in ("VTA", "SNc") else gain)
+            for node, gain in nodes.items()
+        }
+        for region, nodes in placement.coupling.items()
+    }
+    port.placements = [
+        ps.ReceptorPlacement(
+            placement.name,
+            placement.site,
+            placement.pk_models,
+            placement.transmitter_ligand,
+            coupling,
+        )
+    ]
+    flipped = ps.PortedScenario(port)
+    assert ps.autoreceptor_self_weight("dopamine", "VTA") < 0.0
+    assessment = stability.assess_system(flipped.simulation())
+    assert not assessment.unique
+    assert not assessment.ok
+    assert "MULTIPLE ATTRACTORS" in assessment.summary()
+
+
+def test_the_stability_report_covers_every_port_open_and_closed():
+    text = ps.stability_report()
+    for key in PORTS:
+        assert key in text
+    assert "open" in text and "closed" in text
+    assert "NOT OK" not in text
+    assert "w_eff" in text

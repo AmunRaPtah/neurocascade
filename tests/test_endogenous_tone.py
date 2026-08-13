@@ -395,17 +395,44 @@ def test_with_the_tone_removed_every_lone_antagonist_is_inert_again():
 
 def test_the_size_of_the_lone_antagonist_effect_tracks_the_tonic_occupancy():
     """What an antagonist can do is bounded by what tone it can remove, so
-    the ordering of the five ports' effects follows the ordering of the
-    tonic occupancy at the receptor each antagonist binds."""
-    occupancy = {row["receptor"]: row["occupancy"] for row in tone.tone_table()}
-    # haloperidol at D2 removes 71%; mepyramine at H1 removes 0.32%;
-    # scopolamine at M1/M2 removes under 0.5%.
-    assert occupancy["D2"] > occupancy["H1"] > occupancy["M1"]
+    the ordering of the ports' effects follows the ordering of the tonic
+    occupancy at the receptor each antagonist binds.
+
+    P6.3 changed WHICH concentration that occupancy has to be computed at,
+    and this test is where the change shows. `tone_table()` reports the tone
+    at each transmitter's MEASURED basal level, which is the concentration
+    in its REFERENCE region; before P6.3's derived density map that was the
+    concentration everywhere, so the two questions had one answer. They no
+    longer do: the cortical H1 receptor sees 0.016 nM of histamine rather
+    than the hypothalamus's measured 7.8 nM, and the cortical M1 receptor
+    sees 10.1 nM of acetylcholine rather than the striatum's 18.4 nM. So the
+    ordering of the EFFECTS follows the occupancy at each receptor's OWN
+    REGION, and the test asserts that instead. It is a stronger statement
+    than the one it replaces, because the two orderings now differ: at the
+    reference concentrations H1 outranks M1, and in the regions the ports
+    actually place them M1 outranks H1, and it is the second that predicts
+    the effects."""
+    reference = {row["receptor"]: row["occupancy"] for row in tone.tone_table()}
+    # Unchanged, and no longer the right question for a ported scenario.
+    assert reference["D2"] > reference["H1"] > reference["M1"]
+
+    regional = {}
+    for key, receptor, region in (
+        ("dopamine", "D2", "CP"),
+        ("histamine", "H1", "PFC"),
+        ("acetylcholine", "M1", "PFC"),
+    ):
+        scenario = pscen.port(key)
+        level = scenario.projection.basal_concentration(region)
+        target = next(t for t in tone.TONE_TARGETS if t.name == receptor)
+        regional[receptor] = tone.tonic_occupancy(target, basal=level)
+    assert regional["D2"] > regional["M1"] > regional["H1"]
+
     effects = {
         key: abs(pscen.lone_antagonist_effect(key, t_end=30.0)["terminal_rate"])
         for key in ("dopamine", "histamine", "acetylcholine")
     }
-    assert effects["dopamine"] > effects["histamine"] > effects["acetylcholine"]
+    assert effects["dopamine"] > effects["acetylcholine"] > effects["histamine"]
 
 
 # ---------------------------------------------------------------------------
