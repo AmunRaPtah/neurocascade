@@ -352,8 +352,10 @@
       "deps": [
         "P4.3"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "running",
+      "attempts": 1,
+      "started_at": "2026-08-13T00:10:04.915923+00:00",
+      "baseline": "d051d3a8e240ffead7b62fa5b481c987fffe981a"
     },
     {
       "id": "P5.2",
