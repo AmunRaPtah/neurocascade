@@ -93,6 +93,20 @@ The engine runs end to end on five worked examples, all reusing the same
   comes entirely from two matched published measurements rather than from
   anything hand-set.
 
+- [`examples/acetylcholine_nicotinic_muscarinic_circuit.py`](examples/acetylcholine_nicotinic_muscarinic_circuit.py)
+  runs the nicotinic (alpha4beta2, alpha7) and muscarinic (M1, M2) systems
+  of `acetylcholine.py` on one basal-forebrain/cortex circuit. Nicotinic
+  receptors are the first in this codebase that a two-state occupancy model
+  cannot represent: an agonist drives them into a state that is still
+  occupied and no longer conducting, and nicotine desensitizes alpha4beta2
+  246-fold below the concentration that activates it. So `receptor.py`
+  gained `DesensitizingReceptorSite`, in the same additive way GABA-A
+  allosteric modulation gained `connection_modulation`, with the
+  desensitization and recovery rate constants literature-sourced from one
+  experiment. Mecamylamine is modelled as the non-competitive open-channel
+  blocker it is rather than as a competitor, and the muscarinic sites stay
+  ordinary two-state sites on purpose.
+
 **The circuit time constants and connection weights are hand-set
 placeholders**, chosen to get the mechanism right, not sourced from any
 specific dataset. The receptor-binding constants and the PK are no longer:
@@ -128,6 +142,8 @@ more single-dose studies.
 | `src/neurocascade/connectome_scenarios.py` | The hand-built scenarios re-wired from the connectome, with per-edge provenance (P3.3) |
 | `src/neurocascade/serotonin.py` | The 5-HT1A and 5-HT2A receptor systems, their literature binding constants and efficacies, and the raphe/cortex scenario they drive (P5.1) |
 | `src/neurocascade/dopamine.py` | The D1 receptor, its literature binding constants and efficacies, and the shared direct+indirect basal-ganglia network the calibrated D2 system also couples into (P5.2) |
+| `src/neurocascade/noradrenaline.py` | The alpha1, alpha2 and beta adrenoceptor systems, their literature binding constants and efficacies, and the locus-coeruleus/cortex scenario they drive (P5.3) |
+| `src/neurocascade/acetylcholine.py` | The nicotinic (alpha4beta2, alpha7) and muscarinic (M1-M5) receptor systems, their literature binding constants, the measured desensitization and recovery rate constants the new `DesensitizingReceptorSite` consumes, and the basal-forebrain/cortex scenario they drive (P5.4) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4) |
 | `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2), and the cited anatomical validation of the resulting maps (P4.3) |
 | `src/neurocascade/datafetch.py` | Checksummed download/verify/cache, shared by both ingestion packages |

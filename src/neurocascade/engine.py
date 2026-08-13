@@ -20,6 +20,14 @@ class ReceptorSystem(object):
                   `Simulation.connection_modulation` this replaces.
     name        : optional label (defaults to `receptor_site.name`), used
                   only for error messages/repr.
+
+    `n` is the site's LIGAND count (one PK model and one `doses` entry
+    each); `n_states` is how many ODE states the site owns. They are equal
+    for a plain `ReceptorSite` and differ for a
+    `receptor.DesensitizingReceptorSite`, which carries a second state per
+    orthosteric ligand plus a channel-block pool (P5.4). Sites that predate
+    P5.4 have no `n_states` attribute at all, hence the `getattr` default,
+    so a duck-typed external receptor site keeps working unchanged.
     """
 
     def __init__(self, pk_models, receptor_site, coupling, connection_modulation=None, name=None):
@@ -31,6 +39,7 @@ class ReceptorSystem(object):
         self.connection_modulation = dict(connection_modulation or {})
         self.name = name or receptor_site.name
         self.n = receptor_site.n
+        self.n_states = int(getattr(receptor_site, "n_states", receptor_site.n))
 
     def __repr__(self):
         return "ReceptorSystem(name=%r, n_ligands=%d)" % (self.name, self.n)
@@ -66,14 +75,22 @@ class Simulation(object):
     PK model owns a single state):
 
         y = [<PK states of every ligand, in flattened ligand order>,  # d of them
-             occ_1^(1)..occ_{n_1}^(1), occ_1^(2)..occ_{n_2}^(2), ..., # r of them
+             <receptor states of system 1>, <system 2>, ...,         # r of them
              r_1, ..., r_n]                                          # shared rates
 
     i.e. every ligand's PK state block, in system order, then every system's
-    occupancies, in the same order, then one shared set of circuit firing
-    rates. `doses` passed to `run()` must be given in that same flattened
-    per-system ligand order, one entry per ligand (see `dose_vector()` for a
-    name-based helper that builds it for you).
+    receptor-state block, in the same order, then one shared set of circuit
+    firing rates. `doses` passed to `run()` must be given in that same
+    flattened per-system LIGAND order, one entry per ligand (see
+    `dose_vector()` for a name-based helper that builds it for you).
+
+    A system's receptor-state block is one occupancy per ligand for the
+    ordinary two-state `ReceptorSite`, so for every scenario before P5.4
+    `self.r == self.n_ligands` and this layout is exactly the v0 one. A
+    `receptor.DesensitizingReceptorSite` (P5.4, nicotinic receptors) owns
+    more states than it has ligands -- a desensitized state per orthosteric
+    ligand and a channel-block pool -- so the two counts are tracked
+    separately and `state_rows(i)` gives system `i`'s rows.
 
     A ligand's PK block is as long as its PK model's `n_states` (1 for
     `OneCompartmentPK` and for an IV `DosedOneCompartmentPK`; 2 for an
@@ -180,8 +197,22 @@ class Simulation(object):
         self.receptor_systems = receptor_systems
         self._n_per_system = [system.n for system in receptor_systems]
         self._offsets = np.cumsum([0] + self._n_per_system[:-1]).tolist()
+        # Receptor-state block lengths, which equal the ligand counts for
+        # every two-state site and exceed them for a desensitizing one
+        # (P5.4). Two offset tables are therefore needed: one to slice the
+        # per-ligand concentrations out of the PK region, one to slice the
+        # per-system state block out of the occupancy region.
+        self._n_states_per_system = [
+            int(getattr(system, "n_states", system.n)) for system in receptor_systems
+        ]
+        self._state_offsets = np.cumsum([0] + self._n_states_per_system[:-1]).tolist()
 
-        self.r = sum(self._n_per_system)  # one occupancy per ligand
+        #: Number of ligands across all systems: the length of `doses`.
+        self.n_ligands = sum(self._n_per_system)
+        #: Number of receptor STATES across all systems: the length of the
+        #: occupancy region of y. Equal to `n_ligands` unless a
+        #: desensitizing site is present.
+        self.r = sum(self._n_states_per_system)
         self.c = network.n
 
         # Flat, ligand-ordered PK view. Every model is normalized to the ODE
@@ -268,7 +299,7 @@ class Simulation(object):
         a bolus concentration for `OneCompartmentPK`, mg/kg for the
         dose-administered models. 0 means "no drug" for either.
         """
-        doses = np.zeros(self.r)
+        doses = np.zeros(self.n_ligands)
         offset = 0
         seen = set()
         for system in self.receptor_systems:
@@ -281,6 +312,18 @@ class Simulation(object):
         if unknown:
             raise ValueError("unknown ligand name(s): %s" % sorted(unknown))
         return doses
+
+    def state_rows(self, system_index):
+        """Row indices, into `result["occupancy"]`, of one system's states.
+
+        For a plain two-state site those rows ARE the per-ligand
+        occupancies, one each, in ligand order. For a
+        `DesensitizingReceptorSite` the block is longer than the ligand
+        count and its internal layout belongs to the site; pass the sliced
+        rows to `site.split_states(...)` rather than indexing them by hand.
+        """
+        start = self._state_offsets[system_index]
+        return np.arange(start, start + self._n_states_per_system[system_index])
 
     def _unpack(self, y):
         """Split y into (PK states, occupancies, rates). The first return
@@ -317,12 +360,19 @@ class Simulation(object):
         drive = self.network.baseline_drive()
         modulation_factors = {}  # (post_name, pre_name) -> composed factor
 
-        for system, offset in zip(self.receptor_systems, self._offsets):
+        for system, offset, s_offset, n_states in zip(
+            self.receptor_systems,
+            self._offsets,
+            self._state_offsets,
+            self._n_states_per_system,
+        ):
             n = system.n
             C_i = C_receptor[offset : offset + n]
-            occ_i = occ[offset : offset + n]
+            occ_i = occ[s_offset : s_offset + n_states]
 
-            d_occ[offset : offset + n] = system.receptor_site.occupancy_rhs(occ_i, C_i)
+            d_occ[s_offset : s_offset + n_states] = system.receptor_site.occupancy_rhs(
+                occ_i, C_i
+            )
 
             activation = system.receptor_site.activation(occ_i)
 
@@ -353,8 +403,10 @@ class Simulation(object):
         live in the engine, which is why the engine needs no branch on
         route, bioavailability or model order."""
         doses = np.asarray(doses, dtype=float)
-        if doses.shape != (self.r,):
-            raise ValueError("doses must have length %d (one per ligand)" % self.r)
+        if doses.shape != (self.n_ligands,):
+            raise ValueError(
+                "doses must have length %d (one per ligand)" % self.n_ligands
+            )
         blocks = [
             model.initial_state(dose)
             for model, dose in zip(self._ode_pk_models, doses)
@@ -376,8 +428,10 @@ class Simulation(object):
         """
         y = np.array(y, dtype=float)
         doses = np.asarray(doses, dtype=float)
-        if doses.shape != (self.r,):
-            raise ValueError("doses must have length %d (one per ligand)" % self.r)
+        if doses.shape != (self.n_ligands,):
+            raise ValueError(
+                "doses must have length %d (one per ligand)" % self.n_ligands
+            )
         for model, (start, stop), dose in zip(
             self._ode_pk_models, self._pk_blocks, doses
         ):
@@ -409,6 +463,11 @@ class Simulation(object):
                 else plasma * self.receptor_concentration_factors[:, None]
             ),
             "pk_states": sol.y[0:d],
+            # One row per receptor STATE, in system order: per-ligand
+            # occupancy for an ordinary site, and the full
+            # bound/desensitized/blocked block for a desensitizing one. Use
+            # `state_rows(i)` plus the site's `split_states` to read the
+            # latter (P5.4).
             "occupancy": sol.y[d : d + r],
             "rates": sol.y[d + r : d + r + self.c],
         }

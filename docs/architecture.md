@@ -7266,3 +7266,522 @@ understatement is on the record rather than implied. Tonic release is P6.2.
   with a stated rejection criterion, and derivation 3 has a chemotype
   refinement with published evidence behind it, so two of this codebase's
   standing conventions are better founded than they were before this task.
+
+## Phase 5: acetylcholine, nicotinic and muscarinic (P5.4)
+
+### The task, and the one thing in it that is not a sourcing exercise
+
+P5.1 to P5.3 were sourcing tasks: find the constants, write them down with
+citations, wire a small illustrative circuit, and change no engine code.
+P5.4 asks for the same for acetylcholine at two nicotinic and five
+muscarinic receptors, and then adds a sentence that is not a sourcing
+instruction at all:
+
+> Nicotinic desensitization is pharmacologically central and cannot be
+> represented by the existing two-state occupancy model: add a desensitized
+> state, in the same way that GABA-A allosteric modulation required the
+> `connection_modulation` mechanism.
+
+So the interesting half of this task is a mechanism question, and the brief
+names the precedent for how to answer it. The GABA-A section above records
+the shape of that answer: before adding machinery, ask whether the existing
+mechanism is the wrong SIZE or the wrong SHAPE, and only extend when it is
+the wrong shape, because reusing a mechanism that has the wrong shape is a
+dishonest shortcut wearing the costume of parsimony. That question is asked
+three times here and answered three different ways.
+
+### Question one: does nicotinic desensitization fit `ReceptorSite`?
+
+No, and not marginally.
+
+`ReceptorSite` is a two-state model. A receptor is free or it is bound to
+one of the competing ligands, and `activation = sum(occ_i * efficacy_i)`.
+"Occupied" and "active" are one variable, so activation is a monotone
+increasing function of every ligand's concentration, always, for every
+parameter set. There is no way to make it not be.
+
+The defining fact about a nicotinic receptor is that this is false.
+[Katz1957] established at the motor end-plate that acetylcholine drives the
+receptor into a state that is still agonist-occupied and no longer
+conducting, entered and left with its own rate constants. [Fenster1997]
+measured those rate constants for the two neuronal subtypes modelled here,
+in one laboratory, in one preparation, in one table, and reported the
+consequence that makes desensitization pharmacologically central rather
+than a second-order correction:
+
+    nicotine at rat alpha4beta2, activation EC50        15 uM
+    nicotine at rat alpha4beta2, desensitization IC50    0.061 uM
+
+A 246-fold window in which nicotine's dominant action on this receptor is
+to REMOVE it from the available pool rather than to activate it, and plasma
+nicotine in a smoker sits inside that window. At alpha7 the same experiment
+gives 90 uM against 1.3 uM, a 69-fold window. A model of acetylcholine
+pharmacology that cannot express this does not have a small quantitative
+error in it; it has the wrong sign of response over the concentration range
+that matters most.
+
+Three ways of faking it inside the two-state model were considered and
+rejected, and it is worth recording why, because each is the sort of thing
+that looks like parsimony:
+
+- **Lower nicotine's `efficacy`.** Efficacy is a concentration-independent
+  multiplier. Desensitization is concentration-dependent and
+  time-dependent. Fitting an efficacy would reproduce a reduced response at
+  one concentration and be wrong at every other, and it would make the
+  receptor recover the instant the drug left, rather than over the 43 to 87
+  minutes two experiments measured.
+- **Give nicotine a second `Ligand` entry with a tighter affinity and zero
+  efficacy**, competing with itself. This is closer, and it is the sort of
+  trick that would have worked, in the sense of producing a
+  bell-shaped-looking activation curve. It is wrong because the two
+  populations would then be in instantaneous equilibrium with each other
+  through the free pool rather than connected by the measured `k_des` and
+  `k_rec`, so every timing result would be an artefact of the binding rates
+  (which are illustrative here, see below) instead of the gating rates
+  (which are measured). It also asserts that a desensitized receptor
+  releases and re-binds its agonist, which is exactly the opposite of what
+  makes the desensitized state the high-affinity one.
+- **Treat desensitization as a `connection_modulation` gain.** The GABA-A
+  mechanism scales a synapse's efficacy by `1 + gain * activation`. That
+  represents a modulator acting on a synapse. Desensitization is not a
+  modulator acting on anything: it is the receptor's own conformational
+  state, and it competes for the same finite receptor pool the agonist
+  binds.
+
+So `receptor.py` gained `DesensitizingReceptorSite`, which is the
+Katz-Thesleff cycle written per orthosteric ligand `i`:
+
+```
+free = 1 - sum(bound) - sum(desensitized)
+
+d bound_i/dt        = kon_i*C_i*free - koff_i*bound_i
+                      - k_des_i*bound_i + k_rec_i*desensitized_i
+d desensitized_i/dt = k_des_i*bound_i - k_rec_i*desensitized_i
+
+activation          = sum(bound_i * efficacy_i)
+```
+
+Three properties of that arrangement are load-bearing and each has a test:
+
+1. **Desensitized receptor still occupies the pool.** It is subtracted from
+   `free`, so a desensitized population keeps competing. Anything else
+   would make a desensitizing agonist look as though it were vanishing from
+   the receptor.
+2. **Ligand does not dissociate directly from the desensitized state.**
+   This is what makes the desensitized state the HIGH-affinity one, and it
+   is not a modelling flourish: it produces, with no further assumption, an
+   apparent equilibrium affinity of `Kd / (1 + k_des/k_rec)` for total
+   binding. See "The prediction this makes" below, which is the most
+   interesting result in this task.
+3. **`k_des` is per ligand and may be zero.** An orthosteric competitive
+   antagonist occupies the site without driving the conformational change,
+   so it must be possible to say that. No such ligand is instantiated in
+   P5.4 (dihydro-beta-erythroidine and methyllycaconitine are the obvious
+   candidates and neither had constants in reach), but a site whose API
+   cannot express it would have to be rebuilt the day one arrives.
+
+### Question two: does mecamylamine fit the competitive pool?
+
+No, and this is the GABA-A question again with a different answer to the
+same test.
+
+Mecamylamine is not a competitive antagonist. [Papke2001] states that its
+inhibition of neuronal nicotinic receptors "was noncompetitive and voltage
+dependent", and [Arias2010] locates its site in the channel lumen, "between
+the non-polar (position 17') and outer (position 20') rings" of the
+transmembrane domain, structurally distinct from the agonist site. Putting
+it in `ReceptorSite`'s competitive pool would assert that it displaces
+acetylcholine, which is the one thing it demonstrably does not do, and the
+model would then predict that a high enough acetylcholine concentration
+overcomes mecamylamine's block. Real non-competitive block is
+insurmountable, which is the whole reason the distinction has a name.
+
+`DesensitizingReceptorSite` therefore takes an optional second, independent
+ligand pool:
+
+```
+d blocked_j/dt = konb_j*Cb_j*(1 - sum(blocked)) - koffb_j*blocked_j
+activation     = (1 - sum(blocked)) * sum(bound_i * efficacy_i)
+```
+
+The multiplicative form is chosen because it reproduces exactly what a
+functional IC50 for non-competitive inhibition measures: activation halved
+when the blocker sits at its own Kd, at any agonist concentration. That is
+tested directly, and so is the property that matters more, that the
+agonist's occupancy is bit-for-bit unchanged by the blocker.
+
+What this deliberately does not represent is the use- and
+voltage-dependence of real open-channel block. This engine has no membrane
+potential and no channel-open state for "use" to be a function of, so the
+block here does not grow with agonist concentration and real block does.
+That is stated in the module rather than left for a reader to discover.
+
+### Question three: do the muscarinic receptors need the new state?
+
+No, and that is a modelling claim made on purpose rather than a corner cut.
+`M1` and `M2` are plain `ReceptorSite`s, and scopolamine sits in the
+competitive pool with acetylcholine because scopolamine really does compete
+for the orthosteric site, the same finding P5.1 recorded for
+diazepam/flumazenil at the benzodiazepine site.
+
+Muscarinic receptors do desensitize. They are G-protein-coupled, and their
+agonist-induced desensitization is a phosphorylation/arrestin process
+running over minutes to hours, with no rate constant in reach for
+acetylcholine or scopolamine at any of the five subtypes. Nicotinic
+desensitization is an intrinsic conformational change of the channel with
+measured rate constants at both subtypes from one table. Giving the
+muscarinic sites a desensitized state would have meant inventing two rate
+constants per site, which rule 1 forbids, in order to represent a process
+whose timescale barely overlaps this model's window.
+
+The contrast between the two halves of `acetylcholine.py` is the point of
+having them in one module: one transmitter, two receptor superfamilies,
+four instantiated sites, and only two of them need the new state. If the
+new state had been necessary for all four it would have been much weaker
+evidence that it was necessary at all.
+
+### The engine change, which is smaller than it sounds
+
+Before P5.4, `Simulation` used one number per receptor system for two
+different jobs: how many PK models and `doses` entries the system needs,
+and how many rows of the shared state vector it owns. Those were the same
+number because every site owned one occupancy per ligand. A desensitizing
+site owns `2*n_orthosteric + n_blockers` states for `n_orthosteric +
+n_blockers` ligands, so the two had to be separated:
+
+- `ReceptorSite` gained an `n_states` attribute equal to `n`, so the engine
+  needs no branch on site type, and `getattr(..., site.n)` keeps duck-typed
+  external sites working.
+- `Simulation` gained `n_ligands` (the `doses` length) alongside `r` (the
+  occupancy-region length), a second offset table, and `state_rows(i)`.
+- `receptor_site.occupancy_rhs` and `.activation` keep their signatures.
+  They are handed the system's whole state block and its whole
+  concentration vector, and the site decides what the block means. That is
+  what kept the change to about thirty lines of `engine.py` code (the diff
+  is larger only because of the comments that explain them): the engine
+  does not know that desensitization exists.
+
+For every scenario that predates P5.4, `n_states == n` for every site, so
+`r == n_ligands`, every offset table is the old one, and the state vector
+layout is byte-identical. The full suite passed unchanged with the engine
+edit in place and before `acetylcholine.py` existed, which is the check
+that says so.
+
+### Where the constants came from, and the two places they are weak
+
+The nicotinic half is the strongest set of constants in this module and one
+of the better-sourced in the codebase, because [Fenster1997] measured
+activation potency, desensitization potency, desensitization onset and
+recovery for FIVE subunit combinations in one experiment. That is the
+[Volpe2011]/[Proudman2021]-style same-preparation guarantee P5.2 and P5.3
+had to go looking for, and it means "alpha7 desensitizes 7.4-fold faster
+and recovers 45.7-fold faster than alpha4beta2" is a comparison rather
+than two quotations. The three subtypes this module does not build are kept in
+`FENSTER1997_OTHER_SUBTYPES` for the same reason P5.3 kept alpha1B and
+alpha1D: the 71-fold onset spread and 218-fold recovery spread across the
+five rows are the scale against which the two modelled sites should be
+read, and a test asserts both.
+
+Two weaknesses, stated rather than smoothed:
+
+**No measured association rate constant exists anywhere in this module.**
+P5.1's derivation 3 says "share the site's measured `kon`". Here there is
+no measured `kon` at any of the four sites for any of the four ligands, so
+there is nothing to share, and `ILLUSTRATIVE_KON` is an explicitly
+illustrative constant rather than a borrowed measurement. It is set to 0.01
+nM^-1 min^-1 by two stated constraints rather than by taste: it sits at the
+slow end of the only measured `kon` panel this codebase has ([Sykes2022] at
+beta1, 0.00847 to 1.97 across 18 ligands, brought in by P5.3), so it does
+not assert unusually fast binding; and it is fast enough that every site's
+`koff` exceeds its `k_des` by at least 20-fold, so illustrative binding
+never becomes the rate-limiting step in front of the measured gating
+constants. A test asserts both. Every affinity is still exact, because
+`koff = kon * Kd` by construction; only the approach timescale is hand-set.
+[Sykes2009] measures precisely the missing quantity for acetylcholine at
+M3 and is behind a Cloudflare-protected publisher site; it is named in the
+module so the gap has an address.
+
+**The muscarinic affinities are curated database values, not primary
+measurements.** No single-laboratory M1-M5 panel carrying BOTH
+acetylcholine and scopolamine was reachable: [Bolden1992] is the five-subtype
+scopolamine panel and does not report acetylcholine; [Jakubik1997] is an
+acetylcholine panel and stops at M4; [Wood1999] covers all five but uses
+CARBACHOL as its reference full agonist, and substituting carbachol's
+potency for acetylcholine's is exactly the ligand substitution rule 2
+forbids. So the values come from the IUPHAR/BPS Guide to PHARMACOLOGY
+release 2026.2, with every primary the Guide attributes each entry to named
+in the module docstring, and the curated status labelled at the constant.
+Where the Guide records a range, the module carries the pKi midpoint and
+keeps both endpoints; the midpoint is labelled a derived number.
+
+That range is not narrow. Acetylcholine's curated human pKi spans 4.3 to
+6.5 across the five subtypes, a factor of 158, and 4.3 to 6.5 AT M2 ALONE.
+This is P5.3's alpha2 affinity-state problem again: agonist binding to a
+muscarinic receptor is biphasic and guanine-nucleotide-sensitive, so a
+curated range over several laboratories brackets the G-protein-coupled
+high-affinity state and the uncoupled low-affinity one at once. P5.3 could
+build two selectable `AFFINITY_STATES` because it had a matched pair of
+state-resolved measurements; here no such pair was reached, so the module
+carries one midpoint per subtype and says what it is collapsing. The only
+species check available, that the Guide's rat acetylcholine values (5.0,
+6.4, 5.6 at M1-M3) fall inside the corresponding human ranges, is a test.
+
+Scopolamine is in much better shape and the five-subtype table earns its
+place by saying so: its pKi spans 8.7 to 9.4, a factor of 5 in Kd, so
+"scopolamine blocks the muscarinic component" is subtype-independent in
+this model in the way "prazosin blocks the alpha1 component" was in P5.3,
+and it outbinds acetylcholine by more than 400-fold at every one of the
+five. Both are tested.
+
+### Derivation 4, which this task had to add
+
+P5.1's three-way split assumes the literature reports equilibrium
+affinities. The nicotinic literature does not. Every number available for
+these receptors is a functional EC50 or IC50 from voltage clamp, because
+these are ion channels and the assay that works on them measures current.
+So a fourth case was needed and is stated at every constant that uses it:
+
+> **4. A potency, not an affinity.** Use the functional EC50 as the site's
+> conducting-state Kd, and say so.
+
+The assumption is that activation is proportional to conducting-state
+occupancy with no receptor reserve, which is precisely the assumption
+`activation = sum(occupancy * efficacy)` already makes everywhere in this
+codebase. It is the same limitation P5.2 flagged for the
+530-fold-versus-31-fold D1/D2 gap and P5.3 for the 3.8-log-unit alpha1A
+affinity/potency gap, applied here in the only direction the data allow.
+For an ion channel with a Hill coefficient near 1 (1.1 for nicotine at
+alpha7, 0.83 and 0.74 for acetylcholine at the two alpha4beta2
+stoichiometries) it is a better approximation than it was for either
+G-protein-coupled case, because there is no second-messenger amplification
+step between occupancy and the measured signal.
+
+### The prediction this makes, and gets wrong by tenfold
+
+This is the part of P5.4 worth reading.
+
+The Katz-Thesleff cycle has a consequence nobody put into it. Trapping
+ligand in a desensitized state that cannot dissociate makes the site's
+apparent equilibrium affinity for TOTAL binding tighter than its
+conducting-state affinity by exactly
+
+    1 + k_des / k_rec
+
+Both rates are measured. So the factor is not a parameter, it is a
+PREDICTION, and [Fenster1997] measured the thing it predicts, in the same
+table: the gap between the activation EC50 and the desensitization IC50 of
+the same receptor in the same experiment.
+
+    site         1 + k_des/k_rec    EC50/IC50 measured    model / measured
+    alpha4beta2       24.5                 246                1 / 10.0
+    alpha7             4.8                  69                1 / 14.4
+
+The model reproduces the direction at both sites, reproduces an order of
+magnitude of the shift, and under-predicts it by 10 to 14-fold. That the
+shortfall is in the same direction and within 1.4-fold of the same size at
+two receptors whose measured rates differ 7.4-fold (`k_des`) and
+45.7-fold (`k_rec`) is what makes it a finding rather than noise.
+
+The mechanism [Fenster1997] itself names is the obvious candidate. Its
+Table 2 reports that beta2-containing receptors need TWO components to
+describe the decay (alpha4beta2: tau_slow 90.7 +/- 5.9 s, tau_fast
+5.4 +/- 1.5 s, the fast one carrying 40.3 +/- 3.2% of the amplitude) and
+concludes that "these data imply multiple desensitized states for these
+receptors". `DesensitizingReceptorSite` has one desensitized state per
+ligand and cannot hold two components. With a deeper, slower state that a
+30-minute exposure reaches and a 4-minute fit does not, the true trapping
+ratio is larger than the one a single-exponential fit reports, and the
+model's factor is the single-exponential one.
+
+No number was adjusted to close that gap, and the temptation to was real,
+because it is one free constant away: setting `k_rec` to 1/8.9 min instead
+of 1/86.9 min makes the factor come out at 246 exactly. It would also make
+the receptor recover from desensitization in nine minutes rather than the
+43 minutes [Fenster1999] measured and the 87 minutes [Fenster1997]
+measured, i.e. it would trade a stated 10-fold error in one place for an
+unstated 5 to 10-fold error in another, and it would destroy the module's
+only independent check. Rule 5 says report the real error, and the real
+error is a factor of 10 in one direction with a named mechanism behind it.
+Two tests hold it: one asserts both factors, both shortfalls and,
+separately, the DIRECTION (because the direction is the part that would
+falsify the single-desensitized-state simplification if it flipped); the
+other reaches the same 10.04 from the concentration axis, by showing the
+model needs 10.04x the measured IC50 to half-desensitize the pool.
+
+### The result that needs no comparison, because nothing else can produce it
+
+One consequence of the third state is qualitative rather than quantitative,
+and it is the clearest single statement of what P5.4 bought. Dose the
+network with acetylcholine and wait ten minutes. `ACETYLCHOLINE_KE` clears
+the transmitter with a half-life of eight seconds, so by then every
+conducting occupancy and every competitive occupancy in the model has
+returned to zero: the two muscarinic sites are empty, both nicotinic sites'
+conducting fractions are below a thousandth, and the drug is gone.
+alpha4beta2 is still an eighth desensitized. alpha7 is not.
+
+That asymmetry is not a parameter. It is `ALPHA4BETA2_TAU_RECOVERY` (86.9
+min) against `ALPHA7_TAU_RECOVERY` (1.9 min), two numbers from one table,
+carried through the state vector. In a two-state model the receptor's state
+is a function of the current concentration, so when the drug goes the
+receptor is back, always, for both subtypes, and there is nowhere to put a
+receptor that is unoccupied by any competitor and still unavailable. This
+is what "cannot be represented by the existing two-state occupancy model"
+means concretely, and it is a test and a printed line in the example rather
+than an argument.
+
+### How much the desensitization constants are actually worth
+
+Less than four significant figures, and the module says so out loud.
+
+    quantity          [Fenster1997]         [Fenster1999]
+    desensitization   3.7 +/- 0.9 min       1.4 min (65%) / 17 min
+                      (single exponential)  (biphasic)
+    recovery          86.9 +/- 64.7 min     43 min
+
+Same laboratory, same preparation, same receptor, two papers two years
+apart. The recovery constants differ 2.0-fold and the 1997 value's own
+standard error is 74% of its mean, so anything this module says about
+recovery TIMING is good to about a factor of two and no better. The 1997
+single-exponential onset of 3.7 min sits between the 1999 biphasic pair
+(1.4 and 17 min), which is the most that can be said for it. All three are
+carried as constants, the 1997 values are the defaults because they are the
+ones measured in the same table as everything else here, and a test asserts
+the 2.0-fold spread and the bracketing so neither can be forgotten.
+
+### The circuit, and the rule that had to be re-checked rather than reused
+
+Three nodes, and the same cortical loop P5.1 built and P5.3 reused, for
+P5.3's reason: it is the same cortical microcircuit, and changing its
+weights would imply a difference no source supports. A test asserts the two
+loop weights and the cortical readout are literally equal across
+`serotonin.py`, `noradrenaline.py` and `acetylcholine.py`.
+
+    BF_Cholinergic   basal forebrain cholinergic neurons. Carries the M2
+                     AUTORECEPTOR, identified in M2 knock-out mice rather
+                     than by a selective drug ([Zhang2002]). No edges, for
+                     P5.1's and P5.3's reason.
+    PFC_Pyramidal    layer V/VI prefrontal pyramidal neurons. Carries
+                     THREE acetylcholine receptors at once: M1 (Gq,
+                     excitatory, [McCormick1986]), alpha4beta2 (cation
+                     channel, excitatory, [Kassam2008]) and alpha7 (cation
+                     channel, excitatory, [Alkondon1993]).
+    PFC_GABA         local cortical interneurons, no receptor, present to
+                     make the pyramidal node's response finite.
+
+Rules 1 and 2 carry over unchanged and are re-asserted. Rule 3 is the one
+that had to be re-checked: P5.3 established that the saturation budget is
+per NODE rather than per receptor, and set two cortical gains to 0.5 each
+because the node carried two receptors. This node carries three, so each
+gets a third of the same unit. The counterfactual is re-run rather than
+assumed: at P5.1's per-receptor unit rule the node would take +3.0 of
+drive, and the test asserts that this pushes its sigmoid sensitivity below
+`stability.SATURATION_FLOOR` while +1.0 does not. A rule that cannot reject
+a value is not a rule, and this is the second task to test that it can.
+
+Putting both nicotinic sites on ONE node with the SAME gain is deliberate,
+and it is P5.3's device: every alpha7-versus-alpha4beta2 difference this
+module reports is then a consequence of the published constants rather than
+of two hand-set numbers.
+
+### Searched and empty
+
+- **Association rate constants**, for any of the four ligands at any of the
+  four receptors. Covered above; `ILLUSTRATIVE_KON` and [Sykes2009] are the
+  record of it.
+- **A relative maximal response for nicotine against acetylcholine** at
+  alpha4beta2 or alpha7 in one preparation. [ChavezNoriega1997] states only
+  that acetylcholine was "one of the most efficacious agonists at all
+  hnAChRs" except at h-alpha3beta2; [Fenster1997] normalizes to
+  acetylcholine test pulses without reporting a ratio; the alpha7
+  literature reached gives Imax relative to acetylcholine for nornicotine
+  and for experimental partial agonists but not for nicotine itself.
+  `NICOTINE_EFFICACY` is therefore 1.0 as a stated simplification. Nothing
+  here depends on it, because both nicotinic results are about
+  desensitization, which is driven by occupancy and not by efficacy, and a
+  parameterized test re-runs them at 0.5.
+- **A single-laboratory M1-M5 panel with both ligands.** Covered above.
+- **Rodent PK for nicotine, scopolamine and mecamylamine.** Exists,
+  extensively for nicotine, and not used, for P5.3's two unchanged reasons.
+  All three share the one illustrative `TOOL_COMPOUND_KE` that
+  `serotonin.py`, `dopamine.py` and `noradrenaline.py` share, and a test
+  asserts the equality across all four modules.
+- **Acetylcholine's own clearance rate.** The same gap the other three
+  transmitters have and the most extreme case of it: acetylcholinesterase
+  is one of the fastest enzymes known and works on a sub-millisecond
+  timescale, so a literal rate would collapse an acetylcholine dose into a
+  delta function far inside one integration step. `ACETYLCHOLINE_KE` is the
+  same flagged 5.0 min^-1 proxy the other three modules use, and a test
+  asserts that equality too. P6.2.
+
+### What was deliberately not built
+
+- **Voltage- and use-dependence of mecamylamine's block.** No membrane
+  potential in this engine, and no channel-open state for "use" to be a
+  function of.
+- **The alpha4beta2 stoichiometry split.** [Sanders2022] measures
+  acetylcholine EC50 at 1.6 uM for (alpha4)2(beta2)3 and 37.1 uM for
+  (alpha4)3(beta2)2, and [Papke2013] measures mecamylamine at 18 uM and 2.4
+  uM for the same two: the two stoichiometries differ 23-fold in one
+  direction for the agonist and 7.5-fold in the OTHER direction for the
+  blocker. Both are recorded as constants and both ratios are tested; the
+  high-sensitivity form is instantiated because it is the one nanomolar
+  nicotine engages and this module's headline result is about nanomolar
+  nicotine. A receptor-assembly question is not a regional one, so no ISH
+  map could settle it, exactly as P5.3 recorded for its subtype split.
+- **The M3, M4 and M5 sites.** All five subtypes' constants are defined,
+  because the task is a five-subtype one and because the cross-subtype
+  comparison is the honest way to state how non-selective scopolamine is.
+  They are not instantiated because this three-node circuit has no node
+  whose identity would fix which of them it carries, and inventing a node
+  to hold a receptor is the failure mode P5.2 recorded.
+- **The basal forebrain to cortex edge.** P5.1's and P5.3's decision, and
+  stronger here than in either: this module gives one cortical node THREE
+  different acetylcholine receptors, so a signed weight would double-count
+  the receptor layer three times over. P6.1.
+- **Endogenous cholinergic tone.** Without it scopolamine and mecamylamine
+  given alone are inert, and real scopolamine is famously not. The test
+  that asserts inertness says it is a limitation and names P6.2 as the
+  thing that should make it fail.
+- **Nicotine's upregulation of alpha4beta2 receptor number.** Downstream of
+  exactly the desensitized state this module now has ([Fenster1999] is a
+  paper about that link) and operating over days. No receptor-number state
+  and no such timescale here.
+
+### What this task changes, and what it does not
+
+- **One new module and one new receptor class**, plus the smallest engine
+  change that could support it. `acetylcholine.py` and
+  `DesensitizingReceptorSite` are new; `engine.py` gained `n_ligands`, a
+  second offset table and `state_rows`; `ReceptorSite` gained an
+  `n_states` attribute equal to `n`. `network.py`, `circuit.py`,
+  `behavior.py`, `pk.py`, `scenarios.py`, `serotonin.py`, `dopamine.py` and
+  `noradrenaline.py` are untouched.
+- **Every existing test passes unchanged.** The engine edit was run against
+  the full suite before `acetylcholine.py` existed (716 gate tests green
+  with the new offsets and the new `n_states` in place and nothing using
+  them), and the pre-P5.4 state vector layout is identical because
+  `n_states == n` for every site that predates this task. None deleted,
+  skipped, weakened or marked slow. 51 new test items, 17 of them on the
+  mechanism alone with no pharmacology in them, all in the offline gate,
+  which now runs 767 tests.
+- **Ten instantiated ligand-site affinities are literature-sourced**, and
+  constants are defined for all five muscarinic subtypes for both
+  acetylcholine and scopolamine plus both alpha4beta2 stoichiometries for
+  both acetylcholine and mecamylamine, across two receptor superfamilies
+  and seven receptor subtypes. Four measured gating rate constants
+  (`k_des` and `k_rec` at both nicotinic sites) drive the new state, and
+  two further measured quantities (the two nicotine desensitization IC50s)
+  are treated as prediction TARGETS rather than as inputs.
+- **Two constants are illustrative and labelled and one of them is new in
+  kind**: `ILLUSTRATIVE_KON` is the first parameter in this codebase where
+  derivation 3 had nothing to borrow, so it is hand-set against two stated
+  constraints instead, both tested.
+- **A quantitative failure is reported rather than fitted away.** The
+  10-fold and 14-fold shortfalls in the predicted apparent-affinity shift
+  are the honest headline of P5.4, the mechanism behind them is named and
+  cited, and the one-parameter change that would have hidden them is
+  written down along with what it would have cost.
+- **The circuit and the pharmacokinetics remain illustrative and labelled**,
+  as in every scenario before Phase 7 - but rule 3's per-node budget has
+  now been tested at three receptors on one node as well as at two, so a
+  convention established by P5.3 has survived its first extension.
