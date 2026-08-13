@@ -264,7 +264,7 @@ def test_the_derived_basal_release_rate_is_what_the_mass_balance_requires():
     )
     net = mt.net()
     assert net.basal_release_rate() == pytest.approx(
-        mt.NORADRENALINE_CLEARANCE_RATE * mt.NORADRENALINE_BASAL_UNIT_SCALE
+        mt.NORADRENALINE_CLEARANCE_RATE * mt.BASAL_NORADRENALINE
     )
 
 
@@ -404,12 +404,21 @@ def test_the_noradrenaline_clearance_rate_is_derived_from_the_measured_half_life
     assert net.km is None and net.vmax is None
 
 
-def test_no_NET_conclusion_depends_on_the_noradrenaline_unit_scale():
-    """`NORADRENALINE_BASAL_UNIT_SCALE` is a unit, not a measurement. Every
-    fold-change this module reports at NET must be invariant to it."""
+def test_no_NET_conclusion_depends_on_the_noradrenaline_basal_level():
+    """Every fold-change this module reports at NET must be invariant to the
+    basal noradrenaline level.
+
+    P5.8 wrote this test because `NORADRENALINE_BASAL_UNIT_SCALE` was a unit
+    rather than a measurement, and the invariance was what made the unit
+    harmless. P6.2 replaced the unit with [PanLai1995]'s measured 1.59 nM,
+    and the test is KEPT and strengthened rather than retired: what it now
+    asserts is that P6.2's change of that constant moved no fold-change this
+    module reports, which is the claim `endogenous_tone.change_report()`
+    makes for the transporter layer. The sweep still spans four orders of
+    magnitude and now includes P6.1's own 1.0."""
     ligands = mt.ligands_at("NET")
     folds = []
-    for basal in (mt.NORADRENALINE_BASAL_UNIT_SCALE, 0.017, 42.0):
+    for basal in (mt.BASAL_NORADRENALINE, 1.0, 0.017, 42.0):
         transporter = MonoamineTransporter.first_order(
             name="NET",
             transmitter="noradrenaline",
@@ -433,8 +442,8 @@ def test_no_NET_conclusion_depends_on_the_noradrenaline_unit_scale():
             ]
         )
         folds.append(_integrate_to_steady_state(transporter, doses) / basal)
-    assert folds[0] == pytest.approx(folds[1], rel=1e-9)
-    assert folds[0] == pytest.approx(folds[2], rel=1e-9)
+    for other in folds[1:]:
+        assert folds[0] == pytest.approx(other, rel=1e-9)
 
 
 def test_the_substrate_conclusion_holds_for_any_positive_release_capacity():
@@ -490,12 +499,16 @@ def test_the_tool_compound_clearance_constant_is_shared_with_every_P5_module():
 
 
 def test_the_illustrative_constants_are_labelled_as_such():
-    """Rule 1's bookkeeping: the three numbers in this module that are not
-    measurements say so where a reader will see them."""
+    """Rule 1's bookkeeping: the numbers in this module that are not
+    measurements say so where a reader will see them.
+
+    P5.8 listed three. P6.2 removed `NORADRENALINE_BASAL_UNIT_SCALE` from the
+    list in the same commit that supplied [PanLai1995]'s measurement of it
+    (rule 3), and `test_endogenous_tone` asserts that the name is gone rather
+    than merely relabelled."""
     assert "ILLUSTRATIVE" in mt.__doc__ or "illustrative" in mt.__doc__
     source = open(mt.__file__).read()
     for constant in (
-        "NORADRENALINE_BASAL_UNIT_SCALE",
         "RELEASE_CAPACITY",
         "TOOL_COMPOUND_KE",
     ):
@@ -576,7 +589,7 @@ def test_the_transmitter_state_starts_at_the_measured_basal_level():
     )
     assert np.allclose(
         sim.initial_transmitter_state(),
-        [mt.BASAL_DOPAMINE, mt.BASAL_SEROTONIN, mt.NORADRENALINE_BASAL_UNIT_SCALE],
+        [mt.BASAL_DOPAMINE, mt.BASAL_SEROTONIN, mt.BASAL_NORADRENALINE],
     )
 
 

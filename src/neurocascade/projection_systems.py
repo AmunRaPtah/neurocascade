@@ -136,12 +136,19 @@ WHAT IS MEASURED HERE AND WHAT IS NOT
 
 MEASURED, and reused from the modules that sourced them:
   dopamine Km/Vmax/basal, serotonin Km/Vmax/basal, noradrenaline clearance
-  rate, and every uptake-inhibition constant -- all of P5.8's panel, through
-  `monoamine_transporters.py`.
+  rate and (from P6.2) noradrenaline basal, and every uptake-inhibition
+  constant -- all of P5.8's panel, through `monoamine_transporters.py`.
   histamine basal extracellular concentration ([Itoh1991]).
+  acetylcholine basal extracellular concentration ([Vinson1997], added by
+  P6.2).
   The volume-transmission geometry above ([Dreyer2010], [Ozcete2024]).
   The source nuclei's identities and CCF acronyms ([AllenCCF]).
   The firing-rate context ([Ozcete2024], [Devilbiss2011], [Takahashi2006]).
+
+  **All five transmitters now carry a cited basal concentration**, which is
+  P6.2's acceptance criterion; `endogenous_tone.BASAL_TONE` is the single
+  registry, with each one's species, region, method and caveats attached, and
+  `endogenous_tone.tone_report()` prints what each one buys at each receptor.
 
 NOT MEASURED, and labelled:
   every PROJECTION DENSITY. P6.1 builds the abstraction; P6.3 is the task
@@ -149,9 +156,8 @@ NOT MEASURED, and labelled:
   module or `projection_scenarios.py` supplies carries
   `provenance="illustrative"` and `ProjectionSystem.density_report()` shows
   it.
-  acetylcholine's and histamine's extracellular clearance rate constants, and
-  acetylcholine's basal extracellular concentration. See "Searched and
-  empty" below and `ILLUSTRATIVE_CLEARANCE`.
+  acetylcholine's and histamine's extracellular clearance rate constants.
+  See "Searched and empty" below and `ILLUSTRATIVE_CLEARANCE`.
 
 ======================================================================
 SEARCHED AND EMPTY
@@ -178,6 +184,18 @@ acetylcholine measurement was found, and the review is a review. So
 `NORADRENALINE_BASAL_UNIT_SCALE` is, and a test asserts that every fold-change
 this module reports is invariant to it.
 
+**FOUND BY P6.2.** [Vinson1997] is the quantitative-microdialysis
+measurement, in rat striatum with no esterase inhibitor: 18.4 +/- 11.8 nM.
+P6.1's search looked for the phrase "zero net flux" and for reviews of basal
+cholinergic tone; the paper that carries the number is titled as a study of
+NEOSTIGMINE's effect on the extraction fraction, and reports the drug-free
+control concentration in passing. The record above is left standing because
+what it says about DIALYSATE values remains true and is why [DeBundel2008]'s
+0.40 nM is used only as the lower bound it is. `ACETYLCHOLINE_BASAL`
+replaces the unit scale, with the three caveats attached to it, and the
+fold-invariance test is kept because it is what shows the port's conclusions
+do not turn on the choice.
+
 **A first-order extracellular clearance rate constant for histamine.**
 [Cumming1991] measured the decline of extracellular histamine in rat striatum
 after synthesis inhibition and found half-lives of "32 min and 7.7 h". Those
@@ -193,6 +211,14 @@ that caveat is attached to `HISTAMINE_BASAL` as well.
 **A mouse basal extracellular noradrenaline concentration**, still, exactly
 as P5.8 recorded. NET is therefore built in the unit-scale form and its field
 is a fold-of-basal field.
+
+**PARTLY FOUND BY P6.2, in the wrong species.** [PanLai1995] measured
+1.59 +/- 0.37 nM by zero net flux in the medial prefrontal cortex of
+CONSCIOUS RATS, so the noradrenaline field now carries an absolute
+concentration scale and `monoamine_transporters.BASAL_NORADRENALINE`
+replaces the unit scale. The MOUSE value is still missing: [Ihalainen1999]
+is the mouse comparison and reports dialysate rather than recovery-corrected
+levels, which is a regional ordering and not a concentration.
 
 **Discharge rates in Hz for identified cholinergic basal forebrain or
 PPT/LDT neurons.** [Lee2005] and [Boucetta2014] are the juxtacellular
@@ -301,6 +327,61 @@ CITATIONS = {
         "J Neurosci 2005;25:4365-4369. Juxtacellularly identified cells; "
         "the paper's Hz values were not reachable (see 'Searched and "
         "empty')."
+    ),
+    "Vinson1997": (
+        "Vinson PN, Justice JB Jr. Effect of neostigmine on concentration "
+        "and extraction fraction of acetylcholine using quantitative "
+        "microdialysis. J Neurosci Methods 1997;73:61-67, PMID:9130679. "
+        "Rat STRIATUM, no-net-flux quantitative microdialysis: 'The control "
+        "ACh concentration was determined to be 18.4 +/- 11.8 nM (n = 10; "
+        "mean +/- S.E.M.)' with no cholinesterase inhibitor in the "
+        "perfusate, rising linearly to 581 +/- 109 nM under 300 nM "
+        "neostigmine. Added by P6.2; the source of `ACETYLCHOLINE_BASAL`."
+    ),
+    "DeBundel2008": (
+        "De Bundel D, Sarre S, Van Eeckhaut A, Smolders I, Michotte Y. "
+        "Critical evaluation of acetylcholine determination in rat brain "
+        "microdialysates using ion-pair liquid chromatography with "
+        "amperometric detection. Sensors 2008;8:5171-5185, PMC3705495. "
+        "'The concentration of acetylcholine in 30 uL microdialysates "
+        "obtained under basal conditions from the hippocampus of freely "
+        "moving rats was 0.40 +/- 0.12 nM (mean +/- SD, n = 30)', with the "
+        "authors' own estimate that 'the in vivo recovery for acetylcholine "
+        "in microdialysis samples was approximately 10%'. The independent "
+        "check on [Vinson1997], 4.6-fold below it."
+    ),
+    "PanLai1995": (
+        "Pan WH, Lai YJ. Anesthetics decreased the microdialysis extraction "
+        "fraction of norepinephrine but not dopamine in the medial "
+        "prefrontal cortex. Synapse 1995;21:85-92, PMID:8525466. Conscious "
+        "rat medial prefrontal cortex by ZERO NET FLUX: noradrenaline "
+        "1.59 +/- 0.37 nM at 51 +/- 8% in vivo recovery, dopamine "
+        "2.38 +/- 0.70 nM at 41 +/- 6%. Added by P6.2; the source of "
+        "`monoamine_transporters.BASAL_NORADRENALINE`, and the only "
+        "measured DOPAMINE concentration in this codebase from a region "
+        "other than the striatum."
+    ),
+    "Abercrombie1988": (
+        "Abercrombie ED, Keller RW Jr, Zigmond MJ. Characterization of "
+        "hippocampal norepinephrine release as measured by microdialysis "
+        "perfusion: pharmacological and behavioral studies. Neuroscience "
+        "1988;27:897-904, PMID:3252176. Freely-moving rat hippocampus: "
+        "'Correcting for recovery (21%), the concentration of norepinephrine "
+        "in the extracellular fluid of hippocampus under resting conditions "
+        "was estimated to be approximately 14 nM'. The cross-check on "
+        "[PanLai1995], 8.8-fold above it. Its closing sentence is also the "
+        "clearest statement of this phase's own premise: 'this suggests "
+        "that nerve terminal density is an important factor in determining "
+        "the concentration of catecholamines in the extracellular fluid'."
+    ),
+    "Ihalainen1999": (
+        "Ihalainen JA, Riekkinen P Jr, Feenstra MG. Comparison of dopamine "
+        "and noradrenaline release in mouse prefrontal cortex, striatum and "
+        "hippocampus using microdialysis. Neurosci Lett 1999;277:71-74. "
+        "MOUSE, dialysate rather than recovery-corrected: 'Basal release of "
+        "NA was similar in these areas, but DA in striatum was 13-30 times "
+        "higher than in other areas'. Consumed by no equation; it is the "
+        "regional ORDERING that P6.3's density map has to reproduce."
     ),
     "AllenCCF": (
         "Allen Mouse Brain Common Coordinate Framework structure graph 1, "
@@ -579,13 +660,46 @@ NUCLEI_BY_TRANSMITTER = {
 #: which conclusions would survive either way.
 HISTAMINE_BASAL = 7.8
 
-#: Dimensionless. As P5.8's `NORADRENALINE_BASAL_UNIT_SCALE`: with no
-#: recovery-corrected basal acetylcholine measurement available, and with the
-#: fold-change provably independent of the basal level, 1.0 makes the
-#: acetylcholine field numerically equal to its own fold-of-basal. This is a
-#: UNIT, not a number about acetylcholine, and a test asserts that fold
-#: changes are identical at three wildly different values of it.
-ACETYLCHOLINE_BASAL_UNIT_SCALE = 1.0
+#: nM. Basal extracellular acetylcholine, RAT STRIATUM, QUANTITATIVE
+#: (no-net-flux) microdialysis with NO cholinesterase inhibitor in the
+#: perfusate, [Vinson1997]: "The control ACh concentration was determined to
+#: be 18.4 +/- 11.8 nM (n = 10; mean +/- S.E.M.)".
+#:
+#: P6.1 recorded this as searched-and-empty and used a unit scale of 1.0;
+#: rule 3 says the label goes in the commit that supplies the calibration,
+#: which is this one. Three caveats travel with it:
+#:
+#: * RAT, not mouse.
+#: * STRIATUM, where extracellular acetylcholine comes from tonically active
+#:   cholinergic INTERNEURONS rather than from the basal-forebrain and
+#:   PPT/LDT projections this module's acetylcholine field is built from.
+#:   That is a source mismatch, not only a region mismatch, and it is the
+#:   weakest thing about this constant. It is used anyway because it is the
+#:   only primary quantitative-microdialysis measurement of the right
+#:   quantity that this project could reach, and because the alternative is
+#:   a unit scale, which asserts nothing at all.
+#: * The dispersion is large: +/- 11.8 on 18.4 with n = 10.
+#:
+#: The independent check is [DeBundel2008], which measured 0.40 +/- 0.12 nM
+#: in hippocampal DIALYSATE of freely-moving rats without an esterase
+#: inhibitor and put its own in vivo recovery for acetylcholine at ~10%,
+#: i.e. ~4 nM extracellular: 4.6-fold below this number, in a different
+#: region, by a method this codebase trusts less. `endogenous_tone.py`
+#: reports every acetylcholine conclusion at BOTH values, so no claim here
+#: rests on choosing between them.
+ACETYLCHOLINE_BASAL = 18.4
+
+#: nM. [DeBundel2008]'s hippocampal dialysate value. A DIALYSATE
+#: concentration is a strict LOWER BOUND on the extracellular one, because
+#: dialysate = extraction_fraction * extracellular and the extraction
+#: fraction is at most 1. Recorded as the bound it is, and used only in the
+#: sensitivity range above.
+ACETYLCHOLINE_BASAL_DIALYSATE_LOWER_BOUND = 0.40
+
+#: nM. The same paper's own recovery-corrected reading of that bound
+#: ("approximately 10%" in vivo recovery). The low end of the acetylcholine
+#: sensitivity range.
+ACETYLCHOLINE_BASAL_HIPPOCAMPAL_ESTIMATE = 4.0
 
 #: min^-1. ILLUSTRATIVE. Acetylcholine's extracellular clearance rate
 #: constant is not measured (see "Searched and empty"). The order of
@@ -617,29 +731,34 @@ HISTAMINE_CLEARANCE_RATE = _mt.VMAX_SEROTONIN / _mt.KM_SEROTONIN
 ILLUSTRATIVE_CLEARANCE = ("acetylcholine", "histamine")
 
 
-def dopamine_clearance(release_capacity=_mt.RELEASE_CAPACITY):
+def dopamine_clearance(release_capacity=_mt.RELEASE_CAPACITY, basal=None):
     """DAT, from P5.8. Km/Vmax [JohnJones2007], basal [Bosse2011], and the
     uptake-inhibition panel for cocaine, methylphenidate, amphetamine and
-    atomoxetine."""
-    return _mt.dat(release_capacity=release_capacity)
+    atomoxetine.
+
+    `basal` overrides the cited tone; see `monoamine_transporters.dat`.
+    """
+    return _mt.dat(release_capacity=release_capacity, basal=basal)
 
 
-def serotonin_clearance(release_capacity=_mt.RELEASE_CAPACITY):
+def serotonin_clearance(release_capacity=_mt.RELEASE_CAPACITY, basal=None):
     """SERT, from P5.8. Km/Vmax [JohnJones2007], basal [Mathews2004]."""
-    return _mt.sert(release_capacity=release_capacity)
+    return _mt.sert(release_capacity=release_capacity, basal=basal)
 
 
-def noradrenaline_clearance(release_capacity=_mt.RELEASE_CAPACITY):
+def noradrenaline_clearance(release_capacity=_mt.RELEASE_CAPACITY, basal=None):
     """NET, from P5.8, in the first-order form [Park2012] forces. Its basal
-    is P5.8's unit scale, so this field is a fold-of-basal field."""
-    return _mt.net(release_capacity=release_capacity)
+    is [PanLai1995]'s zero-net-flux measurement since P6.2, where P6.1 had a
+    unit scale here."""
+    return _mt.net(release_capacity=release_capacity, basal=basal)
 
 
 def acetylcholine_clearance(rate=None, basal=None):
     """Acetylcholinesterase hydrolysis, as a first-order process.
 
-    Both constants are illustrative; see `ACETYLCHOLINE_CLEARANCE_RATE` and
-    `ACETYLCHOLINE_BASAL_UNIT_SCALE`. No ligand: this codebase sources no
+    The rate is illustrative (`ACETYLCHOLINE_CLEARANCE_RATE`); the basal
+    level is [Vinson1997]'s measurement (`ACETYLCHOLINE_BASAL`), with its
+    three caveats. No ligand: this codebase sources no
     cholinesterase-inhibitor constant, and an empty ligand list is how a gap
     is represented here rather than an implied infinite Ki (P5.8's rule).
     """
@@ -647,7 +766,7 @@ def acetylcholine_clearance(rate=None, basal=None):
         name="AChE",
         transmitter="acetylcholine",
         rate=ACETYLCHOLINE_CLEARANCE_RATE if rate is None else rate,
-        basal=ACETYLCHOLINE_BASAL_UNIT_SCALE if basal is None else basal,
+        basal=ACETYLCHOLINE_BASAL if basal is None else basal,
     )
 
 

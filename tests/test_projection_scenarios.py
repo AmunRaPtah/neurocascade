@@ -282,21 +282,29 @@ def test_a_non_uniform_density_map_separates_the_raphe_from_the_cortex():
     assert provenances["DR"] == ps.DENSITY_PROVENANCE
 
 
-def test_the_noradrenaline_loop_closes_in_the_field_and_not_at_the_receptor():
-    # Honest reporting of a gap rather than a result. Clonidine lowers LC
-    # firing and halves the cortical noradrenaline FIELD, which is the loop
-    # P5.3's `test_the_autoreceptor_is_an_open_loop_until_phase_6` says the
-    # hand-built scenario cannot express. The cortical receptors still do not
-    # move, because P5.8 found no rodent basal extracellular noradrenaline
-    # concentration and NET therefore carries a unit scale: 1.0 nM is three
-    # to four orders below noradrenaline's Kd at alpha1 or beta, so tonic
-    # occupancy is ~1e-4 and halving it is invisible.
+def test_the_noradrenaline_loop_closes_in_the_field_and_barely_at_the_receptor():
+    # P6.1 wrote this test to report a GAP: clonidine lowers LC firing and
+    # halves the cortical noradrenaline FIELD, which is the loop P5.3's
+    # `test_the_autoreceptor_is_an_open_loop_until_phase_6` says the
+    # hand-built scenario cannot express, and the cortical receptors did not
+    # move at all, because NET carried a UNIT SCALE of 1.0 nM in the absence
+    # of a measurement.
+    #
+    # P6.2 supplies the measurement ([PanLai1995], 1.59 nM by zero net flux
+    # in conscious rat mPFC), so the last assertion flips: the field is now
+    # a measured scale. What did NOT change is the smallness, and that is now
+    # a statement about a number rather than about its absence. Cortical
+    # alpha1 and beta really do sit four and three orders of magnitude below
+    # their Kd at 1.59 nM, so halving the field really does move them by
+    # ~5e-5. The bounds are TIGHTENED rather than loosened: the effect must
+    # now be nonzero as well as small, which is the half P6.1 could not
+    # assert.
     effect = ps.closed_loop_effect("noradrenaline")
     assert effect["source_rate"] < -0.1
     assert effect["terminal_field_fold"] < -0.3
-    assert abs(effect["terminal_occupancy"]) < 1e-3
-    assert abs(effect["terminal_rate"]) < 1e-3
-    assert "noradrenaline" not in ps.MEASURED_BASAL
+    assert 1e-6 < abs(effect["terminal_occupancy"]) < 1e-3
+    assert 1e-6 < abs(effect["terminal_rate"]) < 1e-3
+    assert "noradrenaline" in ps.MEASURED_BASAL
 
 
 def test_the_acetylcholine_autoreceptor_probe_moves_the_nucleus_the_right_way():
@@ -308,7 +316,14 @@ def test_the_acetylcholine_autoreceptor_probe_moves_the_nucleus_the_right_way():
     assert effect["direction"] == +1
     assert effect["source_rate"] > 0.0
     assert effect["terminal_field_fold"] > 0.0
-    assert "acetylcholine" not in ps.MEASURED_BASAL
+    # P6.1 asserted the opposite of the line below, because acetylcholine's
+    # basal concentration was a unit scale. [Vinson1997] supplies it in P6.2
+    # (18.4 nM, rat striatum, no-net-flux), so the field carries a measured
+    # absolute scale and the cortical occupancy the probe moves is 248-fold
+    # larger than it was. The sign prediction this test exists for is
+    # untouched by that.
+    assert "acetylcholine" in ps.MEASURED_BASAL
+    assert effect["terminal_occupancy"] > 1e-6
 
 
 @pytest.mark.parametrize("key", sorted(ps.AUTORECEPTOR_PROBE))
@@ -400,10 +415,17 @@ def test_each_port_reports_its_nuclei_regions_and_standing_drive(ported, key):
     assert ps.DENSITY_PROVENANCE in text
 
 
-def test_the_summary_names_both_results_and_the_gap_between_them():
+def test_the_summary_names_both_results_and_what_P6_2_changed():
+    # P6.1 asserted that the string "UNIT" appeared here, because two of the
+    # five rows had to carry that caveat. P6.2 measured both, so no row does,
+    # and what the summary has to say instead is which rows moved and where
+    # to find by how much. Same requirement, moved forward one task: the
+    # summary must not present five measured scales as though they had always
+    # been five.
     text = ps.summary()
     assert "autoreceptor loop" in text
     assert "no longer inert" in text
-    assert "UNIT" in text  # the noradrenaline/acetylcholine caveat is visible
+    assert "UNIT" not in text
+    assert "unit scale" in text and "endogenous_tone" in text
     for key in PORTS:
         assert key in text

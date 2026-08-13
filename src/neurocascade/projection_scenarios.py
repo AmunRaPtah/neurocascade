@@ -260,10 +260,11 @@ class PortedScenario(object):
     receptor_systems : the `RegionalReceptorSystem`s.
     """
 
-    def __init__(self, port, densities=None):
+    def __init__(self, port, densities=None, basal=None):
         self.port = port
         self.key = port.key
         self.transmitter = port.transmitter
+        self.basal = basal
         self.base_network = add_nodes(
             port.base_network(), sorted(port.nucleus_nodes.values())
         )
@@ -273,6 +274,11 @@ class PortedScenario(object):
             REST_RATE,
             nodes=port.nucleus_nodes,
             name=port.transmitter,
+            clearance=(
+                None
+                if basal is None
+                else _ps.CLEARANCE_BUILDERS[port.transmitter](basal=basal)
+            ),
         )
         self.receptor_systems = [
             placement.build(port.transmitter) for placement in port.placements
@@ -336,9 +342,15 @@ class PortedScenario(object):
 
     def field_fold(self, sim, result, region):
         """The same trace as a multiple of that region's drug-free level,
-        which is the unit every conclusion here is stated in and the only
-        unit the two illustrative-basal fields (acetylcholine, and
-        noradrenaline through P5.8's unit scale) support at all."""
+        which is the unit every conclusion here is stated in.
+
+        P6.1 had a second reason for it: two of the five fields had a unit
+        scale rather than a measured basal level, and a fold was the only
+        thing they supported at all. P6.2 removed that reason -- all five
+        carry a cited concentration now -- and the fold is kept because it is
+        the quantity that is provably independent of the basal level at a
+        held source rate, which is what makes a comparison across the five
+        ports mean anything."""
         basal = self.projection.basal_concentration(region)
         return self.field_trace(sim, result, region) / basal
 
@@ -510,9 +522,13 @@ def _noradrenaline_port():
         longer holds and the second half moves. Both statements are true, of
         two different objects, and both are tested.
 
-        Noradrenaline's field is in FOLD-OF-BASAL units, not nM: P5.8
-        searched for a rodent basal extracellular noradrenaline concentration
-        and found none, so NET carries a unit scale.
+        Noradrenaline's field was in FOLD-OF-BASAL units in P6.1, because
+        P5.8 searched for a rodent basal extracellular noradrenaline
+        concentration and found none. P6.2 found it -- [PanLai1995],
+        1.59 +/- 0.37 nM by zero net flux in the medial prefrontal cortex of
+        conscious rats -- so the field is in nM here and the alpha2
+        autoreceptor at the LC carries 5.6% tonic occupancy rather than the
+        3.6% the unit scale implied.
         """,
     )
 
@@ -581,14 +597,17 @@ def _acetylcholine_port():
         PPT and LDT nodes are added by the port for the same reason the
         median raphe is added to the serotonin one.
 
-        Acetylcholine's field is the weakest of the five and is labelled as
-        such: neither its clearance rate constant nor its basal
-        concentration is a measurement this project could reach (see
-        `projection_systems.py`, "Searched and empty"), so the field is in
-        fold-of-basal units and its dynamics are illustrative. What the port
-        demonstrates for acetylcholine is the STRUCTURE, and a test asserts
-        that no reported conclusion moves when the illustrative clearance
-        rate is swept over two orders of magnitude.
+        Acetylcholine's field is still the weakest of the five. Its basal
+        concentration is a measurement since P6.2 ([Vinson1997], 18.4 nM by
+        no-net-flux microdialysis), but in RAT STRIATUM, where extracellular
+        acetylcholine comes from tonically active interneurons rather than
+        from the three projection nuclei this port is built on; and its
+        clearance rate constant is still illustrative. So the field has an
+        absolute scale and its DYNAMICS are illustrative. A test asserts that
+        no reported conclusion moves when the illustrative clearance rate is
+        swept over two orders of magnitude, and `endogenous_tone.py` reports
+        every acetylcholine number at [DeBundel2008]'s 4.6-fold lower value
+        as well.
         """,
     )
 
@@ -686,17 +705,22 @@ SCENARIO_PORTS = {
 PORT_ORDER = ("dopamine", "serotonin", "noradrenaline", "acetylcholine", "histamine")
 
 
-def port(key, densities=None):
+def port(key, densities=None, basal=None):
     """Build one ported scenario by name.
 
     `densities` overrides the uniform map for the named regions; see
     `_targets`. Nothing in this module passes it.
+
+    `basal` overrides the cited endogenous tone of this port's transmitter,
+    in nM. It exists for `endogenous_tone.py`, which has to re-run a port at
+    a counterfactual tone (P6.1's unit scale, or no tone at all) to report
+    what the measured tone is worth; nothing in the modelling path passes it.
     """
     if key not in SCENARIO_PORTS:
         raise ValueError(
             "unknown port %r; have %s" % (key, sorted(SCENARIO_PORTS))
         )
-    return PortedScenario(SCENARIO_PORTS[key](), densities=densities)
+    return PortedScenario(SCENARIO_PORTS[key](), densities=densities, basal=basal)
 
 
 def all_ports():
@@ -729,16 +753,22 @@ AUTORECEPTOR_PROBE = {
 #: concentration scale, and in which a change in the field is therefore
 #: visible as a change in receptor occupancy.
 #:
-#: The other two are in fold-of-basal units, from gaps P5.8 and P6.1
-#: recorded: no rodent basal extracellular noradrenaline concentration and no
-#: recovery-corrected basal acetylcholine concentration were found. Both
-#: fields therefore sit at 1.0 nM, which is three to four orders of magnitude
-#: below either transmitter's Kd at any receptor in this codebase, so tonic
-#: occupancy is ~1e-4 and a halving of the field moves it by ~5e-5. **The
-#: loop is closed in the concentration and invisible at the receptor**, and
-#: that is a consequence of a missing measurement rather than of the
-#: abstraction. It is asserted as such by a test rather than glossed.
-MEASURED_BASAL = ("dopamine", "serotonin", "histamine")
+#: **P6.2 made this ALL FIVE.** In P6.1 it was three, and the other two sat
+#: at a unit scale of 1.0 nM from gaps P5.8 and P6.1 had recorded, so their
+#: tonic occupancy was ~1e-4 and the closed loop was invisible at the
+#: receptor. [PanLai1995] supplies the noradrenaline concentration
+#: (1.59 nM, conscious rat mPFC, zero net flux) and [Vinson1997] the
+#: acetylcholine one (18.4 nM, rat striatum, no-net-flux), so both fields now
+#: carry an absolute scale and both loops are visible at the receptor. What
+#: each one is worth, and by how much every number in this module moved, is
+#: in `endogenous_tone.py`.
+MEASURED_BASAL = ("dopamine", "serotonin", "noradrenaline", "acetylcholine", "histamine")
+
+#: The basal concentrations P6.1 ran with, kept so that `endogenous_tone.py`
+#: can re-run each port at them and report the change rather than assert it.
+#: Only the two unit scales are listed; the other three transmitters' basal
+#: levels are unchanged since P5.8 and P6.1.
+P61_UNIT_SCALE_BASAL = {"noradrenaline": 1.0, "acetylcholine": 1.0}
 
 #: Per port, an antagonist with no agonist alongside it. Before P6.1 (and
 #: before P5.8 for dopamine) every one of these was inert by construction.
@@ -751,7 +781,7 @@ LONE_ANTAGONIST = {
 }
 
 
-def closed_loop_effect(key, t_end=30.0):
+def closed_loop_effect(key, t_end=30.0, basal=None):
     """The four numbers that say the loop is closed, for one port.
 
     Returns a dict with the change, from the drug-free run, in: the source
@@ -762,7 +792,7 @@ def closed_loop_effect(key, t_end=30.0):
     """
     if key not in AUTORECEPTOR_PROBE:
         raise ValueError("port %r has no autoreceptor probe" % (key,))
-    scenario = port(key)
+    scenario = port(key, basal=basal)
     drug, dose, direction = AUTORECEPTOR_PROBE[key]
     ligand = scenario.projection.transmitter
     source = scenario.port.source_readout
@@ -802,10 +832,10 @@ def closed_loop_effect(key, t_end=30.0):
     }
 
 
-def lone_antagonist_effect(key, t_end=30.0):
+def lone_antagonist_effect(key, t_end=30.0, basal=None):
     """The change in the terminal readout when an antagonist is given with no
     agonist alongside it. Nonzero only because there is tonic transmitter."""
-    scenario = port(key)
+    scenario = port(key, basal=basal)
     drug, dose = LONE_ANTAGONIST[key]
     terminal = scenario.port.terminal_readout
     net0, _, base = scenario.run(t_end=t_end)
@@ -823,7 +853,7 @@ def lone_antagonist_effect(key, t_end=30.0):
 def summary():
     """Both results for every port, as text. Written to `results/` by
     `scripts/report_projection_systems.py`."""
-    lines = ["Ported scenarios (P6.1)", "=" * 72, ""]
+    lines = ["Ported scenarios (P6.1, re-run at P6.2's endogenous tone)", "=" * 72, ""]
     lines.append(
         "The autoreceptor loop, closed: change from the drug-free run at the"
     )
@@ -860,13 +890,17 @@ def summary():
         )
     lines.append("")
     lines.append(
-        "Where the basal concentration is a unit rather than a measurement the"
+        "In P6.1 the noradrenaline and acetylcholine fields sat at a unit scale"
     )
     lines.append(
-        "field moves and the receptor cannot see it: 1.0 nM is 3-4 orders below"
+        "of 1.0 nM, so the loop was closed in the concentration and invisible at"
     )
-    lines.append("any Kd in this codebase. That is a missing measurement, not a")
-    lines.append("property of the abstraction.")
+    lines.append(
+        "the receptor. P6.2 supplies both measurements, so every row above is a"
+    )
+    lines.append(
+        "measured scale; `endogenous_tone.py` reports how far each one moved."
+    )
     lines.append("")
     lines.append("An antagonist given ALONE is no longer inert")
     lines.append("%-14s %-14s %12s  %s" % ("port", "antagonist", "terminal r", "basal scale"))

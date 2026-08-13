@@ -31,15 +31,21 @@ TM     Tuberomammillary nucleus               histamine      slow (<10 Hz) tonic
 
 Citations
 ------------------------------------------------------------------------
+[Abercrombie1988] Abercrombie ED, Keller RW Jr, Zigmond MJ. Characterization of hippocampal norepinephrine release as measured by microdialysis perfusion: pharmacological and behavioral studies. Neuroscience 1988;27:897-904, PMID:3252176. Freely-moving rat hippocampus: 'Correcting for recovery (21%), the concentration of norepinephrine in the extracellular fluid of hippocampus under resting conditions was estimated to be approximately 14 nM'. The cross-check on [PanLai1995], 8.8-fold above it. Its closing sentence is also the clearest statement of this phase's own premise: 'this suggests that nerve terminal density is an important factor in determining the concentration of catecholamines in the extracellular fluid'.
+
 [AllenCCF] Allen Mouse Brain Common Coordinate Framework structure graph 1, the ontology already vendored at data/connectome/. Every source nucleus below is named by its CCF acronym and id so that P6.3 can look up its connectivity row without a second naming convention.
 
 [Bosse2011] Bosse KE et al. J Neurochem 2011;120:385-395, PMC3385875. Mouse basal extracellular dopamine by zero net flux, 5.0 +/- 0.2 nM.
 
 [Cumming1991] Cumming P, Damsma G, Fibiger HC, Vincent SR. Characterization of extracellular histamine in the striatum and bed nucleus of the stria terminalis of the rat: an in vivo microdialysis study. J Neurochem 1991;56:1797-1803. Half-lives of 32 min and 7.7 h for the decline after synthesis inhibition (NOT a clearance rate; see the module docstring), and the tetrodotoxin/calcium caveat.
 
+[DeBundel2008] De Bundel D, Sarre S, Van Eeckhaut A, Smolders I, Michotte Y. Critical evaluation of acetylcholine determination in rat brain microdialysates using ion-pair liquid chromatography with amperometric detection. Sensors 2008;8:5171-5185, PMC3705495. 'The concentration of acetylcholine in 30 uL microdialysates obtained under basal conditions from the hippocampus of freely moving rats was 0.40 +/- 0.12 nM (mean +/- SD, n = 30)', with the authors' own estimate that 'the in vivo recovery for acetylcholine in microdialysis samples was approximately 10%'. The independent check on [Vinson1997], 4.6-fold below it.
+
 [Devilbiss2011] Devilbiss DM, Waterhouse BD. Phasic and tonic patterns of locus coeruleus output differentially modulate sensory network function in the awake rat. J Neurophysiol 2011;105:69-87, PMC3023368. 'Tonic activity is exemplified by stochastic discharge across a range of relatively slow rates (0.1-5.0 Hz)'; the authors' own units 'averaged 0.88 +/- 0.23 (SE) Hz under control, quiet resting conditions'.
 
 [Dreyer2010] Dreyer JK, Herrik KF, Berg RW, Hounsgaard JD. Influence of phasic and tonic dopamine release on receptor activation. J Neurosci 2010;30:14273-14283. Computational model of striatal dopamine volume transmission with no free parameters; Table 1 supplies the release-site density, the effective diffusion constant and the extracellular volume fraction used here.
+
+[Ihalainen1999] Ihalainen JA, Riekkinen P Jr, Feenstra MG. Comparison of dopamine and noradrenaline release in mouse prefrontal cortex, striatum and hippocampus using microdialysis. Neurosci Lett 1999;277:71-74. MOUSE, dialysate rather than recovery-corrected: 'Basal release of NA was similar in these areas, but DA in striatum was 13-30 times higher than in other areas'. Consumed by no equation; it is the regional ORDERING that P6.3's density map has to reproduce.
 
 [Itoh1991] Itoh Y, Oishi R, Nishibori M, Saeki K. Characterization of histamine release from the rat hypothalamus as measured by in vivo microdialysis. J Neurochem 1991;56:769-774. Anaesthetized rat, medial hypothalamus: 'The basal HA output was almost constant ... the mean value being 7.1 pg/30 min'; 'extracellular HA concentration was assumed to be 7.8 nM, by a calculation from in vitro recovery through the dialysis membrane'. Potassium-evoked release was calcium-dependent (+170%).
 
@@ -51,11 +57,15 @@ Citations
 
 [Ozcete2024] Ozcete OD, Banerjee A, Kaeser PS. Mechanisms of neuromodulatory volume transmission. Mol Psychiatry 2024, PMC11540752. Open-access review; used for the release-site spacing cross-check, the asynaptic-varicosity fractions, the acetylcholine degradation and response-latency statements, and the tonic firing-rate ranges.
 
+[PanLai1995] Pan WH, Lai YJ. Anesthetics decreased the microdialysis extraction fraction of norepinephrine but not dopamine in the medial prefrontal cortex. Synapse 1995;21:85-92, PMID:8525466. Conscious rat medial prefrontal cortex by ZERO NET FLUX: noradrenaline 1.59 +/- 0.37 nM at 51 +/- 8% in vivo recovery, dopamine 2.38 +/- 0.70 nM at 41 +/- 6%. Added by P6.2; the source of `monoamine_transporters.BASAL_NORADRENALINE`, and the only measured DOPAMINE concentration in this codebase from a region other than the striatum.
+
 [Park2012] Park J, Takmakov P, Wightman RM (as cited by P5.8). Noradrenaline clearance half-life 1.36 +/- 0.07 s in rat ventral BNST by in vivo voltammetry, which fixes Vmax/Km and nothing else.
 
 [Sarter2009] Sarter M, Parikh V, Howe WM. Phasic acetylcholine release and the volume transmission hypothesis: time to move on. Nat Rev Neurosci 2009;10:383-390, PMC2699581. Source of the acetylcholinesterase turnover figure ('one molecule of AChE can hydrolyse 5,000 molecules of ACh per second') and of the unresolved status of the cortical cholinergic synaptic-contact fraction.
 
 [Takahashi2006] Takahashi K, Lin JS, Sakai K. Neuronal activity of histaminergic tuberomammillary neurons during wake-sleep states in the mouse. J Neurosci 2006;26:10292-10298. Identified histamine neurons in non-anaesthetized head-restrained MICE: 'slow (<10 Hz) tonic, repetitive, irregular firing' in waking, silent in slow-wave and paradoxical sleep.
+
+[Vinson1997] Vinson PN, Justice JB Jr. Effect of neostigmine on concentration and extraction fraction of acetylcholine using quantitative microdialysis. J Neurosci Methods 1997;73:61-67, PMID:9130679. Rat STRIATUM, no-net-flux quantitative microdialysis: 'The control ACh concentration was determined to be 18.4 +/- 11.8 nM (n = 10; mean +/- S.E.M.)' with no cholinesterase inhibitor in the perfusate, rising linearly to 581 +/- 109 nM under 300 nM neostigmine. Added by P6.2; the source of `ACETYLCHOLINE_BASAL`.
 
 
 ========================================================================
@@ -139,16 +149,20 @@ The port `noradrenaline.test_the_autoreceptor_is_an_open_loop_until_
         longer holds and the second half moves. Both statements are true, of
         two different objects, and both are tested.
 
-        Noradrenaline's field is in FOLD-OF-BASAL units, not nM: P5.8
-        searched for a rodent basal extracellular noradrenaline concentration
-        and found none, so NET carries a unit scale.
+        Noradrenaline's field was in FOLD-OF-BASAL units in P6.1, because
+        P5.8 searched for a rodent basal extracellular noradrenaline
+        concentration and found none. P6.2 found it -- [PanLai1995],
+        1.59 +/- 0.37 nM by zero net flux in the medial prefrontal cortex of
+        conscious rats -- so the field is in nM here and the alpha2
+        autoreceptor at the LC carries 5.6% tonic occupancy rather than the
+        3.6% the unit scale implied.
 
 Source nuclei (CCF -> circuit node, rest rate 0.50):
   LC    LC     -> LC_NA              already in the hand-built network
 
 Target regions and their drug-free concentration:
-  LC     (Locus ceruleus)  density 1.00 (1.00x reference, illustrative-uniform)  basal 1 nM
-  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 1.00 (1.00x reference, illustrative-uniform)  basal 1 nM
+  LC     (Locus ceruleus)  density 1.00 (1.00x reference, illustrative-uniform)  basal 1.59 nM
+  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 1.00 (1.00x reference, illustrative-uniform)  basal 1.59 nM
 
 Receptors, per region:
   alpha1       PFC    -> PFC_Pyramidal+0.500
@@ -156,8 +170,8 @@ Receptors, per region:
   beta         PFC    -> PFC_Pyramidal+0.500
 
 Standing drive folded into baselines by the tonic compensation:
-  LC_NA              -0.0357
-  PFC_Pyramidal      +0.0003
+  LC_NA              -0.0556
+  PFC_Pyramidal      +0.0005
 
 ========================================================================
 
@@ -169,14 +183,17 @@ Three source nuclei into one field, which is what the brief's
         PPT and LDT nodes are added by the port for the same reason the
         median raphe is added to the serotonin one.
 
-        Acetylcholine's field is the weakest of the five and is labelled as
-        such: neither its clearance rate constant nor its basal
-        concentration is a measurement this project could reach (see
-        `projection_systems.py`, "Searched and empty"), so the field is in
-        fold-of-basal units and its dynamics are illustrative. What the port
-        demonstrates for acetylcholine is the STRUCTURE, and a test asserts
-        that no reported conclusion moves when the illustrative clearance
-        rate is swept over two orders of magnitude.
+        Acetylcholine's field is still the weakest of the five. Its basal
+        concentration is a measurement since P6.2 ([Vinson1997], 18.4 nM by
+        no-net-flux microdialysis), but in RAT STRIATUM, where extracellular
+        acetylcholine comes from tonically active interneurons rather than
+        from the three projection nuclei this port is built on; and its
+        clearance rate constant is still illustrative. So the field has an
+        absolute scale and its DYNAMICS are illustrative. A test asserts that
+        no reported conclusion moves when the illustrative clearance rate is
+        swept over two orders of magnitude, and `endogenous_tone.py` reports
+        every acetylcholine number at [DeBundel2008]'s 4.6-fold lower value
+        as well.
 
 Source nuclei (CCF -> circuit node, rest rate 0.50):
   LDT   LDT    -> LDT_Cholinergic    added by the port
@@ -184,10 +201,10 @@ Source nuclei (CCF -> circuit node, rest rate 0.50):
   PPN   PPN    -> PPN_Cholinergic    added by the port
 
 Target regions and their drug-free concentration:
-  NDB    (Diagonal band nucleus (basal forebrain))  density 3.00 (1.00x reference, illustrative-uniform)  basal 1 nM
-  PPN    (Pedunculopontine nucleus)  density 3.00 (1.00x reference, illustrative-uniform)  basal 1 nM
-  LDT    (Laterodorsal tegmental nucleus)  density 3.00 (1.00x reference, illustrative-uniform)  basal 1 nM
-  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 3.00 (1.00x reference, illustrative-uniform)  basal 1 nM
+  NDB    (Diagonal band nucleus (basal forebrain))  density 3.00 (1.00x reference, illustrative-uniform)  basal 18.4 nM
+  PPN    (Pedunculopontine nucleus)  density 3.00 (1.00x reference, illustrative-uniform)  basal 18.4 nM
+  LDT    (Laterodorsal tegmental nucleus)  density 3.00 (1.00x reference, illustrative-uniform)  basal 18.4 nM
+  PFC    (Prelimbic/infralimbic cortex (the scenario's PFC_Pyramidal))  density 3.00 (1.00x reference, illustrative-uniform)  basal 18.4 nM
 
 Receptors, per region:
   alpha4beta2  PFC    -> PFC_Pyramidal+0.333
@@ -198,10 +215,10 @@ Receptors, per region:
   M2           LDT    -> LDT_Cholinergic-1.000
 
 Standing drive folded into baselines by the tonic compensation:
-  BF_Cholinergic     -0.0003
-  LDT_Cholinergic    -0.0003
-  PFC_Pyramidal      +0.0002
-  PPN_Cholinergic    -0.0003
+  BF_Cholinergic     -0.0046
+  LDT_Cholinergic    -0.0046
+  PFC_Pyramidal      +0.0034
+  PPN_Cholinergic    -0.0046
 
 ========================================================================
 
@@ -232,7 +249,7 @@ Standing drive folded into baselines by the tonic compensation:
 
 ========================================================================
 
-Ported scenarios (P6.1)
+Ported scenarios (P6.1, re-run at P6.2's endogenous tone)
 ========================================================================
 
 The autoreceptor loop, closed: change from the drug-free run at the
@@ -241,18 +258,18 @@ closed; the hand-built scenario moves the first and nothing else.
 
 port           drug           source r   field fold    occupancy  terminal r  basal scale
 serotonin      8-OH-DPAT       -0.4043      -0.8112    -2.40e-01     -0.3133  measured
-noradrenaline  clonidine       -0.2332      -0.4663    -3.01e-05     -0.0001  UNIT (see MEASURED_BASAL)
-acetylcholine  scopolamine     +0.0002      +0.0005    +2.93e-07     -0.0000  UNIT (see MEASURED_BASAL)
+noradrenaline  clonidine       -0.2181      -0.4362    -4.48e-05     -0.0001  measured
+acetylcholine  scopolamine     +0.0044      +0.0089    +7.22e-05     -0.0001  measured
 
-Where the basal concentration is a unit rather than a measurement the
-field moves and the receptor cannot see it: 1.0 nM is 3-4 orders below
-any Kd in this codebase. That is a missing measurement, not a
-property of the abstraction.
+In P6.1 the noradrenaline and acetylcholine fields sat at a unit scale
+of 1.0 nM, so the loop was closed in the concentration and invisible at
+the receptor. P6.2 supplies both measurements, so every row above is a
+measured scale; `endogenous_tone.py` reports how far each one moved.
 
 An antagonist given ALONE is no longer inert
 port           antagonist       terminal r  basal scale
 dopamine       haloperidol        -0.20005  measured
 serotonin      WAY-100635         +0.14447  measured
-noradrenaline  yohimbine          +0.00001  UNIT
-acetylcholine  scopolamine        -0.00001  UNIT
+noradrenaline  yohimbine          +0.00003  measured
+acetylcholine  scopolamine        -0.00012  measured
 histamine      mepyramine         -0.00183  measured

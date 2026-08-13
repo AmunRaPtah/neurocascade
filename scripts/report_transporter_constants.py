@@ -64,8 +64,8 @@ def block_one(w):
          "[Park2012] rat vBNST, in vivo"),
         ("  as a rate constant", "%.2f /min" % mt.NORADRENALINE_CLEARANCE_RATE,
          "derived: ln2 / t1/2"),
-        ("basal noradrenaline", "%.1f nM" % mt.NORADRENALINE_BASAL_UNIT_SCALE,
-         "ILLUSTRATIVE UNIT SCALE, not a measurement"),
+        ("basal extracellular noradrenaline", "%.2f nM" % mt.BASAL_NORADRENALINE,
+         "[PanLai1995] zero net flux, conscious rat mPFC (P6.2)"),
     ]
     for name, value, source in rows:
         w("  %-30s %-16s %s\n" % (name, value, source))

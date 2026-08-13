@@ -13,7 +13,8 @@ What is calibrated here and what is not
 CALIBRATED (literature-sourced, cited per parameter): the Michaelis constant
 and maximal velocity for dopamine and for serotonin uptake in MOUSE brain
 tissue; the noradrenaline clearance rate constant; the drug-free basal
-extracellular dopamine and serotonin concentrations in MOUSE brain; the
+extracellular dopamine and serotonin concentrations in MOUSE brain and (from
+P6.2) the basal extracellular noradrenaline concentration in RAT; the
 uptake-inhibition constants of cocaine, methylphenidate and amphetamine at
 all three MOUSE transporters from one laboratory's one panel; the same three
 drugs' constants in a second, independent mouse preparation; atomoxetine's
@@ -21,13 +22,11 @@ constants at all three human transporters from two laboratories; fluoxetine's
 constant at the human serotonin transporter; and amphetamine's release
 potency and releasing efficacy at all three transporters.
 
-ILLUSTRATIVE: the basal extracellular noradrenaline concentration, which is a
-unit scale rather than a measurement and which no result depends on (see
-`NORADRENALINE_BASAL_UNIT_SCALE`); the absolute efflux capacity of a
-saturating substrate (`RELEASE_CAPACITY`); the pharmacokinetics of all five
-drugs, which share `TOOL_COMPOUND_KE` with every other P5 module; and the
-demonstration circuit, which is `scenarios.basal_ganglia_indirect_pathway_
-network()` reused through P3.4's stabilization procedure.
+ILLUSTRATIVE: the absolute efflux capacity of a saturating substrate
+(`RELEASE_CAPACITY`); the pharmacokinetics of all five drugs, which share
+`TOOL_COMPOUND_KE` with every other P5 module; and the demonstration circuit,
+which is `scenarios.basal_ganglia_indirect_pathway_network()` reused through
+P3.4's stabilization procedure.
 
 The sentence in the brief that sets the task
 ---------------------------------------------
@@ -162,6 +161,23 @@ Uptake kinetics of the natural substrate, and the basal levels:
                 constant: it fixes Vmax/Km and says nothing about either
                 alone, which is why NET is built in `transport.py`'s
                 first-order form.
+
+  [PanLai1995]  Pan WH, Lai YJ. "Anesthetics decreased the microdialysis
+                extraction fraction of norepinephrine but not dopamine in the
+                medial prefrontal cortex." Synapse. 1995;21(1):85-92.
+                doi:10.1002/syn.890210112. PMID:8525466. Adult male
+                Sprague-Dawley RATS, medial prefrontal cortex, ZERO NET FLUX
+                microdialysis. Conscious (unanaesthetized) control group:
+                "the basal extracellular concentration and the in vivo
+                recovery of NA in the conscious group were 1.59 +/- 0.37 nM
+                and 51 +/- 8%"; dopamine in the same animals 2.38 +/- 0.70 nM
+                at 41 +/- 6% recovery. Added by P6.2. The anaesthetized
+                groups' NA values (4.38 +/- 1.39 and 3.67 +/- 0.90 nM) are
+                deliberately NOT used: the conscious animal is the state
+                every behavioural endpoint in this project is measured in,
+                and the paper's own finding is that anaesthesia halves the
+                extraction fraction, i.e. that the anaesthetized numbers are
+                the ones whose calibration is disturbed.
 
 Drug constants:
 
@@ -385,6 +401,15 @@ Searched and empty, or found and deliberately not used
   quantitative-microdialysis literature reachable here is dopamine and
   serotonin. Hence `NORADRENALINE_BASAL_UNIT_SCALE`, which is a unit and not
   a measurement, and the test that no NET conclusion depends on it.
+
+  **FOUND BY P6.2, in rat.** [PanLai1995] measured it by zero net flux in
+  the medial prefrontal cortex of CONSCIOUS rats: 1.59 +/- 0.37 nM. The gap
+  above is left standing as the record of what P5.8 searched, because the
+  search that closed it was for "zero net flux" plus "extraction fraction"
+  rather than plus "noradrenaline", and the paper that carries the number is
+  titled as a study of ANAESTHETIC effects on extraction fraction, which is
+  why a search for the constant itself did not surface it. The unit scale is
+  gone; `BASAL_NORADRENALINE` replaces it. A mouse value is still missing.
 * **[Rothman2001]** (Rothman RB et al., Synapse 2001;39:32-41, PMID
   11071707), the paper the brief's releaser framing comes from and the most
   cited source for amphetamine's release potencies. Subscription-only, and
@@ -511,14 +536,29 @@ NORADRENALINE_CLEARANCE_HALF_LIFE_S = 1.36
 #: own: splitting a measured ratio into two numbers would be inventing one.
 NORADRENALINE_CLEARANCE_RATE = 60.0 * np.log(2.0) / NORADRENALINE_CLEARANCE_HALF_LIFE_S
 
-#: nM. ILLUSTRATIVE UNIT SCALE, not a measurement of anything. No basal
-#: extracellular noradrenaline concentration by zero net flux or any other
-#: quantitative microdialysis method was found (see "Searched and empty").
-#: Setting it to 1.0 makes NET's transmitter state numerically equal to its
-#: own fold-of-basal, and the exact steady-state law in `transport.py` says
-#: every fold-change this module reports is independent of it. A test asserts
-#: that independence, so this number cannot quietly acquire meaning.
-NORADRENALINE_BASAL_UNIT_SCALE = 1.0
+#: nM. Basal extracellular noradrenaline, CONSCIOUS RAT medial prefrontal
+#: cortex, ZERO NET FLUX microdialysis, [PanLai1995]: 1.59 +/- 0.37 nM, with
+#: an in vivo recovery of 51 +/- 8% measured in the same animals.
+#:
+#: P5.8 and P6.1 both searched for this number and both recorded it as
+#: searched-and-empty, so `NORADRENALINE_BASAL_UNIT_SCALE = 1.0` stood here
+#: as a labelled unit scale until P6.2 found the measurement. Rule 3: the
+#: label is removed in the commit that supplies the calibration, and in no
+#: other. Two caveats travel with the number rather than sitting in a
+#: footnote: it is RAT, where dopamine's and serotonin's basal levels here
+#: are mouse; and it is the medial prefrontal cortex, which is a
+#: noradrenergic TERMINAL FIELD, i.e. the right kind of region for this
+#: constant's use but not the same region as [Park2012]'s BNST clearance
+#: half-life. [Abercrombie1988] is the independent cross-check, ~14 nM in
+#: rat hippocampus corrected for a 21% in vitro recovery, 8.8-fold higher;
+#: see `endogenous_tone.py`, which carries the comparison and the argument
+#: for using the smaller, zero-net-flux value.
+#:
+#: What does NOT change: the exact steady-state law in `transport.py` makes
+#: every fold-change this module reports independent of the basal level, and
+#: the test that asserted that independence when this was a unit scale still
+#: asserts it now that it is a measurement.
+BASAL_NORADRENALINE = 1.59
 
 
 # ---------------------------------------------------------------------------
@@ -868,33 +908,42 @@ def ligands_at(transporter):
     ]
 
 
-def dat(release_capacity=RELEASE_CAPACITY):
-    """The dopamine transporter, Michaelis-Menten form, mouse constants."""
+def dat(release_capacity=RELEASE_CAPACITY, basal=None):
+    """The dopamine transporter, Michaelis-Menten form, mouse constants.
+
+    `basal` overrides the cited basal level. It exists for ONE caller,
+    `endogenous_tone.py`, which has to re-run a scenario at a counterfactual
+    tone in order to report what the measured tone is worth; nothing in the
+    modelling path passes it.
+    """
     return MonoamineTransporter(
         name="DAT",
         transmitter="dopamine",
         ligands=ligands_at("DAT"),
         km=KM_DOPAMINE,
         vmax=VMAX_DOPAMINE,
-        basal=BASAL_DOPAMINE,
+        basal=BASAL_DOPAMINE if basal is None else basal,
         release_capacity=release_capacity,
     )
 
 
-def sert(release_capacity=RELEASE_CAPACITY):
-    """The serotonin transporter, Michaelis-Menten form, mouse constants."""
+def sert(release_capacity=RELEASE_CAPACITY, basal=None):
+    """The serotonin transporter, Michaelis-Menten form, mouse constants.
+
+    `basal`: see `dat`.
+    """
     return MonoamineTransporter(
         name="SERT",
         transmitter="serotonin",
         ligands=ligands_at("SERT"),
         km=KM_SEROTONIN,
         vmax=VMAX_SEROTONIN,
-        basal=BASAL_SEROTONIN,
+        basal=BASAL_SEROTONIN if basal is None else basal,
         release_capacity=release_capacity,
     )
 
 
-def net(release_capacity=RELEASE_CAPACITY):
+def net(release_capacity=RELEASE_CAPACITY, basal=None):
     """The noradrenaline transporter, FIRST-ORDER form.
 
     The only one of the three built this way, and the reason is a gap rather
@@ -907,7 +956,7 @@ def net(release_capacity=RELEASE_CAPACITY):
         transmitter="noradrenaline",
         ligands=ligands_at("NET"),
         clearance_rate=NORADRENALINE_CLEARANCE_RATE,
-        basal=NORADRENALINE_BASAL_UNIT_SCALE,
+        basal=BASAL_NORADRENALINE if basal is None else basal,
         release_capacity=release_capacity,
     )
 

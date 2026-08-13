@@ -9696,6 +9696,12 @@ is otherwise complete, is now visible as a number rather than as a caveat**,
 and `MEASURED_BASAL` names which three of the five fields carry a real
 concentration scale.
 
+**Superseded by P6.2**, which found both measurements ([PanLai1995] for
+noradrenaline, [Vinson1997] for acetylcholine) and re-ran this table at them.
+`MEASURED_BASAL` is all five as of that task; the paragraph above is left as
+the record of what P6.1 could say, and the P6.2 section below reports by how
+much each of these numbers moved.
+
 Acetylcholine's probe is also worth a line because its sign is a prediction
 rather than a convention. The only muscarinic drug in `acetylcholine.py` is
 scopolamine, an ANTAGONIST, and the M2 agonist is acetylcholine itself, which
@@ -9821,3 +9827,432 @@ computed without it.**
   assert on is byte-identical.
 - **Outputs**: `examples/projection_systems_demo.py` and
   `scripts/report_projection_systems.py` -> `results/projection_systems.txt`.
+
+## Phase 6: endogenous transmitter tone (P6.2)
+
+### The sentence in the brief, and what was already true
+
+"Give every projection system a baseline endogenous transmitter tone with
+cited basal concentrations (microdialysis literature reports these for
+dopamine, serotonin and noradrenaline), so that administered drugs compete at
+a receptor pool that is already partly occupied by real transmitter rather
+than an empty one. This changes existing results: report by how much."
+
+Two of the three things that sentence asks for were already in place when
+P6.2 started, and saying which is the honest way to size the task.
+
+The MECHANISM was there. `receptor.ReceptorSite` has been one finite pool
+shared by every ligand since v0, which is what lets naloxone displace
+fentanyl; P5.8 gave the D2 site a dopamine concentration that came from a
+transporter rather than a syringe; and P6.1 generalized that to a
+region-wise field, so in a ported scenario the endogenous transmitter is
+already a ligand on the same site the drug binds, at a concentration the
+projection system maintains. **Nothing in this codebase needed a new
+competition term, and P6.2 deliberately did not add one.**
+
+The CONSTANTS were there for three transmitters and not for the other two.
+Dopamine had [Bosse2011]'s 5.0 nM, serotonin [Mathews2004]'s 2.8 nM,
+histamine [Itoh1991]'s 7.8 nM. Noradrenaline and acetylcholine each had a
+labelled unit scale of 1.0 nM, standing in for a measurement that P5.8 and
+P6.1 had both searched for and both recorded as empty. At 1.0 nM every
+noradrenergic and cholinergic receptor in the codebase sat three to four
+orders of magnitude below its Kd, so P6.1's own result table had to carry two
+rows reading "UNIT (see MEASURED_BASAL)" and the sentence "the loop is closed
+in the concentration and invisible at the receptor".
+
+So P6.2 is two searches, the consequences of what they found, and a report.
+
+### The two searches, and why the first two missed them
+
+Both numbers exist, both are primary, and both were missed twice for the same
+reason: **the paper that carries the constant is not about the constant.**
+
+**Noradrenaline.** [PanLai1995] (Pan WH, Lai YJ, Synapse 1995;21:85-92,
+PMID:8525466) is titled "Anesthetics decreased the microdialysis extraction
+fraction of norepinephrine but not dopamine in the medial prefrontal cortex".
+It is a methods paper about anaesthesia, and it reports, of its conscious
+control group, "the basal extracellular concentration and the in vivo
+recovery of NA in the conscious group were 1.59 +/- 0.37 nM and 51 +/- 8%".
+Zero net flux, medial prefrontal cortex, conscious male Sprague-Dawley rats.
+That is exactly the quantity P5.8's "searched and empty" entry describes.
+
+**Acetylcholine.** [Vinson1997] (Vinson PN, Justice JB Jr, J Neurosci Methods
+1997;73:61-67, PMID:9130679) is titled "Effect of neostigmine on
+concentration and extraction fraction of acetylcholine using quantitative
+microdialysis". It is a methods paper about a cholinesterase inhibitor, and
+its zero-neostigmine control is the drug-free measurement: "The control ACh
+concentration was determined to be 18.4 +/- 11.8 nM (n = 10; mean +/-
+S.E.M.)", by no-net-flux quantitative microdialysis in rat striatum with no
+esterase inhibitor in the perfusate.
+
+The generalizable lesson, which is why it is written here rather than in a
+commit message: P6.1 searched for the constant by name and for reviews of
+basal tone, and both times the answer was in a paper whose title advertises a
+different question. The search that worked was for the METHOD
+("zero net flux", "extraction fraction") crossed with the analyte, because a
+paper that establishes an extraction fraction has to report the concentration
+it established it against.
+
+### Both new constants have a rival, and neither is averaged
+
+Each new number has an independent measurement of the same quantity that
+disagrees with it, and this project's rule is to carry both rather than
+reconcile them into a third number no laboratory produced.
+
+    transmitter    used                        cross-check                  ratio
+    noradrenaline  1.59 nM rat mPFC, ZNF       ~14 nM rat hippocampus       8.8x
+                   [PanLai1995]                [Abercrombie1988]
+    acetylcholine  18.4 nM rat striatum, NNF   ~4 nM rat hippocampus        0.22x
+                   [Vinson1997]                [DeBundel2008]
+
+Both cross-checks are dialysate values corrected for probe recovery, and both
+are from hippocampus. Two arguments decide which value each constant takes,
+and both are stated in the code beside the number:
+
+1. **Method.** In vitro recovery exceeds in vivo recovery, because tissue is
+   tortuous and a beaker is not, so a dialysate value scaled by in vitro
+   recovery is biased UP. Zero/no net flux measures the concentration at which
+   the probe neither gains nor loses analyte and needs no recovery estimate at
+   all. Both used values are zero/no-net-flux; both cross-checks are not.
+2. **Direction of the error.** For noradrenaline the zero-net-flux value is
+   also the SMALLER, so using it understates the tonic occupancy and
+   understates every claim P6.2 makes. For acetylcholine it is the larger,
+   which is the uncomfortable direction, and that is why
+   `endogenous_tone.sensitivity_report()` re-runs the whole tonic-occupancy
+   table at [DeBundel2008]'s 4 nM and the result is reported below.
+
+[DeBundel2008]'s own dialysate reading, 0.40 +/- 0.12 nM in freely-moving rat
+hippocampus, is recorded separately as
+`ACETYLCHOLINE_BASAL_DIALYSATE_LOWER_BOUND`, because a dialysate
+concentration is a strict LOWER BOUND on the extracellular one:
+`dialysate = extraction_fraction * extracellular` and the extraction fraction
+is at most 1. That is P5.7's censored-cells-as-bounds rule applied to a
+concentration.
+
+### The acetylcholine constant is in the wrong compartment, and it is used anyway
+
+The weakest thing in P6.2, stated where a reader meets it rather than in a
+footnote. [Vinson1997] measured striatal acetylcholine. Striatal
+extracellular acetylcholine is released by tonically active cholinergic
+INTERNEURONS. The acetylcholine projection system in this codebase has three
+sources -- the diagonal band, the pedunculopontine and the laterodorsal
+tegmental nuclei -- and not one of them is a striatal interneuron. So the
+number is a measurement of the right analyte, in a rodent, by the right
+method, in the wrong compartment of the cholinergic system.
+
+It is used, and the reasons are three:
+
+* the alternative is the unit scale it replaces, which asserts nothing;
+* at three of the four cholinergic receptors here the tonic occupancy it
+  produces is under half a percent, so no conclusion rests on its value;
+* `SENSITIVITY` reports every cholinergic number at the 4.6-fold lower
+  hippocampal value too, so the supportable range is visible.
+
+The fourth cholinergic receptor is the exception and needs saying rather than
+burying: **alpha4beta2 sits at 22.0% tonic occupancy**, because P5.4's
+desensitized state holds the pool and tightens the site's apparent affinity
+24.5-fold, from a Kd of 1600 nM to an apparent 65.3 nM. That is the one place
+where this constant carries a conclusion, and it is exactly where its
+uncertainty bites hardest: at [DeBundel2008]'s 4 nM the same number is 5.8%.
+Both are reported and neither is presented as settled.
+
+### The tonic occupancy table, and the one number that summarizes it
+
+`endogenous_tone.tone_report()`. Every receptor in this codebase that one of
+the five projection transmitters binds, whether or not a port places it in a
+field:
+
+    receptor     transmitter    tone nM     Kd nM   occupancy  dose ratio
+    D1           dopamine          5.00      1079   4.612e-03      1.0046
+    D2           dopamine          5.00     2.031   7.111e-01      3.4619
+    5HT1A        serotonin         2.80       8.7   2.435e-01      1.3218
+    5HT2A        serotonin         2.80       150   1.832e-02      1.0187
+    alpha1       noradrenaline     1.59     15490   1.026e-04      1.0001
+    alpha2       noradrenaline     1.59        27   5.561e-02      1.0589
+    beta         noradrenaline     1.59      1820   8.730e-04      1.0009
+    alpha4beta2  acetylcholine    18.40     65.34   2.197e-01      1.2816
+    alpha7       acetylcholine    18.40      6250   2.935e-03      1.0029
+    M1           acetylcholine    18.40     25120   7.320e-04      1.0007
+    M2           acetylcholine    18.40      3981   4.601e-03      1.0046
+    H1           histamine         7.80      2399   3.241e-03      1.0033
+
+The last column is the point of the exercise. For one competitive pool at
+equilibrium, `occ_i = x_i / (1 + sum_j x_j)` with `x_j = C_j/Kd_j`, so the
+concentration of a drug required to reach ANY given occupancy is multiplied
+by exactly
+
+    dose ratio = 1 + C_tone / Kd_tone
+
+the classical Gaddum/Schild ratio. It depends on the tone and its affinity
+alone: not on the drug, not on its efficacy, not on the coupling gain
+downstream. So **one number per (receptor, transmitter) pair says what
+endogenous tone costs every drug at that receptor**, and it is a measurement
+of the model rather than an assertion about it: a test doses a drug at `D`
+against tone and at `D / ratio` against an empty pool and asserts the two
+occupancies agree to 1e-6, integrated.
+
+Read plainly, the table says a drug at the striatal D2 receptor needs 3.46
+times the concentration it would need against an empty receptor, and a drug
+at the cortical alpha1 receptor needs 1.0001 times. The spread across a
+single codebase is four orders of magnitude, which is why this had to be
+computed per receptor rather than asserted as "receptors are partly
+occupied".
+
+`orthosteric_affinities` is what makes the table cover all three site classes
+in `receptor.py` from one formula. A `ChannelBlockingReceptorSite`'s blockers
+are EXCLUDED, because the measurement that defines a non-competitive
+open-channel blocker is that it does not displace the agonist, so giving it a
+seat in the dose ratio would contradict its own data. A
+`DesensitizingReceptorSite`'s ligands compete at their APPARENT affinity
+`Kd / (1 + k_des/k_rec)`, because the desensitized state still holds the pool;
+that factor is P5.4's own `apparent_affinity_factor`, computed there for a
+different purpose and reused rather than restated, and a test checks the
+apparent Kd by integrating the site to half occupancy.
+
+### What changed, re-run rather than remembered
+
+`endogenous_tone.change_report()` builds every port twice, once at the basal
+concentration P6.1 used and once at P6.2's, so the numbers below are a
+transcript.
+
+**The three ports whose tone was already measured did not move at all.**
+Dopamine's haloperidol is -0.200047 before and after; serotonin's WAY-100635
+is +0.144473 before and after; histamine's mepyramine is -0.001833 before and
+after. A test asserts each to 1e-12 by re-running rather than by not looking,
+because "we changed two constants and nothing else moved" is a claim that has
+to be checked in the direction of the things that should NOT have moved.
+
+**Tonic occupancy, at the receptors P6.2 does move:**
+
+    receptor     P6.1 occ    P6.2 occ    ratio    P6.1 dose ratio  P6.2
+    alpha1       6.4561e-05  1.0265e-04   1.59        1.00006      1.00010
+    alpha2       3.5714e-02  5.5614e-02   1.56        1.03704      1.05889
+    beta         5.4924e-04  8.7301e-04   1.59        1.00055      1.00087
+    alpha4beta2  1.5073e-02  2.1972e-01  14.58        1.01530      1.28159
+    alpha7       1.5997e-04  2.9354e-03  18.35        1.00016      1.00294
+    M1           3.9809e-05  7.3198e-04  18.39        1.00004      1.00073
+    M2           2.5113e-04  4.6006e-03  18.32        1.00025      1.00462
+
+The two sublinear rows are the informative ones. Occupancy is `C/(C+Kd)`, so
+it rises in proportion to the tone only while the tone is far below the Kd.
+alpha2 is 17-fold below its Kd, so a 1.59-fold rise in tone gives 1.56;
+alpha4beta2 is only 3.6-fold below its APPARENT Kd, so an 18.4-fold rise in
+tone gives 14.58. That is why tonic occupancy is integrated per receptor here
+and never scaled from the concentration ratio.
+
+**The scenario results, at the end of a 30-minute run:**
+
+    port           antagonist alone     P6.1        P6.2      factor
+    noradrenaline  yohimbine 100 nM     +0.000012   +0.000029   2.4
+    acetylcholine  scopolamine 100 nM   -0.000008   -0.000124  15.5
+
+    port           autoreceptor probe   quantity        P6.1        P6.2
+    noradrenaline  clonidine 100 nM     cortical occ   -3.011e-05  -4.477e-05
+                                        cortical rate  -0.00008    -0.00012
+    acetylcholine  scopolamine 100 nM   cortical occ   +2.931e-07  +7.223e-05
+                                        cortical rate  -0.00001    -0.00012
+
+**The tonic compensation moved with them**, which is why it had to be
+recomputed rather than carried over. P6.1 turned P3.4's saturation lesson
+into a computation precisely so that this would follow automatically from a
+changed constant, and it did. `projection.standing_drive` multiplies each
+region's resting activation by its coupling gains, so a larger tone means a
+larger standing term folded into `baseline_input`:
+
+    port           node                P6.1       P6.2
+    noradrenaline  PFC_Pyramidal     +0.0003    +0.0005
+    acetylcholine  BF_Cholinergic    -0.0003    -0.0046
+    acetylcholine  PPN_Cholinergic   -0.0003    -0.0046
+    acetylcholine  LDT_Cholinergic   -0.0003    -0.0046
+    acetylcholine  PFC_Pyramidal     +0.0002    +0.0034
+
+Every one of these is a baseline the node is balanced around, so the
+drug-free run stays flat at 0.5 in both cases and P6.1's test asserting that
+flatness still passes; what changed is how much of that resting drive the
+model now attributes to tonic neuromodulator.
+
+P6.1's honest caveat -- "the loop is closed in the concentration and
+invisible at the receptor" -- is now false for both, and `MEASURED_BASAL` is
+all five ports rather than three. The effects are still small in absolute
+terms, and that is a real result rather than a disappointment: cortical
+alpha1 and beta receptors genuinely sit four and three orders of magnitude
+below their Kd at a basal noradrenaline concentration of 1.59 nM, so a
+halving of the field genuinely cannot move them much. What changed is that
+this is now a statement about two measured numbers rather than about a
+missing one.
+
+### The invariance that survived, and the one that did not
+
+Two claims that look alike and are not, and getting them the wrong way round
+would let a real change be reported as no change.
+
+**A pool's fold response to a HELD firing rate is basal-independent, exactly.**
+For a first-order or Michaelis-Menten pool the steady-state concentration
+scales with the release rate and the basal level cancels, which is the
+algebra P5.8 built its central prediction on. A test sweeps the tone over
+four orders of magnitude, including P6.1's own value, and asserts the fold at
+a held source rate is identical to 1e-9. **So P6.2 moved no fold-change that
+P5.8 or P6.1 reported at a fixed rate**, and the P5.8 transporter table's
+`1 + [drug]/Ki` predictions are untouched.
+
+**A pool's fold response inside a CLOSED loop is not.** Raising the tone
+raises the autoreceptor's tonic occupancy, which changes how far the same
+drug moves the source nucleus, which changes the field. Clonidine's halving
+of the cortical noradrenaline field is 6.5% shallower at 1.59 nM than at
+P6.1's 1.0 nM (-0.436 against -0.466), and a test asserts that it moves and
+that the previous test's invariance still holds. Both are true, of two
+different quantities.
+
+### The bug this task found in P6.1's own helper
+
+`projection.resting_occupancy` integrates a site to its resting state and is
+what `standing_drive` uses to compute the tonic compensation. Its integration
+span was estimated as `40 / min(rate)` over the ligands' `kon*C` and `koff`
+only. For a `DesensitizingReceptorSite` that omits the two slowest constants
+in this codebase: alpha4beta2's recovery rate `k_rec` is 0.0115 min^-1, an 87
+minute time constant, so the estimated span was 2.5 minutes against a process
+needing thousands, and the returned occupancy was not converged and was not
+flagged. It read 0.2105 where the fixed point is 0.2197, and the approach is
+not even monotonic (0.170 at 100 min).
+
+Two changes, and the second is the one that matters. The estimate now
+includes `k_des` and `k_rec`; and the result is then CHECKED, by quadrupling
+the span until the state stops moving, because an estimate of the slowest
+timescale is a guess about a site class and a fixed point is a fact about the
+answer. The convergence test is on the state rather than on the right-hand
+side, because occupancies are O(1) whatever the concentrations are while the
+right-hand side scales with `kon*C` and has no scale-free tolerance.
+
+This moved P6.1's acetylcholine port slightly (its cortical closed-loop
+occupancy change from 7.277e-05 to 7.223e-05) and nothing else, because it is
+the only port with a desensitizing site. It is recorded here rather than
+folded into the P6.2 numbers silently.
+
+### The counterfactual, which is what makes the whole thing load-bearing
+
+`empty_pool_change()` runs each port with the tone driven to 1e-9 nM, nine
+orders of magnitude below every Kd in this codebase:
+
+    port           antagonist       with tone     empty pool
+    dopamine       haloperidol      -0.200047     -0.000000
+    serotonin      WAY-100635       +0.144473     +0.000000
+    noradrenaline  yohimbine        +0.000029     +0.000000
+    acetylcholine  scopolamine      -0.000124     -0.000000
+    histamine      mepyramine       -0.001833     -0.000000
+
+Every one of them is inert again, which is the sentence every module from
+P5.1 to P5.7 had to write. A neutral antagonist has zero efficacy, so with an
+empty pool it occupies receptor and contributes nothing; with tone it
+displaces transmitter that WAS contributing, and the size of what it does is
+set by the tonic occupancy it removes. A test asserts that ordering: the D2
+receptor's 71% tonic occupancy, H1's 0.32% and M1's 0.073% produce lone-
+antagonist effects in that same order.
+
+### Searched and empty, still
+
+* **A MOUSE basal extracellular noradrenaline concentration.** [PanLai1995]
+  is rat. [Ihalainen1999] is the mouse comparison and reports dialysate
+  rather than recovery-corrected levels, which is a regional ordering rather
+  than a concentration.
+* **A basal extracellular acetylcholine concentration from a
+  basal-forebrain-innervated region by a quantitative method.**
+  [Vinson1997] is striatum (interneuronal); [DeBundel2008] is hippocampus but
+  dialysate. The gap is the reason the acetylcholine constant carries the
+  compartment caveat above.
+* **A mouse basal extracellular histamine concentration**, unchanged from
+  P6.1: [Itoh1991] is rat hypothalamus.
+* **An endogenous tone for the transmitters with no projection system.**
+  GABA, glutamate, adenosine, the opioid peptides and the endocannabinoids
+  all have real tonic extracellular levels, and none of them is a diffuse
+  neuromodulatory projection, so none is in scope for a task about projection
+  systems. `adenosine.py` already records the sharper version of this for
+  A2A: adenosine's own affinity at its receptor is not measurable by the
+  assay that produced the antagonist constants, so a tone would have no Kd to
+  act through even if the concentration were in hand.
+
+### What was deliberately not built
+
+* **A dopamine D1 port.** `endogenous_tone.TONE_TARGETS` reports D1's tonic
+  occupancy (0.46% at 5 nM against a Kd of 1079 nM) because that is a
+  property of the receptor and the transmitter, and marks it `ported=False`
+  because no scenario yet places D1 in a field. Porting `dopamine.py`'s
+  direct/indirect scenario is P6.1-shaped work and is the obvious next one.
+* **Region-wise tone.** Every port runs a uniform density map, so every
+  region's predicted basal concentration equals the reference's. The measured
+  regional variation exists -- [Ihalainen1999] puts mouse striatal dopamine
+  13-30 fold above cortical, [PanLai1995]'s conscious rat mPFC dopamine is
+  2.38 nM against [Bosse2011]'s 5.0 nM striatal -- and reproducing it is
+  P6.3's job, not a constant P6.2 can set. The two cross-region dopamine
+  numbers are recorded in `BASAL_TONE` as exactly that: the ordering P6.3's
+  density map will be judged against, and a 2.1-fold ratio that does NOT
+  reproduce [Ihalainen1999]'s 13-30 fold, which is itself worth knowing
+  before the densities arrive.
+* **Tone-dependent receptor regulation.** Chronic tone changes receptor
+  density and coupling; nothing here does.
+
+### What P6.2 delivered, checked against the standing discipline
+
+- **A cited basal transmitter concentration for every projection system**:
+  five entries in `endogenous_tone.BASAL_TONE`, each with its species,
+  region, method, citation and caveats attached to the number, two of them
+  ([PanLai1995], [Vinson1997]) new and closing gaps P5.8 and P6.1 had both
+  recorded as searched-and-empty. A test checks the registry against
+  `projection_systems.CLEARANCE_BUILDERS` rather than against a hand-written
+  list, so a sixth transmitter cannot be added without a tone.
+- **Both unit scales removed in the commit that supplies their
+  measurements** (rule 3), with a test asserting the names are gone rather
+  than relabelled, and both P5.8 tests that asserted invariance to those
+  units KEPT and re-pointed at the measurements, where they now assert that
+  P6.2's change moved no fold this project reported.
+- **Drugs competing against tone in one shared pool, asserted against the
+  ODE**: `projection.tone_dose_ratio` with the Gaddum identity checked by
+  dosing a drug at `D` against tone and at `D/ratio` against an empty pool
+  across four orders of magnitude of dose, plus the channel-blocker exclusion
+  and the desensitized-state apparent affinity, each checked by integration.
+- **The change quantified and explained**: `change_report()` re-runs every
+  port at both tones; three do not move and a test says so to 1e-12, two move
+  by factors of 2.4 and 15.5 in the lone-antagonist result, and the sublinear
+  rows are explained by where each receptor sits relative to its Kd rather
+  than reported as noise.
+- **A real bug found and fixed in P6.1's `resting_occupancy`**, with the
+  cause (a timescale estimate that omitted the desensitization constants),
+  the fix (include them, then verify convergence rather than trust the
+  estimate), and the size of what it moved.
+- **Tests.** 24 new test items, all in the offline gate, none slow, none
+  skipped, no existing test deleted or weakened. SIX existing tests changed,
+  every one of them because it asserted the ABSENCE of a measurement that
+  P6.2 supplies, which is the one thing rule 3 requires to change in this
+  commit and nothing else:
+
+      test_no_NET_conclusion_depends_on_the_noradrenaline_unit_scale
+        renamed; sweep widened to four values including P6.1's own 1.0. What
+        it asserts is unchanged and now says something stronger: P6.2's
+        change of that constant moved no fold this module reports.
+      test_the_acetylcholine_basal_is_a_unit_and_the_field_is_fold_of_basal
+        renamed; first assertion changed from "is a unit" to "is the cited
+        measurement, quoted"; the invariance sweep is kept and widened to
+        five values including P6.1's 1.0 and [DeBundel2008]'s 4 nM.
+      test_the_illustrative_constants_are_labelled_as_such
+        lost `NORADRENALINE_BASAL_UNIT_SCALE` from its list, because the
+        constant no longer exists; `test_no_unit_scale_survives_anywhere`
+        asserts that absence directly.
+      test_the_noradrenaline_loop_closes_in_the_field_and_not_at_the_receptor
+        renamed to "...and barely at the receptor"; its last assertion flips
+        from `not in MEASURED_BASAL` to `in`, and its two magnitude bounds
+        are TIGHTENED from `< 1e-3` to `1e-6 < x < 1e-3`, because P6.1 could
+        only assert that the receptor did not move and P6.2 can assert that
+        it moves a little. Smallness is still asserted, and is now a
+        statement about 1.59 nM rather than about a missing number.
+      test_the_acetylcholine_autoreceptor_probe_moves_the_nucleus_the_right_way
+        same flip, plus a new assertion that the cortical occupancy the probe
+        moves is nonzero. The sign prediction the test exists for is
+        untouched.
+      test_the_summary_names_both_results_and_the_gap_between_them
+        renamed to "...and what P6.2 changed". It asserted that the string
+        "UNIT" appeared in the summary, because two of five rows carried that
+        caveat; no row does now, so it asserts the opposite plus the presence
+        of the sentence recording what moved. The requirement is the same one
+        moved forward a task: the summary must not present five measured
+        scales as though there had always been five.
+- **Outputs**: `examples/endogenous_transmitter_tone.py` and
+  `scripts/report_endogenous_tone.py` -> `results/endogenous_tone.txt`.

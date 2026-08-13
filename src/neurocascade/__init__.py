@@ -41,6 +41,7 @@ from . import monoamine_transporters
 from . import projection
 from . import projection_systems
 from . import projection_scenarios
+from . import endogenous_tone
 
 __all__ = [
     "OneCompartmentPK",
@@ -84,4 +85,5 @@ __all__ = [
     "projection",
     "projection_systems",
     "projection_scenarios",
+    "endogenous_tone",
 ]

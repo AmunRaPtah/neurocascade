@@ -967,9 +967,17 @@ def resting_occupancy(receptor_site, concentrations, t_end=None):
 
     concentrations = np.asarray(concentrations, dtype=float)
     n_states = int(getattr(receptor_site, "n_states", receptor_site.n))
-    if t_end is None:
+    fixed_span = t_end is not None
+    if not fixed_span:
         # Long enough that the slowest first-order component has decayed:
-        # 40 / koff_min, floored so a fast site still gets a real span.
+        # 40 / rate_min, floored so a fast site still gets a real span. The
+        # rates are every first-order constant the site carries, which for
+        # `DesensitizingReceptorSite` includes the desensitization and
+        # RECOVERY constants (P6.2). Recovery from desensitization is the
+        # slowest process in this codebase by three orders of magnitude
+        # (alpha4beta2's `k_rec` is 0.0115 min^-1, an 87 min time constant),
+        # and leaving it out of this estimate returned an occupancy that had
+        # not converged and was not flagged as such.
         koffs = [
             float(getattr(lig, "koff", 0.0)) for lig in receptor_site.ligands
         ]
@@ -977,20 +985,128 @@ def resting_occupancy(receptor_site, concentrations, t_end=None):
             float(getattr(lig, "kon", 0.0)) * float(c)
             for lig, c in zip(receptor_site.ligands, concentrations)
         ]
-        rates = [r for r in koffs + kons if r > 0.0]
+        extra = []
+        for attribute in ("k_des", "k_rec"):
+            value = getattr(receptor_site, attribute, None)
+            if value is not None:
+                extra.extend(np.atleast_1d(np.asarray(value, dtype=float)).tolist())
+        rates = [r for r in koffs + kons + extra if r > 0.0]
         t_end = 40.0 / min(rates) if rates else 1.0
         t_end = float(np.clip(t_end, 1.0, 1e6))
-    sol = solve_ivp(
-        lambda t, y: receptor_site.occupancy_rhs(y, concentrations),
-        (0.0, t_end),
-        np.zeros(n_states),
-        method="LSODA",
-        rtol=1e-10,
-        atol=1e-14,
+
+    def integrate(span):
+        sol = solve_ivp(
+            lambda t, y: receptor_site.occupancy_rhs(y, concentrations),
+            (0.0, span),
+            np.zeros(n_states),
+            method="LSODA",
+            rtol=1e-10,
+            atol=1e-14,
+        )
+        if not sol.success:
+            raise RuntimeError(
+                "resting occupancy integration failed: %s" % sol.message
+            )
+        return sol.y[:, -1]
+
+    state = integrate(t_end)
+    if fixed_span:
+        return state
+    # And then CHECK, rather than trust the estimate: quadrupling the span
+    # must stop moving the answer. The test is on the STATE rather than on
+    # the right-hand side because occupancies are O(1) whatever the
+    # concentrations are, while the right-hand side scales with `kon * C` and
+    # so has no scale-free tolerance. This is what makes the helper correct
+    # for a site class whose slowest constant is not among the ones
+    # enumerated above, which is exactly how it was wrong before P6.2.
+    for _ in range(30):
+        t_end *= 4.0
+        settled = integrate(t_end)
+        if np.max(np.abs(settled - state)) < 1e-10:
+            return settled
+        state = settled
+    raise RuntimeError(
+        "resting occupancy did not reach a fixed point for %r"
+        % (getattr(receptor_site, "name", receptor_site),)
     )
-    if not sol.success:
-        raise RuntimeError("resting occupancy integration failed: %s" % sol.message)
-    return sol.y[:, -1]
+
+
+def orthosteric_affinities(receptor_site):
+    """`{ligand_name: Kd}` for the ligands sharing this site's COMPETITIVE
+    pool, with the desensitizing site's apparent-affinity correction applied
+    and its channel blockers left out (P6.2).
+
+    The three site classes in `receptor.py` share one equilibrium law once
+    each ligand is described by the right affinity:
+
+    * `ReceptorSite`: every ligand competes, `Kd = koff/kon`.
+    * `ChannelBlockingReceptorSite`: the orthosteric ligands compete; the
+      channel blockers own a structurally distinct pool and are excluded,
+      because the measurement that defines them is that they do NOT displace
+      the agonist.
+    * `DesensitizingReceptorSite`: the desensitized state still holds the
+      pool, so what competes is `bound + desensitized`, which is
+      half-maximal at `Kd / (1 + k_des/k_rec)`. That factor is the site's own
+      `apparent_affinity_factor`, computed by P5.4 for its own reasons and
+      reused here rather than restated.
+    """
+    ligands = list(getattr(receptor_site, "orthosteric_ligands", receptor_site.ligands))
+    factor = getattr(receptor_site, "apparent_affinity_factor", None)
+    if callable(factor):
+        factor = factor()
+    factors = np.ones(len(ligands)) if factor is None else np.asarray(factor, dtype=float)
+    if factors.ndim == 0:
+        factors = np.full(len(ligands), float(factors))
+    if factors.size != len(ligands):
+        raise ValueError(
+            "%r reports %d apparent-affinity factors for %d orthosteric "
+            "ligands" % (receptor_site.name, factors.size, len(ligands))
+        )
+    return {
+        lig.name: (lig.koff / lig.kon) / float(f)
+        for lig, f in zip(ligands, factors)
+    }
+
+
+def tone_dose_ratio(receptor_site, concentrations, against=None):
+    """How much harder a drug has to work because the pool is already
+    partly occupied by endogenous transmitter (P6.2).
+
+    For one competitive pool at equilibrium, occupancy by ligand `i` is::
+
+        occ_i = x_i / (1 + sum_j x_j),   x_j = C_j / Kd_j
+
+    so the concentration of a drug required to reach ANY given occupancy is
+    multiplied, exactly, by
+
+        ratio = 1 + sum_{j != drug} C_j / Kd_j
+
+    when the other ligands are held at `C_j`. That is the classical
+    Gaddum/Schild dose ratio, and it is the single number that says what
+    endogenous tone costs an administered drug at a receptor. It depends on
+    the tone and the tone's affinity ONLY -- not on the drug, not on its
+    efficacy, and not on the coupling gain downstream -- which is why P6.2
+    can report one number per (receptor, transmitter) pair and have it apply
+    to every drug at that site.
+
+    `concentrations` is the full per-ligand concentration vector in the
+    site's own ligand order (the same vector `occupancy_rhs` takes).
+    `against` optionally names the ligand whose dose ratio is wanted, and
+    excludes it from the sum; the default sums every ligand present, which is
+    the ratio a NEW drug would face.
+
+    A test asserts this against the integrated ODE rather than against the
+    algebra it came from.
+    """
+    kd = orthosteric_affinities(receptor_site)
+    names = [lig.name for lig in receptor_site.ligands]
+    concentrations = np.asarray(concentrations, dtype=float)
+    ratio = 1.0
+    for name, concentration in zip(names, concentrations):
+        if name == against or name not in kd:
+            continue
+        ratio += float(concentration) / kd[name]
+    return ratio
 
 
 def standing_drive(regional_systems, projection_systems):

@@ -112,14 +112,23 @@ def test_only_acetylcholine_and_histamine_carry_an_illustrative_clearance():
         assert ps.CLEARANCE_BUILDERS[name]().ligands == []
 
 
-def test_the_acetylcholine_basal_is_a_unit_and_the_field_is_fold_of_basal():
-    # P5.8's `NORADRENALINE_BASAL_UNIT_SCALE` argument, repeated: with no
-    # measurement available, the constant is 1.0 so the state IS its own
-    # fold-of-basal, and the fold is invariant to the choice. Three wildly
-    # different values, identical folds.
-    assert ps.ACETYLCHOLINE_BASAL_UNIT_SCALE == 1.0
+def test_the_acetylcholine_basal_is_the_cited_measurement_and_the_fold_is_invariant():
+    # P6.1 had a unit scale here, on the ground that no measurement was
+    # reachable, and asserted that the FOLD was invariant to the choice so
+    # that the unit could not quietly acquire meaning. P6.2 supplies the
+    # measurement ([Vinson1997], rat striatum, no-net-flux, 18.4 nM), so the
+    # first assertion changes and the invariance one is KEPT: what it now
+    # asserts is that P6.2's change of this constant moved no fold this
+    # module reports, which is half of `endogenous_tone.change_report()`'s
+    # claim. The sweep still spans four orders of magnitude and now includes
+    # P6.1's own 1.0 and [DeBundel2008]'s 4 nM.
+    assert ps.ACETYLCHOLINE_BASAL == 18.4
+    assert ps.acetylcholine_clearance().basal == 18.4
+    assert "Vinson1997" in ps.CITATIONS
+    assert "18.4 +/- 11.8 nM" in ps.CITATIONS["Vinson1997"]
     folds = []
-    for basal in (0.01, 1.0, 100.0):
+    for basal in (0.01, 1.0, ps.ACETYLCHOLINE_BASAL_HIPPOCAMPAL_ESTIMATE,
+                  ps.ACETYLCHOLINE_BASAL, 100.0):
         system = _one_region("acetylcholine", basal=basal)
         folds.append(
             [
