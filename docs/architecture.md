@@ -8175,3 +8175,361 @@ what will break RK45 first.
   The gate now runs 810 tests, all green. The engine's `method` argument is
   additive with an unchanged default, and `ChannelBlockingReceptorSite` is a
   new class that no pre-existing site uses.
+
+---
+
+## Phase 5: histamine H1, cannabinoid CB1, adenosine A2A (P5.6)
+
+### What the brief actually asked, and which part was the hard one
+
+P5.6 bundles three unrelated receptor systems. Two of them, H1 and A2A, are
+ordinary postsynaptic G-protein-coupled receptors and need nothing the
+codebase did not already have: a competitive `ReceptorSite`, a `coupling`
+gain with a sign, and cited constants. The third carries the design
+question, and the brief named it precisely: *"CB1's presynaptic retrograde
+signaling does not fit the postsynaptic receptor pattern: represent it as
+connection modulation, as GABA-A allosterism already is."*
+
+So the three modules are three modules -- `histamine.py`, `cannabinoid.py`,
+`adenosine.py` -- following the one-transmitter-per-module convention every
+Phase 5 task before this one used, rather than one `p5_6.py`. They share the
+discipline and nothing else, and each is described separately below.
+
+### CB1: why `coupling` is the wrong shape, and what the right one costs
+
+Every receptor system in P5.1 to P5.4 adds drive to a node. That encodes a
+claim -- "this receptor sits on the modelled population and changes how much
+it fires" -- which is correct for a postsynaptic Gq, Gi or Gs receptor and
+false for CB1, for two independent anatomical reasons:
+
+1. **CB1 is presynaptic.** It is on the axon terminal, where it inhibits
+   transmitter release. In the hippocampus it clusters on the terminals of
+   cholecystokinin-positive GABAergic interneurons ([Katona1999]). The
+   receptor that produces the effect modelled here is therefore not on the
+   neuron whose rate changes; it is on the terminal of the neuron projecting
+   onto it.
+2. **The signal that activates it runs backwards.** Depolarizing a pyramidal
+   neuron makes it release endocannabinoids that travel retrogradely to the
+   interneuron terminal and transiently suppress GABA release ([Wilson2001],
+   [OhnoShosaku2001], simultaneous and independent).
+
+A `coupling` entry has one index, the postsynaptic node, and no notion of
+which input it acts on, so it cannot express either fact.
+`connection_modulation` expresses both: its key is a `(post_node, pre_node)`
+PAIR, so it names a specific projection, and its effect is multiplicative on
+that projection's weight,
+
+    W_eff[post, pre] = W[post, pre] * (1 + gain * activation)
+
+which is what presynaptic inhibition of release IS in a rate model -- the
+same presynaptic firing delivering less postsynaptic effect. This is the
+third occupant of a feature `engine.py` grew for diazepam and P5.5 reused
+for glutamate, and the first whose reason is presynaptic LOCALIZATION rather
+than allosteric potentiation (diazepam) or avoidance of a double count
+(glutamate).
+
+The consequence worth stating is what did NOT have to be built.
+`receptor.py` gained a class in P5.4 and another in P5.5; P5.6 adds none.
+CB1's four ligands genuinely compete for one orthosteric pool, and nothing
+about the receptor's presynaptic location changes the binding arithmetic.
+What changes is what is done with `activation`, and that belongs to the
+receptor SYSTEM rather than to the site. The brief said CB1 does not fit the
+postsynaptic receptor pattern; the answer turned out to be that the codebase
+already had the pattern it does fit.
+
+### The CB1 gain is a measurement, which is new
+
+P5.5 was the first Phase 5 module with no illustrative coupling gain,
+because algebra pinned glutamate's at 1.0. P5.6b is the second, by a
+different route: **its gain is a number someone measured.**
+
+[HoffmanLupica2000] recorded evoked GABA-A IPSCs in CA1 pyramidal neurons of
+rat hippocampal slices and applied the CB1 agonist WIN 55,212-2. The IPSC
+fell with an EC50 of 138 nM, and at 5 uM -- 36-fold above that EC50 -- the
+reduction was **47 +/- 4%, n = 12**. The effect was blocked by SR141716A and
+not by naloxone, was presynaptic (it changed the frequency of
+action-potential-dependent spontaneous IPSCs without touching miniature
+IPSCs), and was abolished by cadmium.
+
+So `CB1_CONNECTION_GAIN = -CB1_MAX_SUPPRESSED_FRACTION = -0.47`. At
+saturation by a full agonist the factor is 0.53 and the inhibitory weight
+keeps 53% of its strength; with no drug the activation is exactly zero, the
+factor is exactly 1, and no earlier result moves. Three things follow, all
+tested:
+
+- **A CB1 agonist in this model cannot silence inhibition.** It removes at
+  most 47%, because that is what was measured, and the ceiling is why the
+  disinhibition result is modest (pyramidal 0.500 to 0.629 at a saturating
+  2-AG dose) rather than dramatic.
+- **The two negative signs are different facts.** `W[PFC_Pyramidal,
+  PFC_GABA] = -0.9` is negative because the synapse is inhibitory; the gain
+  is negative because CB1 removes transmission. Their product is weaker
+  inhibition, not a sign flip. A test sweeps activation and asserts the
+  modulated weight never crosses zero, because a gain below -1 would
+  silently turn an inhibitory synapse excitatory and nothing in the engine
+  forbids it.
+- **Where P5.5 and P5.6b differ, given both use the same feature.** P5.5 had
+  to put its fraction inside the receptor SITE, because two glutamate
+  systems partition ONE weight and `share_NMDA + share_AMPA == 1` is an
+  identity the site must enforce. CB1 has no partition: one receptor, one
+  measured maximal effect, one connection. So the fraction lives in the
+  gain, exactly where GABA-A's potentiation gain lives, and `activation` is
+  the ordinary positive `sum(occupancy * efficacy)`.
+
+The two modules also modulate DISJOINT connections of the same two-node
+loop: P5.5 the glutamatergic `PFC_Pyramidal -> PFC_GABA` (+0.8), P5.6b the
+GABAergic `PFC_GABA -> PFC_Pyramidal` (-0.9). That is not a design
+convenience; it is what the signs of the connectivity matrix already mean,
+and it makes a combined glutamate + cannabinoid scenario well-posed with no
+new decision. A test asserts the disjointness.
+
+**The measurement's tissue does not match the loop's label**, and this is
+the module's largest single weakness. [HoffmanLupica2000]'s 47% is rat
+hippocampal CA1; the loop is labelled `PFC_Pyramidal` / `PFC_GABA` because
+that is the loop P5.1, P5.3, P5.4 and P5.5 share and reusing it is what
+makes the result comparable. Both readings are recorded in the module
+docstring. The claim the module supports is "a saturating CB1 agonist
+disinhibits a pyramidal/interneuron loop by removing the measured fraction
+of its inhibitory synapse", not "THC raises prefrontal firing by X%".
+
+### CB1's affinities: most of the orderings are NOT resolved
+
+No single-laboratory panel measuring THC, anandamide, 2-AG and rimonabant at
+CB1 was reachable ([Felder1995] and [Showalter1996], the two the IUPHAR
+tables are built from, both returned HTTP 403). So all four affinities come
+from ONE COMPILATION, [Pertwee2010]'s IUPHAR/BPS cannabinoid nomenclature
+report (Pharmacol Rev 62:588, PMC2993256, open access), whose Table 1 prints
+them as RANGES:
+
+    (-)-Delta9-THC          5.05 - 80.3 nM
+    anandamide                61 - 543  nM
+    2-AG                    58.3 and 472 nM   (two values, not a range)
+    rimonabant (SR141716A)   1.8 - 12.3 nM
+
+A single scenario needs one number per ligand, so `cb1_kd(..., "midpoint")`
+takes the GEOMETRIC MEAN of each pair and is labelled a DERIVED SUMMARY of
+two cited numbers rather than a measurement -- no experiment reported 20.1
+nM for THC. The two endpoints are selectable (`"tight"`, `"weak"`) and are
+published values, and every qualitative claim is asserted under all three.
+
+Doing that produced a finding that was not expected. Of the twelve ordered
+pairs of these four ligands, **exactly two survive every combination of
+published values**: rimonabant is tighter than 2-AG and tighter than
+anandamide. THC's range overlaps every other ligand's, so neither
+"rimonabant binds CB1 more tightly than THC" (midpoints 4.7 against 20.1 nM)
+nor "THC binds more tightly than anandamide" (20.1 against 182 nM) is
+settled by the compiled literature, even though both look decisive at the
+midpoints. [Pertwee2010] states one of them in prose -- anandamide's
+"affinity for the CB1 receptor is also similar to that of Delta9-THC" -- and
+`affinity_ordering_is_resolved()` is the arithmetic version, with a test
+asserting the exact resolved set. The model never states a selectivity the
+compiled data does not contain.
+
+Efficacies come from three papers, three preparations and three reference
+agonists, and that is recorded rather than smoothed: 2-AG is the reference at
+1.0 because [Savinainen2001] measured it a FULL efficacy agonist at rat brain
+CB1 exceeding CP-55,940 under the high-GDP conditions that separate
+efficacies at all; anandamide 0.61 relative to CP-55,940 ([Liu2018]); THC
+0.20 relative to WIN55,212-2 ([Cheng2012], with 0.22 and 0.31 from
+[Mahardhika2024] as the spread, and a parametrized test re-running every
+result across all three). Rimonabant is 0.0, the fifth instance of the
+inverse-agonist simplification, and it bites harder here than anywhere
+before it because the constitutive activity being discarded is large:
+[Landsman1997] measured SR141716A to take basal [35S]GTPgammaS binding
+22.3% BELOW basal in a system where a full agonist raised it 76.3% above.
+
+### The one place where "an antagonist alone is inert" is a correct prediction
+
+P5.1 to P5.4 each had to record that their antagonists given alone do
+nothing, because there is no endogenous transmitter tone (P6.2). P5.5 broke
+the pattern: a glutamate antagonist alone is NOT inert, because `W[i,j]`
+needs no dose.
+
+P5.6b restores the pattern and, for the first time, has an experiment
+agreeing with it. [HoffmanLupica2000] applied SR141716A ALONE to the same
+slices and measured the evoked IPSC at 115 +/- 17% of control (n = 9), i.e.
+no significant effect, because an acute slice has no ongoing postsynaptic
+depolarization and therefore no tonic endocannabinoid release to block. This
+model predicts inertness for exactly that reason. The limitation is not
+cancelled -- an intact animal has tone and rimonabant given alone has
+effects large enough to have had the drug withdrawn -- but the inertness is
+now a correct prediction FOR A PREPARATION WITHOUT TONE, so the day P6.2
+supplies tone, what changes is a written-down expectation.
+
+### H1: the first use of derivation 2, and the number nothing forced
+
+`histamine.py` is an ordinary postsynaptic module. Its interest is
+arithmetic.
+
+P5.1 wrote down a three-way split for turning published constants into
+`Ligand` rate pairs: (1) both constants measured, (2) `koff` and an
+equilibrium affinity measured with `kon` missing, (3) only an affinity
+measured, so share the site's measured `kon`. P5.3 recorded that derivation
+2 was "not needed here". P5.6a is the first task that needs it, and it uses
+all three at one site:
+
+    mepyramine       derivation 1   kon 0.200 nM^-1 min^-1, koff 0.28 min^-1
+                                    both MEASURED [Bosma2017]
+    diphenhydramine  derivation 2   koff = 1 / (0.41 min residence time)
+                                    [Bosma2018] = 2.439 min^-1
+                                    Kd = mean(11.7, 13.5) = 12.6 nM [Booth2002]
+                                    => kon = koff / Kd = 0.1936
+    histamine        derivation 3   shares mepyramine's kon
+
+The derivation-2 result is a number nothing forced. Diphenhydramine's
+association rate is a residence time from one paper divided into an affinity
+from another laboratory, another cell line and another decade, and it lands
+**3% away** from mepyramine's MEASURED association rate from a third
+experiment. Nothing in the construction could have produced that agreement,
+and a test asserts it.
+
+What it means is the useful part. P5.3 took from [Sykes2022]'s 18-ligand
+beta1 kinetic panel the refinement that derivation 3 is FALSE across
+chemotypes and holds within one. [Bosma2017]'s ten-antihistamine panel spans
+**333-fold** in `kon`, and mepyramine (an ethylenediamine) and
+diphenhydramine (an ethanolamine) -- both first-generation antihistamines
+built on the same protonated-amine-plus-two-aryl-rings pharmacophore --
+agree to 3%. That is a second, independent confirmation of the chemotype
+refinement, at a second receptor. It is also why histamine, which is not of
+that chemotype, gets its shared `kon` with the warning attached.
+
+The H1 module also carries the affinity-state problem P5.1 met at 5-HT2A
+(250-fold) and P5.3 at alpha2 (10,000-fold). Here it is 33-fold: histamine's
+Ki at human H1 by [3H]mepyramine displacement is 79,433 nM in COS-7 cells
+([Jongejan2005]) and 2,399 nM in Sf9 cells ([Biselli2021], [Tropmann2021]),
+and IUPHAR's published range (pKi 4.7-5.9) brackets both. Two sets are built,
+`AFFINITY_STATES` selects, the default is the Sf9 one by P5.3's
+preparation-match rule, and the tests assert every qualitative result under
+both. The direction is robust; the magnitude is not (peak cortical deviation
++0.189 against +0.066), and that is reported as the error bar rather than
+smoothed.
+
+The H1 sign is not a guess. [McCormick1991] showed histamine slowly
+depolarizes thalamic relay neurons with a DECREASE in membrane conductance
+reversing near EK, that the depolarization is blocked by pyrilamine,
+triprolidine or DIPHENHYDRAMINE -- the exact drug modelled here -- and that
+the functional consequence is a switch from rhythmic burst discharge to
+single-spike activity, the cellular signature of arousal. Sedation is named
+as the Phase 7 endpoint it is and not claimed here.
+
+### A2A: a receptor whose endogenous ligand has no measurable affinity
+
+`adenosine.py` builds no circuit. [Schiffmann1991] found the striatal A2
+receptor expressed exclusively by enkephalinergic medium spiny neurons and
+not by substance-P or cholinergic ones, so it is a marker of the indirect
+pathway; [Ferre1993] found A2 and D2 co-localized on that same GABAergic
+striatopallidal neuron and acting on it in opposition, by microdialysis in
+awake rats. `scenarios.basal_ganglia_indirect_pathway_network()` already has
+that neuron as `Striatum_D2_MSN` and already carries a D2 system on it. So
+A2A is added to that network unchanged, on that node, with the opposite
+sign, and both of those are measured rather than chosen. It is the first
+Phase 5 module whose receptor lands on an existing node of an existing
+scenario, and the second (after P5.5, by a different route) that introduces
+no new illustrative circuit-layer number.
+
+Two results are the honest content of this module.
+
+**The endogenous ligand has no measured binding affinity, and the reason is
+a property of the ligand.** [Fredholm2011] states, in the text accompanying
+the table this module's numbers come from, that "it is exceedingly difficult
+to determine this affinity, because adenosine is rapidly metabolized and
+rapidly formed in biological preparations, including membrane preparations",
+and concludes that one must rely on functional potency instead; the table's
+own footnote says the adenosine row is functional data. So every
+`A2A_KD_ADENOSINE_*` in this module is a functional potency used as a Kd,
+flagged in the strongest terms, and the searched-and-empty ends in a
+published explanation of why the number cannot exist rather than in "not
+found". This is the cleanest instance of that outcome in Phase 5.
+
+**Caffeine is not an A2A drug.** In rat its affinity is 41,000 nM at A1 and
+45,000 nM at A2A, 1.1-fold apart; in human 10,700 against 23,400, i.e.
+2.2-fold A1-PREFERRING. This model has an A2A receptor and no A1 receptor, so
+a caffeine dose here produces the A2A-mediated half of caffeine's action and
+none of the other, and any potency statement from this module is a statement
+about a hypothetical A2A-selective xanthine. The direction is nevertheless
+the right one to test against, because [Ledent1997] showed in A2A-knockout
+mice that caffeine does not merely lose its stimulant effect on exploratory
+activity but BECOMES A DEPRESSANT, which is a causal demonstration that the
+stimulant component specifically requires A2A. The A1 constants are defined
+and are used by exactly one function, `caffeine_a1_a2a_selectivity()`, so the
+non-selectivity is a test rather than a paragraph; no ligand is built from
+them, and a test asserts that too.
+
+Derivation 3 gets its best chemotype match in this codebase here: adenosine
+shares NECA's MEASURED `kon` ([Guo2012], human A2A membranes, competition
+association against [3H]ZM241385), and NECA is adenosine with one amide
+substitution. The derived `koff` of 0.075 min^-1 lands within 2.5-fold of
+NECA's own measured 0.03 min^-1, which is the internal check. Caffeine shares
+the same `kon` across a chemotype boundary and is flagged: [Guo2012]'s panel
+spans 320-fold.
+
+Two further honest records. The A2A and D2 gains on the shared node are +1.0
+and -3.0: opposite signs, which [Ferre1993] measured, and unequal
+magnitudes, which is an artefact of two illustrative choices made at
+different times. Giving A2A a gain of +3.0 would have LOOKED like the natural
+encoding of "they oppose each other" and would have asserted that the two
+receptors are equally powerful on that neuron, which nothing measured
+supports; the refusal is documented on the constant and asserted by a test.
+And the reused basal-ganglia network's contraction number is 2.0, not the
+< 1 that P3.4's global-uniqueness certificate needs, because its weights are
++/-2.0 rather than the cortical loop's +/-0.9. That is inherited from the D2
+scenario since Track A and changed by nothing here; a test asserts the
+number so it is on the record. Every run in this module does converge to the
+all-0.5 fixed point, which is a weaker statement than certified uniqueness
+and is the one this module is entitled to make.
+
+### Sourcing: three reachability failures, recorded as such
+
+P5.5 recorded a primary that returned HTTP 403 and did not use its numbers.
+P5.6 had to use numbers from sources it could not open directly, and the
+route taken in each case is recorded on the constant rather than hidden:
+
+- **[Booth2002]** (JPET, H1 affinities). Publisher returned 403. The values
+  used are that paper's own data as deposited by the authors' laboratory in
+  the NIMH PDSP Ki database and served through BindingDB entry 5364. The
+  check that this is the right paper's data rather than a mis-join: the mean
+  of its two diphenhydramine determinations is pKi 7.90, and IUPHAR records
+  "diphenhydramine, human H1, pKi 7.9" attributed to exactly that reference.
+- **[Biselli2021], [Tropmann2021], [Liu2018], [Cheng2012]** (histamine's H1
+  affinity; CB1 efficacies). Paywalled; values read from ChEMBL's curation,
+  with the ChEMBL document identifier recorded next to each so the
+  extraction can be re-checked.
+- **[Daly1991], [AboSalem2004], [Grahner1994], [Jacobson1999]** (caffeine's
+  adenosine-receptor affinities). All paywalled; the values are
+  [Fredholm2011]'s IUPHAR tabulation of them, with that review's own
+  per-value attribution recorded so a future pass can replace any single
+  entry without re-deriving the set.
+
+None of these is as good as reading the primary. All of them are better than
+inventing a number, and each is labelled at the point of use so that a
+reader can see exactly how far from the bench each constant sits.
+
+### What P5.6 delivered, checked against the standing discipline
+
+- **Cited constants for all three receptor systems.** H1: three affinities,
+  one measured rate pair, one measured residence time, three efficacies.
+  CB1: four affinities (as published ranges, with the instantiation rule
+  labelled), four efficacies, and a measured connection-modulation gain.
+  A2A: two affinities per species plus the A1 pair that shows caffeine is
+  non-selective, one measured association rate, two efficacies.
+- **CB1 is handled as connection modulation with the rationale written
+  down** -- presynaptic localization plus retrograde signalling, neither of
+  which a single-index `coupling` entry can express -- in this section, in
+  `cannabinoid.py`'s docstring, in the example script's "effective weight"
+  column, and as executable identities: empty `coupling`, a gain equal to
+  the measured suppression, a modulated weight that never changes sign, and
+  a drug-free run reproducing the drug-free network exactly.
+- **Scenarios and tests.** Three example scripts and 95 new test items, all
+  in the offline gate, none slow, none skipped, and no existing test
+  deleted, weakened or modified. The gate now runs 905 tests, all green;
+  the full suite including the slow MCMC items runs 919, all green. `receptor.py` and `engine.py` are
+  unchanged: P5.6 needed no new mechanism, which is itself the answer to the
+  question the brief asked.
+- **What was deliberately not built is enumerated per module**, with the
+  reason and, where applicable, the missing number: H2 and H3; CB1 on
+  glutamatergic terminals (missing a measured maximal EPSC suppression in a
+  matched preparation, and its absence over-states a CB1 agonist's net
+  excitatory effect); the retrograde loop closed as a loop (P6.1); A1, A2B,
+  A3; and the A2A-D2 heteromer, whose functional consequence is reproduced
+  by two opposite-signed gains on one node without asserting its molecular
+  basis.

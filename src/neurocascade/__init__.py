@@ -27,6 +27,9 @@ from . import dopamine
 from . import noradrenaline
 from . import acetylcholine
 from . import glutamate
+from . import histamine
+from . import cannabinoid
+from . import adenosine
 from . import drug_pk
 from . import pk_validation
 from . import connectome
@@ -61,6 +64,9 @@ __all__ = [
     "noradrenaline",
     "acetylcholine",
     "glutamate",
+    "histamine",
+    "cannabinoid",
+    "adenosine",
     "drug_pk",
     "pk_validation",
     "connectome",
