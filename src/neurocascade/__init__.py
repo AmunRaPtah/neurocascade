@@ -30,6 +30,7 @@ from . import glutamate
 from . import histamine
 from . import cannabinoid
 from . import adenosine
+from . import opioid
 from . import drug_pk
 from . import pk_validation
 from . import connectome
@@ -67,6 +68,7 @@ __all__ = [
     "histamine",
     "cannabinoid",
     "adenosine",
+    "opioid",
     "drug_pk",
     "pk_validation",
     "connectome",

@@ -107,6 +107,24 @@ The engine runs end to end on five worked examples, all reusing the same
   blocker it is rather than as a competitor, and the muscarinic sites stay
   ordinary two-state sites on purpose.
 
+- [`examples/opioid_kappa_delta_circuit.py`](examples/opioid_kappa_delta_circuit.py)
+  adds the kappa and delta receptors of `opioid.py` to the network the
+  mu-opioid scenario has used since the start, with every affinity and every
+  efficacy from one laboratory's panel on human cloned mu/delta/kappa
+  receptors, so the selectivity ratios are ratios of numbers measured in the
+  same experiment. Two of those numbers are the point: **naloxone is
+  1.79-fold selective for mu over kappa**, so any exposure that reverses a mu
+  agonist has also blocked most of the kappa pool, and **fentanyl is a 30%
+  partial agonist at kappa**, so above its kappa Kd it activates the receptor
+  that opposes its own mu action. Re-running the existing mu scenario with
+  those cross-affinities in place moves the reward readout by 1.5% at a
+  clinical fentanyl exposure and by 28.9% four orders of magnitude above it;
+  all three established mu results survive. A kappa agonist moves the
+  scenario's own reward readout in the direction opposite to fentanyl, which
+  is the effect Di Chiara and Imperato measured in 1988 with those same two
+  drugs. Full tables in
+  [`results/opioid_cross_affinity.txt`](results/opioid_cross_affinity.txt).
+
 **The circuit time constants and connection weights are hand-set
 placeholders**, chosen to get the mechanism right, not sourced from any
 specific dataset. The receptor-binding constants and the PK are no longer:
@@ -148,6 +166,7 @@ more single-dose studies.
 | `src/neurocascade/histamine.py` | The H1 receptor system, its literature binding constants including the first derivation-2 rate pair in this codebase, and the tuberomammillary/cortex scenario it drives (P5.6) |
 | `src/neurocascade/cannabinoid.py` | The CB1 receptor system, handled as connection modulation because the receptor is presynaptic and its signal retrograde, with a connection-modulation gain that is a measured IPSC suppression rather than an illustrative constant (P5.6) |
 | `src/neurocascade/adenosine.py` | The A2A receptor system on the striatopallidal node the D2 scenario already carries, its literature binding constants, and the record that caffeine is not an A2A-selective drug and that adenosine's own affinity cannot be measured (P5.6) |
+| `src/neurocascade/opioid.py` | The kappa and delta receptor systems, the cross-affinities and cross-efficacies of every ligand at all three opioid receptors from one single-laboratory panel, and the record that naloxone is 1.79-fold mu-over-kappa selective and fentanyl a partial kappa agonist (P5.7) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4) |
 | `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2), and the cited anatomical validation of the resulting maps (P4.3) |
 | `src/neurocascade/datafetch.py` | Checksummed download/verify/cache, shared by both ingestion packages |
@@ -156,7 +175,7 @@ more single-dose studies.
 | `examples/`          | Worked end-to-end scenarios                      |
 | `tests/`             | Unit tests per layer                             |
 | `docs/`              | Architecture and design notes                    |
-| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage, `expression_density_validation.txt` P4.2 density validation, `receptor_map_validation.txt` P4.3 anatomy validation |
+| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage, `expression_density_validation.txt` P4.2 density validation, `receptor_map_validation.txt` P4.3 anatomy validation, `opioid_cross_affinity.txt` P5.7 cross-affinity re-run |
 
 ### Connectome data
 

@@ -1,0 +1,214 @@
+P5.7 opioid kappa/delta: cross-affinity re-run
+==============================================
+
+Every affinity and efficacy below is [Toll1998] (NIDA Res Monogr
+178:440-466, PMID 9686407), human cloned mu/delta/kappa receptors on
+CHO cells, one laboratory and one panel. See src/neurocascade/opioid.py
+for the full sourcing, the derivations and what is not built.
+
+Ki (nM), human CHO
+------------------
+ligand                   mu      delta      kappa
+dynorphin_A             7.7       42.7        1.7
+leu_enkephalin          7.4        2.1 >    10000
+U50488                290.0 >    10000        0.2
+nor_BNI                21.0        5.7        0.2
+naltrindole             6.3        0.2       10.1
+fentanyl                0.7      152.7       84.8
+naloxone                1.4       67.5        2.5
+
+Efficacy (fraction of DAMGO / DPDPE / U69,593 max [35S]GTPyS)
+------------------------------------------------------------
+ligand                   mu      delta      kappa
+dynorphin_A            0.99       0.99       0.97
+leu_enkephalin         0.11       1.04       0.89
+U50488                 0.00       0.00       0.93
+nor_BNI                0.00       0.00       0.00
+naltrindole            0.00       0.00       0.00
+fentanyl               1.00       0.86       0.30
+naloxone               0.00       0.00       0.00
+
+  'flat' in the source table (measured, no stimulation at any
+  concentration) is written 0.00 above and listed in
+  opioid.MEASURED_FLAT: naloxone, nor-BNI and naltrindole at all
+  three receptors, U50488 at mu and delta.
+
+Selectivity, from the same table
+--------------------------------
+  naloxone   mu over kappa :   1.79 x   <-- the number the brief is about
+  naloxone   mu over delta :  48.21 x
+  fentanyl   mu over kappa : 121.14 x
+  fentanyl   mu over delta : 218.14 x
+  dynorphin  kappa over mu :   4.53 x
+  nor-BNI    kappa over mu : 105.00 x
+  nor-BNI kappa over delta :  28.50 x
+  naltrind. delta over mu  :  31.50 x
+
+  cross-assay check, Toll mu Ki / Volpe mu Ki: fentanyl 0.52, naloxone 0.92
+
+
+The two networks
+----------------
+  Track C1 (hand baselines): drug-free fixed point has VTA_DA at
+  4.90e-06, i.e. saturated OFF, so the VTA_DA -> NAc projection carries
+  nothing at rest and a PRESYNAPTIC modulator of it cannot act.
+
+  stabilized network: 7 nodes
+    operating gain rho = 0.9 (ILLUSTRATIVE)
+    weight_scale = 0.342003   (= rho / kappa, kappa = 2.63156)
+    contraction number after scaling: 0.9 < 1, unique globally attracting fixed point
+    baseline_input: balanced to r* = [0.5]
+
+
+Each cell is the signed extremum of (dosed - drug free) over the
+40-minute run. 'change' is (mu+kappa+delta) against (mu only), as a
+percentage of the mu-only effect. n/a where the ligand does not
+exist in the mu-only configuration.
+
+RE-RUN 1: Track C1 network, hand baselines (the strict regression)
+------------------------------------------------------------------
+condition                    readout                   mu only   mu+kappa+d       change
+fentanyl 10 nM               incentive_salience        0.17163      0.18119        +5.6%
+fentanyl 10 nM               accumbal_drive            0.19725      0.20709        +5.0%
+fentanyl 10 nM               analgesia_index           0.68961      0.68961        -0.0%
+fentanyl 10 nM               arousal_index            -0.50000     -0.50000        -0.0%
+
+fentanyl 100000 nM           incentive_salience        0.27644      0.26619        -3.7%
+fentanyl 100000 nM           accumbal_drive            0.30841      0.28318        -8.2%
+fentanyl 100000 nM           analgesia_index           0.68964      0.68964        +0.0%
+fentanyl 100000 nM           arousal_index            -0.50000     -0.50000        +0.0%
+
+naloxone 100 nM              incentive_salience       -0.00003     -0.00010    -6.95e-05
+naloxone 100 nM              accumbal_drive           -0.00004     -0.00012    -8.33e-05
+naloxone 100 nM              analgesia_index          -0.00009     -0.00013    -4.78e-05
+naloxone 100 nM              arousal_index            -0.00000     -0.00002    -1.76e-05
+
+fentanyl 10 + naloxone 100   incentive_salience        0.00061      0.00096    +3.50e-04
+fentanyl 10 + naloxone 100   accumbal_drive            0.00070      0.00109    +3.90e-04
+fentanyl 10 + naloxone 100   analgesia_index           0.00350      0.00353        +0.9%
+fentanyl 10 + naloxone 100   arousal_index            -0.39695     -0.39696        -0.0%
+
+U50488 100 nM                incentive_salience            n/a     -0.02651          n/a
+U50488 100 nM                accumbal_drive                n/a     -0.03786          n/a
+U50488 100 nM                analgesia_index               n/a     -0.00006          n/a
+U50488 100 nM                arousal_index                 n/a     -0.00001          n/a
+
+dynorphin A 1000 nM          incentive_salience            n/a      0.01322          n/a
+dynorphin A 1000 nM          accumbal_drive                n/a     -0.01753          n/a
+dynorphin A 1000 nM          analgesia_index               n/a     -0.00006          n/a
+dynorphin A 1000 nM          arousal_index                 n/a      0.00000          n/a
+
+nor-BNI 100 nM               incentive_salience            n/a     -0.00003          n/a
+nor-BNI 100 nM               accumbal_drive                n/a     -0.00003          n/a
+nor-BNI 100 nM               analgesia_index               n/a     -0.00004          n/a
+nor-BNI 100 nM               arousal_index                 n/a      0.00003          n/a
+
+U50488 100 + nor-BNI 1000    incentive_salience            n/a     -0.00245          n/a
+U50488 100 + nor-BNI 1000    accumbal_drive                n/a     -0.00348          n/a
+U50488 100 + nor-BNI 1000    analgesia_index               n/a     -0.00008          n/a
+U50488 100 + nor-BNI 1000    arousal_index                 n/a     -0.00002          n/a
+
+Leu-enkephalin 100 nM        incentive_salience            n/a      0.00446          n/a
+Leu-enkephalin 100 nM        accumbal_drive                n/a      0.00510          n/a
+Leu-enkephalin 100 nM        analgesia_index               n/a     -0.00002          n/a
+Leu-enkephalin 100 nM        arousal_index                 n/a      0.00000          n/a
+
+naltrindole 100 nM           incentive_salience            n/a     -0.00003          n/a
+naltrindole 100 nM           accumbal_drive                n/a     -0.00003          n/a
+naltrindole 100 nM           analgesia_index               n/a     -0.00005          n/a
+naltrindole 100 nM           arousal_index                 n/a      0.00004          n/a
+
+
+RE-RUN 2: P3.4-stabilized network, started at its own fixed point
+-----------------------------------------------------------------
+condition                    readout                   mu only   mu+kappa+d       change
+fentanyl 10 nM               incentive_salience        0.24739      0.24372        -1.5%
+fentanyl 10 nM               accumbal_drive            0.21171      0.20709        -2.2%
+fentanyl 10 nM               analgesia_index           0.34684      0.34684        -0.0%
+fentanyl 10 nM               arousal_index            -0.50000     -0.50000        +0.0%
+
+fentanyl 100000 nM           incentive_salience        0.24828      0.17662       -28.9%
+fentanyl 100000 nM           accumbal_drive            0.21245      0.10699       -49.6%
+fentanyl 100000 nM           analgesia_index           0.34684      0.34684        -0.0%
+fentanyl 100000 nM           arousal_index            -0.50000     -0.50000        +0.0%
+
+naloxone 100 nM              incentive_salience        0.00000      0.00000    +0.00e+00
+naloxone 100 nM              accumbal_drive            0.00000      0.00000    +0.00e+00
+naloxone 100 nM              analgesia_index           0.00000      0.00000    +0.00e+00
+naloxone 100 nM              arousal_index             0.00000      0.00000    +0.00e+00
+
+fentanyl 10 + naloxone 100   incentive_salience        0.07175      0.08000       +11.5%
+fentanyl 10 + naloxone 100   accumbal_drive            0.06262      0.06972       +11.3%
+fentanyl 10 + naloxone 100   analgesia_index           0.22126      0.22126        -0.0%
+fentanyl 10 + naloxone 100   arousal_index            -0.39696     -0.39696        +0.0%
+
+U50488 100 nM                incentive_salience            n/a     -0.13416          n/a
+U50488 100 nM                accumbal_drive                n/a     -0.20641          n/a
+U50488 100 nM                analgesia_index               n/a      0.00000          n/a
+U50488 100 nM                arousal_index                 n/a      0.00000          n/a
+
+dynorphin A 1000 nM          incentive_salience            n/a     -0.03799          n/a
+dynorphin A 1000 nM          accumbal_drive                n/a     -0.11245          n/a
+dynorphin A 1000 nM          analgesia_index               n/a      0.00000          n/a
+dynorphin A 1000 nM          arousal_index                 n/a      0.00000          n/a
+
+nor-BNI 100 nM               incentive_salience            n/a      0.00000          n/a
+nor-BNI 100 nM               accumbal_drive                n/a      0.00000          n/a
+nor-BNI 100 nM               analgesia_index               n/a      0.00000          n/a
+nor-BNI 100 nM               arousal_index                 n/a      0.00000          n/a
+
+U50488 100 + nor-BNI 1000    incentive_salience            n/a     -0.01254          n/a
+U50488 100 + nor-BNI 1000    accumbal_drive                n/a     -0.01900          n/a
+U50488 100 + nor-BNI 1000    analgesia_index               n/a      0.00000          n/a
+U50488 100 + nor-BNI 1000    arousal_index                 n/a      0.00000          n/a
+
+Leu-enkephalin 100 nM        incentive_salience            n/a      0.12018          n/a
+Leu-enkephalin 100 nM        accumbal_drive                n/a      0.10423          n/a
+Leu-enkephalin 100 nM        analgesia_index               n/a      0.00000          n/a
+Leu-enkephalin 100 nM        arousal_index                 n/a      0.00000          n/a
+
+naltrindole 100 nM           incentive_salience            n/a      0.00000          n/a
+naltrindole 100 nM           accumbal_drive                n/a      0.00000          n/a
+naltrindole 100 nM           analgesia_index               n/a      0.00000          n/a
+naltrindole 100 nM           arousal_index                 n/a      0.00000          n/a
+
+
+NALOXONE REVERSAL POTENCY, mu against kappa
+-------------------------------------------
+The consequence of a 1.79-fold selectivity, made into a number.
+Naloxone concentration (nM) needed to halve an established
+effect, by search over a log ladder, on the stabilized network.
+The mu effect is read on analgesia_index (PAG, which only the mu
+system touches) and the kappa effect on accumbal_drive.
+
+agonist                      readout              effect alone  naloxone_50
+fentanyl 10 nM (mu)          analgesia_index           0.34684        177.8
+U50488 100 nM (kappa)        accumbal_drive           -0.20641       1000.0
+dynorphin A 1000 nM (kappa)  accumbal_drive           -0.11245       1000.0
+
+  These are circuit-level numbers and they mix three things:
+  naloxone's own selectivity, the two agonists' different
+  affinities for their own receptors, and the different shapes of
+  the two readouts. The pharmacological version below removes the
+  last two.
+
+The same question at the receptor, with the circuit removed
+-----------------------------------------------------------
+Naloxone concentration halving the AGONIST's peak occupancy, with
+each agonist dosed at 7.5x its own Kd so the two competitions
+start from the same place. This isolates naloxone.
+
+agonist / receptor        Kd (nM)  dose (nM)     peak occ  naloxone_50
+fentanyl at mu              1.346     10.095       0.8663        10.00
+U50488 at kappa             0.200      1.500       0.8265        13.34
+
+  ratio kappa / mu = 1.33, against a naloxone Ki ratio of 1.79.
+
+  That is the brief's sentence as a number. A model that treated
+  naloxone as a mu-selective antagonist would put these two
+  concentrations orders of magnitude apart; measured, they are
+  within a small factor, because 1.4 nM and 2.5 nM are within a
+  small factor. What this model still cannot show is the
+  clinically consequential half of it -- that a reversal dose also
+  strips ENDOGENOUS dynorphin off kappa -- because P6.2 has
+  supplied no tone, so the kappa agonist is injected by hand here.

@@ -8533,3 +8533,371 @@ reader can see exactly how far from the bench each constant sits.
   A3; and the A2A-D2 heteromer, whose functional consequence is reproduced
   by two opposite-signed gains on one node without asserting its molecular
   basis.
+
+---
+
+## Phase 5: opioid kappa and delta (P5.7)
+
+### The brief's own sentence, checked rather than repeated
+
+The task named the deliverable precisely: kappa and delta receptors with cited
+constants for dynorphin, enkephalin, U50488, nor-BNI and naltrindole, "and
+crucially the cross-affinities of the existing mu ligands. Fentanyl and
+naloxone are not mu-selective in the limit, and naloxone's kappa and delta
+affinities matter for reversal modeling."
+
+That is checkable, and the numbers say it more sharply than the sentence does.
+In one laboratory's panel on human cloned receptors:
+
+    ligand         mu Ki    delta Ki   kappa Ki    mu-selectivity (delta/kappa)
+    fentanyl        0.7      152.7       84.8            218x / 121x
+    naloxone        1.4       67.5        2.5             48x /   1.8x
+
+**Naloxone is 1.79-fold selective for mu over kappa.** Not ten-fold, not a
+hundred-fold: 1.79, which is inside the spread of a single competition curve.
+Any naloxone exposure large enough to reverse a mu agonist has also blocked
+most of the kappa pool. `opioid.naloxone_mu_over_kappa_selectivity()` exists
+so that this is a test rather than a paragraph.
+
+Fentanyl's selectivity is large but bounded, and it has a second half a Ki
+table cannot show: fentanyl is a PARTIAL AGONIST at kappa, 30 +/- 4% of U69,593 in
+the same laboratory's functional panel, and a near-full agonist at delta,
+86 +/- 19% of DPDPE. So above its kappa Kd, fentanyl does not merely occupy
+the receptor that opposes its own mu action, it activates it.
+
+### One paper, and why finding it was most of the task
+
+Every affinity and every efficacy in `opioid.py` comes from [Toll1998] (Toll
+L, Berzetei-Gurske IP, Polgar WE, Brandt SR, Adapa ID, Rodriguez L, Schwartz
+RW, Haggart D, O'Brien A, White A, Kennedy JM, Craymer K, Farrington L, Auh
+JS, NIDA Res Monogr 1998;178:440-466, PMID 9686407, SRI International under
+NIDA contracts N01DA-3-8302 and N01DA-4-8307). Its Table 5 gives Ki at human
+cloned mu, delta and kappa receptors expressed in CHO cells ([3H]DAMGO,
+[3H]DPDPE-Cl, [3H]U69,593) and, in parallel columns, at the same three sites
+in guinea-pig brain membranes. Its Table 7 gives [35S]GTPyS stimulation in
+membranes from the same three cell lines, as a percentage of each site's own
+reference full agonist.
+
+Why a single-laboratory panel was worth searching for rather than assembling
+seven ligands from seven papers: **a selectivity ratio built from two papers
+is a comparison of two laboratories as much as of two receptors.** The whole
+content of P5.7 is ratios -- naloxone's mu over its kappa, fentanyl's mu over
+its delta, dynorphin's kappa over its mu -- and a ratio is only a statement
+about the receptors if numerator and denominator were measured in the same
+experiment. [Toll1998] measured all twenty-one cells that way.
+
+It is also a NIDA Research Monograph, i.e. a United States government
+publication in the public domain, and the full text including both tables is
+readable at `archive.org/details/rms178`. So unlike P5.6's three reachability
+failures, this is a primary source read directly.
+
+The provenance check that scan needed: every one of the seven ligands was
+independently verified against the IUPHAR/BPS Guide to PHARMACOLOGY's own
+curation of this same paper (its human mu/delta/kappa interaction records
+citing PMID 9686407), and all twenty-one available pKi values agree to the
+rounding IUPHAR publishes. Trusting character recognition on a 1998 typescript
+for numbers every result depends on is not good enough on its own, and the
+check is recorded in `opioid.py` next to the citation.
+
+### Eleven measured zeros: the first time `efficacy=0.0` is not a simplification
+
+Every module from P5.1 to P5.6 had to flag a neutral-antagonist efficacy of
+0.0 as a modelling simplification standing in for an unmeasured inverse
+agonism. [Toll1998] Table 7 ran naloxone, nor-BNI and naltrindole in the
+functional assay at all three human receptors and each was "flat" at all
+three, and ran U50488 at mu and delta with the same result: eleven measured
+zeros, listed in `opioid.MEASURED_FLAT`, and a test asserts that every zero in
+the efficacy table is one of them rather than a default.
+
+### Three things the numbers say that the folk summary does not
+
+1. **Dynorphin A is only 4.53-fold kappa-selective over mu** (1.7 against
+   7.7 nM) and is a full agonist at all three receptors in the same panel
+   (97%, 99%, 99%). The endogenous "kappa peptide" is barely a selective
+   ligand at equilibrium; its selectivity in vivo is a matter of where it is
+   released, which is a Phase 6 property this model does not have.
+2. **Leu-enkephalin binds mu tightly and barely activates it**: Ki 7.4 nM,
+   within 3.5-fold of its delta Ki, but only 11 +/- 4% of DAMGO's maximum
+   there against 104 +/- 21% of DPDPE's at delta. Affinity and efficacy point
+   in different directions for one peptide at one receptor, which is exactly
+   what a model carrying only Ki would get backwards. It is the reason both
+   tables are used and not just Table 5.
+3. **The "selective" antagonists are not very selective at equilibrium.**
+   nor-BNI is 28.5-fold kappa-over-delta and naltrindole 31.5-fold
+   delta-over-mu. nor-BNI's famous selectivity in vivo is a DURATION
+   phenomenon -- days to weeks of kappa antagonism after one dose -- which
+   `TOOL_COMPOUND_KE` and a derivation-3 `koff` cannot represent, and which is
+   listed under what was deliberately not built.
+
+### Two preparation disagreements, from the paper's own control
+
+[Toll1998] measured the same twenty-one cells twice, in human CHO cells and in
+guinea-pig brain, which is an unusually direct measurement of what a
+preparation is worth. Nineteen of twenty-one agree within 3.5-fold. Two do
+not: naltrindole at MU, 6.3 +/- 2.3 nM against 0.2 +/- 0.01 nM (31.5-fold,
+and that one cell is the difference between "naltrindole is 32-fold
+delta-selective" and "2.2-fold"), and dynorphin A at DELTA, 42.7 against
+5.8 nM (7.4-fold). Worth recording alongside them: the KAPPA column is the one
+the two preparations agree on best, every cell within 1.8-fold, and it is the
+column this module's headline results rest on. Both columns are in
+`KI_GUINEA_PIG_BRAIN`, the human-CHO one is used throughout for three stated
+reasons, and a test asserts the disagreements rather than hiding them.
+
+### Censored cells used as bounds, in the direction that makes conclusions safe
+
+[Toll1998] prints ">10,000" rather than a number in two cells this module
+needs: U50488 at delta and Leu-enkephalin at kappa. Ten thousand nanomolar is
+the top of the assay, not a measurement. The rule applied, stated on the
+constant and asserted by a test:
+
+    a censored ">10,000" is instantiated AT the bound, which makes the
+    modelled cross-activity an UPPER bound on the real cross-activity.
+
+The bound is the smallest value consistent with the datum, so it maximises the
+cross-talk the model can show. Every "this ligand does essentially nothing at
+that receptor" conclusion drawn from those two cells is therefore
+conservative, and no result depends on the difference between "10,000" and
+"more than that".
+
+### Where the three receptors go: three placements, each forced by an experiment
+
+No new circuit was drawn. `scenarios.multi_region_mu_opioid_network()` is
+reused, so a kappa result is comparable with the mu results this codebase has
+had since Track C1.
+
+- **Mu**: unchanged, P4.3's atlas-derived coupling on VTA_GABA,
+  PAG_Interneuron and LC.
+- **Delta on `VTA_GABA`, via `coupling`, negative.** [Devine1993] (Devine DP,
+  Leone P, Pocock D, Wise RA, J Pharmacol Exp Ther 1993;266:1236-1246, PMID
+  7690399) microinjected DPDPE into the rat VTA and measured ventral striatal
+  dopamine by microdialysis: dose-orderly increases, antagonised by intra-VTA
+  naltrindole and NOT by the mu antagonist CTOP, while DAMGO's increases were
+  antagonised by CTOP and not by naltrindole. The delta receptor that raises
+  mesolimbic dopamine is in the VTA, is not the mu receptor, and uses the same
+  Gi-on-a-GABAergic-interneuron disinhibition motif.
+- **Kappa on the `VTA_DA -> NAc` CONNECTION, via `connection_modulation`.**
+  Three findings force a connection rather than a node:
+  [DiChiara1988] (J Pharmacol Exp Ther 1988;244:1067-1080, PMID 2855239) gave
+  freely-moving rats systemic mu agonists (morphine, methadone, FENTANYL) and
+  kappa agonists (U-50,488, bremazocine, tifluadom) and measured accumbal
+  dopamine going up under the first and down under the second -- two of this
+  module's own four drugs, so the opposite valence is not imported from a
+  related compound; [Devine1993] found intra-VTA U-50,488H "failed to alter
+  ventral striatal DA concentrations at any dose tested" while systemic
+  injection lowered them, so the receptor carrying the effect is not on the
+  VTA cell bodies; and [Svingos2001] (Synapse 2001;42:185-192, PMID 11746715)
+  found by immuno-electron microscopy that kappa labelling in the rat
+  accumbens is mainly PRESYNAPTIC, with 51% of 400 kappa-labelled presynaptic
+  profiles also expressing the dopamine transporter. A receptor on a
+  presynaptic terminal that reduces release at one identified synapse is
+  P5.6b's CB1 argument, reappearing for a different receptor, and it is why
+  `coupling_kappa()` returns an empty dict.
+
+[Margolis2003] (J Neurosci 2003;23:9981-9986) is the paper that complicates
+this and is not hidden: in VTA slices U69593 directly inhibits
+tyrosine-hydroxylase-positive neurons via a GIRK current, blocked by nor-BNI.
+A somatodendritic kappa receptor on VTA dopamine neurons exists and is
+functional; [Devine1993] says it is not the one carrying the in vivo dopamine
+decrease. This is a choice between two measured mechanisms, made by an
+experiment, with the other named.
+
+### The kappa gain is a measurement, and so is "the antagonist alone is inert"
+
+[Britt2008] (Britt JP, McGehee DS, J Neurosci 2008;28:1672-1681, PMC6671549)
+recorded electrically evoked dopamine overflow in rat striatal slices and bath
+-applied a SATURATING concentration (1 uM) of the kappa agonist BRL52537.
+Single-pulse-evoked overflow fell **to 28 +/- 5% of control**, in every
+recording, throughout dorsal and ventral striatum, and unlike the mu and delta
+effects in the same paper it could not be overcome by burst stimulation.
+Nor-binaltorphimine (1 uM) "mostly restored the DA signal" and "alone had no
+direct effect on DA overflow".
+
+So `KOR_MAX_SUPPRESSED_FRACTION = 0.72` and `KOR_CONNECTION_GAIN = -0.72`, the
+CB1 construction exactly: the engine forms `1 + gain * activation`, a
+saturating full agonist drives activation to ~1, and the modulated weight
+keeps 28% of its strength. This is the second measured circuit-layer gain in
+this project. Two consequences, both asserted:
+
+1. **A kappa agonist in this model cannot silence the mesolimbic projection**,
+   only remove 72% of it, and the excitatory weight never inverts. A gain
+   below -1 would silently flip it and nothing in the engine forbids that.
+2. **Nor-BNI alone changes nothing here, and for once that is a measured
+   prediction rather than an artefact.** Every module since P5.1 has had to
+   say "an antagonist alone is inert because P6.2 has supplied no endogenous
+   transmitter"; [Britt2008] measured that inertness in tissue that certainly
+   had endogenous dynorphin in it. The model agrees with the experiment for
+   the wrong reason, and the distinction is recorded rather than glossed.
+
+The largest weakness, stated first in `opioid.py`: BRL52537 is not U50488. The
+72% is treated as the maximal suppression achievable THROUGH THE RECEPTOR at
+saturating occupancy by a full agonist, and both U50488 and dynorphin were
+measured by [Toll1998] as full kappa agonists (93 +/- 11% and 97 +/- 5%). It
+is not a claim that U50488's own maximum was measured at 0.72.
+
+### The finding that forced a network change, which is P3.4's lesson again
+
+This was not a stylistic preference. The kappa mechanism modulates what the
+`VTA_DA -> NAc` projection transmits, and on Track C1's hand-set baselines the
+drug-free fixed point of the reward block is `VTA_GABA = 0.987`,
+`VTA_DA = 4.9e-6`, `NAc = 0.500`: VTA_GABA is nearly saturated ON, which pins
+VTA_DA saturated OFF, which means the projection carries nothing at rest.
+
+**A presynaptic modulator of a synapse that is transmitting nothing has,
+exactly, no effect.** With U50488 at 100 nM and kappa occupancy above 99%, the
+endpoint accumbal readout moves by less than 1e-4 on that network. It is a
+property of the operating point, not of the pharmacology, and no gain or dose
+fixes it. A test asserts both halves by running the identical receptor system
+on both networks.
+
+The intermediate option fails the other way: `balanced_baselines` alone
+re-balances the baselines and leaves the weights, and with the nodes moved
+into the sensitive part of their sigmoids the loop's contraction number of
+2.632 makes it oscillate -- `stability.steady_state` returns residuals around
+6e-2 from most initial conditions, i.e. no fixed point at all.
+
+So the module runs on `stability.stabilize(...)`'s output: one global weight
+scalar (0.342 = 0.9 / 2.632) and re-solved baselines, with relative weights,
+topology, taus and gains untouched. Contraction number 0.9, and
+`stability.steady_state` returns all-0.5 with a residual around 1e-9 from
+every one of P3.4's default initial conditions -- the global-uniqueness
+certificate neither of the other two has. What it costs is stated: this is not
+literally the network the published mu results were computed on, so P5.7's
+re-run reports on BOTH.
+
+### The re-run, and what the cross-affinities actually change
+
+`scripts/report_opioid_cross_affinity.py` writes
+`results/opioid_cross_affinity.txt`: the constants as a selectivity table,
+then the same ten conditions under mu-only and under mu+kappa+delta, on Track
+C1's network and on the stabilized one, then the naloxone reversal comparison.
+The headline rows, on the stabilized network, as the signed furthest excursion
+of a dosed run from the drug-free run:
+
+    condition            readout               mu only   mu+k+d    change
+    fentanyl 10 nM       incentive_salience    0.24739   0.24372    -1.5%
+    fentanyl 10 nM       analgesia_index       0.34684   0.34684     0.0%
+    fentanyl 10 nM       arousal_index        -0.50000  -0.50000     0.0%
+    fentanyl 100 uM      incentive_salience    0.24828   0.17662   -28.9%
+    fentanyl 100 uM      accumbal_drive        0.21245   0.10699   -49.6%
+    U50488 100 nM        incentive_salience        n/a  -0.13416       n/a
+
+**At a clinical exposure the cross-affinities barely matter, and that is a
+result rather than a relief**: at 10 nM, about 7x fentanyl's mu Kd and 0.07x
+its kappa Kd, adding two receptors moves incentive salience by 1.5% and the
+PAG and LC readouts not at all, because neither new system touches those
+nodes. All three established mu results -- reward up, analgesia up, arousal
+down -- survive unchanged, on both networks, and a test asserts each.
+
+**In the limit fentanyl works against itself.** At 100 uM, four orders of
+magnitude above a clinical exposure and above its 84.8 nM kappa Ki, fentanyl's
+own 30% partial agonism at kappa suppresses the projection its mu action is
+disinhibiting: the reward effect comes out 28.9% below what the mu-only model
+predicts, and the accumbal drive 49.6% below. That is "not mu-selective in the
+limit" as a number.
+
+On Track C1's network the same comparison gives +5.6% at 10 nM and -3.7% at
+100 uM on incentive salience, both smaller in magnitude, because there the
+kappa half of the mechanism is inert for the saturation reason above and only
+the delta half acts. Both tables are in the report.
+
+### Naloxone reversal, which is what the brief said mattered
+
+The circuit-level version mixes three things (naloxone's selectivity, the two
+agonists' own affinities, and the shapes of two different readouts), so the
+report gives the pharmacological version as well: the naloxone concentration
+that halves the AGONIST's peak occupancy, with each agonist dosed at 7.5x its
+own Kd so the two competitions start from the same place.
+
+    agonist / receptor     Kd (nM)   dose (nM)   peak occ   naloxone_50
+    fentanyl at mu           1.346      10.095     0.8663         10.00
+    U50488 at kappa          0.200       1.500     0.8265         13.34
+
+Ratio 1.33, against a naloxone Ki ratio of 1.79. A model treating naloxone as
+a mu-selective antagonist would put those two concentrations orders of
+magnitude apart; measured, they are within a small factor, because 1.4 nM and
+2.5 nM are within a small factor.
+
+What this model still cannot show is the clinically consequential half: that a
+reversal dose also strips ENDOGENOUS dynorphin off kappa. P6.2 has supplied no
+tone, so the kappa agonist has to be injected by hand. That is the standing
+gap, and here it is the difference between a model of the receptor and a model
+of the drug.
+
+### Derivations, and the two internal checks that make derivation 3 a derivation
+
+Neither new site has published binding kinetics for any of its seven ligands
+(searched: each ligand crossed with association/dissociation rate constant,
+residence time, competition association, Motulsky-Mahan, on Europe PMC and
+PubMed; what exists is radioligand kinetics and biphasic characterisations
+that publish no rate constants for unlabelled ligands). So derivation 3
+throughout, site-wise, and each site's shared `kon` is a MEASURED constant for
+that site's own radioligand with an internal check attached:
+
+- **Kappa**: [3H]diprenorphine's kon of 1.44e8 M^-1 min^-1 from [Wang2021]
+  (Front Pharmacol 2021;12:773204, PMC8635029, human KOR membranes, 25 C,
+  Motulsky-Mahan). Check: that kon with the same paper's measured koff of
+  0.0257 min^-1 gives a kinetic Kd of 0.178 nM, against [Toll1998]'s
+  equilibrium Ki of 0.2 nM for diprenorphine at kappa-CHO. Two laboratories,
+  two assay formats, 1.1-fold.
+- **Delta**: [3H]pCl-DPDPE's SLOW-component kon of 0.147e8 M^-1 min^-1 from
+  [Vaughn1989] (Life Sci 1989;45:1001-1008, PMID 2552241, rat brain, 25 C).
+  This is the same radioligand [Toll1998] used for its delta column, which is
+  why it was preferred, and the two agree independently: Vaughn's saturation
+  Kd of 0.328 nM against Toll's Ki of 0.3 nM for unlabelled DPDPE-Cl, from a
+  different laboratory, species and preparation. The association is biphasic,
+  so a component has to be chosen and the choice is a stated rule rather than
+  a preference: the slow component's kinetic Kd of 0.201 nM reproduces the
+  same paper's saturation Kd to 1.6-fold, the fast component's 0.0059 nM
+  misses it by 56-fold, so the slow one is used and the fast one is recorded
+  unused.
+
+The cost is P5.3's and P5.6's: the AFFINITIES are exact by construction
+(`koff = kon * Kd` reproduces the Kd for any kon, and a test asserts it for
+all twenty-one ligand/site pairs), the TIMESCALES are the radioligand's rather
+than the ligand's, and nothing this module concludes is stated in terms of a
+rate. The ten-fold gap between the two sites' `kon` is a gap between two
+radioligands in two preparations and a test says so, so that it is not read as
+a property of the two receptors.
+
+### What P5.7 delivered, checked against the standing discipline
+
+- **Cited constants at all three receptors for all seven ligands**: 21
+  affinities plus 21 in a second preparation, 21 efficacies, two measured
+  association rates with their measured dissociation rates and equilibrium
+  cross-checks, and a measured connection-modulation gain. The mu ligand
+  cross-affinities the brief asked for are four of those numbers and the two
+  headline results are ratios of them.
+- **The existing mu scenario re-run with cross-affinities, and the change
+  reported quantitatively** on two networks, in
+  `results/opioid_cross_affinity.txt` and in the tests: 1.5% at a clinical
+  fentanyl exposure, 28.9% in the limit, and all three established mu results
+  surviving unchanged.
+- **A test showing kappa agonism producing an opposite-valence effect to mu**
+  on the mu scenario's own readout, with both signs measured rather than
+  chosen and with a delta-agonist control showing the result is specific to
+  kappa rather than generic to adding a receptor.
+- **Two illustrative numbers added, both labelled**: the delta mechanism gain
+  (magnitude 1.0 by P5.1's per-receptor unit rule, sign from [Devine1993], and
+  deliberately NOT matched to mu's -1.72 on the shared node, which would
+  assert an unmeasured per-receptor potency comparison), and the peptide
+  clearance proxy. `TOOL_COMPOUND_KE` is shared with every other P5 module and
+  a test asserts the equality.
+- **`receptor.py` and `engine.py` are unchanged.** The kappa mechanism reuses
+  P5.6b's `connection_modulation` and the delta mechanism reuses `coupling`;
+  every site this module builds is a plain `ReceptorSite`.
+- **Tests.** One example script, one report script, and 38 new test items,
+  all in the offline gate, none slow, none skipped, and no existing test
+  deleted, weakened or modified. The gate now runs 943 tests, all green.
+- **What was deliberately not built** is enumerated in `opioid.py` with the
+  reason: the somatodendritic kappa receptor on VTA dopamine neurons, named
+  and left to [Devine1993]'s null result; the mu and delta receptors on
+  accumbal cholinergic interneurons ([Britt2008] measured them, and
+  representing them needs a cholinergic node this network lacks and a
+  tonic/burst distinction this abstraction cannot make -- their absence
+  over-states fentanyl's net accumbal effect); nor-BNI's days-to-weeks
+  duration; delta receptors outside the VTA, and with them the P4.2 density
+  factorization, for which `Oprd1` and `Oprk1` ISH data are already in the
+  repository and which is the obvious next step; endogenous dynorphin and
+  enkephalin tone (P6.2, and here it is the whole content of the naloxone
+  result); and kappa dysphoria as a named behavioural endpoint, which is
+  Phase 7's job.
