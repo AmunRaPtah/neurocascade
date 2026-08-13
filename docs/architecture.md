@@ -6811,3 +6811,458 @@ in general form, so it is recorded here and not re-asserted.
   rules with a rejection criterion attached to one of them, and the
   uniqueness argument for the network is written down and asserted rather
   than inherited.
+
+---
+
+## Phase 5: noradrenaline alpha1, alpha2 and beta (P5.3)
+
+### The task, and the two things that made it different
+
+P5.3 asks for three adrenoceptor families with cited binding constants for
+noradrenaline, prazosin, clonidine, yohimbine and propranolol, a scenario
+plus tests, and the alpha2 autoreceptor's role noted for Phase 6. The new
+code is `src/neurocascade/noradrenaline.py`, its tests are
+`tests/test_noradrenaline_scenario.py`, and the worked example is
+`examples/noradrenaline_locus_coeruleus_cortex.py`.
+
+Two things separate it from P5.1 and P5.2, and both turned out to matter
+more than the extra receptor family did.
+
+The first is that **the sourcing came out unusually well.** Every affinity in
+this module comes from one laboratory's programme of whole-cell radioligand
+binding on CHO cells expressing a single human adrenoceptor subtype - four
+papers covering alpha1 agonists, alpha1 antagonists, alpha2 agonists and
+alpha2 antagonists ([Proudman2021], [Proudman2020], [Proudman2022],
+[Proudman2022b]) plus the same group's earlier beta papers ([Baker2010],
+[Baker2005]). That is the [Volpe2011]-style same-preparation guarantee the
+D2 section went looking for and could not find, extended across three
+receptor families, so "noradrenaline prefers receptor X to receptor Y" is a
+comparison rather than a quotation of two unrelated experiments. Three
+separate binding-kinetics papers then supply rate constants at each of the
+three sites ([Sykes2022], [Tanaka2004] + [Quinton2010], [Gerhardt1990]).
+
+The second is that **the sourcing coming out well is what exposed two
+problems that P5.1 and P5.2 could only assume away**: whether derivation 3
+is true, and what the endogenous agonist's affinity actually is. Both are
+below, and both changed the module.
+
+### Derivation 3, checked for the first time, and refined
+
+Derivation 3 ("share the site's one measured `kon` and set
+`koff = kon * Kd`") has been used since the GABA-A section and its content
+is an assumption: that ligands at one site associate at comparable rates.
+P5.1 stated the assumption and could not check it, because 5-HT1A and
+5-HT2A each had exactly one measured `kon`. [Sykes2022]'s beta1 panel has
+eighteen, all from one preparation, one radioligand and one method, and it
+says two things:
+
+- **Across chemotypes the assumption is false.** `kon` at human beta1 spans
+  8.47e6 (sotalol) to 1.97e9 M^-1 min^-1 (carvedilol), a factor of 230.
+- **Within a chemotype it holds well.** The four catecholamine-like agonists
+  in the panel land in a narrow band: isoprenaline 2.51e7, salbutamol
+  1.96e7, formoterol 1.68e7, salmeterol 2.63e7, a factor of 1.6 across all
+  four.
+
+So derivation 3 is applied here in a refined form - **share the measured
+`kon` of the ligand chemically closest to the one being derived, and say
+which** - and the beta1 panel is the evidence for the refinement rather than
+a place where it is assumed. Noradrenaline at beta1 therefore takes
+isoprenaline's `kon` and not propranolol's, which is 51-fold faster in the
+same table. A test asserts both halves of the panel claim, so the licence
+for the refinement is in the suite rather than in this paragraph.
+
+The two remaining shared `kon`s cross chemotypes and are labelled as the
+weaker assumptions they are (noradrenaline at alpha1 borrows prazosin's, a
+quinazoline; noradrenaline and clonidine at alpha2 borrow
+p-iodoclonidine's, an imidazoline), which on the panel's evidence puts up to
+~100-fold of uncertainty on those `koff` values. What that does NOT touch is
+any equilibrium result, and it is worth being precise about why: derivation
+3 sets `koff = kon * Kd`, so the measured affinity is reproduced exactly for
+any shared `kon`, and the whole uncertainty lands on the timescale over
+which occupancy approaches equilibrium. A test rebuilds a ligand with a
+`kon` 100x away and asserts its Kd is unchanged. That is a clarification the
+codebase should have written down three tasks ago.
+
+### The strongest constant so far, and two papers inconsistent with themselves
+
+Prazosin at alpha1 is the first parameter here that three independent
+measurements agree on:
+
+    kon  0.048 nM^-1 min^-1   intact rat tail artery, 4 C    [Tanaka2004]
+    koff 0.043 min^-1         rat brain synaptosomes, RT     [Quinton2010]
+    -> Kd 0.896 nM
+    Kd   0.851 nM             human alpha1A in CHO, 37 C     [Proudman2020]
+
+5.3% apart, across three preparations, two species and three temperatures,
+with nothing fitted. It is derivation 1 assembled from two papers and
+checked against a third, and it is the reason the alpha1 arm of this module
+needs no apology.
+
+The `koff` used is [Quinton2010]'s and not [Tanaka2004]'s, for two reasons
+worth separating. The first is that [Quinton2010] measured it in RAT BRAIN,
+which is the tissue this project is about; that paper is about a mamba-venom
+toxin and the number comes from its control arm, the same "the control arm
+is what this project needed" pattern [Satala2016] and [Denomme2024] set in
+P5.1. The second is that [Tanaka2004]'s three numbers do not agree with each
+other: it reports Kon 0.048, Koff 0.078 and a kinetic pKD of 9.3, but
+0.078/0.048 is 1.63 nM, i.e. pKD 8.79 - a 3.2-fold internal inconsistency.
+Rather than pick one of its two readings, the value adopted from elsewhere
+is checked to lie BETWEEN them (0.024 implied by its pKD with its own kon,
+against 0.078 measured), and a test asserts that bracket's arithmetic. Being
+bracketed by the two readings of the paper the number was not taken from is
+the same kind of check the P5.2 SCH-23390 derivation got from [Reader1989].
+
+[Gerhardt1990] has the same defect in the same direction at alpha2 (its
+`kon * Kd` is 4.8-fold faster than its reported `koff`), and is likewise
+used for its `kon` only. Two of the three kinetics papers in this task being
+internally inconsistent is worth recording as a fact about this literature:
+a rate-constant pair quoted from a single 1980s-1990s binding paper should
+be checked against that paper's own equilibrium number before it is trusted,
+and neither of these two survives that check.
+
+### The 10000-fold problem, and the rule that decided it
+
+P5.1 met the affinity-state problem at 5-HT2A, where serotonin's published
+affinity varied 250-fold with the radioligand's own pharmacology. At alpha2
+it is two orders of magnitude worse:
+
+    noradrenaline at human alpha2A, whole-cell competition against the
+      antagonist [3H]-rauwolscine                          Kd 269153 nM
+      [Proudman2022]
+    noradrenaline at rat cortex alpha2 sites, saturation binding of
+      (-)-3H-noradrenaline ITSELF                          Kd     27 nM
+      [UPrichard1978]
+
+Neither is wrong. An agonist radioligand labels the G-protein-coupled
+high-affinity state; a competition curve against an antagonist radioligand
+reports a weighted view of the whole population; and [Salama1982] shows the
+balance moving with GTP and Mg2+ at these exact receptors in rat cortex,
+while [Ernsberger1987] shows the same two-state behaviour at alpha1. The
+mechanism is documented, which is what makes this a state problem rather
+than a discrepancy.
+
+`ReceptorSite` has one pool and one affinity per ligand, so one had to be
+chosen, and the choice was made by **applying P5.1's own rule rather than a
+new one**: the preparation should match the receptor being modelled. P5.1
+used that rule to pick serotonin's live-cell affinity at 5-HT2A. Here the
+modelled receptor is a somatodendritic autoreceptor on a G-protein-coupled
+noradrenergic neuron in rodent brain, and rat cortical membranes with an
+agonist radioligand are the closest available preparation to that, so the
+same rule selects the OTHER kind of assay. A rule that picks the same answer
+whatever the case is not doing any work; this one is.
+
+`ligands_alpha2(affinity_state=...)` therefore builds both sets, the
+agonist-state one is the default, and the tests assert the qualitative
+results under both. Three costs, all recorded:
+
+- **The alpha2 site is then not matched to the alpha1 and beta sites.** The
+  cross-receptor comparison below is computed from the whole-cell constants
+  at all three sites, which are all defined in the module, and asserted
+  algebraically.
+- **The state choice flips the answer to "which adrenoceptor does
+  noradrenaline engage first".** Whole-cell: beta1 (1820 nM), then alpha1A
+  (15488), then alpha2A (269153). Agonist-state at alpha2: alpha2A (27 nM)
+  first, by a factor of 67 over beta1. Both orderings are published
+  measurements and this module can produce either. That is the honest
+  headline of the task, and it is tested as two explicit orderings rather
+  than smoothed into one.
+- **The whole-cell noradrenaline set cannot be integrated at all**, and that
+  is measured rather than asserted. `koff = 0.48 * 269153 = 129194 min^-1`
+  is a 0.3 ms relaxation; `Simulation.run` uses explicit RK45 over one
+  shared state vector, whose stability limit then bounds the step for the
+  whole system at ~2e-5 min. A noradrenaline-dosed 10-minute window that
+  takes ~3 s under the default set did not finish in 240 s under this one.
+  So whole-cell alpha2 results are asserted at the algebraic fixed point of
+  `ReceptorSite.occupancy_rhs`, which is exact and cheap, and a test
+  asserts the arithmetic of the stiffness itself so that the reason stays
+  attached to the decision. This is the first concrete, quantified case for
+  Phase 9's stiff or quasi-steady-state occupancy solver: it is not about
+  network size, it is about a legitimately measured low-affinity ligand
+  whose kinetics are three orders faster than the circuit's.
+
+One smaller check fell out of the same reading. The IUPHAR/BPS Guide records
+the published range for noradrenaline at human alpha2A as pKi 3.6-7.4. Its
+loose end IS [Proudman2022]'s value rounded to one decimal place (-3.57 ->
+3.6), and its tight end (39.8 nM) is 1.5-fold LOOSER than the rat-cortex
+value, which lies just outside it - the expected direction, since the
+Guide's range is human-receptor values. The test says that rather than the
+tidier "the range brackets both", which was the first thing written and was
+false.
+
+### What the numbers turned out to say
+
+**Noradrenaline's highest affinity in the matched panel is for beta1, not
+for either alpha.** 1820 nM at beta1 against 15488 nM at alpha1A and 269153
+nM at alpha2A. The textbook ordering - noradrenaline as a potent alpha
+agonist and a weak beta agonist - is a statement about POTENCY, and the same
+papers' functional columns give exactly that ordering:
+
+    site     Kd (nM)   functional EC50/IC50 (nM)   intrinsic efficacy ratio
+    alpha1A    15488    2.45  (Ca2+ mobilization)         3.80 log units
+    beta1       1820   11.5   (cAMP accumulation)         2.20
+    alpha2A   269153  251     (Gi, CRE-SPAP)              3.03
+
+Affinity says beta1 first; potency says alpha1A first. The gap is receptor
+reserve and signal amplification, and it is 3.8 log units at alpha1A. This
+model's `activation = sum(occupancy * efficacy)` is linear in occupancy with
+no amplification term, so it reproduces the affinity ordering and not the
+potency ordering. That is the same limitation P5.2 flagged for dopamine's
+530-fold-affinity-versus-31-fold-potency gap, one receptor family wider and
+an order of magnitude larger, and both orderings are asserted in the tests
+with the numbers above so that neither can be quietly forgotten.
+
+**The claim survives the alpha1 subtype uncertainty, and is stated in the
+form that does.** Noradrenaline's affinity spans 49-fold across the three
+alpha1 subtypes (alpha1D 3311, alpha1A 15488, alpha1B 162181 nM), so the
+MARGIN by which beta1 wins is subtype-dependent: 1.8-fold, 8.5-fold,
+89-fold. The ORDERING is not - beta1 is tighter than all three. Prazosin,
+by contrast, is essentially non-selective across the three (0.85 / 1.8 /
+0.85 nM), which is what makes every prazosin result here
+subtype-independent. Both facts are tested.
+
+**Propranolol is the codebase's fourth antagonist and its second
+FAST-dissociating one.** Measured `koff` 0.91 min^-1, residence time 1.1
+min ([Sykes2022]). The set now reads: naloxone 2.375, propranolol 0.91,
+WAY-100635 0.0078, SCH-23390 0.00389 min^-1 - three orders of magnitude of
+antagonist kinetics, none of it chosen. Its two published beta1 affinities
+differ 9.7-fold (kinetic 0.711 nM against whole-cell 6.92 nM), the kinetic
+one is used because its rate constants are measured, and
+`ligands_beta(propranolol_affinity="whole-cell")` builds the other so that
+"no result turns on which" is tested rather than promised.
+
+**Clonidine is a weak partial agonist and carries the widest efficacy
+uncertainty in the codebase.** [Jasper1998] measures intrinsic activity 0.32
+relative to noradrenaline in one [35S]GTPgammaS panel at cloned human
+alpha2a; [Proudman2022]'s intrinsic efficacy ratios put it at 2.7% of
+noradrenaline's; [Pohjanoksa1998] could not detect an alpha2A response to it
+at all. Those three are one low-intrinsic-efficacy ligand read out in three
+systems with different receptor reserve, not three disagreeing
+measurements. 0.32 is used, for consistency with P5.1's and P5.2's Emax
+ratios, and the constant's docstring says plainly that what
+`Ligand.efficacy` formally wants is relative INTRINSIC efficacy and that the
+two coincide only without reserve. Every result that needs clonidine to be
+a weaker agonist than noradrenaline holds under all three readings.
+
+### The result the task exists to produce, and the one it got backwards
+
+**One transmitter dose moves two nodes in opposite directions.** A single
+noradrenaline dose raises the cortical pyramidal node through alpha1 (Gq,
+[McCormick1991]) and beta1 (Gs, [Madison1986]) and lowers the LC node
+through the alpha2 autoreceptor (Gi, [Cedarbaum1977]). Three receptor
+systems, three G proteins, one `solve_ivp` call over one state vector.
+
+**The two cortical receptors are separable, and their relative sizes are a
+prediction.** alpha1 and beta1 land on the SAME node with the SAME sign, so
+the only way to show they are two receptors is to remove them one at a time:
+prazosin takes 0.0033 of the 0.0502 cortical response and propranolol takes
+0.0386, and together they remove 83% of it. The beta part being the larger
+is not a parameter - the two mechanism gains are equal by construction -
+it follows from noradrenaline binding beta1 8.5-fold more tightly than
+alpha1A, i.e. from [Baker2010] against [Proudman2021].
+
+**Clonidine suppresses the LC alone and RAISES it against a noradrenaline
+background.** This was predicted backwards on the way in: the first version
+of the open-loop test asserted that adding clonidine to noradrenaline would
+suppress the LC further, and it failed. It should have: a partial agonist
+competing with a full agonist for one pool is a functional ANTAGONIST.
+Clonidine binds the alpha2 pool 4.6-fold more tightly than noradrenaline in
+the default state (5.9 nM against 27 nM) and activates it 0.32 as well, so
+it displaces occupancy worth 1.0 of activation and replaces it with
+occupancy worth 0.32. The failure got its own test rather than a widened
+tolerance, and the result is state-dependent in a way that is itself
+informative: under the whole-cell set noradrenaline barely occupies the
+alpha2 pool at the same dose, so there is nothing to displace and clonidine
+suppresses instead. Both are asserted, the first by integration and the
+second algebraically.
+
+**Yohimbine reverses clonidine partially at an equimolar dose and further at
+5x.** Yohimbine is only 1.8-fold tighter than clonidine in the default state
+(3.31 against 5.9 nM) and 58-fold tighter in the whole-cell one, so the
+reversal is graded and its magnitude is state-dependent while its direction
+is not. A test that asserted complete reversal at an equimolar dose would
+have been asserting the wrong pharmacology.
+
+### The autoreceptor, and Phase 6 stated in the form that matters here
+
+P5.1 asserts the open-loop gap in general form and P5.2 declined to
+re-assert it. It is re-asserted here, because the LC alpha2 autoreceptor is
+the case where the missing half IS the clinical effect: an alpha2 agonist
+activates the somatodendritic autoreceptor, LC firing falls, and in a real
+brain less noradrenaline is released across the entire forebrain
+([Callado2000], [Berridge2003]) - which is how clonidine sedates and lowers
+blood pressure. This model expresses the first half and not the second.
+
+`test_the_autoreceptor_is_an_open_loop_until_phase_6` therefore asserts that
+clonidine moves the LC node while the cortical noradrenaline concentration,
+the cortical alpha1 and beta1 occupancies and the cortical firing rate are
+unchanged. Two details in it are deliberate:
+
+- It asserts only the SIZE of the LC change and not its sign, because
+  against a noradrenaline background the sign is the partial-agonist one
+  above.
+- Its numeric tolerance is `solve_ivp`'s own default `rtol` of 1e-3, not
+  P5.1's 1e-4, and the reason is stated rather than fitted: this module's
+  fastest occupancy component runs at 743 min^-1 against ~1 min^-1 in the
+  serotonin module, so the same step-placement difference samples a much
+  steeper trace. The measured worst case is 8.9e-4 relative. A tolerance
+  taken from the integrator's documented accuracy is a bound; one chosen to
+  fit the number would not have been, and rule 5 is rule 5.
+- It also asserts the STRUCTURAL reason, which is not a tolerance at all:
+  every ligand's concentration is driven by a PK model whose right-hand side
+  is a function of its own state only, so no circuit rate can reach it.
+  P6.1 is exactly the change that replaces one of those with a release term
+  depending on `LC_NA`, and that assertion is what will fail when it lands.
+
+### The circuit, and the rule that had to change shape
+
+Three nodes: `LC_NA` (locus coeruleus noradrenergic neurons, somatodendritic
+alpha2A autoreceptor, no edges); `PFC_Pyramidal` (layer V prefrontal
+pyramidal neurons, carrying BOTH alpha1 and beta1); `PFC_GABA` (local
+interneurons, no receptor, providing the recurrent inhibition that makes the
+pyramidal response finite). The cortical loop weights are P5.1's, unchanged,
+because the microcircuit being represented is the same one and changing them
+would have implied a difference no source supports; a test asserts the
+equality against `serotonin.raphe_cortical_network` so neither can drift.
+
+The missing LC -> cortex edge is P5.1's decision for P5.1's reason, and it is
+stronger here: the LC's influence on a cortical pyramidal cell is
+receptor-mediated and of both signs at once through three receptor families,
+so one signed weight would double-count the receptor layer.
+
+Rules 1 and 2 carry over intact (rest at rate 0.5 everywhere, contraction
+number 0.9 < 1 so P3.4's global-uniqueness certificate holds - unlike P5.2's
+acyclic cascade, where it fails at 1.414 and acyclicity does the work
+instead; a test asserts both, because two networks in this codebase now hold
+by different arguments).
+
+**Rule 3 had to change shape, and that is the one genuinely new
+circuit-layer finding.** P5.1's unit-magnitude rule is per RECEPTOR: a fully
+occupied receptor bound by a full agonist shifts its node's input by one
+unit. `PFC_Pyramidal` carries two excitatory receptors, so that rule puts
++2.0 on it at saturation, and +2.0 rails it - minimum sigmoid sensitivity
+0.0044, below `stability.SATURATION_FLOOR` of 0.01, and a railed node stops
+responding to the other receptor. So the unit budget is per NODE: alpha1 and
+beta1 get +0.5 each, summing to exactly the one unit P5.1 allots, and the
+LC's single receptor keeps magnitude -1.0. The test asserts both halves
+including the counterfactual, with the 0.0044 in it, because a rule that
+cannot reject a value is not a rule.
+
+Splitting the budget equally is also what keeps the scenario honest: the two
+cortical receptors are given the same gain by construction, so the
+alpha1-versus-beta asymmetry in the result above comes from the published
+binding constants and from nothing hand-set.
+
+One consequence of the illustrative PK is worth stating because it bounds
+every quantitative statement in the scenario. `NORADRENALINE_KE` is the same
+flagged transmitter proxy `dopamine.DOPAMINE_KE` and
+`serotonin.SEROTONIN_KE` are (5.0 min^-1, t1/2 8.3 s), so a noradrenaline
+"dose" is gone before a tau = 1.5 min cortical node can follow it: the peak
+cortical rate is 0.5502 where the same occupancy held constant would give
+above 0.7. A test computes both and asserts the gap, so the size of the
+understatement is on the record rather than implied. Tonic release is P6.2.
+
+### Searched and empty, or found and deliberately not used
+
+- **Binding kinetics for noradrenaline itself, at any adrenoceptor.**
+  Searched Europe PMC for the catecholamines crossed with "association rate
+  constant", "dissociation rate constant", "residence time", NanoBRET and
+  TR-FRET, and through the kinetic panels that do exist for these receptors.
+  Every panel found measures antagonists and synthetic agonists; the
+  endogenous transmitter is in none of them. Hence derivation 3 at all three
+  sites for noradrenaline, with the chemotype refinement above.
+- **Binding kinetics for clonidine and yohimbine.** [Gerhardt1990] measures
+  the analogue p-iodoclonidine and is used for its `kon`; nothing was found
+  for either compound itself. The [3H]rauwolscine and [3H]RX821002
+  characterizations report equilibrium constants, and where they report
+  kinetics at all it is for the radioligand rather than for the competitor.
+- **Rodent PK for prazosin, clonidine, yohimbine and propranolol: found,
+  and deliberately not used.** Unlike P5.1's and P5.2's tool compounds these
+  four are clinical drugs and rodent PK for them exists - a single
+  intravenous dose of rac-propranolol in the rat gives a terminal half-life
+  of ~2.3 h (PMID:8593256). It is recorded in the module and not used, for
+  two reasons. What `drug_pk.py` and Phase 1 consume is a parameter set per
+  route (F, ka, Vd, CL, and a brain partition), not a terminal half-life,
+  and half-sourcing one of the four would put a real citation next to three
+  invented numbers and thereby assert a clearance ORDERING nothing in reach
+  supports. And nothing in a receptor-layer task depends on the elimination
+  rate beyond "all four are still on board across the window". So all four
+  share one illustrative `TOOL_COMPOUND_KE`, deliberately equal to P5.1's
+  and P5.2's, with a test asserting the equality. This is a stronger record
+  than P5.1's on the same subject, because it says the data exists and where
+  it goes rather than reporting an empty search.
+- **Noradrenaline's own clearance rate.** The same gap dopamine and
+  serotonin have, for the same reason: NET-mediated reuptake is a saturable
+  Michaelis-Menten transporter process on a sub-second timescale, not
+  first-order elimination. P5.8 (NET) and P6.2 (endogenous tone) own it.
+- **A behavioural dose-response usable as a circuit-layer target.** Not
+  searched again; Track E and P2.2 established the blocker for the whole
+  class and Phase 1's bridge is where such a dataset enters.
+
+### What was deliberately not built
+
+- **Postsynaptic alpha2A in the cortex.** It is really there and it matters:
+  [Wang2007] shows alpha2A stimulation on pyramidal dendritic spines closing
+  HCN channels and STRENGTHENING network connections, which is the
+  guanfacine working-memory mechanism. That is P5.2's D1 problem in a new
+  place - the receptor's cAMP sign is not in doubt, but its effect on a rate
+  node is an increase in the efficacy of incoming input rather than a
+  decrease in firing, and this engine has one scalar drive per node. Adding
+  it would mean choosing that sign by hand with no measurement that settles
+  it for a rate model. `alpha2` here is the autoreceptor only.
+- **The subtype split.** All eight adrenoceptor genes are already in
+  `expression/genes.py` tagged P5.3 and every affinity above is reported per
+  subtype, so a subtype-resolved version is a table lookup away. It is not
+  built because the three sites here are pharmacological pools rather than
+  regions, and the question a split would answer (which subtype does the
+  cortical pyramidal node carry?) is cell-type-resolved in a way a regional
+  ISH map cannot answer - P5.2's limit, at a different scenario. What is
+  done instead is to state every claim in the form that survives the subtype
+  uncertainty and to test that it does.
+- **An atlas-derived density factor.** Same position and same reason as P5.1
+  and P5.2: the three mechanism gains are explicitly the `mechanism_gain`
+  half of P4.2's `coupling = mechanism_gain * rho[region]`, and the
+  committed expression fixture does not carry these genes, so a
+  density-derived map would make every test in this module depend on the
+  gitignored cache.
+- **Endogenous noradrenergic tone.** Without it an antagonist given alone is
+  inert, as everywhere else here; real prazosin, yohimbine and propranolol
+  all have effects alone because a real LC fires tonically. P6.2, and the
+  test that asserts inertness says so.
+- **The imidazoline story.** Clonidine binds non-adrenergic I1 sites with an
+  affinity comparable to its alpha2 one, which is why the mechanism of
+  clonidine-like antihypertensives was argued about for two decades. A
+  single-site alpha2 model cannot represent it, and the module says so, so
+  that a clonidine result in this codebase is not read as a claim about the
+  drug's mechanism in vivo.
+
+### What this task changes, and what it does not
+
+- **One new module, and no change to any existing model file.**
+  `noradrenaline.py` is additive; `engine.py`, `receptor.py`, `network.py`,
+  `scenarios.py`, `serotonin.py` and `dopamine.py` are untouched. The only
+  edit outside the new files is adding `noradrenaline` to the package
+  exports. Three receptor systems on one shared network needed no engine
+  change, for the same reason two did.
+- **Seven ligand-site pairs' binding constants and five ligands' efficacies
+  are literature-sourced**, across three receptor families: six measured
+  rate constants (prazosin's `kon` and `koff`, propranolol's `kon` and
+  `koff`, isoprenaline's `kon`, p-iodoclonidine's `kon`) and every remaining
+  `koff` derived by the stated derivation 3. One efficacy is fractional
+  and measured (clonidine 0.32), one zero is measured (yohimbine), one
+  "1.0" is measured rather than conventional (noradrenaline at beta1,
+  102.4% of isoprenaline), and two zeros are the flagged inverse-agonism
+  simplification (prazosin, propranolol).
+- **No existing test changed, none skipped, marked slow or weakened.** 28
+  new test items, all in the offline gate, running in ~63 s. Two tolerances
+  in the new tests are set from the integrator's documented accuracy rather
+  than from the numbers they have to admit, and both say so.
+- **Two test expectations were wrong and were fixed as expectations**, not
+  by adjusting the module: the alpha1/beta decomposition had the two
+  antagonists' roles transposed, and the clonidine-against-noradrenaline
+  direction was the partial-agonist one rather than the one assumed. The
+  second became a test of its own.
+- **The circuit and the pharmacokinetics remain illustrative and labelled**,
+  as in every scenario before Phase 7 - but rule 3 now has a per-node form
+  with a stated rejection criterion, and derivation 3 has a chemotype
+  refinement with published evidence behind it, so two of this codebase's
+  standing conventions are better founded than they were before this task.
