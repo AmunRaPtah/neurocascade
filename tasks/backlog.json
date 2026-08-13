@@ -526,10 +526,13 @@
         "P5.4",
         "P5.8"
       ],
-      "status": "running",
+      "status": "done",
       "attempts": 1,
       "started_at": "2026-08-13T15:50:04.752631+00:00",
-      "baseline": "9d1abd845921befcb20282abaaa6f63f11d82a91"
+      "baseline": "9d1abd845921befcb20282abaaa6f63f11d82a91",
+      "finished_at": "2026-08-13T18:03:41.169724+00:00",
+      "result": "complete",
+      "commits": "1"
     },
     {
       "id": "P6.2",
