@@ -329,10 +329,38 @@ def test_the_three_circuits_without_data_are_reported_as_such():
 def test_the_observation_count_is_read_from_the_evidence_module():
     """The 'one observation' the rank-one argument rests on is counted, not
     assumed. A future task adding a second calibration-ready behavioural
-    entry has to come back here."""
+    entry has to come back here.
+
+    P7.3 is that task, and this is that visit. Its three new entries are
+    calibration-ready and constrain the whole-brain endpoint model rather
+    than any of the four hand-built scenario circuits, so the identity this
+    test used to assert - every ready entry lands on some circuit - is no
+    longer the right one. What replaces it is stricter, not looser: every
+    ready entry must be classified into exactly one of the two mappings, so
+    an unclassified entry still fails here rather than being counted as a
+    zero somewhere.
+    """
     counts = ident.behavioural_observation_counts()
-    assert sum(counts.values()) == len(behavioral_evidence.calibration_ready_entries())
+    ready = {e.key for e in behavioral_evidence.calibration_ready_entries()}
+    circuit_keys = set(ident.CIRCUIT_OF_BEHAVIOURAL_EVIDENCE)
+    whole_brain_keys = set(ident.WHOLE_BRAIN_ENDPOINT_EVIDENCE)
+    assert circuit_keys.isdisjoint(whole_brain_keys)
+    assert circuit_keys | whole_brain_keys == ready
+    assert sum(counts.values()) == len(circuit_keys)
     assert counts["amygdala_anxiety_circuit (GABA-A)"] == 1
+
+
+def test_the_whole_brain_entries_are_exactly_the_ones_p7_3_fits():
+    """The reason those three entries count towards no circuit is that they
+    are targets of the whole-brain endpoint fit. Read off that module rather
+    than restated, so a P7.3 target added or dropped later cannot leave this
+    classification behind."""
+    from neurocascade.calibration import endpoint_calibration as endcal
+
+    endpoint_fit_keys = {t.evidence_key for t in endcal.TARGETS}
+    assert set(ident.WHOLE_BRAIN_ENDPOINT_EVIDENCE) == (
+        endpoint_fit_keys - set(ident.CIRCUIT_OF_BEHAVIOURAL_EVIDENCE)
+    )
 
 
 def test_the_evidence_key_matches_the_one_the_production_fit_declares():

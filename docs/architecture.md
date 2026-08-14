@@ -12154,3 +12154,59 @@ Stated concretely, because "we found nothing" is not actionable:
   `results/calibration/endpoint_fits.txt`,
   `results/calibration/endpoint_fit_diagnostics.csv`, and per-target
   posteriors.
+
+### Two invariants P7.3 broke elsewhere in the repository, and how each is repaired
+
+P7.3 widened the evidence module — 5 entries to 11, one calibration-ready
+entry to four — and two guards written by earlier tasks were phrased in terms
+of the narrower world and failed. Both were right when written; neither is
+relaxed here, because in each case what the guard was protecting is still
+worth protecting and only its phrasing was tied to the old shape.
+
+**1. `BRIDGE_VERDICT` versus a two-step bridge.** P2.1's rule was that every
+entry's prose verdict has to agree with what `drug_pk` computes, and it
+implemented that by requiring each entry whose `pk_route_status()` is
+`available` to contain the phrase "Bridge available and exercised". That
+implication held while both available entries were diazepam: for diazepam the
+PK step working meant the whole chain worked. P7.3's three fentanyl/rat/IV
+entries are the counterexample the rule never anticipated — `drug_pk` builds
+their PK model, so the status is `available`, and
+`receptor_drive_status()` is `total-brain-only`, so the chain stops before a
+receptor. Forcing the old phrase onto them would have made three verdicts
+claim an end-to-end bridge the code says they do not have, which is the exact
+drift the guard exists to prevent, arriving through the guard itself.
+
+The test now reads both computed statuses. An entry whose PK step works and
+whose receptor step does not must name that receptor-step failure
+(`total-brain-only`, or `no sourced brain partition` for the case with no
+partition at all), and separately may not describe the bridge as unavailable.
+That is one more constraint per entry than before, not one fewer. One verdict
+had to be rewritten to satisfy it: `fentanyl/righting-reflex-ED50/Kissin1983`
+said only "as [Obert2025] ... the same three verdicts apply", and a
+cross-reference is not a statement of coverage. Its three verdicts are now
+spelled out.
+
+**2. `identifiability.behavioural_observation_counts()` versus a whole-brain
+fit.** P2.3 asks which circuit each calibration-ready entry constrains, and
+raises rather than defaulting to zero when it meets an entry it has not been
+told about. That refusal did its job: it stopped the analysis the moment
+P7.3's entries appeared. But the answer for those three entries is not a
+circuit. They are targets of the whole-brain endpoint fit, whose free
+parameter (`gaba_a_whole_brain_modulation_gain`) is, in that module's own
+words, a different parameter from P2.2's `gaba_a_connection_modulation_gain`
+and no evidence about it. Assigning them to `amygdala_anxiety_circuit` to
+make the count balance would have credited a three-node hand-built scenario
+with data that says nothing about its nodes or its weights, and would have
+broken P2.3's headline result by inventing observations for it.
+
+They are therefore classified into a second mapping,
+`WHOLE_BRAIN_ENDPOINT_EVIDENCE`, listed with a per-entry reason and counted
+towards no circuit. The two mappings must be disjoint and must together cover
+every calibration-ready entry, so an unclassified entry still fails loudly;
+`test_the_whole_brain_entries_are_exactly_the_ones_p7_3_fits` reads the
+whole-brain set off `endpoint_calibration.TARGETS` rather than restating it,
+so a target added or dropped later cannot leave the classification behind.
+P2.3's conclusions are unchanged and remain true for the reason they were
+always true: the other three circuits have zero behavioural observations
+because every entry in the module is diazepam, and the amygdala circuit still
+has exactly one.

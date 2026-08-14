@@ -2362,8 +2362,14 @@ BRIDGE_VERDICT = {
         "the endpoint."
     ),
     "fentanyl/righting-reflex-ED50/Kissin1983": (
-        "As [Obert2025], with a quantal ED50 in place of a latency. The "
-        "same three verdicts apply."
+        "As [Obert2025], with a quantal ED50 in place of a latency, and the "
+        "same three verdicts spelled out rather than cross-referenced: the "
+        "PK step is available (fentanyl/rat/IV, [Yassen2008]); the receptor "
+        "step is 'total-brain-only', so the dose cannot reach an occupancy; "
+        "and a quantal ED50 is a threshold-crossing dose, which every "
+        "monotone stage of this model preserves, so it would constrain the "
+        "threshold rather than the endpoint even if the first two were "
+        "clean."
     ),
     "diazepam/elevated-plus-maze/Graziani2022": (
         "Bridge available and exercised end to end, and then SPENT: 2 mg/kg "

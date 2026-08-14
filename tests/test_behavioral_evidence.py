@@ -384,20 +384,45 @@ def test_pellow_is_blocked_by_a_missing_dose_and_route():
 
 
 def test_every_entry_has_a_bridge_verdict_and_a_matching_status():
+    """P2.2's version of this test read `pk_route_status()` alone and required
+    every `available` entry to say "Bridge available and exercised". That was
+    right while both available entries were diazepam, for which the PK step
+    working meant the whole chain worked. P7.3 added three fentanyl/rat/IV
+    entries, whose PK step `drug_pk` DOES build and whose plasma-to-brain step
+    it reports as `total-brain-only`, so "available" no longer implies
+    "exercised end to end" and requiring that phrase of them would force three
+    verdicts to overstate their own coverage. The check is therefore read off
+    BOTH computed statuses rather than relaxed: an entry whose receptor step
+    fails has to name that failure, and no available entry may call the bridge
+    unavailable.
+    """
     assert set(be.BRIDGE_VERDICT) == set(be.BEHAVIORAL_EVIDENCE_BY_KEY)
     for key, verdict in be.BRIDGE_VERDICT.items():
         entry = be.BEHAVIORAL_EVIDENCE_BY_KEY[key]
         status, _ = entry.pk_route_status()
-        # One required phrase per status, so a verdict cannot drift away from
-        # the coverage `drug_pk` actually reports.
-        required = {
-            "available": ("Bridge available and exercised",),
-            # The pair may still be covered; what is missing is the paper's
-            # own dosing, so the verdict has to name the dataset as the gap.
-            "no-dosing-recorded": ("dataset not obtainable", "Bridge inapplicable"),
-            "unsourced": ("Bridge unavailable",),
-            "no-species": ("Bridge unavailable",),
-        }[status]
+        if status == "available":
+            drive, _ = entry.receptor_drive_status()
+            # One required phrase per receptor-step status, so a verdict
+            # cannot claim more of the chain than `drug_pk` supports.
+            required = {
+                "receptor-drivable": ("Bridge available and exercised",),
+                "total-brain-only": ("total-brain-only",),
+                "none": ("no sourced brain partition",),
+            }[drive]
+            # ... and none of them may claim less of it, either.
+            assert "Bridge unavailable" not in verdict, key
+        else:
+            # One required phrase per PK status, so a verdict cannot drift
+            # away from the coverage `drug_pk` actually reports.
+            required = {
+                # The pair may still be covered; what is missing is the
+                # paper's own dosing, so the verdict has to name the dataset
+                # as the gap.
+                "no-dosing-recorded": ("dataset not obtainable",
+                                       "Bridge inapplicable"),
+                "unsourced": ("Bridge unavailable",),
+                "no-species": ("Bridge unavailable",),
+            }[status]
         assert any(phrase in verdict for phrase in required), (key, status)
 
 

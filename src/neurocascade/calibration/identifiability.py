@@ -997,11 +997,44 @@ CIRCUIT_BUILDERS = {
     "amygdala_anxiety_circuit (GABA-A)": scenarios.amygdala_anxiety_circuit_network,
 }
 
-#: The one calibration-ready behavioural entry, and the circuit it speaks
-#: about. Derived from `priors.CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS` in the
-#: test rather than duplicated here.
+#: The calibration-ready behavioural entries that speak about one of the
+#: circuits above, and which circuit each speaks about. Still the one entry
+#: P2.2 fitted: P7.3's three additions constrain the whole-brain endpoint
+#: model instead and are listed separately below. Derived from
+#: `priors.CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS` in the test rather than
+#: duplicated here.
 CIRCUIT_OF_BEHAVIOURAL_EVIDENCE = {
     "diazepam/elevated-plus-maze/Graziani2022": "amygdala_anxiety_circuit (GABA-A)",
+}
+
+#: Calibration-ready entries that constrain no circuit in `CIRCUIT_BUILDERS`
+#: at all, with the reason each one does not. P2.3 was written when the only
+#: calibration-ready entry was P2.2's, which is a readout of a three-node
+#: hand-built amygdala scenario; P7.3 added three more, and every one of them
+#: is a target of the WHOLE-BRAIN endpoint fit
+#: (`endpoint_calibration.TARGETS`), whose free parameter is a gain over all
+#: 291 Knox regions weighted by receptor density. That gain is a different
+#: parameter from any of the scalars in a hand-built scenario - the module
+#: docstring of `endpoint_calibration` says so of its own gain versus P2.2's -
+#: so counting these entries towards a scenario circuit would credit that
+#: circuit with data that says nothing about its nodes or its weights.
+#:
+#: They are listed rather than filtered by a rule so that the count below
+#: still refuses to see an entry it has never been told about: a future
+#: calibration-ready entry has to be classified here or in
+#: `CIRCUIT_OF_BEHAVIOURAL_EVIDENCE`, deliberately, before this analysis runs.
+WHOLE_BRAIN_ENDPOINT_EVIDENCE = {
+    "diazepam/open-field/Graziani2022":
+        "P7.3's locomotion and sedation targets. Whole-brain endpoint "
+        "indices over the 291-region Knox build; no scenario circuit in "
+        "CIRCUIT_BUILDERS has a locomotion or a sedation readout.",
+    "diazepam/locomotor-activity/Sagara2008":
+        "P7.3's only graded series, and a locomotion target for the same "
+        "whole-brain index.",
+    "diazepam/hot-plate/Lustyk2023":
+        "P7.3's analgesia target, same whole-brain index. The analgesia "
+        "endpoint's regions are P7.1's cited membership, not a scenario's "
+        "three nodes.",
 }
 
 #: One-line description of the single observation, for the summary report.
@@ -1012,15 +1045,25 @@ GABA_A_OBSERVATION_LABEL = "%s (%s)" % (
 
 
 def behavioural_observation_counts():
-    """{circuit label: number of calibration-ready behavioural observations}."""
+    """{circuit label: number of calibration-ready behavioural observations}.
+
+    Entries listed in `WHOLE_BRAIN_ENDPOINT_EVIDENCE` are counted towards no
+    circuit, because they constrain the whole-brain endpoint model instead;
+    an entry in neither mapping is an error rather than a zero.
+    """
     counts = {label: 0 for label in CIRCUIT_BUILDERS}
     for entry in bev.calibration_ready_entries():
+        if entry.key in WHOLE_BRAIN_ENDPOINT_EVIDENCE:
+            continue
         circuit = CIRCUIT_OF_BEHAVIOURAL_EVIDENCE.get(entry.key)
         if circuit is None:
             raise KeyError(
                 "behavioural entry %r is calibration-ready but this module "
                 "does not know which circuit it constrains; add it to "
-                "CIRCUIT_OF_BEHAVIOURAL_EVIDENCE before running the analysis"
+                "CIRCUIT_OF_BEHAVIOURAL_EVIDENCE, or to "
+                "WHOLE_BRAIN_ENDPOINT_EVIDENCE if it constrains the "
+                "whole-brain endpoint model rather than a scenario circuit, "
+                "before running the analysis"
                 % (entry.key,)
             )
         counts[circuit] += 1
