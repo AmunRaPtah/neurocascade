@@ -1,0 +1,4 @@
+target,endpoint,observed_ratio,observed_sd,model_ratio_at_gain_lower,model_ratio_at_gain_upper,verdict,posterior_mean,posterior_sd,r_hat,ess_bulk,posterior_interior
+anxiety/diazepam/Graziani2022,anxiety,0.7835128109914594,0.05174004294425674,0.9999999992776608,0.9643909937167348,beyond-lower-bound,3.46,1.22,1.01,755.0,True
+locomotion/diazepam/Graziani2022,locomotion,1.382636655948553,0.22766768500329357,0.9999999988719599,0.934844287026437,wrong-direction,2.3,1.44,1.01,767.0,True
+sedation/diazepam/Graziani2022,sedation,0.7595818815331011,0.24398046054026312,1.0000000008222545,1.0831916655942617,wrong-direction,2.4,1.48,1.0,796.0,True

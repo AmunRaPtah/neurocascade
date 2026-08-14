@@ -11765,3 +11765,392 @@ true shape is known by construction) and a wrong number (the transcription
 test, which restates the values independently and which the fifth mutation
 above confirmed is the only thing standing between a corrupted input and a
 silently unchanged conclusion).
+
+## Phase 7: fitting the endpoints against real dose-response data (P7.3)
+
+### The sentence in the brief, and the three things it needs at once
+
+> Fit each behavioral endpoint against real published dose-response curves
+> through the Phase 1 PK bridge, extending the P2.1 evidence module to cover
+> all seven endpoints and the full drug set ... remove the illustrative label
+> only from parameters actually fit.
+
+Three things have to be true for one endpoint to be fitted, and the whole
+task is the bookkeeping of which of them fails where:
+
+1. **A dataset**: real, published, in a species and by a route `drug_pk`
+   models, with per-group numbers and a dispersion outside a figure.
+2. **A forward model that reaches the endpoint**: dose → brain concentration
+   → occupancy → *regional rates* → the P7.1 readout. This did not exist.
+   Every piece did; nothing composed them.
+3. **Something identifiable at the end of it**: a published behavioural
+   number is in seconds or counts, the model's readout is in rates, and what
+   connects them is an unknown scale.
+
+Condition 3 is the one this task turns on, and it is worth stating before any
+data, because it decides what counts as a usable dataset:
+
+> a two-point contrast (vehicle, one dose) cannot separate a circuit gain
+> from an assay scale.
+
+Write the behavioural measure as `b = k·A`, `A` the model's endpoint index,
+`k` unknown. One drug group gives one number: two unknowns, one equation.
+P2.2 got past this by assuming `k` away — with the same `k` in both groups
+the drug/vehicle **ratio** is `A_drug/A_vehicle` and `k` cancels — and P7.3
+inherits that assumption and its cost. What a *dose-response curve* buys over
+a contrast is that the ratio is then over-determined, so the model's shape is
+tested rather than merely fitted. That is why P7.3's search criterion was
+"three or more dose levels in a table", and why finding exactly one such
+series is the single most consequential fact in this section.
+
+### What did not exist: dose in, endpoint out
+
+`calibration/circuit_forward.py` (P2.2) answers "given one occupancy and one
+gain, what does a three-node hand-built scenario's readout do?". Its networks
+are populations (`VTA_GABA`, `CeA`), so no P7.1 endpoint can be read on them:
+`Endpoint.resolve` maps CCF acronyms onto node names and a hand-built
+scenario has none.
+
+`calibration/endpoint_forward.py` is P7.3's composition, and it is a
+composition rather than an implementation — the network is P3.2's build, the
+operating point is P3.4's `stability.stabilize`, the densities are P4.2's
+`relative_density`, the steady state is `circuit_forward.steady_state_rates`
+(network-agnostic, previously exercised only at 3–5 nodes), and the readout
+is P7.1's `ResolvedEndpoint`. On the 291-region Knox build every node **is**
+a CCF acronym, so all seven endpoints resolve with **nothing unmapped**,
+which is what makes a P7.3 fit a fit of the endpoint rather than of a
+scenario that happens to share a region with it.
+
+Two mechanisms are supported because the codebase already has two:
+`drive_coupling` (the mu-opioid scenarios: the receptor adds drive to the
+region it sits in, scaled by that region's density) and
+`connection_modulation` (the benzodiazepine mechanism: it scales inhibitory
+synapses, so the density that matters is the *postsynaptic* region's). Both
+carry P4.2's factorization `coupling[region] = mechanism_gain · ρ[region]`,
+which means **`mechanism_gain` is the only free parameter in the whole
+chain**: PK, partition and Ki are calibrated, ρ is measured, and everything
+downstream is P7.1's cited membership and sign.
+
+### The reduction that makes the fit affordable, and that it is exact
+
+The gain and the activation enter only as their **product**:
+
+    drive_i  = baseline_i + gain·ρ_i·activation
+    W_ij    <- W_ij · (1 + gain·ρ_i·activation)          (W_ij < 0)
+
+so the steady state is a function of the single scalar `x = gain·activation`.
+This is exact, not approximate, and
+`test_only_the_product_of_gain_and_activation_matters` pins it by evaluating
+three (gain, activation) pairs with the same product and requiring identical
+rates. It matters because one 291-node steady state costs 2–7 s: a
+`ResponseCurve` over a grid of `x` is computed once and interpolated inside
+the sampler. The interpolation is linear rather than spline — a cubic can
+overshoot between grid points and put a value the circuit cannot produce into
+a likelihood — and its error is **measured** against a re-integration at the
+grid midpoints rather than assumed: 1.4e-05 to 4.9e-05 on the 291-region
+curve, against likelihood widths of 0.05 to 0.29. Three orders of magnitude
+below the smallest published uncertainty is the sense in which an
+interpolated prediction and an integrated one are the same datum.
+
+### The index, and the zero a ratio needs
+
+P2.2's readout was one node's firing rate, where zero means something. A P7.1
+endpoint score is not that. It is `Σ w_i r_i` with signs on both sides and
+`Σ|w_i| = 1`, so at the drug-free rest state (P3.4 balances every node to
+r = 0.5) it is `0.5·Σ w_i`: **+0.5 for working memory, −0.375 for sedation,
++0.1 for analgesia.** A ratio of a quantity whose zero is an accident of
+which regions happened to be cited is not something any assay can be compared
+with, and analgesia's +0.1 would have been a near-zero denominator.
+
+`endpoint_forward.directed_activity_index` is the answer:
+
+    A = Σ_{w>0} w_i r_i + Σ_{w<0} |w_i| (1 − r_i) = score + Σ_{w<0}|w_i|
+
+the fraction of the endpoint's cited evidence currently pointing towards
+*more* of the behaviour. Bounded in [0, 1]; zero means every pro-behaviour
+region silent and every anti-behaviour region saturated; and at rest it is
+**exactly 0.5 for all seven endpoints**, because `Σ|w| = 1` and `r = 0.5`.
+A test asserts that for all seven rather than this paragraph claiming it.
+It is still an assumption — it puts a linear readout's zero where all the
+evidence points the wrong way — and it is declared on the function.
+
+### The evidence: all seven endpoints, and what the searches actually found
+
+`behavioral_evidence.ENDPOINT_COVERAGE` is the acceptance criterion as a
+computable object: seven records, checked against `endpoints.ENDPOINTS` and
+against this module's own entry keys by `endpoint_coverage()`, so an endpoint
+cannot be silently omitted and a record cannot name an entry that does not
+exist. The module grew from 5 entries to 11.
+
+| endpoint | verdict | evidence |
+|---|---|---|
+| locomotion | fit-attempted | [Sagara2008] 3 doses + vehicle, IP, n=10, SEM; [Graziani2022] open field |
+| anxiety | fit-attempted | [Graziani2022] EPM (P2.2's target), [Stickling2024], [Pellow1985] |
+| analgesia | fit-attempted | [Lustyk2023] 2 doses + vehicle, IP, hot plate; [Yassen2008] concentration-response |
+| sedation | fit-attempted | [Graziani2022] immobility; [Obert2025] 4 IV doses; [Kissin1983] quantal ED50 |
+| reward | **no-data** | — |
+| working memory | **no-data** | — |
+| sensorimotor gating | **no-data** | — |
+
+The constraint that shapes all of this is narrower than "what has been
+published". `drug_pk` builds exactly four (drug, species, route) triples —
+fentanyl/rat/IV, haloperidol/rat/IV, diazepam/rat/IV and diazepam/rat/IP —
+and of those, **exactly one reaches a receptor**: `BehavioralEvidenceEntry.
+receptor_drive_status()`, added here, asks `drug_pk` whether the
+plasma-to-brain step yields an *unbound* brain concentration, and for
+fentanyl the answer is `total-brain-only`. P1.5 already recorded why (no rat
+brain unbound fraction for fentanyl exists, so its Kp of ~16.5 is mostly
+tissue binding and "must not drive receptor occupancy"), but no earlier task
+had to care, because P2.1 and P2.2's bridgeable entries were both diazepam.
+P7.3 is the task where that gap decides an endpoint.
+
+### The one graded series, and why a null is the useful kind
+
+**[Sagara2008]** (J Pharmacol Sci 2008;107(3):355–60, PMID 18603833, open
+access) prints diazepam 0.2/0.5/1.0 mg/kg IP against vehicle, ANIMEX
+locomotor counts over 10 min, 15 min after dosing, n = 10 per group, in a
+table: 153.6 ± 16.6, 156.5 ± 22.9, 158.3 ± 24.6, 161.7 ± 19.1. Nothing moves.
+
+That is the only graded, tabulated, bridgeable behavioural dose-response
+found for any of the seven endpoints, and it is a null. A null with error bars
+is not an absence: the model predicts that potentiating inhibition brain-wide
+*lowers* the locomotion index monotonically in the gain, so three doses that
+move nothing put an **upper bound** on that gain. It is the only one-sided
+identification in the task, and it is the same verdict shape P2.3 reached for
+`gaba_a_connection_modulation_gain` from the other side.
+
+**[Lustyk2023]** (Neurochem Res 2023;48(3):839–51, PMC9644393) is the second
+graded series: diazepam 5 and 10 mg/kg IP against 52.5 °C hot-plate latency,
+30 min, means and **SDs** — the only entry in the module reported that way,
+and the reason `DISPERSION_KINDS` records the kind rather than normalising
+it. A ratio of group means needs the sd *of the mean*, so the caller divides
+by √n at the point of use, and the source gives n as a band (6–9) rather than
+per group, so the defensible choice is the smallest, which gives the widest
+width and therefore the weakest constraint. Also a null (the paper's own
+F(2,20) = 1.409, ns).
+
+### Four refutations, each measured rather than argued
+
+**1. The sign, for locomotion and sedation.** [Graziani2022]'s rats crossed
+38% *more* lines under diazepam. A whole-brain potentiation of inhibition can
+only lower the locomotion index, at any gain of either sign inside a
+mechanistically bounded prior. `bound_verdict` returns `wrong-direction` and
+the posterior piles on the mechanistic null at zero. The same contrast read
+as sedation (immobility fell where the model needs it to rise) fails
+identically — which is honest to report as *one* contrast counted twice
+rather than as two independent failures, because it is the same four animals
+in the same five minutes.
+
+**2. The sensitivity, for anxiety.** The model moves the right way and not
+far enough. At a gain of 5 — a 5.5-fold potentiation of every inhibitory
+synapse in the brain, far beyond any benzodiazepine — the whole-brain anxiety
+index moves from 0.5 to 0.4804, a ratio of 0.964 against [Graziani2022]'s
+measured 0.7835 ± 0.0517. The best achievable prediction misses by 3.5 of the
+observation's own standard deviations. This is a statement about the
+**operating point**, not about the data: P3.4's illustrative ρ = 0.9 sets
+`weight_scale = 0.0201`, so every inhibitory weight is 50× smaller than the
+published density, and scaling something 50× too small by (1 + g·a) barely
+moves anything. The three-node amygdala scenario reproduces the same
+published anxiolysis at a gain of 0.074 (P2.2) precisely because its one
+synapse was hand-set to be consequential. **The disagreement between the two
+is the most useful single number in this task**, and it belongs to P3.4 and
+P9, not to P7.1.
+
+**3. The steepness, for analgesia.** [Yassen2008] — already this codebase's
+fentanyl rat IV PK source — publishes its antinociception as a logistic
+regression in the biophase concentration, `P = 1/(1+exp(−(α + β·Ce)))` with
+α = −8.77 (95% CI −11.49 to −6.05) and β = 1.11 per ng/mL (0.726–1.494), from
+486 observations in 40 rats. It needs **no dose bridge at all**. Its curve
+rises from 10% to 90% over a **1.67-fold** concentration span; a one-site
+occupancy curve needs **81-fold**, for every drug and every Kd, because
+occupancy is C/(C+Kd). No monotone function of fractional occupancy is that
+steep, so no linear readout over occupancy-driven rates can reproduce this
+dataset at any gain. The steepness is partly an artefact of a *quantal*
+endpoint — a probability of crossing a 10 s cut-off is steepened by
+between-animal variance — and modelling that honestly needs a threshold and a
+spread, i.e. two more free parameters against a curve that publishes two.
+Three parameters, two constraints: underdetermined by exactly one, which is a
+counted degeneracy rather than a judgement.
+
+**4. Monotone invariance, for sedation's two intravenous curves.** Sedation
+is the one endpoint with a real IV dose-response, and there are two.
+[Obert2025] gives four IV fentanyl doses against the time to return of the
+righting reflex (13, 15, 26, 50 min at 12.5, 25, 50, 100 µg/kg);
+[Kissin1983] gives a quantal ED50 of 0.023 mg/kg (95% fiducial limits
+0.020–0.026) for losing it. Both measure a **threshold-crossing time or
+dose**, and every stage between plasma concentration and the endpoint index —
+occupancy, the Wilson-Cowan steady state, the linear readout — is monotone,
+so the crossing is preserved exactly. Four latencies therefore constrain
+*one* number, where the threshold sits on the concentration axis, and say
+nothing whatever about the endpoint's regional weights. **These datasets
+calibrate `drug_pk`, not `endpoints`**, and are recorded as such. This is the
+one refutation in the task that would survive every other blocker being
+fixed.
+
+### The fits, and their diagnostics
+
+Five targets, one free parameter each (`gaba_a_whole_brain_modulation_gain`,
+uniform on [0, 5] with both bounds taken from the mechanism exactly as P2.2
+argued for its own), sampled with `DEMetropolisZ`, 4 chains × 1000 tune ×
+1000 draws, seed 20260814. `scripts/run_endpoint_fits.py` →
+`results/calibration/endpoint_fits.txt`, per-target summaries and posteriors
+alongside, and `endpoint_fit_diagnostics.csv`.
+
+RESULTS_TABLE_PLACEHOLDER
+
+Every fit converged. **None of them licenses a number**, and the module says
+so in three independent ways rather than leaving it to be read off a
+posterior: `bound_verdict` (is the observation inside the model's reach at
+all?), `best_residual_sd` (how far is the *best* prediction in the box, in
+units of the published uncertainty?), and `information_matrix` (what can a
+dataset of this shape identify?). The last is P2.3's method at a different
+scale: for a single Gaussian observation `F = s sᵀ/sd²` is rank one whatever
+`s` is, so a two-point contrast cannot separate a gain from a scale — the
+measured eigenvalue ratio is ~1e-20, i.e. machine zero — while a three-level
+series lifts that rank, which is exactly what "a dose-response curve buys
+something a contrast does not" means, expressed as a spectrum.
+
+### What P7.3 changed, and what it deliberately did not
+
+**No illustrative label was removed, anywhere.** Not one endpoint weight, not
+`MU_OPIOID_MECHANISM_GAIN`, not P3.4's operating gain, not P4.2's
+proportionality. `gaba_a_whole_brain_modulation_gain` is deliberately **not**
+in `priors.PRIOR_SPECS`: that module's `CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS` is
+the register of circuit-layer parameters this project *has* calibrated,
+guarded by a test that requires each of them to name a calibration-ready
+dataset, and putting a bound-limited posterior there would be claiming a
+calibration that did not happen. A test asserts it stays out, and another
+asserts that no endpoint's coverage record reads `fitted`, so a later pass
+that does fit one has to change that test in the same commit that removes the
+label — rule 3 of this codebase, expressed as an assertion.
+
+P2.2's `gaba_a_connection_modulation_gain` is untouched and is a **different
+parameter**: one synapse in a three-node circuit against every inhibitory
+connection in a 291-region brain, weighted by Gabra1 density. They are not
+comparable and neither is evidence about the other. A test pins that too.
+
+### Three corrections to this repository's own record
+
+Rule 1 applies to numbers copied from our own prose, and P7.3 re-ran the
+searches P2.2 recorded rather than inheriting them.
+
+1. **[Wadenberg2000] is not a haloperidol study.** P2.2's section names
+   Wadenberg et al., Psychopharmacology 2000;150(4):422–9 (PMID 10958084) as
+   one of "the two papers that do exactly this" for haloperidol occupancy
+   versus behaviour, and calls obtaining it "the single cheapest thing that
+   would unblock this system". Its abstract, re-read here, is about
+   **raclopride** throughout ("cold raclopride (0.01–0.2 mg/kg) produced
+   16–77% D2 receptor occupancy and no catalepsy"). Haloperidol appears
+   nowhere in its design. It fails rule 2 on drug identity before access is
+   even a question, and its endpoints (catalepsy, conditioned avoidance) are
+   outside the seven besides. The paper remains closed; that no longer
+   matters.
+2. **[Johnson2014] contains no measured occupancy.** The other of P2.2's two
+   named papers (Pharm Res 2014;31(10):2605–17) was obtained in full here.
+   Its own Methods say "it was not possible to measure D2RO in the same
+   animals and plasma drug concentrations were not available for these rats";
+   every occupancy in it is *simulated* from earlier PBPK/PD models, its
+   behavioural endpoint is catalepsy, and its strain is stated only as "Wiga
+   SPF rats" with sex never given. The measured-occupancy data it rests on
+   are in Johnson 2011 (PMC3170473) and Kozielska 2012.
+3. **The fentanyl PD paper P2.2 quoted from an abstract has an intercept.**
+   P2.2 recorded [Yassen2008]'s odds ratio (3.03) and T½,ke0 (6.08 min),
+   which fix the curve's slope and lag and leave its position on the
+   concentration axis undetermined. The full text gives α = −8.77, and with
+   it the whole curve — which is what made refutation 3 above computable.
+   The same reading found an arithmetic slip in that paper's Discussion
+   (it reports the antinociception probabilities at 3 and 4 ng/mL as though
+   they were at 4 and 5; the respiratory half of the same sentence
+   reproduces exactly from its own parameters), and a test pins both halves
+   so the discrepancy cannot be quietly re-inherited.
+
+### Searched and empty: the four endpoints with nothing, each empty differently
+
+* **Reward.** No rat conditioned place preference and no rat intracranial
+  self-stimulation study administers fentanyl intravenously — PubMed returns
+  **zero** records for the conjunction. Every rat fentanyl CPP found is
+  subcutaneous, and so is every fentanyl ICSS dose-effect, including
+  [Moerke2019]'s fully tabulated one. IV self-administration is abundant and
+  is a different measurement (intake, not preference); its one tabulated
+  dose-effect ([Ren2022], Table 1) prints means with **no error bar of any
+  kind** and pools the sexes. Roughly 1,000 titles screened and 516
+  open-access full texts machine-scanned for a per-dose table.
+* **Working memory.** One paper would qualify — [LaMarca1995],
+  Psychopharmacology 120(4):426–32, an eight-arm radial maze after a bolus IV
+  fentanyl dose at the ED150 for loss of righting — and it is closed with no
+  repository copy. PubMed returns **one** record for fentanyl AND rats AND
+  the standard working-memory assay list. The nearest verified alternative
+  measures paired-associate learning, which is long-term associative memory
+  and not what P7.1's endpoint names; substituting it would be the assay
+  substitution rule 2 forbids.
+* **Sensorimotor gating.** A complete void, and the strongest negative
+  because it is not about access: **no rat study, by any route, has measured
+  prepulse inhibition or acoustic startle after fentanyl.** All eight
+  candidates fail on identity — minipump withdrawal, no fentanyl in the PPI
+  arm at all, mouse, or alfentanil. Haloperidol has the design and not the
+  route ([Danna2010]: four doses, 3–100 µg/kg, against amphetamine-disrupted
+  PPI in rats — intraperitoneally, and `drug_pk` has no rat haloperidol IP
+  bioavailability). P7.2 independently reported that the whole open-access
+  *intracerebral* PPI literature prints no %PPI with a mean and SEM in a
+  table; the two searches agree and were looking at different literatures.
+* **Locomotion via haloperidol**, which is the drug the D2 scenario is built
+  on. The only IV haloperidol behavioural dose-response that exists is
+  Jankowski et al.'s five-point preliminary curve against cocaine-induced
+  locomotion (bioRxiv 2021.11.28.470229, published as Clin Exp Pharmacol
+  Physiol 2023;50(6):453–62), and every number in it is in Figure S1.
+
+The pattern across every sweep is P7.2's sentence again, now confirmed from a
+second direction: **this literature plots everything.** Designs are abundant
+and numbers are not.
+
+### What would close each of the four blockers
+
+Stated concretely, because "we found nothing" is not actionable:
+
+* **A rat brain unbound fraction for fentanyl.** One number. It converts
+  three fentanyl entries from `total-brain-only` to receptor-driving and puts
+  the analgesia and sedation curves on the model's own concentration axis.
+  Yu et al., Toxicol Sci 2018;164:353–62 measured it and its PDF is
+  403-blocked (P1.5's record).
+* **Haloperidol rat IP bioavailability and absorption rate.** Two numbers.
+  They make the whole IP behavioural literature reachable at once, including
+  [Danna2010]'s four-dose PPI series and the entire D2 locomotor literature.
+* **A whole-brain operating point that is not ρ = 0.9.** Refutation 2 is a
+  property of P3.4's illustrative choice, and the honest fix is not to tune
+  ρ against a behavioural target — that would be fitting the circuit to the
+  data it is supposed to predict — but to source the node parameters
+  (`connectome.DEFAULT_NODE`) that make ρ meaningful. That is Phase 9.
+* **A graded intravenous behavioural series with numbers in a table.** For
+  reward and gating this does not exist and would need a de novo study;
+  for the others it exists behind supplementary files and paywalls, and the
+  specific documents are named in `ENDPOINT_COVERAGE`.
+
+### What P7.3 delivered, checked against the standing discipline
+
+- **Evidence covering all seven endpoints with full provenance**:
+  `ENDPOINT_COVERAGE`, verified against `endpoints.ENDPOINTS` by a function
+  rather than by a comment, with six new entries (11 total) and a per-endpoint
+  prose record naming what was screened and why each candidate failed.
+- **The composition P7.1 and P7.2 both promised**: `endpoint_forward.py`,
+  dose → 291 regional rates → endpoint index, with every endpoint resolving
+  and nothing unmapped, and the `x = gain·activation` reduction pinned by a
+  test.
+- **Fits run and converged for every target that has one**, r̂ ≤ 1.02 against
+  the 1.05 threshold, diagnostics committed under `results/calibration/`.
+- **No illustrative label removed**, enforced two ways: the new gain stays out
+  of `priors.PRIOR_SPECS`, and no coverage record may read `fitted`.
+- **Endpoints with insufficient data documented as unfit**, four of them, each
+  empty in a different way, with the queries, the volumes screened and the
+  named documents that would close each gap.
+- **Three corrections to this repository's own record**, including retiring a
+  lead P2.2 called "the single cheapest thing that would unblock this system".
+- **Tests**: `tests/test_endpoint_forward.py` and
+  `tests/test_endpoint_calibration.py`, split into the data (every published
+  number restated independently), the rule (checked on synthetic curves whose
+  direction is known by construction) and the fit. None slow, none skipped
+  when the cache is present, and the two pre-existing tests that had to
+  change are named in the commit message with the reason.
+- **Outputs**: `scripts/run_endpoint_fits.py` →
+  `results/calibration/endpoint_fits.txt`,
+  `results/calibration/endpoint_fit_diagnostics.csv`, and per-target
+  posteriors.

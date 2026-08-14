@@ -168,15 +168,49 @@ def test_track_e_unverified_fentanyl_dose_claim_is_not_stored_as_a_dose():
 
 
 def test_exactly_the_expected_entries_are_bridgeable():
+    """P2.2's version of this test listed two entries and said, in a
+    comment, that both were diazepam/rat/IP because that is "the one
+    drug/species/route triple this codebase has a PK model AND a
+    receptor-drivable brain partition for". P7.3 added six entries, three of
+    them fentanyl/rat/IV, and doing so split that sentence in two: `drug_pk`
+    builds a PK model for fentanyl/rat/IV, so those entries ARE bridgeable
+    in the sense this function means, and their brain partition is
+    total-brain-only, so they cannot drive a receptor. The distinction is
+    now a separate method (`receptor_drive_status`) with its own test below,
+    and this one is widened to the six entries whose PK step works.
+    """
     bridgeable = {e.key for e in be.bridgeable_entries()}
-    # P2.2 added a second bridgeable entry, [Graziani2022]; both are
-    # diazepam/rat/IP, the one drug/species/route triple this codebase has a
-    # PK model AND a receptor-drivable brain partition for.
     assert bridgeable == {
         "diazepam/elevated-plus-maze/Stickling2024",
         "diazepam/elevated-plus-maze/Graziani2022",
+        "diazepam/open-field/Graziani2022",
+        "diazepam/locomotor-activity/Sagara2008",
+        "diazepam/hot-plate/Lustyk2023",
+        "fentanyl/tail-flick/Yassen2008",
+        "fentanyl/righting-reflex/Obert2025",
+        "fentanyl/righting-reflex-ED50/Kissin1983",
     }
-    assert len(be.unbridgeable_entries()) == len(be.BEHAVIORAL_EVIDENCE) - 2
+    assert len(be.unbridgeable_entries()) == len(be.BEHAVIORAL_EVIDENCE) - 8
+
+
+def test_only_the_diazepam_entries_can_actually_drive_a_receptor():
+    """The distinction P7.3 had to add, and the reason its analgesia and
+    sedation fentanyl datasets are recorded rather than fitted.
+
+    `drug_pk.brain_partition_status('fentanyl', 'rat')` is
+    'total-brain-only': no rat brain unbound fraction for fentanyl was
+    found (P1.5), so its Kp of ~16.5 is mostly tissue binding and must not
+    be used as if it were a Kp,uu. Computed from `drug_pk`, so sourcing
+    that number later flips these verdicts without this test being edited.
+    """
+    drivable = {e.key for e in be.BEHAVIORAL_EVIDENCE if e.can_drive_receptor}
+    assert all(k.startswith("diazepam/") for k in drivable), drivable
+    for key in ("fentanyl/tail-flick/Yassen2008",
+                "fentanyl/righting-reflex/Obert2025",
+                "fentanyl/righting-reflex-ED50/Kissin1983"):
+        entry = be.BEHAVIORAL_EVIDENCE_BY_KEY[key]
+        assert entry.is_bridgeable
+        assert entry.receptor_drive_status()[0] == "total-brain-only"
 
 
 def test_bridgeable_entry_converts_a_published_dose_to_an_unbound_brain_nM():
@@ -382,7 +416,20 @@ def test_exactly_one_entry_is_calibration_ready_and_it_is_the_graziani_one():
     slipping into the fit still fails here.
     """
     ready = be.calibration_ready_entries()
-    assert [e.key for e in ready] == ["diazepam/elevated-plus-maze/Graziani2022"]
+    # P7.3 update, in the deliberate spirit this docstring asks for: three
+    # more entries now satisfy all three readiness conditions, and all three
+    # are diazepam/rat/IP because that remains the only triple with a
+    # receptor-drivable brain partition. Two of them are what P7.3 was
+    # looking for and P2.2 did not have - GRADED series rather than
+    # two-point contrasts - and one ([Sagara2008]) is the only one in the
+    # whole module. The list is named rather than counted so a fifth entry
+    # cannot drift into a fit unnoticed.
+    assert [e.key for e in ready] == [
+        "diazepam/elevated-plus-maze/Graziani2022",
+        "diazepam/open-field/Graziani2022",
+        "diazepam/locomotor-activity/Sagara2008",
+        "diazepam/hot-plate/Lustyk2023",
+    ]
     # The three entries that are NOT ready are still not ready, each for its
     # own recorded reason; P2.2 loosened no criterion to get here.
     assert be.DIAZEPAM_EPM_STICKLING2024 not in ready  # measure undefined in source
