@@ -54,6 +54,29 @@ def read_events(since: str) -> list[dict]:
     return out
 
 
+def hours_since_progress() -> float | None:
+    """Hours since the build last actually moved, over the whole event log."""
+    last = None
+    if not EVENTS.exists():
+        return None
+    for line in EVENTS.read_text().splitlines():
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if rec.get("kind") in ("started", "finished"):
+            last = rec.get("ts") or last
+    if not last:
+        return None
+    try:
+        ts = datetime.fromisoformat(last)
+    except ValueError:
+        return None
+    if ts.tzinfo is None:
+        ts = ts.replace(tzinfo=timezone.utc)
+    return (datetime.now(timezone.utc) - ts).total_seconds() / 3600
+
+
 def build_digest(events: list[dict]) -> str:
     backlog = json.loads(BACKLOG.read_text())
     tasks = backlog["tasks"]
@@ -68,14 +91,32 @@ def build_digest(events: list[dict]) -> str:
     full_suite = [e for e in events if e["kind"] == "full_suite"]
     full_skipped = [e for e in events if e["kind"] == "full_suite_skipped"]
 
+    # A guard that skips every tick is indistinguishable, from the outside, from
+    # a build with nothing to do: both are silent. That is how a stale quota
+    # reading held the build for eight hours on 2026-08-14 while the only trace
+    # was a skip line nobody was paged about. A run of skips with no work
+    # started is a stall, and a stall is the thing most worth sending.
+    idle_h = hours_since_progress()
+    stalled = bool(skipped) and not finished and not any(
+        e["kind"] == "started" for e in events)
+
     # A build that is stuck emits no finished events at all, so keying the
     # digest on those alone means the one day it matters is the one day nothing
     # is sent. Faults are news too.
     if not (finished or quarantined or launch_failed or aborted
-            or full_suite or full_skipped):
+            or full_suite or full_skipped or stalled):
         return ""
 
     lines = [f"neurocascade autonomous build: {done}/{total} tasks done", ""]
+
+    if stalled:
+        reason = skipped[-1].get("reason", "?")
+        idle = f"{idle_h:.1f}h" if idle_h is not None else "unknown"
+        lines.append(f"  STALLED: {len(skipped)} tick(s) skipped, none started. "
+                     f"No task has moved in {idle}.")
+        lines.append(f"     last reason: {reason}")
+        lines.append("     A guard is holding the build. It will not clear itself.")
+        lines.append("")
 
     for e in finished:
         status = e.get("status", "?")
