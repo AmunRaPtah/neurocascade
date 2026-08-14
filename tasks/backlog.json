@@ -656,8 +656,10 @@
         "P5.6",
         "P5.7"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "running",
+      "attempts": 1,
+      "started_at": "2026-08-14T15:30:04.009792+00:00",
+      "baseline": "27a38cb8326baac759cf772a968a7ae53caba693"
     },
     {
       "id": "P8.2",
