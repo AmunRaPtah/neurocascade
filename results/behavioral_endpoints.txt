@@ -1,0 +1,856 @@
+Behavioural endpoint library (P7.1)
+========================================================================
+source: the full published Knox et al. 2019 matrices
+weights: illustrative-equal-magnitude -- every magnitude is illustrative until P7.3 fits it
+
+Locomotor activity (locomotion)
+  assay:     open-field / photobeam ambulation; drug-induced hyperlocomotion
+  direction: higher = more locomotion (greater distance travelled)
+  weights:   illustrative-equal-magnitude (all magnitudes equal; P7.3 fits them)
+  SNr            -1  optogenetic     mouse Liu2020
+                    assay: open field
+  CUN            +1  optogenetic     mouse Caggiano2018
+                    assay: open field, treadmill locomotion
+  PPN            +1  chemogenetic    mouse Masini2022
+                    assay: open field
+  SNc            +1  optogenetic     mouse daSilva2018
+                    assay: movement initiation
+  VTA            +1  chemogenetic    mouse Jing2019
+                    assay: open field
+  LHA            +1  chemogenetic    mouse Kosse2017
+                    assay: open field, voluntary running
+  ACB            +1  optogenetic     mouse Attachaipanich2023
+                    assay: open field
+  PGRNl          +1  optogenetic     mouse Capelli2017
+                    assay: open field, treadmill locomotion
+  CP             +1  optogenetic     mouse Kravitz2010  [CONTESTED]
+                    assay: open field
+  GPe            +1  optogenetic     mouse Pamukcu2020  [CONTESTED]
+                    assay: open field
+  STN            -1  optogenetic     mouse Guillaumin2021  [CONTESTED]
+                    assay: open field
+  note: Seven of the eight uncontested terms are positive, so this readout is close to a signed mean rate over the locomotor system with SNr subtracted. That is what the evidence supports and is worth knowing before reading a small score change.
+
+  resolution=regions (291 nodes)
+    direction:  higher = more locomotion (greater distance travelled)
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   8 of 8 term(s) landed; 8 causal, 0 correlative, 0 with an inferred direction
+      SNr        -0.1250
+      CUN        +0.1250
+      PPN        +0.1250
+      SNc        +0.1250
+      VTA        +0.1250
+      LHA        +0.1250
+      ACB        +0.1250
+      PGRNl      +0.1250
+    exact:       SNr, CUN, PPN, SNc, VTA, LHA, ACB, PGRNl
+  score at rest: +0.3750
+
+  resolution=subdivisions (60 nodes)
+    direction:  higher = more locomotion (greater distance travelled)
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   8 of 8 term(s) landed; 8 causal, 0 correlative, 0 with an inferred direction
+      MBsta      +0.2308
+      LZ         +0.2308
+      STRv       +0.2308
+      MY-mot     +0.2308
+      MBmot      +0.0769
+    ancestor:    SNr, CUN, PPN, SNc, VTA, LHA, ACB, PGRNl
+    SIGN CANCELLATION at MBmot: this parcellation is too coarse to express those terms separately
+  score at rest: +0.5000
+
+  resolution=major_divisions (12 nodes)
+    direction:  higher = more locomotion (greater distance travelled)
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   8 of 8 term(s) landed; 8 causal, 0 correlative, 0 with an inferred direction
+      HY         +0.2778
+      STR        +0.2778
+      MY         +0.2778
+      MB         +0.1667
+    ancestor:    SNr, CUN, PPN, SNc, VTA, LHA, ACB, PGRNl
+    SIGN CANCELLATION at MB: this parcellation is too coarse to express those terms separately
+  score at rest: +0.5000
+
+------------------------------------------------------------------------
+Anxiety-like behaviour (anxiety)
+  assay:     elevated plus maze (open-arm time and entries)
+  direction: higher = MORE anxious = LESS open-arm time
+  weights:   illustrative-equal-magnitude (all magnitudes equal; P7.3 fits them)
+  CA1            +1  optogenetic     mouse Jimenez2018
+                    assay: elevated plus maze
+  SUB            +1  optogenetic     mouse Yan2022
+                    assay: elevated plus maze
+                    INFERRED DIRECTION: manipulation was at AHN, one synapse downstream; nothing was done to subicular activity
+  LSr            +1  optogenetic     mouse Anthony2014
+                    assay: elevated plus maze
+  LC             +1  chemogenetic    rat   Borodovitsyna2020
+                    assay: elevated plus maze
+  VTA            +1  optogenetic     mouse Chen2020
+                    assay: elevated plus maze, open field, marble burying
+  BMA            -1  optogenetic     mouse Adhikari2015
+                    assay: elevated plus maze
+  BLA            +1  optogenetic     mouse FelixOrtiz2013  [CONTESTED]
+                    assay: elevated plus maze
+  BST            +1  optogenetic     mouse Kim2013  [CONTESTED]
+                    assay: elevated plus maze
+  CEA            +1  optogenetic     mouse Sun2023  [CONTESTED]
+                    assay: elevated plus maze, open field
+  PL             +1  inactivation    rat   Green2020  [CONTESTED]
+                    assay: elevated plus maze, emergence test
+  ILA            +1  microinjection  mouse Bi2013  [CONTESTED]
+                    assay: elevated plus maze
+  ZI             +1  optogenetic     mouse Li2021  [CONTESTED]
+                    assay: elevated plus maze
+  note: Six of the twelve terms are contested, the highest fraction of any endpoint except sensorimotor gating, and every one of them is contested for the same structural reason: the amygdala, BNST, mPFC and zona incerta each contain populations with opposite anxiety signs that one region-level rate cannot separate.
+
+  resolution=regions (291 nodes)
+    direction:  higher = MORE anxious = LESS open-arm time
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   6 of 6 term(s) landed; 6 causal, 0 correlative, 1 with an inferred direction
+      CA1        +0.1667
+      SUB        +0.1667
+      LSr        +0.1667
+      LC         +0.1667
+      VTA        +0.1667
+      BMA        -0.1667
+    exact:       CA1, SUB, LSr, LC, VTA, BMA
+  score at rest: +0.3333
+
+  resolution=subdivisions (60 nodes)
+    direction:  higher = MORE anxious = LESS open-arm time
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   6 of 6 term(s) landed; 6 causal, 0 correlative, 1 with an inferred direction
+      HIP        +0.1667
+      RHP        +0.1667
+      LSX        +0.1667
+      P-sat      +0.1667
+      MBmot      +0.1667
+      BMA        -0.1667
+    exact:       BMA
+    ancestor:    CA1, SUB, LSr, LC, VTA
+  score at rest: +0.3333
+
+  resolution=major_divisions (12 nodes)
+    direction:  higher = MORE anxious = LESS open-arm time
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   6 of 6 term(s) landed; 6 causal, 0 correlative, 1 with an inferred direction
+      HPF        +0.2000
+      STR        +0.2000
+      P          +0.2000
+      MB         +0.2000
+      CTXsp      -0.2000
+    ancestor:    CA1, SUB, LSr, LC, VTA, BMA
+  score at rest: +0.3000
+
+------------------------------------------------------------------------
+Analgesia (thermal antinociception) (analgesia)
+  assay:     tail flick (spinal reflex) and hot plate (supraspinal)
+  direction: higher = MORE analgesia = LONGER withdrawal latency
+  weights:   illustrative-equal-magnitude (all magnitudes equal; P7.3 fits them)
+  PAG            +1  microinjection  rat   Morgan2014
+                    assay: hot plate
+                    INFERRED DIRECTION: opioid in vlPAG raises its output only via disinhibition of the local GABAergic tone
+  LC             +1  stimulation     rat   Jones1986
+                    assay: tail flick
+  DR             +1  microinjection  rat   Campion2016
+                    assay: hot plate
+                    INFERRED DIRECTION: same opioid disinhibition step as PAG's term
+  ZI             +1  microinjection  rat   Petronilho2012
+                    assay: tail flick
+  SMT            +1  stimulation     rat   Zhang1995
+                    assay: tail flick
+  CEA            +1  microinjection  rat   Rashvand2014
+                    assay: tail flick
+  GRN            -1  lesion          rat   Wei1999
+                    assay: CFA thermal hyperalgesia
+  PB             -1  genetic         mouse Han2015
+                    assay: defensive responses
+                    INFERRED DIRECTION: the assay is defensive responding, so `measure` is a translation into withdrawal latency, not a reading
+  ACAd           -1  lesion          rat   Pastoriza1996
+                    assay: hot plate
+  MD             -1  optogenetic     mouse Meda2019
+                    assay: conditioned place aversion
+                    INFERRED DIRECTION: the assay is place aversion, so `measure` is a translation into withdrawal latency, not a reading
+  RM             +1  inactivation    rat   Mitchell1998  [CONTESTED]
+                    assay: tail flick
+  note: Six positive and four negative uncontested terms. THREE of them come from assays this endpoint is not defined against - GRN (CFA thermal hyperalgesia), PB (defensive responding) and MD (conditioned place aversion) - as do one supporting citation each for PAG, DR and LC. The assay field records that term by term and ASSAY_VARIANTS is the restriction that drops all three; PB's and MD's `inferred` field additionally says that their `measure` is a translation into withdrawal latency rather than a reading of one.
+
+  resolution=regions (291 nodes)
+    direction:  higher = MORE analgesia = LONGER withdrawal latency
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   10 of 10 term(s) landed; 10 causal, 0 correlative, 4 with an inferred direction
+      PAG        +0.1000
+      LC         +0.1000
+      DR         +0.1000
+      ZI         +0.1000
+      SMT        +0.1000
+      CEA        +0.1000
+      GRN        -0.1000
+      PB         -0.1000
+      ACAd       -0.1000
+      MD         -0.1000
+    exact:       PAG, LC, DR, ZI, SMT, CEA, GRN, PB, ACAd, MD
+  score at rest: +0.1000
+
+  resolution=subdivisions (60 nodes)
+    direction:  higher = MORE analgesia = LONGER withdrawal latency
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   10 of 10 term(s) landed; 10 causal, 0 correlative, 4 with an inferred direction
+      MBmot      +0.1250
+      P-sat      +0.1250
+      MBsta      +0.1250
+      LZ         +0.1250
+      sAMY       +0.1250
+      MY-mot     -0.1250
+      P-sen      -0.1250
+      ACA        -0.1250
+    ancestor:    PAG, LC, DR, ZI, SMT, CEA, GRN, PB, ACAd, MD
+    SIGN CANCELLATION at DORpm: this parcellation is too coarse to express those terms separately
+  score at rest: +0.1250
+
+  resolution=major_divisions (12 nodes)
+    direction:  higher = MORE analgesia = LONGER withdrawal latency
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   10 of 10 term(s) landed; 10 causal, 0 correlative, 4 with an inferred direction
+      MB         +0.2000
+      HY         +0.2000
+      STR        +0.2000
+      MY         -0.2000
+      Isocortex  -0.2000
+    ancestor:    PAG, LC, DR, ZI, SMT, CEA, GRN, PB, ACAd, MD
+    SIGN CANCELLATION at P, TH: this parcellation is too coarse to express those terms separately
+  score at rest: +0.1000
+
+------------------------------------------------------------------------
+Reward (reward)
+  assay:     conditioned place preference
+  direction: higher = MORE preference for the drug-paired context
+  weights:   illustrative-equal-magnitude (all magnitudes equal; P7.3 fits them)
+  VTA            +1  optogenetic     mouse Ilango2014
+                    assay: conditioned place preference
+  ACB            +1  inactivation    rat   Esmaeili2012
+                    assay: conditioned place preference
+  LH             -1  microinjection  rat   Amohashemi2022
+                    assay: conditioned place preference
+  SI+MA          +1  optogenetic     mouse Faget2018
+                    assay: conditioned place preference, real-time place preference
+  DR             +1  optogenetic     mouse Qi2014
+                    assay: conditioned place preference
+  BLA            +1  microinjection  rat   Zarrindast2004
+                    assay: conditioned place preference
+  PL             +1  genetic         mouse Jiang2021
+                    assay: conditioned place preference
+  ILA            -1  chemogenetic    rat   Wayman2018
+                    assay: conditioned place preference
+  LHA            +1  chemogenetic    mouse Liu2022
+                    assay: conditioned place preference
+  CA1+CA3+DG     +1  inactivation    rat   Meyers2006
+                    assay: conditioned place preference
+  IPN            -1  chemogenetic    mouse Jehl2025
+                    assay: conditioned place preference
+  note: Eleven terms, no contested ones, and three of the eleven negative. That is not because this literature agrees - it is because the disagreements here are between SUBPOPULATIONS inside a region rather than between two studies of the region, which this module records on the term's note rather than in the contested flag.
+
+  resolution=regions (291 nodes)
+    direction:  higher = MORE preference for the drug-paired context
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   11 of 11 term(s) landed; 11 causal, 0 correlative, 0 with an inferred direction
+      VTA        +0.0909
+      ACB        +0.0909
+      LH         -0.0909
+      DR         +0.0909
+      BLA        +0.0909
+      PL         +0.0909
+      ILA        -0.0909
+      LHA        +0.0909
+      IPN        -0.0909
+      SI         +0.0455
+      MA         +0.0455
+      CA1        +0.0303
+      CA3        +0.0303
+      DG         +0.0303
+    exact:       VTA, ACB, LH, SI, MA, DR, BLA, PL, ILA, LHA, CA1, CA3, DG, IPN
+  score at rest: +0.2273
+
+  resolution=subdivisions (60 nodes)
+    direction:  higher = MORE preference for the drug-paired context
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   11 of 11 term(s) landed; 11 causal, 0 correlative, 0 with an inferred direction
+      MBmot      +0.1111
+      STRv       +0.1111
+      DORpm      -0.1111
+      PALv       +0.1111
+      BLA        +0.1111
+      PL         +0.1111
+      ILA        -0.1111
+      LZ         +0.1111
+      HIP        +0.1111
+    exact:       BLA, PL, ILA
+    ancestor:    VTA, ACB, LH, SI, MA, DR, LHA, CA1, CA3, DG, IPN
+    SIGN CANCELLATION at MBsta: this parcellation is too coarse to express those terms separately
+  score at rest: +0.2778
+
+  resolution=major_divisions (12 nodes)
+    direction:  higher = MORE preference for the drug-paired context
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   11 of 11 term(s) landed; 11 causal, 0 correlative, 0 with an inferred direction
+      STR        +0.1579
+      TH         -0.1579
+      PAL        +0.1579
+      CTXsp      +0.1579
+      HY         +0.1579
+      HPF        +0.1579
+      MB         +0.0526
+    ancestor:    VTA, ACB, LH, SI, MA, DR, BLA, PL, ILA, LHA, CA1, CA3, DG, IPN
+    SIGN CANCELLATION at Isocortex, MB: this parcellation is too coarse to express those terms separately
+  score at rest: +0.3421
+
+------------------------------------------------------------------------
+Sedation (sedation)
+  assay:     reduced spontaneous locomotion, loss of righting reflex, EEG-defined NREM, sleep latency
+  direction: higher = MORE sedated (less wakefulness)
+  weights:   illustrative-equal-magnitude (all magnitudes equal; P7.3 fits them)
+  LC             -1  optogenetic     mouse Carter2010
+                    assay: EEG sleep-wake state
+  LHA            -1  optogenetic     mouse Adamantidis2007
+                    assay: polysomnography, sleep latency
+  TMd+TMv        -1  optogenetic     mouse Fujita2017
+                    assay: EEG sleep-wake state
+  NDB+SI+MA      -1  chemogenetic    mouse Anaclet2015
+                    assay: EEG sleep-wake state
+  PPN            -1  chemogenetic    mouse Kroeger2017
+                    assay: EEG sleep-wake state
+  PB             -1  chemogenetic    mouse Kaur2017
+                    assay: EEG sleep-wake state
+  VTA            -1  chemogenetic    mouse EbanRothschild2016
+                    assay: polysomnography
+  VLPO           +1  optogenetic     mouse Kroeger2018
+                    assay: EEG sleep-wake state, sleep latency
+  DR             +1  optogenetic     mouse Oikonomou2019  [CONTESTED]
+                    assay: EEG sleep-wake state
+  note: Seven of the nine terms are the ascending arousal system and are therefore NEGATIVE. Two are positive: the ventrolateral preoptic nucleus, and the contested dorsal raphe. So the DEFAULT readout - contested excluded - is seven negative against one positive, which is close to minus the mean rate of the arousal nuclei. That is what the sleep-wake literature actually says and is worth seeing stated rather than discovered.
+
+  resolution=regions (291 nodes)
+    direction:  higher = MORE sedated (less wakefulness)
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   8 of 8 term(s) landed; 8 causal, 0 correlative, 0 with an inferred direction
+      LC         -0.1250
+      LHA        -0.1250
+      PPN        -0.1250
+      PB         -0.1250
+      VTA        -0.1250
+      VLPO       +0.1250
+      TMd        -0.0625
+      TMv        -0.0625
+      NDB        -0.0417
+      SI         -0.0417
+      MA         -0.0417
+    exact:       LC, LHA, TMd, TMv, NDB, SI, MA, PPN, PB, VTA, VLPO
+  score at rest: -0.3750
+
+  resolution=subdivisions (60 nodes)
+    direction:  higher = MORE sedated (less wakefulness)
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   8 of 8 term(s) landed; 8 causal, 0 correlative, 0 with an inferred direction
+      P-sat      -0.1250
+      LZ         -0.1250
+      MEZ        -0.1250
+      MBsta      -0.1250
+      P-sen      -0.1250
+      MBmot      -0.1250
+      PVR        +0.1250
+      PALv       -0.0833
+      PALm       -0.0417
+    ancestor:    LC, LHA, TMd, TMv, NDB, SI, MA, PPN, PB, VTA, VLPO
+  score at rest: -0.3750
+
+  resolution=major_divisions (12 nodes)
+    direction:  higher = MORE sedated (less wakefulness)
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   8 of 8 term(s) landed; 8 causal, 0 correlative, 0 with an inferred direction
+      P          -0.3000
+      PAL        -0.3000
+      MB         -0.3000
+      HY         -0.1000
+    ancestor:    LC, LHA, TMd, TMv, NDB, SI, MA, PPN, PB, VTA, VLPO
+    SIGN CANCELLATION at HY: this parcellation is too coarse to express those terms separately
+  score at rest: -0.5000
+
+------------------------------------------------------------------------
+Working memory (working_memory)
+  assay:     delayed alternation, delayed non-match-to-sample/place, spontaneous alternation
+  direction: higher = BETTER working memory (more correct choices)
+  weights:   illustrative-equal-magnitude (all magnitudes equal; P7.3 fits them)
+  PL+ILA         +1  optogenetic     mouse Kamigaki2017
+                    assay: delayed Go/No-Go, delayed two-alternative forced choice
+  MD             +1  optogenetic     mouse Bolkan2017
+                    assay: delayed non-match-to-sample
+  RE             +1  inactivation    rat   Viena2018
+                    assay: delayed non-match-to-sample
+  CA1            +1  optogenetic     mouse Spellman2015
+                    assay: spatial working memory T-maze
+  CA3            +1  optogenetic     mouse Song2020
+                    assay: spatial working memory T-maze
+  MS             +1  optogenetic     rat   Gemzik2021
+                    assay: conditional discrimination, delayed non-match-to-place
+  note: Every term is POSITIVE, and no negatively signed region was found. That is a real property of this literature and not a convenience: the searches recorded in SEARCHED_AND_EMPTY turned up no region whose activation impairs working memory. The consequence is that this readout is, up to scale, the mean rate over its seven regions (six terms, one of which names PL and ILA together), so a drug that shifts global excitability will move it even with no circuit-specific effect. The inverted-U that prefrontal dopamine is famous for is exactly the shape a linear all-positive readout cannot hold, and is a second target for P7.2 alongside [ZhuoGebhart1997]'s raphe.
+
+  resolution=regions (291 nodes)
+    direction:  higher = BETTER working memory (more correct choices)
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   6 of 6 term(s) landed; 6 causal, 0 correlative, 0 with an inferred direction
+      MD         +0.1667
+      RE         +0.1667
+      CA1        +0.1667
+      CA3        +0.1667
+      MS         +0.1667
+      PL         +0.0833
+      ILA        +0.0833
+    exact:       PL, ILA, MD, RE, CA1, CA3, MS
+  score at rest: +0.5000
+
+  resolution=subdivisions (60 nodes)
+    direction:  higher = BETTER working memory (more correct choices)
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   6 of 6 term(s) landed; 6 causal, 0 correlative, 0 with an inferred direction
+      DORpm      +0.2500
+      HIP        +0.2500
+      PALm       +0.2500
+      PL         +0.1250
+      ILA        +0.1250
+    exact:       PL, ILA
+    ancestor:    MD, RE, CA1, CA3, MS
+  score at rest: +0.5000
+
+  resolution=major_divisions (12 nodes)
+    direction:  higher = BETTER working memory (more correct choices)
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   6 of 6 term(s) landed; 6 causal, 0 correlative, 0 with an inferred direction
+      Isocortex  +0.2500
+      TH         +0.2500
+      HPF        +0.2500
+      PAL        +0.2500
+    ancestor:    PL, ILA, MD, RE, CA1, CA3, MS
+  score at rest: +0.5000
+
+------------------------------------------------------------------------
+Sensorimotor gating (sensorimotor_gating)
+  assay:     prepulse inhibition of the acoustic startle reflex
+  direction: higher = MORE prepulse inhibition = better gating
+  weights:   illustrative-equal-magnitude (all magnitudes equal; P7.3 fits them)
+  IC             +1  lesion          rat   Li1998
+                    assay: prepulse inhibition
+  SCm            +1  lesion          rat   Fendt1994
+                    assay: prepulse inhibition
+  SI+MA          -1  microinjection  rat   Kodsi1995
+                    assay: prepulse inhibition
+  BLA            +1  lesion          rat   Wan1997
+                    assay: prepulse inhibition
+  PRNc           -1  lesion          rat   Davis1982  [CONTESTED]
+                    assay: acoustic startle amplitude
+                    INFERRED DIRECTION: the cited experiment measured startle amplitude; `measure` comes from the mechanistic argument that gating is inhibition OF this nucleus
+  PPN            +1  lesion          rat   Koch1993  [CONTESTED]
+                    assay: prepulse inhibition
+  PL+ILA         -1  microinjection  mouse Yang2024  [CONTESTED]
+                    assay: prepulse inhibition
+                    INFERRED DIRECTION: a D1 agonist is read as raising cortical activity
+  CA1+SUB        -1  microinjection  rat   Wang2015  [CONTESTED]
+                    assay: prepulse inhibition
+  ACB            -1  microinjection  rat   Swerdlow1990  [CONTESTED]
+                    assay: prepulse inhibition
+                    INFERRED DIRECTION: dopamine in the accumbens has NO unambiguous activity direction: it excites D1- and inhibits D2-expressing projection neurons
+  note: Five of the nine terms are contested, the highest fraction in the module, and the reason is specific to this assay: the forebrain gating circuit is inverted-U in accumbens and hippocampus (both hyperactivation AND inactivation lower prepulse inhibition), the pontine relay contains two anti-correlated populations, and the prefrontal pharmacology and lesion literatures disagree on sign. This endpoint is also the one carrying the most cross-species extrapolation: eight of its nine terms are RAT.
+
+  resolution=regions (291 nodes)
+    direction:  higher = MORE prepulse inhibition = better gating
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   4 of 4 term(s) landed; 4 causal, 0 correlative, 0 with an inferred direction
+      IC         +0.2500
+      SCm        +0.2500
+      BLA        +0.2500
+      SI         -0.1250
+      MA         -0.1250
+    exact:       IC, SCm, SI, MA, BLA
+  score at rest: +0.2500
+
+  resolution=subdivisions (60 nodes)
+    direction:  higher = MORE prepulse inhibition = better gating
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   4 of 4 term(s) landed; 4 causal, 0 correlative, 0 with an inferred direction
+      MBsen      +0.2500
+      MBmot      +0.2500
+      PALv       -0.2500
+      BLA        +0.2500
+    exact:       BLA
+    ancestor:    IC, SCm, SI, MA
+  score at rest: +0.2500
+
+  resolution=major_divisions (12 nodes)
+    direction:  higher = MORE prepulse inhibition = better gating
+    weights:    illustrative-equal-magnitude, collapse=mean, normalize=True
+    evidence:   4 of 4 term(s) landed; 4 causal, 0 correlative, 0 with an inferred direction
+      MB         +0.3333
+      PAL        -0.3333
+      CTXsp      +0.3333
+    ancestor:    IC, SCm, SI, MA, BLA
+  score at rest: +0.1667
+
+------------------------------------------------------------------------
+
+Citations
+========================================================================
+[Adamantidis2007] Adamantidis AR, Zhang F, Aravanis AM, Deisseroth K, de Lecea L. Neural substrates of awakening probed with optogenetic control of hypocretin neurons. Nature 2007;450(7168):420-4, PMID:17943086. MOUSE, optogenetics with polysomnography. Photostimulating hypocretin/orexin neurons of the lateral hypothalamus increased the probability of transition to wakefulness from both NREM and REM and shortened wake latency, at 5-30 Hz but not at 1 Hz.
+
+[Adhikari2015] Adhikari A, Lerner TN, Finkelstein J, Pak S, Jennings JH, Davidson TJ, Ferenczi E, Gunaydin LA, Mirzabekov JJ, Ye L, Kim SY, Lei A, Deisseroth K. Basomedial amygdala mediates top-down control of anxiety and fear. Nature 2015;527(7577):179-85, PMID:26536109. MOUSE, optogenetic, ELEVATED PLUS MAZE. BMA activation DECREASED high-anxiety states, and the ventral-mPFC to BMA projection implements top-down reduction of anxiety at baseline and after stress.
+
+[AllenCCF] Allen Institute for Brain Science. Allen Mouse Brain Common Coordinate Framework v3 structure graph (id 1), as ingested in P3.1 (`connectome/sources.py`, checksum-verified). Every acronym in this module was checked against that file; the ones that do NOT exist and the substitutions made for them are in SEARCHED_AND_EMPTY.
+
+[Amohashemi2022] Amohashemi E, Reisi P, Alaei H. Involvement of GABAA receptors of lateral habenula in the acquisition and expression phases of morphine-induced place preference in male rats. Behav Pharmacol 2022;33(7):452-465, PMID:36148835. RAT (Wistar), intra-lateral-habenula pharmacology, CONDITIONED PLACE PREFERENCE. Muscimol (habenular inhibition) ENHANCED morphine place preference while bicuculline (disinhibition) REDUCED acquisition, with no locomotor confound. Bidirectional and directly on this endpoint's assay.
+
+[Anaclet2015] Anaclet C, Pedersen NP, Ferrari LL, Venner A, Bass CE, Arrigoni E, Fuller PM. Basal forebrain control of wakefulness and cortical rhythms. Nat Commun 2015;6:8744, PMID:26524973. MOUSE, DREADDs with EEG/EMG. Chemogenetic activation of basal forebrain GABAergic neurons produced sustained wakefulness and fast cortical rhythms while chemogenetic INHIBITION INCREASED SLEEP; cholinergic or glutamatergic activation changed state consolidation and EEG but not total wake time.
+
+[Andreoli2017] Andreoli M, Marketkar T, Dimitrov E. Contribution of amygdala CRF neurons to chronic pain. Exp Neurol 2017;298(Pt A):1-12, PMID:28830762. MOUSE (C57BL/6 background, male, CRF-Cre), Cre-dependent DREADDs plus projection ablation, TAIL FLICK. Inhibiting CeA CRF neurons RESTORED stress-induced tail-flick analgesia in neuropathic mice, so that molecularly defined subpopulation is negatively signed against the nucleus-level result. Recorded on CEA's note.
+
+[Anthony2014] Anthony TE, Dee N, Bernard A, Lerchner W, Heintz N, Anderson DJ. Control of stress-induced persistent anxiety by an extra-amygdala septohypothalamic circuit. Cell 2014;156(3):522-36, PMID:24485458. MOUSE (C57BL/6), optogenetic. Against the classical view that the lateral septum suppresses anxiety, LS Crfr2+ GABAergic projection neurons to anterior hypothalamus ENHANCE stress-induced anxiety: transient activation promotes and inhibition suppresses it.
+
+[Attachaipanich2023] Attachaipanich S, Ozawa T, Macpherson T, Hikida T. Dual Roles for Nucleus Accumbens Core Dopamine D1-Expressing Neurons Projecting to the Substantia Nigra Pars Reticulata in Limbic and Motor Control in Male Mice. eNeuro 2023;10(6), PMID:37236787. MOUSE (male), optogenetic terminal stimulation. Stimulating nucleus accumbens core D1-MSN terminals in SNr increased locomotion when bilateral and produced contralateral turning when unilateral. The paper's own asymmetry, recorded here: INHIBITION of the pathway altered neither locomotion nor reward.
+
+[Azzopardi2018] Azzopardi E, Louttit AG, DeOliveira C, Laviolette SR, Schmid S. The Role of Cholinergic Midbrain Neurons in Startle and Prepulse Inhibition. J Neurosci 2018;38(41):8798-8808, PMID:30171090. RAT (male and female), optogenetics. The direct contradiction of [Koch1993]: transient optogenetic activation of SPECIFICALLY cholinergic pedunculopontine neurons did NOT inhibit startle - it ENHANCED startle and produced prepulse FACILITATION - and the authors conclude that non-cholinergic pedunculopontine neurons mediate gating. The pedunculopontine weight must therefore not be routed through cholinergic receptor occupancy in the drug layer.
+
+[Bi2013] Bi LL, Wang J, Luo ZY, Chen SP, Geng F, Chen YH, Li SJ, Yuan CH, Lin S, Gao TM. Enhanced excitability in the infralimbic cortex produces anxiety-like behaviors. Neuropharmacology 2013;72:148-56, PMID:23643746. MOUSE (C57BL/6, male), intra-infralimbic microinjection, ELEVATED PLUS MAZE. Bicuculline (local disinhibition) decreased open-arm exploration; CNQX (local inactivation) produced the opposite, anxiolytic effect. AP5 did nothing and there was no motor or appetite confound.
+
+[Bolkan2017] Bolkan SS, Stujenske JM, Parnaudeau S, Spellman TJ, Rauffenbart C, Abbas AI, Harris AZ, Gordon JA, Kellendonk C. Thalamic projections sustain prefrontal activity during working memory maintenance. Nat Neurosci 2017;20(7):987-996, PMID:28481349. MOUSE, projection-specific optogenetics plus in vivo recording, T-maze delayed non-match-to-sample. Mediodorsal thalamus to prefrontal input supports the MAINTENANCE phase, prefrontal delay-tuned spiking required it, and ENHANCING mediodorsal excitability was SUFFICIENT to enhance task performance.
+
+[Borodovitsyna2020] Borodovitsyna O, Duffy BC, Pickering AE, Chandler DJ. Anatomically and functionally distinct locus coeruleus efferents mediate opposing effects on anxiety-like behavior. Neurobiol Stress 2020;13:100284, PMID:33344735. RAT, chemogenetic, ELEVATED PLUS MAZE. LC neurons projecting to the central amygdala PROMOTE anxiety-like behaviour while LC neurons projecting to mPFC promote exploration - opposing efferents within one nucleus, recorded on the term.
+
+[Bouvier2015] Bouvier J, Caggiano V, Leiras R, Caldeira V, Bellardita C, Balueva K, Fuchs A, Kiehn O. Descending command neurons in the brainstem that halt locomotion. Cell 2015;163(5):1191-1203, PMID:26590422. MOUSE, optogenetic. Activating V2a neurons of the rostral medulla STOPS ongoing locomotion and inactivating them decreases spontaneous stopping. Cited from SEARCHED_AND_EMPTY: this negatively signed stop-cell population is why no medullary arrest term exists, because 'rostral medulla V2a' does not map onto one CCF region.
+
+[Caggiano2018] Caggiano V, Leiras R, Goñi-Erro H, Masini D, Bellardita C, Bouvier J, Caldeira V, Fisone G, Kiehn O. Midbrain circuits that set locomotor speed and gait selection. Nature 2018;553(7689):455-460, PMID:29342142. MOUSE, optogenetic. Glutamatergic cuneiform neurons drive locomotion and are UNIQUELY able to elicit high-speed synchronous-gait escape locomotion, which glutamatergic PPN neurons cannot.
+
+[Callahan2024] Callahan JW, Morales JC, Atherton JF, Wang D, Kostic S, Bevan MD. Movement-related increases in subthalamic activity optimize locomotion. Cell Rep 2024;43(8):114495, PMID:39068661. MOUSE (C57BL/6), recording plus optogenetics on a head-fixed treadmill. The opposite of [Guillaumin2021] at a shorter timescale: 'brief optogenetic inhibition of the lateral STN ... slows and prematurely terminates locomotion'. The two are not reconcilable at one node, which is what STN's contested flag records.
+
+[Campion2016] Campion KN, Saville KA, Morgan MM. Relative contribution of the dorsal raphe nucleus and ventrolateral periaqueductal gray to morphine antinociception and tolerance in the rat. Eur J Neurosci 2016;44(9):2667-2672, PMID:27564986. RAT (Sprague-Dawley, male), cumulative morphine microinjection, HOT PLATE. Morphine was MORE potent in vlPAG (D50 3.3 ug) than in lateral (4.3 ug) or medial dorsal raphe (5.8 ug), and produced antinociception on 94% of vlPAG injections against 68-78% of DRN injections - a head-to-head potency comparison in one preparation.
+
+[Cano2021] Cano JC, Huang W, Fénelon K. The amygdala modulates prepulse inhibition of the auditory startle reflex through excitatory inputs to the caudal pontine reticular nucleus. BMC Biol 2021;19(1):116, PMID:34082731. MOUSE (wild-type plus GlyT2-eGFP/GlyT2-Cre), optogenetics with slice recording. Photo-inhibition of GLYCINERGIC caudal pontine interneurons DECREASED prepulse inhibition, while optogenetic inhibition of the central-amygdala input to the same nucleus decreased it and activation induced partial gating. Two anti-correlated populations in one CCF structure, which is why PRNc is contested.
+
+[Capelli2017] Capelli P, Pivetta C, Soledad Esposito M, Arber S. Locomotor speed control circuits in the caudal brainstem. Nature 2017;551(7680):373-377, PMID:29059682. MOUSE, optogenetic. Glutamatergic neurons of the lateral paragigantocellular nucleus (CCF PGRNl) are essential to support high-speed locomotion and positively tune speed. The same paper reports glycinergic neurons that induce behavioural arrest, in caudal-brainstem territory the CCF does not separate - see SEARCHED_AND_EMPTY.
+
+[Carter2010] Carter ME, Yizhar O, Chikahisa S, Nguyen H, Adamantidis A, Nishino S, Deisseroth K, de Lecea L. Tuning arousal with optogenetic modulation of locus coeruleus neurons. Nat Neurosci 2010;13(12):1526-33, PMID:21037585. MOUSE, optogenetics with EEG/EMG. Frequency-dependent ChR2 stimulation of locus coeruleus noradrenergic neurons caused immediate sleep-to-wake transitions and increased locomotor arousal, and halorhodopsin inhibition suppressed wakefulness.
+
+[Chen2020] Chen L, Lu YP, Chen HY, Huang SN, Guo YR, Zhang JY, Li QX, Luo CY, Lin SW, Chen ZN, Hu LH, Wang WX, Li HY, Cai P, Yu CX. Ventral tegmental area GABAergic neurons induce anxiety-like behaviors and promote palatable food intake. Neuropharmacology 2020;173:108114, PMID:32376186. MOUSE, optogenetic. Photoactivation of VTA GABAergic neurons 'drove a series of anxiety-like behaviors in the open field, elevated plus maze, and marble-burying test'. A GABAergic subpopulation, not the dopaminergic majority - see the term's note.
+
+[Chen2024] Chen C, Niehaus JK, Dinc F, Huang KL, Barnette AL, Tassou A, Shuster SA, Wang L, Lemire A, Menon V, Ritola K, Hantman AW, Zeng H, Schnitzer MJ, Scherrer G. Neural circuit basis of placebo pain relief. Nature 2024;632(8027):1092-1100, PMID:39048016. MOUSE (C57BL/6, both sexes), HOT PLATE among the assays. Activating rostral anterior cingulate to pontine projection neurons elicited analgesia even without placebo conditioning, and inhibiting them decreased pain thresholds - a POSITIVELY signed rACC efferent against the negatively signed bulk-ACC lesion result. Recorded on ACAd's note rather than used, because the bulk manipulations agree with each other.
+
+[Cho2017] Cho JR, Treweek JB, Robinson JE, Xiao C, Bremner LR, Greenbaum A, Gradinaru V. Dorsal Raphe Dopamine Neurons Modulate Arousal and Promote Wakefulness by Salient Stimuli. Neuron 2017;94(6):1205-1219.e8, PMID:28602690. MOUSE. Dorsal raphe DOPAMINE neurons - a different cell type in the same voxels as [Oikonomou2019]'s serotonergic ones - promote wakefulness. The pair is why DR is the contested term of the sedation endpoint.
+
+[Davis1982] Davis M, Gendelman DS, Tischler MD, Gendelman PM. A primary acoustic startle circuit: lesion and stimulation studies. J Neurosci 1982;2(6):791-805, PMID:7086484. RAT, lesion plus electrical stimulation. The caudal pontine reticular nucleus is the obligatory sensorimotor relay of the startle circuit: bilateral lesions abolish acoustic startle and stimulation there evokes it at about 5 ms latency. The same paper reports that lesions of the gigantocellular and ORAL pontine reticular nuclei FAIL to abolish startle, which is why PRNr gets no weight.
+
+[EbanRothschild2016] Eban-Rothschild A, Rothschild G, Giardino WJ, Jones JR, de Lecea L. VTA dopaminergic neurons regulate ethologically relevant sleep-wake behaviors. Nat Neurosci 2016;19(10):1356-66, PMID:27595385. MOUSE, photometry with DREADDs and optogenetics and polysomnography. Chemogenetic and optogenetic INHIBITION of VTA dopamine neurons suppressed wakefulness even against salient stimuli, and stimulation initiated and maintained wake.
+
+[Esmaeili2012] Esmaeili MH, Sahraei H, Ali-Beig H, Ardehari-Ghaleh M, Mohammadian Z, Zardooz H, Salimi SH, Shams J, Noroozzadeh A. Transient inactivation of the nucleus accumbens reduces both the expression and acquisition of morphine-induced conditioned place preference in rats. Pharmacol Biochem Behav 2012;102(2):249-56, PMID:22580069. RAT, lidocaine inactivation. Inactivation of EITHER accumbens subregion reduced acquisition and expression of morphine conditioned place preference, which is the region-level result; the core/shell and D1/D2 disagreements are on the term's note.
+
+[Faget2018] Faget L, Zell V, Souter E, McPherson A, Ressler R, Gutierrez-Reed N, Yoo JH, Dulcis D, Hnasko TS. Opponent control of behavioral reinforcement by inhibitory and excitatory projections from the ventral pallidum. Nat Commun 2018;9(1):849, PMID:29487284. MOUSE, optogenetic. Ventral pallidal GABA neuron activation drove positive reinforcement (especially via the projection to VTA) while glutamate neuron activation drove avoidance (especially via the projection to lateral habenula). The GABAergic population is the majority; the opponent split is on the term's note. The CCF has no 'VP' acronym - ventral pallidum is SI plus MA.
+
+[FelixOrtiz2013] Felix-Ortiz AC, Beyeler A, Seo C, Leppla CA, Wildes CP, Tye KM. BLA to vHPC inputs modulate anxiety-related behaviors. Neuron 2013;79(4):658-64, PMID:23972595. MOUSE (C57BL/6, male), optogenetic at terminals, ELEVATED PLUS MAZE. Activating BLA to ventral CA1 synapses 'acutely and robustly increased anxiety-related behaviors'; inhibiting them decreased anxiety.
+
+[Fendt1994] Fendt M, Koch M, Schnitzler HU. Sensorimotor gating deficit after lesions of the superior colliculus. Neuroreport 1994;5(14):1725-8, PMID:7827317. RAT, excitotoxic lesion. Superior colliculus lesions DECREASED prepulse inhibition without affecting baseline startle or footshock sensitization.
+
+[Fendt1999] Fendt M. Enhancement of prepulse inhibition after blockade of GABA activity within the superior colliculus. Brain Res 1999;833(1):81-5, PMID:10375679. RAT, intracerebral picrotoxin. GABA-A blockade in the superior colliculus (i.e. moderate collicular activation) ENHANCED prepulse inhibition without changing baseline startle or spontaneous motor activity. Loss- and gain-of-function agreeing is rare in this literature.
+
+[Freeze2013] Freeze BS, Kravitz AV, Hammack N, Berke JD, Kreitzer AC. Control of basal ganglia output by direct and indirect pathway projection neurons. J Neurosci 2013;33(47):18531-9, PMID:24259575. MOUSE, optogenetic with single-unit recording. Direct-pathway-driven movement initiation tracked the INHIBITED subpopulation of SNr neurons and indirect-pathway motor suppression tracked the EXCITED one. Cited from [Liu2020]'s term as the same gate seen from the striatal side.
+
+[Fujita2017] Fujita A, Bonnavion P, Wilson MH, Mickelsen LE, Bloit J, de Lecea L, Jackson AC. Hypothalamic Tuberomammillary Nucleus Neurons: Electrophysiological Diversity and Essential Role in Arousal Stability. J Neurosci 2017;37(39):9574-9592, PMID:28874450. MOUSE (Hdc-Cre), optogenetic silencing with EEG. Acute silencing of histaminergic tuberomammillary neurons during wakefulness was SUFFICIENT to rapidly and selectively induce slow-wave sleep.
+
+[Gao2023] Gao F, Huang J, Huang GB, You QL, Yao S, Zhao ST, Liu J, Wu CH, Chen GF, Liu SM, Yu Z, Zhou YL, Ning YP, Liu S, Hu BJ, Sun XD. Elevated prelimbic cortex-to-basolateral amygdala circuit activity mediates comorbid anxiety-like behaviors associated with chronic pain. J Clin Invest 2023;133(9):e166356, PMID:36917193. MOUSE, optogenetic, ELEVATED PLUS MAZE. Prelimbic neurons projecting to basolateral amygdala are hyperactive in chronic pain and suppressing that circuit reversed anxiety-like behaviour. Cited from the anxiety PL term as agreeing with [Green2020] against [deVisser2011].
+
+[Gemzik2021] Gemzik ZM, Donahue MM, Griffin AL. Optogenetic suppression of the medial septum impairs working memory maintenance. Learn Mem 2021;28(10):361-370, PMID:34526381. RAT, phase-specific optogenetics. Timed suppression of the medial septum impaired choice accuracy on a working-memory-dependent conditional discrimination only during cue sampling, and on a delayed non-match-to-place task only during the delay, with no deficit on the working-memory-INdependent variant.
+
+[Green2020] Green TA, Baracz SJ, Everett NA, Robinson KJ, Cornish JL. Differential effects of GABA(A) receptor activation in the prelimbic and orbitofrontal cortices on anxiety. Psychopharmacology (Berl) 2020;237(11):3237-3247, PMID:32666257. RAT (Wistar, male, n=33 prelimbic), muscimol microinjection, ELEVATED PLUS MAZE. Muscimol into PL REDUCED anxiety-like behaviour with no locomotor confound; the same muscimol into orbitofrontal cortex had no effect.
+
+[Guillaumin2021] Guillaumin A, Serra GP, Georges F, Wallén-Mackenzie Å. Experimental investigation into the role of the subthalamic nucleus (STN) in motor control using optogenetics in mice. Brain Res 2021;1755:147226, PMID:33358727. MOUSE (C57BL/6), bidirectional optogenetics in freely moving animals: 'selective optogenetic inhibition of the STN enhances locomotion while its excitation reduces locomotion'.
+
+[Hallock2016] Hallock HL, Wang A, Griffin AL. Ventral Midline Thalamus Is Critical for Hippocampal-Prefrontal Synchrony and Spatial Working Memory. J Neurosci 2016;36(32):8372-89, PMID:27511010. RAT. Reuniens/rhomboid inactivation abolished the working-memory-specific synchrony between dorsal hippocampus and prefrontal cortex. The mechanism behind [Viena2018]'s behavioural result.
+
+[Han2015] Han S, Soleiman MT, Soden ME, Zweifel LS, Palmiter RD. Elucidating an Affective Pain Circuit that Creates a Threat Memory. Cell 2015;162(2):363-374, PMID:26186190. MOUSE, genetic silencing plus optogenetics. Silencing CGRP+ parabrachial neurons blocks pain responses and threat-memory formation; optogenetic stimulation produces defensive responses. Both hot plate and tail flick are indexed for this article but the full text could not be retrieved here, so the per-assay latency direction is NOT claimed - only the sign is taken from it.
+
+[Hao2025] Hao S, Xue M, Chen QY, Wan J, Ma YJ, Shi W, Chen X, Li XH, Lu JS, Xu F, Bi GQ, Tao W, Zhuo M. Supraspinal facilitation of painful stimuli by glutamatergic innervation from the retrosplenial to the anterior cingulate cortex. PLoS Biol 2025;23(1):e3003011, PMID:39869643. MOUSE (C57BL/6, male), opto- and chemogenetic activation of retrosplenial to anterior cingulate glutamatergic projections. Significantly FACILITATED behavioural responses to mechanical and thermal noxious stimuli and, stated explicitly, 'did not influence spinal nociceptive responses in the tail-flick test'. Gain-of-function confirmation of [Pastoriza1996]'s dissociation, in mouse, in the opposite manipulation direction.
+
+[Hirschberg2017] Hirschberg S, Li Y, Randall A, Kremer EJ, Pickering AE. Functional dichotomy in spinal- vs prefrontal-projecting locus coeruleus modules splits descending noradrenergic analgesia from ascending aversion and anxiety in rats. Elife 2017;6, PMID:29027903. RAT, retrograde PSAM/PSEM chemogenetics. The LC spinal module gives robust lateralised antinociception while the LC prefrontal module exacerbates spontaneous pain, aversion and anxiety. The single clearest link between this module's analgesia and anxiety endpoints, and the reason LC's note names both. Assay is Hargreaves and von Frey.
+
+[Ilango2014] Ilango A, Kesner AJ, Keller KL, Stuber GD, Bonci A, Ikemoto S. Similar roles of substantia nigra and ventral tegmental dopamine neurons in reward and aversion. J Neurosci 2014;34(3):817-22, PMID:24431440. MOUSE (TH-Cre), bidirectional optogenetics, CONDITIONED PLACE PREFERENCE. ChR2 mice SOUGHT the VTA-photostimulation compartment while NpHR mice AVOIDED the compartment where VTA photoinhibition occurred - both directions in one assay, which is what makes it the sign citation.
+
+[Jehl2025] Jehl J, Ciscato M, Vicq E, Guyon N, Dejean de la Batie G, Mondoloni S, Frangieh J, Mohayyaei M, Nguyen C, Pons S, Maskos U, Hardelin JP, Marti F, Corringer PJ, Faure P, Mourot A. The interpeduncular nucleus blunts the rewarding effect of nicotine. Neuron 2025;113(12):1898-1907.e6, PMID:40262615. MOUSE (beta-4 nicotinic receptor knock-in), chemogenetics plus optogenetics, CONDITIONED PLACE PREFERENCE. Blocking nicotine-induced interpeduncular activation enhanced VTA responses and INCREASED the drug's rewarding effect; optogenetic inhibition of the projection to laterodorsal tegmentum did the same. 'The IPN acts as a regulatory brake on the nicotine reward circuit.'
+
+[Jiang2021] Jiang C, Wang X, Le Q, Liu P, Liu C, Wang Z, He G, Zheng P, Wang F, Ma L. Morphine coordinates SST and PV interneurons in the prelimbic cortex to disinhibit pyramidal neurons and enhance reward. Mol Psychiatry 2021;26(4):1178-1193, PMID:31413370. MOUSE (SST-Cre and PV-Cre backcrossed to C57BL/6J), CONDITIONED PLACE PREFERENCE. Morphine DISINHIBITS prelimbic pyramidal neurons via mu-opioid receptors on parvalbumin interneurons and delta-opioid receptor / Rac1 signalling in somatostatin interneurons, and both of the latter are REQUIRED for morphine place preference.
+
+[Jimenez2018] Jimenez JC, Su K, Goldberg AR, Luna VM, Biane JS, Ordek G, Zhou P, Ong SK, Wright MA, Zweifel L, Paninski L, Hen R, Kheirbek MA. Anxiety Cells in a Hippocampal-Hypothalamic Circuit. Neuron 2018;97(3):670-683.e6, PMID:29397273. MOUSE, freely moving calcium imaging plus optogenetics, ELEVATED PLUS MAZE. Ventral CA1 is enriched in anxiety cells; activating vCA1 terminals in LHA (but not in basal amygdala) increased anxiety and avoidance.
+
+[Jing2019] Jing MY, Han X, Zhao TY, Wang ZY, Lu GY, Wu N, Song R, Li J. Re-examining the role of ventral tegmental area dopaminergic neurons in motor activity and reinforcement by chemogenetic and optogenetic manipulation in mice. Metab Brain Dis 2019;34(5):1421-1430, PMID:31313126. MOUSE (DAT-Cre), chemogenetic (hM3Dq/hM4Di) and optogenetic, OPEN FIELD. Activation or inhibition of VTA dopamine neurons significantly increased or decreased open-field locomotor activity respectively - bidirectional, in this endpoint's own assay.
+
+[Jones1986] Jones SL, Gebhart GF. Characterization of coeruleospinal inhibition of the nociceptive tail-flick reflex in the rat: mediation by spinal alpha 2-adrenoceptors. Brain Res 1986;364(2):315-30, PMID:2868781. RAT, electrical AND glutamate stimulation of locus coeruleus / subcoeruleus, TAIL FLICK. Stimulation INHIBITED the tail-flick reflex with the lowest thresholds (25 uA or less) in LC proper; glutamate microinjection reproduced it, so the effect is on cell bodies and not fibres of passage, and intrathecal yohimbine or phentolamine raised thresholds 83-94%, so it is a spinal alpha-2 mechanism.
+
+[Kamigaki2017] Kamigaki T, Dan Y. Delay activity of specific prefrontal interneuron subtypes modulates memory-guided behavior. Nat Neurosci 2017;20(6):854-863, PMID:28436982. MOUSE, two-photon calcium imaging plus optogenetics. Optogenetically inhibiting dorsomedial prefrontal pyramidal cells (by driving somatostatin+ or parvalbumin+ interneurons) during the DELAY ALONE impaired delayed Go/No-Go performance, and activating VIP+ interneurons (disinhibiting pyramids) ENHANCED performance. The bidirectional result is what fixes the sign.
+
+[Kaur2017] Kaur S, Wang JL, Ferrari L, Thankachan S, Kroeger D, Venner A, Lazarus M, Wellman A, Arrigoni E, Fuller PM, Saper CB. A Genetically Defined Circuit for Arousal from Sleep during Hypercapnia. Neuron 2017;96(5):1153-1167.e5, PMID:29103805. MOUSE, chemogenetics and optogenetics. Activating external lateral parabrachial CGRP neurons caused wakefulness, and optogenetic inhibition prevented CO2-evoked arousal - though not arousal to tone or shaking, so the wake drive is stimulus-gated rather than tonic.
+
+[Kim2013] Kim SY, Adhikari A, Lee SY, Marshel JH, Kim CK, Mallory CS, Lo M, Pak S, Mattis J, Lim BK, Malenka RC, Warden MR, Neve R, Tye KM, Deisseroth K. Diverging neural pathways assemble a behavioural state from separable features in anxiety. Nature 2013;496(7444):219-23, PMID:23515158. MOUSE, optogenetic, ELEVATED PLUS MAZE. OVAL BNST activity promoted anxious-state features while ANTERODORSAL BNST activity was anxiolytic; the adBNST to lateral hypothalamus projection specifically reduced risk-avoidance. Two subregions of one CCF structure with opposite signs, hence BST is contested.
+
+[Koch1993] Koch M, Kungel M, Herbert H. Cholinergic neurons in the pedunculopontine tegmental nucleus are involved in the mediation of prepulse inhibition of the acoustic startle response in the rat. Exp Brain Res 1993;97(1):71-82, PMID:8131833. RAT, retrograde tracing plus ChAT immunohistochemistry plus iontophoresis plus lesion. Neurotoxic lesions of cholinergic pedunculopontine neurons significantly REDUCED prepulse inhibition with no change in baseline startle.
+
+[Kodsi1994] Kodsi MH, Swerdlow NR. Quinolinic acid lesions of the ventral striatum reduce sensorimotor gating of acoustic startle in rats. Brain Res 1994;643(1-2):59-65, PMID:8032933. RAT, quinolinic-acid lesion. Ventral striatal lesions also REDUCED prepulse inhibition and raised startle amplitude, and intra-ventral-pallidum muscimol restored gating. The opposite direction to the accumbens pharmacology, hence the accumbens gating term is contested.
+
+[Kodsi1995] Kodsi MH, Swerdlow NR. Ventral pallidal GABA-A receptors regulate prepulse inhibition of acoustic startle. Brain Res 1995;684(1):26-35, PMID:7583201. RAT, intra-ventral-pallidum picrotoxin. GABA-A blockade in medial and central ventral pallidum (i.e. pallidal DISINHIBITION) REDUCED prepulse inhibition with no effect on startle amplitude or latency, while GABA-B blockade did nothing. The ventral pallidum is SI plus MA in the CCF; there is no 'VP' acronym.
+
+[Kosse2017] Kosse C, Schöne C, Bracey E, Burdakov D. Orexin-driven GAD65 network of the lateral hypothalamus sets physical activity in mice. Proc Natl Acad Sci U S A 2017;114(17):4525-4530, PMID:28396414. MOUSE, optogenetic and chemogenetic with cell-type specific deep-brain recording. GAD65-LH bursts precede running bouts; silencing depressed voluntary locomotion, overactivation produced hyperlocomotion. Necessity and sufficiency in one paper.
+
+[Kravitz2010] Kravitz AV, Freeze BS, Parker PR, Kay K, Thwin MT, Deisseroth K, Kreitzer AC. Regulation of parkinsonian motor behaviours by optogenetic control of basal ganglia circuitry. Nature 2010;466(7306):622-6, PMID:20613723. MOUSE (D1-Cre / D2-Cre), optogenetic. Bilateral excitation of INDIRECT-pathway (D2) striatal projection neurons produced freezing, bradykinesia and fewer locomotor initiations; excitation of DIRECT-pathway (D1) neurons reduced freezing and increased locomotion. Two intermingled, roughly equinumerous populations in one CCF structure with OPPOSITE signs, which is why CP is contested.
+
+[Kroeger2017] Kroeger D, Ferrari LL, Petit G, Mahoney CE, Fuller PM, Arrigoni E, Scammell TE. Cholinergic, Glutamatergic, and GABAergic Neurons of the Pedunculopontine Tegmental Nucleus Have Distinct Effects on Sleep/Wake Behavior in Mice. J Neurosci 2017;37(5):1352-1366, PMID:28039375. MOUSE, DREADDs with EEG/EMG. Chemogenetic activation of GLUTAMATERGIC pedunculopontine neurons induced prolonged wakefulness and inhibition reduced wake and increased NREM; cholinergic activation only altered NREM EEG spectra.
+
+[Kroeger2018] Kroeger D, Absi G, Gagliardi C, Bandaru SS, Madara JC, Ferrari LL, Arrigoni E, Münzberg H, Scammell TE, Saper CB, Vetrivelan R. Galanin neurons in the ventrolateral preoptic area promote sleep and heat loss in mice. Nat Commun 2018;9(1):4129, PMID:30297727. MOUSE, optogenetics and DREADDs. Photostimulation of ventrolateral preoptic galanin neurons at 1-4 Hz promoted sleep, optogenetic inhibition reduced sleep, and chemogenetic activation increased sleep and shortened sleep latency in an insomnia model. The authors' own artifact warning is carried on the term: above 8 Hz, conduction block caused paradoxical waking, which is not a sign flip.
+
+[Lacroix2000] Lacroix L, Spinelli S, White W, Feldon J. The effects of ibotenic acid lesions of the medial and lateral prefrontal cortex on latent inhibition, prepulse inhibition and amphetamine-induced hyperlocomotion. Neuroscience 2000;97(3):459-68, PMID:10828529. RAT, ibotenate lesion. Medial prefrontal lesions INCREASED prepulse inhibition, the opposite direction to [Yang2024]'s pharmacology, which is why the prefrontal gating term is contested.
+
+[Li1998] Li L, Korngut LM, Frost BJ, Beninger RJ. Prepulse inhibition following lesions of the inferior colliculus: prepulse intensity functions. Physiol Behav 1998;65(1):133-9, PMID:9811375. RAT, unilateral ibotenate lesion of inferior colliculus. LOWERED prepulse inhibition across prepulse intensities (29-49 dB SPL) WITHOUT increasing baseline startle magnitude - the startle control is what makes it a gating effect and not a reflex-strength artifact.
+
+[Li2021] Li Z, Rizzi G, Tan KR. Zona incerta subpopulations differentially encode and modulate anxiety. Sci Adv 2021;7(37):eabf6709, PMID:34516764. MOUSE, c-Fos plus single-cell calcium imaging plus optogenetics, ELEVATED PLUS MAZE. Somatostatin+ zona incerta activation induced anxiety while calretinin+ activation and Vglut2+ inhibition were anxiolytic - opposite directions for one CCF structure inside one paper, hence contested. Intra-ZI diazepam was anxiolytic, which matters for the benzodiazepine ligands this codebase already carries.
+
+[Liu2020] Liu D, Li W, Ma C, Zheng W, Yao Y, Tso CF, Zhong P, Chen X, Song JH, Choi W, Paik SB, Han H, Dan Y. A common hub for sleep and motor control in the substantia nigra. Science 2020;367(6476):440-445, PMID:31974254. MOUSE, optogenetic and chemogenetic, plus recording. SNr GAD2+ GABAergic neurons are preferentially active in states of LOW motor activity; activating them biases behavioural transitions toward less motor activity, inactivating them does the reverse.
+
+[Liu2022] Liu M, Tan X, Liu E, Hang Z, Song R, Mu S, Han W, Yue Q, Sun J. Inactivation of the Lateral Hypothalamus Attenuates Methamphetamine-Induced Conditioned Place Preference through Regulation of Kcnq3 Expression. Int J Mol Sci 2022;23(13), PMID:35806315. MOUSE (C57BL/6), c-Fos plus chemogenetic inhibition plus slice recording, CONDITIONED PLACE PREFERENCE. Repeated methamphetamine activates c-Fos in lateral hypothalamic neurons in place-preference animals, and chemogenetic inhibition of the lateral hypothalamus disrupted the behaviour.
+
+[Lobo2010] Lobo MK, Covington HE 3rd, Chaudhury D, Friedman AK, Sun H, Damez-Werno D, Dietz DM, Zaman S, Koo JW, Kennedy PJ, Mouzon E, Mogri M, Neve RL, Deisseroth K, Han MH, Nestler EJ. Cell type-specific loss of BDNF signaling mimics optogenetic control of cocaine reward. Science 2010;330(6002):385-90, PMID:20947769. MOUSE (D1-Cre, D2-Cre), optogenetic plus conditional knockout. 'Activation of D2+ neurons ... suppresses cocaine reward, with opposite effects induced by activation of D1+ neurons.'
+
+[Lu2000] Lu J, Greco MA, Shiromani P, Saper CB. Effect of lesions of the ventrolateral preoptic nucleus on NREM and REM sleep. J Neurosci 2000;20(10):3830-42, PMID:10804223. RAT, ibotenate lesion. Lesions of the ventrolateral preoptic cell cluster cut NREM time by 50-60% and delta power by 60-70%, and the residual Fos+ cell count linearly predicted NREM time (r = 0.77). The classic lesion anchor behind the same sign [Kroeger2018] establishes in mouse.
+
+[Manning1995] Manning BH, Mayer DJ. The central nucleus of the amygdala contributes to the production of morphine antinociception in the rat tail-flick test. J Neurosci 1995;15(12):8199-213, PMID:8613754. RAT (Sprague-Dawley, male), bilateral NMDA lesion and lidocaine inactivation, TAIL FLICK. Lesions of CeA, but not of basolateral or medial amygdala, abolished the antinociception produced by 2.5 mg/kg morphine, without producing thermal hyperalgesia at baseline - so the tone is opioid-recruited rather than standing.
+
+[Masini2022] Masini D, Kiehn O. Targeted activation of midbrain neurons restores locomotor function in mouse models of parkinsonism. Nat Commun 2022;13(1):504, PMID:35082287. MOUSE, chemogenetic and optogenetic. Excitation of CAUDAL glutamatergic PPN neurons normalized an otherwise severe locomotor deficit; the local GABAergic population gave only slow locomotion.
+
+[McDevitt2014] McDevitt RA, Tiran-Cappello A, Shen H, Balderas I, Britt JP, Marino RAM, Chung SL, Richie CT, Harvey BK, Bonci A. Serotonergic versus nonserotonergic dorsal raphe projection neurons: differential participation in reward circuitry. Cell Rep 2014;8(6):1857-1869, PMID:25242321. MOUSE. Dorsal raphe reinforcement is driven primarily by NON-serotonergic neurons projecting to VTA - the sign is stable, the transmitter attribution is not, and this is recorded on DR's note rather than resolved.
+
+[Meda2019] Meda KS, Patel T, Braz JM, Malik R, Turner ML, Seifikar H, Basbaum AI, Sohal VS. Microcircuit Mechanisms through which Mediodorsal Thalamic Input to Anterior Cingulate Cortex Exacerbates Pain-Related Aversion. Neuron 2019;102(5):944-959.e3, PMID:31030955. MOUSE (male), optogenetics in nerve-injury and chemotherapy neuropathy models. Activating mediodorsal thalamic inputs to anterior cingulate elicited pain-related AVERSION in both models while BLA inputs to the same target did the opposite. Assay is conditioned place aversion, not tail flick or hot plate.
+
+[Meyers2006] Meyers RA, Zavala AR, Speer CM, Neisewander JL. Dorsal hippocampus inhibition disrupts acquisition and expression, but not consolidation, of cocaine conditioned place preference. Behav Neurosci 2006;120(2):401-12, PMID:16719704. RAT, intra-dorsal-hippocampus muscimol, CONDITIONED PLACE PREFERENCE. Disrupted acquisition and expression but NOT consolidation, with infusion into the overlying cortex as the anatomical control. The manipulation covers the dorsal hippocampus as a whole, so the term names CA1, CA3 and DG together and splits one unit of evidence between them.
+
+[Mitchell1998] Mitchell JM, Lowe D, Fields HL. The contribution of the rostral ventromedial medulla to the antinociceptive effects of systemic morphine in restrained and unrestrained rats. Neuroscience 1998;87(1):123-33, PMID:9722146. RAT, RVM lidocaine or muscimol, TAIL FLICK. Muscimol into RVM COMPLETELY reversed systemic morphine analgesia; morphine (5 ug) into RVM significantly increased tail-flick latency. RVM inactivation did not change baseline latency in unrestrained rats, so this tone is state-dependent rather than standing.
+
+[Morgan2014] Morgan MM, Reid RA, Stormann TM, Lautermilch NJ. Opioid selective antinociception following microinjection into the periaqueductal gray of the rat. J Pain 2014;15(11):1102-1109, PMID:25106089. RAT (Sprague-Dawley, both sexes), ventrolateral PAG microinjection, HOT PLATE. Oxycodone (32-188 ug), morphine and fentanyl into vlPAG each produced a dose-dependent INCREASE in hot-plate latency; methadone and buprenorphine did not. Opioid in vlPAG disinhibits its output neurons, which is the step from 'drug in the region' to 'more activity in the region'.
+
+[MorganFranklin1990] Morgan MJ, Franklin KB. 6-Hydroxydopamine lesions of the ventral tegmentum abolish D-amphetamine and morphine analgesia in the formalin test but not in the tail flick test. Brain Res 1990;519(1-2):144-9, PMID:2118819. RAT, bilateral 6-OHDA lesion. The reason VTA carries NO analgesia weight in this module: morphine analgesia in the TAIL-FLICK test was completely unchanged. An explicit measured zero, not an absence of evidence.
+
+[Nakashiba2008] Nakashiba T, Young JZ, McHugh TJ, Buhl DL, Tonegawa S. Transgenic inhibition of synaptic transmission reveals role of CA3 output in hippocampal learning. Science 2008;319(5867):1260-4, PMID:18218862. MOUSE, inducible tetanus-toxin block of the trisynaptic path. CA3 OUTPUT is dispensable for incremental spatial learning and required mainly for one-trial and pattern-completion memory, which is why CA3's weight here is not claimed to be large. Recorded on the term's note.
+
+[Oikonomou2019] Oikonomou G, Altermatt M, Zhang RW, Coughlin GM, Montz C, Gradinaru V, Prober DA. The Serotonergic Raphe Promote Sleep in Zebrafish and Mice. Neuron 2019;103(4):686-701.e8, PMID:31248729. MOUSE (and zebrafish), ablation plus optogenetics. Against the classical assumption, raphe ablation INCREASED wakefulness and impaired the homeostatic sleep-deprivation response, and TONIC optogenetic stimulation near baseline rates INDUCED SLEEP - while BURST stimulation induced wake. A firing-mode-dependent sign.
+
+[PadillaCoreano2016] Padilla-Coreano N, Bolkan SS, Pierce GM, Blackman DR, Hardin WD, Garcia-Garcia AL, Spellman TJ, Gordon JA. Direct ventral hippocampal-prefrontal input is required for anxiety-related neural activity and behavior. Neuron 2016;89(4):857-66, PMID:26853301. MOUSE, terminal optogenetic inhibition, ELEVATED PLUS MAZE. Inhibiting the ventral hippocampal input to prefrontal cortex disrupted anxiety and the prefrontal representation of aversion. Cited from the anxiety CA1 term as agreeing with [Jimenez2018].
+
+[Pamukcu2020] Pamukcu A, Cui Q, Xenias HS, Berceau BL, Augustine EC, Fan I, Chalasani S, Hantman AW, Lerner TN, Boca SM, Chan CS. Parvalbumin(+) and Npas1(+) Pallidal Neurons Have Distinct Circuit Topology and Function. J Neurosci 2020;40(41):7855-7876, PMID:32868462. MOUSE, optogenetic. Stated by the authors: 'PV+ neurons and Npas1+ neurons promoted and suppressed locomotion, respectively.' Within-nucleus sign inversion, hence GPe is contested.
+
+[Parfitt2017] Parfitt GM, Nguyen R, Bang JY, Aqrabawi AJ, Tran MM, Seo DK, Richards BA, Kim JC. Bidirectional control of anxiety-related behaviors in mice: role of inputs arising from the ventral hippocampus to the lateral septum and medial prefrontal cortex. Neuropsychopharmacology 2017;42(8):1715-1728, PMID:28294135. MOUSE, projection-specific DREADDs, ELEVATED PLUS MAZE. Activating the lateral-septum-projecting ventral CA1 population DECREASED anxiety while the prefrontal-projecting one PROMOTED it - two largely non-overlapping populations. Cited from the anxiety CA1 term as the projection that runs the other way.
+
+[Pastoriza1996] Pastoriza LN, Morrow TJ, Casey KL. Medial frontal cortex lesions selectively attenuate the hot plate response: possible nocifensive apraxia in the rat. Pain 1996;64(1):11-17, PMID:8867243. RAT (Sprague-Dawley, male), bilateral excitotoxic lesion of medial frontal cortex including cingulate. HOT-PLATE latency increased by 82% while TAIL-FLICK latency and formalin scores were UNCHANGED, with righting and foot-lifting intact. The single best demonstration that this module's two analgesia assays need different weight vectors.
+
+[Petronilho2012] Petronilho A, Reis GM, Dias QM, Fais RS, Prado WA. Antinociceptive effect of stimulating the zona incerta with glutamate in rats. Pharmacol Biochem Behav 2012;101(3):360-8, PMID:22327011. RAT (Wistar, male), glutamate (7 ug) microinjection into zona incerta, TAIL FLICK. INCREASED tail-flick latency with no Rota-rod deficit; injections near but outside ZI were ineffective; the effect was abolished by dorsolateral-funiculus lesion and by naloxone, methysergide and phenoxybenzamine, so it is a genuine descending opioid / serotonergic / adrenergic mechanism.
+
+[Qi2014] Qi J, Zhang S, Wang HL, Wang H, de Jesus Aceves Buendia J, Hoffman AF, Lupica CR, Seal RP, Morales M. A glutamatergic reward input from the dorsal raphe to ventral tegmental area dopamine neurons. Nat Commun 2014;5:5390, PMID:25388237. MOUSE (C57BL/6) AND RAT (Sprague-Dawley), optogenetic. Photoactivation of dorsal raphe VGluT3 terminals in VTA released accumbens dopamine, reinforced instrumental behaviour and ESTABLISHED CONDITIONED PLACE PREFERENCES.
+
+[Rashvand2014] Rashvand M, Khajavai A, Parviz M, Hasanein P, Keshavarz M. GABAA receptors are involved in the analgesic effects of morphine microinjected into the central nucleus of the amygdala. Clin Exp Pharmacol Physiol 2014;41(5):338-44, PMID:24606334. RAT (male; strain not stated in the retrieved record, which is itself recorded here), bilateral intra-CeA muscimol against bicuculline, TAIL FLICK. 'Microinjection of bicuculline or muscimol in combination with morphine into the CeA increased and decreased TFL, respectively' - a bidirectional manipulation of the region's own excitability, which is why it is preferred here over the lesion papers.
+
+[Roberts1994] Roberts VJ, Dong WK. The effect of thalamic nucleus submedius lesions on nociceptive responding in rats. Pain 1994;57(3):341-349, PMID:7936712. RAT. Submedial lesions LOWERED the vocalization threshold (more pain) but produced NO change in tail-flick latency, from which the authors conclude the nucleus acts on supraspinally mediated inhibition and not on spinally mediated responses.
+
+[Samineni2017] Samineni VK, Grajales-Reyes JG, Copits BA, O'Brien DE, Trigg SL, Gomez AM, Bruchas MR, Gereau RW 4th. Divergent Modulation of Nociception by Glutamatergic and GABAergic Neuronal Subpopulations in the Periaqueductal Gray. eNeuro 2017;4(2), PMID:28374016. MOUSE (C57BL/6, male), cell-type-specific DREADDs. Activating GLUTAMATERGIC vlPAG neurons or inhibiting GABAergic ones suppresses nociception; the inverse facilitates it. Assay is Hargreaves and von Frey, NOT tail-flick or hot plate, so it supports PAG's sign without being an on-assay term.
+
+[Shah2025] Shah DP, Sharma PR, Agarwal R, Barik A. A septo-hypothalamic-medullary circuit directs stress-induced analgesia. Elife 2025;13, PMID:39831900. MOUSE (C57BL/6, male), optogenetics, chemogenetics and photometry, using BOTH HOT PLATE AND TAIL FLICK. Chemogenetic activation of RVM neurons postsynaptic to lateral hypothalamus produced more licks and LOWER hot-plate latency, i.e. an ON-cell-like, negatively signed RVM population. Disengaging them is what produces stress-induced analgesia.
+
+[SoaresCunha2020] Soares-Cunha C, de Vasconcelos NAP, Coimbra B, Domingues AV, Silva JM, Loureiro-Campos E, Gaspar R, Sotiropoulos I, Sousa N, Rodrigues AJ. Nucleus accumbens medium spiny neurons subtypes signal both reward and aversion. Mol Psychiatry 2020;25(12):3241-3255, PMID:31462765. MOUSE, optogenetic. 'Brief D1- or D2-MSN optogenetic stimulation elicited positive reinforcement and enhanced cocaine conditioning. Conversely, prolonged activation induced aversion' - the D2 sign depends on stimulation duration rather than on cell identity, which the authors say means the classical striatal opposition needs reconsidering.
+
+[Song2020] Song D, Wang D, Yang Q, Yan T, Wang Z, Yan Y, Zhao J, Xie Z, Liu Y, Ke Z, Qazi TJ, Li Y, Wu Y, Shi Q, Lang Y, Zhang H, Huang T, Wang C, Quan Z, Qing H. The lateralization of left hippocampal CA3 during the retrieval of spatial working memory. Nat Commun 2020;11(1):2901, PMID:32518226. MOUSE, optogenetics plus in vivo recording. Optogenetic suppression of CA3 pyramidal neurons disrupted spatial working memory selectively in the CHOICE (retrieval) phase, and suppressing medial-septal parvalbumin neurons projecting to CA3 reproduced the impairment.
+
+[Spellman2015] Spellman T, Rigotti M, Ahmari SE, Fusi S, Gogos JA, Gordon JA. Hippocampal-prefrontal input supports spatial encoding in working memory. Nature 2015;522(7556):309-14, PMID:26053122. MOUSE, terminal-specific optogenetics plus recording, T-maze spatial working memory. Inhibiting direct hippocampal to prefrontal afferents impaired ENCODING (but not maintenance or retrieval), and prefrontal cue representations depended on hippocampal input only during that phase.
+
+[Stamatakis2016] Stamatakis AM, Van Swieten M, Basiri ML, Blair GA, Kantak P, Stuber GD. Lateral Hypothalamic Area Glutamatergic Neurons and Their Projections to the Lateral Habenula Regulate Feeding and Reward. J Neurosci 2016;36(2):302-11, PMID:26758824. MOUSE, bidirectional optogenetics. 'Inhibition of LHA-LHb glutamatergic fibers produced a real-time place preference, whereas stimulation ... had the opposite effect' - the opposite-signed subpopulation, recorded on LHA's note.
+
+[Sun2023] Sun Y, Qian L, Xu L, Hunt S, Sah P. Somatostatin neurons in the central amygdala mediate anxiety by disinhibition of the central sublenticular extended amygdala. Mol Psychiatry 2023;28(10):4163-4174, PMID:33005027. MOUSE, optogenetic. Activating the CeL somatostatin input to the sublenticular extended amygdala 'has no effect on movement, but is anxiogenic in both open field and elevated plus maze'.
+
+[Swerdlow1990] Swerdlow NR, Braff DL, Geyer MA. GABAergic projection from nucleus accumbens to ventral pallidum mediates dopamine-induced sensorimotor gating deficits of acoustic startle in rats. Brain Res 1990;532(1-2):146-50, PMID:2282510. RAT, intracerebral infusion. Dopamine into nucleus accumbens disrupted prepulse inhibition, and muscimol into ventral pallidum reversed that deficit.
+
+[Tan2012] Tan KR, Yvon C, Turiault M, Mirzabekov JJ, Doehner J, Labouèbe G, Deisseroth K, Tye KM, Lüscher C. GABA neurons of the VTA drive conditioned place aversion. Neuron 2012;73(6):1173-83, PMID:22445344. MOUSE, optogenetic. The opposite-signed cell type inside VTA, recorded on the term's note.
+
+[Tye2011] Tye KM, Prakash R, Kim SY, Fenno LE, Grosenick L, Zarabi H, Thompson KR, Gradinaru V, Ramakrishnan C, Deisseroth K. Amygdala circuitry mediating reversible and bidirectional control of anxiety. Nature 2011;471(7338):358-62, PMID:21389985. MOUSE, optogenetic, ELEVATED PLUS MAZE. Stimulating BLA TERMINALS in CeA was ANXIOLYTIC and inhibiting them anxiogenic, while direct stimulation of BLA SOMATA had NO effect - which the authors attribute to recruiting antagonistic downstream structures. This is why BLA is contested rather than simply positive.
+
+[Urban1994] Urban MO, Smith DJ. Nuclei within the rostral ventromedial medulla mediating morphine antinociception from the periaqueductal gray. Brain Res 1994;652(1):9-16, PMID:7953726. RAT, TAIL FLICK. Morphine (6 nmol) into PAG inhibited the tail-flick reflex, and lidocaine block of raphe magnus with the adjacent gigantocellular and lateral paragigantocellular nuclei COMPLETELY abolished it.
+
+[Viena2018] Viena TD, Linley SB, Vertes RP. Inactivation of nucleus reuniens impairs spatial working memory and behavioral flexibility in the rat. Hippocampus 2018;28(4):297-311, PMID:29357198. RAT, muscimol and procaine microinfusion. Muscimol into nucleus reuniens impaired delayed non-match-to-sample T-maze alternation at 30, 60 and 120 s delays and abolished the win-shift strategy.
+
+[Wan1997] Wan FJ, Swerdlow NR. The basolateral amygdala regulates sensorimotor gating of acoustic startle in the rat. Neuroscience 1997;76(3):715-24, PMID:9135045. RAT, quinolinic-acid lesion plus intracerebral AP5. Basolateral amygdala lesions REDUCED prepulse inhibition without changing startle amplitude, and intra-BLA AP5 dose-dependently reduced it - reducing basolateral glutamatergic drive lowers gating. Haloperidol did not rescue, so the effect is dopamine-independent.
+
+[Wang2015] Wang J, Li G, Xu Y, Zhang WN. Hyperactivity and disruption of prepulse inhibition induced by NMDA infusion of the rat ventral hippocampus: Comparison of uni- and bilateral stimulation. Neurosci Lett 2015;594:150-4, PMID:25841789. RAT, intracerebral NMDA. Bilateral NMDA into ventral hippocampus induced hyperactivity and DISRUPTED prepulse inhibition, bilateral more than unilateral - increased ventral hippocampal activity lowers gating.
+
+[Wayman2018] Wayman WN, Woodward JJ. Chemogenetic Excitation of Accumbens-Projecting Infralimbic Cortical Neurons Blocks Toluene-Induced Conditioned Place Preference. J Neurosci 2018;38(6):1462-1471, PMID:29317484. RAT (adolescent Sprague-Dawley), DREADDs plus whole-cell recording, CONDITIONED PLACE PREFERENCE. Toluene place preference went with REDUCED excitability of infralimbic layer 5/6 neurons projecting to accumbens shell, and 'chemogenetic reversal of the toluene-induced decrease in IL5/6-NAc shell neurons blocked the expression of toluene-induced CPP', while the prelimbic to accumbens-core population showed no such change. Infralimbic activity is therefore NEGATIVELY signed for reward, opposite to prelimbic.
+
+[Wei1999] Wei F, Dubner R, Ren K. Nucleus reticularis gigantocellularis and nucleus raphe magnus in the brain stem exert opposite effects on behavioral hyperalgesia and spinal Fos protein expression after peripheral inflammation. Pain 1999;80(1-2):127-41, PMID:10204725. RAT, soma-selective ibotenic-acid lesion. Lesion of the gigantocellular nucleus ATTENUATED inflammatory hyperalgesia; extending the lesion into raphe magnus cancelled the effect. Opposite signs for two adjacent nuclei in the same animals. Assay is CFA thermal hyperalgesia, NOT tail-flick or hot plate.
+
+[Wilson2019] Wilson TD, Valdivia S, Khan A, Ahn HS, Adke AP, Martinez Gonzalez S, Sugimura YK, Carrasquillo Y. Dual and Opposing Functions of the Central Amygdala in the Modulation of Pain. Cell Rep 2019;29(2):332-346.e5, PMID:31597095. MOUSE (male), DREADDs and ChR2. CeA PKCdelta+ cells are sensitized by nerve injury and increase pain-related responses while CeA somatostatin+ cells drive antinociception - and, stated explicitly, the somatostatin activation reversed TACTILE but NOT THERMAL hypersensitivity, so no positive thermal sign is taken from it. Assay is Hargreaves, acetone, von Frey and Randall-Selitto.
+
+[Xie2023] Xie L, Wu H, Chen Q, Xu F, Li H, Xu Q, Jiao C, Sun L, Ullah R, Chen X. Divergent modulation of pain and anxiety by GABAergic neurons in the ventrolateral periaqueductal gray and dorsal raphe. Neuropsychopharmacology 2023;48(10):1509-1519, PMID:36526697. MOUSE, chemogenetics, chronic ablation and optogenetics. Dorsal raphe and vlPAG GABAergic neurons had OPPOSING effects: inhibiting or ablating DR neurons promoted nociception while activating them ameliorated inflammatory pain. Assay is Hargreaves, von Frey and elevated plus maze.
+
+[Xu2015] Xu M, Chung S, Zhang S, Zhong P, Ma C, Chang WC, Weissbourd B, Sakai N, Luo L, Nishino S, Dan Y. Basal forebrain circuit for sleep-wake control. Nat Neurosci 2015;18(11):1641-7, PMID:26457552. MOUSE, optogenetics. Activating cholinergic, glutamatergic AND parvalbumin+ GABAergic basal forebrain neurons each rapidly induced wakefulness, whereas somatostatin+ GABAergic activation PROMOTED NREM - the embedded sleep-promoting subpopulation, recorded on the term's note.
+
+[Yan2022] Yan JJ, Ding XJ, He T, Chen AX, Zhang W, Yu ZX, Cheng XY, Wei CY, Hu QD, Liu XY, Zhang YL, He M, Xie ZY, Zha X, Xu C, Cao P, Li H, Xu XH. A circuit from the ventral subiculum to anterior hypothalamic nucleus GABAergic neurons essential for anxiety-like behavioral avoidance. Nat Commun 2022;13(1):7464, PMID:36463200. MOUSE (male), recording plus optogenetics, ELEVATED PLUS MAZE. Retrograde tracing identifies ventral SUBICULUM as the input driving open-arm avoidance; the causal inhibition was applied at AHN, so SUB's sign here is one synapse removed.
+
+[Yang2024] Yang C, Chen X, Xu J, Chen W. SKF82958, a dopamine D1 receptor agonist, disrupts prepulse inhibition in the medial prefrontal cortex and nucleus accumbens in C57BL/6J mice. Behav Pharmacol 2024;35(4):193-200, PMID:38567425. MOUSE, intracerebral microinfusion. A D1 agonist into medial prefrontal cortex or into nucleus accumbens disrupted prepulse inhibition, but not into ventral hippocampus.
+
+[Yu2015] Yu X, Ye Z, Houston CM, Zecharia AY, Ma Y, Zhang Z, Uygun DS, Parker S, Vyssotski AL, Yustos R, Franks NP, Brickley SG, Wisden W. Wakefulness Is Governed by GABA and Histamine Cotransmission. Neuron 2015;87(1):164-78, PMID:26094607. MOUSE. Knocking down vesicular GABA transport in tuberomammillary neurons produced sustained hyperwakefulness, so the GABA these neurons co-release is a BRAKE on their own histaminergic wake drive. A within-region sign conflict, recorded on the term's note.
+
+[Zarrindast2004] Zarrindast MR, Ahmadi S, Haeri-Rohani A, Rezayof A, Jafari MR, Jafari-Sabet M. GABA(A) receptors in the basolateral amygdala are involved in mediating morphine reward. Brain Res 2004;1006(1):49-58, PMID:15047023. RAT (Wistar), intra-BLA pharmacology, CONDITIONED PLACE PREFERENCE. Muscimol (0.25-0.5 ug; local inhibition) DECREASED acquisition of morphine place preference, and bicuculline (local disinhibition) with a sub-threshold 1 mg/kg morphine dose ELICITED significant place preference. The authors' own caveat, carried here: high bicuculline doses reduced locomotion.
+
+[Zhang1995] Zhang YQ, Tang JS, Yuan B, Jia H. Inhibitory effects of electrical stimulation of thalamic nucleus submedius area on the rat tail flick reflex. Brain Res 1995;696(1-2):205-12, PMID:8574670. RAT (Sprague-Dawley), electrical stimulation, TAIL FLICK. Unilateral stimulation of the ventral submedial thalamic nucleus markedly and intensity-dependently DEPRESSED the tail-flick reflex, and a ventrolateral orbital cortex lesion eliminated the effect.
+
+[Zhang2002] Zhang WN, Bast T, Feldon J. Prepulse inhibition in rats with temporary inhibition/inactivation of ventral or dorsal hippocampus. Pharmacol Biochem Behav 2002;73(4):929-40, PMID:12213540. RAT, muscimol or TTX. Inactivation of EITHER ventral or dorsal hippocampus also REDUCED prepulse inhibition, and the deficit was neuroleptic-resistant. Together with [Wang2015] this makes the hippocampal contribution an inverted U rather than monotone, which a linear readout cannot hold - hence contested.
+
+[ZhuoGebhart1997] Zhuo M, Gebhart GF. Biphasic modulation of spinal nociceptive transmission from the medullary raphe nuclei in the rat. J Neurophysiol 1997;78(2):746-58, PMID:9307109. RAT, TAIL FLICK. At 43 of 86 RVM sites LOW-intensity stimulation (5-25 uA) FACILITATED the tail-flick reflex and higher intensity (50-200 uA) INHIBITED it; glutamate microinjection reproduced the biphasic effect (5 nmol facilitates, 50 nmol inhibits) at the SAME sites. The clearest published case in this module of a region whose readout cannot be linear in its firing rate, and the concrete target P7.2 should be tested against.
+
+[daSilva2018] da Silva JA, Tecuapetla F, Paixão V, Costa RM. Dopamine neuron activity before action initiation gates and invigorates future movements. Nature 2018;554(7691):244-248, PMID:29420469. MOUSE, optogenetic plus recording. Inhibiting SNc dopamine neurons during immobility reduced the probability and vigour of future movements; brief activation increased both. Manipulations AFTER initiation had no effect, so the sign is about initiation, not gait.
+
+[deVisser2011] de Visser L, Baars AM, van 't Klooster J, van den Bos R. Transient inactivation of the medial prefrontal cortex affects both anxiety and decision-making in male wistar rats. Front Neurosci 2011;5:102, PMID:21927595. RAT (Wistar, male), muscimol plus baclofen into mPFC (PL AND ILA together), ELEVATED PLUS MAZE. Inactivation INCREASED anxiety with no change in general activity - the opposite direction to [Green2020], which is what makes PL contested.
+
+
+P7.1: searched and empty, or found and deliberately not used
+============================================================
+
+Track E's template: a search that returned nothing usable is a result, and
+it is recorded with what was searched and why each candidate failed.
+
+REGIONS WITH NO USABLE EVIDENCE FOR AN ENDPOINT THEY OBVIOUSLY BELONG IN
+
+* MOp / MOs and LOCOMOTION. Several query formulations for motor cortex
+  against an open-field or photobeam ambulation readout returned only
+  neurotoxicology, stroke and corticospinal-plasticity papers with no
+  causal manipulation tied to an ambulation measure. Primary motor cortex
+  carries NO locomotion weight in this module, which is a gap and not a
+  claim that it is uninvolved.
+* SSp and ANALGESIA. Queries pairing somatosensory cortex with hot plate,
+  tail flick or thermal nociception returned three hits, all unusable (two
+  human or rat imaging-electrophysiology papers and one 1989
+  Chinese-language electroacupuncture study). The one strong causal mouse
+  paper - optogenetically induced gamma in hindlimb S1 enhancing
+  nociceptive sensitivity - uses von Frey MECHANICAL testing only. Rule 2
+  of this codebase forbids substituting a different measurement for the
+  one being modelled, so SSp carries no analgesia weight rather than an
+  extrapolated one.
+* AId / AIp (insular cortex) and ANALGESIA. Thirty-odd queries. The one
+  modern paper with a hot plate (posterior insula CaMKIIa DREADDs) reports
+  that ACTIVATION did not change hot-plate latency while INHIBITION
+  lowered it AND lowered core body temperature; direct electrical
+  activation of insular cortex produced an explicit NULL on the tail-flick
+  reflex; and the rostral agranular insula has an antinociception-
+  triggering pharmacology that points the opposite way from its GABA-B
+  output population. For thermal latency specifically the honest reading
+  of the retrieved primary data is "unresolved", so insular cortex carries
+  no analgesia weight.
+* CEA and REWARD. Five optogenetic or chemogenetic central-amygdala papers
+  with a place-conditioning readout were retrieved and none was usable
+  (CeA-to-SNc anxiety in an MPTP model, a Cre-line tool paper, VTA-to-CeA
+  pain relief, CeA foraging). No central-amygdala reward weight.
+* ACB and WORKING MEMORY. The nearest hits were a D2-receptor odour-span
+  study and a cholinergic-depletion study, neither a regional inactivation
+  on a delayed-alternation or DNMS assay. No accumbens working-memory
+  weight.
+* NDB / SI and WORKING MEMORY. Queries returned Alzheimer's-model and
+  gamma-oscillation papers, none a direct basal-forebrain inactivation
+  against a delayed-alternation readout. MS ([Gemzik2021]) was used
+  instead, because it IS clean. The basal forebrain therefore carries a
+  sedation weight and no working-memory weight.
+* DG and SUB, WORKING MEMORY. No dentate- or subiculum-SELECTIVE causal
+  working-memory study was found; every hit was a whole-hippocampus or
+  fimbria-fornix manipulation, or an LTP-correlation paper. Both are
+  omitted rather than given a weight borrowed from a lesion that did not
+  isolate them.
+* MRN / CUN and SEDATION. The modern cuneiform optogenetic literature is
+  about locomotor speed and gait, not sleep-wake state; a mouse-restricted
+  query for either against sleep or arousal returned zero. CUN therefore
+  carries a locomotion weight and no sedation weight.
+* GRN and SENSORIMOTOR GATING. One irrelevant hit, and [Davis1982]
+  explicitly reports that lesions of the gigantocellular nucleus FAIL to
+  abolish startle. Dropped.
+* PRNr and SENSORIMOTOR GATING. [Davis1982] is again the negative control:
+  startle cannot be evoked electrically from the ORAL pontine reticular
+  nucleus and lesions of it do not abolish startle. This is a real
+  anatomical trap given that the CCF names the two PRNc and PRNr, and
+  PRNr deliberately carries no weight.
+* Modern circuit-specific mPFC manipulation against PREPULSE INHIBITION.
+  Queries surfaced only pharmacological-infusion and developmental papers.
+  This is why the prefrontal gating term rests on drug microinfusion and
+  is contradicted by the lesion literature.
+* WHOLE-BRAIN IMAGING PRIORS, for every endpoint. Separate sweeps for a
+  brain-wide c-Fos or light-sheet activation map of elevated-plus-maze
+  open-arm exposure, of hot plate or tail flick, and of psychostimulant
+  hyperlocomotion or place preference all came back empty of anything
+  on-point. The one relevant methods paper validated its pipeline on
+  haloperidol but reports no behavioural causality. Every regional weight
+  in this module therefore comes from a causal manipulation, and NONE
+  from an imaging prior - not by preference, but because no usable imaging
+  prior exists.
+
+MEASURED NULLS, WHICH ARE STRONGER THAN AN ABSENCE
+
+* VTA carries NO analgesia weight, and that is a measurement.
+  [MorganFranklin1990]: bilateral 6-OHDA lesion of the ventral tegmentum
+  abolished amphetamine and morphine analgesia in the FORMALIN test but
+  left morphine analgesia in the TAIL-FLICK test completely unchanged. An
+  explicit zero, not a gap.
+* There is no paper showing chemogenetic Gq excitation of VTA dopamine
+  neurons produces place preference. All sufficiency evidence for that is
+  optogenetic, and the one Gi-DREADD study reported a NULL on cocaine
+  place preference while still reducing the drug's locomotor effect.
+
+ACRONYMS THAT DO NOT EXIST IN THE CCF, AND WHAT WAS DONE INSTEAD
+
+Every acronym in this module was checked against the P3.1 structure graph
+([AllenCCF]). Four anatomical entities this literature names have no CCF
+structure:
+
+    ventral pallidum   -> SI + MA (there is no "VP" acronym; PALv exists
+                          in the ontology but is not a Knox region row)
+    RVM                -> RM + medial GRN + PGRNl. [Urban1994] shows the
+                          effective tissue spans all three, so the RM term
+                          is narrower than the papers behind it.
+    SLEAc              -> not in the CCF at all; nearest is SI. Named on
+                          [Sun2023]'s term rather than substituted.
+    MLR, RMTg          -> not CCF structures. The mesencephalic locomotor
+                          region is approximately CUN + PPN, which is why
+                          those are two separate terms.
+
+Two further CCF traps are recorded because getting either wrong would
+silently invert a whole node:
+
+    LH  is the LATERAL HABENULA, parent EPI. The lateral hypothalamus is
+        LHA. Both appear in the reward endpoint, WITH OPPOSITE SIGNS.
+    PPT is the POSTERIOR PRETECTAL nucleus. The pedunculopontine
+        tegmental nucleus is PPN.
+
+STRUCTURAL LIMITS THE CCF IMPOSES ON THIS MODULE
+
+* ACB has no children in the CCF, so the core/shell dissociation that most
+  of the place-preference literature turns on cannot be represented. One
+  study dissociates the two endpoints INSIDE the nucleus in a single
+  experiment - core to locomotion, medial shell to place preference - and
+  a single ACB node averages over them.
+* CP contains two intermingled, roughly equinumerous populations with
+  opposite locomotor signs, so a scalar CP rate has no defensible sign.
+  It is recorded contested and excluded by default.
+* The stop-cell population of [Capelli2017] and [Bouvier2015] does not map
+  onto one CCF region; only the positively signed lateral
+  paragigantocellular term is taken.
+
+SPECIES, STATED ONCE
+
+The roadmap fixes the species at MOUSE. Of the 69 terms in the seven
+endpoints, the sedation, working-memory and locomotion evidence is
+predominantly mouse; the analgesia evidence is predominantly RAT, because
+the tail-flick and hot-plate causal literature is 1980s-2010s rat
+microinjection pharmacology and the modern mouse circuit work migrated to
+Hargreaves and von Frey; and sensorimotor gating is eight of nine rat.
+Every term carries its own species field, and no term's species was
+changed to match the model.
+

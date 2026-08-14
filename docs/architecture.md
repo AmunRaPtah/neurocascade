@@ -10695,3 +10695,465 @@ which is strictly more than it asserted before.
 - **Outputs**: `examples/projection_densities_from_connectome.py` and
   `scripts/report_projection_densities.py` ->
   `results/projection_densities.txt`.
+
+---
+
+## Phase 7: the behavioural endpoint library (P7.1)
+
+### The sentence in the brief, and the distinction it forces
+
+> Define named behavioral endpoints as multi-region readouts over the whole-brain
+> network ... Ground each readout's regional weighting in cited lesion or imaging
+> evidence about which regions drive that endpoint. Until fit in P7.3, every
+> weight stays labeled illustrative.
+
+Read carefully, that asks for two different things about the same object and it
+is worth separating them before any code, because the whole module's honesty
+turns on the separation.
+
+**A weight has a sign and a magnitude.** The literature this brief points at -
+lesions, inactivations, DREADDs, opsins - determines the SIGN of a region's
+contribution and determines it well. "Bilateral lesion of the ventrolateral
+preoptic cluster cut NREM time by 50-60%" fixes the sign of VLPO in a sedation
+readout beyond argument. That same sentence says *nothing* about the MAGNITUDE
+of a linear decoder coefficient, and neither does any combination of such
+sentences, because they are measured in different assays, in different species,
+with perturbations that are not the same perturbation (a fibre-sparing
+excitotoxic lesion and a 10 Hz ChR2 train do not differ by a scale factor).
+
+So `endpoints.py` cites the membership and the sign, and labels every magnitude
+illustrative. Concretely: **every term enters with magnitude 1, i.e. the regions
+in an endpoint are weighted equally**, and `Endpoint.weights_are_illustrative`
+is True for all seven. That is a decision, not the absence of one, and its cost
+is stated on the endpoint: a region whose lesion abolishes the behaviour and one
+whose lesion shifts it 20% enter with the same coefficient. The alternative -
+reading effect sizes out of the papers and calling those the weights - would be
+worse, because it would manufacture a number out of numbers that were never
+commensurable. P7.3 fits the magnitudes; nothing else may.
+
+### The sign is derived, not written down
+
+`EndpointTerm` has no `sign` argument. It has `activity` (what the cited
+experiment did to the region's firing) and `measure` (what happened to this
+endpoint's score), each one of `"increase"` or `"decrease"`, and
+
+    sign = +1 if activity == measure else -1
+
+Passing `sign=` raises `TypeError`, which a test asserts. The reason for the
+indirection is that the sign of a lesion result is the one thing in this module
+that is easy to get backwards by fatigue rather than by ignorance: "lesion
+reduced open-arm time" and "lesion reduced anxiety" are opposite claims about
+the same experiment and differ by one polarity conversion. Forcing that
+conversion to be written once, in the open, in a machine-readable field, is what
+makes the sign checkable at all.
+
+**The first version of that check was worthless and this is worth recording.**
+It re-derived `sign` from `activity` and `measure` with the constructor's own
+formula and compared the two, which cannot fail. An adversarial review
+mutation-tested it: flipping the analgesia `ACAd` term to `+1` and the locomotion
+`CUN` term to `-1` left all 31 tests green. Since `finding` was only
+length-checked, `"x" * 80` satisfied every claim the module made about prose
+protecting the sign. The replacement is `EXPECTED_SIGNS`, a table of all 69 signs
+transcribed BY HAND from each term's `finding` against its endpoint's
+`direction` and written into the test module, so the check compares two
+independent readings rather than one reading against itself. Both mutations now
+fail it. Anything that pins a derived value has to be derived a second, different
+way or it pins nothing.
+
+The inference the convention makes - that a region's contribution is monotone in
+its population rate - is exactly what a linear readout means, and it is wrong in
+at least three documented cases. Those are handled below rather than hidden.
+
+### `contested`: the flag, and the rule that keeps it from swallowing everything
+
+The first draft of this module flagged a term contested whenever a paper reported
+cell-type heterogeneity. That flags everything: every region has subpopulations
+that differ, and a flag that fires on all 69 terms carries no information. The
+rule that actually discriminates is narrower:
+
+> `contested=True` when TWO studies manipulating this REGION report opposite
+> directions for THIS endpoint. Subpopulation heterogeneity alone is not enough;
+> it goes in `note`.
+
+A contested term is recorded in full, excluded from the default readout, and
+returned by `resolve(..., include_contested=True)`, so what it is worth is
+measurable rather than asserted. Sixteen of the 69 terms are contested, and the
+distribution is itself a finding:
+
+    endpoint              terms  contested  what contests them
+    locomotion              11      3       CP, GPe: two intermingled populations
+                                            with opposite locomotor signs inside
+                                            one CCF structure. STN: bulk
+                                            inhibition is pro-locomotor
+                                            ([Guillaumin2021]) and brief lateral
+                                            inhibition is anti-locomotor
+                                            ([Callahan2024]).
+    anxiety                 12      6       BLA, BST, CEA, PL, ILA, ZI - amygdala,
+                                            BNST, mPFC and zona incerta each
+                                            contain opposite-signed populations,
+                                            and four of the six are contested by
+                                            a paper contesting ITSELF.
+    analgesia               11      1       RM, and it is the important one.
+    reward                  11      0       Not agreement: the disagreements here
+                                            are between subpopulations rather
+                                            than between two studies of the
+                                            region, so they sit in `note`.
+    sedation                 9      1       DR: [Oikonomou2019]'s serotonergic
+                                            raphe promotes SLEEP, [Cho2017]'s
+                                            raphe dopamine neurons promote WAKE,
+                                            same voxels.
+    working_memory           6      0
+    sensorimotor_gating      9      5       The highest fraction, for reasons
+                                            specific to the assay (below).
+
+Anxiety and prepulse inhibition are the two endpoints whose default readouts are
+thinnest (6 and 4 active terms). That is the literature, reported rather than
+padded.
+
+### Three regions where a linear readout is provably wrong, and one of them is a gift to P7.2
+
+P7.2 is "nonlinear decoder, only where data supports one over the linear
+readout". P7.1 hands it three concrete cases rather than a vague warrant:
+
+1. **RM / rostral ventromedial medulla, in analgesia.** [ZhuoGebhart1997], rat,
+   tail flick: at 43 of 86 RVM sites, low-intensity stimulation (5-25 uA)
+   FACILITATED the tail-flick reflex and higher intensity (50-200 uA) INHIBITED
+   it, reproduced by 5 nmol against 50 nmol glutamate *at the same sites*. One
+   region, one paper, one assay, and the effect reverses with the region's own
+   drive. No linear weight can be right for it.
+2. **ACB and ventral CA1/SUB, in prepulse inhibition.** Both hyperactivation
+   ([Wang2015], [Swerdlow1990]) and inactivation ([Zhang2002], [Kodsi1994]) lower
+   gating - an inverted U. The signs recorded capture the hyperactivation limb,
+   which is the limb drugs move, and both terms are contested.
+3. **Working memory, structurally.** All six terms are positive and no negatively
+   signed region was found - see the searched-and-empty record. The consequence,
+   stated on the endpoint: this readout is, up to scale, the mean rate over six
+   regions, so any drug that shifts global excitability moves it with no
+   circuit-specific effect at all. The inverted-U that prefrontal dopamine is
+   famous for is precisely the shape an all-positive linear readout cannot hold.
+
+### Resolution: an endpoint does not know what parcellation it will be read at
+
+`connectome/build.py` builds at 291, 60 or 12 nodes, and the same seven endpoints
+have to work at all three. A term names CCF structures; `resolve()` maps each
+onto whichever node the network has, by four rules, and reports which fired:
+
+    exact        the structure IS a node                    full term weight
+    ancestor     the nearest ancestor is a node             full term weight
+    descendants  the nodes below it are                     weight SPLIT
+    unmapped     none of the above                          dropped, and named
+
+Rule 3's split is arithmetic and not convenience: a parent's mean rate is the
+volume-weighted mean of its children's, so `w * r_parent = sum_i (w v_i / V) r_i`.
+`region_sizes` supplies the `v_i` (voxel counts are the natural choice); without
+them the equal split is an extra illustrative assumption and is reported as
+`illustrative-equal-split` rather than passed off as exact.
+
+**Two collapse rules, and why the default is the mean.** At coarse parcellations
+several terms land on one node. `collapse="mean"` stops an endpoint silently
+reweighting itself towards whichever region the CCF happens to subdivide most
+finely; `collapse="sum"` is the other defensible reading (each experiment is
+independent evidence) and the tests run both.
+
+**The bug that rule exposed, and the fix.** A term may itself name several
+structures - the reward endpoint's hippocampal term is [Meyers2006]'s dorsal
+hippocampus, which is CA1 + CA3 + DG. Under a naive implementation that term
+would give the hippocampus three units against BLA's one purely because the CCF
+subdivides it. So a term's weight is split 1/N across its own structures, and
+those structures SUM back within the term before the mean/sum choice is applied
+ACROSS terms. Get that order wrong in either direction and one of two tests
+fails: `test_a_term_is_one_unit_of_evidence_however_many_structures_it_names`
+(fine parcellation, hippocampus must equal BLA) or
+`test_the_same_term_collapsed_onto_one_node_keeps_its_full_weight` (coarse
+parcellation, HPF must still equal BLA).
+
+**Sign cancellation is reported, not smoothed.** When terms of opposite sign land
+on one node they cancel under either rule, and `ResolvedEndpoint.cancellations`
+names every node where it happened. That is the parcellation saying it cannot
+express the endpoint. The clearest case is locomotion at 12 nodes: SNr, CUN, PPN,
+SNc and VTA all become MB and SNr's sign is opposite to the other four, so MB
+arrives at 3/5 of what it should be and the report says so. `results/
+behavioral_endpoints.txt` shows this for all seven endpoints at all three
+resolutions; a division-level whole-brain run should be read with it open.
+
+### Normalisation, and what a score means before P7.3
+
+After resolution the weights are scaled so `sum_i |w_i| == 1`. A Wilson-Cowan
+rate is in [0, 1], so a normalised score is in [-1, 1] and the seven endpoints
+are on one scale. Normalising AFTER resolution means a dropped term does not
+shrink the score of the terms that survived. The resting score is
+`0.5 * sum_i w_i` and is NOT zero - it is zero only for an endpoint whose signs
+happen to balance - so what a drug does is `delta()`, the difference from the
+drug-free run. Nothing here converts a score into seconds of tail-flick latency
+or centimetres travelled; that is P7.3 and it is the reason `delta` and not
+`score` is the quantity the example prints.
+
+### The one place the evidence forced a structural decision: analgesia is two assays
+
+The brief names analgesia once, with "(tail-flick, hot plate)" as its assays. The
+literature says those are not one endpoint. **Two** papers ran BOTH assays in one
+preparation and found them to dissociate, in opposite manipulation directions:
+
+    [Pastoriza1996]  rat, medial frontal lesion: HOT PLATE latency +82%,
+                     TAIL FLICK unchanged
+    [Hao2025]        mouse, retrosplenial-to-cingulate activation: thermal
+                     responses facilitated, "did not influence spinal
+                     nociceptive responses in the tail-flick test"
+
+Two more dissociate tail flick from a *different* supraspinal measure without
+running hot plate, which supports the same spinal/supraspinal split without being
+evidence about hot plate: [Roberts1994] (submedial thalamic lesion: vocalization
+threshold down, tail flick unchanged) and [MorganFranklin1990] (VTA 6-OHDA:
+formalin analgesia abolished, tail flick "completely unchanged").
+
+**This paragraph first claimed six papers and is worth leaving the correction in.**
+The draft added [Xie2023] and [Samineni2017] as "supraspinal-only effects", and
+neither ran either assay - this module's own citation entry for [Samineni2017]
+says "Assay is Hargreaves and von Frey, NOT tail-flick or hot plate" verbatim,
+and Hargreaves is a spinally-mediated withdrawal latency, so the characterisation
+was wrong twice over. Padding the count of a structural decision's justification
+with papers that did not measure the thing is the same category error as
+substituting one assay for another; it was caught by an adversarial review of the
+module and not by the tests, which is itself worth knowing.
+
+One shared weight vector is contradicted by [Pastoriza1996] and [Hao2025]
+directly. Averaging over them would be exactly the substitution rule 2 of this
+codebase forbids. So the module keeps
+the union endpoint the roadmap asks for - `ENDPOINTS` has seven members and a
+test asserts it - and publishes `ASSAY_VARIANTS`, two restrictions of it built by
+`Endpoint.restrict_to_assay`. They are views, not an eighth endpoint: every term
+in them is a term of `analgesia`, which a test asserts too. They select genuinely
+different regions:
+
+    analgesia_tail_flick   CEA, LC, SMT, ZI   (+ RM, contested)
+    analgesia_hot_plate    ACAd, DR, PAG
+
+Only the supraspinal assay reaches the cingulate; only the spinal one reaches the
+submedial thalamus. That is [Pastoriza1996]'s dissociation, as a property of the
+object rather than as a remark.
+
+**Why `assay` is a controlled vocabulary and not prose.** The first
+implementation matched the restriction as a substring of a free-text assay field,
+and it was wrong in a way worth recording because the failure mode is
+instructive: ACAd's assay read `"hot plate (tail flick explicitly unchanged)"`,
+so restricting to tail flick pulled in the one term that most sharply does NOT
+belong there, with its sign intact. Negations do not survive substring matching.
+`assays` is now a tuple of tokens matched by exact membership, caveats live in
+`note`, and `test_restrict_to_assay_matches_tokens_exactly_not_as_a_substring`
+pins the case that broke.
+
+### The CCF, and six ways it does not fit this literature
+
+Every acronym was checked against P3.1's structure graph, and a full-cache test
+asserts something stronger than existence: that every acronym is a *row* of the
+Knox 291-region set, so nothing is silently lost at `resolution="regions"`. All
+of them are. Getting there required four substitutions and cost two omissions:
+
+    ventral pallidum -> SI + MA     There is no "VP" acronym. PALv exists in the
+                                    ontology but is not a Knox row.
+    RVM              -> RM          [Urban1994] shows the effective tissue spans
+                                    RM plus medial GRN plus PGRNl, so the RM
+                                    term is narrower than the papers behind it.
+    SLEAc            -> named only  [Sun2023]'s target is not in the CCF at all.
+                                    Named on the term, not substituted.
+    MLR              -> CUN + PPN   Not a CCF structure; two separate terms.
+    RMTg             -> dropped     Not a CCF structure.
+    stop cells       -> dropped     [Capelli2017]/[Bouvier2015]'s arrest
+                                    population does not map onto one region.
+
+Two CCF traps are recorded because either one would silently invert a whole node,
+and both were live risks in this task:
+
+* **`LH` is the LATERAL HABENULA** (parent EPI). The lateral hypothalamus is
+  `LHA`. Both appear in the reward endpoint **with opposite signs**.
+* **`PPT` is the POSTERIOR PRETECTAL nucleus.** The pedunculopontine tegmental
+  nucleus is `PPN`, and `PPN` carries terms in three of the seven endpoints.
+
+And two structural limits the parcellation imposes, which no amount of care
+removes:
+
+* **`ACB` has no children in the CCF**, so the core/shell dissociation that most
+  of the place-preference literature turns on cannot be represented. One study
+  dissociates two of this module's own endpoints *inside* the nucleus in a single
+  experiment - core to locomotion, medial shell to place preference - and a
+  single ACB node averages over them.
+* **`CP` contains two intermingled, roughly equinumerous populations with
+  opposite locomotor signs** ([Kravitz2010]), so a scalar CP rate has no
+  defensible sign at all. Recorded contested and excluded by default. A
+  locomotion readout without the dorsal striatum is a strange object, and it is
+  the honest one.
+
+### Species, stated once and never adjusted
+
+The roadmap fixes the species at mouse. Sedation is 9 of 9 mouse; working memory
+is mouse for the prefrontal, mediodorsal and hippocampal terms and rat for
+reuniens and medial septum; locomotion is 11 of 11 mouse; reward is 6 mouse to
+5 rat; **analgesia is
+rat-dominated (9 of 11) and sensorimotor gating is 8 of 9 rat**. That is not laziness: the
+tail-flick and hot-plate causal literature is 1980s-2010s rat microinjection
+pharmacology, and the modern mouse circuit work migrated to Hargreaves and von
+Frey. Every term carries its own `species`, a test asserts that rat terms still
+exist (a library in which every species had quietly become mouse is the failure
+rule 2 exists to prevent), and no term's species was changed to match the model.
+
+### Searched and empty
+
+`endpoints.SEARCHED_AND_EMPTY` is the full record; the shape of it is worth
+summarising here because two entries change what the module can claim.
+
+**Regions with no usable evidence for an endpoint they obviously belong in.**
+`MOp`/`MOs` carry no locomotion weight (every query returned neurotoxicology,
+stroke or corticospinal-plasticity papers with no ambulation-linked causal
+manipulation). `SSp` and the insular areas carry no analgesia weight - the one
+strong causal mouse S1 paper uses von Frey MECHANICAL testing only, and rule 2
+forbids substituting it for a thermal latency. `CEA` carries no reward weight,
+`ACB` and the basal forebrain no working-memory weight, `DG` and `SUB` no
+working-memory weight (no structure-selective causal study exists; every hit was
+a whole-hippocampus or fimbria-fornix manipulation), `CUN` no sedation weight.
+`GRN` and `PRNr` are dropped from prepulse inhibition on [Davis1982]'s own
+negative controls.
+
+**Every weight in this module comes from a causal manipulation and none from an
+imaging prior**, and that is not a preference. Separate sweeps for a brain-wide
+c-Fos or light-sheet activation map of elevated-plus-maze open-arm exposure, of
+hot plate or tail flick, and of psychostimulant hyperlocomotion or place
+preference all came back empty of anything on-point. The brief offers "lesion or
+imaging evidence"; only the first half of that was available. `EndpointTerm`
+still accepts `technique="imaging"` and `ResolvedEndpoint.report()` still counts
+correlative terms separately - the machinery is there, unused, because the
+literature is.
+
+**Two measured nulls, which are stronger than absences.** VTA carries no
+analgesia weight because [MorganFranklin1990] measured its absence: bilateral
+6-OHDA of the ventral tegmentum abolished morphine analgesia in the formalin test
+and left tail-flick analgesia "completely unchanged". And there is no paper
+showing chemogenetic Gq excitation of VTA dopamine neurons produces place
+preference; all sufficiency evidence for that is optogenetic, and the one
+Gi-DREADD study reported a null on cocaine CPP while still reducing the drug's
+locomotor effect.
+
+### What this module deliberately does not do
+
+* **It does not fit anything.** No magnitude here is calibrated. P7.3.
+* **It does not convert a score into an assay unit.** P7.3.
+* **It does not introduce a nonlinearity**, though it names three places one is
+  needed. P7.2.
+* **It does not touch `behavior.BehaviorReadout`, `scenarios.py` or any Phase 5
+  module.** `Endpoint.resolve()` returns a plain `BehaviorReadout`, which a test
+  asserts by `type(...) is`, so everything downstream that already scores one
+  keeps working. This is P3.2's promise about `CircuitNetwork` and P6.1's about
+  the hand-built scenarios, made a third time.
+* **It does not read out the hand-built scenarios.** Their nodes are populations
+  ("VTA_DA"), not CCF regions, and `resolve` ignores any node name the ontology
+  cannot resolve - which a test pins, because silently matching "VTA_DA" to VTA
+  would be worse than dropping it.
+
+### What an adversarial review of the finished module found
+
+The module was reviewed against its own docstrings before commit, with the
+instruction to check every sign against its prose and to look for tests that
+would pass if the thing they claim to check were broken. It found no sign error
+in the 69 terms. It found five things worth fixing, all of which are fixed
+above and none of which was caught by the tests as first written:
+
+1. **The sign test was tautological** (above). The most valuable finding, because
+   the module's central claim rested on it.
+2. **The justification for `ASSAY_VARIANTS` claimed six papers and had two**
+   (above). Padding the count with papers that ran neither assay.
+3. **Three internal counts contradicted the data**: the sedation notes said
+   "eight of nine negative, VLPO the only positive one" when the contested `DR`
+   term is also positive (7 negative, 2 positive); the analgesia notes said two
+   off-assay terms when there are three (`GRN`, `PB`, `MD`); the working-memory
+   notes said "the mean rate over six regions" for six TERMS over seven regions.
+4. **A false-positive in the cancellation report.** `{1 if p > 0 else -1}`
+   classified a zero part as negative, so two SAME-signed terms reaching one node
+   through a zero-size descendant split were reported as cancelling. A false
+   positive in the module's own honesty mechanism is worse than a silent failure.
+5. **Partial `region_sizes` silently collapsed a term.**
+   `region_sizes.get(d, 0.0)` gave the covered descendants the whole term weight
+   and the missing ones nothing, while `split_was_equal` stayed False so the
+   report claimed a volume-weighted split. The natural caller passes voxel counts
+   from a build, which need not cover every node. Rule 3 now requires a positive
+   size for EVERY descendant and falls back to the equal split otherwise.
+
+Two smaller ones are also fixed: the report counted causal terms over the terms
+OFFERED rather than the terms that LANDED (so "8 causal terms" could sit next to
+four nodes), and five bracketed citations in the prose - [Freeze2013],
+[PadillaCoreano2016], [Parfitt2017], [Gao2023], [Bouvier2015] - resolved to
+nothing, because the orphan-citation test only checked one of the two directions
+its docstring claimed. All five were added to `CITATIONS` rather than deleted
+from the prose, since each bounds or contests a sign.
+
+### `inferred`: the eight terms whose direction was reasoned, not measured
+
+The review's sharpest structural point was that `activity` and `measure` are
+presented as readings off an experiment, and for eight of the 69 terms at least
+one of them is an argument. That is now a field rather than a caveat buried in
+prose, counted by `ResolvedEndpoint.report()` and printed by
+`Endpoint.summary()`:
+
+    anxiety   SUB   the manipulation was at AHN, one synapse downstream
+    gating    PRNc  the cited experiment measured startle amplitude; the
+                    `measure` comes from the argument that gating IS
+                    inhibition of this nucleus
+    analgesia PAG   opioid raises vlPAG output only via disinhibition
+    analgesia DR    the same disinhibition step
+    gating    PL/ILA a D1 agonist is read as raising cortical activity
+    gating    ACB   dopamine in the accumbens has NO unambiguous direction:
+                    it excites D1- and inhibits D2-expressing neurons
+    analgesia PB    the assay is defensive responding, so `measure` is a
+                    translation into withdrawal latency
+    analgesia MD    the assay is place aversion, same translation
+
+Five of the eight are already contested or off-assay, so the flag mostly marks
+terms a reader was already being told to discount. The two that it newly exposes
+are analgesia `PAG` and `DR`, which are among the endpoint's strongest terms by
+citation quality and rest on an inference the module had stated only in prose.
+
+### What P7.1 delivered, checked against the standing discipline
+
+- **Seven endpoints, each a multi-region readout**, resolving onto the real
+  291-region connectome network at all three resolutions with nothing unmapped.
+  Region counts at full resolution: locomotion 8, anxiety 6, analgesia 10,
+  reward 14, sedation 11, working memory 7, sensorimotor gating 5 (default,
+  contested excluded).
+- **69 cited terms across 7 endpoints**, every one carrying its citation,
+  species, technique, assay and the finding written out so the sign can be
+  checked against the experiment rather than trusted - and, for the eight where
+  the direction had to be reasoned, an `inferred` field saying what was reasoned.
+- **108 citations, every author list, title and journal reference taken
+  VERBATIM from PubMed's own esummary record for the PMID.** This was not the
+  first plan and the reason for it is worth recording, because it is the
+  closest this task came to breaking rule 1. Drafting the citations by hand
+  from the literature sweep produced sixteen entries whose title did not match
+  the PMID and, worse, more than a dozen whose author list past the first
+  author was **wrong or invented** - [Sun2023] was attributed to a nine-author
+  Chinese group when the paper is Sun, Qian, Xu, Hunt and Sah; [Li1998] gained
+  a co-author it does not have; [Shah2025] gained six. None of that changes a
+  number, and all of it is fabrication of exactly the kind the standing
+  discipline forbids. The fix was mechanical rather than careful: every
+  citation's bibliographic prefix is now regenerated from the live record and
+  only the commentary after `PMID:nnnn.` is written here. A checker confirms
+  that all 107 entries with a PMID start with PubMed's author string and
+  contain PubMed's title. `scripts/verify_pmids.py` is committed with the
+  module so the check can be re-run.
+- **Every weight labelled illustrative**, enforced two ways: the endpoint
+  declares `weights_are_illustrative` and `EndpointTerm` has no magnitude
+  attribute at all, so there is nothing for a fitted number to quietly become.
+- **The signs derived rather than asserted**, and re-derived by a test.
+- **Sixteen contested terms recorded, excluded by default, and measurable**, with
+  a rule that stops the flag from swallowing every term.
+- **Three named targets for P7.2**, one of them ([ZhuoGebhart1997]) a
+  within-paper, within-assay, within-site reversal that no linear weight can fit.
+- **The analgesia assay dissociation made structural**, with the substring bug
+  that motivated the controlled vocabulary recorded rather than quietly fixed.
+- **A searched-and-empty record with eleven region-endpoint gaps, four CCF
+  substitutions, two CCF traps, two structural limits and two measured nulls.**
+- **Tests.** A new `tests/test_endpoints.py` (38 items, 4 of them
+  `full_data_only`). None slow, none skipped when the cache is present. No
+  existing test changed, because nothing existing moved. Two of the 38 pin bugs
+  the review found in the resolver, and both were mutation-tested by reverting
+  the fix and watching them fail; so was `EXPECTED_SIGNS`, against two
+  independent term flips.
+- **Outputs**: `examples/behavioral_endpoint_library.py` and
+  `scripts/report_endpoints.py` -> `results/behavioral_endpoints.txt`.

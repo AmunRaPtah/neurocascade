@@ -193,6 +193,7 @@ more single-dose studies.
 | `src/neurocascade/projection_systems.py` | The nine source nuclei by CCF acronym and id (VTA, SNc, DR, CS, LC, NDB, PPN, LDT, TM), their clearance models, the cited volume-transmission timescale argument, and the constants recorded as illustrative or searched-and-empty (P6.1) |
 | `src/neurocascade/projection_scenarios.py` | The hand-built monoamine, cholinergic and histaminergic scenarios ported onto projection systems, with the closed autoreceptor loop and the non-inert lone antagonist (P6.1), the D2 autoreceptor on the VTA and SNc, and the open/closed loop comparison the stability check is run on (P6.3) |
 | `src/neurocascade/projection_density.py` | Per-system projection densities DERIVED from the Phase 3 connectome (committed as `projection_densities.csv` with its source checksums), the reference region each transmitter's measured basal level belongs to, the refused nuclear block with its evidence, and the validation of the predicted concentration ratios against held-out measurements including the [Lin2023] whole-brain fibre map (P6.3) |
+| `src/neurocascade/endpoints.py` | The seven named behavioural endpoints (locomotion, anxiety, analgesia, reward, sedation, working memory, sensorimotor gating) as multi-region readouts over CCF regions, 69 terms each carrying the lesion/inactivation/opto/chemogenetic experiment that placed its region and fixed its sign, the 16 terms the literature contests recorded and excluded, the tail-flick / hot-plate assay split six papers force, and every weight MAGNITUDE labelled illustrative pending P7.3 (P7.1) |
 | `src/neurocascade/endogenous_tone.py` | The five projection systems' cited basal extracellular transmitter concentrations with species, region, method and caveats, the tonic occupancy and Gaddum dose ratio each imposes at every receptor that binds them, and the re-run comparison quantifying what P6.2 changed in P6.1's results (P6.2) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4), plus `assess_system`, which runs the same four checks on the whole coupled ODE system so that a feedback loop leaving the circuit through a transmitter concentration is visible to it (P6.3) |
 | `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2), and the cited anatomical validation of the resulting maps (P4.3) |
@@ -402,6 +403,10 @@ as `cct-bayesian-validation`.
 - Multi-region receptor density maps, so one drug perturbs several network
   entry points at once rather than a single node.
 - Replace the linear behavior readout with one fit against real behavioral
-  endpoints once available.
+  endpoints once available. P7.1 built the named endpoint library
+  (`endpoints.py`): seven multi-region readouts whose region membership and
+  sign are cited, and whose weight magnitudes are all still illustrative.
+  P7.2 adds a nonlinearity where the data supports one, and P7.3 fits the
+  magnitudes.
 - Bayesian calibration (PyMC) of free parameters against literature
   behavioral data, following the CCT model's approach.

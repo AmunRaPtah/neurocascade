@@ -42,6 +42,7 @@ from . import projection
 from . import projection_systems
 from . import projection_scenarios
 from . import endogenous_tone
+from . import endpoints
 
 __all__ = [
     "OneCompartmentPK",
