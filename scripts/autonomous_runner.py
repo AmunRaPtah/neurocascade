@@ -231,6 +231,19 @@ def next_task(data: dict):
     return None
 
 
+def _window_expired(resets_at) -> bool:
+    """True when a quota window's reset time has already passed."""
+    if not resets_at:
+        return False
+    try:
+        ts = datetime.fromisoformat(str(resets_at).replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    if ts.tzinfo is None:
+        ts = ts.replace(tzinfo=timezone.utc)
+    return ts <= datetime.now(timezone.utc)
+
+
 def quota_ok() -> tuple[bool, str]:
     try:
         r = subprocess.run(
@@ -241,10 +254,21 @@ def quota_ok() -> tuple[bool, str]:
     except Exception as e:
         return True, f"quota check unavailable ({e}), proceeding"
 
+    # quota-axi falls back to a cached reading when it cannot reach the live
+    # source (this host authenticates with a pinned setup token, so "Claude
+    # sign-in required" is the steady state, not an outage). A cached window
+    # whose resetsAt has already passed describes a window that has since
+    # rolled over, so its percentage says nothing about quota now. Treating it
+    # as current wedges the build permanently: the number can only go stale,
+    # never recover. Drop expired windows and let the remaining guards decide.
     windows = {}
+    expired = []
     for prov in payload.get("providers", []):
         if prov.get("provider") == "claude":
             for w in prov.get("windows", []):
+                if _window_expired(w.get("resetsAt")):
+                    expired.append(w.get("id"))
+                    continue
                 windows[w.get("id")] = w.get("percentRemaining")
 
     session = windows.get("five_hour")
@@ -253,7 +277,10 @@ def quota_ok() -> tuple[bool, str]:
         return False, f"session quota {session}% below {MIN_SESSION_QUOTA}%"
     if week is not None and week < MIN_WEEK_QUOTA:
         return False, f"weekly quota {week}% below {MIN_WEEK_QUOTA}%"
-    return True, f"session {session}%, week {week}%"
+    note = f"session {session}%, week {week}%"
+    if expired:
+        note += f" (expired, ignored: {','.join(str(e) for e in expired)})"
+    return True, note
 
 
 def memory_ok() -> tuple[bool, str]:
