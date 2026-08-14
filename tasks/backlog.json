@@ -678,8 +678,10 @@
       "deps": [
         "P8.1"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "running",
+      "attempts": 1,
+      "started_at": "2026-08-14T17:30:04.610416+00:00",
+      "baseline": "c9c8e1afe681c5fd61c6fa1cffd0c3fc72892610"
     },
     {
       "id": "P8.3",
