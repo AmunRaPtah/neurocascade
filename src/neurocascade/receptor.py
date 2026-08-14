@@ -1,6 +1,98 @@
 import numpy as np
 
 
+def ligand_from_ki(name, ki_nM, kon, efficacy):
+    """A `Ligand` built from an equilibrium affinity and one association rate.
+
+    THE CONVERSION, AND THE TWO ASSUMPTIONS IN IT
+    ---------------------------------------------
+
+    This engine's occupancy ODE needs a rate pair::
+
+        d occ/dt = kon * C * (1 - sum(occ)) - koff * occ
+
+    A binding table publishes one number per (ligand, target): an inhibition
+    constant `Ki` in nM. Two things have to be assumed to get from one to
+    two, and they are not the same kind of assumption.
+
+    **1. `Kd = Ki`.** A competition binding assay measures the concentration
+    of unlabelled ligand that halves specific radioligand binding, converted
+    to `Ki` by Cheng-Prusoff. For a reversible competitive orthosteric
+    ligand that `Ki` *is* the equilibrium dissociation constant of the
+    ligand-receptor complex, so this is the standard reading of the datum,
+    not a modelling liberty. It fails for a ligand that is not competitive at
+    the labelled site (an allosteric modulator, an open-channel blocker), and
+    a Ki table does not say which ligands those are -- see
+    `fingerprint.py`, which makes the caller declare the pool.
+
+    **2. `koff = kon * Ki`, with `kon` supplied rather than measured.** This
+    is the load-bearing one and it is stated here rather than left implicit:
+
+        THE Ki FIXES THE RATIO koff/kon. IT FIXES NEITHER RATE. SPLITTING IT
+        INTO A PAIR REQUIRES ONE MORE NUMBER, AND THAT NUMBER IS `kon`.
+
+    What that does and does not cost:
+
+    * The ligand's *affinity* is reproduced EXACTLY. `koff/kon` is `Ki` by
+      construction, so every equilibrium quantity -- fractional occupancy at
+      a given concentration, the competitive ratio between two ligands
+      sharing a pool, an IC50 -- is the measured one and carries no
+      assumption beyond (1).
+    * The ligand's *approach timescale* is entirely `kon`'s. How fast
+      occupancy equilibrates after a concentration step, and therefore
+      whether binding is fast or slow compared with the circuit's own
+      relaxation, is set by the supplied `kon` and by nothing in the
+      binding table.
+
+    So a `kon` chosen for the whole site makes every ligand at that site
+    equilibrate on a comparable timescale while keeping each ligand's
+    measured affinity intact. That is derivation 3 in this codebase's
+    four-way taxonomy (see `opioid.py`'s docstring), and it is what
+    `acetylcholine.py`, `glutamate.py`, `cannabinoid.py`, `opioid.py`,
+    `serotonin.py`, `noradrenaline.py`, `histamine.py`, `adenosine.py` and
+    `scenarios.gaba_a_benzodiazepine_ligands_calibrated` each already do by
+    hand. This function is that arithmetic, in one place, with the
+    assumption written down next to it.
+
+    Where `kon` comes from is NOT this function's business and must not be:
+    a site's own measured radioligand association rate, a shared
+    illustrative value, or a value borrowed from a neighbouring subtype are
+    three different provenances with three different standings, and
+    `fingerprint.TargetSpec` carries which one applies to each target so a
+    caller can read it off rather than infer it.
+
+    Parameters
+    ----------
+    name : str
+    ki_nM : float
+        The equilibrium affinity, in nM. Must be positive and finite: a
+        censored ">10000 nM" cell is a bound, not a measurement, and the
+        caller has to decide what to do with it (`opioid.is_censored` and
+        `monoamine_transporters.MISSING_KI` are this codebase's two existing
+        answers, and they differ).
+    kon : float
+        nM^-1 min^-1. See above.
+    efficacy : float
+        Fraction of the site's reference full agonist's Emax. NOT derivable
+        from a Ki: an affinity says how tightly a ligand binds and says
+        nothing about what the bound receptor then does. It has to come from
+        a functional assay, and the caller supplies it.
+    """
+    ki_nM = float(ki_nM)
+    kon = float(kon)
+    if not np.isfinite(ki_nM) or ki_nM <= 0.0:
+        raise ValueError(
+            "ki_nM must be a positive, finite affinity in nM; got %r for %r"
+            % (ki_nM, name)
+        )
+    if not np.isfinite(kon) or kon <= 0.0:
+        raise ValueError(
+            "kon must be a positive, finite association rate constant in "
+            "nM^-1 min^-1; got %r for %r" % (kon, name)
+        )
+    return Ligand(name=name, kon=kon, koff=kon * ki_nM, efficacy=float(efficacy))
+
+
 class Ligand:
     """A drug competing for a receptor site.
 

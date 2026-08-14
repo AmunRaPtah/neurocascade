@@ -1526,7 +1526,12 @@ def diazepam_rat_pk(
     raise UnsourcedParameterError("diazepam / rat / %s: %s" % (route, record))
 
 
-def diazepam_mouse_pk(route, body_weight_kg, molar_mass_g_per_mol=None):
+def diazepam_mouse_pk(
+    route,
+    body_weight_kg,
+    molar_mass_g_per_mol=None,
+    brain_partition=USE_SOURCED_BRAIN_PARTITION,
+):
     """Always raises `UnsourcedParameterError`: no route has a mouse diazepam
     parameter set, and the rat one is not scaled into the mouse.
 
@@ -1535,7 +1540,7 @@ def diazepam_mouse_pk(route, body_weight_kg, molar_mass_g_per_mol=None):
     diazepam metabolite dominates, so borrowing rat disposition for the mouse
     would import the wrong metabolic picture as well as the wrong numbers.
     """
-    del body_weight_kg, molar_mass_g_per_mol
+    del body_weight_kg, molar_mass_g_per_mol, brain_partition
     raise UnsourcedParameterError(
         "diazepam / mouse / %s: %s"
         % (str(route).upper(), SEARCHED_AND_EMPTY[("diazepam", "mouse", "*")])
@@ -2015,7 +2020,12 @@ def fentanyl_rat_pk(
     raise UnsourcedParameterError("fentanyl / rat / %s: %s" % (route, record))
 
 
-def fentanyl_mouse_pk(route, body_weight_kg, molar_mass_g_per_mol=None):
+def fentanyl_mouse_pk(
+    route,
+    body_weight_kg,
+    molar_mass_g_per_mol=None,
+    brain_partition=USE_SOURCED_BRAIN_PARTITION,
+):
     """Always raises `UnsourcedParameterError`: no route has a mouse fentanyl
     parameter set, and the rat one is not scaled into the mouse.
 
@@ -2023,11 +2033,70 @@ def fentanyl_mouse_pk(route, body_weight_kg, molar_mass_g_per_mol=None):
     writes mouse code gets the search record rather than an AttributeError
     and a temptation to reach for the rat function.
     """
-    del body_weight_kg, molar_mass_g_per_mol  # nothing to build them into
+    del body_weight_kg, molar_mass_g_per_mol, brain_partition  # nothing to build them into
     raise UnsourcedParameterError(
         "fentanyl / mouse / %s: %s"
         % (str(route).upper(), SEARCHED_AND_EMPTY[("fentanyl", "mouse", "*")])
     )
+
+
+#: `(drug, species) -> builder(route, body_weight_kg, ...)`, over every
+#: drug/species pair this module has a builder for, INCLUDING the pairs whose
+#: builder does nothing but raise with a search record. Both kinds are listed
+#: on purpose: a caller asking for diazepam in the mouse should get
+#: `UnsourcedParameterError` and the record of why, not a KeyError that reads
+#: like a typo. See `pk_model_for`.
+PK_BUILDERS = {
+    ("diazepam", "rat"): diazepam_rat_pk,
+    ("diazepam", "mouse"): diazepam_mouse_pk,
+    ("haloperidol", "rat"): haloperidol_rat_pk,
+    ("fentanyl", "rat"): fentanyl_rat_pk,
+    ("fentanyl", "mouse"): fentanyl_mouse_pk,
+}
+
+#: The routes that actually yield a model, per drug/species pair. Written
+#: down rather than derived, because deriving it would mean probing every
+#: route with a body weight and this module never defaults a body weight
+#: (rule 3 of its docstring). It is therefore a claim about the builders, and
+#: `tests/test_fingerprint.py::test_the_modelled_route_table_matches_the_
+#: builders` supplies a weight and checks every entry and every omission
+#: against what the builders do, so the two cannot drift.
+MODELLED_ROUTES = {
+    ("diazepam", "rat"): ("IV", "IP"),
+    ("haloperidol", "rat"): ("IV",),
+    ("fentanyl", "rat"): ("IV",),
+}
+
+
+def pk_model_for(drug, species, route, body_weight_kg, **kwargs):
+    """The PK model for one (drug, species, route), or an explanation.
+
+    The single dispatch point over `PK_BUILDERS`, added by P8.1 because a
+    prediction API takes a drug name, a route and a species as *data* and
+    cannot reach for a hand-picked module function per compound.
+
+    It adds no numbers and relaxes nothing. A pair with a builder raises that
+    builder's own `UnsourcedParameterError` with its own search record; a
+    pair with no builder at all raises `UnsourcedParameterError` naming the
+    pairs that do exist, because for this project "we have not sourced this
+    drug in this species" is the answer, and substituting a different drug's
+    or a different species' disposition to produce a number anyway is the
+    thing rule 2 forbids.
+
+    `**kwargs` (`molar_mass_g_per_mol`, `brain_partition`) are forwarded
+    untouched, so each drug keeps its own molar-mass default.
+    """
+    key = (str(drug).lower(), str(species).lower())
+    builder = PK_BUILDERS.get(key)
+    if builder is None:
+        raise UnsourcedParameterError(
+            "%s / %s: no pharmacokinetic parameter set has been sourced for "
+            "this drug in this species, and neither a different drug's nor a "
+            "different species' disposition may stand in for it. Sourced "
+            "pairs: %s"
+            % (key[0], key[1], ", ".join("%s/%s" % p for p in sorted(PK_BUILDERS)))
+        )
+    return builder(route=route, body_weight_kg=body_weight_kg, **kwargs)
 
 
 def fentanyl_rat_iv_terminal_half_life_min():
@@ -2750,6 +2819,9 @@ __all__ = [
     "USE_SOURCED_BRAIN_PARTITION",
     "brain_partition_for",
     "brain_partition_status",
+    "PK_BUILDERS",
+    "MODELLED_ROUTES",
+    "pk_model_for",
     "DIAZEPAM_RAT_FU_BRAIN_WHOLE",
     "DIAZEPAM_RAT_FU_BRAIN_WHOLE_SD",
     "DIAZEPAM_RAT_FU_BRAIN_BY_REGION",

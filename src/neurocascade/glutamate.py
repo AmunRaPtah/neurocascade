@@ -606,7 +606,12 @@ from .circuit import CircuitNode
 from .engine import ReceptorSystem
 from .network import CircuitNetwork
 from .pk import OneCompartmentPK
-from .receptor import ChannelBlockingReceptorSite, Ligand, ReceptorSite
+from .receptor import (
+    ChannelBlockingReceptorSite,
+    Ligand,
+    ReceptorSite,
+    ligand_from_ki,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -1024,8 +1029,11 @@ GLUTAMATE_CONNECTION_GAIN = 1.0
 
 def _ligand(name, kd, efficacy, kon=ILLUSTRATIVE_KON):
     """Derivation 3: `koff = kon * Kd`, so the measured affinity is exact and
-    only the approach timescale carries the illustrative `kon`."""
-    return Ligand(name=name, kon=kon, koff=kon * kd, efficacy=efficacy)
+    only the approach timescale carries the illustrative `kon`.
+
+    The arithmetic and the assumption behind it are `receptor.ligand_from_ki`
+    (P8.1)."""
+    return ligand_from_ki(name=name, ki_nM=kd, kon=kon, efficacy=efficacy)
 
 
 def ligand_mk801():

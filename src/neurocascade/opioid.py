@@ -479,7 +479,7 @@ import numpy as np
 from .behavior import BehaviorReadout
 from .engine import ReceptorSystem
 from .pk import OneCompartmentPK
-from .receptor import Ligand, ReceptorSite
+from .receptor import Ligand, ReceptorSite, ligand_from_ki
 from .scenarios import multi_region_mu_opioid_network
 
 
@@ -886,11 +886,16 @@ def pk_models():
 
 
 def _ligand(name, receptor, preparation="human_cho"):
-    kon = SITE_KON.get(receptor, KAPPA_KON_DIPRENORPHINE)
-    return Ligand(
+    """Derivation 3 over this module's own tables: the site's shared measured
+    `kon`, this ligand's measured `Ki` and its measured Emax.
+
+    The arithmetic and the assumption behind it are `receptor.ligand_from_ki`
+    (P8.1); what this adds is the two table lookups.
+    """
+    return ligand_from_ki(
         name=name,
-        kon=kon,
-        koff=kon * ki(name, receptor, preparation),
+        ki_nM=ki(name, receptor, preparation),
+        kon=SITE_KON.get(receptor, KAPPA_KON_DIPRENORPHINE),
         efficacy=efficacy(name, receptor),
     )
 

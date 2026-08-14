@@ -13,6 +13,7 @@ from .pk import (
 from .brain_partition import BrainPartition, UnusablePartitionError
 from .receptor import (
     Ligand,
+    ligand_from_ki,
     ReceptorSite,
     ChannelBlockingReceptorSite,
     DesensitizingReceptorSite,
@@ -44,6 +45,7 @@ from . import projection_scenarios
 from . import endogenous_tone
 from . import endpoints
 from . import decoder
+from . import fingerprint
 
 __all__ = [
     "OneCompartmentPK",
@@ -59,6 +61,7 @@ __all__ = [
     "BrainPartition",
     "UnusablePartitionError",
     "Ligand",
+    "ligand_from_ki",
     "ReceptorSite",
     "ChannelBlockingReceptorSite",
     "DesensitizingReceptorSite",
@@ -90,4 +93,5 @@ __all__ = [
     "endogenous_tone",
     "endpoints",
     "decoder",
+    "fingerprint",
 ]

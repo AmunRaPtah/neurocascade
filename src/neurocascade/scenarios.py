@@ -1109,6 +1109,27 @@ def gaba_a_connection_modulation_calibrated():
     }
 
 
+def gaba_a_receptor_system_calibrated():
+    """The calibrated benzodiazepine-site stack bundled as a `ReceptorSystem`.
+
+    The counterpart of `mu_opioid_receptor_system()` and
+    `d2_receptor_system()` for the one system that never had one, added by
+    P8.1 because `fingerprint.TARGETS` reaches every modelled target through
+    a zero-argument system builder and this was the only gap. It composes
+    existing functions and defines nothing: the site is
+    `gaba_a_receptor_site_calibrated()`, the PK is
+    `gaba_a_pk_models_calibrated()`, the (empty) drive coupling is
+    `gaba_a_coupling()` and the potentiation is P2.2's fitted
+    `gaba_a_connection_modulation_calibrated()`.
+    """
+    return ReceptorSystem(
+        pk_models=gaba_a_pk_models_calibrated(),
+        receptor_site=gaba_a_receptor_site_calibrated(),
+        coupling=gaba_a_coupling(),
+        connection_modulation=gaba_a_connection_modulation_calibrated(),
+    )
+
+
 # ---------------------------------------------------------------------------
 # Calibrated D2 receptor + dopamine/haloperidol PK, grounded in published
 # data. Units: concentration in nM, time in minutes, kon in nM^-1 min^-1,

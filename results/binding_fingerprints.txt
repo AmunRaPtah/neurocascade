@@ -1,0 +1,190 @@
+Binding-fingerprint input API (P8.1)
+==============================================================================
+
+P8.1: dump the binding-fingerprint target table and one worked prediction.
+
+Binding-fingerprint targets (P8.1)
+======================================================================
+
+koff = kon * Ki at every receptor target; the Ki fixes the ratio and
+neither rate, so the kon column is where the assumption lives.
+
+measured-at-site (11)
+----------------------------------------------------------------------
+  5HT1A        kon = 0.34 nM^-1 min^-1
+      density gene: Htr1a
+      serotonin.HT1A_KON, the site's shared measured kon
+  5HT2A        kon = 0.0252 nM^-1 min^-1
+      density gene: Htr2a
+      serotonin.HT2A_KON, the site's shared measured kon
+      note: serotonin.py carries two affinity states for this site (live-cell and antagonist-radioligand); the system builder's default, live-cell, is what a fingerprint ligand joins.
+  A2A          kon = 0.0005 nM^-1 min^-1
+      density gene: Adora2a
+      NECA at A2A (adenosine.A2A_KON_NECA)
+  D1           kon = 0.0073395 nM^-1 min^-1
+      density gene: Drd1
+      dopamine at D1 (dopamine.D1_KON_DOPAMINE)
+  D2           kon = 2.13 nM^-1 min^-1
+      density gene: Drd2
+      haloperidol at D2, 2.13e9 M^-1 min^-1 [Sykes2017], read off scenarios.d2_dopamine_ligands_calibrated(). The site's other measured kon is dopamine's 5.82 [Agren2021], 2.7-fold higher; the antagonist's is taken because a fingerprint's compound is more often a synthetic ligand than the endogenous transmitter, and the choice is recorded here because it is a choice.
+  DOR          kon = 0.0147 nM^-1 min^-1
+      density gene: Oprd1
+      pCl-DPDPE at the delta site (opioid.DELTA_KON_PCL_DPDPE)
+  H1           kon = 0.2 nM^-1 min^-1
+      density gene: Hrh1
+      mepyramine at H1 (histamine.H1_KON_MEPYRAMINE)
+      note: histamine.py also carries a seven-ligand measured kon panel (H1_KON_PANEL) spanning 330-fold, which is the error bar this single shared value carries and is the only such panel in the codebase.
+  KOR          kon = 0.144 nM^-1 min^-1
+      density gene: Oprk1
+      diprenorphine at the kappa site (opioid.KAPPA_KON_DIPRENORPHINE)
+      note: The kappa system's action is a connection_modulation on the NAc<-VTA_DA projection, not a drive coupling, so its `coupling` is empty by construction.
+  alpha1       kon = 0.048 nM^-1 min^-1
+      density gene: Adra1a
+      prazosin at alpha1 (noradrenaline.ALPHA1_KON_PRAZOSIN)
+      note: noradrenaline.py builds ONE alpha1 site from alpha1A constants and records 1B and 1D without instantiating them, so an alpha1B or alpha1D row is accepted into the alpha1 site and that substitution is what the alias asserts.
+  alpha2       kon = 0.48 nM^-1 min^-1
+      density gene: Adra2a
+      noradrenaline.ALPHA2_KON, the site's shared measured kon
+  beta         kon = 1.28 nM^-1 min^-1
+      density gene: Adrb1
+      propranolol at beta1, kinetically measured (noradrenaline.BETA_KON_PROPRANOLOL, [Sykes2022]). The same paper's 18-ligand panel spans 230-fold in kon, and noradrenaline.py's own chemotype argument is that a shared kon is defensible WITHIN a chemotype and false across the panel -- so this number sets the site's timescale and is not a claim about any particular fingerprint ligand's association rate.
+
+borrowed-from-subtype (1)
+----------------------------------------------------------------------
+  MOR          kon = 0.144 nM^-1 min^-1
+      density gene: Oprm1
+      diprenorphine's measured association rate at KAPPA (opioid.KAPPA_KON_DIPRENORPHINE), used at mu because no mu association rate is available. This is not a new decision: opioid._ligand already falls back to exactly this value for every mu ligand it builds, and the fallback is reused here rather than replaced so that a fingerprint ligand and a hand-built one at mu share one timescale.
+      note: The site is scenarios.mu_opioid_receptor_site_calibrated (Track A: fentanyl [Mann2022]/[Volpe2011], naloxone [Mann2022]). Those two ligands were built by DERIVATION 2 -- their kon comes from a measured koff and a measured Ki -- so a fingerprint ligand at mu reproduces their affinities and not their rates. See docs/architecture.md, P8.1.
+
+assumed (1)
+----------------------------------------------------------------------
+  GABA_A_BZD   kon = 0.2 nM^-1 min^-1
+      density gene: Gabra1 (proxy)
+      scenarios.gaba_a_benzodiazepine_ligands_calibrated's `kon_shared`, which that function's own comment flags as 'assumed, not measured'. Read off the ligand rather than restated so the two cannot drift.
+      gene: PROXY: the benzodiazepine site is an interface between an alpha and the gamma2 subunit of a pentamer. Gabra1 is the most abundant alpha subunit and genes.py already flags that no single gene is the GABA-A receptor; alpha4 and alpha6 assemblies carry NO benzodiazepine site at all, so this map over-counts.
+      note: `efficacy` at this site is REPURPOSED as potentiation strength, not channel activation, because the site acts through connection_modulation (a benzodiazepine gates nothing itself). A fingerprint's efficacy for this target therefore has to be a potentiation figure, and 1.0 means 'as strong as the diazepam the P2.2 gain was fitted with'.
+
+illustrative (7)
+----------------------------------------------------------------------
+  AMPA         kon = 0.01 nM^-1 min^-1
+      density gene: Gria2 (proxy)
+      glutamate.ILLUSTRATIVE_KON; no binding kinetics for this site
+      gene: PROXY: GluA2 is present in most native AMPA receptors and is what sets their calcium impermeability, but an AMPA receptor is a tetramer of GluA1-4 and this is one of the four maps.
+      note: A GlutamatergicTransmissionSite; see NMDA's note.
+  CB1          kon = 0.01 nM^-1 min^-1
+      density gene: Cnr1
+      cannabinoid.ILLUSTRATIVE_KON; no CB1 binding kinetics were found
+      note: CB1 acts by connection_modulation with a MEASURED gain, so its `coupling` is empty and its activation scales a GABAergic weight.
+  M1           kon = 0.01 nM^-1 min^-1
+      density gene: Chrm1
+      acetylcholine.ILLUSTRATIVE_KON; no binding kinetics exist for this site
+  M2           kon = 0.01 nM^-1 min^-1
+      density gene: Chrm2
+      acetylcholine.ILLUSTRATIVE_KON; no binding kinetics exist for this site
+  NMDA         kon = 0.01 nM^-1 min^-1
+      density gene: Grin1 (proxy)
+      glutamate.ILLUSTRATIVE_KON, for the ORTHOSTERIC pool. The site's channel-blocker pool has a measured pair ([Dravid2007] MK-801) and a fingerprint entry declared pool='channel' takes glutamate.NMDA_CHANNEL_KON instead.
+      gene: PROXY: GluN1 is obligatory in every NMDA receptor, so its map bounds where the receptor can be; which GluN2 sits beside it, and therefore the subtype pharmacology glutamate.NMDA_SUBTYPE_IC50_MK801 records, it does not say.
+      note: A GlutamatergicTransmissionSite: its activation is NEGATIVE, the fraction of an existing excitatory weight the drugs remove, so `efficacy` here is an orthosteric agonist weight and an antagonist (efficacy 0) is what produces block. See glutamate.py.
+  alpha4beta2  kon = 0.01 nM^-1 min^-1
+      density gene: Chrna4 (proxy)
+      acetylcholine.ILLUSTRATIVE_KON; no binding kinetics exist for this site
+      gene: PROXY: the receptor is an alpha4/beta2 pentamer and Chrnb2 is not in RECEPTOR_GENES, so the alpha4 map stands for the assembled receptor.
+      note: A DesensitizingReceptorSite. A Ki table says nothing about whether a compound drives desensitization, so a fingerprint ligand is added with k_des = 0, i.e. it occupies the orthosteric pool and does not drive the conformational change -- which is what the module already does for its competitive antagonists. A caller with a measured desensitization rate passes k_des/k_rec explicitly.
+  alpha7       kon = 0.01 nM^-1 min^-1
+      density gene: Chrna7 (proxy)
+      acetylcholine.ILLUSTRATIVE_KON; no binding kinetics exist for this site
+      gene: PROXY: alpha7 is a homopentamer, so this is the closest a single gene gets to a receptor in this table, and it is still a subunit map.
+      note: A DesensitizingReceptorSite; see alpha4beta2's note.
+
+not-needed (3)
+----------------------------------------------------------------------
+  DAT          kon = n/a
+      density gene: Slc6a3
+      transport.py consumes a Ki directly, as the competitive term 1 + sum(C_i/Ki_i) on the apparent Km, and forms no rate pair. No koff assumption is made for this target.
+      note: A Ki table cannot say whether a compound is a substrate-type releaser or a pure uptake blocker -- that is a separate release assay -- so a fingerprint entry becomes a PURE BLOCKER unless the caller supplies release_ec50 and release_emax. `efficacy` is not consumed at a transporter.
+  NET          kon = n/a
+      density gene: Slc6a2
+      transport.py consumes a Ki directly, as the competitive term 1 + sum(C_i/Ki_i) on the apparent Km, and forms no rate pair. No koff assumption is made for this target.
+      note: A Ki table cannot say whether a compound is a substrate-type releaser or a pure uptake blocker -- that is a separate release assay -- so a fingerprint entry becomes a PURE BLOCKER unless the caller supplies release_ec50 and release_emax. `efficacy` is not consumed at a transporter.
+  SERT         kon = n/a
+      density gene: Slc6a4
+      transport.py consumes a Ki directly, as the competitive term 1 + sum(C_i/Ki_i) on the apparent Km, and forms no rate pair. No koff assumption is made for this target.
+      note: A Ki table cannot say whether a compound is a substrate-type releaser or a pure uptake blocker -- that is a separate release assay -- so a fingerprint entry becomes a PURE BLOCKER unless the caller supplies release_ec50 and release_emax. `efficacy` is not consumed at a transporter.
+
+
+The round trip: hand-built ligands rebuilt from their published Ki
+==============================================================================
+
+site           ligand        kon(hand)    kon(fp) koff(hand)   koff(fp)
+------------------------------------------------------------------------------
+GABA_A_BZD     diazepam            0.2        0.2       0.72       0.72
+GABA_A_BZD     flumazenil          0.2        0.2        0.2        0.2
+KOR            dynorphin_A       0.144      0.144     0.2448     0.2448
+KOR            leu_enkephalin      0.144      0.144       1440       1440
+KOR            U50488            0.144      0.144     0.0288     0.0288
+KOR            nor_BNI           0.144      0.144     0.0288     0.0288
+KOR            naltrindole       0.144      0.144     1.4544     1.4544
+KOR            fentanyl          0.144      0.144     12.211     12.211
+KOR            naloxone          0.144      0.144       0.36       0.36
+DOR            dynorphin_A      0.0147     0.0147    0.62769    0.62769
+DOR            leu_enkephalin     0.0147     0.0147    0.03087    0.03087
+DOR            U50488           0.0147     0.0147        147        147
+DOR            nor_BNI          0.0147     0.0147    0.08379    0.08379
+DOR            naltrindole      0.0147     0.0147    0.00294    0.00294
+DOR            fentanyl         0.0147     0.0147     2.2447     2.2447
+DOR            naloxone         0.0147     0.0147    0.99225    0.99225
+MOR            fentanyl         0.1931      0.144     0.2599    0.19382
+MOR            naloxone         1.5648      0.144     2.3754    0.21859
+
+exact (16): GABA_A_BZD/diazepam, GABA_A_BZD/flumazenil, KOR/dynorphin_A, KOR/leu_enkephalin, KOR/U50488, KOR/nor_BNI, KOR/naltrindole, KOR/fentanyl, KOR/naloxone, DOR/dynorphin_A, DOR/leu_enkephalin, DOR/U50488, DOR/nor_BNI, DOR/naltrindole, DOR/fentanyl, DOR/naloxone
+inexact (2): MOR/fentanyl, MOR/naloxone
+
+Every row above reproduces its ligand's AFFINITY exactly; the two
+inexact rows are mu-opioid, where scenarios.py derived each kon from
+that ligand's own MEASURED koff [Mann2022] and a fingerprint has only
+the Ki. What that costs, in the quantity the measurement was made
+for:
+
+  fentanyl  receptor residence time 1/koff: 3.85 min measured, 5.16 min from the fingerprint, 1.3x too long
+  naloxone  receptor residence time 1/koff: 0.42 min measured, 4.57 min from the fingerprint, 10.9x too long
+
+Naloxone is the one that matters: scenarios.py's own note says it is
+naloxone's SHORT receptor residence time, not its clearance, that
+makes reversal wear off before a large fentanyl exposure does. A
+fingerprint-derived naloxone holds the receptor almost eleven times
+too long, so a reversal timing predicted from binding data alone
+would be wrong in exactly the direction that matters clinically.
+
+A worked prediction: diazepam 2 mg/kg IP, rat
+==============================================================================
+
+Fingerprint: one row, Ki 3.6 nM at the benzodiazepine site
+             (Mohler & Okada, Life Sci 1977;20:2101), efficacy 1.0
+             supplied separately because no binding database has one.
+PK:          DosedOneCompartmentPK(route='IP', Vd/F=19.3 L/kg, CL/F=255 mL/min/kg, F folded in (apparent parameters))
+Partition:   receptor-drivable
+             Kp 4.5 +/- 0.1 and f(u,plasma) 0.196 from [Friedman1986] (rat, 5 mg/kg IP); f(u,brain) 0.04 from [Gustafsson2019] Table 2 (Sprague-Dawley rat, whole_brain, brain-homogenate equilibrium dialysis)
+Compartment: unbound brain
+
+  peak unbound brain concentration  52.23 nM
+  peak benzodiazepine-site occupancy 0.936 at 17 min
+  site activation at peak            0.936
+
+This is where P8.1 stops. Turning that activation into an anxiety
+score needs the potentiation gain P2.2 fitted and a region-wise
+density, which is P8.2's composition and not a binding fingerprint's
+to supply.
+
+PK coverage, which is the other half a fingerprint does not carry
+==============================================================================
+
+  diazepam / mouse       no route has a sourced model
+  diazepam / rat         IV, IP
+  fentanyl / mouse       no route has a sourced model
+  fentanyl / rat         IV
+  haloperidol / rat      IV
+
+Three drugs, four (drug, species, route) triples. Every other
+compound needs its PK model passed in explicitly, and predict()
+raises UnsourcedParameterError rather than substituting one.

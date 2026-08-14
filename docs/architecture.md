@@ -12243,3 +12243,512 @@ P2.3's conclusions are unchanged and remain true for the reason they were
 always true: the other three circuits have zero behavioural observations
 because every entry in the module is diazepam, and the amygdala circuit still
 has exactly one.
+
+---
+
+## Phase 8: the binding-fingerprint input API (P8.1)
+
+### The sentence in the brief, and the half it does not contain
+
+> Accept an arbitrary compound as a binding fingerprint, a table of Ki values
+> across the modelled receptor and transporter targets plus efficacy per
+> target, in the format the PDSP Ki database publishes, and construct its
+> ligand set automatically across every system.
+
+Everything before this task is a *scenario*: a named drug whose constants
+were sourced by hand, wired into a circuit, in a module written for it. That
+is the right shape for calibration and the wrong shape for prediction. P8.1
+is the shape change, and the whole task is about being precise on two
+questions the brief's sentence contains and does not answer:
+
+1. a Ki is one number and the engine needs two, so what supplies the second;
+2. a Ki table has no efficacy column, so where efficacy comes from.
+
+The first has a documented answer with a stated cost. The second has a
+refusal.
+
+### The PDSP row shape, read off the database rather than remembered
+
+The NIMH PDSP Ki database's result table
+(https://pdspdb.unc.edu/kidb2/kidb/web/, read 2026-08-14) has columns
+
+    Ki ID | Receptors | Sources | Species | Hot Ligands | Test Ligands
+          | Ki Value | Citations | Submitted At | Updated At
+
+and a row looks like
+
+    100956 | NET | CELLS | HEK293 | 3H-CIT | MAZINDOL | 0.738 | Reith ME, ...
+
+so `Receptors` carries a short target symbol, `Test Ligands` the compound,
+`Hot Ligands` the radioligand competed against, `Sources` the preparation,
+`Species` its origin (a cell line for a cell-based assay), and `Ki Value` is
+in nM. `fingerprint.PDSPRow` takes exactly those fields and
+`BindingFingerprint.from_pdsp_rows` reads them.
+
+**Searched and not obtained:** the downloadable CSV's own header list. Both
+documented download endpoints were unreachable on 2026-08-14 —
+`kidbdev.med.unc.edu` refused the connection and `pdsp.unc.edu` failed TLS
+certificate verification — so the field set above is read off the live query
+interface rather than off a file. The consequence is bounded and worth
+stating: `PDSPRow` matches the *published* row, and a caller with a CSV whose
+headers differ has a rename to do, which is why `from_pdsp_rows` also accepts
+plain mappings.
+
+### The column that does not exist, which is this module's central refusal
+
+**PDSP publishes no efficacy, and that is a property of the assay rather than
+an omission.** A competition binding experiment measures how tightly a
+compound occupies a site. What the occupied receptor then does — full
+agonism, partial agonism, neutral antagonism, inverse agonism — is a
+functional measurement (GTP-gamma-S, cAMP, electrophysiology) in a different
+experiment. Verified directly against the database, which reports no Emax, no
+agonist/antagonist flag and no functional column of any kind.
+
+So `from_pdsp_rows` **requires** an efficacy for every modelled target the
+rows cover and raises `MissingEfficacyError` naming the ones it was not given.
+It does not default to 1.0, does not infer from affinity, and does not copy
+what other ligands at that target do. Defaulting would be the cheapest
+available way to invent a number and the hardest to see afterwards: a
+fingerprint with a defaulted efficacy produces a full occupancy-to-activation
+conversion that looks exactly like a measured one. An efficacy given for a
+target with no Ki behind it is refused too, in the other direction.
+
+This is the one design decision in P8.1 that costs the caller something every
+single time, and it is the reason the API is honest at all.
+
+### Ki -> kon/koff, as an identity rather than a paragraph
+
+`receptor.ligand_from_ki` is the conversion, in one place, with the assumption
+next to it. Two assumptions, of different kinds:
+
+**`Kd = Ki`.** For a reversible competitive orthosteric ligand the
+Cheng-Prusoff-corrected inhibition constant *is* the equilibrium dissociation
+constant. This is the standard reading of the datum, and it is the same
+approximation `scenarios.py` already names in the mu-opioid block. It fails
+for a ligand that is not competitive at the labelled site, which is what the
+pool declaration below is for.
+
+**`koff = kon * Ki`, with `kon` supplied.** The load-bearing one:
+
+> The Ki fixes the RATIO `koff/kon`. It fixes NEITHER RATE. Splitting it into
+> a pair needs one more number, and that number is `kon`.
+
+What that does and does not cost, and the split is clean:
+
+* the ligand's **affinity is exact**, for any `kon` whatsoever —
+  `koff/kon == Ki` by construction — so every equilibrium quantity
+  (occupancy at a concentration, the competitive ratio between two ligands
+  sharing a pool, an IC50) carries no assumption beyond `Kd = Ki`. A test
+  asserts this across five orders of magnitude of `kon`;
+* the ligand's **approach timescale is entirely the supplied `kon`'s**.
+  Whether binding equilibrates fast or slow against the circuit's own
+  relaxation is set by a number the binding table does not contain.
+
+This is derivation 3 of this codebase's four-way taxonomy, which
+`acetylcholine.py`, `glutamate.py`, `cannabinoid.py`, `opioid.py`,
+`serotonin.py`, `noradrenaline.py`, `histamine.py`, `adenosine.py` and
+`scenarios.gaba_a_benzodiazepine_ligands_calibrated` had each written out by
+hand. P8.1 refactored the four modules that kept a private `_ligand()` helper onto
+the shared function — same numbers, one statement of the assumption — and left
+the five that inline the arithmetic alone, because rewriting a calibrated
+ligand's decimal literal into a computed expression would move numbers this
+task has no calibration for.
+
+### The kon table: five standings, and the one target that needs no assumption
+
+`fingerprint.TARGETS` is this repository's first canonical target registry —
+before P8.1 there were four partial ones (`opioid.RECEPTORS`,
+`endogenous_tone.TONE_TARGETS`, `monoamine_transporters.TRANSPORTERS`,
+`expression.genes.RECEPTOR_GENES`) with inconsistent naming and no joins. It
+covers 23 targets, and its `kon` column is assembled from each module's own
+constants rather than restated, so a module that changes its site `kon`
+changes this too; a test re-derives every entry.
+
+Because `kon` is where the assumption lives, every entry carries its
+standing:
+
+| standing | targets | what it means |
+|---|---|---|
+| `measured-at-site` | 5HT1A, 5HT2A, alpha1, alpha2, beta, H1, A2A, D1, D2, DOR, KOR | a radioligand's association rate measured at this receptor |
+| `borrowed-from-subtype` | MOR | diprenorphine's kappa `kon`, which is what `opioid._ligand` already falls back to for every mu ligand it builds |
+| `assumed` | GABA_A_BZD | `scenarios.py`'s own `kon_shared`, flagged there as "assumed, not measured" |
+| `illustrative` | alpha4beta2, alpha7, M1, M2, NMDA, AMPA, CB1 | `ILLUSTRATIVE_KON = 0.01`, the sites with no published binding kinetics at all |
+| `not-needed` | DAT, SERT, NET | no rate pair is formed |
+
+That last row is the one worth pausing on. `transport.py` consumes a Ki
+**directly**, as the competitive term `1 + sum(C_i/Ki_i)` on the apparent Km,
+and never forms a `kon`/`koff` pair — its module docstring says deriving one
+"would be a re-derivation with no measurement behind it". So a fingerprint
+entry at a monoamine transporter carries **no koff assumption whatsoever**:
+it is the only part of the whole fingerprint path that is assumption-free
+downstream of `Kd = Ki`. Knowing which part that is, is worth as much as
+knowing where the assumptions are.
+
+One target gets a *better* constant through the fingerprint path than the
+default: an entry declared `pool="channel"` at NMDA takes
+`glutamate.NMDA_CHANNEL_KON`, which is [Dravid2007]'s **measured** MK-801
+association rate, rather than the illustrative orthosteric value.
+
+Two choices in the table are choices and are recorded as such. **D2** takes
+haloperidol's measured `kon` rather than dopamine's, which is 2.7-fold higher,
+on the grounds that a fingerprint's compound is more often a synthetic ligand
+than the endogenous transmitter. **beta** takes propranolol's kinetically
+measured value, and `noradrenaline.py`'s own chemotype argument — a shared
+`kon` is defensible within a chemotype and false across [Sykes2022]'s
+230-fold panel — is the error bar that carries.
+
+### The join that did not exist: pharmacological names to gene symbols
+
+`TargetSpec.gene` is the first place this repository's pharmacological name
+space (`MOR`, `5HT2A`, `alpha4beta2`) meets its anatomical one
+(`expression.genes.RECEPTOR_GENES`, keyed by mouse gene symbol). They never
+met before, and P8.2 needs them joined, because a whole-brain prediction is
+`coupling[region] = mechanism_gain * rho[region]` with `rho` read off the
+gene's ISH map.
+
+Five of the 23 are **proxies rather than identities**, and each says so in
+`gene_note` with the word PROXY, checked by a test that the flagged set is
+exactly the multi-subunit ones:
+
+* **GABA_A_BZD -> Gabra1.** The benzodiazepine site is an interface between an
+  alpha and the gamma2 subunit of a pentamer. Gabra1 is the most abundant
+  alpha, and alpha4- and alpha6-containing assemblies carry **no**
+  benzodiazepine site at all, so this map over-counts.
+* **NMDA -> Grin1.** GluN1 is obligatory, so its map bounds where the receptor
+  can be; which GluN2 sits beside it, and therefore the subtype pharmacology
+  `glutamate.NMDA_SUBTYPE_IC50_MK801` records, it does not say.
+* **AMPA -> Gria2**, **alpha4beta2 -> Chrna4**, **alpha7 -> Chrna7**: one
+  subunit's map for a tetramer or a pentamer, with `Chrnb2` not in the gene
+  table at all.
+
+`genes.py` already made this point about GABA-A ("a pentamer"). P8.1's
+contribution is to make it true of every entry that needs it and to put the
+flag where the join is, so a P8.2 density read cannot silently treat a subunit
+map as a receptor map.
+
+### A fingerprint can ADD a ligand and can never REDEFINE a system
+
+Every registry entry reaches its receptor through a zero-argument callable
+returning that module's own `engine.ReceptorSystem` or `TransporterSystem`.
+This is `projection_scenarios.ReceptorPlacement`'s rule — a port "cannot
+quietly redefine a receptor: it can only move it" — applied to a second
+problem for the same reason. `add_to_system` returns a copy with one more
+ligand and carries the coupling, the connection modulation, the name, the
+transmitter sources, the desensitization rates and every existing ligand and
+PK model through untouched. `on_duplicate="error"` is the default, so
+overwriting a calibrated ligand takes saying so.
+
+Three mechanics that had to be got right rather than guessed:
+
+* **Ligand order is the engine's `doses` order**, and inserting an
+  orthosteric ligand into a site that also has channel blockers moves the
+  blockers. The rebuilt system's `pk_models` are re-assembled by ligand
+  *name* against the new site's order, so the two cannot desynchronise.
+* **A replacement is substituted in place**, not removed and re-appended, so
+  the state layout is bit-for-bit what it was. That is what makes the round
+  trip comparable row by row.
+* **A desensitizing site's new ligand gets `k_des = 0`.** A Ki table says
+  nothing about whether a compound drives desensitization, and `k_des = 0` is
+  the class's own way of saying "occupies the orthosteric site without driving
+  the conformational change" — exactly what `acetylcholine.py` already does
+  for its competitive antagonists. A caller with a measured rate passes it.
+
+### Which pool, which is the caller's declaration and not an inference
+
+`Kd = Ki` reads a competition constant as an *orthosteric* dissociation
+constant. That is what it is for a ligand competing with the radioligand at
+the labelled site and is not what it is for an open-channel blocker or an
+allosteric modulator — and a Ki table does not say which a compound is. So
+`FingerprintEntry.pool` defaults to `"orthosteric"`, the reading the datum
+supports, a caller who knows better declares `"channel"`, and a channel
+declaration at a site with no channel pool raises rather than being silently
+demoted to the competitive pool. Asserting a mechanism the data does not
+contain is the failure mode this refusal exists for.
+
+### The round trip: sixteen ligands exact, two not, and what the two cost
+
+The acceptance criterion is a round trip reproducing an existing hand-built
+scenario. Three were run, and the split between them is the result.
+
+**Exact (16 ligands).** The GABA-A benzodiazepine site and the kappa and delta
+opioid sites were themselves built by derivation 3 — one shared site `kon`,
+`koff = kon * Ki` — which is what this API does. So expressing
+`scenarios.gaba_a_benzodiazepine_ligands_calibrated` as two PDSP rows
+([Mohler1977]'s diazepam Kd 3.6 nM, [Mohler1981]'s flumazenil 1.0 nM) and
+pushing them back through `ligand_set` returns the hand-built ligands with
+identical `kon`, `koff` and `efficacy`; likewise all fourteen kappa and delta
+ligands from `opioid.KI_HUMAN_CHO` and `opioid.EMAX_GTPGS`. Exact to floating
+point rather than bit-for-bit against a decimal literal, because
+`0.2 * 3.6 = 0.7200000000000001` and `scenarios.py` writes `0.72`; the test
+says so instead of hiding it behind a loose tolerance.
+
+The GABA-A round trip is then carried through the **whole scenario**: the
+rebuilt site substituted into `gaba_a_receptor_system_calibrated`, run on
+`amygdala_anxiety_circuit_network` against the hand-built one, occupancies and
+firing rates identical to 1e-12. And through `predict`, from 2 mg/kg IP in the
+rat — the dose P2.2's fit is against — reaching the same occupancy as the
+hand-built path.
+
+**Not exact (2 ligands), and this is the useful half.**
+`scenarios.mu_opioid_ligands_calibrated` used **derivation 2**: fentanyl's and
+naloxone's `kon` each come from that ligand's own **measured** koff
+([Mann2022]) divided by its own Ki. A fingerprint has only the Ki, so it uses
+the site's shared `kon`, and the two agree on affinity and disagree on rate:
+
+| ligand | measured 1/koff | fingerprint 1/koff | |
+|---|---|---|---|
+| fentanyl | 3.85 min | 5.16 min | 1.3x too long |
+| naloxone | 0.42 min | 4.57 min | **10.9x too long** |
+
+Naloxone is the one that matters, and `scenarios.py`'s own note says why: it
+is naloxone's **short receptor residence time**, not its plasma clearance,
+that makes reversal wear off before a large fentanyl exposure does
+(renarcotization). A fingerprint-derived naloxone holds the receptor almost
+eleven times too long, so a reversal *timing* predicted from binding data
+alone would be wrong in exactly the direction that matters clinically, while
+every equilibrium occupancy it predicts would be right.
+
+That is the general statement of what this API costs, arrived at by
+measurement rather than by argument:
+
+> A binding fingerprint predicts equilibrium exactly and kinetics only as well
+> as the site `kon` it inherits. Where a measured koff exists, use it; the
+> fingerprint path is what you have when it does not.
+
+### What `predict` returns, and where P8.1 stops
+
+`predict(fingerprint, dose, route, species, body_weight_kg)` runs the chain
+
+    dose (mg/kg), route, species
+        --drug_pk.pk_model_for, the Phase 1 bridge-->
+    plasma concentration
+        --brain_partition, P1.5-->
+    unbound brain concentration
+        --ReceptorSite.occupancy_rhs at koff = kon * Ki-->
+    the compound's occupancy, and the site's activation
+
+and returns exactly that: per target, an occupancy trace, an activation
+trace, the concentration the receptor actually saw and which compartment it
+was. **Nothing in that chain has an unfitted parameter in it.**
+
+It stops there deliberately. Turning an activation into a behavioural score
+needs, per target, a `mechanism_gain` and a region-wise density, and exactly
+one such gain has ever been fitted in this repository (P2.2's
+`GABA_A_CONNECTION_MODULATION_GAIN`, and P7.3's whole-brain counterpart).
+Composing 23 targets onto one whole-brain network with 22 unfitted gains would
+produce a plausible-looking behavioural profile whose magnitude nothing
+supports — which is precisely the failure mode this codebase's rule 1 exists
+to prevent, arriving through a new door. What P8.1 hands P8.2 is
+`receptor_systems_for`, a wired `ReceptorSystem` per target, which is the
+object that composition needs.
+
+Two limits stated on the API rather than discovered later. **No endogenous
+tone**: the other ligands at each site are dosed at zero, so a `predict` run
+is a drug arriving at an empty pool; tone is P6.2's and needs a circuit.
+**Species is the PK's, not the binding's**: `species` selects the disposition
+parameter set and the partition, while each site's other ligands keep whatever
+species their own module sourced. The fingerprint's own rows carry the species
+its Ki was measured in, recorded and reported, and deliberately not checked
+against the PK species — affinity and disposition are routinely measured in
+different preparations, and refusing that combination would refuse most of the
+literature.
+
+### The circuit-free right-hand side, and why it is checked rather than trusted
+
+`predict` needs the receptor layer without a circuit, and
+`engine.Simulation` requires a network. `_CircuitFreeBlock` is
+`Simulation.rhs` with the network, the drive and the connection modulation
+removed and nothing else changed — the same PK models through
+`pk.as_ode_pk_model`, the same `receptor_concentration_factor` correction,
+the same site right-hand side.
+
+It is a second implementation of a right-hand side this codebase already has,
+so it is compared with the first **at the derivative, at the same state**,
+where the comparison can be exact: eight random states, and the PK and
+occupancy regions must agree bit for bit. Comparing trajectories instead would
+only have shown that two `solve_ivp` calls over different-length state vectors
+landed close — a statement about the integrator. A second test bounds what the
+integrator adds on top: the largest occupancy difference over a 40-minute
+GABA-A run is 1.8e-05 against occupancies of order 0.7, and it is reported as
+a measured number rather than absorbed into a tolerance.
+
+### The other half a fingerprint does not carry: pharmacokinetics
+
+A Ki table says nothing about absorption, distribution or clearance, so
+`predict` cannot go from a **dose** to a receptor without a PK model. P8.1
+added `drug_pk.pk_model_for(drug, species, route, body_weight_kg)`, the single
+dispatch point over `drug_pk`'s per-drug builders, because a prediction API
+takes a drug name as *data* and cannot reach for a hand-picked module
+function per compound. It adds no numbers and relaxes nothing: a pair with a
+builder raises that builder's own search record, and a pair with none raises
+`UnsourcedParameterError` naming the pairs that exist.
+
+The coverage that dispatcher exposes is the honest headline of this section:
+
+    diazepam    / rat     IV, IP
+    haloperidol / rat     IV
+    fentanyl    / rat     IV
+    diazepam    / mouse   no route has a sourced model
+    fentanyl    / mouse   no route has a sourced model
+
+**Three drugs, four triples.** So of the arbitrary compounds this API was
+built to accept, every one needs its PK model passed in explicitly by a caller
+who owns that model's provenance — and P8.2's held-out drugs (morphine,
+clozapine, alprazolam, amphetamine) have no sourced disposition here at all.
+That is a Phase 1 gap, not a P8.1 one, and naming it now is what stops P8.2
+from quietly filling it: substituting fentanyl's disposition for morphine's
+would let a prediction succeed and would be rule 2 exactly.
+
+`MODELLED_ROUTES` is written down rather than derived, because deriving it
+would mean probing every route with a body weight and `drug_pk` never defaults
+a body weight (its own rule 3). It is therefore a claim about the builders,
+and a test supplies a weight and checks every entry and every omission against
+what they do.
+
+### Searched and empty
+
+* **The PDSP download CSV's header list.** Both documented download endpoints
+  unreachable on 2026-08-14 (connection refused; TLS verification failure).
+  Field set taken from the live query interface instead. Recorded above.
+* **An efficacy source in any Ki database.** There is none, by construction.
+  This is not a gap to fill later; it is why `MissingEfficacyError` exists.
+* **A mu-opioid association rate.** None exists for any ligand at mu, which
+  `opioid.py` had already recorded and which is why its `_ligand` falls back
+  to kappa's. P8.1 reuses the fallback rather than replacing it, so a
+  fingerprint ligand and a hand-built one at mu share one timescale.
+* **PK for any compound outside the three above.** See the table.
+
+### What was deliberately not built
+
+* **A behavioural profile.** P8.2's, for the reason in "Where P8.1 stops".
+* **Substrate detection at a transporter.** A Ki cannot say whether a compound
+  is a substrate-type releaser or a pure uptake blocker — that is a separate
+  release assay, which is why `monoamine_transporters.RELEASE_EC50` has one
+  entry. A fingerprint transporter entry is a **pure blocker** unless the
+  caller supplies `release_ec50` and `release_emax`.
+* **A censored-Ki policy.** This codebase has two incompatible existing ones
+  (`opioid.ASSAY_CEILING_NM` instantiates at the bound with `is_censored` to
+  flag it; `monoamine_transporters.MISSING_KI` omits the ligand entirely).
+  `ligand_from_ki` refuses a non-finite or non-positive Ki and leaves the
+  choice with the caller, because picking one here would impose an
+  interpretation on data neither convention was written for.
+* **A species check between a fingerprint's Ki and the PK species.** Stated
+  above.
+
+### What P8.1 delivered, checked against the standing discipline
+
+1. **Never invent a number.** No new measured quantity is introduced. Every
+   `kon` in `TARGETS` is assembled from a module constant or read off a
+   module's own calibrated ligand, with a test per entry; the efficacy
+   requirement is a refusal to invent the one number a Ki table lacks; the PK
+   dispatcher raises rather than substituting. The searched-and-empty items
+   are recorded above.
+2. **No cross-drug or cross-species substitution.** `pk_model_for` refuses
+   both explicitly and names what exists. The one borrow in the table —
+   diprenorphine's kappa `kon` used at mu — is a cross-*subtype* borrow within
+   one ligand, is what `opioid.py` already does, and is labelled
+   `borrowed-from-subtype` in the registry and in the printed report.
+3. **Illustrative labels.** None removed. Seven targets inherit
+   `ILLUSTRATIVE_KON` and the registry says so in the same place it hands the
+   number out.
+4. **Tests.** 70 new (65 functions, some parametrized), plus the existing
+   suite unchanged. No test weakened, skipped or marked slow. Ten of the
+   seventy are new because of the adversarial review recorded below, and two
+   more gained assertions from it.
+5. **No widened tolerance.** The two tolerances that were loosened from an
+   initial 0 are both reported as measured numbers: 1e-15 relative for
+   `0.2 * 3.6` against the literal `0.72`, and 1.8e-05 for two `solve_ivp`
+   runs over different-length state vectors — and the exactness claim that
+   test was originally making is now made at the derivative instead, where it
+   is bit-for-bit.
+6. **Outputs.** `scripts/report_binding_fingerprints.py` ->
+   `results/binding_fingerprints.txt`: the whole `kon` table with its
+   standings, the eighteen-ligand round trip run rather than asserted, one
+   worked prediction, and the PK coverage table.
+
+### What an adversarial review of the finished module found
+
+Nine defects, in a module whose 60 tests were green. Each is worth recording
+because most of them are the same failure in different clothes: a value that
+quietly defaults, or a docstring that claims a refusal the code does not
+make, in a module whose whole point is refusing to.
+
+**1. A desensitized ligand was not counted as occupying the receptor.**
+`predict` read the compound's occupancy straight out of the state block, and a
+`DesensitizingReceptorSite` holds a ligand in *two* states. Its own docstring
+says the desensitized one "occupies the pool (so it still competes)". With a
+caller-supplied `k_des`, the reported peak occupancy was **0.43 against a true
+0.99**, a 2.3-fold understatement of the headline number, and
+`occupancy_ranking()` inherited it. `ligand_occupancy` is the fix, and it
+draws the distinction the two quantities actually have: **occupancy** is how
+much of the pool the drug holds (bound plus desensitized), **activation** is
+what the site does with it (conducting only). The fix's test asserts both
+sides.
+
+**2. The reported brain-partition status contradicted the model that ran.**
+`predict` looked the status up by compound name even when the caller supplied
+the PK model — and for the arbitrary compound this API exists to accept, a
+supplied model is the *only* way to run, so the lookup always said "absent"
+while the run drove occupancy with an unbound brain concentration. A
+queryable-fact API stating the opposite of the fact. The status is now read
+off the model that was used, and reports `caller-supplied` where the caller
+owns the provenance.
+
+**3. `pool="channel"` was refused at the two sites that have a channel pool.**
+The guard was `isinstance(site, ChannelBlockingReceptorSite)`, and
+`DesensitizingReceptorSite` deliberately does *not* subclass it — `receptor.py`
+explains that their state layouts interleave differently — while both nicotinic
+sites carry a mecamylamine pool. So a true statement about the site was
+rejected with a false reason. Four targets have a channel pool, not one, and
+`_CHANNEL_KON` now lists all four with a `kon` and a provenance each. Latent
+in the same bug: with the guard fixed, a blocker's *ligand* index `p + j` maps
+to *state* `2p + j` at a desensitizing site, so reading the state block by
+ligand index would have returned an unrelated ligand's desensitized state.
+`ligand_occupancy` handles that too, and a test pins it.
+
+**4. The measured NMDA channel `kon` was reported as illustrative.** The
+`kon` was swapped for the channel value and the provenance label was not, so
+the one entry in the table that is *better* founded than its target's default
+was reported as worse. In a table whose entire purpose is recording standing,
+that is the one field that must not drift from its number, and the two now
+travel together.
+
+**5. `on_duplicate="replace"` silently dropped a caller's `k_des`/`k_rec`.**
+`setdefault` on a key that already exists. `k_des` and `k_rec` now default to
+`None` meaning "not stated", so a stated rate always wins and an unstated one
+keeps the module's measured value on replacement and takes 0 on addition —
+three distinct cases, none of them silent.
+
+**6. Two aliases of one target could carry conflicting efficacies, last one
+wins.** `{"5-HT2A": 0.0, "HTR2A": 1.0}` is a caller who believes they
+described two receptors, and the alias fold turned a neutral antagonist into a
+full agonist without a word. `_fold_aliases` raises on a conflict. The Ki side
+was already right: several rows for one target combine by geometric mean and
+say so in the entry's note.
+
+**7. A table covering nothing this model carries returned an empty
+fingerprint, and `combine` was never validated when there was nothing to
+combine.** `predict` on that object built a PK model and returned a
+`CompoundPrediction` with zero targets — a prediction-shaped object that
+predicts nothing. Both now raise, the first naming the unmodelled targets.
+
+**8. `gene_note` was documented as "Required, and enforced" and was checked
+nowhere.** A `TargetSpec` for a multi-subunit receptor would have been
+accepted with no proxy caveat. The constructor has no way to know whether a
+receptor is an assembly, so the docstring now says where the check actually
+is — `test_the_multi_subunit_targets_are_exactly_the_ones_flagged_as_proxies`,
+which pins the flagged set exactly rather than only requiring it to be
+non-empty. A docstring that claims an enforcement the code does not make is
+the same defect as a silent default, arriving through the documentation.
+
+**9. A Ki merged across rows kept only the first row's species, preparation,
+radioligand and citation.** The review called this minor; it is not. The
+module docstring promises a fingerprint's species is recorded and reported,
+and recording the first of three is not recording it. A merged entry's
+provenance fields are now the value every row agrees on, or `None` with the
+disagreement spelled out in the note.
+
+Nothing in the review touched the round trip, the `kon` table's values, the
+`Ki -> kon/koff` conversion or the PK dispatcher. What it touched was
+everywhere the module reported *about* itself, which is the part a reader
+trusts without checking.

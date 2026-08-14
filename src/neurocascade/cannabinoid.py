@@ -299,7 +299,7 @@ from .circuit import CircuitNode
 from .engine import ReceptorSystem
 from .network import CircuitNetwork
 from .pk import OneCompartmentPK
-from .receptor import Ligand, ReceptorSite
+from .receptor import Ligand, ReceptorSite, ligand_from_ki
 
 
 # ---------------------------------------------------------------------------
@@ -450,8 +450,13 @@ ILLUSTRATIVE_KON = 0.01
 
 def _ligand(name, kd, efficacy):
     """Derivation 3 with an illustrative rather than a measured shared kon:
-    `koff = kon * Kd`, so the measured affinity is exact."""
-    return Ligand(name=name, kon=ILLUSTRATIVE_KON, koff=ILLUSTRATIVE_KON * kd, efficacy=efficacy)
+    `koff = kon * Kd`, so the measured affinity is exact.
+
+    The arithmetic and the assumption behind it are `receptor.ligand_from_ki`
+    (P8.1)."""
+    return ligand_from_ki(
+        name=name, ki_nM=kd, kon=ILLUSTRATIVE_KON, efficacy=efficacy
+    )
 
 
 def ligands_cb1(affinity="midpoint", thc_efficacy=CB1_EFFICACY_THC):

@@ -555,7 +555,12 @@ from .circuit import CircuitNode
 from .engine import ReceptorSystem
 from .network import CircuitNetwork
 from .pk import OneCompartmentPK
-from .receptor import DesensitizingReceptorSite, Ligand, ReceptorSite
+from .receptor import (
+    DesensitizingReceptorSite,
+    Ligand,
+    ReceptorSite,
+    ligand_from_ki,
+)
 
 
 def _kd_from_pki(p_ki):
@@ -866,8 +871,12 @@ MECAMYLAMINE_EFFICACY = 0.0
 
 def _ligand(name, kd, efficacy, kon=ILLUSTRATIVE_KON):
     """Derivation 3 with an illustrative kon: `koff = kon * Kd`, so the
-    measured affinity is exact and only the timescale is hand-set."""
-    return Ligand(name=name, kon=kon, koff=kon * kd, efficacy=efficacy)
+    measured affinity is exact and only the timescale is hand-set.
+
+    The arithmetic and the assumption behind it are `receptor.ligand_from_ki`
+    (P8.1), which is where the four modules that each wrote this line by hand
+    now share one statement of it."""
+    return ligand_from_ki(name=name, ki_nM=kd, kon=kon, efficacy=efficacy)
 
 
 def ligands_alpha4beta2(nicotine_efficacy=NICOTINE_EFFICACY):
