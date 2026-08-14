@@ -11913,11 +11913,44 @@ table: 153.6 ± 16.6, 156.5 ± 22.9, 158.3 ± 24.6, 161.7 ± 19.1. Nothing moves
 
 That is the only graded, tabulated, bridgeable behavioural dose-response
 found for any of the seven endpoints, and it is a null. A null with error bars
-is not an absence: the model predicts that potentiating inhibition brain-wide
-*lowers* the locomotion index monotonically in the gain, so three doses that
-move nothing put an **upper bound** on that gain. It is the only one-sided
-identification in the task, and it is the same verdict shape P2.3 reached for
+is not an absence *in principle*: the model predicts that potentiating
+inhibition brain-wide *lowers* the locomotion index monotonically in the gain,
+so three doses that move nothing would put an **upper bound** on that gain,
+the same one-sided verdict shape P2.3 reached for
 `gaba_a_connection_modulation_gain` from the other side.
+
+**In practice it does not, and the committed fit is what says so.** The first
+draft of this section claimed the upper bound as a result; the run in
+`results/calibration/endpoint_fits.txt` refutes it, and the claim is
+withdrawn rather than kept as an intention. At the largest gain the prior
+allows, the whole-brain locomotion index falls by 4.7–6.4% across the three
+doses (model ratios 0.9530, 0.9415, 0.9361), against SEM-derived widths of
+17–20% on the observed ratios (1.0189 ± 0.185, 1.0306 ± 0.195, 1.0527 ±
+0.169). The posterior is **2.37 ± 1.43 on a Uniform(0, 5) prior whose own
+mean is 2.5 and sd 1.44**, which is the prior to two digits, with an 89%
+interval of [0.25, 4.70], and `bound_verdict` returns `wrong-direction`, because the
+counts rose slightly rather than falling.
+
+The cause lies in the model rather than in the dataset: refutation 2 again,
+arriving through the one series that was supposed to be immune to it. P3.4's
+illustrative ρ = 0.9 sets `weight_scale = 0.0201`, so a gain of 5 moves the
+index by ~6% where the data resolve ~18%. A graded null can only bound a
+model that *can* move. The
+`tests/test_endpoint_calibration.py::test_a_null_series_pushes_the_gain_down_
+rather_than_up` test still shows the mechanism working on a synthetic curve
+with a real slope, which is the right place for that claim to live: it is a
+statement about the rule, not about this data set against this operating
+point.
+
+So the corrected summary of the task is sharper than the original and worse
+for the model: **no target in P7.3 identifies anything.** [Graziani2022]'s EPM
+contrast moves the right way and ~6× too little; its open-field contrast, read
+as locomotion and again as sedation, moves the wrong way; and the two graded
+nulls, which were the targets that could have produced a one-sided bound,
+fail because the index moves 2.8–6.4% where the data resolve 17–21%. All five
+posteriors are either pinned on a prior bound or identical to the prior. The
+one-sided identification stays a property of the rule, demonstrated on a
+synthetic curve in the tests, until the operating point lets the model move.
 
 **[Lustyk2023]** (Neurochem Res 2023;48(3):839–51, PMC9644393) is the second
 graded series: diazepam 5 and 10 mg/kg IP against 52.5 °C hot-plate latency,

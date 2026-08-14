@@ -1,0 +1,162 @@
+P7.3: whole-brain endpoint fits
+========================================================================
+
+  connectome_description   the full published Knox et al. 2019 matrices
+  resolution               regions
+  n_nodes                  291
+  operating_gain           0.9
+  weight_scale             0.020132423157026052
+  density_normalization    max
+  peak_density_node        SSp-un
+  unmeasured regions       12 (VISli, VISpor, VISa, VISrl, ASO, PVa, PST, EW, IV, AP, ICB, NR)
+
+  Every circuit-layer number above is ILLUSTRATIVE: the node
+  parameters (P3.2), the operating gain (P3.4), the
+  expression-to-density proportionality (P4.2) and every endpoint
+  weight magnitude (P7.1). See docs/architecture.md, P7.3.
+
+  analgesia            regions with no ISH density: none
+  anxiety              regions with no ISH density: none
+  locomotion           regions with no ISH density: none
+  sedation             regions with no ISH density: none
+
+  response curve: 25 points, x in [0, 4.925]
+  interpolation error at grid midpoints, measured against a
+  re-integration of the 291-node circuit:
+      analgesia            1.305e-05
+      anxiety              1.525e-05
+      locomotion           4.617e-05
+      sedation             5.445e-05
+
+------------------------------------------------------------------------
+anxiety/diazepam/Graziani2022  (endpoint anxiety)
+------------------------------------------------------------------------
+  measure                 open-arm avoidance, 1 - open-arm time / trial duration
+  source                  Graziani D, et al. Braz J Med Biol Res. 2022;55:e12314. doi:10.1590/1414-431X2022e12314, PMID 36477952, PMC9728632
+  levels                  1 dose(s) at 60 min
+    mg/kg      brain nM     activ.   observed ratio         model@5   
+    2          32.35        0.8999   0.7835 +/- 0.0517      0.9644    
+  verdict                 beyond-lower-bound
+  best gain in the box    5.0000, worst residual 3.50 sd
+  Fisher spectrum over (gain, assay scale): [  0.    359.555]
+      eigenvalue ratio 0.00e+00: a single contrast gives a
+      rank-1 matrix exactly, so the gain and the unknown
+      behavioural scale are degenerate and only the RATIO
+      formulation identifies anything at all. A graded
+      series can lift that rank, and the number above says
+      by how much rather than whether in principle.
+  posterior gain          3.4400 +/- 1.2300
+  r_hat                   1.010   (want < 1.05)
+  ESS (bulk)              764
+  posterior is interior   True
+  prior mean for contrast 2.5000
+
+------------------------------------------------------------------------
+locomotion/diazepam/Graziani2022  (endpoint locomotion)
+------------------------------------------------------------------------
+  measure                 open-field crossing episodes
+  source                  Graziani D, et al. Braz J Med Biol Res. 2022;55:e12314. doi:10.1590/1414-431X2022e12314, PMID 36477952, PMC9728632
+  levels                  1 dose(s) at 60 min
+    mg/kg      brain nM     activ.   observed ratio         model@5   
+    2          32.35        0.8999   1.3826 +/- 0.2277      0.9349    
+  verdict                 wrong-direction
+  best gain in the box    0.0000, worst residual 1.68 sd
+  Fisher spectrum over (gain, assay scale): [ 0.    17.869]
+      eigenvalue ratio 0.00e+00: a single contrast gives a
+      rank-1 matrix exactly, so the gain and the unknown
+      behavioural scale are degenerate and only the RATIO
+      formulation identifies anything at all. A graded
+      series can lift that rank, and the number above says
+      by how much rather than whether in principle.
+  posterior gain          2.3000 +/- 1.4400
+  r_hat                   1.010   (want < 1.05)
+  ESS (bulk)              767
+  posterior is interior   True
+  prior mean for contrast 2.5000
+
+------------------------------------------------------------------------
+sedation/diazepam/Graziani2022  (endpoint sedation)
+------------------------------------------------------------------------
+  measure                 open-field immobility time
+  source                  Graziani D, et al. Braz J Med Biol Res. 2022;55:e12314. doi:10.1590/1414-431X2022e12314, PMID 36477952, PMC9728632
+  levels                  1 dose(s) at 60 min
+    mg/kg      brain nM     activ.   observed ratio         model@5   
+    2          32.35        0.8999   0.7596 +/- 0.2440      1.0831    
+  verdict                 wrong-direction
+  best gain in the box    0.0000, worst residual 0.99 sd
+  Fisher spectrum over (gain, assay scale): [ 0.   18.34]
+      eigenvalue ratio 0.00e+00: a single contrast gives a
+      rank-1 matrix exactly, so the gain and the unknown
+      behavioural scale are degenerate and only the RATIO
+      formulation identifies anything at all. A graded
+      series can lift that rank, and the number above says
+      by how much rather than whether in principle.
+  posterior gain          2.4000 +/- 1.4800
+  r_hat                   1.000   (want < 1.05)
+  ESS (bulk)              796
+  posterior is interior   True
+  prior mean for contrast 2.5000
+
+------------------------------------------------------------------------
+locomotion/diazepam/Sagara2008  (endpoint locomotion)
+------------------------------------------------------------------------
+  measure                 ANIMEX locomotor counts in 10 min
+  source                  Sagara H, Kitamura Y, Sendo T, Araki H, Gomita Y. J Pharmacol Sci. 2008;107(3):355-60. doi:10.1254/jphs.08008SC, PMID 18603833
+  levels                  3 dose(s) at 15 min
+    mg/kg      brain nM     activ.   observed ratio         model@5   
+    0.2        5.195        0.5907   1.0189 +/- 0.1853      0.9530    
+    0.5        12.99        0.7830   1.0306 +/- 0.1951      0.9415    
+    1          25.98        0.8783   1.0527 +/- 0.1685      0.9361    
+  verdict                 wrong-direction
+  best gain in the box    0.0000, worst residual 0.31 sd
+  Fisher spectrum over (gain, assay scale): [1.385e-04 8.480e+01]
+      eigenvalue ratio 1.63e-06: a single contrast gives a
+      rank-1 matrix exactly, so the gain and the unknown
+      behavioural scale are degenerate and only the RATIO
+      formulation identifies anything at all. A graded
+      series can lift that rank, and the number above says
+      by how much rather than whether in principle.
+  posterior gain          2.3700 +/- 1.4300
+  r_hat                   1.010   (want < 1.05)
+  ESS (bulk)              951
+  posterior is interior   True
+  prior mean for contrast 2.5000
+
+------------------------------------------------------------------------
+analgesia/diazepam/Lustyk2023  (endpoint analgesia)
+------------------------------------------------------------------------
+  measure                 hot-plate time of reaction
+  source                  Lustyk K, Salaciak K, Jakubczyk M, Jastrzebska-Wiesek M, Partyka A, Wesolowska A, Marona H, Pytka K. Neurochem Res. 2023;48(3):839-51. doi:10.1007/s11064-022-03802-x, PMID 36350432, PMC9644393
+  levels                  2 dose(s) at 30 min
+    mg/kg      brain nM     activ.   observed ratio         model@5   
+    5          118.7        0.9706   1.3902 +/- 0.2886      0.9718    
+    10         237.3        0.9851   1.2268 +/- 0.2347      0.9714    
+  verdict                 wrong-direction
+  best gain in the box    0.0000, worst residual 1.35 sd
+  Fisher spectrum over (gain, assay scale): [5.129e-08 2.928e+01]
+      eigenvalue ratio 1.75e-09: a single contrast gives a
+      rank-1 matrix exactly, so the gain and the unknown
+      behavioural scale are degenerate and only the RATIO
+      formulation identifies anything at all. A graded
+      series can lift that rank, and the number above says
+      by how much rather than whether in principle.
+  posterior gain          2.3000 +/- 1.4500
+  r_hat                   1.010   (want < 1.05)
+  ESS (bulk)              757
+  posterior is interior   True
+  prior mean for contrast 2.5000
+
+========================================================================
+                          target   endpoint  n_levels       observed_ratio          observed_sd model_ratio_at_gain_upper  best_gain  worst_residual_sd            verdict  posterior_mean  posterior_sd  r_hat  ess_bulk  posterior_interior
+   anxiety/diazepam/Graziani2022    anxiety         1               0.7835               0.0517                    0.9644        5.0           3.496466 beyond-lower-bound            3.44          1.23   1.01     764.0                True
+locomotion/diazepam/Graziani2022 locomotion         1               1.3826               0.2277                    0.9349        0.0           1.680681    wrong-direction            2.30          1.44   1.01     767.0                True
+  sedation/diazepam/Graziani2022   sedation         1               0.7596               0.2440                    1.0831        0.0           0.985399    wrong-direction            2.40          1.48   1.00     796.0                True
+  locomotion/diazepam/Sagara2008 locomotion         3 1.0189 1.0306 1.0527 0.1853 0.1951 0.1685      0.9530 0.9415 0.9361        0.0           0.312884    wrong-direction            2.37          1.43   1.01     951.0                True
+   analgesia/diazepam/Lustyk2023  analgesia         2        1.3902 1.2268        0.2886 0.2347             0.9718 0.9714        0.0           1.352134    wrong-direction            2.30          1.45   1.01     757.0                True
+
+Every fit above converged. None of them licenses a number:
+a posterior that sits on a prior bound is a description of the
+box, which is the check P2.2 made before sampling and the reason
+its own bounds came from the mechanism. No illustrative label is
+removed by this task; docs/architecture.md's P7.3 section says
+what each endpoint would need instead.

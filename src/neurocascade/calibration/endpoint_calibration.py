@@ -49,8 +49,8 @@ a near-zero denominator.
 What the fits found
 -------------------
 
-Every fit below CONVERGES and none of them licenses a number. The two
-failure modes are different and both are informative:
+Every fit below CONVERGES and none of them licenses a number. The three
+failure modes are different and all are informative:
 
 * **anxiety**: the model moves the right way and not far enough. At the
   largest gain the mechanism allows, a whole-brain benzodiazepine moves the
@@ -62,8 +62,18 @@ failure modes are different and both are informative:
   inhibition brain-wide lowers the locomotion index, and [Graziani2022]'s
   rats crossed MORE lines under diazepam. The posterior piles against the
   mechanistic null at zero.
+* **the two graded series**: the model moves too little for the data's own
+  precision to see. [Sagara2008]'s three doses and [Lustyk2023]'s two are
+  both nulls, and a null CAN bound a model that predicts a monotone
+  decrease, so these were the two targets that could have identified
+  something one-sided. At the largest gain the prior allows the whole-brain
+  index moves 4.7-6.4% ([Sagara2008]) against published widths of 17-20%,
+  and both posteriors come back as their own prior (2.37 +/- 1.43 and
+  2.30 +/- 1.45 on Uniform(0, 5), whose mean is 2.5 and sd 1.44). The
+  binding constraint is P3.4's illustrative operating point, not the
+  datasets.
 
-Both are reported with their diagnostics, and neither removes a label.
+All three are reported with their diagnostics, and none removes a label.
 `docs/architecture.md`'s P7.3 section works through why, and what each
 would need.
 """

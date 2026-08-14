@@ -1,4 +1,6 @@
-target,endpoint,observed_ratio,observed_sd,model_ratio_at_gain_lower,model_ratio_at_gain_upper,verdict,posterior_mean,posterior_sd,r_hat,ess_bulk,posterior_interior
-anxiety/diazepam/Graziani2022,anxiety,0.7835128109914594,0.05174004294425674,0.9999999992776608,0.9643909937167348,beyond-lower-bound,3.46,1.22,1.01,755.0,True
-locomotion/diazepam/Graziani2022,locomotion,1.382636655948553,0.22766768500329357,0.9999999988719599,0.934844287026437,wrong-direction,2.3,1.44,1.01,767.0,True
-sedation/diazepam/Graziani2022,sedation,0.7595818815331011,0.24398046054026312,1.0000000008222545,1.0831916655942617,wrong-direction,2.4,1.48,1.0,796.0,True
+target,endpoint,n_levels,observed_ratio,observed_sd,model_ratio_at_gain_upper,best_gain,worst_residual_sd,verdict,posterior_mean,posterior_sd,r_hat,ess_bulk,posterior_interior
+anxiety/diazepam/Graziani2022,anxiety,1,0.7835,0.0517,0.9644,5.0,3.4964659221989045,beyond-lower-bound,3.44,1.23,1.01,764.0,True
+locomotion/diazepam/Graziani2022,locomotion,1,1.3826,0.2277,0.9349,0.0,1.6806805808696903,wrong-direction,2.3,1.44,1.01,767.0,True
+sedation/diazepam/Graziani2022,sedation,1,0.7596,0.2440,1.0831,0.0,0.985399071535395,wrong-direction,2.4,1.48,1.0,796.0,True
+locomotion/diazepam/Sagara2008,locomotion,3,1.0189 1.0306 1.0527,0.1853 0.1951 0.1685,0.9530 0.9415 0.9361,0.0,0.312883780543706,wrong-direction,2.37,1.43,1.01,951.0,True
+analgesia/diazepam/Lustyk2023,analgesia,2,1.3902 1.2268,0.2886 0.2347,0.9718 0.9714,0.0,1.3521335613831653,wrong-direction,2.3,1.45,1.01,757.0,True
