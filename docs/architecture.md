@@ -11157,3 +11157,611 @@ citation quality and rest on an inference the module had stated only in prose.
   independent term flips.
 - **Outputs**: `examples/behavioral_endpoint_library.py` and
   `scripts/report_endpoints.py` -> `results/behavioral_endpoints.txt`.
+## Phase 7: a nonlinear decoder, only where held-out data says so (P7.2)
+
+### The sentence in the brief, and the question it does not answer
+
+> Evaluate whether a nonlinear decoder outperforms the linear readout for
+> each endpoint, using held-out data and a model comparison criterion. Adopt
+> nonlinearity only where it wins on held-out data.
+
+The criterion is specified and the discipline is specified. What is not
+specified, and what turned out to be the whole task, is WHICH held-out data.
+A decoder is the map from regional firing rates to a behavioural score, so
+the data that can compare two decoders has to pair ACTIVITY with BEHAVIOUR.
+There are two candidate sources in reach and only one of them is admissible.
+
+**Drug dose-response curves are not admissible, and this is not a close
+call.** They are the obvious choice - the brief's own sentence "behavioral
+endpoints are frequently saturating or non-monotonic in dose" points
+straight at them - and they are what P7.3 exists to fit. But a drug moves
+every region at once, through pharmacokinetics, then competitive binding,
+then a recurrent Wilson-Cowan network, and only then through the decoder. A
+dose-response curve is curved for reasons living in four layers. Fitting a
+nonlinear decoder to one and declaring the decoder nonlinear because it fit
+better assigns all four layers' curvature to the fourth. Worse, it would do
+so BEFORE P7.3 has fitted the other three, so the decoder would absorb
+whatever the uncalibrated layers got wrong and then be frozen there. That is
+the sequencing reason P7.2 precedes P7.3 rather than the reverse, and it is
+worth stating because the natural reading of the brief is the opposite.
+
+**Graded single-region manipulations are admissible.** Set one region's
+drive to several levels - stimulation intensity, optogenetic frequency,
+intracerebral dose - and measure the behaviour at each. That is a direct
+observation of the decoder along one coordinate, with the pharmacokinetic
+and binding layers absent by construction.
+
+### The asymmetry that makes the comparison possible at all
+
+Let `u` be the drive, `r(u)` the region's rate, `b` the behaviour. Under a
+linear decoder, holding the other regions fixed,
+
+    b(u) = const + w r(u)
+
+`r(u)` is unknown. One thing about it is not: it is MONOTONE and SATURATING.
+More current, more light, more agonist does not reverse the direction in
+which it pushes the region, and a Wilson-Cowan unit's output is a bounded
+sigmoid of its input. Monotone DECREASING counts, and has to: driving an
+inhibitory input harder lowers the target's rate monotonically, which is
+[DeLuca2022]'s orexin terminals in the VLPO below, and an affine map of a
+monotone-decreasing function is still monotone. The first draft of this
+argument said "monotone non-decreasing" and would have excluded that series
+for no reason. Two consequences follow and they are not symmetric.
+
+**A saturating `b(u)` says nothing about the decoder.** If behaviour bends
+over as drive rises, `r(u)` bending over explains it completely with a linear
+`w`. Adopting a saturating decoder here would attribute the sigmoid the
+circuit layer ALREADY HAS to the readout and count it twice. This is the
+commonest shape in the graded literature, so the rule has to reject it
+explicitly rather than let a model comparison find it "better".
+
+**A non-monotone `b(u)` cannot come from a linear decoder.** A monotone
+non-decreasing `r(u)` composed with an affine map is monotone for every `w`.
+So a behaviour that rises and then falls as ONE region's drive is raised is
+inconsistent with a linear readout over that region's rate, and no choice of
+weight repairs it.
+
+So the comparison this module runs is not "linear versus curved", which the
+transduction confounds beyond identification. It is "monotone versus
+non-monotone", which it does not. Every design decision below follows from
+that sentence.
+
+### Four families, two of which are the actual comparison
+
+Over a drive coordinate `z` rescaled to `[0, 1]` across each series' own
+levels:
+
+    constant     a                          1 parameter   the null
+    linear       a + b z                    2             nested in both
+    satexp       a + c (1 - exp(-lam z))    3             monotone, saturating
+    quadratic    a + b z + c z^2            3             the only non-monotone one
+
+`satexp` and `quadratic` carry the SAME parameter count over the SAME
+predictor. That is deliberate: if the two sides of the head-to-head differed
+in complexity, a verdict would be partly about complexity rather than about
+shape. `constant` is there so that "this series carries no signal" is a
+verdict the machinery can reach rather than a case that silently falls
+through to whichever family fits noise best.
+
+The criterion is leave-one-out cross-validation: hold out one drive level,
+refit, predict it, and root-mean-square the held-out errors. AICc is computed
+and printed as a second, in-sample criterion, and it deliberately does NOT
+gate the verdict: at four or five drive levels, AICc for a 3-parameter family
+is either undefined (`n - k - 1 <= 0`) or dominated by its own small-sample
+correction. Reporting a number whose correction term exceeds the quantity
+being corrected, and then deciding on it, would be worse than not having it.
+
+### The adoption rule, and the rule that had to be added after it failed
+
+    ADOPT for a series iff ALL of
+      1. at least 4 drive levels;
+      2. `quadratic` has the strictly lowest leave-one-out RMSE of the four;
+      3. `quadratic` beats `constant` (the series has signal at all);
+      4. the fitted turning point z* = -b/(2c) lies strictly inside (0, 1);
+      5. the MEASURED MEANS are ordinally non-monotone;
+      6. rules 2-5 hold under BOTH weightings of the levels.
+
+Rules 1-4 were the design. Rule 5 was added because rule 4 turned out not to
+be enough, and the case that broke it is kept in the test suite rather than
+described:
+
+    levels  0   1    2    3    4    5
+    means   0   3.0  5.2  6.6  7.4  7.7
+
+That is strictly increasing and decelerating - the canonical saturating
+shape, the shape the argument above says carries NO decoder information.
+`quadratic` beats `satexp` out of sample on it, and its vertex sits at
+`z* = 0.945`, INSIDE the tested range. Rules 2, 3 and 4 all pass and the
+series was adopted. That is precisely the false positive this module exists
+to prevent, produced by the module's own rule, on its second test.
+
+The reason is structural rather than accidental: a parabola fitted to a
+saturating curve puts its stationary point wherever the curve flattens, and
+on a saturating curve that is near the top of the sampled range. Rule 4 only
+catches the version where the flattening happens past the last level.
+
+Rule 5 is the fix and it is deliberately model-free: if the published means
+never turn round, no reversal was measured, whatever a fitted parabola's
+stationary point does. It reads the same claim a second, independent way
+instead of trusting one reading of it, which is the discipline that replaced
+P7.1's tautological sign test. It can only ever REMOVE adoptions, so it
+cannot manufacture a nonlinearity; the cost is that a genuine reversal whose
+last level lands a hair the wrong side of its predecessor is rejected. That
+is the safe direction and it is stated on the rule.
+
+`test_a_saturating_series_whose_vertex_falls_just_inside_is_still_rejected`
+holds those six numbers, and deleting the `observed_shape` check turns it
+red.
+
+Rule 6 was added later still, and for the same kind of reason: rules 2-5 all
+passed on real data, on a difference of 0.06 cm/s between two levels that
+evoke no behaviour at all. Every series is therefore assessed twice, once
+with the levels weighted equally and once by `1/SEM^2` from the published
+dispersion, and a nonlinearity is adopted only if both agree. Neither
+weighting is right on its own - `1/SEM^2` is the textbook choice and is
+actively misleading where a low level sits on a floor, uniform discards
+genuine precision - so requiring agreement is the way to make no adoption
+depend on the choice, and it introduces no constant to tune. The series that
+forced it is [Herent2023] and it is worked through below.
+
+### No tuned number anywhere in the rule
+
+There is no minimum effect size, no p-value, no margin by which `quadratic`
+must beat the monotone families, and no smoothing. The rule is a strict
+inequality on a held-out criterion, a structural constraint on where the
+turning point sits, a model-free look at the means, and agreement across two
+weightings. Each of those is
+either derived from the design or is a comparison with no free constant in
+it. That matters here more than usual, because the one thing a tuned
+threshold would buy is exactly the thing rule 1 of this codebase forbids: a
+number that decides a scientific claim and came from nowhere.
+
+Two constants in the module ARE numbers, and both are numerical rather than
+scientific, so both are recorded with their reason next to them:
+
+* `_RCOND = 1e-10`, the singular-value cutoff in the weighted least-squares
+  solve. `rcond=None` (machine epsilon) produced a leave-one-out error of
+  ~2e6 on a flat six-level series, because `satexp`'s two columns go
+  collinear when the held-out level is the only one in the basis's
+  transition region and LAPACK's tie-break then decides the prediction. An
+  inflated `satexp` error is dangerous in exactly one direction - it hands
+  the comparison to `quadratic` - so this is a correctness fix, not tidiness.
+* `_resolvable_lam_max = ln(100) / dz_min`, read off the design rather than
+  chosen: a saturating exponential that covers 99% of its range inside one
+  sampling interval is a step function as far as these levels are concerned,
+  and its two coefficients are not separately determined. Above that bound
+  the family is not identifiable from the data and is not the family the
+  comparison is about.
+
+The `satexp` basis is also normalised to `(1 - exp(-lam z))/(1 - exp(-lam))`
+rather than the textbook `1 - exp(-lam z)`, so that it spans `[0, 1]` for
+every `lam` and its `lam -> 0` limit is exactly the linear family with the
+same coefficient. That changes no fit; it removes a `1/lam` blow-up in the
+coefficient that made leave-one-out predictions meaningless at small `lam`.
+
+### What an adopted verdict buys, and what it does not
+
+An adoption says: this region's contribution to this endpoint is
+NON-MONOTONE IN ITS OWN RATE, with a turning point somewhere inside the drive
+range the experiment covered. It does NOT say where the turning point is in
+RATE units, and cannot. The experiments measure microamps or nanomoles; the
+conversion to a Wilson-Cowan rate is the transduction `r(u)`, which none of
+them measured and which this codebase does not have. So
+`NonlinearTerm.peak_rate` carries the same `ILLUSTRATIVE` label every P7.1
+weight carries, defaults to the network's resting rate 0.5 for want of
+anything measured, and P7.3 fits it. **The form is what the data buys; the
+location is not.** Removing that label without a calibration for that
+specific parameter is the same offence as removing an illustrative weight,
+and the same rule covers it.
+
+The readout becomes
+
+    s = sum_{i linear} w_i r_i + sum_{j nonlinear} w_j f_j(r_j)
+
+with `f_j` a U or inverted-U basis mapping `[0, 1] -> [0, 1]` exactly as a
+rate does, so the two sums stay on one scale and P7.1's `sum |w| == 1`
+normalisation is untouched. The polarity lives entirely in the basis's shape
+rather than in the weight's sign, so a nonlinear term's magnitude is `+1`
+like every other P7.1 term and there is still nothing for a fitted number to
+quietly become.
+
+An endpoint with nothing adopted resolves to a plain
+`behavior.BehaviorReadout` - constructed as one, not merely equal to one -
+so P7.1's object is what comes back, and a test asserts it by `type(...) is`.
+
+### The adoption list is derived, never written down
+
+`adopted_nonlinearities()` recomputes the comparison from `SERIES` rather
+than reading a table of answers. There is no second copy of the verdict to
+drift out of step with the data, and a test re-derives the whole set from
+scratch and compares. This is the same reasoning that made P7.1 derive
+`EndpointTerm.sign` from `activity` and `measure` instead of accepting a
+`sign=` argument, and it matters more here, because a verdict is the output
+of a fit and a fit is exactly the kind of thing that gets edited once and
+recorded twice.
+
+### What the search actually found, which is the result
+
+Five graded single-region series with per-level numbers outside a figure,
+from four papers, covering three of the seven endpoints. That is the whole
+harvest of a search that, across six parallel sweeps, downloaded and
+machine-screened well over 2,500 open-access full texts:
+
+    endpoint      series                                levels  verdict
+    locomotion    [Herent2023]    CnF (CUN), mouse         6     weighting-dependent
+    locomotion    [Caggiano2018]  CnF (CUN), mouse         4     no-signal
+    locomotion    [Caggiano2018]  PPN, mouse               4     linear-wins
+    sedation      [DeLuca2022]    VLPO, mouse              5     saturating-wins-not-identifiable
+    anxiety       [Diaz2011]      BLA, rat                 3     too-few-levels
+    analgesia     -                                        -     no-data
+    reward        -                                        -     no-data
+    working_mem.  -                                        -     no-data
+    gating        -                                        -     no-data
+
+**No nonlinearity was adopted.** Not one series survived the rule, and the
+five failed it in five different ways, which is a more useful outcome than
+five instances of the same one. Every rejection reason in the module is
+reached by real data except `turning-point-outside-range` and
+`no-measured-reversal`, which are reached by the synthetic tests, and
+`no-data`, which is reached by four endpoints.
+
+### The one that came closest, and why the rule caught it
+
+[Herent2023]'s cuneiform frequency series is the only real series that
+adopted under any weighting, and it is worth reading what happened, because
+it is the clearest demonstration in the task that a rule can be satisfied by
+an artefact.
+
+    5 Hz    10 Hz   15 Hz   20 Hz   30 Hz   40 Hz
+    0.187   0.129   54.4    67.4    84.9    86.0     cm/s, means of 5 mice
+    0.353   0.115   20.9    10.8    18.7    13.4     SD
+
+Under uniform weights the quadratic wins leave-one-out (19.5 against
+linear's 27.4), its vertex sits at 35.2 Hz, inside the range, and the means
+are ordinally non-monotone. Rules 2, 3, 4 and 5 all pass. It was adopted.
+
+The non-monotonicity is the step from 0.187 to 0.129 cm/s - a dip of
+0.06 cm/s between two frequencies that, in the authors' own words, are below
+the threshold for locomotor initiation and evoke essentially none. The dip is
+smaller than either level's own SD. It is a floor.
+
+Rule 5 was written to require that the MEANS turn round, and they do; it has
+no notion of whether the turn is larger than the noise, by construction,
+because giving it one would mean choosing a threshold. Rule 6 - agreement
+across the two weightings - is what catches this, and it catches it for the
+right reason rather than by luck: `1/SEM^2` is precisely the statement that a
+0.06 cm/s difference between two levels with SDs of 0.35 and 0.12 is not a
+difference, and under that weighting the straight line wins.
+
+So the module's two dispersion-blind rules were both satisfied by noise at a
+floor, and the dispersion-aware requirement is the one that rejected it. That
+is the argument for rule 6 in one series, and it is why the rule is a
+requirement for agreement rather than a choice of one weighting: the same
+`1/SEM^2` that saves this series is the one that, applied alone, would let
+those two floor levels carry four orders of magnitude more leverage than the
+level where the behaviour actually appears.
+
+### [DeLuca2022] is the brief's own worry, and it is a rejection
+
+> Behavioral endpoints are frequently saturating or non-monotonic in dose, so
+> this matters, but a nonlinear decoder that only fits better in-sample is
+> overfitting and must be rejected.
+
+The VLPO series is the saturating half of that sentence, in real data:
+
+    sham    1 Hz    5 Hz    10 Hz   20 Hz
+    32.2    33.7    48.2    53.9    59.2     % arousal probability from NREM
+    3.1     2.5     4.1     6.0     11.2     SEM, n = 5
+
+`satexp` beats the straight line more than four-fold out of sample (2.40
+against 10.17 uniform, 3.27 against 10.97 weighted), under both weightings,
+and it is not an in-sample artefact - it wins on held-out levels, which is
+exactly what the brief asks a nonlinearity to do.
+
+It is still rejected. A linear decoder reading a region whose rate saturates
+in its own drive produces precisely this curve, and the circuit layer already
+has that saturation in the Wilson-Cowan sigmoid. Adopting `satexp` here would
+put a second sigmoid in front of the first and call the pair a finding. This
+is the module's `saturating-wins-not-identifiable` category and it exists so
+that the winning is RECORDED rather than either hidden or acted on.
+
+The brief's sentence and the identifiability argument point in opposite
+directions on this one series, and the argument wins. That disagreement is
+the single most important thing in this task's record.
+
+### Two things about [DeLuca2022] that had to be checked before it could be used
+
+**The transduction runs the wrong way, and that is fine.** ChR2 is in lateral
+hypothalamic orexin neurons; the fibre is over the VLPO. Raising the
+stimulation frequency raises orexin release and LOWERS the VLPO
+sleep-active rate. The first draft of the module's docstring said the
+transduction is "monotone NON-DECREASING", which would have excluded this
+series. The claim it actually needs is weaker: monotone, in either direction,
+because an affine map of a monotone-decreasing function is still monotone and
+a non-monotone `b(u)` still cannot come out of one. The docstring was
+corrected rather than the series dropped.
+
+**The polarity conversion happens once, in the open.** The sedation endpoint's
+direction is "higher = MORE sedated", and the assay reports probability of
+AROUSAL, so `score_sign = -1`. `DriveResponseSeries` refuses to be built
+without an explicit `+1` or `-1` - `score_sign=0` raises - for the same reason
+`EndpointTerm` derives its sign from `activity` and `measure` rather than
+accepting one: a polarity that is not written down somewhere machine-readable
+is a sign error waiting to happen, and this module has five chances to make
+one.
+
+### [Caggiano2018] and the two discrepancies in its deposit
+
+P7.1 already cites [Caggiano2018] for the CUN locomotion term, and its
+published Source Data holds the trial-level maximum speeds behind Fig. 1h.
+Using them required resolving two things, and both are recorded on the series
+rather than quietly fixed.
+
+**The level column is headed "Power" and holds {5, 10, 20, 50}.** The paper's
+Methods state the laser was "between 5 and 30 mW", which does not contain 50.
+Its Results state that stimulation frequencies were stepped "from threshold
+values around 5 Hz to maximal frequencies at 50 Hz". The column is frequency
+in hertz and its header is wrong. That is an inference, it is the only
+reading consistent with the paper's own two sentences, and it is written on
+the series so a reader can disagree with it.
+
+**The deposit holds 131 CnF trials where the figure legend says n = 148.** The
+`n_per_level` used here is the deposit's, because the deposit is what the
+numbers came from. Neither discrepancy changes a verdict - CnF comes back
+`no-signal` and PPN `linear-wins` - but a deposit that disagrees with its own
+paper twice is worth saying so about.
+
+Means and SEMs are COMPUTED here from the trial-level values; the paper plots
+medians with quartiles and states no per-level number. That is a derived
+quantity and labelled one.
+
+### [Diaz2011], and why a three-level series is in the library at all
+
+Rat, intra-BLA, elevated plus maze, open-arm time printed with SEM in a
+table: `7.5 +/- 3.7`, `41.7 +/- 5.5`, `104.8 +/- 16.9` seconds at 0, 1.5 and
+5.0 pmol of the D3 antagonist U99194. Two independent screens - one of ~390
+open-access full texts, one of 1,629 - found this to be the ONLY paper in the
+open-access anxiety literature that prints per-dose EPM means outside a
+figure.
+
+It has three levels, so it is rejected as `too-few-levels` before a single
+family is fitted. It is in `SERIES` anyway. A rejection that names the reason
+is a more useful record than an absence, and "the one tabulated intra-BLA EPM
+dose series in the literature has three doses and a 3-parameter family needs
+four to be cross-validated at all" is a specific, actionable statement about
+what P7.3 would need.
+
+The table supports exactly one internal check - open, closed and junction
+times partition a 300 s trial - and it passes to 0.1 s at all three doses.
+That check is a test, because it is the only way a transposed digit in this
+transcription could fail something.
+
+Its per-group `n` is NOT in Table 1. The paper's light/dark section gives 6,
+8 and 6 for the three groups of a DIFFERENT week's test and is internally
+inconsistent about the middle one. So `n_per_level` is left unset, the
+dispersion weighting uses the published SEMs directly, and the gap is on the
+series rather than filled with a guess.
+
+### The four endpoints with nothing, and P7.1's three targets
+
+Four of seven endpoints have no usable series at all: analgesia, reward,
+working memory and sensorimotor gating. Three of those four are exactly the
+three cases P7.1 handed to P7.2 as its named targets, and each is unavailable
+in a different way. `decoder.P71_TARGETS` records this in full; the shape of
+it is:
+
+1. **[ZhuoGebhart1997], RM, analgesia.** The flagship. A within-paper,
+   within-assay, within-site reversal - low-intensity stimulation of the RVM
+   facilitates the tail flick, higher intensity inhibits it, at the same 43
+   of 86 sites. The 5/10/15/25 uA series was run. Its Results print only
+   "from a minimal mean of 18.4 +/- 4.5% to a maximum mean of 27.3 +/- 7.3%"
+   WITHOUT saying which intensity produced which, and the four values are in
+   Fig. 1A. The two-point summary in Table 2 cannot substitute: facilitation
+   is reported as percent change from control at a mean 11.8 uA and
+   inhibition as percent of maximum possible inhibition at a mean 66.6 uA,
+   which are different units, and assembling them into one series would
+   require a conversion the paper does not license. **P7.2's single most
+   consequential finding is that P7.1's flagship case cannot be used.**
+2. **ACB and ventral CA1/SUB, gating.** P7.1's inverted U there is two points
+   from two different papers, which is not a graded series. A scan of the 170
+   open-access papers matching prepulse inhibition with intracerebral infusion
+   tested every table for a %PPI value with a mean and SEM and returned zero.
+   Ten studies were verified as qualifying on DESIGN - four dose levels across
+   six or nine regions in [BakshiGeyer1998] and [Alsene2011], four across five
+   subregions and two strains in [Swerdlow2007] - and all ten are figure-only.
+   [BakshiGeyer1998] and [Swerdlow2007] contain no tables at all.
+3. **Working memory, structurally.** [Zahrt1997] is the experiment: three
+   intra-PFC D1-agonist doses against delayed-alternation accuracy, the
+   canonical prefrontal inverted U. Its per-dose accuracy is in Fig. 2. Its
+   one table reports perseveration and run time. P7.1's structural point - all
+   six terms positive, so the readout is the mean rate over its regions and
+   cannot hold an inverted U - survives P7.2 untouched.
+
+### Rule 2 of this codebase, at the one place it bit
+
+[Alsene2011] is the only paper in the entire gating literature that prints a
+graded intracerebral dose series with SEM in a table: four doses across nine
+forebrain regions. Its readout is STARTLE MAGNITUDE.
+
+Prepulse inhibition is a ratio of two startle responses and startle magnitude
+is one of the two. Using it would be substituting a different measured effect
+for the one being modelled, which rule 2 forbids by name, and it would have
+produced nine four-level series in one stroke - by some distance the largest
+single addition available to this task. It is in `SEARCHED_AND_EMPTY` with the
+reason, and a test asserts that its citation key appears on no series.
+
+[MendoncaDosSantos2024] is the analogous case for analgesia and it fails on a
+different rule. It is the only paper found anywhere that prints a graded
+thermal-latency series in a table - intra-NTS NMDA and AP-7 with tail-flick
+latencies and SEMs. Its Methods and Results say the middle NMDA dose was
+3 nmol; its Table 1 says 6 nmol. A drive level the paper contradicts itself
+about cannot be the x-axis of a fit, and picking one of the two would be
+inventing the number rule 1 forbids. Two further problems would remain even if
+that were resolved: every dose group is co-treated with i.p.
+pentylenetetrazole, so the readout is postictal antinociception rather than a
+clean single-region manipulation, and the table gives one value per group
+without saying which of fourteen measured timepoints it is.
+
+### Two series excluded on identifiability rather than availability
+
+[Liang2023] and [Guo2023] both deposit per-animal values at five stimulation
+frequencies with sleep-wake readouts - exactly the data this module wants -
+and neither is in `SERIES`.
+
+[Liang2023] illuminates supramammillary AXON TERMINALS in the medial septum.
+The region whose rate is graded is not identified by that experiment: the
+drive is to a projection, and which of its source and target the behaviour
+follows is the question, not the answer. [DeLuca2022] is a terminal-field
+manipulation too and IS used, and the difference is worth being precise
+about: there, the fibre sits over the VLPO and the paper's own result is
+about what happens to VLPO sleep-active neurons, so the graded region is
+named by the experiment. Here it is not.
+
+[Guo2023] is excluded twice over. Its soma arm is the parasubthalamic
+nucleus, which carries no term in P7.1's sedation endpoint - a verdict about
+a region the readout does not contain cannot change the readout, and adding
+the region to the endpoint on the strength of a series collected to test the
+decoder would be P7.1's job done backwards. Its two terminal arms do reach
+regions the endpoint has (parabrachial, VTA) and fall to the same
+identifiability objection as [Liang2023]. A test asserts that every series' structures are a subset of
+its endpoint's regions.
+
+### What the module does to the readouts, which is nothing
+
+`resolve_nonlinear` exists, works, and currently returns exactly what
+`Endpoint.resolve` returns for all seven endpoints - a plain
+`behavior.BehaviorReadout`, asserted by `type(...) is` rather than by score
+equality, because a `NonlinearReadout` with an empty `nonlinear` dict would
+pass an equality check while silently replacing the object P7.1 promised
+everything downstream. `examples/nonlinear_decoder.py` exercises the
+nonlinear path anyway, on RM, under a heading that says COUNTERFACTUAL and a
+`licensed_by` field that reads "NOTHING - demonstration".
+
+Three mechanisms are built and unused, and each is unused for a reason worth
+keeping rather than deleting:
+
+* **`CONTEST_RESOLUTIONS`.** P7.1's `contested` flag and P7.2's reversal are
+  the same phenomenon seen twice. Two studies of one region reporting
+  opposite directions is what a reversal LOOKS LIKE when it is sampled at two
+  drive levels by two different labs - [ZhuoGebhart1997]'s RM is contested in
+  P7.1 for exactly the reason it was P7.2's flagship. So an adopted
+  nonlinearity can RESOLVE a contest and re-admit a term P7.1 excluded, and
+  the machinery for that is in `resolve_nonlinear`. It requires a written
+  reason naming which two reports the reversal reconciles; a test asserts
+  that no contest can be declared resolved without an adoption behind it. It
+  is empty because nothing was adopted.
+* **The shared-node block.** A node fed by an adopted term AND by a linear
+  term cannot take the basis function: one scalar rate would have to pass
+  through two response shapes at once. That is P7.1's sign-cancellation
+  story in a new place and it is reported rather than resolved by picking one.
+* **`NonlinearTerm.peak_rate`.** Labelled `ILLUSTRATIVE` and defaulted to the
+  network's resting rate. Even a successful adoption would not have removed
+  that label: the experiments measure microamps and nanomoles, the
+  drive-to-rate transduction that would convert those into a Wilson-Cowan
+  rate was never measured alongside them, and P7.3 fits it. The form is what
+  the data buys; the location is not.
+
+### What P7.2 delivered, checked against the standing discipline
+
+- **A model comparison on held-out data, per endpoint, for all seven.** Three
+  endpoints have series and a real comparison; four have a searched-and-empty
+  record naming what was screened and why each candidate failed.
+- **Nonlinearity adopted where it wins out of sample: nowhere.** Five series,
+  five rejections, five different reasons.
+- **Rejected cases documented**, at three levels: a reason code per series
+  with its text in `REJECTION_REASONS`, a per-endpoint prose record in
+  `SEARCHED_AND_EMPTY` naming the papers that were checked and what was wrong
+  with each, and `P71_TARGETS` for the three cases P7.1 specifically handed
+  over.
+- **The identifiability argument, stated before any code**, and the asymmetry
+  it produces: saturating is not evidence, non-monotone is.
+- **A decision rule with no tuned constant in it.** Six rules, all of them
+  either structural or a strict inequality on a held-out criterion. The two
+  numeric constants in the module - `_RCOND` and `_resolvable_lam_max` - are
+  numerical-linear-algebra choices with their reasons recorded, and one of
+  them was a correctness fix rather than tidiness.
+- **Rule 5 added after rule 4 failed a test**, with the six numbers that broke
+  it kept as a test rather than described; rule 6 added after [Herent2023]
+  passed rules 2-5 on a 0.06 cm/s dip between two floor levels.
+- **The adoption list derived from the comparison**, never written down, and
+  re-derived from scratch by a test.
+- **Fifteen citations, every bibliographic prefix regenerated from PubMed's
+  own esummary record**, following P7.1's discipline and re-checkable with the
+  same `scripts/verify_pmids.py`. All fifteen PMIDs were verified to resolve
+  to the paper claimed.
+- **Nothing in P7.1 changed.** No weight, no sign, no term, no test. The
+  module reads `endpoints` and does not write to it.
+- **Tests.** A new `tests/test_decoder.py`, splitting into the decision rule
+  (checked on synthetic series whose shape is known by construction), the
+  numerics (properties that hold for any data), and the data (each published
+  number pinned, so a transcription error fails a test rather than a verdict).
+  None slow, none skipped, no existing test touched.
+- **Outputs**: `examples/nonlinear_decoder.py` and
+  `scripts/report_decoder.py` -> `results/decoder_comparison.txt`.
+
+### What P7.3 needs that P7.2 could not get
+
+Stated concretely, because "we found nothing" is not actionable and this is:
+
+* **Thomas & Hammond 1995** (JPET 275:274-284, PMID 7562560). NRM and
+  NGCpalpha, R(+)-baclofen over 0.1-150 ng, tail flick AND hot plate, and the
+  abstract states the reversal outright: latencies rise at 0.1-1.0 ng and
+  return to control by 30-50 ng. A published, graded, within-region,
+  both-assay reversal in rat. JPET returns 403 to every automated route and
+  the paper has no PMC deposit. This is the single highest-value unreachable
+  document in the search.
+* **[ZhuoGebhart1997] Fig. 1A**, four per-intensity means. Everything else
+  about that paper is in reach.
+* **[Zahrt1997] Fig. 2**, three per-dose accuracies.
+* **[Kroeger2018] Fig. 2c**, six per-frequency NREM percentages, for the VLPO
+  term this endpoint weights most heavily.
+* **The two Shizgal deposits** for reward, which are real trial-level data at
+  the right resolution behind an undocumented `.DAT`/`.PRM` format. URLs are
+  in `SEARCHED_AND_EMPTY["reward"]`. Writing that parser is a different kind
+  of task from transcribing a table and carries a different kind of error,
+  which is why it was not done here rather than done badly.
+* **Li 2022** (Science), a full 5 x 5 frequency-by-power matrix in LH
+  hypocretin neurons whose per-condition statistics are in a non-open-access
+  SI appendix.
+
+The pattern across all six sweeps is one fact: this literature plots
+everything. Designs are abundant and numbers are not, and the constraint on
+P7.2 was never the method, the criterion or the code. It was that a bar chart
+is not a source.
+
+### The five mutations, and the one that changed nothing
+
+Every defence in the module was reverted in turn and the suite re-run, in the
+discipline P7.1 established when it found its own sign test to be
+tautological:
+
+    mutation                                        test that went red
+    delete rule 5 (the ordinal check)               ..._vertex_falls_just_inside_...
+    delete rule 4 (turning point in range)          ..._turning_point_outside_range_...
+    delete rule 6 (adopt if EITHER weighting does)  ..._both_weightings_are_run_...
+    delete `_resolvable_lam_max`                    ..._satexp_stays_finite_...
+    change [Herent2023]'s 15 Hz mean 54.4 -> 45.4   ..._published_numbers_...
+
+The fifth is the interesting one. Corrupting a transcribed number by 17% left
+`test_each_series_has_the_verdict_its_shape_implies` GREEN - the verdict does
+not change - and only the test that restates the published values a second
+time caught it. That is the argument for having that test at all: a rule
+robust enough to survive a corrupted input is also blind enough not to report
+one, so the numbers have to be pinned separately from the conclusions drawn
+from them.
+
+### One test that is a pin and says so
+
+`test_each_series_has_the_verdict_its_shape_implies` holds a table of the
+five reasons and compares it against `assess_series`. Its first docstring
+claimed the table had been "read off the published numbers by hand before the
+comparison was run". That was not true - it was written after the first run -
+and the claim is precisely the kind of thing P7.1's review caught in its own
+sign test: a check that reads one thing twice, described as reading two
+things once. The docstring now says what the test is, which is a regression
+pin that makes any verdict change a deliberate edit, and points at the two
+tests that can actually catch a wrong rule (the synthetic ones, where the
+true shape is known by construction) and a wrong number (the transcription
+test, which restates the values independently and which the fifth mutation
+above confirmed is the only thing standing between a corrupted input and a
+silently unchanged conclusion).

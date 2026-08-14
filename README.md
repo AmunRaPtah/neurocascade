@@ -194,6 +194,7 @@ more single-dose studies.
 | `src/neurocascade/projection_scenarios.py` | The hand-built monoamine, cholinergic and histaminergic scenarios ported onto projection systems, with the closed autoreceptor loop and the non-inert lone antagonist (P6.1), the D2 autoreceptor on the VTA and SNc, and the open/closed loop comparison the stability check is run on (P6.3) |
 | `src/neurocascade/projection_density.py` | Per-system projection densities DERIVED from the Phase 3 connectome (committed as `projection_densities.csv` with its source checksums), the reference region each transmitter's measured basal level belongs to, the refused nuclear block with its evidence, and the validation of the predicted concentration ratios against held-out measurements including the [Lin2023] whole-brain fibre map (P6.3) |
 | `src/neurocascade/endpoints.py` | The seven named behavioural endpoints (locomotion, anxiety, analgesia, reward, sedation, working memory, sensorimotor gating) as multi-region readouts over CCF regions, 69 terms each carrying the lesion/inactivation/opto/chemogenetic experiment that placed its region and fixed its sign, the 16 terms the literature contests recorded and excluded, the tail-flick / hot-plate assay split six papers force, and every weight MAGNITUDE labelled illustrative pending P7.3 (P7.1) |
+| `src/neurocascade/decoder.py` | The held-out model comparison that decides whether a nonlinear decoder beats P7.1's linear readout, per endpoint: the argument that only a graded SINGLE-REGION manipulation can identify a decoder nonlinearity (a saturating dose-response cannot, because the circuit layer's own sigmoid already produces one), four model families compared by leave-one-out cross-validation under two weightings, the five published graded series that exist outside a figure, and the searched-and-empty record for the four endpoints with none. Nothing was adopted; every rejection carries its reason (P7.2) |
 | `src/neurocascade/endogenous_tone.py` | The five projection systems' cited basal extracellular transmitter concentrations with species, region, method and caveats, the tonic occupancy and Gaddum dose ratio each imposes at every receptor that binds them, and the re-run comparison quantifying what P6.2 changed in P6.1's results (P6.2) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4), plus `assess_system`, which runs the same four checks on the whole coupled ODE system so that a feedback loop leaving the circuit through a transmitter concentration is visible to it (P6.3) |
 | `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2), and the cited anatomical validation of the resulting maps (P4.3) |
@@ -203,7 +204,7 @@ more single-dose studies.
 | `examples/`          | Worked end-to-end scenarios                      |
 | `tests/`             | Unit tests per layer                             |
 | `docs/`              | Architecture and design notes                    |
-| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage, `expression_density_validation.txt` P4.2 density validation, `receptor_map_validation.txt` P4.3 anatomy validation, `opioid_cross_affinity.txt` P5.7 cross-affinity re-run, `transporter_constants.txt` P5.8 transporter constants, `projection_systems.txt` P6.1 projection systems, `endogenous_tone.txt` P6.2 endogenous transmitter tone, `projection_densities.txt` P6.3 derived densities, validation and closed-loop stability |
+| `results/`           | Generated figures; `calibration/` posteriors, `identifiability/` P2.3 analysis, `whole_brain_stability.txt` P3.4 verification, `expression_coverage.txt` P4.1 coverage, `expression_density_validation.txt` P4.2 density validation, `receptor_map_validation.txt` P4.3 anatomy validation, `opioid_cross_affinity.txt` P5.7 cross-affinity re-run, `transporter_constants.txt` P5.8 transporter constants, `projection_systems.txt` P6.1 projection systems, `endogenous_tone.txt` P6.2 endogenous transmitter tone, `projection_densities.txt` P6.3 derived densities, validation and closed-loop stability, `behavioral_endpoints.txt` P7.1 endpoint library at three resolutions, `decoder_comparison.txt` P7.2 decoder model comparison and its rejections |
 
 ### Connectome data
 
@@ -406,7 +407,10 @@ as `cct-bayesian-validation`.
   endpoints once available. P7.1 built the named endpoint library
   (`endpoints.py`): seven multi-region readouts whose region membership and
   sign are cited, and whose weight magnitudes are all still illustrative.
-  P7.2 adds a nonlinearity where the data supports one, and P7.3 fits the
-  magnitudes.
+  P7.2 (`decoder.py`) asked whether a nonlinear decoder beats that linear
+  readout on held-out data, endpoint by endpoint, and the answer was no
+  everywhere: five graded single-region series exist in the literature with
+  per-level numbers outside a figure, and all five were rejected. P7.3 fits
+  the magnitudes.
 - Bayesian calibration (PyMC) of free parameters against literature
   behavioral data, following the CCT model's approach.

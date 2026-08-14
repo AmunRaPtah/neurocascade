@@ -1,0 +1,345 @@
+P7.2: is a nonlinear decoder better than P7.1's linear readout?
+========================================================================
+
+Criterion: leave-one-out cross-validation over the drive levels
+of a graded SINGLE-REGION manipulation, comparing four families.
+A nonlinearity is adopted only where the non-monotone family
+predicts held-out levels better than both monotone families, its
+turning point lies inside the tested range, and the measured
+means themselves reverse.
+
+Series in the library: 5
+Nonlinearities adopted: 0
+
+
+=== locomotion: LINEAR
+    3 graded series, none of which licensed a nonlinearity: herent2023_cnf_locomotion -> weighting-dependent; caggiano2018_cnf_locomotion -> no-signal; caggiano2018_ppn_locomotion -> linear-wins
+
+  herent2023_cnf_locomotion  [locomotion]  CUN
+    mouse, optogenetic_stimulation, 6 levels of Hz (source data), readout mean displacement speed, cm/s
+    citation:      Herent2023
+    drive coord:   linear
+    ordinal shape: non-monotone (model-free, means only)
+    weighting uniform     (uniform)
+      family      params   in-RMSE  LOO-RMSE      AICc
+      constant         1     36.04     43.24     51.01
+      linear           2     16.39     27.35     51.56
+      satexp           3      11.2     53.36     76.99
+      quadratic        3     10.06     19.53     75.71
+      best out of sample: quadratic   ->  adopt-nonlinear
+      quadratic turning point: z=0.863
+    weighting dispersion  (1/SEM^2)
+      family      params   in-RMSE  LOO-RMSE      AICc
+      constant         1     60.56     60.56     57.24
+      linear           2     58.69      60.2     66.87
+      satexp           3      58.7     75.51     96.87
+      quadratic        3     33.41      76.8      90.1
+      best out of sample: linear   ->  linear-wins
+      quadratic turning point: z=0.070
+    quadratic turning point (uniform): 35.2 Hz
+    VERDICT: keep-linear
+      weighting-dependent
+    note: The 'Mean' and 'SD' rows are the file's own, over the five per-animal means; the sheet also holds all 15 individual trials per frequency. The SDs at 5 and 10 Hz (0.35 and 0.12 cm/s) are a FLOOR, not precision - those frequencies evoke no locomotion in any animal - which is why this series is the reason the module assesses under both weightings.
+
+  caggiano2018_cnf_locomotion  [locomotion]  CUN
+    mouse, optogenetic_stimulation, 4 levels of Hz (source data), readout mean of per-trial maximum speed, cm/s
+    citation:      Caggiano2018
+    drive coord:   linear
+    ordinal shape: increasing (model-free, means only)
+    weighting uniform     (uniform)
+      family      params   in-RMSE  LOO-RMSE      AICc
+      constant         1     13.83     18.44     37.02
+      linear           2     6.417     25.37       n/a
+      satexp           3     2.499     26.32       n/a
+      quadratic        3     1.603     54.21       n/a
+      best out of sample: constant   ->  no-signal
+      quadratic turning point: z=0.752
+    weighting dispersion  (1/SEM^2)
+      family      params   in-RMSE  LOO-RMSE      AICc
+      constant         1     14.21     18.88     37.23
+      linear           2     6.484     25.77       n/a
+      satexp           3     2.595     26.78       n/a
+      quadratic        3     1.698     54.21       n/a
+      best out of sample: constant   ->  no-signal
+      quadratic turning point: z=0.750
+    quadratic turning point (uniform): 38.85 Hz
+    VERDICT: keep-linear
+      no-signal
+    note: Means and SEMs COMPUTED HERE from the deposit's trial-level maximum speeds; the paper plots medians with 25th/75th percentiles and states no per-level number. Two discrepancies in the deposit are recorded rather than smoothed. (1) The level column is headed 'Power', but its values are {5, 10, 20, 50} while the paper's stated laser power range is 5-30 mW, and the Results sentence quoted above names 5 Hz and 50 Hz as the ends of a FREQUENCY series - so the column is frequency in Hz and its header is wrong. (2) The deposit holds 131 CnF trials where the figure legend says n = 148; the n used here is the deposit's.
+
+  caggiano2018_ppn_locomotion  [locomotion]  PPN
+    mouse, optogenetic_stimulation, 4 levels of Hz (source data), readout mean of per-trial maximum speed, cm/s
+    citation:      Caggiano2018
+    drive coord:   linear
+    ordinal shape: increasing (model-free, means only)
+    weighting uniform     (uniform)
+      family      params   in-RMSE  LOO-RMSE      AICc
+      constant         1     6.922     9.229     31.48
+      linear           2     1.296      3.62       n/a
+      satexp           3     1.299     7.655       n/a
+      quadratic        3     1.077     36.42       n/a
+      best out of sample: linear   ->  linear-wins
+      quadratic turning point: z=-0.558  (OUTSIDE the tested range)
+    weighting dispersion  (1/SEM^2)
+      family      params   in-RMSE  LOO-RMSE      AICc
+      constant         1     9.252     9.725      33.8
+      linear           2     1.307     1.964       n/a
+      satexp           3      1.31     7.635       n/a
+      quadratic        3     1.267     36.42       n/a
+      best out of sample: linear   ->  linear-wins
+      quadratic turning point: z=-8.940  (OUTSIDE the tested range)
+    quadratic turning point (uniform): -20.1 Hz
+    VERDICT: keep-linear
+      linear-wins
+    note: Same deposit and same two caveats as the CnF series. The 5 Hz level rests on four trials, which the leave-one-out numbers reflect rather than hide.
+
+
+=== anxiety: LINEAR
+    1 graded series, none of which licensed a nonlinearity: diaz2011_bla_anxiety -> too-few-levels
+
+  diaz2011_bla_anxiety  [anxiety]  BLA
+    rat, intracerebral_microinjection, 3 levels of pmol (table), readout open-arm time, s of 300
+    citation:      Diaz2011
+    drive coord:   linear
+    ordinal shape: decreasing (model-free, means only)
+    weighting uniform     (uniform)
+      family      params   in-RMSE  LOO-RMSE      AICc
+      constant         1      40.3     60.45       n/a
+      linear           2     2.301     10.88       n/a
+      satexp           3 7.051e-14       n/a       n/a
+      quadratic        3 6.322e-14       n/a       n/a
+      best out of sample: linear   ->  too-few-levels
+      quadratic turning point: z=2.539  (OUTSIDE the tested range)
+    weighting dispersion  (1/SEM^2)
+      family      params   in-RMSE  LOO-RMSE      AICc
+      constant         1     50.49     57.77       n/a
+      linear           2     4.218     10.88       n/a
+      satexp           3 1.072e-13       n/a       n/a
+      quadratic        3 7.784e-14       n/a       n/a
+      best out of sample: linear   ->  too-few-levels
+      quadratic turning point: z=2.539  (OUTSIDE the tested range)
+    quadratic turning point (uniform): 12.7 pmol
+    VERDICT: keep-linear
+      too-few-levels
+    note: Three levels, so it is rejected as `too-few-levels` before any family is compared - it is here because a graded intra-BLA series with per-dose EPM means in a TABLE is close to unique, and because a rejection for want of a fourth level is a more useful record than silence. Table 1 does not restate n; the paper's light/dark text gives 6, 8 and 6 for the three groups and is internally inconsistent about the middle one, so `n_per_level` is left unset and the dispersion weighting uses the published SEMs directly. Open, closed and junction times sum to 300.1, 300.1 and 299.9 s, which is the only internal check the table supports and it passes.
+
+
+=== analgesia: LINEAR
+    no graded single-region series with per-level numbers outside a figure was found for this endpoint
+    NO SERIES. This is the endpoint P7.1 pointed P7.2 at, and it is empty. See
+    `P71_TARGETS` for [ZhuoGebhart1997] itself.
+    
+      - A regex scan of 251 open-access full texts containing "tail flick" or
+        "hot plate" for three or more distinct uA/mA or Hz values in a brain-
+        stimulation context returned 24 candidates and every one was a threshold
+        titration, a two-level design, or a non-thermal readout. The Gebhart-lab
+        intensity paradigm - ramp the current stepwise until the reflex reaches
+        cutoff - dominates this literature and by construction reports one
+        scalar threshold per animal instead of a latency per level.
+      - Graded intracerebral series with thermal latency: de Mello Rosa 2022
+        (vlPAG NMDA, three doses), Mascarenhas 2017 (dPAG anandamide, capsaicin
+        and WIN, four doses each), Buhler 2008 (RVM beta-lactotensin, four
+        doses), and the Morgan-lab vlPAG cumulative opioid series (five doses,
+        nine papers) are all figure-only. The Morgan papers tabulate D50 with a
+        confidence interval, which is a derived summary and not a per-level
+        value.
+      - [MendoncaDosSantos2024] is the ONLY paper found anywhere that prints a
+        graded thermal-latency series in a table, and it is rejected on the
+        numbers rather than on availability. Its Methods and Results say the
+        middle NMDA dose was 3 nmol and its Table 1 says 6 nmol. A drive level
+        the paper contradicts itself about cannot be the x-axis of a fit, and
+        choosing one of the two would be inventing the number this codebase's
+        first rule forbids. Two further problems would have to be answered even
+        if that were resolved: every dose group is co-treated with i.p.
+        pentylenetetrazole so the readout is postictal antinociception rather
+        than a clean single-region manipulation, and the table gives one value
+        per group without stating which of the fourteen measured timepoints it
+        is.
+      - Thomas & Hammond 1995 (NRM and NGCpalpha R(+)-baclofen over 0.1-150 ng,
+        tail flick AND hot plate, explicitly biphasic - latencies rise at
+        0.1-1.0 ng and fall back to control by 30-50 ng) is the single
+        highest-value unreachable target in this entire search. It is a
+        published, graded, within-region, both-assay reversal in the right
+        species. JPET returns 403 to every automated route and the paper has no
+        PMC deposit. Urban & Smith 1993 (NRM neurotensin, hyperreflexia at
+        0.03-0.3 nmol and inhibition at 3-30 nmol) is the same story.
+
+
+=== reward: LINEAR
+    no graded single-region series with per-level numbers outside a figure was found for this endpoint
+    NO SERIES.
+      - Ilango 2014 is the closest structural match found anywhere: mouse VTA
+        dopamine ChR2 with FOUR separate graded series in one paper (pulse
+        duration 1/3/10 ms, intensity 0.1/1/10 mW, frequency 8/20/50 Hz, pulse
+        number 0/2/4/8/16) against lever-press self-stimulation. Every rate is
+        in Fig. 4 and the text gives only F-values. Its one table is a
+        schedule-feasibility table.
+      - Rate-frequency intracranial self-stimulation is a large literature with
+        genuinely graded designs (Witten 2011, nine pulse-number levels; Yoo
+        2016 and 2017; Galaj 2020/2022 and Humburg 2021, six frequencies each).
+        None tabulates a rate per frequency; the classic Negus- and
+        Carlezon-lab papers tabulate only derived curve parameters (Emax, T50,
+        EF50), and Witten's rates are normalised per rat so they are not
+        absolute even in the figure.
+      - Two Shizgal-lab deposits (Trujillo-Pisanty 2020, TH::Cre rat VTA
+        optogenetic; Solomon 2017, rat lateral hypothalamic electrical, 9 to 25
+        pulse frequencies) put raw trial-level records in the Concordia Spectrum
+        repository as paired .DAT/.PRM files. Those are real data at the right
+        resolution and they are not ingested here: reconstructing a
+        frequency-response curve from them means writing a parser for an
+        undocumented binary-ish format on the authority of a README, which is a
+        different kind of task from transcribing a published table and carries a
+        different kind of error. The URLs are in [the reward record] so P7.3 can
+        decide whether to spend that effort:
+        https://spectrum.library.concordia.ca/id/eprint/986807/1/OptoGBR.zip and
+        https://spectrum.library.concordia.ca/id/eprint/982609/1/OppCost_PLOSONE_Dataset.zip
+      - Intra-VTA and intra-NAc conditioned-place-preference dose series: none
+        open access. Bals-Kubik 1993 is the canonical one and has no PMC record.
+
+
+=== sedation: LINEAR
+    1 graded series, none of which licensed a nonlinearity: deluca2022_vlpo_sedation -> saturating-wins-not-identifiable
+
+  deluca2022_vlpo_sedation  [sedation]  VLPO
+    mouse, optogenetic_stimulation, 5 levels of Hz (source data), readout probability of arousal from NREM sleep, %
+    citation:      DeLuca2022
+    drive coord:   linear
+    ordinal shape: decreasing (model-free, means only)
+    weighting uniform     (uniform)
+      family      params   in-RMSE  LOO-RMSE      AICc
+      constant         1     10.78     13.47     33.77
+      linear           2     4.242     10.17     44.45
+      satexp           3     1.059     2.397       n/a
+      quadratic        3     1.333     10.71       n/a
+      best out of sample: satexp   ->  saturating-wins-not-identifiable
+      quadratic turning point: z=0.847
+    weighting dispersion  (1/SEM^2)
+      family      params   in-RMSE  LOO-RMSE      AICc
+      constant         1     13.23     14.53     35.82
+      linear           2     6.043     10.97     47.99
+      satexp           3     1.197     3.266       n/a
+      quadratic        3     1.422     7.874       n/a
+      best out of sample: satexp   ->  saturating-wins-not-identifiable
+      quadratic turning point: z=0.809
+    quadratic turning point (uniform): 16.93 Hz
+    VERDICT: keep-linear
+      saturating-wins-not-identifiable
+    note: The zero level is the paper's own sham. `score_sign=-1` because the sedation endpoint's direction is 'higher = MORE sedated', and a higher arousal probability is less sedation. This is a TERMINAL-FIELD manipulation: ChR2 sits in lateral hypothalamic orexin neurons and the fibre sits over the VLPO, so raising the drive lowers the VLPO sleep-active rate. That is monotone DECREASING, which the identifiability argument accommodates - it needs monotone, not increasing - and the region whose rate is graded is unambiguously the VLPO.
+
+
+=== working_memory: LINEAR
+    no graded single-region series with per-level numbers outside a figure was found for this endpoint
+    NO SERIES. See `P71_TARGETS` for [Zahrt1997], which is the experiment this
+    endpoint needs and is figure-only.
+    
+    The structural point P7.1 recorded still stands and P7.2 could not move it:
+    all six working-memory terms are positive, so the readout is the mean rate
+    over its regions up to scale, and the prefrontal inverted U is the one shape
+    an all-positive linear readout cannot hold. Vijayraghavan 2007 is the other
+    famous inverted-U experiment and is excluded twice over - it is MONKEY, and
+    its graded readout is neuronal firing rate rather than a behavioural score.
+
+
+=== sensorimotor_gating: LINEAR
+    no graded single-region series with per-level numbers outside a figure was found for this endpoint
+    NO SERIES, and this is the most systematically established negative in the
+    task.
+    
+    A Europe PMC query for prepulse inhibition with intracerebral infusion,
+    restricted to open access with full text, returned 170 papers. Every one was
+    downloaded and every <table-wrap> was regex-tested for a PPI token
+    co-occurring with a mean +/- SEM numeric pattern. ZERO hits. No open-access
+    prepulse-inhibition paper tabulates %PPI.
+    
+    Ten studies were verified as qualifying on design (>= 3 intracerebral levels
+    with %PPI at each) and all ten are figure-only:
+    [BakshiGeyer1998] (4 doses x 6 regions, and the paper has no tables at all),
+    [Alsene2011] (4 doses x 9 regions), [Swerdlow2007] (4 doses x 5 subregions x
+    2 strains, no tables), Alsene & Bakshi 2011 (peri-LC bethanechol), Chang
+    2012 (pramipexole into 3 striatal sites), Cadeddu 2022 (mouse mPFC and NAc
+    allopregnanolone), Pinnock 2015 (PnC nicotinic antagonists), Larrauri 2015
+    (lateral habenula nicotine - the only one with any %PPI number in text, and
+    only three of its conditions), Sotoyama 2011 (globus pallidus SCH23390 and
+    raclopride), Arime 2012 (mouse mPFC and NAc nisoxetine).
+    
+    Seven further classic Swerdlow/Wan/Caine designs from 1990-2005 qualify from
+    their abstracts and are paywalled with no PMC deposit.
+    
+    [Alsene2011] deserves its own line because it is the one place a table of a
+    graded intracerebral series with SEM does exist - 4 levels x 9 regions - and
+    its readout is STARTLE MAGNITUDE, not %PPI. Prepulse inhibition is a ratio
+    of two startle responses and startle magnitude is one of them; substituting
+    it would be substituting a different measured effect for the one being
+    modelled, which rule 2 of this codebase forbids by name. It is recorded here
+    rather than used.
+
+
+========================================================================
+The three cases P7.1 named for P7.2, and what happened to each
+========================================================================
+P7.1 named three places where a linear readout is provably wrong and handed
+them to P7.2. None of the three could be decided on held-out data, and the
+reason differs in each case.
+
+1. RM / rostral ventromedial medulla, in analgesia. [ZhuoGebhart1997] is a
+   within-paper, within-assay, within-site reversal: at 43 of 86 RVM sites,
+   low-intensity stimulation facilitated the tail flick and higher intensity
+   inhibited it. The 5/10/15/25 uA series exists. Its per-intensity means do
+   not: the Results print only "from a minimal mean of 18.4 +/- 4.5% to a
+   maximum mean of 27.3 +/- 7.3%" without saying which intensity gave which,
+   and the four values are in Fig. 1A. The reversal itself is quantified only
+   as two summary points in incommensurable units - facilitation as percent
+   change from control at a mean 11.8 +/- 1.4 uA, inhibition as percent of
+   maximum possible inhibition at a mean 66.6 +/- 9.0 uA - so even the
+   two-point version cannot be assembled into one series. The glutamate
+   replication has two doses. P7.1's flagship case is unusable, and that is
+   the single most consequential finding of this task.
+
+2. ACB and ventral CA1/SUB, in prepulse inhibition. The inverted U P7.1
+   recorded is assembled from separate hyperactivation and inactivation
+   papers, which is two points from two experiments and not a graded series.
+   A systematic scan of 170 open-access papers matching prepulse inhibition
+   with intracerebral infusion found no per-dose %PPI in any table.
+
+3. Working memory, structurally. P7.1's own note is that all six terms are
+   positive, so the readout is up to scale the mean rate over six regions and
+   cannot hold the prefrontal inverted U. [Zahrt1997] is exactly the
+   experiment that would decide it - three intra-PFC D1-agonist doses against
+   delayed-alternation accuracy - and its per-dose accuracy is in Fig. 2
+   only. The paper's one table reports perseveration and run time.
+
+The honest summary is that P7.1's three targets are three DIFFERENT kinds of
+unavailability: a paper that measured the reversal and printed a summary of
+it, a literature that measured the two limbs in different papers, and a
+paper that measured the whole curve and plotted it.
+
+========================================================================
+Rejection reasons, in full
+========================================================================
+  linear-wins:
+    the straight line predicted the held-out levels better than anything curved. The decoder P7.1 already has is the best model of this series
+  no-data:
+    no graded single-region series with per-level numbers outside a figure was found for this endpoint
+  no-measured-reversal:
+    the quadratic won out of sample with its turning point nominally inside the range, but the measured means never turn round. A stationary point of a fitted parabola is not a measured reversal, and a saturating series puts one near the top of its range as a matter of course
+  no-signal:
+    no family beat the constant model out of sample; the series does not constrain the decoder in either direction
+  saturating-wins-not-identifiable:
+    the monotone SATURATING family predicted the held-out levels best. The series really does bend over - but a linear decoder reading a region whose rate saturates in its own drive produces exactly that curve, so the bend is attributable to the Wilson-Cowan sigmoid the circuit layer already has. Adopting a saturating decoder here would count that sigmoid twice
+  too-few-levels:
+    fewer than 4 graded levels, so a 3-parameter family cannot be cross-validated against a 2-parameter one at all
+  turning-point-outside-range:
+    the quadratic won out of sample but its turning point lies outside the range of drive tested, so it is a curved monotone segment rather than a reversal
+  weighting-dependent:
+    the quadratic won under one weighting of the levels and not under the other. A reversal that depends on whether the published SEMs are used is not a reversal this module will adopt
+
+========================================================================
+Endpoints, for reference (P7.1)
+========================================================================
+  locomotion             11 terms, 11 regions
+  anxiety                12 terms, 12 regions
+  analgesia              11 terms, 11 regions
+  reward                 11 terms, 14 regions
+  sedation                9 terms, 12 regions
+  working_memory          6 terms,  7 regions
+  sensorimotor_gating     9 terms, 12 regions
