@@ -678,10 +678,11 @@
       "deps": [
         "P8.1"
       ],
-      "status": "pending",
-      "attempts": 1,
-      "baseline": "c9c8e1afe681c5fd61c6fa1cffd0c3fc72892610",
-      "result": "agent did not start: You've hit your session limit \u00b7 resets 9pm (Europe/Berlin)"
+      "status": "running",
+      "attempts": 2,
+      "baseline": "ef6af57f9af7efa59c65a77e04f684ab046225f2",
+      "result": "agent did not start: You've hit your session limit \u00b7 resets 9pm (Europe/Berlin)",
+      "started_at": "2026-08-14T19:00:05.803401+00:00"
     },
     {
       "id": "P8.3",
