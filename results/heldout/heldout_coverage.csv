@@ -1,0 +1,36 @@
+compound,link,available,detail
+alprazolam,binding,True,1 modelled target(s): GABA_A_BZD
+alprazolam,pharmacokinetics,False,"drug_pk builds no model for any observed (species, route): mouse/IP: UnsourcedParameterError; mouse/PO: UnsourcedParameterError; rat/IP: UnsourcedParameterError"
+alprazolam,brain_partition,False,"absent - No brain partition has been sourced for alprazolam in the rat, and no search for one has been recorded."
+alprazolam,behavioural_path,True,GABA_A_BZD: available
+alprazolam,observation,True,3 quantitative behavioural observation(s)
+amphetamine,binding,True,"3 modelled target(s): DAT, NET, alpha2"
+amphetamine,pharmacokinetics,False,"drug_pk builds no model for any observed (species, route): rat/SC: UnsourcedParameterError"
+amphetamine,brain_partition,False,"absent - No brain partition has been sourced for amphetamine in the rat, and no search for one has been recorded."
+amphetamine,behavioural_path,True,"DAT: transporter-no-whole-brain-field, NET: transporter-no-whole-brain-field, alpha2: available"
+amphetamine,observation,False,"2 behavioural observation(s), none with both a ratio and a dispersion"
+caffeine,binding,True,1 modelled target(s): A2A
+caffeine,pharmacokinetics,False,"drug_pk builds no model for any observed (species, route): mouse/IP: UnsourcedParameterError"
+caffeine,brain_partition,False,"absent - No brain partition has been sourced for caffeine in the rat, and no search for one has been recorded."
+caffeine,behavioural_path,False,A2A: antagonist-no-tone
+caffeine,observation,False,"3 behavioural observation(s), none with both a ratio and a dispersion"
+clozapine,binding,True,1 modelled target(s): D2
+clozapine,pharmacokinetics,False,"drug_pk builds no model for any observed (species, route): no observation to build one for"
+clozapine,brain_partition,False,"absent - No brain partition has been sourced for clozapine in the rat, and no search for one has been recorded."
+clozapine,behavioural_path,True,D2: available
+clozapine,observation,False,"0 behavioural observation(s), none with both a ratio and a dispersion"
+cocaine,binding,True,"5 modelled target(s): DAT, M1, M2, NET, SERT"
+cocaine,pharmacokinetics,False,"drug_pk builds no model for any observed (species, route): mouse/IP: UnsourcedParameterError; mouse/IV: UnsourcedParameterError; rat/IP: UnsourcedParameterError; rat/SC: UnsourcedParameterError"
+cocaine,brain_partition,False,"absent - No brain partition has been sourced for cocaine in the rat, and no search for one has been recorded."
+cocaine,behavioural_path,True,"DAT: transporter-no-whole-brain-field, M1: available, M2: available, NET: transporter-no-whole-brain-field, SERT: transporter-no-whole-brain-field"
+cocaine,observation,False,"3 behavioural observation(s), none with both a ratio and a dispersion"
+ketamine,binding,True,"4 modelled target(s): DAT, NET, NMDA, SERT"
+ketamine,pharmacokinetics,False,"drug_pk builds no model for any observed (species, route): rat/IV: UnsourcedParameterError"
+ketamine,brain_partition,False,"absent - No brain partition has been sourced for ketamine in the rat, and no search for one has been recorded."
+ketamine,behavioural_path,False,"DAT: transporter-no-whole-brain-field, NET: transporter-no-whole-brain-field, NMDA: antagonist-no-tone, SERT: transporter-no-whole-brain-field"
+ketamine,observation,False,"3 behavioural observation(s), none with both a ratio and a dispersion"
+morphine,binding,True,1 modelled target(s): MOR
+morphine,pharmacokinetics,False,"drug_pk builds no model for any observed (species, route): no observation to build one for"
+morphine,brain_partition,False,"absent - No brain partition has been sourced for morphine in the rat, and no search for one has been recorded."
+morphine,behavioural_path,True,MOR: available
+morphine,observation,False,"0 behavioural observation(s), none with both a ratio and a dispersion"

@@ -678,11 +678,12 @@
       "deps": [
         "P8.1"
       ],
-      "status": "running",
+      "status": "done",
       "attempts": 2,
       "baseline": "ef6af57f9af7efa59c65a77e04f684ab046225f2",
-      "result": "agent did not start: You've hit your session limit \u00b7 resets 9pm (Europe/Berlin)",
-      "started_at": "2026-08-14T19:00:05.803401+00:00"
+      "result": "complete: 7 held-out compounds registered; focused tests pass; report and figures generated. The validation is negative: 0 complete dose-to-behaviour chains, 5 occupancy observations blocked by PK/brain partition, and only alprazolam has quantitative magnitude rows.",
+      "started_at": "2026-08-14T19:00:05.803401+00:00",
+      "finished_at": "2026-08-16T01:19:26+02:00"
     },
     {
       "id": "P8.3",

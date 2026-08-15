@@ -1,0 +1,469 @@
+Held-out drug validation (P8.2)
+========================================================================
+Predictions for 7 compounds never used in any fitting step, from published
+binding and pharmacokinetics alone. The training set is diazepam,
+fentanyl, haloperidol, read off the evidence module rather than restated.
+Overlap between held-out and training sets: none
+
+
+1. Coverage: which links of the chain each compound has
+========================================================================
+A dose-to-behaviour prediction needs all five links. This table is the
+acceptance criterion 'quantitative error per compound per endpoint'
+meeting reality: an error can only be computed where the chain closes.
+
+compound      binding    pharmacok  brain_par  behaviour  observati
+-------------------------------------------------------------------
+alprazolam    yes        NO         NO         yes        yes      
+amphetamine   yes        NO         NO         yes        NO       
+caffeine      yes        NO         NO         NO         NO       
+clozapine     yes        NO         NO         yes        NO       
+cocaine       yes        NO         NO         yes        NO       
+ketamine      yes        NO         NO         NO         NO       
+morphine      yes        NO         NO         yes        NO       
+
+Compounds with a complete chain: 0 of 7
+
+  alprazolam
+      binding: 1 modelled target(s): GABA_A_BZD
+      pharmacokinetics: drug_pk builds no model for any observed (species,
+      route): mouse/IP: UnsourcedParameterError; mouse/PO:
+      UnsourcedParameterError; rat/IP: UnsourcedParameterError
+      brain_partition: absent - No brain partition has been sourced for
+      alprazolam in the rat, and no search for one has been recorded.
+      behavioural_path: GABA_A_BZD: available
+      observation: 3 quantitative behavioural observation(s)
+
+  amphetamine
+      binding: 3 modelled target(s): DAT, NET, alpha2
+      pharmacokinetics: drug_pk builds no model for any observed (species,
+      route): rat/SC: UnsourcedParameterError
+      brain_partition: absent - No brain partition has been sourced for
+      amphetamine in the rat, and no search for one has been recorded.
+      behavioural_path: DAT: transporter-no-whole-brain-field, NET:
+      transporter-no-whole-brain-field, alpha2: available
+      observation: 2 behavioural observation(s), none with both a ratio and
+      a dispersion
+
+  caffeine
+      binding: 1 modelled target(s): A2A
+      pharmacokinetics: drug_pk builds no model for any observed (species,
+      route): mouse/IP: UnsourcedParameterError
+      brain_partition: absent - No brain partition has been sourced for
+      caffeine in the rat, and no search for one has been recorded.
+      behavioural_path: A2A: antagonist-no-tone
+      observation: 3 behavioural observation(s), none with both a ratio and
+      a dispersion
+
+  clozapine
+      binding: 1 modelled target(s): D2
+      pharmacokinetics: drug_pk builds no model for any observed (species,
+      route): no observation to build one for
+      brain_partition: absent - No brain partition has been sourced for
+      clozapine in the rat, and no search for one has been recorded.
+      behavioural_path: D2: available
+      observation: 0 behavioural observation(s), none with both a ratio and
+      a dispersion
+
+  cocaine
+      binding: 5 modelled target(s): DAT, M1, M2, NET, SERT
+      pharmacokinetics: drug_pk builds no model for any observed (species,
+      route): mouse/IP: UnsourcedParameterError; mouse/IV:
+      UnsourcedParameterError; rat/IP: UnsourcedParameterError; rat/SC:
+      UnsourcedParameterError
+      brain_partition: absent - No brain partition has been sourced for
+      cocaine in the rat, and no search for one has been recorded.
+      behavioural_path: DAT: transporter-no-whole-brain-field, M1:
+      available, M2: available, NET: transporter-no-whole-brain-field, SERT:
+      transporter-no-whole-brain-field
+      observation: 3 behavioural observation(s), none with both a ratio and
+      a dispersion
+
+  ketamine
+      binding: 4 modelled target(s): DAT, NET, NMDA, SERT
+      pharmacokinetics: drug_pk builds no model for any observed (species,
+      route): rat/IV: UnsourcedParameterError
+      brain_partition: absent - No brain partition has been sourced for
+      ketamine in the rat, and no search for one has been recorded.
+      behavioural_path: DAT: transporter-no-whole-brain-field, NET:
+      transporter-no-whole-brain-field, NMDA: antagonist-no-tone, SERT:
+      transporter-no-whole-brain-field
+      observation: 3 behavioural observation(s), none with both a ratio and
+      a dispersion
+
+  morphine
+      binding: 1 modelled target(s): MOR
+      pharmacokinetics: drug_pk builds no model for any observed (species,
+      route): no observation to build one for
+      brain_partition: absent - No brain partition has been sourced for
+      morphine in the rat, and no search for one has been recorded.
+      behavioural_path: MOR: available
+      observation: 0 behavioural observation(s), none with both a ratio and
+      a dispersion
+
+
+2. The binding fingerprints, and what they omit
+========================================================================
+Every affinity is a published measurement with its own citation.
+'tested-inactive' counts targets a panel screened and found below its
+ceiling; 'never-tested' counts targets nobody measured. Only the first
+licenses calling a compound's model complete over that target.
+
+compound      modelled  censored  inactive    untested     targets
+------------------------------------------------------------------
+alprazolam    1         0         21          1            GABA_A_BZD
+amphetamine   3         0         8           12           DAT, NET, alpha2
+caffeine      1         0         2           19           A2A
+clozapine     1         0         0           0            D2
+cocaine       5         0         8           10           DAT, M1, M2, NET, SERT
+ketamine      4         0         16          3            DAT, NET, NMDA, SERT
+morphine      1         0         0           0            MOR
+
+
+3. The tone ceiling: what an antagonist can ever remove
+========================================================================
+A competitive antagonist removes the activation the endogenous transmitter
+was supplying and no more, so its reach is bounded by P6.2's MEASURED tone
+before any dose, gain or density is chosen. Targets absent from this table
+have no measured basal transmitter in this repository at all, and an
+antagonist there changes nothing whatsoever.
+
+target         max |d_act|  reading
+----------------------------------------------------------
+D2             0.71114      substantial
+5HT1A          0.24348      substantial
+alpha2         0.05561      marginal
+5HT2A          0.01832      marginal
+alpha4beta2    0.00897      negligible
+D1             0.00461      negligible
+M2             0.00460      negligible
+H1             0.00324      negligible
+beta           0.00087      negligible
+M1             0.00073      negligible
+alpha7         0.00061      negligible
+alpha1         0.00010      negligible
+
+No measured tone (antagonist reach is exactly zero): A2A, AMPA, CB1, DOR,
+GABA_A_BZD, KOR, MOR, NMDA
+
+
+4. What the model can reach, over ALL gains
+========================================================================
+The endpoint index saturates, so there is a largest effect the model can
+produce at each endpoint for ANY gain whatsoever. An observation outside
+this interval is refuted by the model's structure rather than by a
+parameter choice. Convergence of each range is checked rather than
+assumed; 'drift' is how much the index still moved over the outermost
+decade of the sweep.
+
+  target D2 (gene Drd2, gain unfitted)
+    endpoint               ratio lo  ratio hi  drift      converged
+    locomotion             0.2500    1.7500    1.38e-08   yes
+    anxiety                0.3333    1.6667    3.69e-04   yes
+    analgesia              0.7682    1.2318    3.48e-03   NO
+    sedation               0.1998    1.8002    5.39e-06   yes
+    reward                 0.5455    1.4545    9.75e-03   NO
+    working_memory         0.0000    2.0000    1.06e-02   NO
+    sensorimotor_gating    0.5000    1.5000    8.62e-10   yes
+
+  target GABA_A_BZD (gene Gabra1, gain unfitted)
+    endpoint               ratio lo  ratio hi  drift      converged
+    locomotion             0.3906    1.7424    9.05e-02   NO
+    anxiety                0.5260    1.6665    8.51e-02   NO
+    analgesia              0.8340    1.2221    1.98e-02   NO
+    sedation               0.2500    1.7013    7.26e-02   NO
+    reward                 0.5304    1.4657    3.78e-02   NO
+    working_memory         0.2960    1.9981    1.47e-01   NO
+    sensorimotor_gating    0.9007    1.4955    9.34e-02   NO
+
+  target M1 (gene Chrm1, gain unfitted)
+    endpoint               ratio lo  ratio hi  drift      converged
+    locomotion             0.2497    1.7503    1.33e-10   yes
+    anxiety                0.3333    1.6667    1.18e-10   yes
+    analgesia              0.7972    1.2028    3.55e-11   yes
+    sedation               0.2424    1.7576    1.33e-10   yes
+    reward                 0.5454    1.4546    8.07e-11   yes
+    working_memory         0.0000    2.0000    1.78e-10   yes
+    sensorimotor_gating    0.5000    1.5000    8.88e-11   yes
+
+  target M2 (gene Chrm2, gain unfitted)
+    endpoint               ratio lo  ratio hi  drift      converged
+    locomotion             0.2500    1.7500    1.79e-10   yes
+    anxiety                0.3330    1.6670    3.95e-11   yes
+    analgesia              0.8000    1.2000    6.81e-13   yes
+    sedation               0.2500    1.7500    2.68e-12   yes
+    reward                 0.5455    1.4545    3.81e-09   yes
+    working_memory         0.0000    2.0000    1.62e-11   yes
+    sensorimotor_gating    0.5000    1.5000    2.35e-12   yes
+
+  target MOR (gene Oprm1, gain unfitted)
+    endpoint               ratio lo  ratio hi  drift      converged
+    locomotion             0.2500    1.7500    2.59e-08   yes
+    anxiety                0.3333    1.6667    1.76e-05   yes
+    analgesia              0.7844    1.2156    2.22e-06   yes
+    sedation               0.2500    1.7500    2.27e-08   yes
+    reward                 0.5455    1.4545    1.47e-05   yes
+    working_memory         0.0000    2.0000    2.82e-05   yes
+    sensorimotor_gating    0.5000    1.5000    1.78e-09   yes
+
+  target alpha2 (gene Adra2a, gain unfitted)
+    endpoint               ratio lo  ratio hi  drift      converged
+    locomotion             0.2500    1.7500    1.31e-02   NO
+    anxiety                0.3333    1.6667    1.27e-02   NO
+    analgesia              0.7677    1.2323    6.71e-03   NO
+    sedation               0.2500    1.7500    2.50e-02   NO
+    reward                 0.5455    1.4545    2.15e-02   NO
+    working_memory         0.0145    1.9855    4.83e-02   NO
+    sensorimotor_gating    0.5000    1.5000    9.50e-10   yes
+
+
+5. Direction: a parameter-free sign prediction
+========================================================================
+The sign of an endpoint's response is sign(gain) x sign(delta_activation)
+x the endpoint's own slope, and none of the three needs the gain's
+MAGNITUDE. This is the one behavioural prediction in this task that costs
+no fitted parameter.
+
+compound     endpoint             via          predicted   observed    match
+----------------------------------------------------------------------------
+alprazolam   anxiety              GABA_A_BZD   decrease    no-change   NO
+alprazolam   anxiety              GABA_A_BZD   decrease    decrease    yes
+alprazolam   anxiety              GABA_A_BZD   decrease    no-change   NO
+alprazolam   locomotion           GABA_A_BZD   decrease    decrease    yes
+amphetamine  locomotion           alpha2       increase    increase    yes
+amphetamine  locomotion           alpha2       increase    increase    yes
+caffeine     locomotion           no path      no-change   increase    NO
+caffeine     locomotion           no path      no-change   decrease    NO
+caffeine     sedation             no path      no-change   decrease    NO
+cocaine      locomotion           M1           decrease    increase    NO
+cocaine      locomotion           M1           decrease    increase    NO
+cocaine      anxiety              M1           decrease    increase    NO
+ketamine     locomotion           no path      no-change   increase    NO
+ketamine     sensorimotor_gating  no path      no-change   decrease    NO
+ketamine     sedation             no path      no-change   increase    NO
+
+Direction agreement: 4 of 15
+
+
+6. Magnitude: the error per compound per endpoint
+========================================================================
+'residual_sd' is how far the NEAREST prediction the model can make sits
+from the observation, in units of the observation's own standard
+deviation. A zero means the model can be FITTED to the observation, not
+that it predicted it, and 'implied x' is the gain x activation product
+that fit would need.
+
+compound     endpoint    dose    observed  obs sd    reach lo  reach hi  residual_sd
+------------------------------------------------------------------------------------
+alprazolam   anxiety     0.1     0.9851    0.0574    0.5260    1.6665    0.000 (reachable-gain-unidentified)
+alprazolam   anxiety     0.3     0.8723    0.0530    0.5260    1.6665    0.000 (reachable-gain-unidentified)
+alprazolam   anxiety     1       0.9864    0.0739    0.5260    1.6665    0.000 (reachable-gain-unidentified)
+
+
+7. Monotonicity: the test no gain can pass
+========================================================================
+Every stage from dose to endpoint index is monotone, so the model cannot
+produce a dose-response that rises and then falls, at any gain, at any
+target, with any density map. A published series that turns over refutes
+the model outright. Whether each turnover survives its own error bars is
+computed at two thresholds, because reporting only the threshold that
+passes would be choosing the test after seeing the data.
+
+  alprazolam / anxiety
+    doses  0.1, 0.3, 1
+    ratios 0.9851+/-0.0574, 0.8723+/-0.0530, 0.9864+/-0.0739
+    turns over: True
+      at 1.00 sd: REFUTES
+      at 1.96 sd: not resolved
+    turns over, and the turnover exceeds 1 sd on both the rising and the
+    falling step: NO gain reproduces this
+
+
+
+8. The occupancy tier, and why it could not be run
+========================================================================
+Occupancy is the one prediction with NO unfitted parameter in it: PK, the
+partition and the Ki fix it completely. It is therefore the tier whose
+absence costs most, and what blocks it is named per compound rather than
+summarised.
+
+  alprazolam: 1 published occupancy observation(s), blocked by pharmacokinetics, brain_partition
+      0.9 mg/kg IP mouse -> 50% at GABA_A_BZD [Cho1986]
+
+  caffeine: 2 published occupancy observation(s), blocked by pharmacokinetics, brain_partition
+      1 mg/kg IP mouse -> 32% at A2A [ElYacoubi2001]
+      6.25 mg/kg IP mouse -> 66% at A2A [ElYacoubi2001]
+
+  cocaine: 2 published occupancy observation(s), blocked by pharmacokinetics, brain_partition
+      0.25 mg/kg IV mouse -> 50% at DAT [Gatley1999]
+      1 mg/kg IV mouse -> 80% at DAT [Gatley1999]
+
+5 occupancy observations were collected and NONE could be scored, because
+no held-out compound has both a dose-to-concentration model and a
+plasma-to-brain-unbound partition.
+
+
+9. Searched and empty
+========================================================================
+21 documented searches that came back empty, and 1 gaps that were NOT
+searched. The two are counted separately because presenting an unrun
+search as a negative result would be the most consequential overclaim
+available in this task.
+
+  alprazolam
+    [SEARCHED] rodent dose-to-concentration pharmacokinetics for
+    alprazolam: a volume of distribution and a clearance in the same
+    species and route
+        No usable dose-to-concentration model exists in any accessible
+        source. This is the decisive gap for alprazolam and it is the
+        exact mirror image of cocaine's: cocaine has a complete rat IV
+        disposition and no brain partition, alprazolam has a complete
+        brain partition and no disposition. Neither compound can be
+        simulated from a dose, for opposite reasons.
+
+    [SEARCHED] a fitted rodent dose-occupancy curve for the
+    benzodiazepine site
+        Only the single mouse ex vivo ED50 recorded above. A further
+        complication is documented and replicated: four independent mouse
+        studies ([Miller1987] PMID 2889803, [Mosaddeghi1992] PMID 1331409,
+        [Burke1994] PMID 7913233, [Kaplan1990] PMID 2167493) report that
+        LOW-dose alprazolam paradoxically INCREASES in vivo
+        benzodiazepine-site radioligand binding rather than displacing it,
+        which [Miller1987] attributes to an increase in receptor number.
+        Any monotone occupancy function fitted to alprazolam will be wrong
+        below about 0.1 mg/kg IP in the mouse, and this model's occupancy
+        function is monotone by construction.
+
+  amphetamine
+    [SEARCHED] a Kp,uu or brain unbound fraction for amphetamine in rat
+    or mouse
+        No measured value obtained. This is the fourth independent clean
+        negative in this task's seven searches and the pattern is now the
+        finding rather than the accident. Note the honest caveat above:
+        for amphetamine specifically the compilations could not be opened,
+        so the negative is weaker than caffeine's or cocaine's.
+
+    [SEARCHED] rodent DAT occupancy by amphetamine
+        No rodent DAT occupancy exists. Mechanistically unsurprising -
+        amphetamine is a substrate, and substrate-induced internalisation
+        plus competition make classical occupancy hard to define - but
+        recorded as a real gap. Amphetamine therefore contributes no
+        tier-1 observation.
+
+    [SEARCHED] rat or mouse plasma free fraction for amphetamine
+        Only an upper bound on binding was obtained, which is not a free
+        fraction.
+
+    [NOT SEARCHED] prepulse inhibition, elevated plus maze, conditioned
+    place preference and working-memory dose-response for amphetamine
+        NOT SEARCHED, and recorded here so it is not miscounted as an
+        absence of literature. These four endpoints were delegated to a
+        sub-search that was dropped rather than run, and zero queries were
+        issued. Live leads that were never followed: Swerdlow (rat PPI),
+        Geyer and Ralph-Williams (mouse PPI), Bardo (CPP). This is the one
+        gap in this module that is a process failure rather than a
+        property of the literature.
+
+  caffeine
+    [SEARCHED] caffeine Ki at MOUSE A1 and MOUSE A2A
+        No mouse caffeine affinity at A1 or A2A exists. The occupancy
+        observations above are in MOUSE and the Ki used is RAT, and that
+        mismatch is carried explicitly rather than hidden: it is the
+        reason caffeine's tier-1 residual cannot be read as a pure test of
+        the model.
+
+    [SEARCHED] a rodent brain:plasma partition and brain unbound
+    fraction for caffeine
+        No usable caffeine Kp or Kp,uu was obtained, and no rodent plasma
+        protein binding either - the two rodent binding values that
+        surface in searches belong to THEOBROMINE (fu 0.90) and
+        PARAXANTHINE (fu 0.85), both metabolites, and neither may be used
+        for caffeine.
+
+    [SEARCHED] a caffeine locomotor dose-response with three or more
+    doses plus vehicle, tabulated with means, SEM and n
+        Not met, and the miss is by reporting format rather than by study
+        design. This is P7.2's and P7.3's finding - this literature plots
+        everything - reproduced by a search that was looking at a
+        different drug and a different decade.
+
+    [SEARCHED] in vivo A2A occupancy in the RAT, to match the rat Ki
+        Every rodent caffeine occupancy study found measures A1. No rat
+        A2A occupancy exists, so the only A2A observations available are
+        the mouse ones above.
+
+  clozapine
+    [SEARCHED] a receptor-drivable rat brain partition Kp,uu for
+    clozapine
+        No species-matched, receptor-drivable clozapine brain partition
+        was obtained.
+
+    [SEARCHED] a sourced rat dose-to-concentration PK model for
+    clozapine
+        No route in drug_pk.py has a complete clozapine parameter set; a
+        human clinical PK value cannot be substituted.
+
+    [SEARCHED] a quantitative rodent clozapine dose-response linked to
+    the modelled D2 endpoint
+        No matched quantitative observation was added before the
+        dose-to-brain chain can be closed.
+
+  cocaine
+    [SEARCHED] a Kp,uu or brain unbound fraction for cocaine in any
+    rodent
+        Nothing found. Rat plasma protein binding IS available and well
+        characterised (fu 0.62-0.69, concentration-independent,
+        [Sukbuntherng1996] J Pharm Sci 85:567, PMID 8773950), which makes
+        cocaine the compound in this set where the missing half of the
+        partition is most sharply isolated: the plasma side is measured
+        and the brain side is not.
+
+    [SEARCHED] a rat dose-occupancy curve for DAT, to match the rat Ki
+        The only rodent dose-occupancy relationship is the mouse one
+        recorded above, and the Ki used is rat. Same species mismatch as
+        caffeine, from the opposite direction.
+
+    [SEARCHED] a tabulated cocaine microdialysis or behavioural
+    dose-response
+        Not met for any endpoint. Roughly 800 titles were screened across
+        Europe PMC and PubMed; every cocaine dose-response located is a
+        figure.
+
+  ketamine
+    [SEARCHED] a brain unbound fraction (fu_brain) or a Kp,uu for
+    ketamine in rat or mouse
+        None exists. Total-brain Kp is available (rat 2.25, mouse
+        1.32-1.45) and cannot drive receptor occupancy, so ketamine is
+        total-brain-only in P1.5's sense - the same verdict fentanyl
+        already carries. Plasma protein binding is additionally
+        CONCENTRATION-DEPENDENT (32-68% bound across 0.1-10 uM in both
+        species), so fu_plasma is not a constant either.
+
+    [SEARCHED] numeric in vivo NMDA-channel occupancy per dose in a
+    rodent
+        Rodent NMDA-channel occupancy after ketamine is measured and
+        published, and no per-dose percentage with a dispersion could be
+        obtained. Ketamine therefore contributes no tier-1 observation.
+
+    [SEARCHED] a tabulated behavioural dose-response with three or more
+    doses plus vehicle
+        Not met. Both best candidates are in Pharmacology Biochemistry and
+        Behavior, neither is in PubMed Central, and no numeric behavioural
+        table was obtained for any endpoint.
+
+  morphine
+    [SEARCHED] a receptor-drivable rat brain partition Kp,uu for
+    morphine
+        No species-matched, receptor-drivable morphine brain partition was
+        obtained.
+
+    [SEARCHED] a sourced rat dose-to-concentration PK model for morphine
+        No route in drug_pk.py has a complete morphine parameter set, so
+        fentanyl or another opioid must not be reused.
+
+    [SEARCHED] a quantitative rodent morphine dose-response with a
+    matched vehicle group
+        Behavioural evidence exists, but no observation is added here
+        until dose, route, assay and dispersion are matched.
+
+
