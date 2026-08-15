@@ -716,8 +716,10 @@
       "deps": [
         "P6.3"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: committed 9-case whole-brain benchmark across all resolutions and 1/3/5 target counts, plus a cumulative-time profile and documented baseline timings.",
+      "finished_at": "2026-08-16T01:35:00+02:00"
     },
     {
       "id": "P9.2",

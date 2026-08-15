@@ -1,0 +1,183 @@
+{
+  "metadata": {
+    "generated_at_utc": "2026-08-15T23:53:13.718485+00:00",
+    "python": "3.12.3",
+    "platform": "Linux-6.8.0-134-generic-x86_64-with-glibc2.39",
+    "numpy": "2.4.6",
+    "resolutions": [
+      "regions",
+      "subdivisions",
+      "major_divisions"
+    ],
+    "target_sets": {
+      "1": [
+        "D2"
+      ],
+      "3": [
+        "D2",
+        "GABA_A_BZD",
+        "MOR"
+      ],
+      "5": [
+        "D2",
+        "GABA_A_BZD",
+        "MOR",
+        "M1",
+        "NMDA"
+      ]
+    },
+    "profile_resolution": "regions",
+    "profile_seconds": 2.9369739829562604,
+    "notes": [
+      "Timings are machine-specific baselines, not model parameters.",
+      "Each case includes public model construction, baseline steady state, and one active steady-state evaluation.",
+      "The cached published Knox connectome and Allen expression atlas are used when available; source is recorded per row."
+    ]
+  },
+  "rows": [
+    {
+      "resolution": "regions",
+      "requested_target_count": 1,
+      "requested_targets": "D2",
+      "source": "cache",
+      "nodes": 291,
+      "edges_nonzero": 43527,
+      "connectivity_bytes": 677448,
+      "layers_built": 1,
+      "density_entries": 279,
+      "weight_scale": 0.020132423157026052,
+      "build_seconds": 1.6311626541428268,
+      "baseline_seconds": 0.12106729811057448,
+      "active_steady_state_seconds": 0.811619786079973,
+      "total_seconds": 2.5638497383333743
+    },
+    {
+      "resolution": "regions",
+      "requested_target_count": 3,
+      "requested_targets": "D2,GABA_A_BZD,MOR",
+      "source": "cache",
+      "nodes": 291,
+      "edges_nonzero": 43527,
+      "connectivity_bytes": 677448,
+      "layers_built": 3,
+      "density_entries": 837,
+      "weight_scale": 0.020132423157026052,
+      "build_seconds": 1.6152847888879478,
+      "baseline_seconds": 0.22468917910009623,
+      "active_steady_state_seconds": 1.0250455848872662,
+      "total_seconds": 2.86501955287531
+    },
+    {
+      "resolution": "regions",
+      "requested_target_count": 5,
+      "requested_targets": "D2,GABA_A_BZD,MOR,M1,NMDA",
+      "source": "cache",
+      "nodes": 291,
+      "edges_nonzero": 43527,
+      "connectivity_bytes": 677448,
+      "layers_built": 5,
+      "density_entries": 1395,
+      "weight_scale": 0.020132423157026052,
+      "build_seconds": 2.169241562951356,
+      "baseline_seconds": 0.5296252090483904,
+      "active_steady_state_seconds": 1.6601820280775428,
+      "total_seconds": 4.359048800077289
+    },
+    {
+      "resolution": "subdivisions",
+      "requested_target_count": 1,
+      "requested_targets": "D2",
+      "source": "cache",
+      "nodes": 60,
+      "edges_nonzero": 2797,
+      "connectivity_bytes": 28800,
+      "layers_built": 1,
+      "density_entries": 60,
+      "weight_scale": 0.02560595173942925,
+      "build_seconds": 0.6481015058234334,
+      "baseline_seconds": 0.0399828958325088,
+      "active_steady_state_seconds": 0.1878519682213664,
+      "total_seconds": 0.8759363698773086
+    },
+    {
+      "resolution": "subdivisions",
+      "requested_target_count": 3,
+      "requested_targets": "D2,GABA_A_BZD,MOR",
+      "source": "cache",
+      "nodes": 60,
+      "edges_nonzero": 2797,
+      "connectivity_bytes": 28800,
+      "layers_built": 3,
+      "density_entries": 180,
+      "weight_scale": 0.02560595173942925,
+      "build_seconds": 0.5079806842841208,
+      "baseline_seconds": 0.02625631494447589,
+      "active_steady_state_seconds": 0.1966878529638052,
+      "total_seconds": 0.7309248521924019
+    },
+    {
+      "resolution": "subdivisions",
+      "requested_target_count": 5,
+      "requested_targets": "D2,GABA_A_BZD,MOR,M1,NMDA",
+      "source": "cache",
+      "nodes": 60,
+      "edges_nonzero": 2797,
+      "connectivity_bytes": 28800,
+      "layers_built": 5,
+      "density_entries": 300,
+      "weight_scale": 0.02560595173942925,
+      "build_seconds": 1.0189787200652063,
+      "baseline_seconds": 0.04042811784893274,
+      "active_steady_state_seconds": 0.19135171314701438,
+      "total_seconds": 1.2507585510611534
+    },
+    {
+      "resolution": "major_divisions",
+      "requested_target_count": 1,
+      "requested_targets": "D2",
+      "source": "cache",
+      "nodes": 12,
+      "edges_nonzero": 120,
+      "connectivity_bytes": 1152,
+      "layers_built": 1,
+      "density_entries": 12,
+      "weight_scale": 0.029439158038912137,
+      "build_seconds": 0.4084337498061359,
+      "baseline_seconds": 0.011725492309778929,
+      "active_steady_state_seconds": 0.10541849210858345,
+      "total_seconds": 0.5255777342244983
+    },
+    {
+      "resolution": "major_divisions",
+      "requested_target_count": 3,
+      "requested_targets": "D2,GABA_A_BZD,MOR",
+      "source": "cache",
+      "nodes": 12,
+      "edges_nonzero": 120,
+      "connectivity_bytes": 1152,
+      "layers_built": 3,
+      "density_entries": 36,
+      "weight_scale": 0.029439158038912137,
+      "build_seconds": 0.6276647220365703,
+      "baseline_seconds": 0.009183523245155811,
+      "active_steady_state_seconds": 0.08040701691061258,
+      "total_seconds": 0.7172552621923387
+    },
+    {
+      "resolution": "major_divisions",
+      "requested_target_count": 5,
+      "requested_targets": "D2,GABA_A_BZD,MOR,M1,NMDA",
+      "source": "cache",
+      "nodes": 12,
+      "edges_nonzero": 120,
+      "connectivity_bytes": 1152,
+      "layers_built": 5,
+      "density_entries": 60,
+      "weight_scale": 0.029439158038912137,
+      "build_seconds": 0.7444197498261929,
+      "baseline_seconds": 0.009130282793194056,
+      "active_steady_state_seconds": 0.06729566166177392,
+      "total_seconds": 0.8208456942811608
+    }
+  ]
+}

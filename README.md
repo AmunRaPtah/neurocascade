@@ -400,6 +400,10 @@ attribution and repair plan is in
 [`docs/heldout-failure-analysis.md`](docs/heldout-failure-analysis.md), with
 the reproducible report and figures in `results/heldout/`.
 
+The P9.1 whole-brain performance baseline is documented in
+[`docs/p9.1-benchmark.md`](docs/p9.1-benchmark.md), with the nine-case CSV,
+JSON metadata and cumulative-time profile in `results/benchmarks/`.
+
 ## Environment
 
 Uses the shared Pardalos scientific Python stack (`scipy`, `numpy`,
