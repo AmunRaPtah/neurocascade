@@ -698,8 +698,10 @@
       "deps": [
         "P8.2"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: documented per-layer causes and concrete repairs for the P8.2 held-out failures, with standing limitations and executable snapshot guards.",
+      "finished_at": "2026-08-16T01:25:00+02:00"
     },
     {
       "id": "P9.1",

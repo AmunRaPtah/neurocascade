@@ -389,6 +389,17 @@ scenarios onto connectome regions (P3.3)" in `docs/architecture.md`. The
 hand-built networks in `scenarios.py` are untouched; they are what the
 comparison is against.
 
+## Held-out validation and limitations
+
+P8.2 tested seven compounds never used in fitting. The committed result is
+deliberately negative: no compound has a complete dose-to-behaviour chain,
+because all seven lack a receptor-drivable brain partition and none has a
+usable dose-to-concentration model for its observed route. Five published
+occupancy observations therefore cannot be scored. The full layer-by-layer
+attribution and repair plan is in
+[`docs/heldout-failure-analysis.md`](docs/heldout-failure-analysis.md), with
+the reproducible report and figures in `results/heldout/`.
+
 ## Environment
 
 Uses the shared Pardalos scientific Python stack (`scipy`, `numpy`,
