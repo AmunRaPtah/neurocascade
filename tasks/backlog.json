@@ -771,8 +771,10 @@
         "P8.3",
         "P9.3"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: committed a reproducible four-figure generator covering CCF-ordered region activity, PK/occupancy time course, graded dose responses, and held-out reachable-range diagnostics, with explicit limits where atlas coordinates or fitted gains are unavailable.",
+      "finished_at": "2026-08-16T02:46:00+02:00"
     },
     {
       "id": "P10.2",

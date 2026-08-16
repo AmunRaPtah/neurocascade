@@ -1,0 +1,13 @@
+{
+  "figures": [
+    "results/figures/region_activity_map.png",
+    "results/figures/occupancy_time_course.png",
+    "results/figures/dose_response_curves.png",
+    "results/figures/heldout_validation_scatter.png"
+  ],
+  "notes": [
+    "Region activity is a CCF-ordered region strip because no atlas section coordinates are stored.",
+    "Dose-response model lines use the whole-brain gain upper bound of 5.0 and are not validated fits.",
+    "Held-out scatter is a reachable-range diagnostic, not a fitted prediction."
+  ]
+}

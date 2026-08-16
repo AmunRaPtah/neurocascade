@@ -409,6 +409,8 @@ The P9.2 sparse-Jacobian and stiff-solver comparison is documented in
 The P9.3 vectorized RHS and direct steady-state comparison is documented in
 [`docs/p9.3-steady-state.md`](docs/p9.3-steady-state.md), with its 36-row
 benchmark alongside them.
+The P10.1 figure set and its reproducible generator are documented in
+[`docs/figures.md`](docs/figures.md), with outputs under `results/figures/`.
 
 ## Environment
 
