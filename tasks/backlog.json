@@ -752,8 +752,10 @@
       "deps": [
         "P9.2"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: vectorized CircuitNetwork.rhs with a reference oracle, added an analytic-Jacobian root fixed-point solver and whole-brain opt-in plumbing, and measured 1.8-43.3x integration speedups with sub-1e-6 root agreement against the P9.1 workloads.",
+      "finished_at": "2026-08-16T02:37:47+02:00"
     },
     {
       "id": "P10.1",

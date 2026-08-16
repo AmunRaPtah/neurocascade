@@ -47,6 +47,34 @@ def test_steady_state_matches_a_much_longer_and_tighter_integration():
     assert np.allclose(fast, reference, atol=1e-8)
 
 
+def test_vectorized_rhs_matches_original_nodewise_rhs():
+    network = _network()
+    modulation = {MODULATED_CONNECTION: 0.3}
+    W = cfwd.modulated_connectivity(network, modulation, 0.8)
+    rates = np.linspace(0.2, 0.8, network.n)
+    drive = network.baseline_drive()
+    assert np.array_equal(
+        network.rhs(rates, drive, connectivity=W),
+        network.rhs_reference(rates, drive, connectivity=W),
+    )
+
+
+def test_direct_root_matches_integrated_steady_state():
+    network = _network()
+    modulation = {MODULATED_CONNECTION: 0.3}
+    integrated = cfwd.steady_state_rates(
+        network, modulation, activation=0.8, tau_multiples=100.0,
+    )
+    direct = cfwd.steady_state_rates(
+        network, modulation, activation=0.8, solver="root",
+    )
+    assert np.allclose(direct, integrated, atol=1e-8)
+    W = cfwd.modulated_connectivity(network, modulation, 0.8)
+    assert np.max(np.abs(network.rhs(
+        direct, network.baseline_drive(), connectivity=W
+    ))) < 1e-10
+
+
 def test_steady_state_is_a_fixed_point_of_the_networks_own_rhs():
     """Independent of the integrator: at the returned rates, the derivative
     the circuit layer itself reports must be zero."""

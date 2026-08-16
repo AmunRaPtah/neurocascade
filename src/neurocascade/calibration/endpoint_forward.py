@@ -292,7 +292,8 @@ class WholeBrainDrugModel(object):
             self._negative_edges = edges
         return self._negative_edges
 
-    def rates(self, x, warm_start=True, method=None, use_sparse_jacobian=True):
+    def rates(self, x, warm_start=True, method=None, use_sparse_jacobian=True,
+              solver=None):
         """Steady-state rates at `x = mechanism_gain * activation`.
 
         Returns an array in the network's node order. `x = 0` returns the
@@ -308,6 +309,7 @@ class WholeBrainDrugModel(object):
                 initial_rates=initial,
                 method="RK45" if method is None else method,
                 use_sparse_jacobian=use_sparse_jacobian,
+                solver="integration" if solver is None else solver,
             )
         return cfwd.steady_state_rates(
             self.network,
@@ -318,6 +320,7 @@ class WholeBrainDrugModel(object):
             initial_rates=initial,
             method="RK45" if method is None else method,
             use_sparse_jacobian=use_sparse_jacobian,
+            solver="integration" if solver is None else solver,
         )
 
     # --- the readout -------------------------------------------------------

@@ -59,6 +59,7 @@ that against a full `engine.Simulation` run rather than asserting it.
 
 import numpy as np
 from scipy.integrate import solve_ivp
+from scipy.optimize import root
 from scipy import sparse
 
 #: Integration horizon for the circuit's approach to steady state, in units
@@ -118,6 +119,52 @@ def _jacobian_sparsity(connectivity):
     return pattern.tocsr()
 
 
+def steady_state_root(network, connection_modulation=None, activation=0.0,
+                      coupling=None, initial_rates=None, root_method="hybr",
+                      root_tolerance=1e-10):
+    """Solve the circuit fixed-point equations directly.
+
+    The roots of ``network.rhs`` are the steady states, and
+    :func:`circuit_jacobian` supplies the exact derivative to SciPy's root
+    solver. This is appropriate for the stable fixed points used by the
+    calibration forward path; callers that need a trajectory or that are
+    probing a potentially oscillatory system should keep using integration.
+    """
+    drive = network.baseline_drive().astype(float).copy()
+    for node_name, gain in (coupling or {}).items():
+        drive[network.index[node_name]] += gain * activation
+    W = modulated_connectivity(network, connection_modulation or {}, activation)
+    y0 = (
+        np.full(network.n, 0.5, dtype=float)
+        if initial_rates is None
+        else np.asarray(initial_rates, dtype=float)
+    )
+
+    def residual(rates):
+        return network.rhs(rates, drive, connectivity=W)
+
+    def jacobian(rates):
+        # scipy.optimize.root's hybr/lm methods expect a dense Jacobian.
+        return circuit_jacobian(
+            network, rates, drive=drive, connectivity=W
+        ).toarray()
+
+    solution = root(
+        residual,
+        y0,
+        jac=jacobian,
+        method=root_method,
+        options={"xtol": root_tolerance},
+    )
+    residual_norm = float(np.max(np.abs(residual(solution.x))))
+    if not solution.success or residual_norm > root_tolerance:
+        raise RuntimeError(
+            "circuit steady-state root solve failed: %s (residual %.3g)"
+            % (solution.message, residual_norm)
+        )
+    return np.asarray(solution.x, dtype=float)
+
+
 def modulated_connectivity(network, connection_modulation, activation):
     """The network's connectivity with each modulated connection scaled by
     `(1 + gain * activation)`.
@@ -140,7 +187,9 @@ def modulated_connectivity(network, connection_modulation, activation):
 def steady_state_rates(network, connection_modulation=None, activation=0.0,
                        coupling=None, initial_rates=None, rtol=_STEADY_STATE_RTOL,
                        atol=_STEADY_STATE_ATOL, tau_multiples=_STEADY_STATE_TAU_MULTIPLES,
-                       method="RK45", use_sparse_jacobian=True):
+                       method="RK45", use_sparse_jacobian=True,
+                       solver="integration", root_method="hybr",
+                       root_tolerance=1e-10):
     """Integrate `network.rhs` to steady state and return the final rates.
 
     `coupling` is the node_name -> gain dict of a direct drive coupling
@@ -148,7 +197,22 @@ def steady_state_rates(network, connection_modulation=None, activation=0.0,
     `activation`, so this function covers both of the two ways a receptor
     system can act on a circuit in this codebase, not just the one the
     GABA-A scenario uses.
+
+    ``solver="root"`` computes the fixed point directly with
+    :func:`steady_state_root`; the integration arguments are ignored in that
+    mode. The default remains integration until the direct solver's whole-
+    brain accuracy and timing are established by the P9.3 benchmark.
     """
+    if solver == "root":
+        return steady_state_root(
+            network, connection_modulation=connection_modulation,
+            activation=activation, coupling=coupling,
+            initial_rates=initial_rates, root_method=root_method,
+            root_tolerance=root_tolerance,
+        )
+    if solver != "integration":
+        raise ValueError("unknown steady-state solver %r" % solver)
+
     drive = network.baseline_drive().astype(float).copy()
     for node_name, gain in (coupling or {}).items():
         drive[network.index[node_name]] += gain * activation

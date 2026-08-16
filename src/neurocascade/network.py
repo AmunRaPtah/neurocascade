@@ -28,10 +28,26 @@ class CircuitNetwork(object):
         return np.array([node.baseline_input for node in self.nodes])
 
     def rhs(self, rates, drive, connectivity=None):
-        """connectivity: optional override of self.connectivity for this
-        evaluation only (state-dependent connection strength, e.g. an
-        allosteric modulator scaling one synapse's effective weight). Leaves
-        self.connectivity untouched; defaults to it when not given.
+        """Return the vectorized Wilson-Cowan RHS.
+
+        ``connectivity`` is an optional override for this evaluation only
+        (state-dependent connection strength, e.g. an allosteric modulator
+        scaling one synapse). Node parameters are broadcast as arrays so the
+        per-node sigmoid loop stays out of the ODE solver's hot path.
+        """
+        rates = np.asarray(rates, dtype=float)
+        W = self.connectivity if connectivity is None else connectivity
+        net_input = W @ rates + drive
+        gains = np.array([node.gain for node in self.nodes], dtype=float)
+        thresholds = np.array([node.threshold for node in self.nodes], dtype=float)
+        taus = np.array([node.tau for node in self.nodes], dtype=float)
+        targets = sigmoid(net_input, gain=gains, threshold=thresholds)
+        return (-rates + targets) / taus
+
+    def rhs_reference(self, rates, drive, connectivity=None):
+        """Reference RHS retaining the original per-node implementation.
+
+        This is used as a numerical regression oracle; solvers use ``rhs``.
         """
         rates = np.asarray(rates, dtype=float)
         W = self.connectivity if connectivity is None else connectivity

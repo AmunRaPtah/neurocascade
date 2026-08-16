@@ -406,6 +406,9 @@ JSON metadata and cumulative-time profile in `results/benchmarks/`.
 The P9.2 sparse-Jacobian and stiff-solver comparison is documented in
 [`docs/p9.2-stiff-solver.md`](docs/p9.2-stiff-solver.md), with its reproducible
 18-row benchmark in the same results directory.
+The P9.3 vectorized RHS and direct steady-state comparison is documented in
+[`docs/p9.3-steady-state.md`](docs/p9.3-steady-state.md), with its 36-row
+benchmark alongside them.
 
 ## Environment
 

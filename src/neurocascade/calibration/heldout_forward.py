@@ -548,7 +548,7 @@ class MultiTargetWholeBrainModel(object):
         return self._negative_edges[int(edge_sign)]
 
     def rates(self, x_by_target, warm_start=True, method=None,
-              use_sparse_jacobian=True):
+              use_sparse_jacobian=True, solver=None):
         """Steady-state rates at `{target: x_t}`, `x_t = gain_t * delta_a_t`.
 
         A target absent from the mapping contributes nothing, which is the
@@ -557,6 +557,7 @@ class MultiTargetWholeBrainModel(object):
         ``method`` is forwarded to the circuit steady-state integrator. It
         defaults to that integrator's compatibility method (RK45); callers
         evaluating large or stiff networks may request BDF or Radau.
+        ``solver="root"`` selects the direct fixed-point path.
         """
         coupling = {}
         modulation = {}
@@ -583,6 +584,7 @@ class MultiTargetWholeBrainModel(object):
             initial_rates=self.baseline_rates if warm_start else None,
             method="RK45" if method is None else method,
             use_sparse_jacobian=use_sparse_jacobian,
+            solver="integration" if solver is None else solver,
         )
 
     def resolved_endpoint(self, endpoint_key):
