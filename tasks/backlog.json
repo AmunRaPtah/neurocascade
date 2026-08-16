@@ -789,8 +789,10 @@
       "deps": [
         "P10.1"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: added the public prediction API guide with runnable receptor-layer and whole-brain examples, rewrote the README status/limitations framing, and added a full parameter calibration-status inventory.",
+      "finished_at": "2026-08-16T02:55:00+02:00"
     },
     {
       "id": "P10.3",

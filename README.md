@@ -49,7 +49,43 @@ behavioral readout, all as one integrated ODE system.
 See [`docs/architecture.md`](docs/architecture.md) for the full design
 rationale and the honesty notes on what's illustrative versus calibrated.
 
-## Status: v0
+## Status: current model coverage
+
+The project has a working receptor-to-circuit-to-connectome pipeline, but its
+outputs have different epistemic status. The receptor-layer API can predict
+occupancy for an arbitrary compound when the caller supplies Ki, efficacy and
+an honest PK model. Whole-brain endpoint analysis can propagate modelled
+target layers through the 291-region connectome. It is not yet a validated arbitrary-compound-to-behavior predictor:
+most circuit parameters and the
+whole-brain mechanism gains remain illustrative, and P8.2's seven held-out
+compounds have no complete dose-to-behavior chain.
+
+The public API, worked examples and output semantics are in
+[`docs/prediction-api.md`](docs/prediction-api.md).
+
+### Parameter calibration status
+
+| Parameter class | Status | What the model actually supports |
+|---|---|---|
+| Administered-dose PK (`Vd`, `CL`, `ka`, `F`, route) | Partial, literature-backed by drug/species/route | Rat diazepam, fentanyl and haloperidol coverage is route-specific; many held-out routes remain searched-and-empty. |
+| Plasma-to-brain partition (`Kp`, `Kp,uu`, unbound fractions) | Partial, literature-backed | Diazepam has receptor-drivable rat/mouse records; total `Kp` without the needed unbound fraction is refused. |
+| Receptor affinity (`Ki`) | Target-specific measured/calibrated where cited | P8.1 accepts arbitrary target Ki values with provenance; missing targets are not invented. |
+| Association rate (`kon`) | Mixed | `fingerprint.target_report()` labels measured, subtype-borrowed, assumed and illustrative values per target. |
+| Dissociation rate (`koff`) | Derived or module-sourced | For fingerprint receptors it is `kon * Ki`; its uncertainty inherits the `kon` standing. |
+| Ligand efficacy / mechanism class | Caller- or module-specified | Required for arbitrary fingerprints; Ki alone cannot classify agonism, antagonism, partial agonism or transporter substrate release. |
+| Receptor-gene expression maps | Measured transcript maps, relative-density assumption | Allen ISH maps are joined to CCF regions; missing regions, proxy subunits and terminal-field mismatches remain explicit. |
+| Connectome edge weights and signs | Published structure/sign; scale illustrative | Knox connectivity and neurotransmitter signs are ingested, then stabilized with an illustrative operating scale; the scale is not fitted. |
+| Circuit node parameters (`tau`, gain, threshold, baseline) | Illustrative | Identifiability analyses show the available endpoint data cannot identify them individually. |
+| Circuit mechanism gains | Mostly illustrative; one local GABA-A gain fit attempt | The amygdala GABA-A gain has a behavioral calibration dataset; the whole-brain gain and MOR/D2 behavioral gains are not validated fits. |
+| Projection densities and transmitter clearance | Mixed derived/measured/illustrative | Projection maps and several basal transmitter concentrations are documented; unresolved release/clearance quantities remain flagged. |
+| Behavioral endpoint membership/sign | Literature-backed | Seven named multi-region endpoints carry cited region membership and direction. |
+| Behavioral endpoint weight magnitudes / nonlinear decoder | Illustrative linear weights; decoder rejected | Weight magnitudes are not fitted; P7.2 found no supported nonlinear decoder improvement. |
+
+The table is a status inventory, not a promise that a complete row makes every
+compound prediction valid. The limiting status in a chain controls the output.
+
+The examples below are the mechanism demonstrations and regression fixtures;
+the prediction API above is the interface for new compounds.
 
 The engine runs end to end on five worked examples, all reusing the same
 `ReceptorSite`/`CircuitNetwork`/`BehaviorReadout`/`Simulation` classes:
