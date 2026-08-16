@@ -403,6 +403,9 @@ the reproducible report and figures in `results/heldout/`.
 The P9.1 whole-brain performance baseline is documented in
 [`docs/p9.1-benchmark.md`](docs/p9.1-benchmark.md), with the nine-case CSV,
 JSON metadata and cumulative-time profile in `results/benchmarks/`.
+The P9.2 sparse-Jacobian and stiff-solver comparison is documented in
+[`docs/p9.2-stiff-solver.md`](docs/p9.2-stiff-solver.md), with its reproducible
+18-row benchmark in the same results directory.
 
 ## Environment
 

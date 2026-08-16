@@ -734,8 +734,10 @@
       "deps": [
         "P9.1"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: supplied an exact CSR circuit Jacobian to BDF/Radau, added opt-in stiff methods to both whole-brain forward paths, benchmarked accuracy and speed across all resolutions, and retained RK45 as the measured general-purpose default.",
+      "finished_at": "2026-08-16T03:00:00+02:00"
     },
     {
       "id": "P9.3",

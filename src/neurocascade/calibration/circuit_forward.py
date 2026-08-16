@@ -59,6 +59,7 @@ that against a full `engine.Simulation` run rather than asserting it.
 
 import numpy as np
 from scipy.integrate import solve_ivp
+from scipy import sparse
 
 #: Integration horizon for the circuit's approach to steady state, in units
 #: of the network's slowest time constant. A Wilson-Cowan node relaxes
@@ -72,6 +73,49 @@ from scipy.integrate import solve_ivp
 _STEADY_STATE_TAU_MULTIPLES = 30.0
 _STEADY_STATE_RTOL = 1e-8
 _STEADY_STATE_ATOL = 1e-11
+
+
+def circuit_jacobian(network, rates, drive=None, connectivity=None):
+    """Return the exact circuit RHS Jacobian as a CSR sparse matrix.
+
+    For ``tau_i * dr_i/dt = -r_i + S_i(W_i r + drive_i)``, the Jacobian is
+
+    ``diag(1 / tau) @ (-I + diag(S'(net)) @ W)``.
+
+    The derivative follows :func:`neurocascade.circuit.sigmoid` exactly,
+    including its finite clipping range.  This is the Jacobian supplied to
+    stiff ``solve_ivp`` methods; keeping it here beside the forward path
+    makes the differentiated equations and the integrated equations share
+    the same connectivity override.
+    """
+    rates = np.asarray(rates, dtype=float)
+    d = network.baseline_drive() if drive is None else np.asarray(drive, dtype=float)
+    W = network.connectivity if connectivity is None else connectivity
+    W = W.tocsr() if sparse.issparse(W) else sparse.csr_matrix(W)
+
+    gains = np.array([node.gain for node in network.nodes], dtype=float)
+    thresholds = np.array([node.threshold for node in network.nodes], dtype=float)
+    taus = np.array([node.tau for node in network.nodes], dtype=float)
+    net_input = np.asarray(W @ rates + d, dtype=float)
+    z = gains * (net_input - thresholds)
+    clipped = np.clip(z, -500.0, 500.0)
+    outputs = 1.0 / (1.0 + np.exp(-clipped))
+    slopes = gains * outputs * (1.0 - outputs)
+    # sigmoid() is constant beyond the clipping rails, so its derivative is
+    # zero there rather than the tiny nonzero value of the unclipped formula.
+    slopes[np.abs(z) > 500.0] = 0.0
+
+    return sparse.diags(1.0 / taus) @ (
+        -sparse.eye(network.n, format="csr") + sparse.diags(slopes) @ W
+    )
+
+
+def _jacobian_sparsity(connectivity):
+    """Return the implicit solver's structural Jacobian sparsity pattern."""
+    W = connectivity.tocsr() if sparse.issparse(connectivity) else sparse.csr_matrix(connectivity)
+    pattern = (W != 0).astype(float) + sparse.eye(W.shape[0], format="csr")
+    pattern.data[:] = 1.0
+    return pattern.tocsr()
 
 
 def modulated_connectivity(network, connection_modulation, activation):
@@ -95,7 +139,8 @@ def modulated_connectivity(network, connection_modulation, activation):
 
 def steady_state_rates(network, connection_modulation=None, activation=0.0,
                        coupling=None, initial_rates=None, rtol=_STEADY_STATE_RTOL,
-                       atol=_STEADY_STATE_ATOL, tau_multiples=_STEADY_STATE_TAU_MULTIPLES):
+                       atol=_STEADY_STATE_ATOL, tau_multiples=_STEADY_STATE_TAU_MULTIPLES,
+                       method="RK45", use_sparse_jacobian=True):
     """Integrate `network.rhs` to steady state and return the final rates.
 
     `coupling` is the node_name -> gain dict of a direct drive coupling
@@ -119,7 +164,18 @@ def steady_state_rates(network, connection_modulation=None, activation=0.0,
     def rhs(_t, rates):
         return network.rhs(rates, drive, connectivity=W)
 
-    sol = solve_ivp(rhs, (0.0, t_end), y0, method="RK45", rtol=rtol, atol=atol)
+    solver_kwargs = {
+        "method": method,
+        "rtol": rtol,
+        "atol": atol,
+    }
+    if use_sparse_jacobian and method in ("BDF", "Radau"):
+        solver_kwargs["jac"] = lambda _t, rates: circuit_jacobian(
+            network, rates, drive=drive, connectivity=W
+        )
+        solver_kwargs["jac_sparsity"] = _jacobian_sparsity(W)
+
+    sol = solve_ivp(rhs, (0.0, t_end), y0, **solver_kwargs)
     if not sol.success:
         raise RuntimeError("circuit steady-state integration failed: %s" % sol.message)
     return sol.y[:, -1]

@@ -20,6 +20,7 @@ arithmetic:
 
 import numpy as np
 import pytest
+from scipy import sparse
 
 from neurocascade import scenarios
 from neurocascade.calibration import circuit_forward as cfwd
@@ -55,6 +56,41 @@ def test_steady_state_is_a_fixed_point_of_the_networks_own_rhs():
     W = cfwd.modulated_connectivity(network, modulation, 0.8)
     derivative = network.rhs(rates, network.baseline_drive(), connectivity=W)
     assert np.max(np.abs(derivative)) < 1e-7
+
+
+def test_circuit_jacobian_matches_finite_difference_and_is_sparse():
+    network = _network()
+    modulation = {MODULATED_CONNECTION: 0.3}
+    activation = 0.8
+    W = cfwd.modulated_connectivity(network, modulation, activation)
+    drive = network.baseline_drive()
+    rates = np.linspace(0.2, 0.8, network.n)
+    analytic = cfwd.circuit_jacobian(network, rates, drive=drive, connectivity=W)
+
+    epsilon = 1e-7
+    numeric = np.column_stack([
+        (
+            network.rhs(rates + epsilon * np.eye(network.n)[j], drive, connectivity=W)
+            - network.rhs(rates - epsilon * np.eye(network.n)[j], drive, connectivity=W)
+        ) / (2.0 * epsilon)
+        for j in range(network.n)
+    ])
+    assert sparse.isspmatrix_csr(analytic)
+    assert np.allclose(analytic.toarray(), numeric, rtol=1e-6, atol=1e-8)
+
+
+def test_stiff_solver_matches_rk45_with_sparse_jacobian():
+    network = _network()
+    modulation = {MODULATED_CONNECTION: 0.3}
+    reference = cfwd.steady_state_rates(
+        network, modulation, activation=0.8, method="RK45"
+    )
+    for method in ("BDF", "Radau"):
+        rates = cfwd.steady_state_rates(
+            network, modulation, activation=0.8, method=method,
+            use_sparse_jacobian=True,
+        )
+        assert np.allclose(rates, reference, rtol=1e-6, atol=1e-8)
 
 
 def test_positive_gain_strengthens_an_inhibitory_connection():
