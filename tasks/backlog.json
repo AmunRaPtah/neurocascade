@@ -807,8 +807,10 @@
       "deps": [
         "P10.2"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: added a journal-direct, Word-compatible manuscript skeleton with methods, validation, traceable quantitative claims, core references, and a limitations section explicitly derived from P8.3.",
+      "finished_at": "2026-08-16T03:05:55+02:00"
     }
   ]
 }
