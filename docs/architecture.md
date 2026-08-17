@@ -727,6 +727,183 @@ pass above (full citations and derivations are inline in that section of
   scenario in the calibrated one: only receptor binding and PK were in
   scope for this calibration pass.
 
+## The human layer: ENIGMA Desikan-Killiany connectome and AHBA expression
+
+The engine is species-neutral: `pk.py`, `receptor.py`, `circuit.py`,
+`network.py` and `engine.py` take parameters and integrate them without
+asking what species a node belongs to. This section describes the first
+HUMAN data layer, `src/neurocascade/human/`, added on the
+`human-connectome-layer` branch. It is the human analogue of the mouse
+Phase 3 (connectome) and Phase 4 (expression) work documented later, built
+to the same offline-fixture / checksummed-manifest discipline, and it
+changes no physics. The mouse and human packages coexist rather than
+merging because the two datasets differ in species, atlas, file format and
+- decisively - measurement KIND; keeping them apart is what makes "which
+species did this number come from" answerable by looking at the import.
+
+### What it ingests: two files, one shared region meaning
+
+**Connectome.** The ENIGMA Toolbox's group-average Desikan-Killiany
+("aparc") structural matrix, cortical + subcortical in one 82 x 82 file
+(`strucMatrix_with_sctx.csv`): 68 cortical regions (Desikan et al. 2006;
+34 per hemisphere) plus 14 subcortical regions (accumbens, amygdala,
+caudate, hippocampus, pallidum, putamen, thalamus; 7 per hemisphere). It
+was reconstructed with MRtrix3 tractography from the diffusion MRI of
+unrelated healthy young adults in the Human Connectome Project,
+thresholded with a distance-dependent procedure, log-transformed and
+averaged across subjects. The numbers are log streamline counts (fiber
+density). Citation: Lariviere et al. 2021, Nature Methods (ENIGMA
+Toolbox); Van Essen et al. 2013, NeuroImage (WU-Minn HCP); Desikan et al.
+2006, NeuroImage (parcellation). URLs are pinned to one commit and
+SHA-256-verified, exactly as for the mouse data.
+
+**Expression.** The Allen Human Brain Atlas (AHBA) microarray
+transcriptome, already processed by the `abagen` workflow onto the SAME
+Desikan-Killiany parcellation and distributed by ENIGMA
+(`allgenes_stable_r0.2.csv`): intensity-based probe filtering,
+differential-stability probe selection, sample-to-parcel matching,
+normalization, and aggregation across six donors (Hawrylycz et al. 2012;
+Arnatkeviciute et al. 2019; Markello et al. 2021). The connectome and the
+expression map therefore mean the same thing by "region" - the property
+the mouse expression layer establishes below (P4.1), ingesting these two
+files together.
+
+### The one thing the human builder must do that the mouse one does not
+
+The mouse matrix is signed and directed (tracer injection). The human
+dMRI matrix is NEITHER: tractography is undirected by construction and
+carries no excitatory/inhibitory sign. `human/build.py` therefore signs
+each source region from cited transmitter identity
+(`human/neurotransmitter.py`), the human analogue of
+`connectome/neurotransmitter.py`:
+
+* cortex, hippocampus and thalamus -> glutamatergic (+1)
+* accumbens, caudate, putamen, pallidum -> GABAergic (-1)
+* amygdala -> MIXED, unsigned, because one coarse Desikan-Killiany region
+  contains a glutamatergic basolateral complex AND a GABAergic
+  central/medial complex and has no single defensible sign
+
+Because the matrix is symmetric, one published weight is entered twice and
+signed once per direction: the `i -> j` direction is signed by region `i`'s
+transmitter and `j -> i` by region `j`'s. Whether the bundle truly carries
+fibres both ways is exactly what dMRI cannot measure; this is a modelling
+convention, stated in `build.py` rather than hidden. Unsigned source
+columns (the two amygdala regions) are excluded by default and the
+excluded fraction reported (2.1% of fibre weight);
+`unsigned_sources="raise"` refuses to build instead. The result is a
+species-neutral `CircuitNetwork` with the same ILLUSTRATIVE Wilson-Cowan
+node defaults as the mouse builder (`connectome/build.py`'s
+`DEFAULT_NODE`), so a network built with all defaults is not ready to
+simulate - `stability` applies unchanged.
+
+### The expression layer's searched-and-empty record
+
+The ENIGMA release keeps only genes reproducible across donors
+(cross-donor correlation r >= 0.2), 12,668 of the AHBA's genes. Of the 50
+human receptor/transporter genes the model names in
+`human/expression.HUMAN_RECEPTOR_GENES`, 40 are loadable from the stable
+file, 2 survive only in the unthresholded release (`ADRA1A`, `SLC6A3`/
+DAT), and 8 are absent from BOTH releases (`OPRD1`/delta, `DRD3`, `DRD5`,
+`ADRA2B`, `ADRB3`, `ADORA2A`, `SLC6A2`/NET, `SLC6A4`/SERT). None of the
+missing eleven is substituted with another gene's map; a human-first model
+built on this layer must record those targets as having no expression map,
+which is what the registry records. Two regions (`R_frontalpole`,
+`R_temporalpole`) matched no AHBA tissue sample and stay NaN - zero would
+be the claim "a drug acting here has no target", and that is not what the
+data says. `relative_density()` converts one gene's row to a dimensionless
+relative density under the same assumption the mouse package states as an
+assumption (mRNA is not protein, protein is not binding sites), and
+requires an explicit `normalization` for the same reason the mouse package
+does.
+
+### Baseline stability at 82 nodes
+
+`scripts/check_human_whole_brain_stability.py` runs the same
+baseline-stability check the mouse P3.4 section below uses, and writes
+`results/human_whole_brain_stability.txt`. The published weights are as far
+from usable as the mouse ones were: kappa = 236.9 (against 44.7 for the
+mouse 291-region network), so at `weight_scale = 1.0` the network
+saturates and the unscaled fixed point is not the same from every start.
+`stability.stabilize` rescales to the ILLUSTRATIVE operating gain rho = 0.9
+(weight_scale = 0.00380) and rebalances, and the stabilized network then
+passes every check: converged (max |dr/dt| = 5.6e-9), unique (spread
+3.1e-9), locally stable (max Re eig(J) = -0.36), globally certified
+(kappa = 0.9 < 1), and no node below the saturation floor. A unit drive
+step at motor cortex still moves all 82 nodes, with the striatum and
+thalamus among the largest responders - i.e. the stabilization shrank every
+weight by one scalar without killing propagation.
+
+### The receptor-maps join: expression -> the coupling dict the engine consumes
+
+`human/maps.py` is the human analogue of `expression/scenario_maps.py`: the
+one function that turns a gene's AHBA row into the
+`{node: gain * rho[region]}` coupling dict `engine.Simulation` reads, over
+the whole 82-region brain. `human.whole_brain_coupling(expr, "DRD2",
+mechanism_gains=..., normalization="max", missing="exclude")` executes the
+factorization `coupling = mechanism_gain * rho` that `relative_density()` +
+`as_coupling()` already implement, and it is the one place the question
+"what happens to a region the map does not measure" is answered: the two
+AHBA-unmatched regions (`R_frontalpole`, `R_temporalpole`) are `raise`d on
+by default and dropped - and recorded in `HumanCoupling.excluded` - under
+`missing="exclude"`, never zeroed, because zero is the claim "a drug acting
+here has no target" and "not measured" is not that claim. No human
+`mechanism_gain` has ever been fitted in this repository, so a caller that
+passes one is asserting that gain's provenance itself; the maps layer
+supplies `rho` and refuses to supply the gain.
+
+`scripts/report_human_receptor_maps.py` -> `results/human_receptor_maps.txt`
+is the committed record: for all 40 stable genes, the peak and top-10
+regions of the max-normalized map over the full 82-region file, plusthe four anatomy checks the expression tests pin (DRD1/DRD2 striatum-dominant,
+HTR2A cortex-dominant, GABRA1 cortex > caudate, OPRM1 accumbens/striatal/
+thalamic) re-run on the full file rather than the twelve-region fixture - all
+pass.
+
+### Running a drug through the human brain
+
+`human/scenario.py` closes the loop the previous two subsections opened.
+`whole_brain_simulation(expr, "OPRM1", pk_models=..., receptor_site=...,
+mechanism_gain=...)` composes the stabilized human network, the human
+expression coupling and an existing receptor system into the same
+`engine.Simulation` the mouse scenarios use, and returns a
+`HumanScenarioReport` that records, per layer, which numbers are sourced and
+which are illustrative. No physics and no numbers are added; the one number
+the human layer has never earned - the `mechanism_gain` - is required rather
+than defaulted and is reported as caller-supplied.
+
+`scripts/check_human_whole_brain_response.py` ->
+`results/human_whole_brain_response.txt` is the first committed end-to-end
+run: the calibrated mu-opioid system (human Ki Volpe 2011, human koff Mann
+2022, human FDA-label redistribution half-life) on the human connectome with
+the AHBA OPRM1 map, fentanyl at the 148.6 nM overdose exposure the
+calibrated tests already cite. The baseline rests at the stabilized
+operating point (max deviation 3.3e-10), fentanyl reaches 99.1% occupancy,
+and every OPRM1-bearing node is suppressed, with the thalamus and accumbens
+the largest responders - the density peak (accumbens) is reshaped by the
+connectome into a response whose top movers are thalamus-led. The file
+states the split out loud: the pattern is a human-data result, the magnitude
+is illustrative because the mechanism gain is the mouse scenarios'
+illustrative constant, not a human-fitted one.
+
+### What is NOT yet human about the human layer
+
+This is a data layer, not a finished human model. The node parameters
+(`tau`, `gain`, `threshold`, `baseline_input`) and the operating gain are
+the same ILLUSTRATIVE Wilson-Cowan defaults as the mouse builder - no human
+time constant or transfer-function slope has been fitted. The sign table
+is coarse, cited projection-neuron transmitter identity, not the finer
+per-nucleus table a whole-brain human transcriptomic atlas could supply
+(`human/neurotransmitter.py` names that as its obvious next increment).
+The dMRI connectome is undirected and unsigned no matter how carefully the
+sign is assigned, so a human network built here cannot represent directed
+long-range projection asymmetry the way the mouse tracer matrix can. And
+the receptor/PK/binding constants elsewhere in the codebase remain
+per-system and species-labelled where their sources are; the human layer
+does not relabel any of them. The honest status is: one real, cited,
+checksum-verified human structural matrix plus a matched human expression
+map, turned into a stable Wilson-Cowan `CircuitNetwork` that the existing
+engine can integrate - not a claim that human node dynamics or human
+behavioral endpoints are calibrated.
+
 ## Bayesian parameter fitting (Track C2)
 
 Track A calibrated point estimates for all three receptor systems' binding
