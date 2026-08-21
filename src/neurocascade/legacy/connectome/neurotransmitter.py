@@ -138,27 +138,20 @@ ingestion task in the shape of P3.1 and P4.1, not something to fake here.
 
 # --- transmitter classes ---------------------------------------------------
 
-GLUTAMATERGIC = "glutamatergic"
-GABAERGIC = "gabaergic"
-DOPAMINERGIC = "dopaminergic"
-SEROTONERGIC = "serotonergic"
-NORADRENERGIC = "noradrenergic"
-CHOLINERGIC = "cholinergic"
-MIXED = "mixed"
-
-#: Sign a transmitter class contributes to a fast-synaptic drive term.
-#: `None` means "this class has no sign in a Wilson-Cowan connectivity
-#: matrix", which is a statement about the model, not about ignorance: see
-#: the module docstring on neuromodulatory nuclei.
-TRANSMITTER_SIGN = {
-    GLUTAMATERGIC: 1.0,
-    GABAERGIC: -1.0,
-    DOPAMINERGIC: None,
-    SEROTONERGIC: None,
-    NORADRENERGIC: None,
-    CHOLINERGIC: None,
-    MIXED: None,
-}
+# Hoisted to `neurocascade.transmitter_sign` in P11.1 so the human layer need
+# not import the mouse package for them. Re-exported here so every existing
+# reference through this module keeps working, and so the signing rule stays
+# documented where it is applied.
+from ...transmitter_sign import (  # noqa: F401
+    CHOLINERGIC,
+    DOPAMINERGIC,
+    GABAERGIC,
+    GLUTAMATERGIC,
+    MIXED,
+    NORADRENERGIC,
+    SEROTONERGIC,
+    TRANSMITTER_SIGN,
+)
 
 
 # --- citations -------------------------------------------------------------

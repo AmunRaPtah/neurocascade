@@ -22,7 +22,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 import numpy as np                                            # noqa: E402
 
 from neurocascade import fingerprint as fp                    # noqa: E402
-from neurocascade import drug_pk, opioid, scenarios           # noqa: E402
+from neurocascade import opioid, scenarios           # noqa: E402
+from neurocascade.legacy import drug_pk
 
 
 def one_ligand(compound, receptor_alias, ki_nM, efficacy, target):

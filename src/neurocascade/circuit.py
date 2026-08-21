@@ -20,3 +20,14 @@ class CircuitNode(object):
         self.baseline_input = baseline_input
         self.gain = gain
         self.threshold = threshold
+
+
+#: Illustrative default node parameters for a connectome-built network.
+#:
+#: Hoisted out of `connectome/build.py` in P11.1: both the mouse and the human
+#: builders need them, and neither should have to import the other's package to
+#: get them. These values are ILLUSTRATIVE and always have been. P13.4 replaces
+#: `tau` and the E/I balance with F-TRACT-measured human synaptic time
+#: constants, which will be the first circuit-layer parameters in this
+#: project's history to have a measured human source.
+DEFAULT_NODE = {"tau": 1.0, "baseline_input": 0.0, "gain": 4.0, "threshold": 0.0}

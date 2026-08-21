@@ -36,9 +36,9 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from neurocascade import connectome  # noqa: E402
-from neurocascade.expression import fetch, sources  # noqa: E402
-from neurocascade.expression import fixtures as expression_fixtures  # noqa: E402
+from neurocascade.legacy import connectome  # noqa: E402
+from neurocascade.legacy.expression import fetch, sources  # noqa: E402
+from neurocascade.legacy.expression import fixtures as expression_fixtures  # noqa: E402
 
 
 def main(argv=None):

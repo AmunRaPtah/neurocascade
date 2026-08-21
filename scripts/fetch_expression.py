@@ -38,7 +38,7 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from neurocascade.expression import fetch, genes, sources  # noqa: E402
+from neurocascade.legacy.expression import fetch, genes, sources  # noqa: E402
 
 
 def main(argv=None):

@@ -15,8 +15,8 @@ cache and they are extras, not substitutes.
 import numpy as np
 import pytest
 
-from neurocascade import connectome, expression
-from neurocascade.expression import (
+from neurocascade.legacy import connectome, expression
+from neurocascade.legacy.expression import (
     autoradiography,
     density,
     fetch,

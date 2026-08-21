@@ -1215,7 +1215,7 @@ def concentration_report(table=None):
     carries the one illustrative density. Written to `results/` by
     `scripts/report_projection_densities.py`.
     """
-    from . import projection as _projection
+    from .. import projection as _projection
     from . import projection_systems as _ps
 
     table = load_table() if table is None else table

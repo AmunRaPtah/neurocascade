@@ -19,8 +19,8 @@ from neurocascade import acetylcholine as ach
 from neurocascade import histamine as ha
 from neurocascade import monoamine_transporters as mt
 from neurocascade import noradrenaline as na
-from neurocascade import projection_density as pdens
-from neurocascade import projection_scenarios as ps
+from neurocascade.legacy import projection_density as pdens
+from neurocascade.legacy import projection_scenarios as ps
 from neurocascade import scenarios
 from neurocascade import serotonin as ht
 from neurocascade import stability

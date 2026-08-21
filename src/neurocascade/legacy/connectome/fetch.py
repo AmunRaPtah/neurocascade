@@ -34,15 +34,20 @@ from the original P3.1 module, so nothing downstream had to move.
 
 import os
 
-from .. import datafetch
-from ..datafetch import ChecksumMismatch, MissingCachedFile, sha256_of  # noqa: F401
+from ... import datafetch
+from ...datafetch import ChecksumMismatch, MissingCachedFile, sha256_of  # noqa: F401
 from . import sources
 
 #: Default on-disk cache: <repo>/data/connectome. `data/` is gitignored in
 #: full; the checksums that make it verifiable live in `sources.py`, which is
 #: committed.
+# Four levels up: this module sits at
+# src/neurocascade/legacy/<pkg>/fetch.py, so the repo root is four
+# parents away. P11.1 moved it one level deeper and this count moved
+# with it. The failure mode is quiet: a wrong depth makes every file
+# look uncached, so the suite skips rather than fails.
 DEFAULT_CACHE_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "..", "data", "connectome")
+    os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "data", "connectome")
 )
 
 _FETCHER = datafetch.Fetcher(

@@ -21,8 +21,8 @@ import numpy as np
 import pytest
 from scipy.integrate import solve_ivp
 
-from neurocascade import drug_pk
-from neurocascade import pk_validation as pv
+from neurocascade.legacy import drug_pk
+from neurocascade.legacy import pk_validation as pv
 from neurocascade.pk import LN2, DosedOneCompartmentPK
 
 

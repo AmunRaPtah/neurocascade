@@ -138,10 +138,10 @@ one the diagram is built on.
 import numpy as np
 
 from . import connectome as _connectome
-from . import scenarios
-from .circuit import CircuitNode
-from .engine import Simulation
-from .network import CircuitNetwork
+from .. import scenarios
+from ..circuit import CircuitNode
+from ..engine import Simulation
+from ..network import CircuitNetwork
 
 #: A scenario node is either the population whose axons leave the region
 #: (and therefore appear in a tracer matrix) or a local interneuron
@@ -696,7 +696,7 @@ def rest_balanced_baselines(network, target_rate=0.5):
     and non-saturating. This name is kept because P3.3's tests and results
     are stated in terms of it.
     """
-    from .stability import balanced_baselines
+    from ..stability import balanced_baselines
 
     return balanced_baselines(network, target_rates=target_rate)
 

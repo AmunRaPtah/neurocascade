@@ -22,10 +22,11 @@ import re
 
 import pytest
 
-from neurocascade import CircuitNetwork, connectome, endpoints
+from neurocascade import CircuitNetwork, endpoints
+from neurocascade.legacy import connectome
 from neurocascade.behavior import BehaviorReadout
 from neurocascade.circuit import CircuitNode
-from neurocascade.connectome import build, fetch, sources
+from neurocascade.legacy.connectome import build, fetch, sources
 
 
 # ---------------------------------------------------------------------------

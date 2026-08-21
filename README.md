@@ -212,9 +212,9 @@ more single-dose studies.
 | Path                 | Purpose                                          |
 |----------------------|---------------------------------------------------|
 | `src/neurocascade/`  | The engine (pk, drug_pk, receptor, circuit, network, behavior, engine, scenarios) |
-| `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1), and the `CircuitNetwork` builder with its neurotransmitter sign rule (P3.2) |
+| `src/neurocascade/legacy/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1), and the `CircuitNetwork` builder with its neurotransmitter sign rule (P3.2) |
 | `src/neurocascade/human/` | The human-first track: ENIGMA Toolbox group-average Desikan-Killiany structural connectome ingestion (checksummed manifest, `fetch`/`atlas`/`matrix`), and the `CircuitNetwork` builder with the cited per-region transmitter sign table (`neurotransmitter.py`) |
-| `src/neurocascade/connectome_scenarios.py` | The hand-built scenarios re-wired from the connectome, with per-edge provenance (P3.3) |
+| `src/neurocascade/legacy/connectome_scenarios.py` | The hand-built scenarios re-wired from the connectome, with per-edge provenance (P3.3) |
 | `src/neurocascade/serotonin.py` | The 5-HT1A and 5-HT2A receptor systems, their literature binding constants and efficacies, and the raphe/cortex scenario they drive (P5.1) |
 | `src/neurocascade/dopamine.py` | The D1 receptor, its literature binding constants and efficacies, and the shared direct+indirect basal-ganglia network the calibrated D2 system also couples into (P5.2) |
 | `src/neurocascade/noradrenaline.py` | The alpha1, alpha2 and beta adrenoceptor systems, their literature binding constants and efficacies, and the locus-coeruleus/cortex scenario they drive (P5.3) |
@@ -227,15 +227,15 @@ more single-dose studies.
 | `src/neurocascade/transport.py` | The transporter MECHANISM, beside `receptor.py`: Michaelis-Menten uptake, rapid-equilibrium competitive inhibition, substrate-driven efflux, and one ODE state that is a concentration rather than an occupancy (P5.8) |
 | `src/neurocascade/monoamine_transporters.py` | DAT, SERT and NET: mouse uptake kinetics and basal levels, cited constants for cocaine, methylphenidate, amphetamine, fluoxetine and atomoxetine, the substrate/blocker distinction as two measured constants, and the documented Phase 6 transmitter-concentration interface (P5.8) |
 | `src/neurocascade/projection.py` | The projection-system MECHANISM: a source nucleus's firing rate driving release into a region-wise transmitter field, one ODE state per target region, plus `RegionalReceptorSystem`, which gives one receptor type an occupancy block per region instead of a single node (P6.1) |
-| `src/neurocascade/projection_systems.py` | The nine source nuclei by CCF acronym and id (VTA, SNc, DR, CS, LC, NDB, PPN, LDT, TM), their clearance models, the cited volume-transmission timescale argument, and the constants recorded as illustrative or searched-and-empty (P6.1) |
-| `src/neurocascade/projection_scenarios.py` | The hand-built monoamine, cholinergic and histaminergic scenarios ported onto projection systems, with the closed autoreceptor loop and the non-inert lone antagonist (P6.1), the D2 autoreceptor on the VTA and SNc, and the open/closed loop comparison the stability check is run on (P6.3) |
-| `src/neurocascade/projection_density.py` | Per-system projection densities DERIVED from the Phase 3 connectome (committed as `projection_densities.csv` with its source checksums), the reference region each transmitter's measured basal level belongs to, the refused nuclear block with its evidence, and the validation of the predicted concentration ratios against held-out measurements including the [Lin2023] whole-brain fibre map (P6.3) |
+| `src/neurocascade/legacy/projection_systems.py` | The nine source nuclei by CCF acronym and id (VTA, SNc, DR, CS, LC, NDB, PPN, LDT, TM), their clearance models, the cited volume-transmission timescale argument, and the constants recorded as illustrative or searched-and-empty (P6.1) |
+| `src/neurocascade/legacy/projection_scenarios.py` | The hand-built monoamine, cholinergic and histaminergic scenarios ported onto projection systems, with the closed autoreceptor loop and the non-inert lone antagonist (P6.1), the D2 autoreceptor on the VTA and SNc, and the open/closed loop comparison the stability check is run on (P6.3) |
+| `src/neurocascade/legacy/projection_density.py` | Per-system projection densities DERIVED from the Phase 3 connectome (committed as `projection_densities.csv` with its source checksums), the reference region each transmitter's measured basal level belongs to, the refused nuclear block with its evidence, and the validation of the predicted concentration ratios against held-out measurements including the [Lin2023] whole-brain fibre map (P6.3) |
 | `src/neurocascade/endpoints.py` | The seven named behavioural endpoints (locomotion, anxiety, analgesia, reward, sedation, working memory, sensorimotor gating) as multi-region readouts over CCF regions, 69 terms each carrying the lesion/inactivation/opto/chemogenetic experiment that placed its region and fixed its sign, the 16 terms the literature contests recorded and excluded, the tail-flick / hot-plate assay split six papers force, and every weight MAGNITUDE labelled illustrative pending P7.3 (P7.1) |
 | `src/neurocascade/decoder.py` | The held-out model comparison that decides whether a nonlinear decoder beats P7.1's linear readout, per endpoint: the argument that only a graded SINGLE-REGION manipulation can identify a decoder nonlinearity (a saturating dose-response cannot, because the circuit layer's own sigmoid already produces one), four model families compared by leave-one-out cross-validation under two weightings, the five published graded series that exist outside a figure, and the searched-and-empty record for the four endpoints with none. Nothing was adopted; every rejection carries its reason (P7.2) |
 | `src/neurocascade/fingerprint.py` | The prediction input API: an arbitrary compound's PDSP-style Ki table plus a per-target efficacy in, one `Ligand` per modelled receptor and transporter out, wired into each module's own system. Carries this repository's first canonical target registry (23 targets, aliases, and the join to the expression layer's gene symbols with every multi-subunit proxy flagged), the one documented `Ki -> kon/koff` conversion with its koff assumption and the four standings a target's `kon` can have, and `predict(fingerprint, dose, route, species)` through the Phase 1 bridge to occupancy. Efficacy is required and never defaulted, because no binding database publishes one (P8.1) |
-| `src/neurocascade/endogenous_tone.py` | The five projection systems' cited basal extracellular transmitter concentrations with species, region, method and caveats, the tonic occupancy and Gaddum dose ratio each imposes at every receptor that binds them, and the re-run comparison quantifying what P6.2 changed in P6.1's results (P6.2) |
+| `src/neurocascade/legacy/endogenous_tone.py` | The five projection systems' cited basal extracellular transmitter concentrations with species, region, method and caveats, the tonic occupancy and Gaddum dose ratio each imposes at every receptor that binds them, and the re-run comparison quantifying what P6.2 changed in P6.1's results (P6.2) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4), plus `assess_system`, which runs the same four checks on the whole coupled ODE system so that a feedback loop leaving the circuit through a transmitter concentration is visible to it (P6.3) |
-| `src/neurocascade/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2), and the cited anatomical validation of the resulting maps (P4.3) |
+| `src/neurocascade/legacy/expression/` | Allen ISH receptor-gene expression ingestion over the same CCF ontology (P4.1), the expression-to-density conversion with its assumption, its measured error against mouse autoradiography, and the terminal-field mismatch registry (P4.2), and the cited anatomical validation of the resulting maps (P4.3) |
 | `src/neurocascade/datafetch.py` | Checksummed download/verify/cache, shared by both ingestion packages |
 | `scripts/`           | `fetch_connectome.py`, `fetch_expression.py` (download + checksum-verify source data), maintenance |
 | `data/`              | Gitignored cache of downloaded source data; checksums live in `connectome/sources.py` and `expression/sources.py` |
@@ -262,7 +262,7 @@ With the cache present, a whole-brain network at any of three resolutions
 (291 regions, 60 subdivisions, 12 major divisions) is two calls:
 
 ```python
-from neurocascade import connectome
+from neurocascade.legacy import connectome
 
 strength, voxels = connectome.load_knox_inputs()
 built = connectome.build_circuit_network(
@@ -418,7 +418,7 @@ transporter genes the model uses or will use, 42 have ISH data and `Adra1b`
 has none in any Allen mouse product. Nothing is substituted for it.
 
 ```python
-from neurocascade import connectome, expression
+from neurocascade.legacy import connectome, expression
 
 ontology = connectome.load_ontology()
 matrix   = connectome.load_connectome(ontology=ontology)
@@ -444,7 +444,7 @@ coverage, the missing regions, and how much a gene's experiments disagree.
 ### Expression as a receptor density, and how far that holds
 
 ```python
-from neurocascade import expression
+from neurocascade.legacy import expression
 
 rho = expression.relative_density(energy, "Drd1", normalization="max")
 rho.as_coupling(mechanism_gain=-3.0, nodes={"striatum": 672})
@@ -471,7 +471,7 @@ transcript puts 119x as much in SNr as in CP while [3H]mazindol binding puts
 ### Is it the map of the gene it claims to be
 
 ```python
-from neurocascade import connectome, expression
+from neurocascade.legacy import connectome, expression
 
 atlas   = expression.load_expression_atlas(ontology=connectome.load_ontology())
 results = expression.check_atlas(atlas)      # eighteen cited claims
@@ -511,7 +511,7 @@ and edges out of a region with no transmitter sign) are exactly the ones the
 connectome structurally cannot supply:
 
 ```python
-from neurocascade import connectome_scenarios as cs
+from neurocascade.legacy import connectome_scenarios as cs
 
 circuit = cs.scenario_connectome()          # or source="fixture", offline
 ported = cs.port_scenario(cs.SCENARIO_PORTS["mu_opioid_reward"], circuit)

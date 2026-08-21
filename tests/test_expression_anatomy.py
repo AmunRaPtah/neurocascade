@@ -18,8 +18,9 @@ claim is an ingestion or normalization bug, not a finding about the brain.
 import numpy as np
 import pytest
 
-from neurocascade import connectome, expression, scenarios
-from neurocascade.expression import (
+from neurocascade import scenarios
+from neurocascade.legacy import connectome, expression
+from neurocascade.legacy.expression import (
     anatomy,
     fetch,
     fixtures,

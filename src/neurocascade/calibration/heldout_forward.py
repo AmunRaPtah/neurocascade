@@ -115,7 +115,7 @@ What this module does NOT do
 
 import numpy as np
 
-from .. import endogenous_tone as _tone
+from ..legacy import endogenous_tone as _tone
 from .. import fingerprint as _fp
 from .. import projection as _projection
 from . import circuit_forward as _cfwd
@@ -622,9 +622,9 @@ def build_multi_target_model(targets, name, resolution="regions",
     model cannot carry is a fact about the prediction, and the compound's
     report has to be able to name it.
     """
-    from .. import connectome as _connectome
-    from .. import expression as _expression
-    from ..connectome import build as _build
+    from ..legacy import connectome as _connectome
+    from ..legacy import expression as _expression
+    from ..legacy.connectome import build as _build
     from .. import stability as _stability
 
     ontology, strength, voxels, source, description = _efwd.whole_brain_inputs(

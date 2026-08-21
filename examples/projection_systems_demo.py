@@ -53,8 +53,8 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from neurocascade import projection_scenarios as pscen  # noqa: E402
-from neurocascade import projection_systems as ps  # noqa: E402
+from neurocascade.legacy import projection_scenarios as pscen  # noqa: E402
+from neurocascade.legacy import projection_systems as ps  # noqa: E402
 
 
 DOSE_NM = 100.0

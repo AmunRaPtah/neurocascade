@@ -7,9 +7,9 @@ The argument is a computation, not a paragraph, so these tests re-run it.
 import numpy as np
 import pytest
 
-from neurocascade import connectome
+from neurocascade.legacy import connectome
 from neurocascade import monoamine_transporters as mt
-from neurocascade import projection_systems as ps
+from neurocascade.legacy import projection_systems as ps
 from neurocascade.projection import ProjectionTarget
 
 

@@ -172,7 +172,7 @@ from . import acetylcholine as _ach
 from . import adenosine as _ado
 from . import cannabinoid as _cb
 from . import dopamine as _da
-from . import drug_pk as _drug_pk
+from .legacy import drug_pk as _drug_pk
 from . import glutamate as _glu
 from . import histamine as _ha
 from . import monoamine_transporters as _mat

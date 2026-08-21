@@ -183,16 +183,16 @@ WHAT THIS MODULE DELIBERATELY DOES NOT DO
 
 import numpy as np
 
-from . import acetylcholine as _ach
-from . import dopamine as _da
-from . import histamine as _ha
-from . import monoamine_transporters as _mt
-from . import noradrenaline as _na
-from . import projection as _projection
+from .. import acetylcholine as _ach
+from .. import dopamine as _da
+from .. import histamine as _ha
+from .. import monoamine_transporters as _mt
+from .. import noradrenaline as _na
+from .. import projection as _projection
 from . import projection_scenarios as _ports
 from . import projection_systems as _ps
-from . import scenarios as _scenarios
-from . import serotonin as _5ht
+from .. import scenarios as _scenarios
+from .. import serotonin as _5ht
 
 
 CITATIONS = {

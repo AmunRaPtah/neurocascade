@@ -46,7 +46,7 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from neurocascade import endogenous_tone as tone  # noqa: E402
+from neurocascade.legacy import endogenous_tone as tone  # noqa: E402
 
 
 def main():

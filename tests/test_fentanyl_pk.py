@@ -32,9 +32,9 @@ import numpy as np
 import pytest
 from scipy.integrate import solve_ivp
 
-from neurocascade import drug_pk
+from neurocascade.legacy import drug_pk
 from neurocascade.circuit import CircuitNode
-from neurocascade.drug_pk import (
+from neurocascade.legacy.drug_pk import (
     FENTANYL_MOLAR_MASS_G_PER_MOL,
     FENTANYL_RAT_IP_AUC_0_180_NG_MIN_PER_ML,
     FENTANYL_RAT_IP_CL_OVER_F_ML_PER_MIN,

@@ -13,9 +13,9 @@ import os
 import numpy as np
 import pytest
 
-from neurocascade import connectome, expression
-from neurocascade.expression import atlas as atlas_module
-from neurocascade.expression import fetch, fixtures, genes, sources, unionize
+from neurocascade.legacy import connectome, expression
+from neurocascade.legacy.expression import atlas as atlas_module
+from neurocascade.legacy.expression import fetch, fixtures, genes, sources, unionize
 
 
 # ---------------------------------------------------------------------------

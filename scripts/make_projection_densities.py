@@ -25,11 +25,11 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from neurocascade import projection_density as pdens  # noqa: E402
-from neurocascade.connectome import fetch, sources  # noqa: E402
-from neurocascade.connectome import volumes  # noqa: E402
-from neurocascade.connectome.matrix import load_connectome  # noqa: E402
-from neurocascade.connectome.ontology import load_ontology  # noqa: E402
+from neurocascade.legacy import projection_density as pdens  # noqa: E402
+from neurocascade.legacy.connectome import fetch, sources  # noqa: E402
+from neurocascade.legacy.connectome import volumes  # noqa: E402
+from neurocascade.legacy.connectome.matrix import load_connectome  # noqa: E402
+from neurocascade.legacy.connectome.ontology import load_ontology  # noqa: E402
 
 INPUT_KEYS = ("knox2019_connection_strength", "knox2019_connection_density")
 

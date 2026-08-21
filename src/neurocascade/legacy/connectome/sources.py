@@ -103,7 +103,7 @@ that have not actually been retrieved and hashed. If a later task needs
 voxel resolution, it downloads them, hashes them, and adds them here.
 """
 
-from ..datafetch import DataFile as _DataFile
+from ...datafetch import DataFile as _DataFile
 
 MANIFEST_VERSION = "2026-08-12"
 

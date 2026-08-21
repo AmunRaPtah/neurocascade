@@ -1,5 +1,15 @@
 # Architecture
 
+
+> **Module paths in this document are as-of-writing.** P11.1 (2026-08-22)
+> moved the rodent-sourced modules to `src/neurocascade/legacy/`:
+> `connectome/`, `expression/`, `connectome_scenarios.py`, `drug_pk.py`,
+> `pk_validation.py`, `endogenous_tone.py`, `projection_density.py`,
+> `projection_scenarios.py`, `projection_systems.py`. The paths below are left
+> as they were written, because this file is the running record of when each
+> decision was made and what the tree looked like then. Prefix any of those
+> nine with `legacy/` to find the code today. See `roadmap-human.md`.
+
 ## Why one coupled ODE system instead of separate stages
 
 It's tempting to simulate each layer separately: solve for drug PK, feed the

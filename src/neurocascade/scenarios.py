@@ -399,7 +399,7 @@ def mu_opioid_multi_region_coupling(source=None, atlas=None):
     `mu_opioid_multi_region_coupling_handwritten()` for the baseline the
     regression tests compare against.
     """
-    from .expression import scenario_maps
+    from .legacy.expression import scenario_maps
 
     kwargs = {}
     if source is not None:

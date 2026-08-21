@@ -19,12 +19,12 @@ import os
 import numpy as np
 import pytest
 
-from neurocascade import connectome
+from neurocascade.legacy import connectome
 from neurocascade import projection as proj
-from neurocascade import projection_density as pdens
-from neurocascade import projection_scenarios as pscen
-from neurocascade import projection_systems as ps
-from neurocascade.connectome import fixtures, volumes
+from neurocascade.legacy import projection_density as pdens
+from neurocascade.legacy import projection_scenarios as pscen
+from neurocascade.legacy import projection_systems as ps
+from neurocascade.legacy.connectome import fixtures, volumes
 
 
 # ---------------------------------------------------------------------------

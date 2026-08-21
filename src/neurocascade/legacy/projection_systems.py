@@ -244,9 +244,9 @@ citing secondary source.
 
 import numpy as np
 
-from . import monoamine_transporters as _mt
-from . import projection as _projection
-from .projection import (
+from .. import monoamine_transporters as _mt
+from .. import projection as _projection
+from ..projection import (
     ProjectionSystem,
     ProjectionTarget,
     SourceNucleus,

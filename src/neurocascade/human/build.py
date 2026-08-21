@@ -50,7 +50,7 @@ import numpy as np
 
 from ..circuit import CircuitNode
 from ..network import CircuitNetwork
-from ..connectome.build import DEFAULT_NODE
+from ..circuit import DEFAULT_NODE
 from . import neurotransmitter as nt
 
 UNSIGNED_POLICIES = ("exclude", "raise")

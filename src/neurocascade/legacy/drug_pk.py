@@ -97,8 +97,8 @@ limitation rather than silently ignored.
 
 import math
 
-from .brain_partition import BrainPartition
-from .pk import (
+from ..brain_partition import BrainPartition
+from ..pk import (
     LN2,
     DosedOneCompartmentPK,
     DosedTwoCompartmentPK,

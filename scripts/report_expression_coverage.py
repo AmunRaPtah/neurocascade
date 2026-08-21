@@ -27,7 +27,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
 
-from neurocascade import connectome, expression  # noqa: E402
+from neurocascade.legacy import connectome, expression  # noqa: E402
 
 RESULTS = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),

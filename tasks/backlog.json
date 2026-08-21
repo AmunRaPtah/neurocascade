@@ -824,8 +824,10 @@
         "A test asserts nothing under legacy/ is reachable from fingerprint.predict()"
       ],
       "deps": [],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: rodent modules quarantined under src/neurocascade/legacy/ (connectome/, expression/, and 7 top-level modules); package root no longer re-exports them; transmitter-sign constants and DEFAULT_NODE hoisted to the root so the human layer no longer imports the mouse package; 15 boundary tests pin what is quarantined, which non-legacy modules still reach in, and the task retiring each reach.",
+      "finished_at": "2026-08-22T01:57:45+02:00"
     },
     {
       "id": "P11.2",

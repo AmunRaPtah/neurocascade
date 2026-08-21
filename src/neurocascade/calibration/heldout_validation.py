@@ -95,7 +95,7 @@ def chain_status(compound, expression_genes=None):
     counting it as "PK available" would make the coverage table say the
     opposite of what the code can do.
     """
-    from .. import drug_pk as _drug_pk
+    from ..legacy import drug_pk as _drug_pk
 
     if expression_genes is None:
         expression_genes = {
@@ -213,7 +213,7 @@ def _delta_activation_sign(target, kind):
 
 
 def _tone_targets():
-    from .. import endogenous_tone as _tone
+    from ..legacy import endogenous_tone as _tone
 
     return _tone.TONE_TARGETS
 
@@ -473,7 +473,7 @@ def tone_ceiling():
     antagonists in this set are predicted to do almost nothing even where a
     tone exists.
     """
-    from .. import endogenous_tone as _tone
+    from ..legacy import endogenous_tone as _tone
 
     return {
         entry.name: float(_tone.tonic_activation(entry))

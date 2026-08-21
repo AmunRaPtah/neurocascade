@@ -127,11 +127,11 @@ discussed in `docs/architecture.md`'s P7.3 section, and the answer is
 
 import numpy as np
 
-from .. import connectome as _connectome
+from ..legacy import connectome as _connectome
 from .. import endpoints as _endpoints
-from .. import expression as _expression
+from ..legacy import expression as _expression
 from .. import stability as _stability
-from ..connectome import build as _build
+from ..legacy.connectome import build as _build
 from . import circuit_forward as cfwd
 
 #: How the whole-brain density map is normalised. `"max"` puts the
@@ -443,7 +443,7 @@ def whole_brain_inputs(allow_download=False):
     `examples/behavioral_endpoint_library.py` already use, so a clean
     checkout runs everything at fixture scale and says so.
     """
-    from ..connectome import fetch, sources
+    from ..legacy.connectome import fetch, sources
 
     cached = (
         fetch.is_cached("knox2019_connection_strength")

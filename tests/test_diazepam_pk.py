@@ -39,8 +39,8 @@ import numpy as np
 import pytest
 from scipy.integrate import solve_ivp
 
-from neurocascade import drug_pk
-from neurocascade.drug_pk import (
+from neurocascade.legacy import drug_pk
+from neurocascade.legacy.drug_pk import (
     DIAZEPAM_ACTIVE_METABOLITE_LIMITATION,
     DIAZEPAM_ALPHA_HALF_LIFE_RANGE_ALL_SPECIES_H,
     DIAZEPAM_MOLAR_MASS_G_PER_MOL,

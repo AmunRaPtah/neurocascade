@@ -109,8 +109,8 @@ those two records. So P2.2 fits one of the three coupling gains, not three.
 
 import numpy as np
 
-from .. import drug_pk
-from ..pk_validation import simulate_curve
+from ..legacy import drug_pk
+from ..legacy.pk_validation import simulate_curve
 
 # ---------------------------------------------------------------------------
 # Small value types

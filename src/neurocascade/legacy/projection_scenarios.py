@@ -133,19 +133,19 @@ What the ports are checked for
 
 import numpy as np
 
-from . import acetylcholine as _ach
-from . import histamine as _ha
-from . import monoamine_transporters as _mt
-from . import noradrenaline as _na
-from . import projection as _projection
+from .. import acetylcholine as _ach
+from .. import histamine as _ha
+from .. import monoamine_transporters as _mt
+from .. import noradrenaline as _na
+from .. import projection as _projection
 from . import projection_density as _pdens
 from . import projection_systems as _ps
-from . import scenarios as _scenarios
-from . import serotonin as _5ht
-from .circuit import CircuitNode
-from .engine import Simulation
-from .network import CircuitNetwork
-from .projection import ProjectionTarget, RegionalReceptorSystem
+from .. import scenarios as _scenarios
+from .. import serotonin as _5ht
+from ..circuit import CircuitNode
+from ..engine import Simulation
+from ..network import CircuitNetwork
+from ..projection import ProjectionTarget, RegionalReceptorSystem
 
 
 #: The parameters an added nucleus node gets. Copied from the hand-built
@@ -1125,7 +1125,7 @@ def autoreceptor_self_weight(key, region, delta=0.01, density_map="connectome"):
 def stability_report(t_end=30.0):
     """P3.4's check on the WHOLE coupled system, with each loop open and
     closed. The third acceptance criterion of P6.3, as a computation."""
-    from . import stability as _stability
+    from .. import stability as _stability
 
     lines = [
         "Closed-loop stability (P6.3): P3.4's check on the whole coupled "

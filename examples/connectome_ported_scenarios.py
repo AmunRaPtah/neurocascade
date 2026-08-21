@@ -26,7 +26,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from neurocascade import connectome_scenarios as cs  # noqa: E402
+from neurocascade.legacy import connectome_scenarios as cs  # noqa: E402
 
 T_SPAN = (0.0, 40.0)
 T_EVAL = np.linspace(T_SPAN[0], T_SPAN[1], 400)

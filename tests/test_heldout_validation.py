@@ -100,7 +100,7 @@ def test_caffeine_is_predicted_to_do_nothing_and_that_is_falsifiable():
 
 
 def test_the_tone_ceiling_covers_exactly_the_targets_with_a_measured_tone():
-    from neurocascade import endogenous_tone as tone
+    from neurocascade.legacy import endogenous_tone as tone
 
     assert set(hv.tone_ceiling()) == {t.name for t in tone.TONE_TARGETS}
 

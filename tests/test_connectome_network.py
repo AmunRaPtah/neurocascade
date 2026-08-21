@@ -28,9 +28,10 @@ import inspect
 import numpy as np
 import pytest
 
-from neurocascade import CircuitNetwork, connectome
+from neurocascade import CircuitNetwork
+from neurocascade.legacy import connectome
 from neurocascade.circuit import CircuitNode
-from neurocascade.connectome import (
+from neurocascade.legacy.connectome import (
     build,
     fetch,
     neurotransmitter as nt,
@@ -499,7 +500,7 @@ def test_dividing_an_already_normalized_matrix_by_voxels_is_refused(ccf, inputs)
 
 
 def test_a_connectome_without_an_ontology_is_refused():
-    from neurocascade.connectome import matrix as matrix_module
+    from neurocascade.legacy.connectome import matrix as matrix_module
 
     bare = matrix_module.read_connectome(
         "knox2019_connection_strength",

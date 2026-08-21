@@ -28,7 +28,8 @@ import numpy as np
 import pytest
 from scipy.integrate import solve_ivp
 
-from neurocascade import connectome, connectome_scenarios as cs, scenarios
+from neurocascade import scenarios
+from neurocascade.legacy import connectome, connectome_scenarios as cs
 
 
 T_SPAN = (0.0, 40.0)

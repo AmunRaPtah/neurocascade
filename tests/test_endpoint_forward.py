@@ -10,9 +10,10 @@ that need the gitignored 291-region cache.
 import numpy as np
 import pytest
 
-from neurocascade import connectome, endpoints, stability
+from neurocascade import endpoints, stability
+from neurocascade.legacy import connectome
 from neurocascade.calibration import endpoint_forward as efwd
-from neurocascade.connectome import fetch, sources
+from neurocascade.legacy.connectome import fetch, sources
 
 
 @pytest.fixture(scope="module")

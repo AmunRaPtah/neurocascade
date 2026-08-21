@@ -98,7 +98,7 @@ documented in `MISSING_FROM_ISH` below.
 
 import urllib.parse
 
-from ..datafetch import DataFile as _DataFile
+from ...datafetch import DataFile as _DataFile
 from . import genes as _genes
 
 MANIFEST_VERSION = "2026-08-12"

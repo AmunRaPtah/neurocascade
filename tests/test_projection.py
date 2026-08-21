@@ -732,7 +732,7 @@ def test_standing_drive_reproduces_p5_8_s_hand_computed_striatal_value():
     # a coupling gain of -3.0 is a standing -2.133 on Striatum_D2_MSN. The
     # general computation must land on the same number, or one of the two is
     # wrong.
-    from neurocascade import projection_scenarios as ps
+    from neurocascade.legacy import projection_scenarios as ps
 
     ported = ps.port("dopamine")
     expected = (

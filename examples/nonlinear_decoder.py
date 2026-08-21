@@ -21,10 +21,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 import numpy as np                              # noqa: E402
 
-from neurocascade import connectome             # noqa: E402
+from neurocascade.legacy import connectome             # noqa: E402
 from neurocascade import decoder                # noqa: E402
 from neurocascade import endpoints              # noqa: E402
-from neurocascade.connectome import fetch, sources   # noqa: E402
+from neurocascade.legacy.connectome import fetch, sources   # noqa: E402
 
 
 def main():

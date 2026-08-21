@@ -37,8 +37,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 
 from neurocascade import monoamine_transporters as mt  # noqa: E402
-from neurocascade import projection_density as pdens  # noqa: E402
-from neurocascade import projection_scenarios as pscen  # noqa: E402
+from neurocascade.legacy import projection_density as pdens  # noqa: E402
+from neurocascade.legacy import projection_scenarios as pscen  # noqa: E402
 
 
 def rule(title):

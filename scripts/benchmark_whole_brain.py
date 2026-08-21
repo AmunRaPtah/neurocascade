@@ -27,7 +27,7 @@ import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from neurocascade.calibration import heldout_forward as hf  # noqa: E402
-from neurocascade.connectome import build as connectome_build  # noqa: E402
+from neurocascade.legacy.connectome import build as connectome_build  # noqa: E402
 
 
 RESULTS = os.path.join(

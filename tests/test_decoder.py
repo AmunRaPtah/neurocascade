@@ -21,7 +21,7 @@ import numpy as np
 import pytest
 
 from neurocascade import behavior
-from neurocascade import connectome
+from neurocascade.legacy import connectome
 from neurocascade import decoder
 from neurocascade import endpoints
 

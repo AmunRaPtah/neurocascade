@@ -32,20 +32,14 @@ from . import histamine
 from . import cannabinoid
 from . import adenosine
 from . import opioid
-from . import drug_pk
-from . import pk_validation
-from . import connectome
-from . import connectome_scenarios
 from . import stability
 from . import transport
 from . import monoamine_transporters
 from . import projection
-from . import projection_systems
-from . import projection_scenarios
-from . import endogenous_tone
 from . import endpoints
 from . import decoder
 from . import fingerprint
+from . import legacy
 from . import human
 
 __all__ = [
@@ -81,19 +75,13 @@ __all__ = [
     "cannabinoid",
     "adenosine",
     "opioid",
-    "drug_pk",
-    "pk_validation",
-    "connectome",
-    "connectome_scenarios",
     "stability",
     "transport",
     "monoamine_transporters",
     "projection",
-    "projection_systems",
-    "projection_scenarios",
-    "endogenous_tone",
     "endpoints",
     "decoder",
     "fingerprint",
+    "legacy",
     "human",
 ]

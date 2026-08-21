@@ -89,7 +89,7 @@ Until then this table is the coarse, cited version, and its coarseness is
 stated rather than hidden.
 """
 
-from ..connectome.neurotransmitter import (  # shared species-neutral physics
+from ..transmitter_sign import (  # species-neutral: see P11.1
     CHOLINERGIC,
     DOPAMINERGIC,
     GABAERGIC,

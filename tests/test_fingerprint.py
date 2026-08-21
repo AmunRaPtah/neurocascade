@@ -15,7 +15,6 @@ from neurocascade import (
     adenosine,
     cannabinoid,
     dopamine,
-    drug_pk,
     fingerprint as fp,
     glutamate,
     histamine,
@@ -24,6 +23,9 @@ from neurocascade import (
     opioid,
     scenarios,
     serotonin,
+)
+from neurocascade.legacy import (
+    drug_pk,
 )
 from neurocascade.engine import Simulation
 from neurocascade.receptor import Ligand, ReceptorSite, ligand_from_ki
@@ -204,7 +206,7 @@ def test_every_target_joins_to_a_gene_the_expression_layer_carries():
     """P8.1 is the first place the pharmacological and anatomical name spaces
     meet, and the join has to land on genes that actually exist, because P8.2
     reads a density map off each one."""
-    from neurocascade.expression import genes
+    from neurocascade.legacy.expression import genes
 
     known = {gene.symbol for gene in genes.RECEPTOR_GENES}
     for name, spec in fp.TARGETS.items():

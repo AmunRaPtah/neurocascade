@@ -21,7 +21,7 @@ Three things are checked, matching the three acceptance criteria of the task:
 import numpy as np
 import pytest
 
-from neurocascade import drug_pk
+from neurocascade.legacy import drug_pk
 from neurocascade.calibration import behavioral_evidence as be
 
 

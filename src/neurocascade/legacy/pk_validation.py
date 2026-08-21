@@ -90,7 +90,7 @@ import numpy as np
 from scipy.integrate import solve_ivp
 
 from . import drug_pk
-from .pk import LN2, DosedTwoCompartmentPK
+from ..pk import LN2, DosedTwoCompartmentPK
 
 # ---------------------------------------------------------------------------
 # Tiers and criteria

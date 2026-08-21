@@ -19,7 +19,8 @@ Three groups of tests, in this order:
 import numpy as np
 import pytest
 
-from neurocascade import drug_pk, scenarios
+from neurocascade import scenarios
+from neurocascade.legacy import drug_pk
 from neurocascade.brain_partition import BrainPartition, UnusablePartitionError
 from neurocascade.engine import ReceptorSystem, Simulation
 from neurocascade.pk import OneCompartmentPK

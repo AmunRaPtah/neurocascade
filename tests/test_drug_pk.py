@@ -27,9 +27,9 @@ import numpy as np
 import pytest
 from scipy.integrate import solve_ivp
 
-from neurocascade import drug_pk
+from neurocascade.legacy import drug_pk
 from neurocascade.circuit import CircuitNode
-from neurocascade.drug_pk import (
+from neurocascade.legacy.drug_pk import (
     HALOPERIDOL_MOLAR_MASS_G_PER_MOL,
     HALOPERIDOL_RAT_IV_BETA_PER_MIN,
     HALOPERIDOL_RAT_IV_CL_ML_PER_MIN_PER_KG,

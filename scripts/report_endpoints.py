@@ -16,8 +16,9 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from neurocascade import connectome, endpoints                # noqa: E402
-from neurocascade.connectome import build, fetch, sources     # noqa: E402
+from neurocascade import endpoints                # noqa: E402
+from neurocascade.legacy import connectome
+from neurocascade.legacy.connectome import build, fetch, sources     # noqa: E402
 
 
 def load():

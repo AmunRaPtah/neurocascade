@@ -24,7 +24,8 @@ import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
 
-from neurocascade import connectome, stability  # noqa: E402
+from neurocascade import stability  # noqa: E402
+from neurocascade.legacy import connectome
 
 RESULTS = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "..", "results", "whole_brain_stability.txt"

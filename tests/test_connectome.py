@@ -20,9 +20,9 @@ import os
 import numpy as np
 import pytest
 
-from neurocascade import connectome
-from neurocascade.connectome import fetch, fixtures, matrix, ontology as ontology_module
-from neurocascade.connectome import sources
+from neurocascade.legacy import connectome
+from neurocascade.legacy.connectome import fetch, fixtures, matrix, ontology as ontology_module
+from neurocascade.legacy.connectome import sources
 
 
 # ---------------------------------------------------------------------------

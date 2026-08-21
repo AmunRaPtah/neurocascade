@@ -148,8 +148,8 @@ illustrative act by the caller.
 
 import numpy as np
 
-from ..circuit import CircuitNode
-from ..network import CircuitNetwork
+from ...circuit import CircuitNode
+from ...network import CircuitNetwork
 from . import neurotransmitter as nt
 from .ontology import MAJOR_DIVISION_IDS
 
@@ -167,7 +167,9 @@ SELF_CONNECTION_POLICIES = ("drop_within_region", "drop", "keep")
 #: built at all; `baseline_input=0.0` is the placeholder P3.4 replaces -
 #: `stability.balanced_baselines` solves for it in closed form instead of
 #: leaving it at zero, and `stability.assess` checks the result.
-DEFAULT_NODE = {"tau": 1.0, "baseline_input": 0.0, "gain": 4.0, "threshold": 0.0}
+# Hoisted to `neurocascade.circuit` in P11.1; re-exported so every existing
+# reference through this module keeps working.
+from ...circuit import DEFAULT_NODE  # noqa: F401,E402
 
 
 # --- parcellations ---------------------------------------------------------

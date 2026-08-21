@@ -54,13 +54,13 @@ import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from neurocascade.connectome import fetch, fixtures, matrix  # noqa: E402
-from neurocascade.connectome import neurotransmitter  # noqa: E402
-from neurocascade.connectome import ontology as ontology_module  # noqa: E402
-from neurocascade.connectome import sources  # noqa: E402
+from neurocascade.legacy.connectome import fetch, fixtures, matrix  # noqa: E402
+from neurocascade.legacy.connectome import neurotransmitter  # noqa: E402
+from neurocascade.legacy.connectome import ontology as ontology_module  # noqa: E402
+from neurocascade.legacy.connectome import sources  # noqa: E402
 
 # The region set, the fixture directory and the fixture filenames all live in
-# the package (`neurocascade.connectome.fixtures`), so this script and the
+# the package (`neurocascade.legacy.connectome.fixtures`), so this script and the
 # tests cannot drift apart about what the fixtures are.
 FIXTURE_DIR = fixtures.FIXTURE_DIR
 FIXTURE_REGION_IDS = list(fixtures.FIXTURE_REGION_IDS)

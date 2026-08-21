@@ -27,11 +27,12 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
-from neurocascade import drug_pk, scenarios  # noqa: E402
+from neurocascade import scenarios  # noqa: E402
+from neurocascade.legacy import drug_pk
 from neurocascade.calibration import endpoint_calibration as ec  # noqa: E402
 from neurocascade.calibration import endpoint_forward as ef  # noqa: E402
 from neurocascade.calibration import heldout_forward as hf  # noqa: E402
-from neurocascade.connectome.ontology import MAJOR_DIVISION_IDS  # noqa: E402
+from neurocascade.legacy.connectome.ontology import MAJOR_DIVISION_IDS  # noqa: E402
 from neurocascade.engine import Simulation  # noqa: E402
 from neurocascade.receptor import Ligand, ReceptorSite  # noqa: E402
 

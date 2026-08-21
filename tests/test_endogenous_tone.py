@@ -16,11 +16,11 @@ Four things are tested, in the order the acceptance criteria name them:
 import numpy as np
 import pytest
 
-from neurocascade import endogenous_tone as tone
+from neurocascade.legacy import endogenous_tone as tone
 from neurocascade import monoamine_transporters as mt
 from neurocascade import projection
-from neurocascade import projection_scenarios as pscen
-from neurocascade import projection_systems as ps
+from neurocascade.legacy import projection_scenarios as pscen
+from neurocascade.legacy import projection_systems as ps
 from neurocascade.receptor import Ligand, ReceptorSite
 
 

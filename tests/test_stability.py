@@ -27,7 +27,8 @@ Six groups:
 import numpy as np
 import pytest
 
-from neurocascade import connectome, connectome_scenarios as cs, scenarios, stability
+from neurocascade import scenarios, stability
+from neurocascade.legacy import connectome, connectome_scenarios as cs
 from neurocascade.circuit import CircuitNode, sigmoid
 from neurocascade.network import CircuitNetwork
 

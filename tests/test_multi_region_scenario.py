@@ -17,9 +17,10 @@ import numpy as np
 import pytest
 from scipy.integrate import solve_ivp
 
-from neurocascade import connectome, scenarios
+from neurocascade import scenarios
+from neurocascade.legacy import connectome
 from neurocascade.engine import Simulation
-from neurocascade.expression import fetch, scenario_maps, sources
+from neurocascade.legacy.expression import fetch, scenario_maps, sources
 
 
 MAPS = ("atlas", "handwritten")
@@ -109,7 +110,7 @@ def test_the_density_is_invariant_to_which_other_regions_are_in_the_matrix():
     ontology = connectome.load_fixture_ontology()
     atlas = scenario_maps.load_atlas(["Oprm1"], ontology=ontology)
     wide_ids = sorted(ontology.structures)
-    from neurocascade.expression import density as density_module
+    from neurocascade.legacy.expression import density as density_module
 
     wide = density_module.relative_density(
         atlas.energy_matrix(
@@ -172,7 +173,7 @@ def test_one_mechanism_gain_covers_all_three_nodes():
 def test_the_structures_are_the_ones_the_connectome_port_uses():
     """One anatomy, named twice; if the two ever disagree the density would
     be read for a different region than the one the ported network wires."""
-    from neurocascade import connectome_scenarios as cs
+    from neurocascade.legacy import connectome_scenarios as cs
 
     ontology = connectome.load_fixture_ontology()
     port = cs.SCENARIO_PORTS["mu_opioid_multi_region"]
