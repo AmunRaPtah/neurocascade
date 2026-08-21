@@ -170,7 +170,10 @@ class Handler(BaseHTTPRequestHandler):
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--host", default="0.0.0.0")
+    # Loopback by default: results/ is unauthenticated, so binding every
+    # interface must be an explicit choice, not something inherited from a
+    # default. Pass --host 0.0.0.0 when a preview really should be reachable.
+    ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=int(os.environ.get("PORT", "8080")))
     ap.add_argument("--check", action="store_true",
                     help="build the index, print a summary, and exit")

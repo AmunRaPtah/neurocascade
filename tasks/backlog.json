@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Ordered task backlog for the autonomous build. scripts/autonomous_runner.py picks the first task whose status is pending and whose deps are all done. Edit freely; the runner reads this file fresh every tick.",
+  "note": "Ordered task backlog for the autonomous build. scripts/autonomous_runner.py picks the first task whose status is pending and whose deps are all done. v2 (Phase 11 onward) is the human-primary rebuild; see docs/roadmap-human.md. Phases 1-10 are the completed mouse build, retained for history. Edit freely; the runner reads this file fresh every tick.",
   "tasks": [
     {
       "id": "P1.1",
@@ -811,6 +811,509 @@
       "attempts": 1,
       "result": "complete: added a journal-direct, Word-compatible manuscript skeleton with methods, validation, traceable quantitative claims, core references, and a limitations section explicitly derived from P8.3.",
       "finished_at": "2026-08-16T03:05:55+02:00"
+    },
+    {
+      "id": "P11.1",
+      "phase": "Phase 11: species quarantine",
+      "title": "Create the legacy namespace and move rodent-only modules",
+      "brief": "Create src/neurocascade/legacy/ and move the rodent-only material there, preserving git history where practical. Per docs/roadmap-human.md the retirement policy is QUARANTINE, NOT DELETION: everything moved stays importable and stays tested. Move: the Allen mouse connectome ingestion (connectome/ package and data/connectome/), the Allen ISH expression path (expression/ package and the 42 data/expression/ CSVs), expression/autoradiography.py's mouse Bmax tables (YOO2010, LOTHMANN2021), endogenous_tone.py's five microdialysis basal concentrations, projection_densities.csv and its derivation, and drug_pk.py's rodent PK and partition constants. Do NOT move the already-human material: scenarios.py's three calibrated PK models run on human clinical PK, and the D2 and H1 receptor systems are human end-to-end.",
+      "acceptance": [
+        "src/neurocascade/legacy/ exists and every module moved into it still imports",
+        "Full suite green: no test deleted, tests updated only for import paths",
+        "docs/roadmap-human.md retirement policy quoted in the legacy package docstring",
+        "A test asserts nothing under legacy/ is reachable from fingerprint.predict()"
+      ],
+      "deps": [],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P11.2",
+      "phase": "Phase 11: species quarantine",
+      "title": "Enforced species gate",
+      "brief": "Add a test-enforced species gate. Every parameter in the tree already carries a provenance species field (BindingRecord.species, AnatomySource.species, BrainPartition.check_species, every EndpointTerm). Wire those into a single gate: a parameter whose provenance species is not human raises UnsourcedParameterError when it reaches fingerprint.predict() or any human scenario builder, unless it is explicitly declared a cross-species anchor via a new registry. Seed that registry with the two anchors named in the roadmap: morphine Kp,uu 0.29 rat vs 0.64 human (Ederoth 2004, PMID 15025740) and TPA023 occupancy EC50 9 ng/mL human vs 19-30 rat/rhesus/baboon (Atack 2010, PMID 19779131). An anchor may be reported and compared; it may never drive a prediction.",
+      "acceptance": [
+        "A non-human parameter reaching predict() raises, with the species named in the message",
+        "Cross-species anchors are declarable and are refused as prediction inputs",
+        "Test covers each of the receptor, PK, partition and endpoint layers"
+      ],
+      "deps": [
+        "P11.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P11.3",
+      "phase": "Phase 11: species quarantine",
+      "title": "Retire the rodent behavioural bridge",
+      "brief": "Retire the rodent dose-to-behaviour bridge into legacy/: all 11 datasets in calibration/behavioral_evidence.py (10 rat, 1 mouse, 0 human), decoder.py's 5 optogenetic/chemogenetic DriveResponseSeries, and scenarios.py's GABA_A_CONNECTION_MODULATION_GAIN = 0.0742. That gain is the project's ONLY non-illustrative circuit parameter and it was fitted to Wistar-rat elevated-plus-maze open-arm seconds, so it does not survive the pivot. Restore it to an ILLUSTRATIVE placeholder and say so at the definition site. Record the loss in docs/heldout-failure-analysis.md: after this task every circuit-layer parameter is illustrative again, and the blocker is human behavioural data rather than the missing PK bridge Track E diagnosed. Keep the Bayesian, identifiability and endpoint-calibration machinery, which is species-agnostic.",
+      "acceptance": [
+        "GABA_A_CONNECTION_MODULATION_GAIN is ILLUSTRATIVE with the reason at the definition site",
+        "docs/heldout-failure-analysis.md records that the only fitted circuit parameter did not survive",
+        "Calibration machinery still runs against a synthetic or human dataset",
+        "A test asserts no circuit-layer parameter claims to be calibrated"
+      ],
+      "deps": [
+        "P11.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P12.1",
+      "phase": "Phase 12: human receptor density",
+      "title": "Ingest the Hansen 2022 human PET receptor atlas",
+      "brief": "Ingest Hansen JY et al., 'Mapping neurotransmitter systems to the structural and functional organization of the human neocortex', Nat Neurosci 2022;25(11):1569-1581, PMID 36303070. Source: github.com/netneurolab/hansen_receptors, CC BY-NC-SA 4.0 (record the licence). 19 receptors/transporters across 9 systems, 1,238 healthy participants. All three existing systems are covered: MOR ([11C]carfentanil), D2 (fallypride/FLB457/raclopride), GABA-A/BZ ([11C]flumazenil). Use Cammoun-033, which carries 68 cortical + 14 subcortical + brainstem, since the subcortical parcels (accumbens, amygdala, thalamus, caudate, putamen, pallidum, hippocampus) are what the existing scenarios need. Follow the checksummed-manifest and committed-fixture pattern the mouse connectome ingestion already established. CRITICAL: these maps are z-scored RELATIVE densities, not absolute Bmax, because tracers came from different participants and scanners and report different quantities (BPND vs VT). Encode that in the type so no downstream consumer can read them as absolute.",
+      "acceptance": [
+        "Checksummed manifest pinned, offline fixtures committed, licence recorded",
+        "The relative-not-absolute constraint is enforced by the type, not by a comment",
+        "MOR, D2 and GABA-A/BZ maps resolve over the subcortical parcels the scenarios use"
+      ],
+      "deps": [
+        "P11.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P12.2",
+      "phase": "Phase 12: human receptor density",
+      "title": "Absolute-scale anchor from human autoradiography",
+      "brief": "Add the only human source of ABSOLUTE receptor density in fmol/mg protein: Zilles K, Palomero-Gallagher N, 'Multiple Transmitter Receptors in Regions and Layers of the Human Cerebral Cortex', Front Neuroanat 2017;11:78, PMID 28970785. Machine-readable at github.com/AlGoulas/receptor_principles; 15 receptors x 44 cytoarchitectonic areas x 3 laminar strata. It covers GABA-A and GABA-A/BZ, which is exactly the system the PET atlas cannot scale. It does NOT cover MOR or D2: those stay scale-free parameters and the code must say so rather than substituting a proxy. Record the sample honestly: 3 postmortem brains, ages 72-77, two male, cortex only. Subcortical and archicortical fingerprints exist but are scattered across separate papers (Kedo 2018 amygdala PMID 29188378; Zhao 2023 hippocampus PMID 37030412; Palomero-Gallagher 2009 cingulate PMID 19034899) and are reachable via EBRAINS siibra; record which were ingested and which were searched and not reached.",
+      "acceptance": [
+        "Absolute fmol/mg anchors ingested for the receptors that have them",
+        "MOR and D2 remain explicitly scale-free with the reason recorded",
+        "Sample limitations (n=3, aged, cortex-only) recorded at the source, not buried"
+      ],
+      "deps": [
+        "P12.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P12.3",
+      "phase": "Phase 12: human receptor density",
+      "title": "Midbrain nodes absent from the atlas parcellation",
+      "brief": "The Hansen atlas has NO VTA: it falls inside a single undifferentiated brainstem parcel. The mu-opioid reward scenario needs VTA as a node, so define midbrain nodes from a dedicated atlas: Trutti AC et al., 'A probabilistic atlas of the human ventral tegmental area based on 7 Tesla MRI', Brain Struct Funct 2021, PMID 33580320; or CIT168, Pauli WM, Nili AN, Tyszka JM, Sci Data 2018;5:180063, PMID 29664465. NEITHER carries receptor density. Record that consequence explicitly: a VTA node defined this way has anatomy but no measured receptor density, so any density on it is illustrative or must be searched for separately. Do not paper over this by averaging the brainstem parcel onto it.",
+      "acceptance": [
+        "VTA and the needed midbrain nodes defined from a cited human atlas",
+        "The absence of receptor density on those nodes is enforced, not just noted",
+        "SEARCHED_AND_EMPTY record for human VTA receptor density"
+      ],
+      "deps": [
+        "P12.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P12.4",
+      "phase": "Phase 12: human receptor density",
+      "title": "Retire the mRNA proxy and record why",
+      "brief": "Retire the ISH-expression-to-density path into legacy/ and record the measured reason. Hansen JY et al., 'Correspondence between gene expression and neurotransmitter receptor and transporter density in the human brain', NeuroImage 2022;264:119671, PMID 36209794, tested 27 receptors/transporters over 9 systems and found correspondence for only four single-protein metabotropic receptors: 5-HT1A, CB1, D2, MOR. Their recommendation verbatim: 'we recommend using direct measures of receptor and transporter density.' Commit the per-gene numbers from github.com/netneurolab/hansen_gene-receptor: OPRM1-MOR rho 0.846 p_spin 0.0019; DRD2-D2 0.706, 0.0128; GABRA1-GABA-A 0.244, p_spin 0.559; GABRG2 0.176, 0.638; all 19 GABR subunits max abs rho 0.41 with every p_spin >= 0.24. State the consequence for v1 plainly: the mouse ISH density map was defensible for MOR and D2 and indefensible for GABA-A, which is the system that carried the only fitted circuit parameter. Corroboration at protein level in matched tissue: Zhao 2023, PMID 37030412.",
+      "acceptance": [
+        "Per-gene correspondence numbers committed as a result, not prose",
+        "A test asserts no human scenario resolves density through an mRNA proxy",
+        "The v1 consequence for GABA-A recorded in the failure analysis"
+      ],
+      "deps": [
+        "P12.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P13.1",
+      "phase": "Phase 13: directed human connectivity",
+      "title": "Ingest the F-TRACT CCEP atlas",
+      "brief": "Ingest F-TRACT, the only measured DIRECTED human connectivity dataset: Lemarechal J-D, Jedynak M, Trebaul L et al., 'A brain atlas of axonal and synaptic delays based on modelling of cortico-cortical evoked potentials', Brain 2022;145(5):1653-1667, PMID 35416942. 780 patients, 34,354 stimulations, 774,445 CCEPs, on HCP-MMP1 (360 parcels). EBRAINS DOI 10.25493/5AM4-J3F, CC BY-NC-SA 4.0; the matrices are explicitly asymmetric. Direction here is measured causally in living humans: stimulation site to recording site IS a direction. Record the limitations at the source: electrode placement is clinically driven and biased toward temporal/frontal epileptogenic cortex, patients are not neurotypical, CCEPs can be polysynaptic so a directed edge is not necessarily monosynaptic, and the atlas is group-average only. DO NOT use TVB's connectivity_76/_96/_192 as a human alternative: they carry ordinal {0,1,2,3} weights and RM- prefixes and are macaque CoCoMac tracer codes mapped onto human coordinates, widely mis-cited as human DSI.",
+      "acceptance": [
+        "F-TRACT ingested on HCP-MMP1 with checksummed manifest and offline fixtures",
+        "Asymmetry preserved and asserted by test",
+        "The four sampling limitations recorded at the source",
+        "A test rejects the TVB ordinal matrices by shape and value signature"
+      ],
+      "deps": [
+        "P12.4"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P13.2",
+      "phase": "Phase 13: directed human connectivity",
+      "title": "Per-edge direction provenance",
+      "brief": "Every edge in the human connectome carries a provenance flag: measured (F-TRACT CCEP), inferred (macaque homology transfer), or absent. No edge may exist without one. This is the load-bearing honesty mechanism of the whole human circuit layer, equivalent to what species provenance does for parameters. Report coverage as a first-class result: what fraction of edges are measured, inferred and absent, and which regions have no measured coverage at all. Any figure, result or prediction that consumes the connectome must be able to report the provenance mix behind it.",
+      "acceptance": [
+        "Provenance flag mandatory on construction; a missing flag raises",
+        "Coverage fractions computed and committed as a result",
+        "Provenance mix propagates to any prediction built on the network"
+      ],
+      "deps": [
+        "P13.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P13.3",
+      "phase": "Phase 13: directed human connectivity",
+      "title": "Macaque directed prior for uncovered edges",
+      "brief": "For edges F-TRACT does not cover, transfer direction from macaque tract-tracing: Markov NT et al., 'A weighted and directed interareal connectivity matrix for the macaque cerebral cortex', Cereb Cortex 2014;24(1):17-36, PMID 23010748 (FLNe, 1,615 pathways, 29 of 91 areas injected), plus SLN laminar hierarchy (Markov 2014, J Comp Neurol 522(1):225-259, PMID 23983048). Transfer method: connectivity blueprints, Mars RB et al., eLife 2018;7:e35237, PMID 29749930. core-nets.org returns HTTP 500; use the INM-6/multi-area-model mirror at multiarea_model/data_multiarea/raw_data (Markov2014_FLN_rawdata.csv, SLN_Data.csv), and record that the Kennedy lab asserts no open licence. FIRST: retry the Jirsa preprint (Huang N, Wang HE, Triebkorn P, ... Jirsa V, bioRxiv 2026-06-17, DOI 10.64898/2026.06.16.732559), which builds this exact construction and validates it against F-TRACT; the repository URL was unverified due to Cloudflare 429. Record homology quality honestly: Reid AT et al., NeuroImage 2016;125:311-331, PMID 26515902 found generally poor correspondence, best for local ipsilateral and homotopic connections and WORST for long-range and heterotopic, with lowest cross-species consensus in lateral/medial temporal, ACC and TPJ. Only 29 of 91 macaque areas were ever injected, and human-expanded prefrontal and temporo-parietal cortex has no macaque counterpart.",
+      "acceptance": [
+        "Inferred edges flagged inferred, never measured",
+        "Homology limitations recorded per region, with the weak regions named",
+        "Jirsa preprint retry attempted and its outcome recorded either way"
+      ],
+      "deps": [
+        "P13.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P13.4",
+      "phase": "Phase 13: directed human connectivity",
+      "title": "Human E/I synaptic time constants",
+      "brief": "F-TRACT supplies cortical maps of local excitatory and inhibitory synaptic time constants, plus median cortico-cortical axonal delay 10.2 ms (velocity 3.9 m/s). Use them to replace the ILLUSTRATIVE node parameters (tau, and the E/I balance) that the Wilson-Cowan layer has carried since v0. This is the first time in the project's history that a circuit-layer parameter has a measured human source, so it deserves the same scrutiny a binding constant gets: record the method, the sample, and what the value is not. Any parameter still without a source stays labelled ILLUSTRATIVE.",
+      "acceptance": [
+        "Node time constants sourced from F-TRACT where the map covers them",
+        "Parameters not covered remain ILLUSTRATIVE and a test enforces the distinction",
+        "Axonal delays available to the engine even if not yet consumed"
+      ],
+      "deps": [
+        "P13.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P13.5",
+      "phase": "Phase 13: directed human connectivity",
+      "title": "Whole-brain stability at human scale",
+      "brief": "Apply the P3.4 stability procedure to the human network: loop gain kappa, critical weight scale, balanced baselines, saturation check over every node, and the global uniqueness certificate. Report the as-built, baselines-balanced and stabilized cases exactly as the mouse and ENIGMA runs did, including the failing intermediate verdicts rather than only the final ok. stability.py is species-agnostic and needs no change.",
+      "acceptance": [
+        "Stability assessment committed as a result for the human network",
+        "Failing intermediate configurations reported, not suppressed",
+        "Operating gain rho labelled ILLUSTRATIVE unless sourced"
+      ],
+      "deps": [
+        "P13.4"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P13.6",
+      "phase": "Phase 13: directed human connectivity",
+      "title": "Demote the dMRI matrix to a flagged fallback",
+      "brief": "The ENIGMA/HCP dMRI matrix merged from the human-connectome-layer branch signs each symmetric weight from the source region's transmitter identity (+1 glutamatergic 72 regions, -1 GABAergic 8, amygdala left unsigned and excluded, 97.9% of fibre weight signed). That is real work and it is disclosed, but it assigns direction by fiat on a physically direction-blind measurement. Demote it to a provenance-flagged fallback that can never be reported as measured direction. Record the quantitative reason: Maier-Hein KH et al., Nat Commun 2017;8:1349, PMID 29116093 found 36 +/- 17% of reconstructed streamlines connect regions that are not connected, 88 +/- 58 invalid bundles per tractogram, and bundle precision 23 +/- 9%. Keep it usable for comparison against the F-TRACT backbone, since the comparison is itself a result.",
+      "acceptance": [
+        "dMRI edges carry provenance inferred, never measured",
+        "The tractography error rates recorded at the source",
+        "Comparison between dMRI-signed and F-TRACT direction committed as a result"
+      ],
+      "deps": [
+        "P13.5"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P14.1",
+      "phase": "Phase 14: human pharmacokinetics",
+      "title": "Three-compartment dosed PK",
+      "brief": "pk.py supports one- and two-compartment models only. EVERY canonical human fentanyl model is three-compartment: Shafer 1990 (PMID 2248388), Scott & Stanski 1987 (PMID 3100765), McClain & Hug 1980 (PMID 7389247), Bae 2020 (PMID 32861508). Add DosedThreeCompartmentPK in the existing ODE-native style, exposing a concentration_rhs so the PK layer stays inside the single coupled state vector engine.py integrates. Note that intercompartmental_clearance_from_terminal_rate becomes unnecessary for fentanyl and diazepam, since Q is reported directly in the human literature. Two named sets are wrong and must not be used: 'the Ginsberg/Shafer parameters' does not exist (STANPUMP ships exactly Hug, Scott, Shafer; Ginsberg 1996 PMID 8968173 is a PEDIATRIC two-compartment model).",
+      "acceptance": [
+        "DosedThreeCompartmentPK integrates inside the coupled state vector",
+        "Round-trips against all four published fentanyl parameter sets",
+        "A test rejects the non-existent Ginsberg/Shafer three-compartment set"
+      ],
+      "deps": [
+        "P11.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P14.2",
+      "phase": "Phase 14: human pharmacokinetics",
+      "title": "Human PK parameters for the three drugs",
+      "brief": "Replace the rat PK layer with human parameters. FENTANYL: four three-compartment sets above, plus modern popPK (Choi 2016 PMID 26491862 n=337; Williams 2022 PMID 34877660 n=434; Barratt 2014 PMID 24469018 n=620, where genotype plus all clinical variables explain under 50% of variability). Route F: IV 1, transdermal 0.92, OTFC 0.50, buccal 0.65+/-0.20, sublingual 0.54, intranasal ~0.89, oral 0.31. fu ~0.156 (Meuldermans 1982, PMID 6214227). HALOPERIDOL: Yukawa 2002 PMID 11888334 n=218; Franken 2017 PMID 28681176 F=0.861; Li 2022 PMID 35335925 IV, open. fu = 0.085 +/- 0.016 measured in n=25 patients (Eyles 1994, PMID 7862945). DIAZEPAM: Klotz 1975 PMID 1127104 open, n=33, t-half 20h at age 20 rising to ~90h at 80 with CL age-independent, 97.4% bound; Divoll 1983 PMID 6849499 F(oral)=0.94. TWO TRAPS: Scott & Stanski 1987 found NO age effect on fentanyl PK, since the dose reduction with age is purely pharmacodynamic, so no age-on-CL covariate may cite that paper; and the Lombardo 2018 curated fentanyl VDss = 0.89 L/kg is 4-6x below the label and every compartmental model, so it must not be imported blind.",
+      "acceptance": [
+        "Human parameters sourced per drug and route with citations at the definition site",
+        "A test rejects an age-on-CL covariate citing Scott & Stanski 1987",
+        "A test rejects fentanyl VDss 0.89 L/kg as internally inconsistent with the compartmental sets",
+        "Rat values remain reachable in legacy/ as cross-species anchors only"
+      ],
+      "deps": [
+        "P14.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P14.3",
+      "phase": "Phase 14: human pharmacokinetics",
+      "title": "Kp,uu with an explicit species-transfer factor",
+      "brief": "This is the weakest layer in the pivot and the code must say so. Human has 6 compounds with paired measured Kp,uu,brain and Kp,uu,CSF against 70 in rat (Sato 2021, AAPS J 23(4):81, PMC8175309). Implement Kp,uu_human = Kp,uu_rat * f_species, with f_species ~1 for non-efflux substrates and ~2-3 for P-gp substrates, exposed as a FITTED parameter with those priors so the uncertainty is visible rather than buried in a constant. Justification for the direction: human P-gp does less work at the BBB than rat (fitted MDR1 relative activity 0.395 rat vs 0.096 human, Sato 2021), morphine Kp,uu 0.29 rat vs 0.64 human (Ederoth 2004, PMID 15025740, n=7 TBI patients, the only direct human opioid measurement), [11C]GR205171 brain:plasma ~9x higher in human than rat (Syvanen 2009, PMID 19047468). PER DRUG: diazepam uses the real human value Kp,uu,CSF = 0.79 (Friden 2009, PMID 19764786; the table is open in the DiVA thesis diva2:349401) and is not an efflux substrate so the CSF bias is small; haloperidol needs NO Kp,uu, since inverting the human occupancy curve gives the same quantity (see P16.1); fentanyl has no defensible human value, uses ~1, and must be flagged as the model's least-supported input. Record why the postmortem forensic route is refused, which drug_pk.py:2292 already argues correctly. Record the CSF surrogate's known bias: it OVERPREDICTS for highly effluxed drugs, and the human regression slope 0.34 is the worst of the three species.",
+      "acceptance": [
+        "f_species is a fitted parameter with cited priors, not a hard-coded constant",
+        "Diazepam uses the measured human value; fentanyl is flagged least-supported",
+        "Haloperidol requires no Kp,uu and a test asserts it does not consume one",
+        "The CSF surrogate bias direction recorded where the value is consumed"
+      ],
+      "deps": [
+        "P14.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P14.4",
+      "phase": "Phase 14: human pharmacokinetics",
+      "title": "Human PK validation",
+      "brief": "Validate the human PK models against independent published curves, in the manner of P1.6. Record the structural hole honestly: there is NO adult diazepam population PK model: all four that exist are pediatric or methodological (Ku 2018 PMID 30267478, n=87 children). Everything adult is 1970s-90s intensive-sampling NCA, overwhelmingly from one group (Greenblatt/Shader, Tufts), and the pharmacogenetics is in a different unlinked population. Also record: no readable haloperidol two-compartment popPK (Pilla Reddy 2013, PMID 24113674, is paywalled and is the single most valuable missing parameter set), and no haloperidol depot popPK at all. Two documented rat-to-human failure modes worth encoding as tests: Johnson 2016 (PMID 26718955) swapped human popPK into a rat hybrid PBPK-PD and specifically UNDER-predicted human haloperidol D2 occupancy, attributed to unmodelled brain reduced-haloperidol back-oxidation and active BBB influx.",
+      "acceptance": [
+        "Independent validation comparisons committed per drug and route",
+        "SEARCHED_AND_EMPTY records the three named structural holes",
+        "A regression test encodes the Johnson 2016 under-prediction failure mode"
+      ],
+      "deps": [
+        "P14.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P15.1",
+      "phase": "Phase 15: human receptor layer",
+      "title": "Flip the human defaults already in the tree",
+      "brief": "Three systems already carry human values behind a rodent default. Flip them. A2A: adenosine.py has SPECIES_SETS = ('rat','human') with both tabulated from Fredholm 2011 Tables 3/4, and defaults to rat at ten call sites. Flipping changes a published conclusion, and that is the point: caffeine A1/A2A selectivity is 0.91 in rat and 0.46 in human, so the human value says caffeine prefers A1 by 2.2-fold. adenosine.py:353-358 already notes this. ALPHA2: noradrenaline.py defaults affinity_state to 'agonist-state', which is rat cortex (U'Prichard 1978, Salama 1982); the human alternative Proudman 2022 human alpha2A CHO whole-cell is already coded. Flip the default to 'whole-cell'. TRANSPORTERS: monoamine_transporters.py KI is the MOUSE column of Han & Gu 2006 Table 1; KI_HUMAN from the same table, same assay, same day is already in the file at :602-607. Swap it. Record the one cell that moves materially: methylphenidate at DAT, mouse 260 nM vs human 60 nM, 4.3-fold.",
+      "acceptance": [
+        "All three defaults flipped and the rodent values retained as anchors",
+        "The caffeine A1/A2A selectivity inversion asserted by test",
+        "Km/Vmax and basal transporter values, which remain rodent, moved to legacy/"
+      ],
+      "deps": [
+        "P11.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P15.2",
+      "phase": "Phase 15: human receptor layer",
+      "title": "Replace the isolated rodent rate constants",
+      "brief": "Seven constants are rodent while their own system's affinities are already human. Replace each with a human recombinant equivalent, or record searched-and-empty: DOR kon (opioid.py:780, [3H]pCl-DPDPE at RAT brain delta, Vaughn 1989); D1 Kd SCH-23390 (dopamine.py:444, rat striatal membranes, Billard 1984); 5-HT1A koff WAY-100635 (serotonin.py:456-459, rat hippocampal membranes, Parkel 2006); 5-HT2A Kd ketanserin and Ki DOI (serotonin.py:544,548, rat cortex, where a human alternative Ki DOI 0.71 nM cloned human 5-HT2A from Nelson 1999 is ALREADY at :557); alpha1 kon (noradrenaline.py:706, rat tail artery, Tanaka 2004) and koff (:714, rat brain synaptosomes, Quinton 2010).",
+      "acceptance": [
+        "Each of the seven replaced with a human source or recorded searched-and-empty",
+        "No mixed human-affinity/rodent-rate pair survives without an explicit standing",
+        "5-HT2A uses the human Nelson 1999 value already present in the file"
+      ],
+      "deps": [
+        "P15.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P15.3",
+      "phase": "Phase 15: human receptor layer",
+      "title": "Re-parameterize the wholly rodent systems",
+      "brief": "Six systems need full human re-parameterization. NMDA and AMPA are the worst: glutamate.py contains ZERO occurrences of 'human', 'cloned' or 'recombinant'. Its values are mouse embryonic hippocampal neurons (Patneau 1990) and rat GluN1/GluN2A (Kotermanski 2009, Dravid 2007, Wong 1986, Randle 1992). Human recombinant GluN1/GluN2A and AMPA data exists. ALPHA7 is predominantly rat (Papke & Papke 2002, Fenster 1997) with only the mecamylamine IC50 human. ALPHA4BETA2 has a human concatemer Kd for acetylcholine (Sanders 2022) but rat nicotine EC50 and rat desensitization time constants, which is the module's whole subject. GABA-A/BZD is rat cerebral cortex (Mohler 1977, Mohler 1981) although its validation target Savic 1991 is already human in vivo occupancy. CB1 rests on a Pertwee 2010 compilation whose species are not resolved per cell, with no binding kinetics published for any ligand. Where no human value exists, record searched-and-empty and leave the parameter refusing to resolve rather than substituting.",
+      "acceptance": [
+        "Each system either human-sourced or explicitly refusing with a search record",
+        "glutamate.py no longer contains a rodent value driving a human prediction",
+        "No parameter silently substituted across species to reach coverage"
+      ],
+      "deps": [
+        "P15.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P15.4",
+      "phase": "Phase 15: human receptor layer",
+      "title": "In-vivo versus in-vitro Ki correction",
+      "brief": "Petersson KJ, Vermeulen AM, Friberg LE, AAPS J 2013;15(2):533-541, PMC3675734, Table II: across six compounds spanning a 100-fold affinity range, model-derived in-vivo Ki versus cloned-human-D2 [3H]raclopride Ki gives R2 = 0.94, p < 0.001, slope 0.30, so in-vivo Ki is consistently ~3-fold MORE potent than the in-vitro value. Implement this as an explicit, optional, cited transform that a scenario opts into. It must never be applied silently, and a test must assert that an uncorrected Ki and a corrected Ki are distinguishable in any result that reports them.",
+      "acceptance": [
+        "Correction implemented as an opt-in cited transform",
+        "A test asserts it is never applied by default",
+        "Corrected and uncorrected values distinguishable in reported results"
+      ],
+      "deps": [
+        "P15.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P16.1",
+      "phase": "Phase 16: receptor-to-effect transducers",
+      "title": "Occupancy-limited transducer (D2)",
+      "brief": "D2 effect tracks fractional occupancy near-linearly in the 60-85% band, with Hill coefficient 1 in every published human fit. Build the occupancy-limited transducer and calibrate against human PET: Kapur 1997 PMID 9201802 (n=12, EC50 0.51 ng/mL, 80% at 2.0 ng/mL, r2 0.84); Fitzgerald 2000 PMID 10789875 (prospective, ED50 0.40 ng/mL, mean prediction error 3.89%); de Greef 2011 PMC3032087 (EC50 0.532 +/- 0.085, Emax 92.0 +/- 3.3, 12 studies/45 arms); Uchida 2011 PMID 21508857. Thresholds from Kapur 2000 PMID 10739409: response above 65%, hyperprolactinemia above 72%, EPS above 78% (NOT 80%). Dose-level validation target: Lako 2013 PMID 23948784, 51 studies, 606 patients, D2R(%) = OccMax * dose / (OccD50 + dose), haloperidol OccMax 91.9%, OccD50 0.65 mg/day; formulas openly reproduced in the CC-BY appendix of PMC10618092. This transducer is also what removes the need for a haloperidol Kp,uu, since inverting the curve yields unbound brain concentration.",
+      "acceptance": [
+        "Occupancy transducer reproduces Kapur EC50 and the Lako dose-level curve",
+        "Hill coefficient fixed at 1 with the reason recorded",
+        "Haloperidol unbound brain concentration derived by inversion, consuming no Kp,uu"
+      ],
+      "deps": [
+        "P14.3",
+        "P15.4"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P16.2",
+      "phase": "Phase 16: receptor-to-effect transducers",
+      "title": "Reserve-dominated amplification (mu-opioid)",
+      "brief": "An occupancy-to-effect map is the WRONG structure for mu-opioid: methadone at 18-90 mg/d shows no displacement and no dose-occupancy relationship at all (Melichar 2005, PMID 15347732). Port the open FDA receptor-to-ventilation model instead: github.com/FDA/Mechanistic-PK-PD-Model-to-Rescue-Opioid-Overdose (Mann J et al., Clin Pharmacol Ther 2022;112(5):1020-1032, PMID 35766413). Binding ODE dRL/dt = K_on*L^n*R - K_off*RL with R = 1 - RL; fentanyl K_on 3.081e-5, K_off 4.331e-3, n 0.8439, apparent K_D ~351 pM ~ 0.118 ng/mL; naloxone K_on 1.669e-4, K_off 3.959e-2, n 0.858. Drive reduced by CAR^P where CAR is fraction bound, with separate exponents for wakefulness drive and chemoreflex, estimated separately for naive and chronic users. Open subject-level raw data: Dryad 10.5061/dryad.j3tx95xdb (Moss 2022, PMID 35085249, 22 participants, the parent trial of Algera 2021). This also replaces the naloxone-rescue result v0 reproduced in rodent terms: Yassen 2007 PMID 17922561 (naloxone biophase t-half 6.5 min) and Olofsen 2010 PMID 20461002 (n=56).",
+      "acceptance": [
+        "FDA binding constants ported and round-tripped against the published model",
+        "Amplification exponent structure used, with no occupancy-to-effect map for mu-opioid",
+        "Naloxone reversal reproduced against human data, replacing the rodent v0 result",
+        "Dryad raw data ingested or its absence recorded"
+      ],
+      "deps": [
+        "P16.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P16.3",
+      "phase": "Phase 16: receptor-to-effect transducers",
+      "title": "Operational model of agonism (GABA-A)",
+      "brief": "GABA-A is reserve-dominated AND efficacy-dependent: lorazepam 0.03 mg/kg IV, a therapeutic dose producing marked sedation, occupies UNDER 3% of benzodiazepine sites (Sybirska 1993, PMID 8395663), so over 97% receptor reserve. Even zolpidem at twice its hypnotic dose reaches only 27 +/- 11% (Abadie 1996, PMID 8925872). Occupancy is nearly irrelevant to effect magnitude; intrinsic efficacy is what varies. Implement the operational model of agonism after Visser SA et al., J Pharmacol Exp Ther 2003;304(1):88-101, PMID 12490579: 9 GABA-A modulators, in-vivo affinity K_PD 0.41-436 ng/mL and in-vivo efficacy e_PD -0.27 to +0.54, with K_PD(unbound) versus in-vitro affinity r = 0.93 and e_PD versus in-vitro GABA-shift r = 0.95. Note that study is rat EEG, so it is a STRUCTURE to adopt, not values to import. The one human cross-species calibration point is TPA023: occupancy EC50 9 ng/mL human versus 19-30 rat/rhesus/baboon (Atack 2010, PMID 19779131). The only quantitative human benzodiazepine-site EC50s are for subtype-selective non-benzodiazepines (AZD7325 15 nmol/L, AZD6280 440 nmol/L; Jucaite 2017, PMC5263201).",
+      "acceptance": [
+        "Affinity and efficacy separated as distinct fitted quantities",
+        "Visser 2003 adopted as structure with its rat provenance recorded, values not imported",
+        "A test asserts GABA-A effect is not driven by fractional occupancy",
+        "The >97% receptor reserve reproduced as a validation result"
+      ],
+      "deps": [
+        "P16.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P17.1",
+      "phase": "Phase 17: human endpoints",
+      "title": "Rebuild the endpoint library on human readouts",
+      "brief": "Replace the seven rodent endpoints with human physiological and pharmacological readouts in real units. OPIOID: isohypercapnic minute ventilation, fentanyl C50 0.42 +/- 0.07 ng/mL opioid-naive and 1.82 +/- 0.39 chronic (Algera 2021, PMC7983936, open); remifentanil miosis EC50 0.541 ng/mL, gamma 2.38, RSE 7% (Maharaj 2025, PMC11867082), the tightest parameter estimates in the opioid PD literature. BENZODIAZEPINE: midazolam BIS IC50 70 ng/mL gamma 8.6, MOAA/S IC50 80 ng/mL gamma 3.4 (Wiltshire 2012, PMID 22253270, n=81); EEG beta Mandema 1992 PMID 1611810 77 +/- 15 ng/mL; memory Cp50 midazolam 56 +/- 4 ng/mL (Veselis 1997, PMID 9357875), amnestic BELOW sedative concentration. ANTIPSYCHOTIC: prolactin, the closest existing analogue to what this project builds, with a full mechanistic popPK-PD (Petersson 2013, PMC3675734, 15,551 samples, N=1,000; tolerance is positive feedback, NOT precursor-pool depletion, which Friberg 2009 tested and rejected) plus dose-response in ng/mL (Lin 2025, PMC12423237, N=23,128, haloperidol peak +22.20 ng/mL at 8.5 mg/d). WARNING: two incompatible EEG beta units are in circulation, Leiden reporting amplitude in microvolts 11.5-30 Hz and Greenblatt reporting percent of total amplitude 13-30 Hz; their EC50s are not interchangeable and that alone explains the 31-35 versus 77-120 ng/mL spread. Do NOT hard-code a single fentanyl C50: the same group's estimates span 0.42, 2.3 and 7.5 ng/mL and are not the same quantity.",
+      "acceptance": [
+        "Endpoints defined in real units with the measurement convention recorded",
+        "A test rejects mixing the two EEG beta unit conventions",
+        "No single fentanyl C50 hard-coded; the quantity is explicit per estimate",
+        "Prolactin tolerance implemented as positive feedback, not pool depletion"
+      ],
+      "deps": [
+        "P16.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P17.2",
+      "phase": "Phase 17: human endpoints",
+      "title": "Effector-specific ke0",
+      "brief": "ke0 depends on the effector, reproducibly across groups, and must not be shared across readouts: EEG 0.147 per min (t-half 4.7 min), respiratory t-half ke0 16.4-17.2 min, pupil t-half ke0 11.1-12.8 min. Enforce this in the type so a scenario cannot drive two readouts from one equilibration constant. Specifically, do NOT drive an analgesia node from the EEG-derived ke0: Abad-Torrent 2022 (PMID 36207192, n=100) showed predicted effect-site concentration equilibrates in 1.5 min while pressure pain threshold keeps rising for up to 15 min, so the EEG ke0 is roughly 10x too fast for real analgesic onset. Record the explicit gap: no published concentration-response model links fentanyl, remifentanil or alfentanil concentration to RASS, Ramsay or MOAA/S.",
+      "acceptance": [
+        "ke0 is per-effector and sharing one across readouts raises",
+        "A test rejects an analgesia endpoint driven by the EEG ke0",
+        "SEARCHED_AND_EMPTY records the missing opioid sedation-scale model"
+      ],
+      "deps": [
+        "P17.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P17.3",
+      "phase": "Phase 17: human endpoints",
+      "title": "Fit endpoints to human dose-response data",
+      "brief": "Fit the circuit-to-behaviour coupling against human dose-response data, using the Bayesian and identifiability machinery retained from P11.3. This is the task that restores what the pivot cost: after P11.3 every circuit parameter is illustrative again, and this is where a human-sourced one can be earned. Build order by evidence density per unit of effort: prolactin and D2 occupancy (haloperidol) first, then fentanyl ventilation (open FDA code plus open Dryad subject-level data), then midazolam EEG-beta and BIS as the diazepam proxy. Run identifiability BEFORE claiming any fit, exactly as P2.3 did, and label any parameter that is reachable-but-unidentified as such rather than validated.",
+      "acceptance": [
+        "At least one circuit-layer parameter fitted to human data with identifiability shown",
+        "Unidentified parameters labelled reachable-gain-unidentified, not validated",
+        "Fits reported with the same posterior diagnostics P2.2 established"
+      ],
+      "deps": [
+        "P17.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P17.4",
+      "phase": "Phase 17: human endpoints",
+      "title": "Retire the endpoints with no human analogue",
+      "brief": "Retire into legacy/ the endpoints that have NO human analogue at all, and record why as a real result rather than a silent deletion. ANXIETY (elevated plus maze): the EPM is species-specific rodent thigmotaxis and open-space aversion; the nearest human analogue is subjective VAS anxiolysis, which de Visser 2003 (PMID 12534639) places among the LESS sensitive benzodiazepine biomarkers. Human benzodiazepine PD is strong on sedation and psychomotor impairment and weak on anxiolysis, which is a real narrowing of scope for the amygdala/GABA-A system and must be stated. REWARD (conditioned place preference): cannot be run in humans; drug-liking VAS and self-administration exist but with no published concentration-effect models for these three drug classes. ANALGESIA_TAIL_FLICK: a spinal nociceptive withdrawal reflex; the nearest human measure is the RIII reflex, which is EMG-based and not equivalent. The LORR component of SEDATION: the human surrogate is loss of consciousness or OAA-S, a different measurement. Working memory (DNMS to CANTAB) and sensorimotor gating (PPI of acoustic startle, run identically in humans) DO translate and are kept.",
+      "acceptance": [
+        "The four retired endpoints moved to legacy/ with the reason recorded per endpoint",
+        "The amygdala/GABA-A scope narrowing stated in the failure analysis",
+        "Working memory and sensorimotor gating retained and re-sourced to human evidence"
+      ],
+      "deps": [
+        "P17.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P18.1",
+      "phase": "Phase 18: human validation",
+      "title": "Validate the binding layer against human PET occupancy",
+      "brief": "Validate the receptor-binding layer directly against human PET occupancy, which v1 structurally could not do. D2 is the strong case (Kapur 1997, Farde 1992 PMID 1352677, Nordstrom 1992). Record the honest negatives as first-class results: there is NO human PET occupancy-versus-dose study for fentanyl, and the decisive finding is Melichar 2005 (PMID 15347732) showing methadone 18-90 mg/d produces no difference from controls; buprenorphine is measurable only because it is a very-high-affinity partial agonist (Greenwald 2003, PMID 12902992, 41 +/- 8% at 2 mg to 84 +/- 2% at 32 mg). There is no occupancy EC50 for any classical benzodiazepine. Two falsification tests the model must survive: occupancy alone does NOT determine EPS (haloperidol 11 mg/d gives OR 4.7 while risperidone 16 mg/d gives OR 3.3 at the same ~87% occupancy, Siafis 2023 PMC10618092, N=37,193), and central occupancy decays MORE SLOWLY than plasma (Kurose 2020, PMID 32726002, 18 studies), so acute single-dose data needs a direct effect while multi-day offset needs an effect compartment or explicit slow k_off.",
+      "acceptance": [
+        "D2 binding layer validated against human PET occupancy",
+        "Both falsification tests encoded as tests, not prose",
+        "The three named negatives recorded as searched-and-empty results"
+      ],
+      "deps": [
+        "P17.4"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P18.2",
+      "phase": "Phase 18: human validation",
+      "title": "Held-out human drug validation",
+      "brief": "Repeat P8.2 with human data: predict behavioural and physiological profiles for compounds never used in fitting, from binding fingerprint plus dose plus route. heldout.py's BindingRecord already carries a species field with values including 'HUMAN', 'human recombinant' and 'human cloned receptor', so use it as the audit lever. Report per-compound which layers of the dose-to-effect chain are complete and which are missing, in the manner of P8.3, and do not report a compound as validated when a layer is absent.",
+      "acceptance": [
+        "Held-out human compounds predicted with no fitting contamination",
+        "Per-compound chain completeness reported before any accuracy claim",
+        "Species audit run over every held-out binding record"
+      ],
+      "deps": [
+        "P18.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P18.3",
+      "phase": "Phase 18: human validation",
+      "title": "Failure analysis",
+      "brief": "Write the v2 failure analysis in the manner of P8.3, whose discipline held up under an autonomous driver: it found that none of the seven held-out compounds had a complete dose-to-behaviour chain and labelled alprazolam's zero residual reachable-gain-unidentified rather than validated. Carry that standard forward. Cover at minimum: which held-out compounds lack a complete human chain and at which layer; the Kp,uu weakness and which predictions depend on it; the connectome provenance mix behind each prediction, measured versus inferred; and which endpoints lost scope in the pivot.",
+      "acceptance": [
+        "Failure analysis committed with per-compound and per-layer detail",
+        "Connectome provenance mix reported per prediction",
+        "No compound claimed validated where a chain layer is absent"
+      ],
+      "deps": [
+        "P18.2"
+      ],
+      "status": "pending",
+      "attempts": 0
     }
   ]
 }

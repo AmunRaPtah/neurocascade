@@ -1,5 +1,13 @@
 # Roadmap: receptor → circuit → behavior, at whole-brain scale
 
+> **SUPERSEDED as to species, 2026-08-21.** Phases 1-10 below are complete and
+> are retained as the record of the mouse build. The species decision stated in
+> "What 'the entire brain' means here" was reversed: neurocascade is
+> human-primary. See `roadmap-human.md` for the v2 plan (Phases 11-18), the
+> five-layer audit behind the reversal, and the quarantine policy for rodent
+> material. Everything in this document about engine structure, the ordering
+> constraint and the honesty discipline still holds.
+
 ## What "the entire brain" means here, concretely
 
 The v0 to v1 model is three hand-built circuits (4-11 nodes each) carrying three
@@ -23,7 +31,10 @@ cognition. Population-rate (Wilson-Cowan) resolution over an atlas parcellation
 is the level where receptor pharmacology and behavioral endpoints actually meet
 the available data, and the level this codebase already works at.
 
-**Species: mouse.** The Allen Mouse Brain Connectivity Atlas is the only
+**Species: mouse.** (SUPERSEDED, see the note at the top of this file. The
+reasoning below optimized for the circuit layer and paid for it in the other
+four; `roadmap-human.md` records the layer-by-layer audit.) The Allen Mouse
+Brain Connectivity Atlas is the only
 real, quantitative, *directed* whole-brain connectome (tract-tracing, not
 diffusion inference), and the Allen Mouse Brain Atlas provides matched
 region-wise receptor-gene expression from the same ontology. The behavioral
