@@ -46,6 +46,7 @@ from . import endogenous_tone
 from . import endpoints
 from . import decoder
 from . import fingerprint
+from . import human
 
 __all__ = [
     "OneCompartmentPK",
@@ -94,4 +95,5 @@ __all__ = [
     "endpoints",
     "decoder",
     "fingerprint",
+    "human",
 ]

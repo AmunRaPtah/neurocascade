@@ -213,6 +213,7 @@ more single-dose studies.
 |----------------------|---------------------------------------------------|
 | `src/neurocascade/`  | The engine (pk, drug_pk, receptor, circuit, network, behavior, engine, scenarios) |
 | `src/neurocascade/connectome/` | Allen mouse connectome + CCF ontology ingestion (P3.1), and the `CircuitNetwork` builder with its neurotransmitter sign rule (P3.2) |
+| `src/neurocascade/human/` | The human-first track: ENIGMA Toolbox group-average Desikan-Killiany structural connectome ingestion (checksummed manifest, `fetch`/`atlas`/`matrix`), and the `CircuitNetwork` builder with the cited per-region transmitter sign table (`neurotransmitter.py`) |
 | `src/neurocascade/connectome_scenarios.py` | The hand-built scenarios re-wired from the connectome, with per-edge provenance (P3.3) |
 | `src/neurocascade/serotonin.py` | The 5-HT1A and 5-HT2A receptor systems, their literature binding constants and efficacies, and the raphe/cortex scenario they drive (P5.1) |
 | `src/neurocascade/dopamine.py` | The D1 receptor, its literature binding constants and efficacies, and the shared direct+indirect basal-ganglia network the calibrated D2 system also couples into (P5.2) |
@@ -277,6 +278,106 @@ rule cannot reach are left unsigned and reported rather than guessed. Read
 `docs/architecture.md` before using the output: at `weight_scale=1.0` the
 published weights saturate the illustrative sigmoid (218 of 291 nodes), so a
 network built with all defaults is not ready to simulate.
+
+### Human connectome (human-first track)
+
+The mouse layer above is directed tracer data; the human layer ingests the
+ENIGMA Toolbox's group-average Desikan-Killiany (68 cortical + 14
+subcortical) diffusion-MRI tractography matrix, which is UNDIRECTED and
+UNSIGNED. The same offline-fixture / checksummed-manifest discipline applies:
+
+```
+/root/projects/pardalos/.venv/bin/python scripts/fetch_human_connectome.py --list
+/root/projects/pardalos/.venv/bin/python scripts/fetch_human_connectome.py
+```
+
+```python
+from neurocascade import human
+
+conn = human.load_connectome()                 # verified cache
+built = human.build_circuit_network(conn)
+print(built.report.summary())
+```
+
+Because dMRI has no sign and no direction, `human/neurotransmitter.py`
+assigns the sign per source region from cited transmitter identity:
+glutamatergic cortex / hippocampus / thalamus, GABAergic accumbens / caudate
+/ putamen / pallidum, and the coarse whole-amygdala region left MIXED and
+unsigned. One symmetric weight is entered twice and signed once per
+direction; unsigned source columns are excluded by default and reported
+(`unsigned_sources="raise"` refuses instead). The node parameters remain the
+same ILLUSTRATIVE Wilson-Cowan defaults as the mouse builder, so a network
+built with all defaults is not ready to simulate either - `stability`
+applies unchanged.
+
+The same package ingests the matched human receptor-gene expression layer:
+the Allen Human Brain Atlas (AHBA) microarray transcriptome, processed by
+the `abagen` workflow onto the same Desikan-Killiany parcellation
+(`human/expression.py`). The eleven genes this model wants that the release
+does not carry (SERT, NET, delta-opioid, A2A and others) are recorded as
+searched-and-empty rather than substituted:
+
+```
+/root/projects/pardalos/.venv/bin/python scripts/fetch_human_expression.py
+```
+
+```python
+from neurocascade import human
+
+expr = human.load_expression()
+assert expr.region_labels == human.load_connectome().labels
+rho = human.relative_density(expr, "DRD2", normalization="max")
+```
+
+The human whole-brain baseline-stability check (the human analogue of the
+mouse P3.4 run) is recorded in `results/human_whole_brain_stability.txt`,
+produced by `scripts/check_human_whole_brain_stability.py`: the published
+weights have kappa = 236.9 and saturate at `weight_scale = 1.0`; after
+`stability.stabilize` (rho = 0.9) the 82-node network is converged, unique,
+locally stable, globally certified and non-saturating. See "The human
+layer" in `docs/architecture.md`.
+
+The receptor-maps join (`human/maps.py`) turns one gene's AHBA row into the
+`{node: gain * rho[region]}` coupling dict the engine consumes, over the
+whole 82-region brain:
+
+```python
+coupling = human.whole_brain_coupling(
+    expr, "DRD2", mechanism_gains=-3.0, normalization="max",
+    missing="exclude",
+)
+print(coupling.summary())
+```
+
+The two AHBA-unmatched regions (`R_frontalpole`, `R_temporalpole`) are
+refused by default and dropped under `missing="exclude"` - never zeroed.
+`scripts/report_human_receptor_maps.py` writes
+`results/human_receptor_maps.txt`: every stable gene's peak and top-10
+regions over the full 82-region file, plus the four anatomy checks
+(DRD1/DRD2 striatum, HTR2A cortex, GABRA1 cortex > caudate, OPRM1
+accumbens/striatal/thalamic) re-run on the full data - all pass.
+
+The last join (`human/scenario.py`) composes the stabilized human network,
+the human expression coupling and an existing receptor system into a full
+`engine.Simulation`:
+
+```python
+scenario = human.whole_brain_simulation(
+    expr, "OPRM1",
+    pk_models=scenarios.mu_opioid_pk_models_calibrated(),
+    receptor_site=scenarios.mu_opioid_receptor_site_calibrated(),
+    mechanism_gain=scenarios.MU_OPIOID_MECHANISM_GAIN,
+)
+print(scenario.report.summary())
+```
+
+`scripts/check_human_whole_brain_response.py` writes the first committed
+end-to-end run to `results/human_whole_brain_response.txt`: fentanyl
+(148.6 nM overdose exposure) through the human brain suppresses every
+OPRM1-bearing node, with the thalamus and accumbens the largest responders.
+The pattern is human-data-driven; the magnitude is illustrative, because no
+human `mechanism_gain` has ever been fitted, and the report says so rather
+than hiding it.
 
 ### Baseline stability at scale
 

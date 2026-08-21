@@ -30,7 +30,11 @@ region-wise receptor-gene expression from the same ontology. The behavioral
 pharmacology this model must fit against (locomotor activity, elevated plus
 maze, tail-flick, CPP) is rodent as well. Human is a later, separate track;
 the human connectome is undirected and diffusion-derived, which would weaken
-the circuit layer, not strengthen it.
+the circuit layer, not strengthen it. That track has now begun on the
+`human-connectome-layer` branch (`src/neurocascade/human/`): the ENIGMA
+Toolbox Desikan-Killiany structural matrix is ingested and signed per source
+region from cited transmitter identity (`human/neurotransmitter.py`), with
+the undirected/unsigned caveat stated there rather than hidden.
 
 ## The ordering constraint that drives everything
 
