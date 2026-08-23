@@ -842,11 +842,13 @@
       "deps": [
         "P11.1"
       ],
-      "status": "running",
+      "status": "done",
       "attempts": 2,
       "started_at": "2026-08-23T21:32:17.749095+00:00",
       "baseline": "f94a3f8489379cae2252b097e6f4b295cc243941",
-      "result": "interrupted on attempt 1, partial work parked on interrupted/P11.2-attempt1"
+      "result": "complete",
+      "finished_at": "2026-08-23T23:11:07.961470+00:00",
+      "commits": "1"
     },
     {
       "id": "P11.3",
