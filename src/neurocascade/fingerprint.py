@@ -188,6 +188,7 @@ from .receptor import (
     ReceptorSite,
     ligand_from_ki,
 )
+from .species_gate import check_binding_target, check_pk_model
 from .transport import MonoamineTransporter, TransporterLigand
 
 
@@ -1385,11 +1386,20 @@ def receptor_systems_for(fingerprint, pk_model, targets=None,
 
     `pk_model` is the compound's PK model, one object shared by every target,
     because a compound has one disposition and several receptors.
+
+    Every target it wires passes the P11.2 species gate first
+    (`species_gate.check_binding_target`): a site whose constants carry
+    known non-human provenance raises `UnsourcedParameterError`, as does a
+    fingerprint row whose own `species` says non-human. This is the one
+    choke-point through which `predict()` and any whole-brain composition
+    build their systems, which is why the gate lives here rather than at
+    each entry point.
     """
     ligands = ligand_set(fingerprint, targets=targets)
     systems = {}
     for target, ligand in ligands.ligands.items():
         spec = TARGETS[target]
+        check_binding_target(target, fingerprint.entries.get(target))
         base = spec.system()
         if spec.is_transporter:
             systems[target] = add_to_transporter_system(
@@ -1626,12 +1636,24 @@ def predict(fingerprint, dose, route, species, body_weight_kg, targets=None,
     on_duplicate : "error" or "replace"
         Passed to `add_to_system`; `"replace"` is what reproduces a
         hand-built ligand from its own published Ki.
+
+    The P11.2 species gate runs over everything that would drive the ODE:
+    the PK model (looked up or caller-supplied) and any partition attached
+    to it raise `UnsourcedParameterError` when their provenance species is
+    not human, and every target's binding layer raises through
+    `receptor_systems_for`. A compound whose fingerprint rows were measured
+    in a named non-human species refuses for the same reason; rows that
+    state no species pass but stay visible in the entries. This is the
+    enforced half of the human-primary pivot: until P14/P15 source human PK,
+    partitions and binding constants, most lookups and several targets will
+    refuse here, and that is the gate reporting the tree's real coverage.
     """
     supplied_pk_model = pk_model
     if pk_model is None:
         pk_model = _drug_pk.pk_model_for(
             fingerprint.compound, species, route, body_weight_kg=body_weight_kg
         )
+    check_pk_model(pk_model)
     if supplied_pk_model is None:
         partition_status = _drug_pk.brain_partition_status(
             fingerprint.compound, species

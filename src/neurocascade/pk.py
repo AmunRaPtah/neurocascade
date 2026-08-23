@@ -261,14 +261,23 @@ class OneCompartmentPK(_BrainPartitionMixin):
     `DosedOneCompartmentPK(route="IV", ...)` is exactly this equation with
     the initial concentration derived from an administered dose instead of
     stated directly (see `test_pk.py`'s reduction test).
+
+    `species` (P11.2) is the provenance species of the KE the caller sourced,
+    when there is one -- a human clinical half-life, say. It exists so that
+    the species gate can read a claim off this model as off the dosed models;
+    the default None means "no claim", which is the honest state of every
+    illustrative ke and every structural use, and it is what every pre-P11.2
+    caller gets. A partition attached here is now checked against this
+    species exactly as `_DosedPKBase` checks its own.
     """
 
     n_states = 1
     concentration_unit = "unspecified"  # whatever unit the caller's C0 is in
 
-    def __init__(self, ke, brain_partition=None):
+    def __init__(self, ke, brain_partition=None, species=None):
         self.ke = ke
-        self._attach_brain_partition(brain_partition, species=None)
+        self.species = None if species is None else str(species)
+        self._attach_brain_partition(brain_partition, species=self.species)
 
     def rhs(self, C):
         return -self.ke * C

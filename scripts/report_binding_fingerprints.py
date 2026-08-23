@@ -129,49 +129,85 @@ def round_trip_table():
 
 
 def worked_prediction():
-    """Diazepam, 2 mg/kg IP in the rat: the dose P2.2's fit is against."""
-    diazepam = fp.BindingFingerprint.from_pdsp_rows(
+    """Fentanyl-affinity analogue at MOR: the P8.1 worked example, re-run on
+    the human side of the P11.2 species gate.
+
+    The pre-P11.2 example was diazepam 2 mg/kg IP in the rat through the
+    rat PK bridge onto the benzodiazepine site. That call is exactly what
+    the species gate now refuses -- twice over, since both its PK set and
+    the site's Kd are rodent-sourced -- so the worked example runs on MOR
+    (human Ki) with a caller-supplied species-agnostic bolus model, and the
+    refusal itself is printed below it.
+    """
+    from neurocascade.pk import OneCompartmentPK
+    from neurocascade import species_gate as sg
+
+    compound = fp.BindingFingerprint.from_pdsp_rows(
         [fp.PDSPRow(
-            receptor="BZP Rat Brain Site", test_ligand="diazepam", ki_nM=3.6,
-            species="RAT", source="CEREBRAL CORTEX",
-            reference="Mohler & Okada, Life Sci 1977;20:2101",
+            receptor="MU", test_ligand="novelmuagonist", ki_nM=1.346,
+            source="recombinant human MOR assay standing in for [Volpe2011]",
+            reference="Ki value as scenarios.mu_opioid_ligands_calibrated",
         )],
-        efficacy={"GABA_A_BZD": (1.0, "potentiation strength; see scenarios.py")},
+        efficacy={"MOR": 1.0},
     )
     prediction = fp.predict(
-        diazepam, dose=2.0, route="IP", species="rat", body_weight_kg=0.25,
-        on_duplicate="replace", t_span=(0.0, 120.0), n_times=241,
+        compound, dose=148.6, route="IV", species="human", body_weight_kg=70.0,
+        pk_model=OneCompartmentPK(ke=0.05332), t_span=(0.0, 120.0),
+        n_times=241,
     )
-    at_site = prediction["GABA_A_BZD"]
-    status, explanation = prediction.brain_partition_status
-    return [
-        "A worked prediction: diazepam 2 mg/kg IP, rat",
+    at_site = prediction["MOR"]
+    lines = [
+        "A worked prediction: fentanyl-affinity ligand at MOR, IV bolus, human",
         "=" * 78,
         "",
-        "Fingerprint: one row, Ki 3.6 nM at the benzodiazepine site",
-        "             (Mohler & Okada, Life Sci 1977;20:2101), efficacy 1.0",
-        "             supplied separately because no binding database has one.",
+        "Fingerprint: one row, Ki 1.346 nM at mu ([Volpe2011]'s recombinant-",
+        "             human-MOR value), efficacy 1.0 supplied separately.",
         "PK:          %s" % prediction.pk_model,
-        "Partition:   %s" % status,
-        "             %s" % explanation[:200],
+        "Partition:   %s" % prediction.brain_partition_status[0],
         "Compartment: %s" % at_site.compartment,
         "",
-        "  peak unbound brain concentration  %.2f nM"
+        "  peak receptor concentration      %.2f nM"
         % at_site.peak_receptor_concentration_nM,
-        "  peak benzodiazepine-site occupancy %.3f at %.0f min"
+        "  peak mu-site occupancy           %.3f at %.0f min"
         % (at_site.peak_occupancy, at_site.time_of_peak_occupancy_min),
-        "  site activation at peak            %.3f"
+        "  site activation at peak          %.3f"
         % float(at_site.activation.max()),
         "",
-        "This is where P8.1 stops. Turning that activation into an anxiety",
-        "score needs the potentiation gain P2.2 fitted and a region-wise",
-        "density, which is P8.2's composition and not a binding fingerprint's",
-        "to supply.",
+        "This is where P8.1 stops. Turning that activation into a behavioural",
+        "score needs a fitted mechanism gain and a region-wise density, which",
+        "is P8.2's composition and not a binding fingerprint's to supply.",
+        "",
+        "And the call this replaced, which the P11.2 species gate now refuses:",
         "",
     ]
+    try:
+        diazepam = fp.BindingFingerprint.from_pdsp_rows(
+            [fp.PDSPRow(
+                receptor="BZP Rat Brain Site", test_ligand="diazepam",
+                ki_nM=3.6, species="RAT", source="CEREBRAL CORTEX",
+                reference="Mohler & Okada, Life Sci 1977;20:2101",
+            )],
+            efficacy={"GABA_A_BZD":
+                      (1.0, "potentiation strength; see scenarios.py")},
+        )
+        fp.predict(diazepam, dose=2.0, route="IP", species="rat",
+                   body_weight_kg=0.25, on_duplicate="replace")
+    except sg.UnsourcedParameterError as error:
+        lines += ["  " + line for line in str(error).splitlines()]
+    lines += [
+        "",
+        "The rodent parameters still exist under neurocascade.legacy and stay",
+        "tested; what changed is that they cannot drive this API. See",
+        "docs/roadmap-human.md's quarantine policy and",
+        "docs/architecture.md's P11.2 section.",
+        "",
+    ]
+    return lines
 
 
 def main():
+    from neurocascade import species_gate
+
     print("Binding-fingerprint input API (P8.1)")
     print("=" * 78)
     print()
@@ -179,6 +215,7 @@ def main():
     print()
     print(fp.target_report())
     print()
+    print(species_gate.anchors_report())
     for line in round_trip_table():
         print(line)
     for line in worked_prediction():

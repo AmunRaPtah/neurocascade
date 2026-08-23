@@ -883,7 +883,14 @@ def mu_opioid_pk_models_calibrated():
     # large/long-acting fentanyl exposure does (renarcotization risk), a
     # phenomenon that requires fentanyl's slow terminal elimination phase
     # to manifest, which this one-compartment collapse cannot represent.
-    return [OneCompartmentPK(ke=0.05332), OneCompartmentPK(ke=0.01083)]
+    #
+    # Both ke values are HUMAN clinical figures ([FDA-label],
+    # [Naloxone-PK]), and each model says so via species= so the P11.2
+    # species gate reads the claim off the object instead of this comment.
+    return [
+        OneCompartmentPK(ke=0.05332, species="human"),
+        OneCompartmentPK(ke=0.01083, species="human"),
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -1043,7 +1050,13 @@ def gaba_a_pk_models_calibrated():
     # single-species PK model cannot represent, exactly analogous to the
     # mu-opioid section's renarcotization gap (fentanyl's slow terminal
     # elimination phase vs. this codebase's one-compartment collapse).
-    return [OneCompartmentPK(ke=0.011552), OneCompartmentPK(ke=0.012836)]
+    # Both ke values are HUMAN clinical figures ([Mandelli1978],
+    # [Romazicon-label]); species= records that for the P11.2 species gate,
+    # exactly as mu_opioid_pk_models_calibrated does above.
+    return [
+        OneCompartmentPK(ke=0.011552, species="human"),
+        OneCompartmentPK(ke=0.012836, species="human"),
+    ]
 
 
 #: Posterior mean of `gaba_a_connection_modulation_gain` (P2.2), the first
@@ -1339,4 +1352,11 @@ def d2_pk_models_calibrated():
     # clears far faster than haloperidol, t1/2 ~8.3 s here vs ~20 h for
     # haloperidol) at a timescale this simulation can still resolve. Do not
     # cite 5.0 as a measured dopamine clearance rate.
-    return [OneCompartmentPK(ke=5.0), OneCompartmentPK(ke=0.00057762)]
+    #
+    # The proxy carries NO species (it is not a measurement anywhere); the
+    # haloperidol model does ([Kudo1999], human clinical review), and says so
+    # via species= for the P11.2 species gate.
+    return [
+        OneCompartmentPK(ke=5.0),
+        OneCompartmentPK(ke=0.00057762, species="human"),
+    ]

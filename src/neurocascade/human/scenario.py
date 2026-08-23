@@ -46,6 +46,7 @@ together in the report rather than being allowed to blur.
 """
 
 from .. import stability
+from .. import species_gate
 from ..engine import Simulation
 from . import build as _build
 from . import maps as _maps
@@ -193,6 +194,18 @@ def whole_brain_simulation(
     two AHBA-unmatched regions are dropped from the coupling by default
     (`missing="exclude"`) and recorded in the report, following the mouse
     whole-brain composer's precedent of excluding rather than refusing.
+
+    This builder is one of the two places the P11.2 species gate is enforced
+    (`fingerprint.predict` is the other). Before anything is wired, every PK
+    model passes `species_gate.check_pk_model` and the receptor site passes
+    `species_gate.check_receptor_site`, which looks the site up by name in
+    the binding-provenance registry: a site whose constants were measured in
+    a non-human species raises `UnsourcedParameterError` naming the species,
+    and a site with no registered provenance at all refuses rather than
+    passing unchecked. Today that means the mu-opioid calibrated site runs
+    (human Ki; its dissociation rates' preparation is recorded as
+    species-unstated, not asserted human) while the benzodiazepine site --
+    rat cortex Kd -- refuses, which is the tree's real state made loud.
     """
     from .matrix import load_connectome
 
@@ -215,6 +228,12 @@ def whole_brain_simulation(
             "need one PK model per ligand on the receptor site: got %d PK "
             "models for %d ligands" % (len(pk_models), receptor_site.n)
         )
+
+    # The P11.2 species gate, before anything is wired: no rodent parameter
+    # crosses into a human whole-brain build.
+    for pk_model in pk_models:
+        species_gate.check_pk_model(pk_model)
+    species_gate.check_receptor_site(receptor_site)
 
     simulation = Simulation(
         pk_models=list(pk_models),

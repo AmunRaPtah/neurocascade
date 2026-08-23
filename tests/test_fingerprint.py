@@ -23,12 +23,21 @@ from neurocascade import (
     opioid,
     scenarios,
     serotonin,
+    species_gate as sg,
 )
 from neurocascade.legacy import (
     drug_pk,
 )
+from neurocascade.brain_partition import BrainPartition
 from neurocascade.engine import Simulation
+from neurocascade.pk import OneCompartmentPK
 from neurocascade.receptor import Ligand, ReceptorSite, ligand_from_ki
+
+
+#: The targets whose default binding provenance is fully human as of P11.2's
+#: audit (species_gate.BINDING_RECORDS). Everything else refuses at
+#: predict()/receptor_systems_for until P15 re-sources it.
+HUMAN_TARGETS = {"D2", "H1", "KOR", "M1", "M2", "MOR", "beta"}
 
 
 # ---------------------------------------------------------------------------
@@ -469,6 +478,10 @@ def test_the_channel_pool_targets_are_the_sites_that_actually_have_one():
 
 
 def test_a_channel_ligand_at_a_nicotinic_site_is_accepted_and_labelled():
+    """The fingerprint side accepts a channel-pool row and labels its kon;
+    the prediction side then refuses the SITE it would join, because
+    alpha4beta2's own constants are rat-sourced ([Fenster1997]). Both facts
+    are asserted: the gate blocks provenance, not plumbing."""
     built = fp.BindingFingerprint.from_pdsp_rows(
         [_row("alpha4beta2", 3000.0)], efficacy={"alpha4beta2": 0.0},
         pools={"alpha4beta2": "channel"},
@@ -477,11 +490,18 @@ def test_a_channel_ligand_at_a_nicotinic_site_is_accepted_and_labelled():
     assert ligands.provenance["alpha4beta2"] == (
         acetylcholine.ILLUSTRATIVE_KON, "illustrative"
     )
-    system = fp.receptor_systems_for(built, _bolus_pk())["alpha4beta2"]
+    system = fp.add_to_system(
+        acetylcholine.receptor_system_alpha4beta2(),
+        ligands["alpha4beta2"], _bolus_pk(), pool="channel",
+    )
     site = system.receptor_site
     base = acetylcholine.receptor_system_alpha4beta2().receptor_site
     assert site.n_blockers == base.n_blockers + 1
     assert site.n_orthosteric == base.n_orthosteric
+
+    with pytest.raises(sg.UnsourcedParameterError) as caught:
+        fp.receptor_systems_for(built, _bolus_pk())
+    assert "rat" in str(caught.value)
 
 
 # ---------------------------------------------------------------------------
@@ -560,36 +580,40 @@ def test_a_desensitized_ligand_still_counts_as_occupying_the_pool():
     """`DesensitizingReceptorSite` holds a ligand in TWO states and its own
     docstring says the desensitized one "occupies the pool (so it still
     competes)". Reporting only the conducting state would understate what
-    fraction of the receptor the drug holds, by up to `1 + k_des/k_rec`."""
-    entry = fp.FingerprintEntry(
-        target="alpha4beta2", ki_nM=20.0, efficacy=1.0, k_des=0.3, k_rec=0.02
+    fraction of the receptor the drug holds, by up to `1 + k_des/k_rec`.
+
+    Run through `add_to_system` + `_integrate_block` rather than `predict`:
+    the alpha4beta2 site's own constants are rat-sourced, so P11.2's gate
+    refuses the prediction path here -- which governs provenance, not this
+    state-reading arithmetic."""
+    base = acetylcholine.receptor_system_alpha4beta2()
+    ligand = ligand_from_ki(
+        "diazepam", ki_nM=20.0, kon=acetylcholine.ILLUSTRATIVE_KON,
+        efficacy=1.0,
     )
-    built = fp.BindingFingerprint(
-        compound="diazepam", entries={"alpha4beta2": entry}
-    )
-    prediction = fp.predict(
-        built, dose=5.0, route="IP", species="rat", body_weight_kg=0.25,
-        t_span=(0.0, 60.0), n_times=61,
-    )
-    at_site = prediction["alpha4beta2"]
-    system = at_site.system
+    system = fp.add_to_system(base, ligand, _bolus_pk(), k_des=0.3, k_rec=0.02)
     site = system.receptor_site
     index = [l.name for l in site.ligands].index("diazepam")
+    t_eval = np.linspace(0.0, 60.0, 61)
 
-    # The reported occupancy is bound + desensitized, and the conducting
-    # state alone is much smaller.
-    states = fp._integrate_block(
+    result = fp._integrate_block(
         system.pk_models,
         [5.0 if l.name == "diazepam" else 0.0 for l in site.ligands],
         site.n_states, site.occupancy_rhs, np.zeros(site.n_states),
-        (0.0, 60.0), np.linspace(0.0, 60.0, 61), "LSODA",
-    )["block"]
+        (0.0, 60.0), t_eval, "LSODA",
+    )
+    states = result["block"]
+    occupancy = fp.ligand_occupancy(site, states, index)
+    activation = np.array(
+        [site.activation(states[:, k]) for k in range(states.shape[1])]
+    )
+
     bound = states[index]
     desensitized = states[site.n_orthosteric + index]
-    assert np.allclose(at_site.occupancy, bound + desensitized)
-    assert at_site.peak_occupancy > 1.5 * float(bound.max())
+    assert np.allclose(occupancy, bound + desensitized)
+    assert occupancy.max() > 1.5 * float(bound.max())
     # Activation, by contrast, counts only the conducting fraction.
-    assert float(at_site.activation.max()) <= float(bound.max()) + 1e-12
+    assert float(activation.max()) <= float(bound.max()) + 1e-12
 
 
 def test_a_blockers_occupancy_is_read_from_the_right_state():
@@ -655,17 +679,49 @@ def test_a_transporter_system_gains_a_drug_and_keeps_its_kinetics():
     assert widened.transporter.n == base.transporter.n + 1
 
 
-def test_receptor_systems_for_spans_every_target():
-    rows = [_row("D2", 1.4), _row("H1", 5.0), _row("SERT", 300.0)]
+def test_receptor_systems_for_spans_every_human_provenanced_target():
+    """P11.2: the targets a fingerprint system set may span are exactly the
+    ones whose default binding provenance is human. D2 and H1 span; SERT --
+    mouse uptake kinetics and a rat basal concentration -- refuses, naming
+    the species."""
+    rows = [_row("D2", 1.4), _row("H1", 5.0)]
     built = fp.BindingFingerprint.from_pdsp_rows(
-        rows, efficacy={"D2": 0.0, "H1": 0.0, "SERT": 0.0}
+        rows, efficacy={"D2": 0.0, "H1": 0.0}
     )
     systems = fp.receptor_systems_for(built, _bolus_pk())
-    assert set(systems) == {"D2", "H1", "SERT"}
+    assert set(systems) == {"D2", "H1"}
     assert "testcompound" in [l.name for l in systems["D2"].receptor_site.ligands]
-    assert "testcompound" in [l.name for l in systems["SERT"].transporter.ligands]
     # Every one of them is something `engine.Simulation` will accept.
     assert systems["D2"].coupling == dopamine.receptor_system_d2().coupling
+
+    sert = fp.BindingFingerprint.from_pdsp_rows(
+        [_row("SERT", 300.0)], efficacy={"SERT": 0.0}
+    )
+    with pytest.raises(sg.UnsourcedParameterError) as caught:
+        fp.receptor_systems_for(sert, _bolus_pk())
+    message = str(caught.value)
+    assert "mouse" in message
+    assert "rat" in message
+    assert "SERT" in message
+
+
+def test_every_targets_entry_has_a_binding_record_and_it_matches_the_site():
+    """The registry the gate reads is checked against what each target's own
+    builder actually builds: no unregistered target, no ligand at a site its
+    record does not name, no recorded ligand that is not at the site."""
+    assert set(fp.TARGETS) == set(sg.BINDING_RECORDS)
+    for name, spec in fp.TARGETS.items():
+        record = sg.BINDING_RECORDS[name]
+        if spec.is_transporter:
+            transporter = spec.system().transporter
+            site_ligands = {lig.name for lig in transporter.ligands}
+            site_name = transporter.name
+        else:
+            site = spec.system().receptor_site
+            site_ligands = {lig.name for lig in site.ligands}
+            site_name = site.name
+        assert record.site_name == site_name, name
+        assert site_ligands == set(record.ligands), name
 
 
 # ---------------------------------------------------------------------------
@@ -911,48 +967,104 @@ def test_the_circuit_free_integration_tracks_the_engines():
 
 
 def test_predict_takes_a_fingerprint_a_dose_a_route_and_a_species():
-    diazepam, _ = _gaba_a_fingerprints()
-    prediction = fp.predict(
-        diazepam, dose=2.0, route="IP", species="rat", body_weight_kg=0.25,
-        on_duplicate="replace", t_span=(0.0, 60.0), n_times=61,
+    """The API contract, run on a target whose binding provenance survives
+    the P11.2 gate (MOR: human Ki) with a caller-supplied species-agnostic
+    PK model, because no human parameter set is sourced yet."""
+    morphine_site = fp.BindingFingerprint.from_pdsp_rows(
+        [_row("MOR", 1.346, ligand="novelmuagonist", species=None)],
+        efficacy={"MOR": 1.0},
     )
-    assert prediction.compound == "diazepam"
-    assert prediction.route == "IP"
-    assert prediction.brain_partition_status[0] == "receptor-drivable"
+    prediction = fp.predict(
+        morphine_site, dose=148.6, route="IV", species="human",
+        body_weight_kg=70.0, pk_model=_bolus_pk(),
+        t_span=(0.0, 60.0), n_times=61,
+    )
+    assert prediction.compound == "novelmuagonist"
+    assert prediction.route == "IV"
 
-    at_site = prediction["GABA_A_BZD"]
-    assert at_site.compartment == "unbound brain"
+    at_site = prediction["MOR"]
+    assert at_site.compartment == "total plasma (no brain partition attached)"
     assert 0.0 < at_site.peak_occupancy < 1.0
     assert at_site.occupancy[0] == pytest.approx(0.0)
     assert at_site.time_of_peak_occupancy_min > 0.0
-    # The activation is the site's, so with only diazepam dosed it equals the
-    # diazepam occupancy times its efficacy of 1.0.
+    # The activation is the site's, so with only the test ligand dosed it
+    # equals its own occupancy times its efficacy of 1.0.
     assert np.allclose(at_site.activation, at_site.occupancy)
 
 
-def test_predict_reproduces_the_hand_built_dose_response_at_the_same_dose():
-    """The round trip carried all the way through `predict`: the fingerprint
-    path and the hand-built path, given the same dose, route and species,
-    reach the same occupancy."""
+def test_predict_refuses_the_rodent_diazepam_prediction_it_used_to_run():
+    """The P11.2 gate's flagship refusal: the exact call P8.1 shipped with --
+    diazepam through the rat IP bridge onto the benzodiazepine site -- now
+    raises twice over, naming the species both times. The rodent parameters
+    still exist under legacy/; what changed is that they cannot drive this
+    API any more (docs/roadmap-human.md, quarantine policy)."""
+    diazepam, _ = _gaba_a_fingerprints()
+
+    # Registry lookup: the fetched rat PK set refuses.
+    with pytest.raises(sg.UnsourcedParameterError) as caught:
+        fp.predict(diazepam, dose=2.0, route="IP", species="rat",
+                   body_weight_kg=0.25, on_duplicate="replace")
+    message = str(caught.value)
+    assert "rat" in message
+    assert "PK layer" in message
+
+    # Caller-supplied rat model: refused at the same place -- the model
+    # itself declares species='rat'.
+    supplied = drug_pk.diazepam_rat_ip_pk(body_weight_kg=0.25)
+    with pytest.raises(sg.UnsourcedParameterError):
+        fp.predict(diazepam, dose=2.0, route="IP", species="human",
+                   body_weight_kg=70.0, pk_model=supplied)
+
+    # A species-agnostic bolus model gets past the PK layer and hits the
+    # binding gate instead: the benzodiazepine-site Kd is rat cortex.
+    with pytest.raises(sg.UnsourcedParameterError) as caught:
+        fp.predict(diazepam, dose=2.0, route="IP", species="human",
+                   body_weight_kg=70.0, pk_model=_bolus_pk(),
+                   on_duplicate="replace")
+    message = str(caught.value)
+    assert "rat" in message
+    assert "diazepam" in message
+    assert "benzodiazepine_site" in message
+
+
+def test_the_round_trip_still_reproduces_the_hand_built_dose_response():
+    """The round trip's numeric core: the fingerprint path and the
+    hand-built path, given the same dose, reach the same occupancy.
+
+    Carried through `add_to_system` + `_integrate_block` rather than
+    `predict`: the benzodiazepine site's rat-cortex Kd refuses the
+    prediction API now (see the flagship refusal above), and this test is
+    about the wiring arithmetic, which the gate does not govern. The dose
+    is in nM (a bolus concentration) for both paths, so no PK parameter set
+    is involved at all.
+    """
     diazepam, _ = _gaba_a_fingerprints()
     t_eval = np.linspace(0.0, 60.0, 61)
 
-    prediction = fp.predict(
-        diazepam, dose=2.0, route="IP", species="rat", body_weight_kg=0.25,
-        pk_model=drug_pk.diazepam_rat_ip_pk(body_weight_kg=0.25),
-        on_duplicate="replace", t_span=(0.0, 60.0), n_times=61,
+    fingerprint_ligand = fp.ligand_set(diazepam)["GABA_A_BZD"]
+    widened = fp.add_to_system(
+        scenarios.gaba_a_receptor_system_calibrated(),
+        Ligand(name=fingerprint_ligand.name, kon=fingerprint_ligand.kon,
+               koff=fingerprint_ligand.koff,
+               efficacy=fingerprint_ligand.efficacy),
+        _bolus_pk(), on_duplicate="replace",
+    )
+    site = widened.receptor_site
+    fingerprint_path = fp._integrate_block(
+        [_bolus_pk() if lig.name == "diazepam" else model
+         for lig, model in zip(site.ligands, widened.pk_models)],
+        [100.0, 0.0], site.n_states, site.occupancy_rhs,
+        np.zeros(site.n_states), (0.0, 60.0), t_eval, "LSODA",
     )
 
     hand_built = scenarios.gaba_a_receptor_system_calibrated()
-    site = hand_built.receptor_site
+    hand_site = hand_built.receptor_site
     reference = fp._integrate_block(
-        [drug_pk.diazepam_rat_ip_pk(body_weight_kg=0.25), hand_built.pk_models[1]],
-        [2.0, 0.0], site.n_states, site.occupancy_rhs,
-        np.zeros(site.n_states), (0.0, 60.0), t_eval, "LSODA",
+        [_bolus_pk(), hand_built.pk_models[1]],
+        [100.0, 0.0], hand_site.n_states, hand_site.occupancy_rhs,
+        np.zeros(hand_site.n_states), (0.0, 60.0), t_eval, "LSODA",
     )
-    assert np.allclose(
-        prediction["GABA_A_BZD"].occupancy, reference["block"][0], atol=1e-9
-    )
+    assert np.allclose(fingerprint_path["block"], reference["block"], atol=1e-9)
 
 
 def test_predict_refuses_a_compound_with_no_sourced_pharmacokinetics():
@@ -996,60 +1108,134 @@ def test_the_reported_partition_status_describes_the_model_that_was_used():
     this run. For the arbitrary compound this API exists to accept the two
     always disagree, because the lookup is 'absent' for every unmodelled name
     while the supplied model may carry a partition. The run wins.
-    """
+
+    The supplied model carries a HUMAN partition built inline -- no sourced
+    one exists yet (P14.3), so both its Kp,uu and its fu are ILLUSTRATIVE
+    TEST FIXTURE VALUES marked as such in their source field, present to
+    exercise the plumbing and cited as literature nowhere."""
+    fixture_partition = BrainPartition(
+        drug="novelcompound",
+        species="human",
+        basis="Kp,uu",
+        ratio=1.0,
+        fu_plasma=1.0,
+        source="ILLUSTRATIVE test fixture, not a literature value",
+    )
+    model = OneCompartmentPK(
+        ke=0.05, brain_partition=fixture_partition, species="human"
+    )
     built = fp.BindingFingerprint.from_pdsp_rows(
         [_row("MOR", 20.0, ligand="novelcompound")], efficacy={"MOR": 1.0}
     )
     prediction = fp.predict(
-        built, dose=5.0, route="IP", species="rat", body_weight_kg=0.25,
-        pk_model=drug_pk.diazepam_rat_ip_pk(body_weight_kg=0.25),
+        built, dose=5.0, route="IP", species="human", body_weight_kg=70.0,
+        pk_model=model,
         t_span=(0.0, 30.0), n_times=31,
     )
     # The lookup for this compound says "absent", and would have been a lie.
-    assert drug_pk.brain_partition_status("novelcompound", "rat")[0] == "absent"
+    assert drug_pk.brain_partition_status("novelcompound", "human")[0] == "absent"
     assert prediction.brain_partition_status[0] == "receptor-drivable"
     assert prediction["MOR"].compartment == "unbound brain"
 
 
-def test_predict_at_a_transporter_reports_the_transmitter_not_an_occupancy():
-    from neurocascade.pk import OneCompartmentPK
+def test_a_rat_brain_partition_cannot_drive_the_human_prediction_path():
+    """The partition layer's face of the gate: a rodent-sourced partition
+    attached to the prediction path refuses with the species named.
+    Reported and compared through the anchors instead -- that is what
+    morphine's rat/human Kp,uu pair is FOR. The morphine Kp,uu below is the
+    real Tunblad 2003 value; its fu_plasma of 1.0 is an ILLUSTRATIVE FIXTURE
+    VALUE present only because a Kp,uu cannot be applied to total plasma
+    without one."""
+    rat_morphine_partition = BrainPartition(
+        drug="morphine",
+        species="rat",
+        basis="Kp,uu",
+        ratio=0.29,
+        fu_plasma=1.0,
+        source="[Tunblad2003] PMID 12739770; fu_plasma=1.0 is an "
+               "ILLUSTRATIVE test-fixture value",
+    )
+    with pytest.raises(sg.UnsourcedParameterError) as caught:
+        sg.check_brain_partition(rat_morphine_partition)
+    message = str(caught.value)
+    assert "rat" in message
+    assert "partition layer" in message
 
+    # The SAME parameter, reported instead of driving: the gate's reporting
+    # mode resolves it to its registered cross-species anchor.
+    anchor = sg.check_brain_partition(rat_morphine_partition,
+                                      allow_anchors=True)
+    assert anchor.key == "morphine/kp-uu"
+    assert not anchor.may_drive_predictions
+    assert anchor.human.value == pytest.approx(0.64)
+
+
+def test_a_transporter_prediction_refuses_until_its_constants_are_human():
+    """P11.2 at the transporter layer: SERT's uptake kinetics are mouse,
+    its basal concentration is mouse and its release constants are rat, so
+    a transporter prediction refuses naming both rodent species -- even
+    with a caller-supplied species-agnostic PK model."""
     built = fp.BindingFingerprint.from_pdsp_rows(
         [_row("SERT", 3.0, ligand="unknowncompound")], efficacy={"SERT": 0.0}
     )
-    prediction = fp.predict(
-        built, dose=500.0, route="IV", species="rat", body_weight_kg=0.25,
-        pk_model=OneCompartmentPK(ke=0.02), t_span=(0.0, 60.0), n_times=61,
+    with pytest.raises(sg.UnsourcedParameterError) as caught:
+        fp.predict(
+            built, dose=500.0, route="IV", species="human",
+            body_weight_kg=70.0, pk_model=_bolus_pk(),
+            t_span=(0.0, 30.0), n_times=31,
+        )
+    message = str(caught.value)
+    assert "mouse" in message
+    assert "rat" in message
+
+
+def test_the_transporter_transmitter_readout_still_works_below_the_gate():
+    """The transmitter arithmetic `predict` reported for transporters --
+    blocking uptake raises extracellular transmitter above basal -- lives in
+    `MonoamineTransporter.transmitter_rhs`, which the species gate does not
+    govern; run it there rather than losing the coverage to the refusal."""
+    system = monoamine_transporters.transporter_system("SERT")
+    drug = fp.TransporterLigand(name="unknowncompound", ki=3.0)
+    widened = fp.add_to_transporter_system(system, drug, _bolus_pk())
+    transporter = widened.transporter
+    names = [lig.name for lig in transporter.ligands]
+    result = fp._integrate_block(
+        widened.pk_models,
+        [500.0 if name == "unknowncompound" else 0.0 for name in names],
+        transporter.n_states, transporter.transmitter_rhs,
+        transporter.initial_state(),
+        (0.0, 60.0), np.linspace(0.0, 60.0, 61), "LSODA",
     )
-    at_sert = prediction["SERT"]
-    assert at_sert.occupancy is None
-    assert at_sert.transmitter is not None
-    # Blocking uptake raises the extracellular transmitter above basal.
-    basal = monoamine_transporters.transporter_system("SERT").transporter.basal
-    assert at_sert.transmitter[0] == pytest.approx(basal)
-    assert at_sert.transmitter.max() > basal
+    transmitter = result["block"][0]
+    basal = system.transporter.basal
+    assert transmitter[0] == pytest.approx(basal)
+    assert transmitter.max() > basal
 
 
 def test_a_zero_dose_leaves_every_target_untouched():
-    diazepam, _ = _gaba_a_fingerprints()
-    prediction = fp.predict(
-        diazepam, dose=0.0, route="IP", species="rat", body_weight_kg=0.25,
-        on_duplicate="replace", t_span=(0.0, 30.0), n_times=31,
+    morphine_site = fp.BindingFingerprint.from_pdsp_rows(
+        [_row("MOR", 1.346, ligand="novelmuagonist")], efficacy={"MOR": 1.0}
     )
-    assert np.allclose(prediction["GABA_A_BZD"].occupancy, 0.0)
+    prediction = fp.predict(
+        morphine_site, dose=0.0, route="IV", species="human",
+        body_weight_kg=70.0, pk_model=_bolus_pk(),
+        t_span=(0.0, 30.0), n_times=31,
+    )
+    assert np.allclose(prediction["MOR"].occupancy, 0.0)
 
 
 def test_the_occupancy_ranking_excludes_transporters_and_sorts_by_peak():
-    from neurocascade.pk import OneCompartmentPK
-
-    rows = [_row("H1", 5.0, ligand="x"), _row("D2", 500.0, ligand="x"),
-            _row("SERT", 3.0, ligand="x")]
+    """Ranking is a receptor-layer shape; the transporter member of the old
+    three-way version (SERT) refuses the gate now, which is asserted
+    separately above."""
+    rows = [_row("H1", 5.0, ligand="x"), _row("D2", 500.0, ligand="x")]
     built = fp.BindingFingerprint.from_pdsp_rows(
-        rows, efficacy={"H1": 0.0, "D2": 0.0, "SERT": 0.0}
+        rows, efficacy={"H1": 0.0, "D2": 0.0}
     )
     prediction = fp.predict(
-        built, dose=50.0, route="IV", species="rat", body_weight_kg=0.25,
-        pk_model=OneCompartmentPK(ke=0.02), t_span=(0.0, 30.0), n_times=31,
+        built, dose=50.0, route="IV", species="human",
+        body_weight_kg=70.0, pk_model=_bolus_pk(),
+        t_span=(0.0, 30.0), n_times=31,
     )
     ranking = prediction.occupancy_ranking()
     assert [name for name, _ in ranking] == ["H1", "D2"]

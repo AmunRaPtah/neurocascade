@@ -104,6 +104,8 @@ from ..pk import (
     DosedTwoCompartmentPK,
     intercompartmental_clearance_from_terminal_rate,
 )
+from ..species_gate import UnsourcedParameterError as \
+    SpeciesGateUnsourcedParameterError
 
 
 class _SourcedBrainPartitionDefault(object):
@@ -136,14 +138,15 @@ def _resolve_brain_partition(brain_partition, drug, species):
     return brain_partition
 
 
-class UnsourcedParameterError(LookupError):
-    """Raised when a drug/species/route combination is requested whose
-    required parameters have been searched for and not found.
-
-    A distinct exception type rather than a generic error because "this
-    number does not exist in the literature we could reach" is a *result*
-    in this codebase, not a bug: see `SEARCHED_AND_EMPTY`.
-    """
+#: The exception this module raises for a searched-and-empty parameter set.
+#: The canonical definition moved to `species_gate` in P11.2 -- the gate
+#: module may not import `legacy/`, and both raise sites must stay one
+#: catchable type, since "this number does not exist for this drug/species"
+#: (this module's use) and "this number exists but was measured in another
+#: species" (the gate's use) are the same kind of answer: this parameter
+#: cannot be used here. Re-exported under the old name so every existing
+#: import path and `except` clause keeps working.
+UnsourcedParameterError = SpeciesGateUnsourcedParameterError
 
 
 # ---------------------------------------------------------------------------

@@ -485,15 +485,63 @@ class Endpoint(object):
             return self.terms
         return tuple(t for t in self.terms if not t.contested)
 
+    def check_species(self, target_species):
+        """Raise unless every term's provenance species is `target_species`.
+
+        The endpoint layer's face of the P11.2 species gate, built to the
+        same contract as `BrainPartition.check_species`: a parameter (here,
+        a term) whose cited experiment ran in another species may not drive
+        a readout for this one. Every term in this module cites mouse or rat
+        work -- that is what P7.1 had -- so a human target raises today,
+        naming the species and the terms; the human endpoint library is
+        P17's build, and until it exists nothing can quietly resolve a mouse
+        lesion onto a human network by passing `target_species=` below.
+        """
+        from .species_gate import UnsourcedParameterError, normalize_species
+
+        target = normalize_species(target_species)
+        if target is None:
+            raise ValueError("target_species is required; there is no "
+                             "species-neutral prediction to license")
+        offenders = [
+            term for term in self.terms
+            if normalize_species(term.species) not in (None, target)
+        ]
+        if offenders:
+            by_species = {}
+            for term in offenders:
+                by_species.setdefault(normalize_species(term.species), [])\
+                    .append("+".join(term.structures))
+            detail = "; ".join(
+                "%s: %s" % (species, ", ".join(sorted(structures)))
+                for species, structures in sorted(by_species.items())
+            )
+            raise UnsourcedParameterError(
+                "endpoint %r: %d of %d terms were established in another "
+                "species than %r (%s), so they cannot drive a %r readout. "
+                "The human endpoint library is Phase 17's build; substituting"
+                " another species' experiment for it is rule 2 of this "
+                "codebase."
+                % (self.key, len(offenders), len(self.terms), target, detail,
+                   target)
+            )
+
     def resolve(self, network, ontology, region_sizes=None, collapse="mean",
-                normalize=True, include_contested=False):
+                normalize=True, include_contested=False, target_species=None):
         """Map this endpoint onto whatever nodes `network` actually has.
 
         network: a `CircuitNetwork`, or any iterable of node-name strings.
         ontology: a `connectome.StructureOntology`.
         region_sizes: optional {acronym: size} used to split a term across
             descendant nodes (rule 3). Voxel counts are the natural choice.
+        target_species: optional species of the brain being predicted for.
+            When given, the P11.2 species gate runs first and refuses any
+            term whose cited experiment was not performed in that species.
+            The existing rodent machinery omits it and is unchanged; the
+            future human consumer must pass it.
         """
+        if target_species is not None:
+            self.check_species(target_species)
         return _resolve(
             self, network, ontology, region_sizes=region_sizes,
             collapse=collapse, normalize=normalize,
