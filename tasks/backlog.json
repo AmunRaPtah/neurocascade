@@ -843,7 +843,10 @@
         "P11.1"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 1,
+      "started_at": "2026-08-23T21:15:07.259810+00:00",
+      "baseline": "57b6b1d0f33c1d2894f21cac45d86485d07de2de",
+      "result": "interrupted on attempt 1, partial work parked on interrupted/P11.2-attempt1"
     },
     {
       "id": "P11.3",
