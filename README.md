@@ -76,7 +76,7 @@ The public API, worked examples and output semantics are in
 | Receptor-gene expression maps | Measured transcript maps, relative-density assumption | Allen ISH maps are joined to CCF regions; missing regions, proxy subunits and terminal-field mismatches remain explicit. |
 | Connectome edge weights and signs | Published structure/sign; scale illustrative | Knox connectivity and neurotransmitter signs are ingested, then stabilized with an illustrative operating scale; the scale is not fitted. |
 | Circuit node parameters (`tau`, gain, threshold, baseline) | Illustrative | Identifiability analyses show the available endpoint data cannot identify them individually. |
-| Circuit mechanism gains | Mostly illustrative; one local GABA-A gain fit attempt | The amygdala GABA-A gain has a behavioral calibration dataset; the whole-brain gain and MOR/D2 behavioral gains are not validated fits. |
+| Circuit mechanism gains | Illustrative (P11.3) | The one behavioural fit - the amygdala GABA-A gain against rat elevated-plus-maze data - was retired with the rodent bridge; every circuit gain is an illustrative placeholder again, and no human behavioural calibration dataset exists yet. |
 | Projection densities and transmitter clearance | Mixed derived/measured/illustrative | Projection maps and several basal transmitter concentrations are documented; unresolved release/clearance quantities remain flagged. |
 | Behavioral endpoint membership/sign | Literature-backed | Seven named multi-region endpoints carry cited region membership and direction. |
 | Behavioral endpoint weight magnitudes / nonlinear decoder | Illustrative linear weights; decoder rejected | Weight magnitudes are not fitted; P7.2 found no supported nonlinear decoder improvement. |
@@ -190,15 +190,18 @@ never mixed.
 
 The circuit layer stays illustrative for a measured reason rather than for
 want of trying. `results/identifiability/` holds a profile-likelihood and
-Fisher-information analysis of every parameter in the one circuit that has
-a published behavioural dataset behind it: the node time constants cannot
-be identified by *any* endpoint measured after the circuit has equilibrated,
-the node gains, baselines and weights enter the observable through only four
-combinations rather than eight independent numbers, and a single scalar
-observation carries a single degree of freedom. See
+Fisher-information analysis of every parameter in the amygdala circuit: the
+node time constants cannot be identified by *any* endpoint measured after
+the circuit has equilibrated, the node gains, baselines and weights enter
+the observable through only four combinations rather than eight independent
+numbers, and a single scalar observation carries a single degree of
+freedom. Since P11.3 retired the rodent behavioural bridge, that analysis
+runs against an explicitly-labelled synthetic observation - the machinery is
+kept executable and tested, and no behavioural dataset anywhere in
+production pins a circuit number. See
 [`docs/architecture.md`](docs/architecture.md)'s P2.3 section for what data
-would change that; the short answer is a dose-response series rather than
-more single-dose studies.
+would change that; the short answer is a HUMAN dose-response series rather
+than more single-dose studies.
 
 ## Quickstart
 
@@ -231,7 +234,7 @@ more single-dose studies.
 | `src/neurocascade/legacy/projection_scenarios.py` | The hand-built monoamine, cholinergic and histaminergic scenarios ported onto projection systems, with the closed autoreceptor loop and the non-inert lone antagonist (P6.1), the D2 autoreceptor on the VTA and SNc, and the open/closed loop comparison the stability check is run on (P6.3) |
 | `src/neurocascade/legacy/projection_density.py` | Per-system projection densities DERIVED from the Phase 3 connectome (committed as `projection_densities.csv` with its source checksums), the reference region each transmitter's measured basal level belongs to, the refused nuclear block with its evidence, and the validation of the predicted concentration ratios against held-out measurements including the [Lin2023] whole-brain fibre map (P6.3) |
 | `src/neurocascade/endpoints.py` | The seven named behavioural endpoints (locomotion, anxiety, analgesia, reward, sedation, working memory, sensorimotor gating) as multi-region readouts over CCF regions, 69 terms each carrying the lesion/inactivation/opto/chemogenetic experiment that placed its region and fixed its sign, the 16 terms the literature contests recorded and excluded, the tail-flick / hot-plate assay split six papers force, and every weight MAGNITUDE labelled illustrative pending P7.3 (P7.1) |
-| `src/neurocascade/decoder.py` | The held-out model comparison that decides whether a nonlinear decoder beats P7.1's linear readout, per endpoint: the argument that only a graded SINGLE-REGION manipulation can identify a decoder nonlinearity (a saturating dose-response cannot, because the circuit layer's own sigmoid already produces one), four model families compared by leave-one-out cross-validation under two weightings, the five published graded series that exist outside a figure, and the searched-and-empty record for the four endpoints with none. Nothing was adopted; every rejection carries its reason (P7.2) |
+| `src/neurocascade/decoder.py` | The held-out model comparison that decides whether a nonlinear decoder beats P7.1's linear readout, per endpoint: the argument that only a graded SINGLE-REGION manipulation can identify a decoder nonlinearity (a saturating dose-response cannot, because the circuit layer's own sigmoid already produces one), four model families compared by leave-one-out cross-validation under two weightings, and a searched-and-empty record for every endpoint. Its five published rodent series moved to `legacy/rodent_series.py` in P11.3 and nothing was ever adopted; every rejection carries its reason (P7.2) |
 | `src/neurocascade/fingerprint.py` | The prediction input API: an arbitrary compound's PDSP-style Ki table plus a per-target efficacy in, one `Ligand` per modelled receptor and transporter out, wired into each module's own system. Carries this repository's first canonical target registry (23 targets, aliases, and the join to the expression layer's gene symbols with every multi-subunit proxy flagged), the one documented `Ki -> kon/koff` conversion with its koff assumption and the four standings a target's `kon` can have, and `predict(fingerprint, dose, route, species)` through the Phase 1 bridge to occupancy. Efficacy is required and never defaulted, because no binding database publishes one (P8.1) |
 | `src/neurocascade/legacy/endogenous_tone.py` | The five projection systems' cited basal extracellular transmitter concentrations with species, region, method and caveats, the tonic occupancy and Gaddum dose ratio each imposes at every receptor that binds them, and the re-run comparison quantifying what P6.2 changed in P6.1's results (P6.2) |
 | `src/neurocascade/stability.py` | Saturation check, closed-form baseline drive, and the contraction certificate for a stable non-saturating rest state (P3.4), plus `assess_system`, which runs the same four checks on the whole coupled ODE system so that a feedback loop leaving the circuit through a transmitter concentration is visible to it (P6.3) |
@@ -570,8 +573,11 @@ as `cct-bayesian-validation`.
   sign are cited, and whose weight magnitudes are all still illustrative.
   P7.2 (`decoder.py`) asked whether a nonlinear decoder beats that linear
   readout on held-out data, endpoint by endpoint, and the answer was no
-  everywhere: five graded single-region series exist in the literature with
-  per-level numbers outside a figure, and all five were rejected. P7.3 fits
-  the magnitudes.
+  everywhere: the only five graded single-region series with per-level
+  numbers outside a figure were all rodent (four mouse, one rat) and were
+  rejected; P11.3 quarantined them into `legacy/rodent_series.py`. P7.3's
+  endpoint-fit machinery now waits, demonstrated on synthetic targets, for
+  human data - as does the one circuit gain P2.2 fitted against rat
+  behaviour, retired back to its illustrative placeholder by P11.3.
 - Bayesian calibration (PyMC) of free parameters against literature
   behavioral data, following the CCT model's approach.

@@ -11,8 +11,13 @@ The tests split into three groups, and the split matters:
     (monotonicity of the `satexp` basis, the leave-one-out arithmetic, the
     conditioning bound that stops an unidentifiable fit from handing the
     comparison to `quadratic`);
-  * the DATA, checked against the published series themselves, so that a
-    number transcribed wrongly fails a test rather than a verdict.
+  * the RECORD, which since P11.3 is an EMPTY library: every graded series
+    this module ever held was rodent and moved to
+    `neurocascade.legacy.rodent_series`, so these tests pin the emptiness,
+    the all-endpoints `no-data` verdicts it implies, and the fact that the
+    decision rule above still runs - including on the one real case that
+    motivated rule 6, reached through the quarantined copy. The published
+    numbers themselves are pinned in `tests/test_legacy_rodent_series.py`.
 """
 
 import math
@@ -22,6 +27,7 @@ import pytest
 
 from neurocascade import behavior
 from neurocascade.legacy import connectome
+from neurocascade.legacy import rodent_series
 from neurocascade import decoder
 from neurocascade import endpoints
 
@@ -138,16 +144,19 @@ def test_both_weightings_are_run_and_disagreement_is_a_rejection():
     """Rule 6's combination logic, checked on a series where they disagree.
 
     Not constructed: [Herent2023] is the real case and the reason the rule
-    exists, so it is what the test uses. Under uniform weights the quadratic
-    wins, its vertex is inside the range and the means are ordinally
-    non-monotone, so all of rules 2-5 pass and the series is ADOPTED. Under
-    `1/SEM^2` the straight line wins. The dip that makes the means
-    non-monotone is 0.187 -> 0.129 cm/s between two frequencies that evoke
-    no locomotion in any animal, and it is smaller than either level's own
-    SD - so rules 2-5 were satisfied by a floor-effect wiggle, and rule 6 is
-    what caught it.
+    exists, so it is what the test uses - reached through its quarantined
+    copy in `legacy/rodent_series`, since P11.3 retired it from production
+    without retiring the rule that exists because of it. Under uniform
+    weights the quadratic wins, its vertex is inside the range and the means
+    are ordinally non-monotone, so all of rules 2-5 pass and the series is
+    ADOPTED. Under `1/SEM^2` the straight line wins. The dip that makes the
+    means non-monotone is 0.187 -> 0.129 cm/s between two frequencies that
+    evoke no locomotion in any animal, and it is smaller than either level's
+    own SD - so rules 2-5 were satisfied by a floor-effect wiggle, and rule
+    6 is what caught it.
     """
-    series = _series("herent2023_cnf_locomotion")
+    series = next(s for s in rodent_series.SERIES
+                  if s.key == "herent2023_cnf_locomotion")
     uniform = decoder._assess_under(series, "uniform")
     dispersion = decoder._assess_under(series, "dispersion")
     assert uniform.adopted
@@ -161,9 +170,11 @@ def test_both_weightings_are_run_and_disagreement_is_a_rejection():
 def test_every_rejection_reason_is_reachable():
     """No branch of the decision rule is unexercised prose.
 
-    `no-data` is reached by an endpoint with no series and
-    `weighting-dependent` by [Herent2023]; both are pinned in the data
-    section below. Everything else is constructed here.
+    `no-data` is reached by every endpoint since P11.3 emptied the library,
+    and `weighting-dependent` by [Herent2023] through the quarantined series
+    in the test above (its numbers pinned in
+    `tests/test_legacy_rodent_series.py`). Everything else is constructed
+    here.
     """
     z = np.linspace(0.0, 1.0, 6)
     cases = {
@@ -437,17 +448,19 @@ def _toy_network(names):
 # ---------------------------------------------------------------------------
 
 def test_every_series_names_a_real_endpoint():
-    for series in decoder.SERIES:
+    """Both libraries: production's is empty since P11.3, so the invariant
+    is carried by the retired five."""
+    for series in list(decoder.SERIES) + list(rodent_series.SERIES):
         assert series.endpoint in endpoints.ENDPOINTS, series.key
 
 
 def test_every_series_key_is_unique():
-    keys = [s.key for s in decoder.SERIES]
+    keys = [s.key for s in decoder.SERIES] + [s.key for s in rodent_series.SERIES]
     assert len(keys) == len(set(keys))
 
 
 def test_every_series_citation_resolves():
-    for series in decoder.SERIES:
+    for series in list(decoder.SERIES) + list(rodent_series.SERIES):
         assert series.citation in decoder.CITATIONS, series.citation
 
 
@@ -455,7 +468,9 @@ def test_no_citation_is_an_orphan_in_either_direction():
     """Both directions, because P7.1's orphan test only checked one.
 
     Forward: every key in `CITATIONS` is used by a series or named in the
-    prose. Backward: every key listed in `CITED_IN_PROSE` really does appear
+    prose - since P11.3 retired the five series, prose carries all fifteen,
+    including the four whose series now live in `legacy/rodent_series`.
+    Backward: every key listed in `CITED_IN_PROSE` really does appear
     in the module's prose, so the list cannot become a place to park a
     citation that no longer says anything.
     """
@@ -507,11 +522,12 @@ def test_the_adoption_list_is_derived_from_the_comparison_not_written_down():
     """No second copy of the answer.
 
     `adopted_nonlinearities()` must agree with re-running `assess_series`
-    from scratch on every series, so a transcription change in the data
-    moves the adoption list rather than leaving it stale.
+    from scratch on every series - production's and, since P11.3, the
+    quarantined five as well - so a transcription change in the data moves
+    the adoption list rather than leaving it stale.
     """
     fresh = set()
-    for series in decoder.SERIES:
+    for series in list(decoder.SERIES) + list(rodent_series.SERIES):
         v = decoder.assess_series(series)
         if v.adopted:
             for acronym in series.structures:
@@ -538,151 +554,47 @@ def test_the_searched_and_empty_record_covers_every_endpoint_without_data():
 
 
 # ---------------------------------------------------------------------------
-# the data
+# the record since P11.3 emptied it
 # ---------------------------------------------------------------------------
 
-def _series(key):
-    for series in decoder.SERIES:
-        if series.key == key:
-            return series
-    raise AssertionError("no series %r" % (key,))
+def test_the_production_library_is_empty():
+    """P11.3's retirement, pinned at the site it happened.
 
-
-def test_the_five_series_and_the_endpoints_they_speak_to():
-    """Which endpoints P7.2 could say anything about at all.
-
-    Three of seven. The other four have no graded single-region series with
-    per-level numbers outside a figure, which is the task's main result and
-    is recorded rather than worked around.
+    Every series this module ever held was rodent - four mouse optogenetic,
+    one rat microinjection - so under the human-primary roadmap the library
+    stays empty until a HUMAN graded series exists. The five retired objects,
+    their published numbers and their preserved verdicts are tested in
+    `tests/test_legacy_rodent_series.py`.
     """
-    by_endpoint = {}
-    for series in decoder.SERIES:
-        by_endpoint.setdefault(series.endpoint, []).append(series.key)
-    assert set(by_endpoint) == {"locomotion", "sedation", "anxiety"}
-    assert len(by_endpoint["locomotion"]) == 3
-    assert len(by_endpoint["sedation"]) == 1
-    assert len(by_endpoint["anxiety"]) == 1
+    assert decoder.SERIES == ()
+    assert len(rodent_series.SERIES) == 5
 
 
 def test_nothing_was_adopted():
-    """The result of P7.2, pinned.
+    """The result of P7.2, pinned - and unchanged by P11.3.
 
-    Every series is rejected, each for its own reason. If a future data
-    addition changes this, this test is where it announces itself - which is
-    the point: an adoption should be a deliberate, visible event, not a
-    quiet consequence of adding a row.
+    Every series was rejected even when the library was full, each for its
+    own reason, so retiring all of them changed no readout anywhere. If a
+    future data addition changes this, this test is where it announces
+    itself - which is the point: an adoption should be a deliberate, visible
+    event, not a quiet consequence of adding a row.
     """
     assert decoder.adopted_nonlinearities() == {}
-    for verdict in decoder.assess_all():
-        assert not verdict.adopted, verdict.series.key
+    for verdict in decoder.all_endpoint_verdicts():
+        assert not verdict.adopted
 
 
-def test_each_series_has_the_verdict_its_shape_implies():
-    """The five verdicts, pinned.
-
-    This is a REGRESSION PIN and not an independent derivation - the table
-    was written after the comparison was first run, and it would agree with
-    a wrong rule as readily as with a right one. It is worth having anyway,
-    for the same reason `test_nothing_was_adopted` is: it makes any change to
-    a verdict a visible, deliberate edit. The tests that can actually catch a
-    wrong rule are the synthetic ones above, where the true shape is known by
-    construction; the test that can catch a wrong number is
-    `test_the_published_numbers_are_what_the_papers_print`, which restates the
-    values independently.
-    """
-    expected = {
-        "herent2023_cnf_locomotion": "weighting-dependent",
-        "caggiano2018_cnf_locomotion": "no-signal",
-        "caggiano2018_ppn_locomotion": "linear-wins",
-        "deluca2022_vlpo_sedation": "saturating-wins-not-identifiable",
-        "diaz2011_bla_anxiety": "too-few-levels",
-    }
-    assert set(expected) == {s.key for s in decoder.SERIES}
-    for verdict in decoder.assess_all():
-        assert verdict.reason == expected[verdict.series.key], \
-            verdict.series.key
-
-
-def test_the_saturating_case_that_the_brief_worried_about_is_a_real_one():
-    """[DeLuca2022] is the brief's own concern, met by real data.
-
-    "Behavioral endpoints are frequently saturating" - and this one is: the
-    saturating family beats the straight line four-fold out of sample, under
-    both weightings. It is still rejected, because a linear decoder reading a
-    region whose rate saturates in its own drive produces exactly that curve.
-    """
-    verdict = decoder.assess_series(_series("deluca2022_vlpo_sedation"))
-    for weighting in decoder.WEIGHTINGS:
-        assessment = verdict.by_weighting[weighting]
-        satexp = assessment.fits_by_name["satexp"]
-        linear = assessment.fits_by_name["linear"]
-        assert satexp.loo_rmse < linear.loo_rmse, weighting
-        assert assessment.best.name == "satexp", weighting
-    assert verdict.verdict == "keep-linear"
-    assert verdict.reason == "saturating-wins-not-identifiable"
-
-
-def test_the_published_numbers_are_what_the_papers_print():
-    """The transcription, checked against the values read off each source.
-
-    Written out a second time here rather than imported, so that an edit to
-    `SERIES` has to be made twice to go unnoticed.
-    """
-    herent = _series("herent2023_cnf_locomotion")
-    assert herent.levels == (5.0, 10.0, 15.0, 20.0, 30.0, 40.0)
-    assert herent.values == pytest.approx(
-        (0.187214, 0.128781, 54.3845, 67.4137, 84.8552, 85.9764)
-    )
-    assert herent.dispersion_kind == "SD"
-    assert herent.n_per_level == (5, 5, 5, 5, 5, 5)
-
-    cnf = _series("caggiano2018_cnf_locomotion")
-    assert cnf.levels == (5.0, 10.0, 20.0, 50.0)
-    assert cnf.n_per_level == (14, 41, 37, 39)
-
-    ppn = _series("caggiano2018_ppn_locomotion")
-    assert ppn.levels == (5.0, 10.0, 20.0, 50.0)
-    assert ppn.n_per_level == (4, 21, 18, 24)
-
-    vlpo = _series("deluca2022_vlpo_sedation")
-    assert vlpo.levels == (0.0, 1.0, 5.0, 10.0, 20.0)
-    assert vlpo.values == pytest.approx(
-        (32.242, 33.701, 48.206, 53.854, 59.234)
-    )
-    assert vlpo.score_sign == -1
-
-    bla = _series("diaz2011_bla_anxiety")
-    assert bla.levels == (0.0, 1.5, 5.0)
-    assert bla.values == pytest.approx((7.5, 41.7, 104.8))
-    assert bla.score_sign == -1
-
-
-def test_the_diaz_table_sums_to_the_trial_duration():
-    """The one internal check [Diaz2011]'s Table 1 supports.
-
-    Open, closed and junction times are the three parts of a 300 s trial, so
-    they must sum to it. They do, to 0.1 s. This catches a transposed digit
-    in a way no restatement of the same number can.
-    """
-    open_arm = (7.5, 41.7, 104.8)
-    closed_arm = (208.3, 173.9, 106.6)
-    junction = (84.3, 84.5, 88.5)
-    assert _series("diaz2011_bla_anxiety").values == pytest.approx(open_arm)
-    for o, c, j in zip(open_arm, closed_arm, junction):
-        assert o + c + j == pytest.approx(300.0, abs=0.15)
-
-
-def test_every_series_targets_a_structure_the_endpoint_actually_reads():
-    """A verdict about a region the readout does not contain changes nothing.
-
-    This is why [Guo2023]'s parasubthalamic series and [Liang2023]'s
-    supramammillary-to-septum series are in `SEARCHED_AND_EMPTY` and not in
-    `SERIES`, despite both depositing per-animal values at five levels.
-    """
-    for series in decoder.SERIES:
-        endpoint = endpoints.ENDPOINTS[series.endpoint]
-        regions = set(endpoint.regions())
-        assert set(series.structures) <= regions, series.key
+def test_every_endpoint_now_verdicts_to_no_data():
+    """P7.2 left four endpoints without a graded series; P11.3 retired the
+    rodent series that covered the other three, so the empty set is now the
+    WHOLE endpoint list until human data lands."""
+    empty = {v.endpoint_key for v in decoder.all_endpoint_verdicts()
+             if not v.series_verdicts}
+    assert empty == set(endpoints.ENDPOINTS)
+    assert len(empty) == 7
+    for key in empty:
+        assert decoder.endpoint_verdict(key).reason == \
+            decoder.REJECTION_REASONS["no-data"]
 
 
 def test_the_analgesia_target_p71_handed_over_is_recorded_as_unusable():
@@ -698,16 +610,6 @@ def test_the_analgesia_target_p71_handed_over_is_recorded_as_unusable():
     assert "ZhuoGebhart1997" in decoder.P71_TARGETS
     assert "MendoncaDosSantos2024" in record
     assert "Thomas & Hammond 1995" in record
-
-
-def test_the_endpoints_with_no_series_are_the_four_expected_ones():
-    empty = {v.endpoint_key for v in decoder.all_endpoint_verdicts()
-             if not v.series_verdicts}
-    assert empty == {"analgesia", "reward", "working_memory",
-                     "sensorimotor_gating"}
-    for key in empty:
-        assert decoder.endpoint_verdict(key).reason == \
-            decoder.REJECTION_REASONS["no-data"]
 
 
 def test_a_startle_magnitude_table_was_not_substituted_for_percent_ppi():

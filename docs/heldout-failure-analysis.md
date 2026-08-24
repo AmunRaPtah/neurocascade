@@ -59,6 +59,67 @@ Only the first item is presently a direct structural challenge to the
 behavioural readout. The others are reachability and data-join failures that
 must be fixed before a quantitative drug score is interpretable.
 
+## P11.3: what the species pivot took away
+
+The species pivot (docs/roadmap-human.md) quarantined every rodent-sourced
+dataset into `neurocascade/legacy/`, and that retirement reached further than
+the held-out registry this document was written about. Three things went:
+
+1. All eleven datasets in `calibration/behavioral_evidence.py` - ten rat, one
+   mouse, zero human - moved to `legacy/behavioral_evidence.py`.
+2. `decoder.py`'s five graded drive-response series (four mouse
+   optogenetic, one rat microinjection) moved to
+   `legacy/rodent_series.py`. None had ever licensed a nonlinearity, so no
+   prediction changed.
+3. `GABA_A_CONNECTION_MODULATION_GAIN = 0.0742` (sd 0.0189) - P2.2's fit of
+   [Graziani2022]'s diazepam 2 mg/kg IP Wistar-rat elevated-plus-maze
+   open-arm times, reached through the Phase-1 rat PK bridge - was restored
+   to the hand-set illustrative placeholder 0.5 at its definition site in
+   `scenarios.py`.
+
+The third item is the substantive loss, and it is recorded here because this
+is the failures document: **after P11.3 every circuit-layer parameter in this
+repository is illustrative again.** The one gain a real behavioural dataset
+had ever pinned is gone, deliberately, because its anchor was a rat. With it
+went the last entry in every calibration register: production now holds zero
+calibration-ready behavioural observations, `priors.PRIOR_SPECS` holds no
+circuit-layer parameter, and the guard test
+`test_bayesian_calibration.py::test_no_circuit_layer_parameter_claims_to_be_
+calibrated` enforces that state mechanically.
+
+What did NOT go is everything species-agnostic: the PyMC sampling engine,
+the profile-likelihood identifiability analysis, the endpoint-fit scaffold
+and its information-matrix diagnostics. They are demonstrated working on
+explicitly-labelled synthetic data - `endpoint_calibration.synthetic_target`
+and friends, plus recovery tests in which the samplers recover a known
+generating gain from observations the forward model itself produced. The
+machinery is ready; the register is empty.
+
+### A rediagnosis of the blocker
+
+P8.3's diagnosis above - missing dose-to-concentration PK and missing
+receptor-drivable `Kp,uu` for the seven held-out compounds - remains true and
+remains unaddressed. But P11.3 shows it is no longer the binding constraint
+on circuit calibration. Even with a perfect concentration chain, there is
+currently **no human behavioural dataset** on the other end of it to fit a
+gain against: the graded single-region series the decoder assesses and the
+matched drug/vehicle contrasts the endpoint fitter consumes do not exist in
+this repository's human evidence base, and the searches recorded in
+`decoder.SEARCHED_AND_EMPTY` suggest they barely exist in the human
+literature at all (optogenetic dose-response work is overwhelmingly murine).
+
+The rodent literature has exactly such data - that is what was quarantined.
+Re-admitting any of it would undo the species pivot rather than remove the
+blocker, so the honest statement of the current bottleneck is: *human
+behavioural measurements, not machinery and not (anymore) the PK bridge.*
+The PK bridge matters again only once something human exists to push through
+it.
+
+Removing an "ILLUSTRATIVE" label therefore requires, in one and the same
+change: a human behavioural dataset of the graded or matched-contrast kind,
+a calibration run through the surviving machinery, and the label edit at the
+parameter's definition site (docs/roadmap.md's rule 3).
+
 ## Repair order
 
 The shortest honest route to a real held-out prediction is:

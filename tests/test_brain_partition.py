@@ -651,6 +651,11 @@ def test_dose_to_brain_concentration_to_occupancy_end_to_end():
 
     network = scenarios.amygdala_anxiety_circuit_network()
     site = ReceptorSite(name="benzodiazepine_site", ligands=[diazepam_ligand])
+    # P11.3: there is no `gaba_a_connection_modulation_calibrated()` any
+    # more - the fitted gain was rodent-derived and retired. This test's
+    # subject is the PK -> partition -> occupancy chain, which the
+    # modulation value cannot affect, so the illustrative one is what the
+    # simulation carries.
     sim = Simulation(
         network=network,
         receptor_systems=[
@@ -658,7 +663,7 @@ def test_dose_to_brain_concentration_to_occupancy_end_to_end():
                 pk_models=[pk_model],
                 receptor_site=site,
                 coupling={},
-                connection_modulation=scenarios.gaba_a_connection_modulation_calibrated(),
+                connection_modulation=scenarios.gaba_a_connection_modulation(),
             )
         ],
     )

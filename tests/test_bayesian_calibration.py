@@ -386,17 +386,27 @@ def test_synthetic_recovery_of_a_circuit_layer_gain():
     """`build_circuit_gain_model`, the seam P11.3 left open, actually fits.
 
     A readout ratio is generated from the production amygdala forward model
-    at a KNOWN gain (1.3, deliberately not scenarios.py's illustrative 0.5
-    and not any value this project has ever fitted), fed to the builder with
-    a wide mechanistic prior, and sampled. The posterior must localise near
-    the truth and far from the Uniform(0, 5) mean - which is the
-    demonstration that when HUMAN behavioural evidence arrives, fitting a
-    circuit-layer parameter is a dataset away, not a rebuild away.
+    at a KNOWN gain of 0.20 at activation 0.60 - deliberately not
+    scenarios.py's illustrative 0.5, nor any value this project ever fitted -
+    fed to the builder with a wide mechanistic prior, and sampled. The
+    posterior must localise near the truth and far from the Uniform(0, 5)
+    mean - which is the demonstration that when HUMAN behavioural evidence
+    arrives, fitting a circuit-layer parameter is a dataset away, not a
+    rebuild away.
+
+    The generating regime matters and is chosen, not stumbled into: at high
+    activation the drug/vehicle ratio SATURATES, an observation on that
+    plateau bounds the gain from below only (identifiability.py measures
+    exactly this and labels it `one-sided-identifiable`), and no sampler
+    should be expected to localise there. The truth below sits where the
+    observable is still steep - its saturating floor is ~30 observation sds
+    away - so the data genuinely identify the gain from both sides and a
+    recovery failure means the machinery, not the regime.
     """
     import pymc as pm
 
-    truth_gain = 1.3
-    activation = 0.90
+    truth_gain = 0.20
+    activation = 0.60
     observed_sd = 0.02
 
     network = scenarios.amygdala_anxiety_circuit_network()

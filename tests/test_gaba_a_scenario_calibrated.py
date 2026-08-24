@@ -3,6 +3,14 @@
 diazepam/flumazenil PK" section). See that section's comments for full
 source citations; each test below cites the specific literature figure it
 checks against. Mirrors the structure of test_scenarios_calibrated.py.
+
+P11.3 split this suite in two: the receptor and PK constants stay CALIBRATED
+(Ki values are receptor-level measurements, not behavioural fits), while the
+connection-modulation gain P2.2 fitted against rat behaviour was retired
+with the rodent bridge. What remains here pins that split - the calibrated
+stack now composes the ILLUSTRATIVE modulation, no `*_calibrated` accessor
+for it exists any more, and the retired posterior survives only as the
+historical artifact under results/calibration/.
 """
 
 import csv
@@ -99,21 +107,30 @@ def test_calibrated_pk_clearance_rates_are_similar_at_acute_timescale():
 
 
 def build_calibrated_sim():
+    # The calibrated receptor + PK stack composed with the ILLUSTRATIVE
+    # modulation - the only composition available since P11.3 retired the
+    # fitted gain, and exactly what
+    # `scenarios.gaba_a_receptor_system_calibrated()` documents.
     return Simulation(
         pk_models=scenarios.gaba_a_pk_models_calibrated(),
         receptor_site=scenarios.gaba_a_receptor_site_calibrated(),
         network=scenarios.amygdala_anxiety_circuit_network(),
         coupling=scenarios.gaba_a_coupling(),
-        connection_modulation=scenarios.gaba_a_connection_modulation_calibrated(),
+        connection_modulation=scenarios.gaba_a_connection_modulation(),
     )
 
 
-def test_calibrated_modulation_gain_matches_the_committed_posterior():
-    """P2.2 fitted this gain, so the constant in `scenarios.py` and the
-    posterior summary committed under `results/calibration/` have to agree.
-    Storing the number inline (the way every literature constant in this
-    codebase is stored) and checking it against the artefact keeps it
-    readable without letting it drift away from the run that produced it.
+def test_the_retired_fit_is_gone_and_its_artifact_says_what_it_was():
+    """P2.2's gain did not survive P11.3, and neither did its accessor.
+
+    Three things pinned together. The committed posterior summary stays
+    under `results/calibration/` UNCHANGED, as a historical record of a fit
+    that no longer informs anything. Production carries the restored
+    hand-set 0.5, which is NOT the fitted value - the retirement must be
+    visible in the numbers, not only in prose. And there is deliberately no
+    `gaba_a_connection_modulation_calibrated()` any more: a function by
+    that name returning hand-set numbers would be the exact dishonesty
+    scenarios.py's illustrative/calibrated split exists to prevent.
     """
     summary_path = os.path.join(
         os.path.dirname(__file__), "..", "results", "calibration", "gaba_a_summary.csv"
@@ -121,14 +138,16 @@ def test_calibrated_modulation_gain_matches_the_committed_posterior():
     with open(summary_path) as handle:
         rows = {row[""]: row for row in csv.DictReader(handle)}
     posterior_mean = float(rows["gaba_a_connection_modulation_gain"]["mean"])
+    # The historical artifact still records the fit it was written from.
+    assert abs(posterior_mean - 0.0742) <= 0.0005
 
-    fitted = scenarios.gaba_a_connection_modulation_calibrated()
-    assert set(fitted) == set(scenarios.gaba_a_connection_modulation())
-    (gain,) = fitted.values()
-    # The summary CSV is written rounded, so the tolerance is that rounding
-    # and nothing else.
-    assert abs(gain - posterior_mean) <= 0.0005
-    assert gain != scenarios.gaba_a_connection_modulation()[("BLA", "GABA_Interneuron")]
+    assert not hasattr(scenarios, "gaba_a_connection_modulation_calibrated")
+    modulation = scenarios.gaba_a_connection_modulation()
+    assert set(modulation) == {("BLA", "GABA_Interneuron")}
+    (gain,) = modulation.values()
+    assert gain == scenarios.GABA_A_CONNECTION_MODULATION_GAIN == 0.5
+    # ...and production is demonstrably not carrying the old fit quietly.
+    assert abs(gain - posterior_mean) > 0.01
 
 
 def test_calibrated_diazepam_lowers_anxiety_index_below_baseline():
@@ -136,9 +155,9 @@ def test_calibrated_diazepam_lowers_anxiety_index_below_baseline():
     # illustrative placeholders, the qualitative v0 mechanism (diazepam
     # potentiates the GABAergic interneuron -> BLA synapse via
     # connection_modulation, suppressing BLA and, downstream, anxiety_index)
-    # must still hold; the circuit wiring and potentiation gain (still
-    # illustrative, see gaba_a_connection_modulation_calibrated()) are
-    # unchanged.
+    # must still hold; the circuit wiring and potentiation gain are the
+    # ILLUSTRATIVE ones - see gaba_a_connection_modulation() and the P11.3
+    # record on GABA_A_CONNECTION_MODULATION_GAIN in scenarios.py.
     sim = build_calibrated_sim()
     readout = scenarios.anxiety_index_readout()
     t_eval = np.linspace(0, 40, 200)

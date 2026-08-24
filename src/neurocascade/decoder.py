@@ -1255,7 +1255,11 @@ paper that measured the whole curve and plotted it.
 
 SEARCHED_AND_EMPTY = {
     "locomotion": """
-Three usable series, all mouse optogenetics. Rejected additionally:
+P11.3 QUARANTINED THE THREE USABLE SERIES - [Herent2023]'s CnF frequency
+series and [Caggiano2018]'s CnF and PPN series, all mouse optogenetics -
+into `legacy/rodent_series.py` under the species pivot, so this endpoint has
+NO usable series again and the search below is the standing instruction for
+what a human one would have to beat. Rejected additionally:
   - intracerebral dose series vs locomotion. The rat microinjection
     literature (Reavill 1990 nicotine/cytisine into VTA, NAc, striatum,
     dorsal hippocampus and motor thalamus; Delfs 1990 intra-accumbens
@@ -1272,7 +1276,10 @@ Three usable series, all mouse optogenetics. Rejected additionally:
     list is itself only on a figure axis.
 """,
     "anxiety": """
-One series, three levels, rejected for want of a fourth. Beyond it:
+P11.3 quarantined this endpoint's one series - [Diaz2011], rat intra-BLA
+microinjection, three levels, rejected for want of a fourth even before the
+species pivot - into `legacy/rodent_series.py` with the rest of the rodent
+bridge. Beyond it:
   - No optogenetic frequency or power series anywhere against elevated-plus-
     maze open-arm time or open-field centre time. The four canonical papers
     (Tye 2011, Kim 2013, Jennings 2013, Felix-Ortiz 2013) were each read in
@@ -1303,8 +1310,11 @@ One series, three levels, rejected for want of a fourth. Beyond it:
     midazolam, saline/20/30 nmol) is the best-designed unreachable one.
 """,
     "sedation": """
-One series. The arousal literature is the richest source of graded designs
-in this whole search and most of it still cannot be used:
+P11.3 quarantined this endpoint's one series - [DeLuca2022], mouse, orexin
+terminal-field stimulation of the VLPO - into `legacy/rodent_series.py`
+with the rest of the rodent library. The arousal literature is the richest
+source of graded designs in this whole search and most of it still cannot
+be used:
   - [Kroeger2018] is the cleanest VLPO design found - six frequencies
     against percent NREM sleep, and the region P7.1 already weights most
     strongly - and every value is in Fig. 2c. Its peer-review file was

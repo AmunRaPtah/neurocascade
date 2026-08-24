@@ -5,6 +5,13 @@ silently moved into the training set". That is checked by reading the
 training set off the evidence module rather than restating it, so a drug that
 acquires a fitting target later starts failing here instead of quietly
 passing.
+
+Since P11.3 that evidence module is the QUARANTINED
+`neurocascade.legacy.behavioral_evidence`: the rodent datasets moved there
+and production has no behavioural-evidence register at all. The training-set
+read is metadata only - drug names, no numbers - which is why
+`heldout.training_compounds()` may keep reaching into legacy (pinned in
+`tests/test_legacy_quarantine.py`).
 """
 
 import numpy as np
@@ -12,7 +19,7 @@ import pytest
 
 from neurocascade import fingerprint as fp
 from neurocascade import heldout as ho
-from neurocascade.calibration import behavioral_evidence as evidence
+from neurocascade.legacy import behavioral_evidence as evidence
 
 
 COMPOUNDS = sorted(ho.HELD_OUT)
@@ -258,13 +265,15 @@ def test_alprazolams_affinity_is_not_diazepams():
 
 def test_the_open_arm_conversion_reproduces_the_published_diazepam_ratio():
     """The conversion alprazolam's entries use, checked against the one
-    published contrast this repository already carries a ratio for.
+    published contrast this repository ever carried a ratio for.
     [Graziani2022]: 30.7 s vehicle and 89.0 s diazepam of open-arm time in a
-    300 s trial, which `endpoint_calibration` records as an anxiety ratio of
-    0.7835. If this test fails, alprazolam's ratios are on a different scale
-    from the repository's own and are not comparable with anything."""
-    from neurocascade.calibration import endpoint_calibration as ec
-
+    300 s trial - the contrast P2.2 fitted, retired by P11.3 with the rodent
+    bridge, whose target used to be readable from `ec.TARGETS_BY_KEY`. The
+    check now runs against the published numbers directly: the ratio is the
+    closed-arm-fraction (avoidance) ratio, which is also why a 100% open-arm
+    time is refused outright. If this test fails, alprazolam's ratios are on
+    a different scale from the repository's historical record and are not
+    comparable with anything."""
     observation = ho.BehaviouralObservation.from_open_arm_percent(
         vehicle_percent=100.0 * 30.7 / 300.0, vehicle_sd=1.0,
         drug_percent=100.0 * 89.0 / 300.0, drug_sd=1.0,
@@ -273,8 +282,10 @@ def test_the_open_arm_conversion_reproduces_the_published_diazepam_ratio():
         route="IP", dose_mg_per_kg=2.0, measure="m", direction="decrease",
         reporting="tabulated", source="[Graziani2022] check",
     )
-    published = ec.TARGETS_BY_KEY["anxiety/diazepam/Graziani2022"].levels[0][2]
+    published = (300.0 - 89.0) / (300.0 - 30.7)
     assert observation.ratio == pytest.approx(published, rel=1e-3)
+    # The number the P2.2 fit and results/calibration/ actually recorded.
+    assert observation.ratio == pytest.approx(0.7835, abs=5e-4)
 
 
 def test_the_alprazolam_series_is_non_monotone_in_the_point_estimates():
