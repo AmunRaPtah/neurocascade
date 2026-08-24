@@ -1,29 +1,38 @@
 """Identifiability of circuit-layer connectivity weights, node gains,
-baseline inputs and time constants against the behavioural evidence (P2.3).
+baseline inputs and time constants against a scalar behavioural observation
+(P2.3; synthetic observation since P11.3).
 
 P2.2 fitted one circuit-layer number, `gaba_a_connection_modulation_gain`,
-against [Graziani2022]'s elevated-plus-maze data, and left every other
-circuit-layer quantity in `scenarios.py` illustrative. P2.3's brief is to
+against [Graziani2022]'s rat elevated-plus-maze data, and left every other
+circuit-layer quantity in `scenarios.py` illustrative. P2.3's brief was to
 attempt the rest - the connectivity weights and the node time constants -
 against that same evidence, and to say which of them are identifiable at
-all.
+all. P11.3 then retired [Graziani2022] with the rest of the rodent bridge:
+its observation was rat behaviour, and under the human-primary roadmap no
+rodent dataset may inform any layer of the model. What survives here is the
+ANALYSIS, which is species-agnostic, demonstrated end to end against a
+clearly-labelled SYNTHETIC scalar observation (`SYNTHETIC_*` below) until a
+human behavioural target exists. Every structural conclusion below is a
+property of the MODEL FORM and holds whatever the observation is; the one
+empirical conclusion P2.3 recorded about the real world - that the rat datum
+rejected the mechanistic null - belonged to the rat datum and did not
+transfer.
 
-This module answers that question in three layers, weakest assumption
-first. The layers are deliberately ordered so that the conclusions which
-depend on nothing at all come before the ones that depend on how much data
-there happens to be.
+This module answers the identifiability question in three layers, weakest
+assumption first. The layers are deliberately ordered so that the
+conclusions which depend on nothing at all come before the ones that depend
+on how much data there happens to be.
 
 1. STRUCTURAL identifiability: what the model form alone allows
 --------------------------------------------------------------
 
-The behavioural observable this codebase can compare against a published
-number is a drug/vehicle ratio of a STEADY-STATE readout (see
-`circuit_forward.py` on why a ratio, and why a steady state: the elevated
-plus maze runs 60 min after injection while the circuit's slowest tau is
-2 min, so the circuit has equilibrated by a factor of 30 before the animal
-is on the maze). Two exact consequences follow. Both are proved from the
-model's form and then confirmed numerically, rather than inferred from a
-numerical result:
+The behavioural observable this codebase compares against published numbers
+is a drug/vehicle ratio of a STEADY-STATE readout (see `circuit_forward.py`
+on why a ratio, and why a steady state: an acute behavioural trial runs tens
+of minutes after dosing while the circuit's slowest tau is 2 min, so the
+circuit has equilibrated before the animal is measured). Two exact
+consequences follow. Both are proved from the model's form and then
+confirmed numerically, rather than inferred from a numerical result:
 
   (a) **Time constants drop out entirely.** The Wilson-Cowan fixed point
       solves `r* = sigmoid(W r* + drive)`; `tau` appears only in
@@ -56,21 +65,22 @@ numerical result:
       different parameter sets that give bit-comparable predictions, and
       `tests/test_identifiability.py` pins them.
 
-2. PRACTICAL identifiability: what the data that exists allows
---------------------------------------------------------------
+2. PRACTICAL identifiability: what one scalar observation allows
+----------------------------------------------------------------
 
-There is exactly ONE calibration-ready behavioural observation in this
-codebase ([Graziani2022], via `behavioral_evidence.calibration_ready_
-entries()`), and it is a single scalar with a single standard deviation.
-For a scalar observation `y` with Gaussian noise, the Fisher information
-matrix of any parameter vector theta is
+The observation this module profiles against is a single scalar with a
+single standard deviation - which was also true of P2.3's real datum, and
+is the structurally interesting case. For a scalar observation `y` with
+Gaussian noise, the Fisher information matrix of any parameter vector theta
+is
 
     F = (1/sd^2) * s s^T,     s = d(prediction)/d(theta)
 
 which is a rank-ONE matrix however many parameters theta holds. So at most
-one direction in circuit-parameter space is identifiable from this dataset,
-and `fisher_information_matrix()` / `fisher_spectrum()` report that as an
-eigenvalue spectrum rather than as an assertion.
+one direction in circuit-parameter space is identifiable from such a
+dataset, whatever species produced it, and `fisher_information_matrix()` /
+`fisher_spectrum()` report that as an eigenvalue spectrum rather than as an
+assertion.
 
 P2.2 spent that one direction on the drug-action gain. That was a modelling
 choice, not a data-driven one, and it is defended here rather than assumed:
@@ -88,7 +98,7 @@ that differ only in how many illustrative numbers are being treated as
 known. The difference between them is the whole point:
 
   REGIME A - `profile_chi_square(..., free_drug_gain=False)`: the scanned
-    parameter is the only free one; every other circuit number, the P2.2
+    parameter is the only free one; every other circuit number, the drug
     gain included, is held at its current value. Several parameters look
     identifiable here.
   REGIME B - `profile_chi_square(..., free_drug_gain=True)`: the scanned
@@ -111,11 +121,14 @@ What this module does NOT do
 It does not fit anything into `scenarios.py`, and it adds no entry to
 `priors.PRIOR_SPECS`: nothing here is a production calibration, so nothing
 here should pass through the guard
-`tests/test_bayesian_calibration.py::test_only_evidence_backed_circuit_
-layer_parameters_are_fit`. The joint models it builds
+`tests/test_bayesian_calibration.py::test_no_circuit_layer_parameter_
+claims_to_be_calibrated`. The joint models it builds
 (`build_joint_diagnostic_model`) are diagnostics that measure a posterior
 correlation, and they carry their own local prior specs for exactly that
-reason.
+reason. Its synthetic observation is likewise not a calibration of
+anything: it exists so the profiling machinery stays executable and tested
+while the project waits for human behavioural data (see
+docs/heldout-failure-analysis.md).
 """
 
 import numpy as np
@@ -123,15 +136,66 @@ from scipy.optimize import minimize_scalar
 
 from .. import scenarios
 from ..circuit import sigmoid
-from . import behavioral_evidence as bev
 from . import circuit_forward as cfwd
-from . import evidence as ev
-from . import forward as fwd
 
-#: The connection [Graziani2022]'s diazepam acts on, i.e. the one key of
+#: The connection the benzodiazepine agonist acts on, i.e. the one key of
 #: `scenarios.gaba_a_connection_modulation()`. Read from the scenario rather
 #: than restated so the two cannot drift.
 MODULATED_CONNECTION = next(iter(scenarios.gaba_a_connection_modulation()))
+
+# ---------------------------------------------------------------------------
+# The observation. SYNTHETIC since P11.3, and labelled as such at every use.
+#
+# Until P11.3 this module profiled against [Graziani2022]'s drug/vehicle
+# anxiety ratio - a real Wistar-rat elevated-plus-maze measurement, reached
+# through the Phase 1 PK bridge. The species pivot retired that dataset with
+# the rest of the rodent bridge, and no human behavioural target exists yet,
+# so the analysis below runs against a synthetic scalar instead: a ratio
+# generated by THIS MODULE'S OWN forward model at a stated gain and
+# activation, with a stated Gaussian width.
+#
+# What that preserves: every structural result (tau deadness, the four-
+# combination collapse, the rank-one Fisher information) is a property of
+# the model form and of "one scalar observation", not of which datum it is;
+# and the profiling machinery stays executable and tested rather than rotting
+# until a human target arrives. What it does NOT do: none of the numbers
+# below is a measurement of anything, none of them may be quoted as a
+# calibration, and the rejection-of-the-null result the tests assert is a
+# property of this demo observation, not of nature. See
+# docs/heldout-failure-analysis.md for what would replace these constants
+# with a real observation again.
+# ---------------------------------------------------------------------------
+
+#: The receptor activation the synthetic observation was generated at. A
+#: dimensionless occupancy-like number in [0, 1]; chosen to sit in the same
+#: near-saturated regime the retired rat exposure produced, so the profile
+#: shapes stay comparable with P2.3's published ones
+#: (`results/identifiability/`).
+SYNTHETIC_ACTIVATION = 0.90
+
+#: The drug-action gain the synthetic observation was generated at. Deliberately
+#: NOT the illustrative scenario value (0.5): an observation generated at the
+#: nominal value would make every regime-A profile trivially minimal there and
+#: the machinery would demonstrate nothing. This number is arbitrary within
+#: the scan box; its only job is to be a truth the profiles must recover.
+SYNTHETIC_TRUTH_GAIN = 1.3
+
+#: The stated Gaussian width of the synthetic observation. An engineering
+#: choice, declared here rather than disguised: small enough that the
+#: profiles have structure (a very wide sd makes everything look flat), large
+#: enough that the minimum is not a numerical spike.
+SYNTHETIC_RATIO_SD = 0.02
+
+
+def default_activation():
+    """The receptor activation held fixed throughout the analysis.
+
+    A RECEPTOR-layer quantity, and P2.3 is about the circuit layer. Holding
+    it fixed is what keeps "the circuit parameter is unidentifiable" from
+    being confounded with "the receptor parameter is unidentifiable", which
+    is a different question.
+    """
+    return SYNTHETIC_ACTIVATION
 
 #: Chi-square(1 df) 95% quantile, the standard profile-likelihood threshold
 #: (Raue et al. 2009, Bioinformatics 25(15):1923-9,
@@ -158,8 +222,8 @@ _SIGMOID_SATURATION_ARGUMENT = float(np.log(0.99 / 0.01))
 
 #: How many decades below its upper bound a grid whose lower bound is
 #: exactly zero extends before it stops. Four decades puts the drug gain's
-#: grid floor at 5e-4, two orders of magnitude below the P2.2 posterior
-#: mean, which is far enough for the profile's shape near zero to be a
+#: grid floor at 5e-4, well below any gain whose effect the observable could
+#: resolve, which is far enough for the profile's shape near zero to be a
 #: property of the likelihood rather than of the grid.
 _ZERO_EDGE_LOG_DECADES = 4.0
 
@@ -209,9 +273,9 @@ class CircuitParameter(object):
 
         A range with one endpoint at exactly zero (the drug gain's, whose
         lower bound is the mechanistic null) gets zero plus a log-spaced
-        tail. A linear grid would be useless there: the fitted gain is
-        0.074 in a box that runs to 5, so 41 evenly spaced points would put
-        the entire interesting region between the first two of them and the
+        tail. A linear grid would be useless there: the box runs 0 to 5 and
+        the interesting part of the profile sits below 2, so 41 evenly
+        spaced points would put it between the first two of them and the
         profile would be a grid artefact rather than a result.
         """
         lo, hi = self.scan
@@ -233,13 +297,15 @@ def _multiplicative_scan(nominal):
 
 def amygdala_circuit_parameters():
     """The eleven circuit-layer parameters of
-    `scenarios.amygdala_anxiety_circuit_network()`, plus the P2.2 drug-action
+    `scenarios.amygdala_anxiety_circuit_network()`, plus the drug-action
     gain, in a fixed order.
 
-    This is the only circuit in the codebase with a calibration-ready
-    behavioural observation attached to it, which is why the analysis is run
-    here and only here; `circuits_without_behavioural_evidence()` covers the
-    other three, for which the question is settled before it is asked.
+    This is the circuit the P2.2/P2.3 analyses ran on and the one this
+    module's synthetic observation lives on, which is why the analysis is
+    run here and only here; `circuits_without_behavioural_evidence()` covers
+    the other three, for which the question is settled before it is asked -
+    and, since P11.3, that set is all four of them again until a human
+    behavioural observation is registered.
     """
     network = scenarios.amygdala_anxiety_circuit_network()
     params = []
@@ -278,8 +344,9 @@ def amygdala_circuit_parameters():
     params.append(CircuitParameter(
         "gaba_a_connection_modulation_gain", "drug_gain", MODULATED_CONNECTION,
         scenarios.GABA_A_CONNECTION_MODULATION_GAIN, (0.0, 5.0),
-        "the P2.2 prior box (priors.PRIOR_SPECS), whose bounds come from the "
-        "mechanism: 0 = no potentiation, 5 = far beyond any benzodiazepine",
+        "a mechanism-chosen box, not a prior (nothing has fit this parameter "
+        "since P11.3): 0 = no potentiation, 5 = far beyond any "
+        "benzodiazepine",
     ))
     return params
 
@@ -307,45 +374,25 @@ def build_amygdala_network(overrides=None):
 # ---------------------------------------------------------------------------
 # The observation, and the model prediction to compare with it.
 # ---------------------------------------------------------------------------
-#: [Graziani2022]'s drug/vehicle anxiety ratio and its source-propagated sd,
-#: taken from `evidence.py` rather than restated. This is the ONLY
-#: behavioural observation this codebase has; the rank-one result below is
-#: a direct consequence of that "only".
-OBSERVED_RATIO = ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_mean"]
-OBSERVED_RATIO_SD = ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_sd"]
-
-
-def diazepam_activation(Ki_nM=None, timepoint_min=None):
-    """Diazepam's benzodiazepine-site activation at [Graziani2022]'s dose,
-    through the same Phase 1 bridge + equilibrium-occupancy path P2.2 uses.
-
-    Held fixed throughout the identifiability analysis: it is a
-    RECEPTOR-layer quantity, and P2.3 is about the circuit layer. Varying it
-    would confound "the circuit parameter is unidentifiable" with "the
-    receptor parameter is unidentifiable", which is a different question
-    that P2.2 already answered for this site.
-    """
-    if Ki_nM is None:
-        # Read off the calibrated ligand (koff/kon = Kd), not restated: the
-        # 3.6 nM [Mohler1977] figure lives in `scenarios.py` and this module
-        # must not carry a second copy of it.
-        diazepam = next(
-            ligand for ligand in scenarios.gaba_a_benzodiazepine_ligands_calibrated()
-            if ligand.name == "diazepam"
-        )
-        Ki_nM = diazepam.koff / diazepam.kon
-    brain_nM = (
-        ev.gaba_a_epm_unbound_brain_nM()
-        if timepoint_min is None
-        else ev.gaba_a_epm_unbound_brain_nM(timepoint_min)
-    )
-    return fwd.equilibrium_occupancy_from_kd(Ki_nM, brain_nM, efficacy=1.0)
+#: The synthetic observation this analysis profiles against: the production
+#: forward model's own ratio at (`SYNTHETIC_TRUTH_GAIN`,
+#: `SYNTHETIC_ACTIVATION`) on the illustrative scenario circuit. Computed
+#: through the integrated path rather than the closed form so that the
+#: closed-form/integrated agreement check in the tests remains a real
+#: cross-check of two independent routes rather than a tautology.
+OBSERVED_RATIO = float(cfwd.readout_ratio(
+    build_amygdala_network(),
+    scenarios.anxiety_index_readout(),
+    connection_modulation={MODULATED_CONNECTION: SYNTHETIC_TRUTH_GAIN},
+    activation=SYNTHETIC_ACTIVATION,
+))
+OBSERVED_RATIO_SD = SYNTHETIC_RATIO_SD
 
 
 def predicted_anxiety_ratio(overrides=None, drug_gain=None, activation=None,
                             baseline_rates=None):
     """The model's drug/vehicle anxiety-index ratio, via the same
-    `circuit_forward.readout_ratio` P2.2's likelihood calls.
+    `circuit_forward.readout_ratio` P2.2's likelihood called.
 
     Nothing is reimplemented for this analysis: if the production forward
     model changes, every number in this module changes with it.
@@ -353,7 +400,7 @@ def predicted_anxiety_ratio(overrides=None, drug_gain=None, activation=None,
     if drug_gain is None:
         drug_gain = scenarios.GABA_A_CONNECTION_MODULATION_GAIN
     if activation is None:
-        activation = diazepam_activation()
+        activation = default_activation()
     network = build_amygdala_network(overrides)
     return cfwd.readout_ratio(
         network,
@@ -474,7 +521,7 @@ def sensitivity(param_name, overrides=None, drug_gain=None, activation=None,
     if drug_gain is None:
         drug_gain = scenarios.GABA_A_CONNECTION_MODULATION_GAIN
     if activation is None:
-        activation = diazepam_activation()
+        activation = default_activation()
     base_overrides = dict(overrides or {})
     centre = base_overrides.get(param_name, param.nominal)
     if param.kind == "drug_gain":
@@ -570,7 +617,7 @@ def profile_chi_square(param_name, grid=None, free_drug_gain=True, activation=No
     if grid is None:
         grid = param.grid(points)
     if activation is None:
-        activation = diazepam_activation()
+        activation = default_activation()
     if drug_gain is None:
         drug_gain = scenarios.GABA_A_CONNECTION_MODULATION_GAIN
 
@@ -735,7 +782,7 @@ def profile_reduced(name, grid=None, points=41, activation=None,
     from scipy.optimize import minimize
 
     if activation is None:
-        activation = diazepam_activation()
+        activation = default_activation()
     box = reduced_parameter_box()
     free = [k for k in REDUCED_PARAMETERS if k != name]
     if grid is None:
@@ -883,7 +930,7 @@ def classify(param_name, grid_points=41, activation=None):
     """
     param = AMYGDALA_PARAMETERS_BY_NAME[param_name]
     if activation is None:
-        activation = diazepam_activation()
+        activation = default_activation()
     s = sensitivity(param_name, activation=activation)
 
     grid_a, profile_a, _ = profile_chi_square(
@@ -933,7 +980,7 @@ def classify(param_name, grid_points=41, activation=None):
 
 def identifiability_report(grid_points=41):
     """`classify()` for every amygdala circuit parameter, in a fixed order."""
-    activation = diazepam_activation()
+    activation = default_activation()
     return [classify(p.name, grid_points=grid_points, activation=activation)
             for p in AMYGDALA_PARAMETERS]
 
@@ -950,7 +997,7 @@ def reduced_report(grid_points=41):
     is therefore rejected unconditionally) - plus the exclusion of the
     saturated corners where no drug effect of any size is possible.
     """
-    activation = diazepam_activation()
+    activation = default_activation()
     box = reduced_parameter_box()
     rows = []
     for name in REDUCED_PARAMETERS:
@@ -997,74 +1044,55 @@ CIRCUIT_BUILDERS = {
     "amygdala_anxiety_circuit (GABA-A)": scenarios.amygdala_anxiety_circuit_network,
 }
 
-#: The calibration-ready behavioural entries that speak about one of the
-#: circuits above, and which circuit each speaks about. Still the one entry
-#: P2.2 fitted: P7.3's three additions constrain the whole-brain endpoint
-#: model instead and are listed separately below. Derived from
-#: `priors.CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS` in the test rather than
-#: duplicated here.
-CIRCUIT_OF_BEHAVIOURAL_EVIDENCE = {
-    "diazepam/elevated-plus-maze/Graziani2022": "amygdala_anxiety_circuit (GABA-A)",
-}
+#: Behavioural observations that speak about one of the circuits above,
+#: mapped to the circuit each speaks about. EMPTY since P11.3, which retired
+#: the rodent bridge - the one entry this mapping ever held was P2.2's rat
+#: elevated-plus-maze datum against the amygdala circuit - and no human
+#: behavioural observation exists yet. This register is how one gets added:
+#: an observation must be classified HERE (it constrains a scenario circuit)
+#: or in `WHOLE_BRAIN_ENDPOINT_EVIDENCE` (it constrains the whole-brain
+#: endpoint model instead), deliberately, before this analysis will count it.
+CIRCUIT_OF_BEHAVIOURAL_EVIDENCE = {}
 
-#: Calibration-ready entries that constrain no circuit in `CIRCUIT_BUILDERS`
-#: at all, with the reason each one does not. P2.3 was written when the only
-#: calibration-ready entry was P2.2's, which is a readout of a three-node
-#: hand-built amygdala scenario; P7.3 added three more, and every one of them
-#: is a target of the WHOLE-BRAIN endpoint fit
-#: (`endpoint_calibration.TARGETS`), whose free parameter is a gain over all
-#: 291 Knox regions weighted by receptor density. That gain is a different
-#: parameter from any of the scalars in a hand-built scenario - the module
-#: docstring of `endpoint_calibration` says so of its own gain versus P2.2's -
-#: so counting these entries towards a scenario circuit would credit that
-#: circuit with data that says nothing about its nodes or its weights.
-#:
-#: They are listed rather than filtered by a rule so that the count below
-#: still refuses to see an entry it has never been told about: a future
-#: calibration-ready entry has to be classified here or in
-#: `CIRCUIT_OF_BEHAVIOURAL_EVIDENCE`, deliberately, before this analysis runs.
-WHOLE_BRAIN_ENDPOINT_EVIDENCE = {
-    "diazepam/open-field/Graziani2022":
-        "P7.3's locomotion and sedation targets. Whole-brain endpoint "
-        "indices over the 291-region Knox build; no scenario circuit in "
-        "CIRCUIT_BUILDERS has a locomotion or a sedation readout.",
-    "diazepam/locomotor-activity/Sagara2008":
-        "P7.3's only graded series, and a locomotion target for the same "
-        "whole-brain index.",
-    "diazepam/hot-plate/Lustyk2023":
-        "P7.3's analgesia target, same whole-brain index. The analgesia "
-        "endpoint's regions are P7.1's cited membership, not a scenario's "
-        "three nodes.",
-}
+#: Observations that constrain no circuit in `CIRCUIT_BUILDERS` at all, with
+#: the reason each one does not. Empty since P11.3 for the same reason; its
+#: last entries were P7.3's three rodent whole-brain targets, retired to
+#: `legacy.behavioral_evidence` with their dataset. Kept as a registry rather
+#: than deleted so the classification discipline survives: when the first
+#: human behavioural dataset arrives it must be filed in one of these two
+#: mappings or `behavioural_observation_counts()` will refuse to see it.
+WHOLE_BRAIN_ENDPOINT_EVIDENCE = {}
 
-#: One-line description of the single observation, for the summary report.
-GABA_A_OBSERVATION_LABEL = "%s (%s)" % (
-    ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["evidence_key"],
-    ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["citation"],
+#: One-line description of the observation this analysis profiles against,
+#: for the summary report. Honest about being synthetic.
+GABA_A_OBSERVATION_LABEL = (
+    "synthetic scalar ratio at gain=%g, activation=%g, sd=%g (P11.3 stand-in; "
+    "the [Graziani2022] rat observation this slot held was retired with the "
+    "rodent bridge, and no human behavioural target exists yet)"
+    % (SYNTHETIC_TRUTH_GAIN, SYNTHETIC_ACTIVATION, SYNTHETIC_RATIO_SD)
 )
 
 
 def behavioural_observation_counts():
-    """{circuit label: number of calibration-ready behavioural observations}.
+    """{circuit label: number of registered behavioural observations}.
 
     Entries listed in `WHOLE_BRAIN_ENDPOINT_EVIDENCE` are counted towards no
     circuit, because they constrain the whole-brain endpoint model instead;
-    an entry in neither mapping is an error rather than a zero.
+    every entry of `CIRCUIT_OF_BEHAVIOURAL_EVIDENCE` has to name a circuit
+    this module actually knows.
+
+    Both registers are empty since P11.3, so this returns all zeros - which
+    is the honest state of the record: no behavioural observation anywhere
+    in production constrains any scenario circuit until a human one is
+    registered above.
     """
     counts = {label: 0 for label in CIRCUIT_BUILDERS}
-    for entry in bev.calibration_ready_entries():
-        if entry.key in WHOLE_BRAIN_ENDPOINT_EVIDENCE:
-            continue
-        circuit = CIRCUIT_OF_BEHAVIOURAL_EVIDENCE.get(entry.key)
-        if circuit is None:
+    for key, circuit in CIRCUIT_OF_BEHAVIOURAL_EVIDENCE.items():
+        if circuit not in counts:
             raise KeyError(
-                "behavioural entry %r is calibration-ready but this module "
-                "does not know which circuit it constrains; add it to "
-                "CIRCUIT_OF_BEHAVIOURAL_EVIDENCE, or to "
-                "WHOLE_BRAIN_ENDPOINT_EVIDENCE if it constrains the "
-                "whole-brain endpoint model rather than a scenario circuit, "
-                "before running the analysis"
-                % (entry.key,)
+                "behavioural observation %r is registered against unknown "
+                "circuit %r; expected one of %s"
+                % (key, circuit, sorted(counts))
             )
         counts[circuit] += 1
     return counts
@@ -1136,7 +1164,7 @@ def build_joint_diagnostic_model(param_name, activation=None):
     from pytensor.compile.ops import as_op
 
     if activation is None:
-        activation = diazepam_activation()
+        activation = default_activation()
     lower, upper = diagnostic_prior_bounds(param_name)
     gain_lower, gain_upper = diagnostic_prior_bounds("gaba_a_connection_modulation_gain")
 

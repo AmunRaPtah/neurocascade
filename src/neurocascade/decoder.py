@@ -15,10 +15,16 @@ model-comparison criterion, and which to leave alone.
 
 The whole module rests on one argument about what data can decide this, so
 that argument is stated first. The result, so it is not buried: **the answer
-is no everywhere.** Five graded single-region series exist in this literature
-with per-level numbers outside a figure - three for locomotion, one for
-sedation, one for anxiety - and all five were rejected, each for a different
-reason. The other four endpoints have no such series at all.
+is no everywhere.** When P7.2 ran, five graded single-region series existed
+in this literature with per-level numbers outside a figure - three for
+locomotion, one for sedation, one for anxiety - and all five were rejected,
+each for a different reason; the other four endpoints had no such series at
+all. P11.3 then retired the five rodent series to `legacy/rodent_series.py`
+under the human-primary pivot, so the library this module assesses is now
+empty (`SERIES == ()`) and every endpoint reports `no-data`. Nothing was
+adopted before the retirement and nothing is adopted now; the decision rule
+below is what will evaluate the first HUMAN graded series, and the synthetic
+tests are what keep it executable until then.
 
 
 What data can identify a decoder nonlinearity, and what cannot
@@ -1174,195 +1180,37 @@ CITATIONS = {
 #: Citation keys that appear in this module's prose rather than on a series.
 #: The orphan test checks both directions, which is the check P7.1's own
 #: orphan test was found to be doing only half of.
+#:
+#: P11.3 moved the five rodent series to `legacy/rodent_series.py`, which
+#: turned the four series-only citations below into prose-only ones: the
+#: docstring still argues from [Herent2023]'s SD floor and [DeLuca2022]'s
+#: terminal-field design because they are the clearest illustrations of two
+#: of this module's rules. Their bibliographic entries stay here so there is
+#: exactly one copy of each reference; the data they describe does not.
 CITED_IN_PROSE = (
+    "Herent2023", "Caggiano2018", "DeLuca2022", "Diaz2011",
     "ZhuoGebhart1997", "Kroeger2018", "Liang2023", "Guo2023", "Yamagata2021",
     "Zahrt1997", "BakshiGeyer1998", "Alsene2011", "Swerdlow2007",
     "MendoncaDosSantos2024", "Zhang2025",
 )
 
 
-#: Every graded single-region series this module could build from numbers
-#: that exist outside a figure. Five, from four papers, covering three of
-#: the seven endpoints. The other four endpoints, and every series that was
-#: found and could not be used, are in `SEARCHED_AND_EMPTY`.
+#: P11.3 retired this library. `SERIES` held five graded single-region
+#: series from four papers - four mouse optogenetic series and one rat
+#: microinjection series - covering locomotion, sedation and anxiety; every
+#: one describes a rodent experiment, so under the human-primary roadmap none
+#: may inform a human readout and all five moved to
+#: `legacy/rodent_series.py`, where they stay importable and tested.
 #:
-#: The drive transform is `linear` on all five and that is a rule rather
-#: than five separate choices: none of these series spans a decade of drive
-#: (5-40 Hz, 5-50 Hz, 0-20 Hz, 0-5 pmol), and three of them include a zero
-#: level that no logarithm can hold. Picking the transform per series after
-#: seeing which one favours which family is exactly the freedom this module
-#: must not have.
-SERIES = (
-    DriveResponseSeries(
-        key="herent2023_cnf_locomotion",
-        endpoint="locomotion",
-        structures=("CUN",),
-        manipulation="optogenetic_stimulation",
-        drive_units="Hz",
-        levels=(5.0, 10.0, 15.0, 20.0, 30.0, 40.0),
-        values=(0.187214, 0.128781, 54.3845, 67.4137, 84.8552, 85.9764),
-        value_units="mean displacement speed, cm/s",
-        score_sign=1,
-        dispersion=(0.352991, 0.115215, 20.8858, 10.7764, 18.6683, 13.4384),
-        dispersion_kind="SD",
-        n_per_level=(5, 5, 5, 5, 5, 5),
-        citation="Herent2023",
-        species="mouse",
-        provenance="source data",
-        finding=(
-            "Photoactivating glutamatergic cuneiform neurons at 15 Hz or "
-            "more engages forward locomotion and higher frequencies impose "
-            "faster regimes; 5 and 10 Hz are below the threshold for "
-            "locomotor initiation and evoke essentially none."
-        ),
-        note=(
-            "The 'Mean' and 'SD' rows are the file's own, over the five "
-            "per-animal means; the sheet also holds all 15 individual "
-            "trials per frequency. The SDs at 5 and 10 Hz (0.35 and 0.12 "
-            "cm/s) are a FLOOR, not precision - those frequencies evoke no "
-            "locomotion in any animal - which is why this series is the "
-            "reason the module assesses under both weightings."
-        ),
-    ),
-    DriveResponseSeries(
-        key="caggiano2018_cnf_locomotion",
-        endpoint="locomotion",
-        structures=("CUN",),
-        manipulation="optogenetic_stimulation",
-        drive_units="Hz",
-        levels=(5.0, 10.0, 20.0, 50.0),
-        values=(23.6770, 30.3664, 50.5043, 57.2240),
-        value_units="mean of per-trial maximum speed, cm/s",
-        score_sign=1,
-        dispersion=(7.6196, 5.2498, 6.2010, 4.5634),
-        dispersion_kind="SEM",
-        n_per_level=(14, 41, 37, 39),
-        citation="Caggiano2018",
-        species="mouse",
-        provenance="source data",
-        finding=(
-            "Stepwise increasing the stimulation frequency from threshold "
-            "values around 5 Hz to maximal frequencies at 50 Hz "
-            "progressively increased the speed of locomotion."
-        ),
-        note=(
-            "Means and SEMs COMPUTED HERE from the deposit's trial-level "
-            "maximum speeds; the paper plots medians with 25th/75th "
-            "percentiles and states no per-level number. Two discrepancies "
-            "in the deposit are recorded rather than smoothed. (1) The "
-            "level column is headed 'Power', but its values are "
-            "{5, 10, 20, 50} while the paper's stated laser power range is "
-            "5-30 mW, and the Results sentence quoted above names 5 Hz and "
-            "50 Hz as the ends of a FREQUENCY series - so the column is "
-            "frequency in Hz and its header is wrong. (2) The deposit holds "
-            "131 CnF trials where the figure legend says n = 148; the n "
-            "used here is the deposit's."
-        ),
-    ),
-    DriveResponseSeries(
-        key="caggiano2018_ppn_locomotion",
-        endpoint="locomotion",
-        structures=("PPN",),
-        manipulation="optogenetic_stimulation",
-        drive_units="Hz",
-        levels=(5.0, 10.0, 20.0, 50.0),
-        values=(1.6416, 5.4990, 5.8049, 19.8448),
-        value_units="mean of per-trial maximum speed, cm/s",
-        score_sign=1,
-        dispersion=(0.5351, 2.4202, 3.3058, 5.8237),
-        dispersion_kind="SEM",
-        n_per_level=(4, 21, 18, 24),
-        citation="Caggiano2018",
-        species="mouse",
-        provenance="source data",
-        finding=(
-            "The same frequency series delivered to glutamatergic "
-            "pedunculopontine neurons evokes far slower locomotion than the "
-            "cuneiform nucleus does (pooled maxima 19 vs 56 cm/s)."
-        ),
-        note=(
-            "Same deposit and same two caveats as the CnF series. The 5 Hz "
-            "level rests on four trials, which the leave-one-out numbers "
-            "reflect rather than hide."
-        ),
-    ),
-    DriveResponseSeries(
-        key="deluca2022_vlpo_sedation",
-        endpoint="sedation",
-        structures=("VLPO",),
-        manipulation="optogenetic_stimulation",
-        drive_units="Hz",
-        levels=(0.0, 1.0, 5.0, 10.0, 20.0),
-        values=(32.242, 33.701, 48.206, 53.854, 59.234),
-        value_units="probability of arousal from NREM sleep, %",
-        score_sign=-1,
-        dispersion=(3.064, 2.5149, 4.1048, 6.0107, 11.206),
-        dispersion_kind="SEM",
-        n_per_level=(5, 5, 5, 5, 5),
-        citation="DeLuca2022",
-        species="mouse",
-        provenance="source data",
-        finding=(
-            "Arousal probability from NREM sleep rose with the frequency of "
-            "orexinergic stimulation in the VLPO, significantly at 10 and "
-            "20 Hz and not at 1 or 5 Hz."
-        ),
-        note=(
-            "The zero level is the paper's own sham. `score_sign=-1` "
-            "because the sedation endpoint's direction is 'higher = MORE "
-            "sedated', and a higher arousal probability is less sedation. "
-            "This is a TERMINAL-FIELD manipulation: ChR2 sits in lateral "
-            "hypothalamic orexin neurons and the fibre sits over the VLPO, "
-            "so raising the drive lowers the VLPO sleep-active rate. That "
-            "is monotone DECREASING, which the identifiability argument "
-            "accommodates - it needs monotone, not increasing - and the "
-            "region whose rate is graded is unambiguously the VLPO."
-        ),
-    ),
-    DriveResponseSeries(
-        key="diaz2011_bla_anxiety",
-        endpoint="anxiety",
-        structures=("BLA",),
-        manipulation="intracerebral_microinjection",
-        drive_units="pmol",
-        levels=(0.0, 1.5, 5.0),
-        values=(7.5, 41.7, 104.8),
-        value_units="open-arm time, s of 300",
-        score_sign=-1,
-        dispersion=(3.7, 5.5, 16.9),
-        dispersion_kind="SEM",
-        citation="Diaz2011",
-        species="rat",
-        provenance="table",
-        finding=(
-            "Bilateral intra-BLA U99194 increased open-arm time from "
-            "7.5 s at vehicle to 41.7 s at 1.5 pmol and 104.8 s at "
-            "5.0 pmol of a 300 s trial, with matching increases in open-arm "
-            "entries and percentage of open-arm entries."
-        ),
-        note=(
-            "Three levels, so it is rejected as `too-few-levels` before any "
-            "family is compared - it is here because a graded intra-BLA "
-            "series with per-dose EPM means in a TABLE is close to unique, "
-            "and because a rejection for want of a fourth level is a more "
-            "useful record than silence. Table 1 does not restate n; the "
-            "paper's light/dark text gives 6, 8 and 6 for the three groups "
-            "and is internally inconsistent about the middle one, so "
-            "`n_per_level` is left unset and the dispersion weighting uses "
-            "the published SEMs directly. Open, closed and junction times "
-            "sum to 300.1, 300.1 and 299.9 s, which is the only internal "
-            "check the table supports and it passes."
-        ),
-    ),
-)
+#: The empty library is a real state of the record, not a stub: no endpoint
+#: has graded series data this module may use, so every verdict is
+#: `no-data`, nothing is adopted (which was also true when the five series
+#: were present), and the machinery below keeps running against synthetic
+#: series in its tests until a HUMAN graded series exists. The searched-and-
+#: empty records below describe what was found for each endpoint and why it
+#: was unusable; they are the standing instruction for what to re-search.
+SERIES = ()
 
-
-#: A contest is only declared resolved by a nonlinearity where a reason is
-#: written out saying which two reports the reversal reconciles. Empty,
-#: because nothing was adopted. The mechanism is kept because P7.1's
-#: `contested` flag and P7.2's reversal are the same phenomenon seen twice:
-#: two studies of one region reporting opposite directions is what a
-#: reversal LOOKS like when it is sampled at two drive levels by two labs.
 CONTEST_RESOLUTIONS = {}
 
 

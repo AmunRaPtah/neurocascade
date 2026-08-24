@@ -1,4 +1,4 @@
-"""Tests for `neurocascade.calibration.behavioral_evidence` (P2.1).
+"""Tests for `neurocascade.legacy.behavioral_evidence` (P2.1; quarantined P11.3).
 
 Three things are checked, matching the three acceptance criteria of the task:
 
@@ -16,13 +16,19 @@ Three things are checked, matching the three acceptance criteria of the task:
    *computed* from `drug_pk`'s own coverage rather than asserted in prose, so
    these tests fail if a later phase sources a route and nobody revisits the
    verdicts.
+
+The module under test moved here from `calibration/` in P11.3 (the species
+pivot retired every dataset in it - all rodent - from production use). It is
+tested rather than deleted because quarantine-not-deletion is the policy: the
+historical posteriors stay reproducible from these numbers, and the module
+records what the rodent-era searches actually found.
 """
 
 import numpy as np
 import pytest
 
+from neurocascade.legacy import behavioral_evidence as be
 from neurocascade.legacy import drug_pk
-from neurocascade.calibration import behavioral_evidence as be
 
 
 # ---------------------------------------------------------------------------
@@ -577,3 +583,132 @@ def test_pk_source_body_weight_band_is_recorded_for_the_absolute_model():
     band = be.PK_SOURCE_BODY_WEIGHT_BANDS_KG[("fentanyl", "rat", "IV")]
     assert band == drug_pk.FENTANYL_RAT_IV_SOURCE_BODY_WEIGHT_RANGE_KG
     assert band[0] < band[1]
+
+
+# ---------------------------------------------------------------------------
+# Published-value pins, moved here from tests/test_endpoint_calibration.py by
+# P11.3: they are transcription checks on THIS module's data, and this is
+# where the data lives now. Same assertions, same numbers, new home.
+# ---------------------------------------------------------------------------
+
+
+def test_graziani_open_field_numbers_are_the_published_ones():
+    """[Graziani2022] Table 3, transcribed independently of the entry."""
+    effect = be.DIAZEPAM_OPEN_FIELD_GRAZIANI2022.effect
+    assert effect.values["vehicle crossings"] == 31.1
+    assert effect.dispersion["vehicle crossings"] == 2.6
+    assert effect.group_sizes["vehicle crossings"] == 11
+    assert effect.values["diazepam 2 mg/kg crossings"] == 43.0
+    assert effect.dispersion["diazepam 2 mg/kg crossings"] == 6.1
+    assert effect.group_sizes["diazepam 2 mg/kg crossings"] == 4
+    assert effect.values["vehicle immobility_s"] == 57.4
+    assert effect.values["diazepam 2 mg/kg immobility_s"] == 43.6
+
+
+def test_the_graziani_open_field_table_sums_to_its_own_trial_duration():
+    """The units check that lets this table be read as seconds without
+    assuming it, the same one P2.2 ran on the EPM table next to it: centre
+    plus periphery time is the stated 5 min trial in both rows."""
+    effect = be.DIAZEPAM_OPEN_FIELD_GRAZIANI2022.effect
+    for group in ("vehicle", "diazepam 2 mg/kg"):
+        total = (effect.values["%s centre_time_s" % group]
+                 + effect.values["%s periphery_time_s" % group])
+        assert total == pytest.approx(
+            be.GRAZIANI2022_OPEN_FIELD_DURATION_S, abs=6.0
+        ), group
+
+
+def test_sagara_numbers_are_the_published_ones():
+    effect = be.DIAZEPAM_LOCOMOTION_SAGARA2008.effect
+    assert effect.values == {
+        "vehicle": 153.6,
+        "diazepam 0.2 mg/kg": 156.5,
+        "diazepam 0.5 mg/kg": 158.3,
+        "diazepam 1.0 mg/kg": 161.7,
+    }
+    assert effect.dispersion == {
+        "vehicle": 16.6,
+        "diazepam 0.2 mg/kg": 22.9,
+        "diazepam 0.5 mg/kg": 24.6,
+        "diazepam 1.0 mg/kg": 19.1,
+    }
+    assert set(effect.group_sizes.values()) == {10}
+    assert effect.dispersion_kind == "SEM"
+    assert be.DIAZEPAM_LOCOMOTION_SAGARA2008.doses_mg_per_kg == (0.2, 0.5, 1.0)
+    assert be.DIAZEPAM_LOCOMOTION_SAGARA2008.timepoint_min == 15.0
+
+
+def test_lustyk_numbers_are_the_published_ones_and_are_SDs():
+    entry = be.DIAZEPAM_HOT_PLATE_LUSTYK2023
+    assert entry.effect.values == {
+        "vehicle": 8.20,
+        "diazepam 5 mg/kg": 11.40,
+        "diazepam 10 mg/kg": 10.06,
+    }
+    assert entry.effect.dispersion == {
+        "vehicle": 2.38,
+        "diazepam 5 mg/kg": 4.76,
+        "diazepam 10 mg/kg": 3.70,
+    }
+    # SD, not SEM. This is the only entry in the module reported that way
+    # and the reason `DISPERSION_KINDS` records the kind rather than
+    # normalising it; a caller that treated it as an SEM would be claiming
+    # a width sqrt(6) too narrow.
+    assert entry.effect.dispersion_kind == "SD"
+    assert entry.effect.group_sizes is None
+    assert be.LUSTYK2023_MIN_GROUP_SIZE == 6
+
+
+def test_yassen_logistic_is_the_published_one_and_reproduces_its_own_paper():
+    """Two checks on one transcription.
+
+    The first restates the published parameters. The second is the
+    arithmetic that caught the source's own Discussion out: alpha and beta
+    give 1.30% and 3.84% at 4 and 5 ng/mL, where that Discussion claims
+    0.4% and 1.2% - which are the values at 3 and 4 ng/mL. The respiratory
+    half of the same sentence reproduces exactly from its own parameters,
+    which is what makes the antinociceptive half a misprint rather than a
+    different convention.
+    """
+    assert be.YASSEN2008_ALPHA == -8.77
+    assert be.YASSEN2008_BETA_PER_NG_PER_ML == 1.11
+    p4, p5 = be.yassen2008_antinociception_probability([4.0, 5.0])
+    assert p4 == pytest.approx(0.0130, abs=5e-4)
+    assert p5 == pytest.approx(0.0384, abs=5e-4)
+    p3 = float(be.yassen2008_antinociception_probability(3.0))
+    assert p3 == pytest.approx(0.0043, abs=5e-4)
+    # The respiratory parameters, which DO reproduce the same sentence.
+    resp = 1.0 / (1.0 + np.exp(-(-5.86 + 0.930 * np.array([4.0, 5.0]))))
+    assert resp[0] == pytest.approx(0.105, abs=2e-3)
+    assert resp[1] == pytest.approx(0.230, abs=2e-3)
+
+
+def test_the_published_analgesia_curve_is_far_steeper_than_any_occupancy_curve():
+    """The measured reason the analgesia endpoint is not fitted.
+
+    A one-site occupancy curve spans 10% to 90% over an 81-fold
+    concentration range, for every drug and every Kd, because occupancy is
+    C/(C+Kd). [Yassen2008]'s curve does it in 1.67-fold. No monotone
+    function of fractional occupancy can be that steep.
+    """
+    assert be.HILL_ONE_STEEPNESS == 81.0
+    assert be.YASSEN2008_STEEPNESS == pytest.approx(1.669, abs=1e-3)
+    assert be.YASSEN2008_STEEPNESS < be.HILL_ONE_STEEPNESS / 40.0
+    # Derived independently of the module's own helper.
+    c10 = (np.log(0.1 / 0.9) + 8.77) / 1.11
+    c90 = (np.log(0.9 / 0.1) + 8.77) / 1.11
+    assert c90 / c10 == pytest.approx(be.YASSEN2008_STEEPNESS, rel=1e-9)
+
+
+def test_obert_and_kissin_numbers_are_the_published_ones():
+    assert be.OBERT2025_RORR_MIN_BY_DOSE_MG_PER_KG == {
+        0.0125: 13.0, 0.025: 15.0, 0.050: 26.0, 0.100: 50.0,
+    }
+    assert be.OBERT2025_RORR_IQR_MIN_BY_DOSE_MG_PER_KG[0.100] == (45.0, 53.0)
+    assert be.KISSIN1983_FENTANYL_RR_ED50_MG_PER_KG == 0.023
+    assert be.KISSIN1983_FENTANYL_RR_ED50_FIDUCIAL_LIMITS_MG_PER_KG == (
+        0.020, 0.026
+    )
+    # An IQR is not a dispersion this module can express, and no conversion
+    # was invented for it.
+    assert be.FENTANYL_RIGHTING_REFLEX_OBERT2025.effect.dispersion is None

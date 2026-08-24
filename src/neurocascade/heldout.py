@@ -4,10 +4,11 @@ Every compound in this module is one this project has NEVER fitted anything
 against. The training set is three drugs - fentanyl, haloperidol and diazepam
 - and it is small because `drug_pk` only ever built four (drug, species,
 route) triples. `test_heldout.py::test_no_held_out_compound_is_in_the_training_
-set` reads the training set off `calibration.behavioral_evidence` rather than
-restating it here, so a compound that later acquires a fitting target cannot
-sit in this module unnoticed. That is the acceptance criterion "no held-out
-compound silently moved into the training set", expressed as an assertion.
+set` reads the training set off the behavioural-evidence module (quarantined
+under `legacy/` by P11.3) rather than restating it here, so a compound that
+later acquires a fitting target cannot sit in this module unnoticed. That is
+the acceptance criterion "no held-out compound silently moved into the
+training set", expressed as an assertion.
 
 What a record in this module is, and is not
 -------------------------------------------
@@ -1910,9 +1911,17 @@ _register(_compound(
 #: is read off the evidence module, so a drug that acquires a fitting target
 #: later is picked up automatically and the disjointness test starts failing
 #: instead of quietly passing.
+#:
+#: Since P11.3 that module is the QUARANTINED one: every dose-to-behaviour
+#: dataset this project ever fitted lived in `calibration.behavioral_
+#: evidence` until the species pivot moved it to `legacy/`. Reading the set
+#: off the quarantined copy keeps the definition historical-and-complete -
+#: these are the drugs the retired bridge actually touched - while a future
+#: HUMAN behavioural dataset will re-enter through a production module and
+#: must be added here explicitly when it does.
 def training_compounds():
     """The set of drug names any calibration in this repository has used."""
-    from .calibration import behavioral_evidence as _evidence
+    from .legacy import behavioral_evidence as _evidence
 
     return {entry.drug for entry in _evidence.BEHAVIORAL_EVIDENCE}
 

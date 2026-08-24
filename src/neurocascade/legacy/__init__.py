@@ -53,6 +53,18 @@ What lives here
 `projection_density`, `projection_scenarios`, `projection_systems`
     P6.1 and P6.3: projection densities derived from the mouse tracer matrix,
     and the nine source nuclei keyed to CCF acronyms and ids.
+`behavioral_evidence`
+    The rodent dose-to-behaviour bridge (P2.1 to P2.3, P7.3): all eleven
+    published dose-to-behaviour datasets - ten rat, one mouse, zero human -
+    the value types and delta-method ratio math around them, the per-endpoint
+    coverage and searched-and-empty registries, and the derivation of the
+    retired P2.2 anxiolysis target. Moved here by P11.3; it was the last
+    rodent data production calibration read.
+`rodent_series`
+    P11.3 addition: decoder.py's five optogenetic/chemogenetic
+    drive-response series (four mouse, one rat), with their citations. The
+    `decoder` machinery that assessed them is species-agnostic and stayed in
+    production with an empty library.
 
 What deliberately did NOT move
 ------------------------------
@@ -70,6 +82,7 @@ See also
 """
 
 from . import (
+    behavioral_evidence,
     connectome,
     connectome_scenarios,
     drug_pk,
@@ -79,9 +92,11 @@ from . import (
     projection_density,
     projection_scenarios,
     projection_systems,
+    rodent_series,
 )
 
 __all__ = [
+    "behavioral_evidence",
     "connectome",
     "connectome_scenarios",
     "drug_pk",
@@ -91,4 +106,5 @@ __all__ = [
     "projection_density",
     "projection_scenarios",
     "projection_systems",
+    "rodent_series",
 ]

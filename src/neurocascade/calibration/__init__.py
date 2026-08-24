@@ -26,22 +26,15 @@ for calibration-workflow convenience. The three systems' posteriors would
 come out identical if fit in three separate `pm.sample()` calls, since none
 of the three likelihood terms below reads another system's parameters.
 
-  - priors.py:   two-tier (informed/uninformed) `PRIOR_SPECS` for the 8 free
-                 receptor-binding parameters this pass fits, one shared
+  - priors.py:   two-tier (informed/uninformed) `PRIOR_SPECS` for the seven
+                 free receptor-binding parameters this pass fits, one shared
                  dict across all three systems.
   - evidence.py: the real literature validation targets already present in
                  `scenarios.py`'s calibrated sections (Moss et al. 2020 for
                  mu-opioid, Kapur et al. 1997 for D2, Savic et al. 1991 for
                  GABA-A), turned into Gaussian-likelihood (mean, sd) targets.
-  - behavioral_evidence.py: (P2.1, extended in P2.2) the DOSE-to-BEHAVIOUR
-                 datasets, as distinct from evidence.py's
-                 concentration-to-occupancy ones. Holds the three papers
-                 Track E named, re-examined through the Phase 1
-                 dose-to-brain-concentration bridge, plus two further
-                 rat/IP diazepam datasets - one that exercises the bridge
-                 end to end and one, added in P2.2, that is an actual
-                 likelihood target. The module records per entry exactly
-                 why each of the others is not.
+                 All three are HUMAN measurements; since P11.3 they are also
+                 the only behavioural-adjacent targets this package holds.
   - forward.py:  the RECEPTOR-layer forward model, built on
                  `ReceptorSite.occupancy_rhs` (integrated via
                  `scipy.integrate.solve_ivp`, the same integrator
@@ -51,15 +44,29 @@ of the three likelihood terms below reads another system's parameters.
                  same way on `CircuitNetwork.rhs`. Returns a drug/vehicle
                  RATIO of a behavioural readout, because the readout has no
                  published scale and a ratio needs none.
-  - bayesian_calibration.py: builds the combined `pm.Model` (8 parameters, 5
-                 likelihood terms), samples with `DEMetropolisZ`, and saves
-                 posterior + prior-predictive `InferenceData` plus a summary
-                 table, mirroring
+  - bayesian_calibration.py: builds one independent `pm.Model` per system,
+                 samples each with `DEMetropolisZ`, and saves posterior +
+                 prior-predictive `InferenceData` plus a summary table,
+                 mirroring
                  `cct-bayesian-validation/bayesian_calibration.py`'s
                  `build_model()`/`main()` structure.
+  - identifiability.py / endpoint_calibration.py / heldout_forward.py:
+                 the P2.3/P7.3/P8 machinery, all species-agnostic and all
+                 kept. Since P11.3 they run against explicitly-labelled
+                 SYNTHETIC observations (`identifiability.py`'s scalar,
+                 `endpoint_calibration.synthetic_target`) because the rodent
+                 datasets that fed them moved out with the species pivot.
+  - behavioral_evidence.py: RETIRED by P11.3 to
+                 `neurocascade/legacy/behavioral_evidence.py`, where the full
+                 dose-to-BEHAVIOUR dataset set it held (eleven entries, ten
+                 rat and one mouse, no human) stays importable, tested and
+                 reproducible under the quarantine policy. No human dataset
+                 has replaced it yet; `SEARCHED_AND_EMPTY_BEHAVIORAL` there
+                 records what the searches found and why each entry fell
+                 short of its own gate.
 
-What this scaffold fits at the CIRCUIT layer, and what it still does not
-(see `docs/architecture.md`'s P2.2 section for the full reasoning).
+What this scaffold fits at the CIRCUIT layer: nothing, again
+(see `docs/architecture.md`'s P2.2 and P11.3 sections for the reasoning).
 
 Through Track C2 and P2.1 the answer was "nothing": every validation target
 in `evidence.py` was a receptor-occupancy measurement (Moss/Kapur/Savic),
@@ -70,22 +77,24 @@ measured effect or inventing a dose-to-concentration PK submodel. A
 circuit-layer likelihood term would have had nothing real to compare
 against.
 
-P2.2 changed that for exactly ONE of the three. `gaba_a_connection_
-modulation`'s gain is now fitted against [Graziani2022], a rat/IP diazepam
-elevated-plus-maze dataset with a vehicle group, printed SEMs and group
-sizes, reached through the Phase 1 bridge. `mu_opioid_coupling` and
-`d2_coupling` remain unfitted and their scenario functions remain labelled
-illustrative: P2.2 re-ran both searches at full scale (421 open-access
-fentanyl/accumbens articles, 1303 haloperidol/behaviour articles) and both
-came back empty, for reasons recorded per system in
-`behavioral_evidence.SEARCHED_AND_EMPTY_BEHAVIORAL`.
+Between P2.2 and P11.3 the answer was "one", and only ever one:
+`gaba_a_connection_modulation`'s gain, fitted against [Graziani2022], a
+rat/IP diazepam elevated-plus-maze dataset reached through the Phase 1
+bridge. The v2 human-primary roadmap retired that fit - the observation is
+rat behaviour, and under the species pivot no rodent dataset may calibrate
+any layer of a human-primary model - so the answer is "nothing" again, now
+with the blocker named precisely: HUMAN behavioural evidence through the
+bridge, which no search has yet produced. The fitting machinery is kept
+warm on synthetic observations (`bayesian_calibration.build_circuit_gain_
+model`, `identifiability.py`'s labelled scalar) so that the day such a
+dataset passes the gate, nothing needs rebuilding.
 
-`priors.CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS` is the list of circuit-layer
-parameters this scaffold fits and the dataset behind each, and
-`tests/test_bayesian_calibration.py::test_only_evidence_backed_circuit_
-layer_parameters_are_fit` enforces it: a circuit-layer parameter may be here
-only if it names a behavioural entry that is still calibration-ready when
-the test runs, and anything not so declared must still be a `Ki_`/`kon_`/
-`koff_` receptor-binding constant. That test replaced P2.1's blanket
-`test_no_circuit_layer_parameter_is_fit`.
+`priors.CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS` is the register of circuit-layer
+parameters this scaffold calibrates and the dataset behind each - EMPTY
+since P11.3, and enforced as empty by
+`tests/test_bayesian_calibration.py::test_no_circuit_layer_parameter_
+claims_to_be_calibrated`. Anything entering it must name HUMAN behavioural
+evidence in the same change that adds it; anything not registered must be
+a `Ki_`/`kon_`/`koff_` receptor-binding constant. This is P2.1's original
+blanket rule restored, with P11.3's reason attached.
 """

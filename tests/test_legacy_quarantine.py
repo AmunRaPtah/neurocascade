@@ -36,8 +36,13 @@ from neurocascade import legacy
 
 SRC = pathlib.Path(__file__).resolve().parent.parent / "src" / "neurocascade"
 
-#: Exactly what was quarantined in P11.1.
+#: Everything that was quarantined: the nine modules P11.1 moved, plus the
+#: two P11.3 added when it retired the rodent dose-to-behaviour bridge
+#: (`behavioral_evidence`, moved wholesale out of `calibration/`) and the
+#: decoder's five rodent series (`rodent_series`, extracted from
+#: `decoder.py`).
 QUARANTINED = {
+    "behavioral_evidence",
     "connectome",
     "connectome_scenarios",
     "drug_pk",
@@ -47,6 +52,7 @@ QUARANTINED = {
     "projection_density",
     "projection_scenarios",
     "projection_systems",
+    "rodent_series",
 }
 
 #: The one intentional, permanent reach: the package root exposes `legacy` so
@@ -58,7 +64,8 @@ EXPOSURE = {"__init__.py"}
 #:
 #: Every entry here is a rodent dependency that survived P11.1 and is scheduled
 #: for removal. The task that removes each one is named, so this table doubles
-#: as the work list.
+#: as the work list. P11.3 removed one entry (`calibration/behavioral_
+#: evidence.py`, retired wholesale) and added one (`heldout.py`, metadata only).
 PERMITTED_REACHES = {
     # Consumes rodent PK parameters for dose-driven prediction. P11.2 puts the
     # species gate in front of this; P14.2 replaces the parameters with human
@@ -67,13 +74,23 @@ PERMITTED_REACHES = {
     # The mu-opioid coupling map still resolves through the Allen ISH scenario
     # maps. P12.1 replaces it with the Hansen PET atlas; P12.4 retires the path.
     "scenarios.py": "P12.1 replaces the density source, P12.4 retires the path",
-    # The rodent dose-to-behaviour bridge. P11.3 retires all of it.
-    "calibration/behavioral_evidence.py": "P11.3 retires the rodent bridge",
-    "calibration/heldout_validation.py": "P11.3 retires the rodent bridge",
+    # Replays the held-out compounds through the same rodent PK and endogenous
+    # tone the training predictions used, which is what makes the comparison
+    # like-for-like. P14.2 swaps both for human parameters and the reach goes.
+    "calibration/heldout_validation.py": (
+        "P14.2 replaces the PK and tone parameters it replays"
+    ),
     # Whole-brain forward models built on the mouse connectome and ISH atlas.
     # P13 rebuilds on F-TRACT; P12 rebuilds the density side.
     "calibration/endpoint_forward.py": "P12 and P13 rebuild both inputs",
     "calibration/heldout_forward.py": "P12 and P13 rebuild both inputs",
+    # Metadata only: `training_compounds()` reads its drug-name set off the
+    # quarantined behavioural-evidence module so the held-out disjointness
+    # test stays automatic instead of restating a literal that can drift.
+    # No rodent number reaches a prediction through it.
+    "heldout.py": (
+        "P11.3: training-set drug names read off the quarantined evidence"
+    ),
 }
 
 

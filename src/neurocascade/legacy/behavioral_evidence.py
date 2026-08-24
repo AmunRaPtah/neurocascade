@@ -1,7 +1,33 @@
-"""P2.1: the real dose-to-behaviour datasets Track E found, re-examined now
-that the Phase 1 dose-to-brain-concentration bridge exists.
+"""The rodent dose-to-behaviour bridge, retired here by P11.3.
 
-What this module is, and what `evidence.py` next to it is not
+This was `calibration/behavioral_evidence.py` from P2.1 until P11.3. It holds
+all eleven rodent behavioural datasets the project ever gathered - ten rat,
+one mouse, zero human - plus the value types, ratio math and coverage
+registries that were built around them. P11.3 moved it here whole because the
+v2 roadmap (`docs/roadmap-human.md`) makes the project human-primary: every
+dataset below describes a rat or a mouse, so none of them may calibrate a
+human model, and the honest place for them is a quarantine that keeps them
+importable and tested rather than a deletion that loses the provenance.
+
+What still lives in production is the species-agnostic machinery that was
+built to consume this data and now waits for human observations:
+`calibration/bayesian_calibration.py`, `calibration/identifiability.py`,
+`calibration/endpoint_calibration.py`, `calibration/circuit_forward.py`.
+They run against synthetic or human targets; nothing reads this module from
+production except `heldout.training_compounds()`, which reports which drugs
+Phase 1's PK layer was validated against.
+
+The one fitted parameter this module fed - `gaba_a_connection_modulation`'s
+gain 0.0742 against [Graziani2022] - was retired with it. The derivation of
+its likelihood target survives below as
+`GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE`, kept so the historical posterior in
+`results/calibration/gaba_a_summary.csv` stays reproducible from quarantined
+data. See `docs/heldout-failure-analysis.md`.
+
+Earlier history (P2.1 / P2.2)
+-----------------------------
+
+What this module is, and what `evidence.py` next to it was not
 --------------------------------------------------------------
 
 `evidence.py` holds RECEPTOR-OCCUPANCY validation targets: a concentration
@@ -109,8 +135,8 @@ those two records. So P2.2 fits one of the three coupling gains, not three.
 
 import numpy as np
 
-from ..legacy import drug_pk
-from ..legacy.pk_validation import simulate_curve
+from . import drug_pk
+from .pk_validation import simulate_curve
 
 # ---------------------------------------------------------------------------
 # Small value types
@@ -2765,6 +2791,111 @@ SEARCHED_AND_EMPTY_BEHAVIORAL = {
 }
 
 
+# ---------------------------------------------------------------------------
+# The retired P2.2 likelihood target (moved here from calibration/evidence.py
+# by P11.3). Between P2.2 and P11.3 this was the ONE behavioural-readout
+# calibration target in the codebase, and the gain it fitted -
+# `gaba_a_connection_modulation`'s 0.0742 - was the only non-illustrative
+# circuit-layer parameter the project ever had. Both facts ended with the
+# species pivot: the observation is Wistar-rat behaviour, and a rat dataset
+# may not calibrate a human-primary model. See docs/heldout-failure-analysis.md.
+#
+# The derivation below is unchanged from its production form, so the
+# historical posterior in results/calibration/gaba_a_summary.csv stays
+# reproducible from this quarantined module. Nothing in production reads it.
+#
+#    [Graziani2022], via `DIAZEPAM_EPM_GRAZIANI2022`: diazepam 2 mg/kg IP in
+#    drug-naive male Wistar rats, elevated plus maze 5 min later, vehicle
+#    (n=11) and drug (n=8) open-arm times with SEMs. Everything below is
+#    COMPUTED from that entry rather than restated, so the two cannot drift,
+#    and the exposure is computed by pushing the dose through the Phase 1
+#    bridge (`brain_exposure`, i.e. the same solve_ivp path
+#    `engine.Simulation` runs) rather than being quoted.
+#
+#    Two choices this target made, both of them arguable and therefore both
+#    stated here rather than buried:
+#
+#    - The exposure timepoint is 60 min. [Graziani2022] states a 1 h
+#      pre-trial interval for its acute IP injections but names its test
+#      peptide, not diazepam, in that sentence, so the entry itself records
+#      no timepoint and refuses to invent one. 60 min is the source's own
+#      stated acute-trial interval and is passed explicitly here.
+#      `EXPOSURE_TIMEPOINT_SENSITIVITY_MIN` carries the alternatives P2.2
+#      refit at; the benzodiazepine site is near saturation across the whole
+#      window, so the choice barely moves the posterior, and a test asserts
+#      that rather than this comment claiming it.
+#    - The body weight is the midpoint of the source's 300-380 g band. It
+#      cancels: the rat IP diazepam parameter set is per-kg. Also asserted
+#      by a test, not claimed here.
+#
+#    Unlike an occupancy likelihood width, this one is NOT an engineering
+#    allowance: it is the delta-method propagation of [Graziani2022]'s own
+#    two printed SEMs through the ratio - the first likelihood width in this
+#    codebase that a source actually supplied.
+# ---------------------------------------------------------------------------
+GABA_A_EPM_EXPOSURE_TIMEPOINT_MIN = 60.0
+EXPOSURE_TIMEPOINT_SENSITIVITY_MIN = (30.0, 45.0, 60.0)
+_GRAZIANI_ENTRY = DIAZEPAM_EPM_GRAZIANI2022
+_GRAZIANI_BODY_WEIGHT_KG = sum(GRAZIANI2022_BODY_WEIGHT_BAND_KG) / 2.0
+
+
+def gaba_a_epm_unbound_brain_nM(timepoint_min=GABA_A_EPM_EXPOSURE_TIMEPOINT_MIN):
+    """[Graziani2022]'s 2 mg/kg IP dose as an unbound BRAIN concentration in
+    nM at `timepoint_min`, through the Phase 1 bridge.
+
+    Exposed as a function rather than a constant because P2.2's timepoint
+    sensitivity check needs it at more than one time, and because a caller
+    should be able to see that the number is integrated, not quoted.
+    """
+    exposure = _GRAZIANI_ENTRY.brain_exposure(
+        _GRAZIANI_BODY_WEIGHT_KG, timepoint_min=timepoint_min
+    )
+    if not exposure.drives_receptor:
+        raise RuntimeError(
+            "%s did not yield an unbound brain concentration (basis %r); a "
+            "receptor may not be driven by anything else"
+            % (_GRAZIANI_ENTRY.key, exposure.brain_basis)
+        )
+    return exposure.brain_nM
+
+
+_ANXIOLYSIS_RATIO, _ANXIOLYSIS_RATIO_SD = anxiolysis_ratio(
+    _GRAZIANI_ENTRY.effect,
+    vehicle_prefix="vehicle",
+    drug_prefix="diazepam 2 mg/kg",
+    trial_duration_s=GRAZIANI2022_EPM_TRIAL_DURATION_S,
+)
+
+GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE = {
+    "citation": (
+        "Graziani D, et al. Braz J Med Biol Res. 2022;55:e12314. "
+        "doi:10.1590/1414-431X2022e12314 (PMC9728632)"
+    ),
+    "evidence_key": _GRAZIANI_ENTRY.key,
+    "dose_mg_per_kg": max(_GRAZIANI_ENTRY.doses_mg_per_kg),
+    "route": _GRAZIANI_ENTRY.route,
+    "species": _GRAZIANI_ENTRY.species,
+    # Drug/vehicle ratio of open-arm AVOIDANCE (1 - open-arm time / trial
+    # duration), the bounded, rises-with-anxiety quantity the model's own
+    # anxiety index is compared against. < 1 means anxiolysis.
+    "anxiety_ratio_target_mean": _ANXIOLYSIS_RATIO,
+    "anxiety_ratio_target_sd": _ANXIOLYSIS_RATIO_SD,
+    "anxiety_ratio_sd_is_source_propagated": True,
+    # Same ratio under the composite EPM Anxiety Index, for the P2.2
+    # sensitivity check only; no sd, because the source reports no
+    # covariance between its time and entry terms.
+    "anxiety_ratio_composite_index_mean": (
+        epm_composite_anxiety_index(
+            _GRAZIANI_ENTRY.effect, "diazepam 2 mg/kg",
+            GRAZIANI2022_EPM_TRIAL_DURATION_S)
+        / epm_composite_anxiety_index(
+            _GRAZIANI_ENTRY.effect, "vehicle",
+            GRAZIANI2022_EPM_TRIAL_DURATION_S)
+    ),
+    "composite_index_source": EPM_COMPOSITE_ANXIETY_INDEX_SOURCE,
+}
+
+
 __all__ = [
     "EFFECT_KINDS",
     "DISPERSION_KINDS",
@@ -2820,4 +2951,8 @@ __all__ = [
     "open_arm_avoidance_fraction",
     "epm_composite_anxiety_index",
     "anxiolysis_ratio",
+    "GABA_A_EPM_EXPOSURE_TIMEPOINT_MIN",
+    "EXPOSURE_TIMEPOINT_SENSITIVITY_MIN",
+    "gaba_a_epm_unbound_brain_nM",
+    "GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE",
 ]

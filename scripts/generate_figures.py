@@ -163,43 +163,61 @@ def occupancy_time_course():
 
 
 def dose_response_curves():
-    """Plot the two graded published datasets against the model's upper bound."""
-    targets = (
-        ec.TARGETS_BY_KEY["locomotion/diazepam/Sagara2008"],
-        ec.TARGETS_BY_KEY["analgesia/diazepam/Lustyk2023"],
-    )
+    """Plot synthetic graded observations against the model's upper bound.
+
+    P10.1 plotted the two graded rodent datasets ([Sagara2008] locomotion,
+    [Lustyk2023] analgesia) here; P11.3 retired them together with their
+    dataset (`legacy/behavioral_evidence.py`). The points below are
+    therefore generated FROM the model itself at a known gain, through
+    `ec.synthetic_target_from_curve`, so the figure demonstrates that the
+    fit pipeline still runs end to end rather than comparing anything with
+    the world.
+    """
+    endpoint_keys = ("locomotion", "analgesia")
     model, _ = ef.build_whole_brain_model(
         "Gabra1", "connection_modulation", "p10.1-dose-response",
         resolution="regions",
     )
-    curve = model.response_curve(
-        [target.endpoint_key for target in targets], np.linspace(0.0, 5.0, 31)
-    )
+    curve = model.response_curve(list(endpoint_keys), np.linspace(0.0, 5.0, 31))
+    exposures_nm = (10.0, 30.0, 100.0)
+    truth_gains = {"locomotion": 1.5, "analgesia": 2.0}
+    targets = [
+        ec.synthetic_target_from_curve(
+            curve, key, gain=truth_gains[key],
+            exposures_nM=exposures_nm, sds=(0.02,) * len(exposures_nm),
+        )
+        for key in endpoint_keys
+    ]
 
     fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.2), constrained_layout=True)
     for ax, target in zip(axes, targets):
-        doses = np.asarray(target.doses_mg_per_kg)
+        brain_nm = np.asarray([level[1] for level in target.levels])
         observed, observed_sd = target.endpoint_ratio()
         predicted = ec.predicted_ratio(curve, target, gain=5.0)
         ax.errorbar(
-            doses, observed, yerr=observed_sd, fmt="o", ms=5, capsize=3,
-            color="#b03030", label="published ratio",
+            brain_nm, observed, yerr=observed_sd, fmt="o", ms=5, capsize=3,
+            color="#b03030", label="synthetic ratio (gain %.1f)" % truth_gains[target.endpoint_key],
         )
         ax.plot(
-            doses, predicted, color="#2c6e9e", lw=2, marker="s",
+            brain_nm, predicted, color="#2c6e9e", lw=2, marker="s",
             label="model, gain = 5 upper bound",
         )
         ax.axhline(1.0, color="0.45", lw=1, ls="--")
         ax.set_xscale("log")
-        ax.set_xlabel("diazepam dose (mg/kg)")
+        ax.set_xlabel("unbound brain diazepam (nM, synthetic)")
         ax.set_ylabel("endpoint index ratio")
         ax.set_title(target.endpoint_key.capitalize())
         ax.grid(axis="y", color="0.88", lw=0.8)
         ax.legend(frameon=False, fontsize=8)
-    fig.suptitle("Published graded dose responses versus the whole-brain model", fontsize=12)
+    fig.suptitle(
+        "Synthetic graded observations versus the whole-brain model "
+        "(no published graded target remains)",
+        fontsize=12,
+    )
     fig.text(
         0.01, -0.02,
-        "Model line uses the prior upper bound, not a validated whole-brain gain; points are source ratios.",
+        "Points are synthetic, generated from the model itself at known gains; "
+        "the model line uses the prior upper bound, not a validated whole-brain gain.",
         fontsize=8, color="0.35",
     )
     return _save(fig, "dose_response_curves.png")
@@ -276,7 +294,7 @@ def generate():
         "figures": [os.path.relpath(path, ROOT) for path in paths],
         "notes": [
             "Region activity is a CCF-ordered region strip because no atlas section coordinates are stored.",
-            "Dose-response model lines use the whole-brain gain upper bound of 5.0 and are not validated fits.",
+            "Dose-response points are synthetic targets generated from the model at known gains, since P11.3 retired the rodent datasets; the figure is a pipeline demonstration and not a fitted prediction.",
             "Held-out scatter is a reachable-range diagnostic, not a fitted prediction.",
         ],
     }

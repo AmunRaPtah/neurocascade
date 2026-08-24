@@ -68,7 +68,8 @@ def mu_opioid_coupling():
     # matching fentanyl/accumbens/dopamine/rat and found no percent-of-
     # baseline dopamine figure at an INTRAVENOUS dose, which is the only
     # fentanyl route drug_pk has kinetics for. See
-    # calibration.behavioral_evidence.SEARCHED_AND_EMPTY_BEHAVIORAL and
+    # legacy.behavioral_evidence.SEARCHED_AND_EMPTY_BEHAVIORAL (the rodent
+    # bridge moved to quarantine in P11.3) and
     # docs/architecture.md's P2.2 section, which also names the one
     # concentration-anchored fentanyl PD dataset that does exist
     # ([Yassen2008]) and why it belongs to the PAG/analgesia gain rather
@@ -542,8 +543,9 @@ def d2_coupling():
     # alternative (a rat study pairing measured D2 occupancy with a
     # locomotor or cataleptic effect, which would need no PK step at all);
     # the two papers that do that are closed access. See
-    # calibration.behavioral_evidence.SEARCHED_AND_EMPTY_BEHAVIORAL and
-    # docs/architecture.md's P2.2 section.
+    # legacy.behavioral_evidence.SEARCHED_AND_EMPTY_BEHAVIORAL (the rodent
+    # bridge moved to quarantine in P11.3) and docs/architecture.md's P2.2
+    # section.
     return {"Striatum_D2_MSN": -3.0}
 
 
@@ -733,17 +735,39 @@ def gaba_a_coupling():
     return {}
 
 
+#: ILLUSTRATIVE PLACEHOLDER. The potentiation gain scaling the
+#: GABA_Interneuron -> BLA synapse under benzodiazepine connection
+#: modulation. It has no literature target - and, since P11.3, it has no
+#: calibration target either, which is a change from P2.2 through P11.2:
+#:
+#: Between P2.2 and P11.3 this constant held 0.0742, the posterior mean of
+#: the only non-illustrative circuit-layer parameter this project ever had,
+#: fitted against [Graziani2022]: diazepam 2 mg/kg IP in drug-naive male
+#: WISTAR RATS, elevated plus maze, vehicle (n=11) 30.7 +/- 6.4 s versus
+#: drug (n=8) 89.0 +/- 13.0 s open-arm time, compared as a drug/vehicle
+#: anxiety ratio through the Phase 1 PK bridge (posterior sd 0.0189, 89% ETI
+#: [0.043, 0.106]; committed artefacts in `results/calibration/gaba_a_
+#: summary.csv`). The v2 human-primary roadmap retired that fit: the
+#: observation is rat behaviour, and a rodent dataset may not calibrate a
+#: human-primary model's circuit layer. The number moved to quarantine with
+#: its dataset - `legacy/behavioral_evidence.GABA_A_DIAZEPAM_ANXIOLYSIS_
+#: EVIDENCE` keeps the likelihood target reproducible - and this constant
+#: returned to the hand-set 0.5 every other gain in this file carries.
+#:
+#: What would remove the word ILLUSTRATIVE again: a calibration of THIS
+#: parameter against HUMAN behavioural data, committed in the same change
+#: that relabels it (docs/roadmap.md's discipline rules). Until such data
+#: exists the blocker is human behavioural evidence, not machinery - see
+#: docs/heldout-failure-analysis.md.
+GABA_A_CONNECTION_MODULATION_GAIN = 0.5
+
+
 def gaba_a_connection_modulation():
-    # ILLUSTRATIVE, and deliberately kept that way. This is the
-    # illustrative section's own function, the counterpart of every other
-    # hand-set number above it, and P2.2 left its value alone so that the
-    # illustrative and calibrated sections stay distinguishable at a
-    # glance. The gain that P2.2 actually fitted, against real published
-    # elevated-plus-maze data, is in
-    # gaba_a_connection_modulation_calibrated() at the bottom of this file.
-    # This function's KEYS - which connection diazepam modulates - are what
-    # the calibration reuses; only the value differs.
-    return {("BLA", "GABA_Interneuron"): 0.5}
+    # ILLUSTRATIVE, via the placeholder constant above. The KEYS - which
+    # connection diazepam modulates - are mechanism-level choices carried
+    # over from the P2.2 fit's structure; the VALUE is the same hand-set 0.5
+    # it was before P2.2 fitted anything and after P11.3 retired the fit.
+    return {("BLA", "GABA_Interneuron"): GABA_A_CONNECTION_MODULATION_GAIN}
 
 
 def anxiety_index_readout():
@@ -900,11 +924,12 @@ def mu_opioid_pk_models_calibrated():
 # in min^-1. Everything below this line is a real-data parameter set for
 # `gaba_a_*`, kept separate from the illustrative functions above. The
 # amygdala circuit (`amygdala_anxiety_circuit_network`, `gaba_a_coupling`,
-# `anxiety_index_readout`) and the connection_modulation GAIN itself are
-# reused as-is: this pass only calibrates the benzodiazepine-site receptor
-# binding and PK, not circuit connectivity/gain/tau or the potentiation-gain
-# magnitude, none of which have a literature target (see
-# gaba_a_connection_modulation_calibrated() below and docs/architecture.md).
+# `gaba_a_connection_modulation`, `anxiety_index_readout`) is reused as-is:
+# this pass only calibrates the benzodiazepine-site receptor binding and PK.
+# The potentiation-gain magnitude has no literature target; the one fit of
+# it this project made (P2.2) was retired to legacy/ with its rat dataset by
+# P11.3 - see the record on GABA_A_CONNECTION_MODULATION_GAIN above and
+# docs/architecture.md.
 #
 # Sources (see inline citations per parameter below):
 #   [Mohler1977]   Möhler H, Okada T. "Properties of 3H-diazepam binding to
@@ -1059,67 +1084,14 @@ def gaba_a_pk_models_calibrated():
     ]
 
 
-#: Posterior mean of `gaba_a_connection_modulation_gain` (P2.2), the first
-#: circuit-layer parameter in this project fitted against real data rather
-#: than hand-set. Posterior: mean 0.0742, sd 0.0189, 89% ETI [0.043, 0.106],
-#: r_hat 1.02, ESS(bulk) 309; full summary in
-#: `results/calibration/gaba_a_summary.csv`, `InferenceData` alongside it,
-#: and `tests/test_gaba_a_scenario_calibrated.py::test_calibrated_
-#: modulation_gain_matches_the_committed_posterior` checks this constant
-#: against that artefact so the two cannot drift apart.
-#:
-#: Fitted against [Graziani2022] (Graziani D, et al., Braz J Med Biol Res
-#: 2022;55:e12314, doi:10.1590/1414-431X2022e12314, PMC9728632): diazepam
-#: 2 mg/kg IP in drug-naive male Wistar rats, elevated plus maze, vehicle
-#: (n=11) 30.7 +/- 6.4 s versus diazepam (n=8) 89.0 +/- 13.0 s on the open
-#: arms. The dose reaches the receptor through the Phase 1 bridge
-#: (drug_pk.diazepam_rat_ip_pk + brain_partition; 32.3 nM unbound brain at
-#: 60 min), and the comparison with the model is made as a DRUG/VEHICLE
-#: RATIO of anxiety, because `anxiety_index_readout()` returns a firing rate
-#: and the plus maze returns seconds, with no published constant between
-#: them. A ratio needs no such constant; what it does assume is that the two
-#: anxiety scales move proportionally under drug, which is the one
-#: assumption in this fit that no citation backs. It is stated here, in
-#: `calibration/circuit_forward.py`, and in docs/architecture.md's P2.2
-#: section, and its consequence is bounded by refitting against a second,
-#: independently defined EPM anxiety index.
-#:
-#: P2.3 CONDITIONALITY, added by the identifiability analysis in
-#: `calibration/identifiability.py`. P2.2 recorded that the amygdala
-#: circuit's illustrative values set how sensitively the ratio depends on
-#: this gain; P2.3 measured how much. The number below is a posterior GIVEN
-#: that circuit. Free the circuit and it is not determined at all: the
-#: eleven circuit parameters enter the observable through only four
-#: combinations, and one scalar observation gives a rank-one Fisher
-#: information matrix, so a large gain on a weak GABAergic synapse and a
-#: small gain on a strong one are indistinguishable from this datum.
-#: What does NOT depend on any illustrative number is the rejection of the
-#: mechanistic null: a gain of exactly zero predicts a drug/vehicle ratio of
-#: exactly one for EVERY circuit, and [Graziani2022] rejects that at
-#: delta-chi-square 17.5, i.e. 4.2 sd. See docs/architecture.md's P2.3
-#: section and `results/identifiability/`.
-GABA_A_CONNECTION_MODULATION_GAIN = 0.0742
-
-
-def gaba_a_connection_modulation_calibrated():
-    # CALIBRATED as of P2.2 (see GABA_A_CONNECTION_MODULATION_GAIN above for
-    # the source, the posterior and the one assumption). This is the only
-    # circuit-layer number in this module that is no longer illustrative:
-    # the potentiation gain scaling the interneuron -> BLA synapse under
-    # diazepam. Every other circuit-layer quantity in this file - the
-    # amygdala network's own weights, taus, gains and baseline inputs
-    # included, and `gaba_a_connection_modulation()` above - is unchanged
-    # and still illustrative.
-    #
-    # What the fit moved, and by how much: the hand-set placeholder was 0.5,
-    # roughly seven times the fitted value, and it predicted a 43%
-    # suppression of the anxiety index against the ~11% the published
-    # elevated-plus-maze effect actually supports. So this is a real,
-    # data-driven correction, not a confirmation of a lucky guess.
-    return {
-        connection: GABA_A_CONNECTION_MODULATION_GAIN
-        for connection in gaba_a_connection_modulation()
-    }
+#: The P2.2 fit that used to live at this spot - `GABA_A_CONNECTION_
+#: MODULATION_GAIN = 0.0742` plus `gaba_a_connection_modulation_calibrated()`
+#: - was retired by P11.3. The constant now sits with the illustrative
+#: GABA-A section above, at its restored placeholder value, with the full
+#: retirement record at its definition site. There is deliberately no
+#: `*_calibrated` accessor for the modulation any more: a function by that
+#: name returning hand-set numbers would be the exact dishonesty this file's
+#: illustrative/calibrated split exists to prevent.
 
 
 def gaba_a_receptor_system_calibrated():
@@ -1132,14 +1104,16 @@ def gaba_a_receptor_system_calibrated():
     existing functions and defines nothing: the site is
     `gaba_a_receptor_site_calibrated()`, the PK is
     `gaba_a_pk_models_calibrated()`, the (empty) drive coupling is
-    `gaba_a_coupling()` and the potentiation is P2.2's fitted
-    `gaba_a_connection_modulation_calibrated()`.
+    `gaba_a_coupling()` and the connection modulation is the ILLUSTRATIVE
+    `gaba_a_connection_modulation()` - since P11.3 there is no calibrated
+    accessor for the gain to compose, because the P2.2 fit was rodent-derived
+    and retired with its dataset.
     """
     return ReceptorSystem(
         pk_models=gaba_a_pk_models_calibrated(),
         receptor_site=gaba_a_receptor_site_calibrated(),
         coupling=gaba_a_coupling(),
-        connection_modulation=gaba_a_connection_modulation_calibrated(),
+        connection_modulation=gaba_a_connection_modulation(),
     )
 
 

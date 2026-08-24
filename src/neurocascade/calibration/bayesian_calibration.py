@@ -1,19 +1,30 @@
 """Bayesian calibration of neurocascade's free parameters (see `priors.py`)
 against real published validation targets.
 
-Eight of the nine are receptor-binding constants fitted against the three
-occupancy targets already cited in `scenarios.py`'s calibrated sections (see
-`evidence.py`): Moss et al. 2020 for mu-opioid/fentanyl, Kapur et al. 1997
-for D2/haloperidol, Savic et al. 1991 for GABA-A/flumazenil.
+All seven are receptor-binding constants fitted against the occupancy
+targets cited in `scenarios.py`'s calibrated sections (see `evidence.py`):
+Moss et al. 2020 for mu-opioid/fentanyl, Kapur et al. 1997 for
+D2/haloperidol, Savic et al. 1991 for GABA-A/flumazenil - every one of them
+a HUMAN measurement.
 
-The ninth, added in P2.2, is the first CIRCUIT-layer parameter this scaffold
-has ever fitted: `gaba_a_connection_modulation_gain`, against
-[Graziani2022]'s rat elevated-plus-maze data, reached through the Phase 1
-dose-to-brain-concentration bridge and compared with the model as a
-drug/vehicle RATIO (the behavioural readout has no published scale; a ratio
-needs none). See `circuit_forward.py` and docs/architecture.md's P2.2
-section, which also records why the other two coupling gains P2.2 was asked
-to fit are still unfitted.
+Until P11.3 this module also fitted the project's only CIRCUIT-layer
+parameter: `gaba_a_connection_modulation_gain`, against [Graziani2022]'s
+Wistar-RAT elevated-plus-maze data, reached through the Phase 1
+dose-to-brain-concentration bridge and compared as a drug/vehicle RATIO.
+P11.3 retired that term with its dataset (`legacy/behavioral_evidence`
+keeps both reproducible): the observation is rodent behaviour, and under the
+human-primary roadmap no rodent dataset may calibrate any layer of the
+model. What remains here for the circuit layer is machinery, kept warm on
+SYNTHETIC observations so its next real use is a one-dataset arrival away:
+
+- `build_circuit_gain_model`, the exact analogue of `build_single_kd_model`
+  below, but over a connection-modulation gain against a readout-ratio
+  observation through `circuit_forward.readout_ratio`; fed a synthetic
+  ratio generated from a known gain, it recovers that gain (asserted by
+  test), which is the demonstration that the scaffold can still fit a
+  circuit-layer parameter end to end.
+- `identifiability.py` profiles the same kind of scalar observation for
+  degeneracy against the circuit's other parameters.
 
 Mirrors `/root/projects/cct-bayesian-validation/bayesian_calibration.py`:
 the forward model is a black-box ODE solve (`ReceptorSite.occupancy_rhs` via
@@ -23,14 +34,14 @@ a gradient-free step method (`DEMetropolisZ`) rather than NUTS.
 
 THREE INDEPENDENT `pm.Model`s, one per receptor system (mu-opioid, D2,
 GABA-A), each sampled with its own `DEMetropolisZ` chain over only that
-system's own parameters, rather than one combined 8-parameter model. An
-earlier version of this module DID combine all eight parameters into one
+system's own parameters, rather than one combined 7-parameter model. An
+earlier version of this module DID combine all nine parameters into one
 `pm.Model`/one shared `DEMetropolisZ` step (matching how
 `cct-bayesian-validation` samples its own 14 mutually-DEPENDENT parameters,
 all of which feed one coupled ODE state vector). That doesn't apply here:
 none of neurocascade's three receptor systems shares a parameter or a
 likelihood term with another (`priors.py`'s per-parameter source citations
-and `evidence.py`'s three validation targets are each scoped to exactly one
+and `evidence.py`'s validation targets are each scoped to exactly one
 system), so there is no statistical reason to sample them jointly. Doing so
 anyway produced a real, measured convergence failure (max r_hat 1.92, min
 bulk ESS 5 on the combined model): `DEMetropolisZ` draws every proposal from
@@ -65,14 +76,16 @@ SEED = 20260726
 
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "..", "results", "calibration")
 
-# Which of the eight priors.py parameters belong to each independent model,
+# Which of the seven priors.py parameters belong to each independent model,
 # in the order each system's own `_simulate_*_raw` function below expects.
+# No circuit-layer parameter appears anywhere in this register since P11.3;
+# `tests/test_bayesian_calibration.py::test_no_circuit_layer_parameter_
+# claims_to_be_calibrated` holds that line.
 SYSTEM_PARAM_NAMES = {
     "mu_opioid": ["Ki_fentanyl_nM", "Ki_naloxone_nM"],
     "d2": ["kon_haloperidol_nM_min", "koff_haloperidol_min",
            "kon_dopamine_nM_min", "koff_dopamine_min"],
-    "gaba_a": ["Ki_flumazenil_nM", "Ki_diazepam_nM",
-               "gaba_a_connection_modulation_gain"],
+    "gaba_a": ["Ki_flumazenil_nM", "Ki_diazepam_nM"],
 }
 
 
@@ -167,33 +180,20 @@ def build_d2_model():
 
 
 # ---------------------------------------------------------------------------
-# GABA-A: 3 parameters (Ki_flumazenil_nM, Ki_diazepam_nM, and, new in P2.2,
-# the CIRCUIT-layer gaba_a_connection_modulation_gain), 3 likelihood terms
-# (Savic et al. 1991 on flumazenil occupancy, twice; [Graziani2022]'s
-# elevated-plus-maze anxiolysis ratio once).
+# GABA-A: 2 parameters (Ki_flumazenil_nM, Ki_diazepam_nM), 2 likelihood terms
+# (Savic et al. 1991 on flumazenil occupancy, twice).
 #
-# This is the only one of the three systems that gained a circuit-layer
-# parameter in P2.2, and the shortfall is data, not machinery:
-# `behavioral_evidence.SEARCHED_AND_EMPTY_BEHAVIORAL` records the sweeps
-# re-run in this pass for the other two (421 open-access fentanyl/accumbens
-# articles, 1303 haloperidol/behaviour articles), both still empty, and
-# docs/architecture.md's P2.2 section states what would close each.
-#
-# The behavioural term reads BOTH the gain and Ki_diazepam. The diazepam
-# exposure [Graziani2022]'s dose produces is fixed - it comes from the Phase
-# 1 bridge, not from any sampled parameter - but how much of the site that
-# exposure occupies depends on the sampled Ki, and the circuit only ever
-# sees occupancy. That is why Ki_diazepam leaves priors.py's
-# PRIOR_ONLY_PARAM_NAMES in this pass, and why this term is computed inside
-# one `as_op` rather than split across two.
+# Between P2.2 and P11.3 this system also carried the CIRCUIT-layer
+# gaba_a_connection_modulation_gain and a third likelihood term - the
+# [Graziani2022] elevated-plus-maze anxiolysis ratio, reached through the
+# Phase 1 bridge. Both left with their rodent dataset. The shortfall that
+# would bring a circuit-layer parameter back is HUMAN behavioural evidence:
+# `legacy.behavioral_evidence.SEARCHED_AND_EMPTY_BEHAVIORAL` records what
+# the rodent sweeps found (and docs/architecture.md's P11.3 section records
+# why even its one hit no longer counts), and until a human dataset passes
+# the same gate there is nothing here to fit the gain against. The fitting
+# machinery itself stays warm below (`build_circuit_gain_model`).
 # ---------------------------------------------------------------------------
-#: The unbound BRAIN concentration [Graziani2022]'s 2 mg/kg IP dose reaches
-#: at the exposure timepoint, computed once at import through the Phase 1
-#: bridge (`evidence.gaba_a_epm_unbound_brain_nM`, which integrates rather
-#: than solving in closed form). It does not depend on any sampled
-#: parameter, so recomputing it per draw would only cost time.
-_GABA_A_EPM_BRAIN_NM = ev.gaba_a_epm_unbound_brain_nM()
-
 #: The amygdala circuit's drug-free steady state. Independent of every
 #: sampled parameter (at zero activation the modulation factor is exactly 1
 #: whatever the gain), so it is integrated once here rather than once per
@@ -207,8 +207,8 @@ _GABA_A_BASELINE_RATES = cfwd.steady_state_rates(
 )
 
 
-def _simulate_gaba_a_raw(vec, epm_brain_nM=None):
-    Ki_flumazenil, Ki_diazepam, modulation_gain = vec[0], vec[1], vec[2]
+def _simulate_gaba_a_raw(vec):
+    Ki_flumazenil = vec[0]
     low = fwd.equilibrium_occupancy_from_kd(
         Ki_flumazenil, ev.GABA_A_FLUMAZENIL_OCCUPANCY_EVIDENCE["low_dose_concentration_nM"],
         efficacy=0.0,
@@ -217,24 +217,7 @@ def _simulate_gaba_a_raw(vec, epm_brain_nM=None):
         Ki_flumazenil, ev.GABA_A_FLUMAZENIL_OCCUPANCY_EVIDENCE["high_dose_concentration_nM"],
         efficacy=0.0,
     )
-    # Diazepam's activation of the benzodiazepine site at that exposure.
-    # Diazepam's efficacy at this site is 1.0 in scenarios.py (see that
-    # module on why efficacy carries potentiation strength for a
-    # connection_modulation-coupled site), so activation is occupancy.
-    brain_nM = _GABA_A_EPM_BRAIN_NM if epm_brain_nM is None else epm_brain_nM
-    activation = fwd.equilibrium_occupancy_from_kd(Ki_diazepam, brain_nM, efficacy=1.0)
-    anxiety_ratio = cfwd.readout_ratio(
-        scenarios.amygdala_anxiety_circuit_network(),
-        scenarios.anxiety_index_readout(),
-        connection_modulation={
-            connection: modulation_gain
-            for connection in scenarios.gaba_a_connection_modulation()
-        },
-        activation=activation,
-        coupling=scenarios.gaba_a_coupling(),
-        baseline_rates=_GABA_A_BASELINE_RATES,
-    )
-    return np.array([low, high, anxiety_ratio])
+    return np.array([low, high])
 
 
 @as_op(itypes=[pt.dvector], otypes=[pt.dvector])
@@ -245,9 +228,8 @@ def _simulate_gaba_a(vec):
 def build_gaba_a_model():
     with pm.Model() as model:
         Ki_flumazenil = _make_rv("Ki_flumazenil_nM")
-        Ki_diazepam = _make_rv("Ki_diazepam_nM")
-        modulation_gain = _make_rv("gaba_a_connection_modulation_gain")
-        vec = pt.stack([Ki_flumazenil, Ki_diazepam, modulation_gain])
+        _Ki_diazepam = _make_rv("Ki_diazepam_nM")  # informed prior only, no likelihood term
+        vec = pt.stack([Ki_flumazenil, _Ki_diazepam])
         predicted = pm.Deterministic("predicted", _simulate_gaba_a(vec))
         pm.Normal(
             "flumazenil_low_dose_occupancy_obs",
@@ -260,12 +242,6 @@ def build_gaba_a_model():
             mu=predicted[1],
             sigma=ev.GABA_A_FLUMAZENIL_OCCUPANCY_EVIDENCE["occupancy_target_sd"],
             observed=ev.GABA_A_FLUMAZENIL_OCCUPANCY_EVIDENCE["high_dose_occupancy_target_mean"],
-        )
-        pm.Normal(
-            "diazepam_epm_anxiolysis_ratio_obs",
-            mu=predicted[2],
-            sigma=ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_sd"],
-            observed=ev.GABA_A_DIAZEPAM_ANXIOLYSIS_EVIDENCE["anxiety_ratio_target_mean"],
         )
     return model
 
@@ -358,6 +334,49 @@ def build_single_kd_model(prior_lower, prior_upper, concentration, observed_occu
             "predicted_occupancy", simulate_occupancy(pt.stack([kd]))[0]
         )
         pm.Normal("occupancy_obs", mu=predicted, sigma=sd, observed=observed_occupancy)
+    return model
+
+
+def build_circuit_gain_model(prior_lower, prior_upper, activation, observed_ratio, sd):
+    """Minimal one-parameter `pm.Model` fitting a CIRCUIT-layer
+    connection-modulation gain against one readout-ratio observation at a
+    fixed receptor activation, through the same
+    `circuit_forward.readout_ratio` forward model P2.2's fit of
+    `gaba_a_connection_modulation_gain` used.
+
+    This is the seam P11.3 left open. The real gain fit was retired with its
+    rodent dataset (see the module docstring), and nothing in this scaffold
+    may claim a circuit-layer calibration until HUMAN behavioural evidence
+    exists; this builder exists so that the day such an observation arrives,
+    the machinery is demonstrably still able to fit it - asserted against a
+    synthetic ratio generated from a known gain in
+    `tests/test_bayesian_calibration.py`, exactly as `build_single_kd_model`
+    is. The observation it is fed is expected to be synthetic until then;
+    nothing here reads any dataset.
+    """
+
+    # Same length-1 dvector wrapping as `build_single_kd_model` (scalar
+    # as_op outputs misbehave under the PyTensor/Numba backend; see there).
+    @as_op(itypes=[pt.dvector], otypes=[pt.dvector])
+    def simulate_ratio(gain_vec):
+        return np.array(
+            [cfwd.readout_ratio(
+                scenarios.amygdala_anxiety_circuit_network(),
+                scenarios.anxiety_index_readout(),
+                connection_modulation={
+                    connection: float(gain_vec[0])
+                    for connection in scenarios.gaba_a_connection_modulation()
+                },
+                activation=float(activation),
+                coupling=scenarios.gaba_a_coupling(),
+                baseline_rates=_GABA_A_BASELINE_RATES,
+            )]
+        )
+
+    with pm.Model() as model:
+        gain = pm.Uniform("gain", lower=prior_lower, upper=prior_upper)
+        predicted = pm.Deterministic("predicted_ratio", simulate_ratio(pt.stack([gain]))[0])
+        pm.Normal("ratio_obs", mu=predicted, sigma=sd, observed=observed_ratio)
     return model
 
 

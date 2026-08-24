@@ -98,7 +98,7 @@ def _save(fig, name):
 def figure_structural_degeneracy():
     """The eight non-tau parameters collapse into four combinations, so a
     completely different-looking circuit predicts exactly the same thing."""
-    activation = ident.diazepam_activation()
+    activation = ident.default_activation()
     equivalent = ident.equivalent_parameterisation()
     gains = np.linspace(0.0, 1.0, 41)
     nominal = np.array([ident.predicted_anxiety_ratio(None, g, activation) for g in gains])
@@ -113,7 +113,7 @@ def figure_structural_degeneracy():
     axes[0].fill_between(
         gains, ident.OBSERVED_RATIO - ident.OBSERVED_RATIO_SD,
         ident.OBSERVED_RATIO + ident.OBSERVED_RATIO_SD, color="k", alpha=0.10,
-        label="[Graziani2022] observation $\\pm$1 sd")
+        label="the observation $\\pm$1 sd (SYNTHETIC)")
     axes[0].set_xlabel("gaba_a_connection_modulation_gain")
     axes[0].set_ylabel("anxiety-index drug/vehicle ratio")
     axes[0].set_title("Two circuits, one prediction")
@@ -162,7 +162,7 @@ def figure_fisher_spectrum():
 
 
 def figure_parameter_profiles(report, grid_points):
-    activation = ident.diazepam_activation()
+    activation = ident.default_activation()
     params = ident.AMYGDALA_PARAMETERS
     fig, axes = plt.subplots(3, 4, figsize=(16, 10))
     by_name = {row["parameter"]: row for row in report}
@@ -191,7 +191,7 @@ def figure_parameter_profiles(report, grid_points):
 
     axes.ravel()[0].legend(fontsize=7)
     fig.suptitle(
-        "Profile likelihood, one behavioural observation ([Graziani2022]). "
+        "Profile likelihood, one behavioural observation (SYNTHETIC stand-in). "
         "Dotted: 95% threshold $\\Delta\\chi^2$ = 3.84. Dashed: the "
         "scenarios.py value.\nRegime A's apparent bounds are the other ten "
         "illustrative numbers doing the work; freeing one more parameter "
@@ -202,7 +202,7 @@ def figure_parameter_profiles(report, grid_points):
 
 
 def figure_reduced_profiles(reduced_rows, grid_points):
-    activation = ident.diazepam_activation()
+    activation = ident.default_activation()
     fig, axes = plt.subplots(1, len(ident.REDUCED_PARAMETERS), figsize=(17, 3.6))
     by_name = {row["combination"]: row for row in reduced_rows}
     for ax, name in zip(axes, ident.REDUCED_PARAMETERS):
@@ -385,7 +385,7 @@ def main():
     args = parser.parse_args()
 
     os.makedirs(RESULTS_DIR, exist_ok=True)
-    print("scenarios.py drug gain (P2.2): %.4f"
+    print("scenarios.py amygdala gain (ILLUSTRATIVE since P11.3): %.4f"
           % scenarios.GABA_A_CONNECTION_MODULATION_GAIN)
 
     figure_structural_degeneracy()

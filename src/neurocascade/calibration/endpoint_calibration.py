@@ -10,9 +10,12 @@ The brief, and the three things that had to be true
 For one endpoint to be fitted, three things have to hold at once, and this
 module's whole structure is the bookkeeping of which of them fail where:
 
-1. **A dataset.** Real, published, in a species and by a route
-   `drug_pk` models, with per-group numbers and a dispersion. That is
-   `behavioral_evidence.py`'s job and `ENDPOINT_COVERAGE` is its answer.
+1. **A dataset.** Real, published, in a species and by a route the PK layer
+   models, with per-group numbers and a dispersion. Between P7.3 and P11.3
+   that was `behavioral_evidence.py`'s job; P11.3 moved every dataset the
+   module ever had - all rodent - to `legacy/behavioral_evidence.py`, and no
+   human dataset has replaced them. So `TARGETS` below is EMPTY, and the
+   honest state of this module is machinery awaiting data.
 2. **A forward model that reaches the endpoint.** Dose -> brain
    concentration -> occupancy -> regional rates -> the P7.1 readout. That is
    `endpoint_forward.py`, built for this task because nothing composed those
@@ -31,10 +34,10 @@ discovered later:
 
 Write the behavioural measure as `b = k * A`, `A` the model's endpoint
 index, `k` the unknown assay scale. One drug group gives one number. Two
-unknowns, one equation. Every dataset in this module except one is a
-two-point contrast, and the one exception is a curve whose own two
-published parameters face three model parameters. So there is no dataset in
-reach from which a gain and a scale can BOTH be identified.
+unknowns, one equation. Every dataset P7.3 had except one was a two-point
+contrast, and the one exception was a curve whose own two published
+parameters faced three model parameters. So there was no dataset in reach
+from which a gain and a scale could BOTH be identified.
 
 P2.2 met the same wall and got past it by ASSUMING `k` away: if `b = k * A`
 with the same `k` in both groups, the drug/vehicle RATIO is `A_drug /
@@ -46,36 +49,35 @@ one more thing P2.2 did not: an index whose zero means something. That is
 exactly 0.5 at rest for all seven endpoints is what keeps these ratios off
 a near-zero denominator.
 
-What the fits found
--------------------
+What the P7.3 fits found, and where that record now lives
+---------------------------------------------------------
 
-Every fit below CONVERGES and none of them licenses a number. The three
-failure modes are different and all are informative:
+Every fit P7.3 ran CONVERGED and none licensed a number. The three failure
+modes were different and all were informative:
 
-* **anxiety**: the model moves the right way and not far enough. At the
-  largest gain the mechanism allows, a whole-brain benzodiazepine moves the
-  anxiety index by ~4% where [Graziani2022] measured ~22%. The posterior
-  therefore piles against its upper bound, which is exactly the situation
-  P2.2 refused to report as a fit ("the reported fit would have been partly
-  a description of the box").
-* **locomotion and sedation**: the model moves the WRONG WAY. Potentiating
+* **anxiety**: the model moved the right way and not far enough. At the
+  largest gain the mechanism allowed, a whole-brain benzodiazepine moved the
+  anxiety index by ~4% where [Graziani2022]'s rats moved ~22%. The posterior
+  piled against its upper bound, exactly the situation P2.2 refused to
+  report as a fit.
+* **locomotion and sedation**: the model moved the WRONG WAY. Potentiating
   inhibition brain-wide lowers the locomotion index, and [Graziani2022]'s
-  rats crossed MORE lines under diazepam. The posterior piles against the
-  mechanistic null at zero.
-* **the two graded series**: the model moves too little for the data's own
-  precision to see. [Sagara2008]'s three doses and [Lustyk2023]'s two are
-  both nulls, and a null CAN bound a model that predicts a monotone
-  decrease, so these were the two targets that could have identified
-  something one-sided. At the largest gain the prior allows the whole-brain
-  index moves 4.7-6.4% ([Sagara2008]) against published widths of 17-20%,
-  and both posteriors come back as their own prior (2.37 +/- 1.43 and
-  2.30 +/- 1.45 on Uniform(0, 5), whose mean is 2.5 and sd 1.44). The
-  binding constraint is P3.4's illustrative operating point, not the
+  rats crossed MORE lines under diazepam.
+* **the two graded series**: the model moved too little for the data's own
+  precision to see, and both posteriors came back as their own prior. The
+  binding constraint was P3.4's illustrative operating point, not the
   datasets.
 
-All three are reported with their diagnostics, and none removes a label.
-`docs/architecture.md`'s P7.3 section works through why, and what each
-would need.
+All three were reported with their diagnostics and none removed a label;
+`docs/architecture.md`'s P7.3 section works through why. Those runs were on
+rodent targets, so P11.3 retired the targets with their dataset - the
+committed diagnostics in `results/calibration/endpoint_fits.txt` and
+`endpoint_fit_diagnostics.csv` survive as the historical record, reproducible
+from `legacy.behavioral_evidence`. What stays here is everything species-
+independent: the target container, the verdict machinery, the fit, and
+`synthetic_target()`, which exists so the machinery demonstrably still runs
+end to end against a clearly-labelled synthetic observation instead of rotting
+until a human dataset arrives.
 """
 
 import os
@@ -83,9 +85,7 @@ import os
 import numpy as np
 
 from .. import endpoints as _endpoints
-from . import behavioral_evidence as bev
 from . import endpoint_forward as efwd
-from . import evidence as ev
 from . import forward as fwd
 
 SEED = 20260814
@@ -94,30 +94,28 @@ RESULTS_DIR = os.path.join(
     os.path.dirname(__file__), "..", "..", "..", "results", "calibration"
 )
 
-#: The whole-brain gains P7.3 fits. NOT in `priors.PRIOR_SPECS`, and that is
-#: deliberate: `priors.CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS` is the register of
-#: circuit-layer parameters this project HAS calibrated, guarded by a test
-#: that requires each of them to name a calibration-ready dataset. None of
-#: the gains below survives its own fit (see the module docstring), so
-#: putting them there would be claiming a calibration that did not happen.
-#: They live here, with their bounds and the reason for each bound, and
-#: `tests/test_endpoint_calibration.py` asserts they stay out of `priors`.
+#: The whole-brain gains P7.3 attempted to fit. NOT in `priors.PRIOR_SPECS`,
+#: and that is deliberate: `priors.CIRCUIT_LAYER_PARAM_EVIDENCE_KEYS` is the
+#: register of circuit-layer parameters this project HAS calibrated - empty
+#: since P11.3 - and nothing here survives its own fit as a calibration
+#: (see the module docstring). They live here, with their bounds and the
+#: reason for each bound, and `tests/test_endpoint_calibration.py` asserts
+#: they stay out of `priors`.
 #:
 #: `gaba_a_whole_brain_modulation_gain` is a DIFFERENT parameter from
-#: `priors.gaba_a_connection_modulation_gain`, and the difference matters:
-#: P2.2's gain potentiates ONE synapse in a three-node amygdala circuit,
+#: `scenarios.GABA_A_CONNECTION_MODULATION_GAIN`, and the difference matters:
+#: the scenario gain potentiates ONE synapse in a three-node amygdala circuit,
 #: this one potentiates every inhibitory connection in a 291-region brain,
 #: weighted by each region's Gabra1 density. They are not comparable and
 #: neither is evidence about the other.
 #:
-#: Bounds, from the mechanism rather than from a convention, exactly as
-#: P2.2 argued for its own:
+#: Bounds, from the mechanism rather than from a convention:
 #:   lower 0.0 - the null, "diazepam does not potentiate GABAergic
 #:     transmission", which predicts a ratio of exactly 1 for every
 #:     endpoint and every circuit. A meaningful, falsifiable value.
-#:   upper 5.0 - at the near-saturating occupancy [Graziani2022]'s dose
-#:     produces, a gain of 5 multiplies every inhibitory weight by about
-#:     5.5. Benzodiazepines potentiate GABA-A currents by roughly two-fold;
+#:   upper 5.0 - at near-saturating benzodiazepine-site occupancy, a gain of
+#:     5 multiplies every inhibitory weight by about 5.5.
+#:     Benzodiazepines potentiate GABA-A currents by roughly two-fold;
 #:     five and a half is a wide box, not a claim.
 WHOLE_BRAIN_PRIOR_SPECS = {
     "gaba_a_whole_brain_modulation_gain": ("uniform", 0.0, 5.0),
@@ -179,10 +177,6 @@ class EndpointTarget(object):
     def doses_mg_per_kg(self):
         return tuple(level[0] for level in self.levels)
 
-    @property
-    def entry(self):
-        return bev.BEHAVIORAL_EVIDENCE_BY_KEY[self.evidence_key]
-
     def activation(self, Ki_nM=None):
         """Receptor activation at each level's exposure, one per dose.
 
@@ -216,21 +210,14 @@ class EndpointTarget(object):
         return "EndpointTarget(%r, %s)" % (self.key, self.endpoint_key)
 
 
-def _diazepam_exposure_nM():
-    """[Graziani2022]'s 2 mg/kg IP dose as unbound brain diazepam, nM.
-
-    Computed by P2.2's own bridge call so the two tasks cannot disagree
-    about the number, and at P2.2's own stated 60 min timepoint.
-    """
-    return ev.gaba_a_epm_unbound_brain_nM()
-
-
-#: Diazepam's Ki at the benzodiazepine site, the value P2.2's posterior sat
-#: on (3.60 nM, [MohlerOkada1977] via `priors.PRIOR_SPECS`), used here as a
-#: fixed constant rather than resampled: the site is at 90% occupancy at
-#: this exposure, so the ratio depends on the Ki far too weakly for a
-#: whole-brain fit to say anything new about it, and P2.2 already reported
-#: that its own update was weak "rather than overstated".
+#: Diazepam's Ki at the benzodiazepine site ([MohlerOkada1977] via
+#: `priors.PRIOR_SPECS`), kept as the DEFAULT affinity a future diazepam
+#: target holds fixed rather than resamples: at near-saturating benzodiazepine-
+#: site occupancy the ratio depends on the Ki far too weakly for a whole-brain
+#: fit to say anything new about it, which is why P7.3 held it constant and
+#: why P2.2 reported its own update as weak "rather than overstated". It is a
+#: receptor-binding constant from a binding assay, not a circuit parameter,
+#: and survives the species pivot under P11.2's binding-record gate.
 DIAZEPAM_KI_NM = 3.6
 
 #: Diazepam's efficacy at the benzodiazepine site in `scenarios.py`, where
@@ -239,185 +226,118 @@ DIAZEPAM_KI_NM = 3.6
 DIAZEPAM_EFFICACY = 1.0
 
 
-def _graziani_targets():
-    """The three single-dose targets [Graziani2022] supports, built from
-    the evidence module rather than restated here."""
-    exposure = _diazepam_exposure_nM()
-    dose = max(bev.DIAZEPAM_EPM_GRAZIANI2022.doses_mg_per_kg)
-    epm = bev.DIAZEPAM_EPM_GRAZIANI2022.effect
-    field = bev.DIAZEPAM_OPEN_FIELD_GRAZIANI2022.effect
-
-    anxiety_ratio, anxiety_sd = bev.anxiolysis_ratio(
-        epm,
-        vehicle_prefix="vehicle",
-        drug_prefix="diazepam 2 mg/kg",
-        trial_duration_s=bev.GRAZIANI2022_EPM_TRIAL_DURATION_S,
-    )
-    crossings = bev.measure_ratio(
-        field, "vehicle crossings", "diazepam 2 mg/kg crossings"
-    )
-    immobility = bev.measure_ratio(
-        field, "vehicle immobility_s", "diazepam 2 mg/kg immobility_s"
-    )
-    common = dict(
-        gene=GABA_A_GENE,
-        mechanism=GABA_A_MECHANISM,
-        exposure_timepoint_min=ev.GABA_A_EPM_EXPOSURE_TIMEPOINT_MIN,
-        Ki_nM=DIAZEPAM_KI_NM,
-        efficacy=DIAZEPAM_EFFICACY,
-    )
-    return (
-        EndpointTarget(
-            key="anxiety/diazepam/Graziani2022",
-            endpoint_key="anxiety",
-            evidence_key=bev.DIAZEPAM_EPM_GRAZIANI2022.key,
-            measure="open-arm avoidance, 1 - open-arm time / trial duration",
-            levels=((dose, exposure, anxiety_ratio, anxiety_sd),),
-            # P7.1's anxiety endpoint is "higher = MORE anxious", and
-            # open-arm avoidance rises with anxiety too.
-            measure_direction=1,
-            note=(
-                "The same contrast P2.2 fitted the amygdala scenario's "
-                "single-synapse gain against, read here through the "
-                "whole-brain endpoint instead. The two gains are different "
-                "parameters and are not compared as numbers."
-            ),
-            **common
-        ),
-        EndpointTarget(
-            key="locomotion/diazepam/Graziani2022",
-            endpoint_key="locomotion",
-            evidence_key=bev.DIAZEPAM_OPEN_FIELD_GRAZIANI2022.key,
-            measure="open-field crossing episodes",
-            levels=((dose, exposure) + crossings,),
-            # P7.1 locomotion is "higher = more locomotion (greater
-            # distance travelled)"; crossings rise with distance.
-            measure_direction=1,
-            note="n = 4 in the drug group; see the entry.",
-            **common
-        ),
-        EndpointTarget(
-            key="sedation/diazepam/Graziani2022",
-            endpoint_key="sedation",
-            evidence_key=bev.DIAZEPAM_OPEN_FIELD_GRAZIANI2022.key,
-            measure="open-field immobility time",
-            levels=((dose, exposure) + immobility,),
-            # P7.1 sedation is "higher = MORE sedated", and its declared
-            # assay list includes "reduced spontaneous locomotion".
-            # Immobility rises with sedation, so the two agree.
-            measure_direction=1,
-            note=(
-                "The same four animals as the locomotion target, in the "
-                "same five minutes, read in the opposite direction. Not an "
-                "independent dataset, and reported as one contrast counted "
-                "twice rather than two."
-            ),
-            **common
-        ),
-    )
-
-
-def _graded_levels(entry, vehicle_key, drug_keys, body_weight_kg,
-                   sd_scale=1.0):
-    """`((dose, unbound brain nM, ratio, sd), ...)` for a graded series.
-
-    Each dose is pushed through the Phase 1 bridge separately - the whole
-    point of a graded series is that the exposures differ - at the entry's
-    own stated timepoint, which for both graded entries the source DOES
-    state for the drug by name.
-
-    `sd_scale` divides the propagated dispersion, and exists for exactly
-    one case: [Lustyk2023] prints SDs, and a ratio of group MEANS needs the
-    sd of the mean, i.e. SD/sqrt(n). Passing it explicitly keeps that
-    division at the call site, where the n it used can be named, rather
-    than hidden in `measure_ratio`.
-    """
-    levels = []
-    for dose, drug_key in zip(entry.doses_mg_per_kg, drug_keys):
-        exposure = entry.brain_exposure(
-            body_weight_kg, dose_mg_per_kg=dose,
-            timepoint_min=entry.timepoint_min,
-        )
-        if not exposure.drives_receptor:
-            raise RuntimeError(
-                "%s at %g mg/kg yielded a %s concentration, which may not "
-                "drive a receptor" % (entry.key, dose, exposure.brain_basis)
-            )
-        ratio, sd = bev.measure_ratio(entry.effect, vehicle_key, drug_key)
-        levels.append((dose, exposure.brain_nM, ratio, sd / sd_scale))
-    return tuple(levels)
-
-
-def _graded_targets():
-    """The two graded targets, which are what P7.3 was actually asking for:
-    a dose-RESPONSE rather than a contrast."""
-    sagara = bev.DIAZEPAM_LOCOMOTION_SAGARA2008
-    lustyk = bev.DIAZEPAM_HOT_PLATE_LUSTYK2023
-    sagara_weight = sum(bev.SAGARA2008_BODY_WEIGHT_BAND_KG) / 2.0
-    lustyk_weight = sum(bev.LUSTYK2023_BODY_WEIGHT_BAND_KG) / 2.0
-    common = dict(
-        gene=GABA_A_GENE,
-        mechanism=GABA_A_MECHANISM,
-        Ki_nM=DIAZEPAM_KI_NM,
-        efficacy=DIAZEPAM_EFFICACY,
-    )
-    return (
-        EndpointTarget(
-            key="locomotion/diazepam/Sagara2008",
-            endpoint_key="locomotion",
-            evidence_key=sagara.key,
-            measure="ANIMEX locomotor counts in 10 min",
-            levels=_graded_levels(
-                sagara, "vehicle",
-                ["diazepam 0.2 mg/kg", "diazepam 0.5 mg/kg", "diazepam 1.0 mg/kg"],
-                sagara_weight,
-            ),
-            exposure_timepoint_min=sagara.timepoint_min,
-            measure_direction=1,
-            note=(
-                "Three doses and a vehicle, SEMs, n = 10 per group, and a "
-                "null result. The only graded, tabulated, bridgeable "
-                "behavioural dose-response found for any of the seven "
-                "endpoints."
-            ),
-            **common
-        ),
-        EndpointTarget(
-            key="analgesia/diazepam/Lustyk2023",
-            endpoint_key="analgesia",
-            evidence_key=lustyk.key,
-            measure="hot-plate time of reaction",
-            levels=_graded_levels(
-                lustyk, "vehicle",
-                ["diazepam 5 mg/kg", "diazepam 10 mg/kg"],
-                lustyk_weight,
-                sd_scale=np.sqrt(bev.LUSTYK2023_MIN_GROUP_SIZE),
-            ),
-            exposure_timepoint_min=lustyk.timepoint_min,
-            # P7.1 analgesia is "higher = MORE analgesia = LONGER
-            # withdrawal latency"; hot-plate latency rises with analgesia.
-            measure_direction=1,
-            note=(
-                "Two doses and a vehicle, SDs converted to sds of the mean "
-                "with the source's SMALLEST stated group size, which is the "
-                "widest and therefore the weakest of the widths its band "
-                "allows. Also a null."
-            ),
-            **common
-        ),
-    )
-
-
-#: The gene and mechanism every target in this module shares, because every
-#: target in it is diazepam: `drug_pk` plus `brain_partition` reach a
-#: receptor-driving concentration for exactly one drug/species/route triple
-#: (diazepam/rat/IP), which `BehavioralEvidenceEntry.receptor_drive_status`
-#: computes rather than this module asserting.
+#: The gene and mechanism every GABA-A target of this module declares: the
+#: whole-brain gain acts through Gabra1-weighted inhibitory connection
+#: modulation (`endpoint_forward.py`). When the five rodent targets lived
+#: here this pair was also how `drug_pk`+`brain_partition` were reached -
+#: diazepam/rat/IP was then the only receptor-driving triple - but the
+#: reachability check itself always lived in the evidence entry, which moved
+#: to `legacy/behavioral_evidence.py` with its datasets.
 GABA_A_GENE = "Gabra1"
 GABA_A_MECHANISM = "connection_modulation"
 
-TARGETS = _graziani_targets() + _graded_targets()
+
+# ---------------------------------------------------------------------------
+# Targets: EMPTY since P11.3
+# ---------------------------------------------------------------------------
+
+#: Every target P7.3 fitted was rodent - five contrasts across three
+#: datasets ([Graziani2022] anxiety/locomotion/sedation, [Sagara2008]
+#: locomotion, [Lustyk2023] analgesia) - so P11.3 retired them all together
+#: with their dataset. The five remain reproducible from
+#: `legacy.behavioral_evidence`, and the committed diagnostics under
+#: `results/calibration/` are their historical record. Nothing here claims
+#: any of those fits as a calibration: none came back identified (see the
+#: module docstring), which is a large part of WHY the species pivot could
+#: retire them without losing a single labelled parameter.
+#:
+#: EMPTY BY DESIGN, not a stub: everything below still works, exercised on
+#: explicitly-labelled synthetic targets by `tests/test_endpoint_calibration.py`.
+#: The next real entry must be built from HUMAN behavioural evidence
+#: (docs/roadmap-human.md); a rodent entry would fail the quarantine test.
+TARGETS = ()
 TARGETS_BY_KEY = {t.key: t for t in TARGETS}
+
+
+def synthetic_target(key, endpoint_key, ratios, sds, exposures_nM,
+                     doses_mg_per_kg=None, measure_direction=1,
+                     Ki_nM=DIAZEPAM_KI_NM, efficacy=DIAZEPAM_EFFICACY,
+                     exposure_timepoint_min=float("nan"),
+                     gene=GABA_A_GENE, mechanism=GABA_A_MECHANISM,
+                     evidence_key="SYNTHETIC", note=None):
+    """Build an `EndpointTarget` whose observation NO dataset supports.
+
+    P11.3 emptied `TARGETS` - every dataset this module ever had was rodent
+    (see the module docstring) - and an empty register cannot exercise the
+    verdict and fit machinery below. This builder exists so tests, scripts
+    and any future sanity check can construct an explicitly-labelled
+    synthetic observation instead of letting the machinery rot until a human
+    dataset arrives. Exposures are stated directly in nM, bypassing the
+    Phase 1 bridge; nothing downstream can mistake the result for literature
+    evidence, because `evidence_key` says SYNTHETIC and the caller is
+    expected to say so in `key` too.
+
+    `doses_mg_per_kg` defaults to NaN per level: a synthetic exposure has no
+    honest dose behind it, and inventing one would be exactly what rule 1
+    forbids. Pass real doses only if you have them.
+    """
+    if not len(ratios) == len(sds) == len(exposures_nM):
+        raise ValueError("ratios, sds and exposures_nM must be equal length")
+    if doses_mg_per_kg is None:
+        doses_mg_per_kg = [float("nan")] * len(ratios)
+    levels = tuple(
+        (dose, exposure, ratio, sd)
+        for dose, exposure, ratio, sd in zip(
+            doses_mg_per_kg, exposures_nM, ratios, sds)
+    )
+    return EndpointTarget(
+        key=key, endpoint_key=endpoint_key, evidence_key=evidence_key,
+        measure="synthetic drug/vehicle index ratio", gene=gene,
+        mechanism=mechanism, levels=levels,
+        exposure_timepoint_min=exposure_timepoint_min, Ki_nM=Ki_nM,
+        efficacy=efficacy, measure_direction=measure_direction, note=note,
+    )
+
+
+def synthetic_target_from_curve(curve, endpoint_key, gain, exposures_nM, sds,
+                                Ki_nM=DIAZEPAM_KI_NM,
+                                efficacy=DIAZEPAM_EFFICACY,
+                                measure_direction=1, key=None, note=None):
+    """A synthetic target SELF-CONSISTENT with a response curve.
+
+    Each level's observed index ratio is exactly what `predicted_ratio`
+    returns at the requested gain for that level's exposure, so fitting the
+    returned target against the same curve recovers the gain. That is the
+    demonstration that this module's machinery still fits an endpoint target
+    end to end on synthetic data, used by `tests/test_endpoint_calibration.py`
+    exactly as `bayesian_calibration.build_single_kd_model` is used there.
+
+    `measure_direction=-1` is honoured both ways: the stored observation is
+    the reciprocal the polarity rule demands, so the target's own
+    `endpoint_ratio()` returns the same numbers a real oppositely-signed
+    measure would produce.
+    """
+    activations = [
+        fwd.equilibrium_occupancy_from_kd(Ki_nM, float(exposure), efficacy=efficacy)
+        for exposure in exposures_nM
+    ]
+    x = float(gain) * np.array(activations)
+    index_ratios = np.asarray(curve(endpoint_key, x)) / efwd.BASELINE_INDEX
+    if measure_direction == -1:
+        observed = 1.0 / index_ratios
+        observed_sds = np.asarray(sds, dtype=float) / index_ratios ** 2
+    else:
+        observed = index_ratios
+        observed_sds = sds
+    return synthetic_target(
+        key=key if key is not None else "%s/SYNTHETIC@gain=%g" % (endpoint_key, gain),
+        endpoint_key=endpoint_key, ratios=observed, sds=observed_sds,
+        exposures_nM=exposures_nM, measure_direction=measure_direction,
+        Ki_nM=Ki_nM, efficacy=efficacy,
+        note=note if note is not None else (
+            "generated by synthetic_target_from_curve at gain=%g" % gain
+        ),
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -621,9 +541,13 @@ __all__ = [
     "WHOLE_BRAIN_PRIOR_SPECS",
     "DIAZEPAM_KI_NM",
     "DIAZEPAM_EFFICACY",
+    "GABA_A_GENE",
+    "GABA_A_MECHANISM",
     "EndpointTarget",
     "TARGETS",
     "TARGETS_BY_KEY",
+    "synthetic_target",
+    "synthetic_target_from_curve",
     "predicted_ratio",
     "reachable_ratio_range",
     "bound_verdict",
