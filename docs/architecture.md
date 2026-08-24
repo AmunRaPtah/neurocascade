@@ -13073,3 +13073,133 @@ species pivot took away"; `heldout.training_compounds()` reads drug NAMES
 from the quarantined evidence module so the held-out disjointness test stays
 automatic, a metadata-only reach pinned in
 `tests/test_legacy_quarantine.py`.
+
+---
+
+## Phase 12: the human PET receptor atlas (P12.1)
+
+P12.1 replaces the weakest input of the rodent build - an mRNA proxy for
+receptor density - with what the audit called the *stronger* layer: measured
+protein binding, in humans. The source is Hansen JY, Markello RD, Tuominen L,
+Nørgaard M, Kuzmin E, Palomero-Gallagher N, Dagher A, Misic B. "Mapping
+neurotransmitter systems to the structural and functional organization of the
+human neocortex." *Nat Neurosci* 2022;25(11):1569-1581. PMID 36303070;
+`netneurolab/hansen_receptors` at commit
+`f8b41da92a733f99368c1f39d4959731aa1316c1`, licence **CC BY-NC-SA 4.0**
+(recorded on every manifest entry and asserted by test). Nineteen
+receptors/transporters across nine systems from n=1,238 participants; this
+phase ingests the three systems existing scenarios need - MOR
+([11C]carfentanil), D2/D3 (FLB457), GABA-A benzodiazepine site
+([11C]flumazenil) - on the Cammoun-033 parcellation (68 cortical + 14
+subcortical + brainstem parcels).
+
+### The constraint the source imposes, and where it is enforced
+
+The atlas's numbers are z-scored RELATIVE densities, not absolute Bmax. That
+is a property of the measurement, not a presentation choice: tracers came
+from different cohorts and scanners (one carfentanil map is n=204 pooled
+across variable scanners), and different tracers report different quantities
+- per the repository's own Table S3, the flumazenil map is logged as "Bmax"
+but "originally Vt, converted to Bmax using autoradiography densities", i.e.
+a distribution-volume-derived quantity rather than a counted density.
+Converting any of these to fmol/mg protein here would be inventing a
+calibration.
+
+Roadmap v2 already states the consequence ("spatial topography is
+constrained; absolute scale is not"); P12.1 makes it a TYPE so no downstream
+consumer can quietly read past it (`human/receptors.py`):
+
+- `PETRelativeDensityMap` exposes no numeric array attribute; every read
+  returns a `RelativeDensityValue`.
+- `RelativeDensityValue` allows ordering and same-scale arithmetic, refuses
+  arithmetic with bare numbers, and refuses ANY operation across two scale
+  objects - comparability is decided by identity (`is`), so a field-equal
+  look-alike scale does not pass. Multiplying by a mechanism gain returns a
+  plain float, because the product is a coupling coefficient, no longer a
+  density.
+- `absolute_density()` exists to refuse loudly and name what an honest
+  version would need (the P12.2 autoradiography anchor).
+- `float(value)` is the documented, per-value exit - visible in review in a
+  way `map.values[3]` would not be.
+
+Raw `ParcellatedPETMap`s carry their tracer's quantity verbatim (BPnd vs
+Vt-derived) and offer no map-level arithmetic at all: combining them without
+first doing what made them commensurable is unrepresentable.
+
+### One z-scoring basis, chosen to be the publication's
+
+The aggregation rule is Hansen et al.'s own (`make_receptor_matrix.py` in
+the pinned commit): z-score each tracer over the 68 neocortical parcels
+(population SD, ddof=0), then average across tracers weighted by participant
+count - for D2 exactly `(z_smith*37 + z_sandiego*55)/92`. Keeping the
+neocortical basis was chosen over a whole-parcellation basis because it is
+what the authors did, and "what the authors did" is checkable while an
+alternative would be a second, private analysis. The documented consequence:
+subcortical parcels are transformed with the SAME mean and SD, so their
+z-scores read "how far outside the neocortical distribution" - striatal D2
+reaches +20.0, which is a statement about the reference population, not
+about receptor count.
+
+### A discovery about the deposit, verified numerically
+
+The deposited aggregated matrix `results/receptor_data_scale033.csv` is NOT
+on one shared scale across its 19 columns, which no README states. Verified
+bit-for-bit against our copies of the per-tracer files:
+
+- its **D2 column** equals the participant-weighted average of the two
+  per-tracer cortical z-scores exactly - the one place the authors applied
+  the z-scoring rule, and therefore the anchor that pins our basis and
+  weights to theirs;
+- its **MOR column** equals the RAW kantonen file exactly, and the
+  **GABA-A/BZ column** the RAW norgaard file exactly - single-tracer
+  receptors are deposited in their own raw tracer units, never z-scored.
+
+So only D2 anchors the z-scoring rule; MOR/GABA-A/BZ anchor parcel order and
+the parse. Both kinds of check are tests, and the per-column scales are
+recorded in `receptors.PUBLISHED_COLUMN_SCALES` rather than left as folklore.
+The same verification caught a real feature kept rather than cleaned up: the
+kantonen map has an exact zero at `R_pericalcarine`, present in the deposit
+too, so the publication treats it as a measurement and this module follows.
+
+### Parcellation join
+
+The Cammoun-033 parcel table is transcribed into code once
+(`receptors.PARCELS`, 83 entries in published column order) with two pins:
+a cache-present test re-checks every row against the published
+`region_info_scale033.xlsx` (whose labels are bare names composed with a
+hemisphere column; the brainstem row's 'L' is a placeholder this module does
+not inherit), and the bit-exact matrix checks above catch any transcription
+error in 68 of the 83 positions even fully offline. Eighty-two parcels map
+one-to-one onto the ENIGMA Desikan-Killiany labels the connectome scenarios
+use, including all seven subcortical nuclei per hemisphere - the accumbens,
+amygdala, caudate, hippocampus, pallidum, putamen and thalamus maps P12.1
+exists to resolve. The brainstem has no DK counterpart and stays unmapped
+(`UNMAPPED_PARCELS`), reachable through `for_parcel("brainstem")` but not
+through the connectome join. Note for P12.3: there is no VTA anywhere in
+this atlas; midbrain falls inside that unmapped parcel, so VTA nodes will
+need CIT168/Trutti geometry without receptor density, as the roadmap
+records.
+
+The turtonen carfentanil cohort (n=39) is ingested but deliberately NOT part
+of any product map - the published MOR combination contains no second
+tracer, and adding one would be a new analysis rather than an ingestion. It
+serves as a replication check: its z-scored map correlates r = 0.967 with
+kantonen over cortex. The other D2/GABA-A tracers present at scale033
+(fallypride, raclopride, dukart Vt) are recorded in `NOT_COMBINED` with the
+reason each was not taken, in the house format for searched-and-not-taken.
+
+### What this phase does not do
+
+No absolute scale: P12.2 (Zilles & Palomero-Gallagher autoradiography)
+would supply one for GABA-A/BZ; MOR and D2 have no autoradiographic anchor
+there and stay scale-free parameters with that stated. No scenario wiring:
+`coupling_over_connectome()` produces `{node: gain * rho}` dicts over the
+connectome labels, but the mechanism gains remain caller-supplied and
+ILLUSTRATIVE exactly as `human/scenario.py` records - a relative-density map
+constrains WHERE a system acts, never how strongly. The species gate is not
+implicated: these maps ARE human measurements, though a tracer cohort's
+scanner heterogeneity is why they stay relative. Fixtures follow the
+established contract: five byte-identical copies of the verified tracer
+files plus a text-verbatim three-column slice of the deposited matrix, with
+regeneration via `scripts/make_human_receptor_fixture.py` and provenance in
+`src/neurocascade/human/fixtures/PROVENANCE.md`.
