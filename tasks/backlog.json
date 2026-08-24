@@ -864,11 +864,13 @@
       "deps": [
         "P11.2"
       ],
-      "status": "running",
+      "status": "done",
       "attempts": 2,
       "baseline": "37a484e5253832c89d321839e33c2e579954c81d",
-      "result": "agent did not start: API Error: Request rejected (429) \u00b7 Rate limit exceeded: free-models-per-day-stealth.",
-      "started_at": "2026-08-24T00:00:28.375429+00:00"
+      "result": "complete",
+      "started_at": "2026-08-24T00:00:28.375429+00:00",
+      "finished_at": "2026-08-24T02:53:55.619756+00:00",
+      "commits": "2"
     },
     {
       "id": "P12.1",
