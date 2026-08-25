@@ -927,8 +927,10 @@
       "deps": [
         "P12.2"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "running",
+      "attempts": 1,
+      "started_at": "2026-08-25T03:50:08.480064+00:00",
+      "baseline": "712f97874fb7531a4ab87dc6931e9578ed006cc5"
     },
     {
       "id": "P12.4",
