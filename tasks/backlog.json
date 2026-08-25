@@ -906,11 +906,10 @@
       "deps": [
         "P12.1"
       ],
-      "status": "running",
+      "status": "pending",
       "attempts": 2,
       "baseline": "c96e0e12d1bc759b08f0e9802379d1d97f4d14ed",
-      "result": "agent did not start: API Error: Connection lost mid-response. The response above may be incomplete.",
-      "started_at": "2026-08-25T00:20:08.455492+00:00"
+      "result": "agent did not start: API Error: 400 Failed to parse data:application/pd...jc2OTYNCiUlRU9GDQo=: The document parsing engine is currently rate limited. Please retry shortly."
     },
     {
       "id": "P12.3",
