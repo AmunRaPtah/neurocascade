@@ -948,8 +948,10 @@
       "deps": [
         "P12.3"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "running",
+      "attempts": 1,
+      "started_at": "2026-08-25T06:40:06.287221+00:00",
+      "baseline": "ac3b2c927f2de276dd44e70dbe0dfcdf56892582"
     },
     {
       "id": "P13.1",
