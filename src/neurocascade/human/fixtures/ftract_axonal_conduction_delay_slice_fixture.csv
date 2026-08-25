@@ -1,0 +1,11 @@
+# axonal_conduction_delay, float64
+# MNI-HCP-MMP1 (360 parcels)
+# stimulated parcels are listed vertically
+# recorded parcels are listed horizontally
+stimulated parcels,L_V1,L_V6,L_V2,L_V3,R_V1,R_V6
+L_V1,4.7951,4.2217,4.1366,7.37,8.831,nan
+L_V6,7.3824,nan,10.5287,nan,nan,nan
+L_V2,2.8747,0.52546,1.9922,0.46774,nan,nan
+L_V3,11.6594,nan,0.56609,1.9005,nan,nan
+R_V1,5.0378,nan,nan,nan,2.2161,3.2922000000000002
+R_V6,nan,nan,nan,nan,1.3061,0.68772

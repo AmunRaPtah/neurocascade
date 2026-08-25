@@ -13545,3 +13545,94 @@ already has them. Tests: 71 in `tests/test_human_midbrain.py`, offline
 off the committed fixture (the CIT168 label table, byte-identical to
 the verified bundle member) except the cache-present verification
 tests described above.
+
+## Phase 13, part one: F-TRACT measured directed connectivity (P13.1)
+
+### Why measured direction matters
+
+Every other connectivity input to the human layer is direction-blind.
+Diffusion MRI is symmetric by construction (`matrix.py` refuses a
+non-symmetric file), and the ENIGMA matrix's direction is assigned
+afterwards from transmitter identity (`build.py`), an assumption layered
+on a symmetric measurement. P13.6 demotes that matrix to a
+provenance-flagged fallback.
+
+F-TRACT is different: it measures direction *causally*. Intracranial
+stimulation of one cortical site produces evoked potentials at another;
+stimulation site -> recording site *is* a direction. 780 epilepsy patients,
+34,354 stimulations, 774,445 CCEPs (Lemarechal et al. 2022, PMID
+35416942). Rows in the exported CSVs are the *stimulated* parcel (source)
+and columns are the *recorded* parcel (target) -- stated by the file
+itself, not inferred.
+
+### The data and its structure
+
+The F-TRACT atlas (Zenodo record 7015415, v21-12, 2021-12-09) is a 915 MB
+zip containing CCEP-derived connectivity across 11 parcellations, 2 age
+groups and 19 features. This module extracts only the MNI-HCP-MMP1 adult
+cohort (ages 15-100, 360 parcels, Glasser ordering: 180 L_ then 180 R_).
+
+Three matrix features are ingested:
+- `probability`: mean CCEP detection probability [0, 1]; NaN = never probed,
+  0.0 = probed, no response (28 exact zeros off-diagonal)
+- `amplitude`: median response amplitude (units undeclared by the release)
+- `axonal_conduction_delay`: median conduction delay (feeds Wilson-Cowan
+  propagation delays in P13.4)
+
+Two additional features are per-parcel delay maps (tab-separated .txt, not
+.csv):
+- `synaptic_excitatory_delay`: excitatory synaptic time constant
+- `synaptic_inhibitory_delay`: inhibitory synaptic time constant
+
+The P13.1 recon recorded these .txt files as empty; that is wrong for the
+v21-12 release -- the files exist and contain 360 entries each.
+
+### Coverage and asymmetry (pinned numbers)
+
+| Feature | finite cells | reciprocal pairs | asymmetric (%) | one-way |
+|---------|-------------|-----------------|----------------|--------|
+| probability | 27,066 | 10,789 | 78.2 | 5,193 |
+| amplitude | 16,050 | 6,176 | 100.0 | 3,420 |
+| delay | 16,050 | 6,176 | 100.0 | 3,420 |
+
+`np.array_equal(M, M.T)` is `False` for every feature. 78.2% of reciprocal
+probability pairs are asymmetric -- the defining biological property of
+CCEP direction. These numbers are pinned in `ftract.COVERAGE` and tested
+against the full CSVs when the cache is present.
+
+### The licence decision
+
+The Zenodo record description states "provided for free use for research
+use only". The Zenodo metadata labels the record CC BY 4.0. The EBRAINS
+landing page lists CC BY-NC-SA 4.0. The deposit's own description is the
+binding statement; this module is used under that research-use-only
+condition. Both the discrepancy and the chosen source are recorded in
+`ftract.LICENCE_NOTE`.
+
+### TVB negative-control rejection
+
+Three TVB connectivity archives (connectivity_76/96/192, GPL v3) are pinned
+as verification-only manifest entries. They are NOT F-TRACT data.
+Rejection uses only committed fixture signatures (`tvb_signatures_fixture.json`):
+
+| Archive | shape | ordinal | labels_glasser | prefixes | weights_unit |
+|---------|-------|---------|----------------|----------|-------------|
+| _76 | (76,76) | False | False | -- | au |
+| _96 | (96,96) | True {0,1,2,3} | False | BG,MM82a,RM,TM | au |
+| _192 | (192,192) | False | False | -- | au |
+
+All three fail on shape (not 360x360), non-Glasser labels, and `weights_unit
+= "au"` (their own metadata). The _96 matrix additionally fails on ordinal
+weight values and CoCoMac prefixes. Tests: 40 in `tests/test_human_ftract.py`,
+offline off the committed fixtures.
+
+### What this module does NOT do
+
+- No sign: CCEP probability is unsigned; E/I classification is P13.4's
+  problem using the synaptic delay maps, not this module.
+- No coupling to the circuit layer: the 360-parcel HCP-MMP1 parcellation
+  is NOT the Desikan-Killiany atlas used by PET and ENIGMA layers. An
+  explicit parcellation crosswalk is needed before F-TRACT edges can feed
+  a `CircuitNetwork`.
+- No units declaration: the release does not declare units for amplitude
+  or delay. Do not assume milliseconds without an independent source.

@@ -1,0 +1,11 @@
+# probability, float64
+# MNI-HCP-MMP1 (360 parcels)
+# stimulated parcels are listed vertically
+# recorded parcels are listed horizontally
+stimulated parcels,L_V1,L_V6,L_V2,L_V3,R_V1,R_V6
+L_V1,0.9952095808383233,1.0,0.9846743295019157,0.9836065573770492,0.8484848484848485,nan
+L_V6,1.0,1.0,1.0,nan,nan,nan
+L_V2,0.9814814814814815,1.0,0.9777777777777777,0.9876543209876543,nan,nan
+L_V3,0.9826086956521739,nan,0.9814814814814815,1.0,nan,nan
+R_V1,0.9375,nan,1.0,nan,0.990773962070733,0.9863760217983651
+R_V6,nan,nan,nan,nan,0.9672619047619048,1.0

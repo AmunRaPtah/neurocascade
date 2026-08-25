@@ -1,0 +1,51 @@
+{
+  "76": {
+    "shape": [
+      76,
+      76
+    ],
+    "n_unique": 34,
+    "unique_values": null,
+    "ordinal": false,
+    "symmetric": false,
+    "labels_glasser": false,
+    "label_prefixes": [],
+    "weights_unit": "au"
+  },
+  "96": {
+    "shape": [
+      96,
+      96
+    ],
+    "n_unique": 4,
+    "unique_values": [
+      0.0,
+      1.0,
+      2.0,
+      3.0
+    ],
+    "ordinal": true,
+    "symmetric": false,
+    "labels_glasser": false,
+    "label_prefixes": [
+      "BG",
+      "MM82a",
+      "RM",
+      "TM"
+    ],
+    "weights_unit": "au"
+  },
+  "192": {
+    "shape": [
+      192,
+      192
+    ],
+    "n_unique": 34,
+    "unique_values": null,
+    "ordinal": false,
+    "symmetric": false,
+    "labels_glasser": false,
+    "label_prefixes": [],
+    "weights_unit": "au"
+  }
+}
