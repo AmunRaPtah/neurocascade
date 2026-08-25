@@ -906,10 +906,11 @@
       "deps": [
         "P12.1"
       ],
-      "status": "pending",
-      "attempts": 2,
-      "baseline": "c96e0e12d1bc759b08f0e9802379d1d97f4d14ed",
-      "result": "agent did not start: API Error: 400 Failed to parse data:application/pd...jc2OTYNCiUlRU9GDQo=: The document parsing engine is currently rate limited. Please retry shortly."
+      "status": "running",
+      "attempts": 3,
+      "baseline": "ce1be770ce03c03b1a3f9aab3da3c4e65bc4419e",
+      "result": "agent did not start: API Error: 400 Failed to parse data:application/pd...jc2OTYNCiUlRU9GDQo=: The document parsing engine is currently rate limited. Please retry shortly.",
+      "started_at": "2026-08-25T01:00:20.262765+00:00"
     },
     {
       "id": "P12.3",
