@@ -970,10 +970,11 @@
       "deps": [
         "P12.4"
       ],
-      "status": "pending",
-      "attempts": 2,
-      "baseline": "aeb96331ece6dd6289ee60a76f321252b52028f1",
-      "result": "agent did not start: API Error: API returned an empty or malformed response (HTTP 200) \u2014 check for a proxy or gateway intercepting the request. Response: content-type json, body is JSON but not a Message, size unknown, re"
+      "status": "running",
+      "attempts": 3,
+      "baseline": "4e194c72a3bc0b948d7eff2e7a354ad5f3bca2a5",
+      "result": "agent did not start: API Error: API returned an empty or malformed response (HTTP 200) \u2014 check for a proxy or gateway intercepting the request. Response: content-type json, body is JSON but not a Message, size unknown, re",
+      "started_at": "2026-08-25T08:20:12.617433+00:00"
     },
     {
       "id": "P13.2",
