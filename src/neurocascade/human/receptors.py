@@ -1186,18 +1186,26 @@ class PETRelativeDensityMap(object):
     def absolute_density(self):
         """There is no such conversion. This method refuses, loudly.
 
-        A z-score carries no unit to convert. An absolute density would
-        need an independent anchor measured in fmol/mg protein (that is
-        roadmap phase P12.2, from Zilles & Palomero-Gallagher
-        autoradiography), applied per receptor with its own stated
-        assumption -- never a transformation inside this type.
+        A z-score carries no unit to convert. The independent anchor
+        measured in fmol/mg protein now EXISTS (P12.2:
+        ``neurocascade.human.autoradiography``, Zilles & Palomero-Gallagher
+        2017), but it covers GABA-A and GABA-A/BZ only -- not MOR, not D2,
+        which therefore stay scale-free (`autoradiography.
+        SCALE_FREE_RECEPTORS`) -- and it is keyed by 44 Julich-style
+        cytoarchitectonic areas rather than this parcellation's
+        Desikan-Killiany labels. Applying it to THIS map would take a
+        measured crosswalk between those two atlases, which does not exist
+        and must not be improvised. So the conversion still cannot happen
+        here, inside the type or around it.
         """
         raise TypeError(
-            "%s is a %s map: its values are %s. No absolute density exists "
-            "in this source and none can be derived here. If you need an "
-            "absolute scale you need the P12.2 autoradiography anchor, "
-            "which is a separate measurement with its own citation and its "
-            "own assumption -- not a property of this map."
+            "%s is a %s map: its values are %s. No absolute density can be "
+            "derived here. The autoradiography anchor of "
+            "neurocascade.human.autoradiography is a separate measurement "
+            "with its own citation, its own sample (n=3 postmortem brains, "
+            "ages 72-77) and its own area labels; joining it to this map "
+            "needs a measured cytoarchitectonic-to-Desikan-Killiany "
+            "crosswalk, not a transformation."
             % (self.receptor.key, type(self).__name__, RELATIVE_UNITS)
         )
 

@@ -13202,4 +13202,188 @@ scanner heterogeneity is why they stay relative. Fixtures follow the
 established contract: five byte-identical copies of the verified tracer
 files plus a text-verbatim three-column slice of the deposited matrix, with
 regeneration via `scripts/make_human_receptor_fixture.py` and provenance in
-`src/neurocascade/human/fixtures/PROVENANCE.md`.
+`src/neurocascade/human/fixtures/PROVENANCE.md`. (P12.2 has since landed -
+the next section records what it does and does not change here.)
+
+## Phase 12, part two: the absolute-scale anchor (P12.2)
+
+P12.1 ended by saying what its maps could not carry. This half ingests the
+one human source that measures receptor density on an absolute scale:
+Zilles K, Palomero-Gallagher N. "Multiple transmitter receptors in regions
+and layers of the human cerebral cortex." *Front Neuroanat* 2017;11:78.
+PMID 28970785, machine-readable at `github.com/AlGoulas/receptor_principles`
+(commit `1a8b8714271d99ffe62f81f93ac42f3e57c952f1`; deposit MIT, article
+CC BY 4.0, both recorded on every manifest entry). Quantitative in vitro
+receptor autoradiography: 15 receptors x 44 iso- and periarchicortical
+areas x 3 laminar strata, every value a mean density in fmol/mg protein.
+Two columns are systems the model already carries - `GABA_A` ([3H]muscimol)
+and `GABA_A_BZ`, which is exactly the benzodiazepine site whose PET map
+could not be scaled. The other thirteen are ingested whole, because it is
+one table, but no scenario consumes them yet (`human/autoradiography.py`).
+
+The sample is recorded at the source as fields, not footnotes
+(`SAMPLE`): **three postmortem brains**, ages 72-77 years, two male and one
+female, no record of neurological or psychiatric disease, postmortem delay
+8-18 h, cortical coverage ONLY - no subcortical structure and no proper
+archicortex was measured. Every accessor hands the provenance out with the
+density, so a number built on this anchor inherits its n=3 aged cortex-only
+basis in the same expression. What such a sample supports is an
+order-of-magnitude absolute scale with real regional structure; nothing
+here pretends to individual or population precision.
+
+### Fidelity of the transcription, verified numerically
+
+The .npy deposit claims to transcribe Supplementary Table 2, so that claim
+was checked rather than trusted: a cache-present test parses the xlsx and
+compares all 1,980 stratum-level means cell-for-cell - 1,965 measured cells
+match exactly, and area 24's 15 granular cells are '--' in both. Each URL
+was fetched twice and the bytes compared identical before its digest entered
+the manifest; the fixtures are byte-identical copies, so offline tests run
+on the published bytes themselves. Two properties of the spreadsheet that a
+naive reader would get wrong are pinned where they were found: SDs are
+stored NEGATIVE (floating-bar chart convention; CV = |SD|/mean holds), and
+the per-receptor "all layers" column is a thickness-weighted average over
+single layers, NOT the mean of the three strata - for V1 GABA-A/BZ the
+unweighted stratum mean is 3095.67 while the publication's all-layers value
+is 3525. `layer_mean()` therefore returns a derived quantity labelled
+"layer-mean(unweighted)" in its own repr, and its docstring states the
+difference with the concrete numbers.
+
+### Absolute values get absolute treatment: the type choice inverted
+
+P12.1 typed its values RELATIVE because z-scores from mixed cohorts support
+ordering within one tracer and nothing else. This source is one measurement
+family in one unit system over one protocol, so the type is deliberately
+more capable: `AbsoluteDensity` allows ordering against plain numbers,
+averaging and differencing within a receptor, division by a scalar, and
+division of one density by another of the SAME receptor into a dimensionless
+laminar ratio (V1/V4 granular GABA-A = 2.85). It refuses exactly what an
+absolute scale must refuse: adding or subtracting across receptors ("their
+sum is no receptor's density"), multiplying two densities together
+("the product of two concentrations is not a concentration"), negation, and
+arithmetic or comparison with P12.1's `RelativeDensityValue` - the two
+layers are different measurement families even where they describe the same
+receptor. `float(v)` remains the documented exit, and multiplying by a
+mechanism gain returns a plain float because the product is a coupling
+coefficient, no longer a density.
+
+Construction-time validation enforces the data's own shape: 44 distinct
+areas, 15 registry-matching receptors, shape (44, 15) per stratum, finite,
+non-negative, and zeros permitted ONLY where a registered absence requires
+them - a zero elsewhere is rejected as a finding, not normalized as a parse
+artefact, and a registered absence that is not zero is rejected as a
+transcription error.
+
+### An absence is not a zero: area 24
+
+Area 24 is periarchicortical agranular cingulate cortex; it has no inner
+granular layer IV, the publication prints '--', and the deposit encodes the
+absence as 0 - these are the only fifteen zeros in the entire table. Reading
+that zero as a density would assert that area 24 measurably lacks GABA-A
+sites, which is false and would propagate silently into any laminar average.
+`for_area("24", ..., stratum="granular")` raises `StratumAbsent` (a
+`KeyError` subtype carrying `.area`, `.stratum` and `.reason`), `strata_of`
+and `layer_mean` skip the missing stratum, and `top()` excludes it from
+rankings. A test pins the count: 15 zeros, all granular, all area 24.
+
+### Who gets an anchor and who stays scale-free
+
+MOR and D2 are NOT in this table, and the refusal is the deliverable.
+`SCALE_FREE_RECEPTORS` records each with its reason, `absolute_anchor()`
+raises `ScaleFreeReceptor` carrying that reason, and acceptance criterion
+(b) lives in code rather than in this document alone:
+
+- **MOR**: the 15 autoradiographed receptors include no mu-opioid ligand;
+  there is no anchor here to borrow, so MOR stays scale-free exactly as
+  `receptors.absolute_density()` already said.
+- **D2**: the dopaminergic column is D1 (median 74 fmol/mg protein), and
+  D1 being PRESENT makes the refusal sharper, not weaker - borrowing its
+  column for D2 would substitute one receptor's density for another's,
+  which rule 2 forbids even between sister receptors. A near-miss column
+  sitting in the same array is precisely the trap; the reason string names
+  it so the next reader does not have to rediscover why the convenient
+  number is wrong.
+
+Acceptance criterion (a) holds for the receptors that DO have anchors: all
+15 measured columns load through the same loaders. Acceptance criterion (c)
+holds structurally: the limitations are fields of `SAMPLE` asserted by test
+(n=3, ages, sex split, postmortem state and delay, cortex-only coverage),
+not prose in a README.
+
+### The join this module refuses to build
+
+These 44 areas are Julich-style cytoarchitectonic areas; the connectome
+scenarios use Desikan-Killiany labels. No measured crosswalk between the
+two exists in this deposit, and improvising one from label similarity
+("46 looks frontal, so is it superiorfrontal?") would be anatomy invented
+for the sake of a join. `for_connectome_label()` therefore refuses loudly,
+naming the measured thing that would build the join: the Julich-Brain
+probabilistic maps via EBRAINS siibra. Until that lands, the anchor is
+consumable per cytoarchitectonic area and nowhere else - including no path
+back into P12.1, whose `absolute_density()` still refuses, now stating
+precisely why: the anchor exists, covers only GABA-A/GABA-A/BZ, and is
+keyed to a different parcellation.
+
+Two neighbouring shortcuts were considered and declined for the same
+underlying reason - they would manufacture a calibration:
+
+- Reinterpreting the Hansen flumazenil map's RAW deposited values (135-993,
+  magnitudes that happen to look autoradiographic) as fmol/mg protein: the
+  repository's Table S3 says that column is Vt-derived and converted
+  "using autoradiography densities", but the conversion itself is
+  undocumented. Magnitude plausibility is not a calibration.
+- Affine-mapping P12.1's z-scores onto this table's fmol/mg distribution:
+  the two are computed over different parcellations with different
+  statistics, so fitting the affine constants would equate quantities that
+  measure different things - inventing a calibration again.
+
+What P12.2 adds instead is legitimate: the anchor constrains ORDER OF
+MAGNITUDE and regional/laminar structure for GABAergic densities, and any
+future scenario wiring may use ratios within a receptor freely, since those
+are dimensionless statements about the same measurement family.
+
+### Subcortical and archicortical fingerprints: searched-and-not-reached
+
+Amygdalar, hippocampal and cingulate receptor fingerprints exist in separate
+papers, and each was pursued; `SUBCORTICAL_SOURCES` records the outcome per
+paper in the Track E format - citation, status, what was tried, consequence:
+
+- Kedo et al. 2018 (human amygdala, PMID 29188378): **searched and NOT
+  reached**. All EBRAINS/siibra API endpoints tried (siibra-apistable,
+  siibra-api, api.siibra.eu, opensource mirror) resolve DNS but time out on
+  TCP connect at 20 s and again at 90 s; Springer hosts no PMC full text;
+  GitHub search found no mirror of the numeric tables.
+- Zhao et al. 2023 (human hippocampus, PMID 37030412): full text reached
+  via PMC10167541, but densities appear only as autoradiographs with colour
+  scales - no numeric table, so nothing was transcribed by eye.
+- Palomero-Gallagher et al. 2009 (cingulate, PMID 19034899): full text
+  reached via PMC6870973; absolute densities appear in figures and isolated
+  in-text values (benzodiazepine sites up to 3195 fmol/mg protein), not as a
+  complete per-area table.
+
+Consequence, uniform and deliberate: subcortical and archicortical
+densities stay PET-relative only. Digitizing figure pixels would have
+produced numbers with invented precision, and rule 1 forbids that as surely
+as inventing them outright. The same record notes that the paper's
+Supplementary Table S1 (per-receptor ligands and concentrations) is not in
+the machine-readable deposit and was not reachable in full text either; the
+module carries the ligand identities the main text names ([3H]muscimol for
+GABA-A) and depends on nothing more granular.
+
+### What this half does not do
+
+No scenario wiring: like P12.1, nothing consumes these values yet, and no
+mechanism gain becomes measured by proximity to them. No crosswalk, no
+calibration of the PET atlas, no MOR or D2 numbers. No subcortical extension.
+The species gate stays satisfied by construction (human tissue, human
+sample, honestly bounded); the n=3 aged-postmortem basis travels with every
+value as fields. Tests: 55 in `tests/test_human_autoradiography.py`,
+offline off the committed fixtures except the cache-present verification
+tests, plus pins on the anatomy the paper reports qualitatively (V1 leads
+the granular stratum for both GABA systems; supragranular >= infragranular
+in all 44 areas for both; the median benzodiazepine density 2598 fmol/mg
+protein exceeds every modulatory receptor's maximum, the closest approach
+being alpha-1 in motor area 6 at 2287 - a localized feature of that whole
+area, kept visible as a pin rather than smoothed away; total dynamic range
+across receptors 135 to 4213 fmol/mg protein, which is WHY the PET atlas
+could not be scaled by eye).

@@ -106,3 +106,52 @@ Both regenerate from the verified cache with:
     .venv/bin/python scripts/make_human_receptor_fixture.py
 
 which refuses to run against a cold or unverified cache.
+
+## Zilles & Palomero-Gallagher autoradiography fixtures (P12.2)
+
+Five files under this directory are byte-identical copies of the
+checksum-verified machine-readable absolute-density deposit recorded in
+`../autoradiography.py` (manifest version 2026-08-25, source commit of
+`AlGoulas/receptor_principles`:
+`1a8b8714271d99ffe62f81f93ac42f3e57c952f1`, last upstream push 2021-04-08):
+
+* `zilles2017_ReceptorNames_fixture.npy`
+  (sha256 `f570401cbe1ad960a44b1c4f0f7db30466c60cb77aa13c5dfedff75d375c9171`)
+* `zilles2017_RegionNames_fixture.npy`
+  (sha256 `c2e830b2885cccc4847abb3d0b9a9b0a9661840ba6742c6533b4e50cc6955440`)
+* `zilles2017_ReceptData_S_fixture.npy`
+  (sha256 `876b00a55802bba9921b72865ad7b115a6c8c01abef07eb1f0ccc9eba50f15b4`)
+* `zilles2017_ReceptData_G_fixture.npy`
+  (sha256 `66517300cfc5d40bf1a8f792cb35fa19b9405e3b95922d2b0102569bfa423dd9`)
+* `zilles2017_ReceptData_I_fixture.npy`
+  (sha256 `ccf010fd061256e438b7fa33d48ff82efd3178f59af5db25f4336d5ae7acba5a`)
+
+They can be copies rather than slices because each is a single small
+array to begin with (15 names, 44 area labels, three 44 x 15 uint16 mean
+densities in fmol/mg protein).
+
+The deposit's sixth file -- the paper's Supplementary Table 2
+(`ReceptData.xlsx`, sha256
+`d64bf50ff74f084f618de87a7eeb76f8bfc525526b5dcbf5b51240e3d87b463a`,
+70718 bytes) -- is deliberately NOT shipped here, for the same reason
+P12.1 does not ship the parcel-identity xlsx: fixtures must stay readable
+without openpyxl. When `data/human/` is populated, a cache-present test
+parses it and re-checks all 1,965 measured stratum-level means against
+the arrays cell-for-cell (1,980 minus area 24's 15 absent granular
+values, which the spreadsheet prints as '--').
+
+One real feature is kept rather than cleaned up: **area 24 has no
+granular stratum.** It is periarchicortical agranular cingulate cortex;
+the publication prints '--' and the .npy arrays encode 0. A zero would
+assert a measured density of zero binding sites, which is not what '--'
+says, so `for_area("24", ..., stratum="granular")` raises instead. These
+are the only zeros in the deposit.
+
+Licences: the article is CC BY 4.0; the `receptor_principles` deposit is
+MIT (Copyright (c) 2020 AlGoulas). Both are recorded on every manifest
+entry in `../autoradiography.py`. Regenerate the five fixtures from the
+verified cache with:
+
+    .venv/bin/python scripts/make_human_autoradiography_fixture.py
+
+which refuses to run against a cold cache.
