@@ -1,0 +1,17 @@
+id,label,hemisphere,structure
+1,putamen,both,subcortex
+2,caudate_nucleus,both,subcortex
+3,nucleus_accumbens,both,subcortex
+4,extended_amygdala,both,subcortex
+5,globus_pallidus_external,both,subcortex
+6,globus_pallidus_internal,both,subcortex
+7,substantia_nigra_pars_compacta,both,subcortex
+8,red_nucleus,both,subcortex
+9,substantia_nigra_pars_reticulata,both,subcortex
+10,parabrachial_pigmented_nucleus,both,subcortex
+11,ventral_tegmental_area,both,subcortex
+12,ventral_pallidum,both,subcortex
+13,habenular_nuclei,both,subcortex
+14,hypothalamus,both,subcortex
+15,mammillary_nucleus,both,subcortex
+16,subthalamic_nucleus,both,subcortex

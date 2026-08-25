@@ -48,7 +48,12 @@ exactly what a cortical-only parcellation cannot supply. At this coarsest
 scale the cortical parcel names are the Desikan-Killiany names, so each of
 the 83 parcels maps to one region of the ENIGMA Desikan-Killiany
 connectome (``human/sources.py``) except the brainstem, which has no DK
-counterpart and stays unmapped (`UNMAPPED_PARCELS`).
+counterpart and stays unmapped (`UNMAPPED_PARCELS`). The ventral midbrain
+nodes defined from their own atlases in ``human/midbrain.py`` (P12.3) are
+absent here by construction too -- and every read path below REFUSES a
+midbrain label (`MidbrainDensityAbsent`) rather than returning a
+neighbouring region's value, because nothing this module ingests measures
+receptor density there.
 
 The central constraint: relative, not absolute
 ----------------------------------------------
@@ -1232,7 +1237,24 @@ class PETRelativeDensityMap(object):
         This is the accessor the scenarios use: their node labels are the
         82-region connectome's (`human.load_connectome().labels`), and the
         14 subcortical ones are what P12.1 exists to resolve.
+
+        A midbrain request -- ``LVTA``, ``RVTA``, ``LSNc``, ``RSNc``,
+        ``LPBP``, ``RPBP``, however spelled -- raises `midbrain.
+        MidbrainDensityAbsent` instead of returning some neighbour's
+        number: those nodes exist (P12.3, `human/midbrain.py`) precisely
+        because no parcellation this module builds on resolves them, and
+        NO measured receptor density for the human midbrain was found
+        anywhere (`midbrain.SEARCHED_AND_EMPTY`). `as_coupling` and
+        `coupling_over_connectome` go through here, so the refusal holds
+        on every path into the simulation layer.
         """
+        from .midbrain import MidbrainDensityAbsent, node_for_request
+
+        target = node_for_request(label)
+        if target is not None:
+            raise MidbrainDensityAbsent(
+                node=target, receptor_key=self.receptor.key
+            )
         return self.for_parcel(parcel_for_connectome_label(label))
 
     def subcortical_values(self):

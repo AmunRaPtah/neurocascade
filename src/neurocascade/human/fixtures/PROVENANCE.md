@@ -155,3 +155,41 @@ verified cache with:
     .venv/bin/python scripts/make_human_autoradiography_fixture.py
 
 which refuses to run against a cold cache.
+
+## CIT168 midbrain-atlas label table (P12.3)
+
+One file under this directory is a byte-identical copy of the label table
+inside the checksum-verified CIT168 release bundle recorded in
+`../midbrain.py` (manifest version 2026-08-25):
+
+* `cit168_pauli2018_info_fixture.csv`
+  (sha256 `4bbcbb9940ad42577ab45a2a5d08527f26fb7c9ee7962bb4ad40283450411af2`,
+  635 bytes) - member
+  `atl-pauli2018/atl-pauli2018_space-MNI152NLin2009cAsym_info.csv` of the
+  verified bundle, whose OUTER digest lives in the manifest there.
+
+Source: Pauli WM, Nili AN, Tyszka JM, "A high-resolution probabilistic in
+vivo atlas of human subcortical brain nuclei", *Scientific Data*
+2018;5:180063 (PMID 29664465), OSF project r2hvk. The file carries no
+numbers at all - 16 rows of `id, label, hemisphere='both',
+structure='subcortex'` - and exists so the midbrain nucleus registry's
+identities can be pinned offline against exactly what the authors
+distributed. It pins identity only, never geometry: volumes come from the
+paper's peer-reviewed Table 1 (`midbrain.NUCLEI`), because the deposited
+images integrate systematically differently from that table
+(`midbrain.DEPOSIT_DISCREPANCY_NOTE`).
+
+The bundle's image members are deliberately NOT shipped here: at ~858 KB
+apiece they dwarf every other committed fixture, nothing offline consumes
+them, and no product value derives from them. When `data/human/` is
+populated, cache-present tests parse the probabilistic member (after
+re-verifying its inner digest) and reproduce the recorded deposit-vs-Table-1
+integrals, and parse Trutti's two hemisphere maps to confirm they reproduce
+that paper's published unthresholded atlas volumes exactly.
+
+Regenerate from the verified cache with:
+
+    .venv/bin/python scripts/make_human_midbrain_fixture.py
+
+which refuses to run against a cold or unverified cache, or if the inner
+member's digest has moved.

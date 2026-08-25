@@ -13387,3 +13387,161 @@ being alpha-1 in motor area 6 at 2287 - a localized feature of that whole
 area, kept visible as a pin rather than smoothed away; total dynamic range
 across receptors 135 to 4213 fmol/mg protein, which is WHY the PET atlas
 could not be scaled by eye).
+
+## Phase 12, part three: midbrain nodes, and an absence made structural (P12.3)
+
+The mu-opioid reward scenario has a hole in its anatomy that no amount of
+PET data can fill: the Hansen maps are parcellated with Cammoun scale033,
+and at that scale the entire ventral midbrain - VTA, substantia nigra,
+the whole reward circuit's source - falls inside ONE undifferentiated
+"brainstem" parcel together with pons and medulla. There is no
+Desikan-Killiany label for it either (`receptors.UNMAPPED_PARCELS`), so
+the scenario cannot address a VTA node at all: the structure the
+scenario is about does not exist in its node list. P12.3 gives it one,
+from dedicated midbrain atlases rather than from cortical-parcellation
+spillover, and - because NEITHER atlas carries receptor chemistry -
+turns that gap into something the type system enforces instead of a
+footnote nobody re-reads.
+
+### Two atlases, two jobs
+
+- **CIT168** (Pauli WM, Nili AN, Tyszka JM. "A high-resolution
+  probabilistic in vivo atlas of human subcortical brain nuclei."
+  *Sci Data* 2018;5:180063, PMID 29664465) DEFINES the geometry. Its 16
+  nuclei include all three this model needs, each measured separately:
+  substantia nigra pars compacta (132 ul left / 136 ul right), the
+  parabrachial pigmented nucleus (99/98), and the ventral tegmentum
+  (33/33). The volumes pinned in `midbrain.NUCLEI` are transcribed
+  verbatim from the paper's peer-reviewed Table 1 - every row, both
+  hemispheres, laterality percentages included - with the citation on
+  every object so any downstream use inherits it.
+- **Trutti AC et al.** ("A probabilistic atlas of the human ventral
+  tegmental area based on 7 Tesla MRI", *Brain Struct Funct*
+  2021;226(4):1155-1167, PMID 33580320; 27 participants, 19 female,
+  mean age 24.5) REPLICATES it. Individually hand-delineated VTA masks
+  average 137.35 mm^3 left (SD 38.27) and 138.80 mm^3 right (SD 39.33);
+  CIT168's VTA plus its separately-measured PBP sum to 132/131 ul, the
+  union corresponding to Trutti's broader complex. Both land at
+  ~130-140 mm^3 per hemisphere from independent samples, protocols and
+  spaces, and Trutti notes the same figure equals postmortem
+  reconstruction (Halliday & Törk 1986). `CROSS_ATLAS_CONSISTENCY`
+  records this numerically AND records what it is not: not validation,
+  and not a voxelwise comparison - different spaces
+  (MNI152NLin2009cAsym vs MNI152 2009b), different definitions
+  (Trutti's VTA includes PBP; CIT168 separates them), different
+  quantities (mean binary mask vs sum of probability integrals). No
+  number transfers between the atlases.
+
+Trutti's released bytes were used as the reader's own test: the module
+includes a minimal NIfTI-1 parser (~40 lines of struct, no nibabel -
+this project's dependency policy is numpy and scipy only), and the
+nonzero voxel counts of the unthresholded group maps times their 0.125
+mm^3 voxels reproduce the paper's published atlas volumes EXACTLY
+(2226.375 mm^3 left, 2368.00 mm^3 right). A reader subtle enough to get
+those bit-exact is trusted for the verification work below.
+
+### Why no geometry from the CIT168 images themselves
+
+The obvious next step - derive masks or centroids from the deposited
+probability maps instead of transcribing a table - was taken, and then
+undone, because the numbers disagreed with the paper that deposited
+them. Probability-weighted integrals of the deposited maps exceed Table
+1 by 18% to 66% across EVERY one of the 16 nuclei in BOTH hemispheres
+(`DEPOSIT_INTEGRALS_UL` holds all 32 values), while the p>=0.5
+thresholded cores fall far BELOW Table 1 (VTA: 9.3 vs the published 33
+ul). Same stated method - "spatial integration of label probabilities"
+- same paper, different answer, no documented transformation between
+the two. Candidate causes are recorded as hypotheses only: the
+retrieved bundle's internal file dates are 2024-11-11, six years AFTER
+publication, so the served bytes may simply not be the ones the table
+describes.
+
+Nothing here is resolved by guessing which side is right. The response
+is to use neither: product values stay the PEER-REVIEWED Table 1
+transcriptions, and NO centroid, mask or coordinate derived from the
+deposit is exposed anywhere in the module - because a coordinate
+inheriting an unexplained discrepancy would carry that discrepancy into
+every edge weight built on top of it. The comparison itself stays
+reproducible: `cit168_probability_integrals()` recomputes all 32
+integrals from checksum-verified bytes (inner tar members are
+re-digested after extraction, not just the outer bundle), and a
+cache-present test asserts they match `DEPOSIT_INTEGRALS_UL`.
+
+### An absence you cannot assign around
+
+The brief's hard requirement was that missing receptor density be
+ENFORCED, not noted. Enforcement therefore lives at four levels:
+
+1. **Structural**: `MidbrainNode` uses `__slots__`, `__setattr__`
+   raises unconditionally, so `node.density = 0.42` fails outright -
+   there is no attribute to smuggle a plausible-looking number into.
+   `float(node)` raises too: a brain region is not a number, and its
+   volume must never be mistaken for one.
+2. **Type level**: `node.receptor_density("MOR")` raises
+   `MidbrainDensityAbsent`, carrying `.node`, `.receptor_key` and a
+   reason naming what a real measurement would have to be.
+3. **Atlas level**: `ReceptorMap.for_connectome_label()` checks the
+   midbrain registry FIRST, so every PET read path that accepts a
+   connectome label - including `as_coupling()` and
+   `coupling_over_connectome()` - refuses LVTA/RVTA/LSNc/RSNc/LPBP/RPBP
+   with the same exception. Asking the MOR map for a VTA value is now
+   unrepresentable rather than merely discouraged.
+4. **The named temptation**: the shortcut the scenario will eventually
+   face is reading the brainstem parcel's PET value onto the VTA. That
+   call has its own function, `pet_value_from_brainstem_parcel()`,
+   whose ONLY behaviour is to refuse, with a reason saying why: the
+   parcel covers pons and medulla too, so its value is an average over
+   structures the model does not mean, and averaging it onto a 33-ul
+   nucleus would manufacture exactly the number rule 1 forbids.
+
+Legitimate reads stay untouched: `Laccumb` still reads normally, the
+brainstem parcel is still readable AS brainstem, and non-midbrain
+requests pass through `is_midbrain_request()` guards unchanged.
+Parametrized tests pin the spellings caught (LVTA through RPBP,
+"VentralTegmentalArea", "SubstantiaNigraParsCompacta", ...) and the
+false positives let through ("brainstem", "Laccumb", "L", "").
+
+### The negative result, searched properly
+
+`SEARCHED_AND_EMPTY` holds ten records in the Track E format
+{citation, status, what_was_tried, consequence}, each from queries
+actually issued against Europe PMC on 2026-08-25 with hit counts
+recorded: carfentanil-PET x VTA as TITLE terms returned **0 hits**;
+VTA x autoradiography/receptor-density/Bmax returned 10 hits, every one
+rodent tissue; midbrain x autoradiography x human returned 8, of which
+three are genuine human midbrain autoradiography papers - Allen 1991
+(angiotensin II), Ball 1994 (glutamatergic sites), Chai 1990 (converting
+enzyme) - recorded precisely BECAUSE they prove the measurement is
+possible in principle and remains undone for MOR/D2, while being
+unusable here under rule 2 (wrong target is wrong even at perfect
+anatomical resolution). Gabilondo 1994/1995 are the closest human
+mu-opioid Bmax numbers outside cortex - right receptor, right species,
+right quantity - and are refused because their regions are frontal
+cortex, thalamus and caudate; extrapolating them onto the VTA would be
+invention. Ceballos 2026's neuropeptide atlas covers subcortex but is
+explicitly "gene transcription as a proxy", and adopting it would
+reinstate the very proxy assumption Phase 12's later work exists to
+retire. One record documents the Hansen map's own brainstem parcel as
+the already-ingested non-answer.
+
+Licence honesty travels with the files: both articles are CC BY 4.0 per
+their own copyright blocks; the OSF deposits' licence FIELDS are UNSET,
+verified via the OSF API on 2026-08-25 and stated in the manifest
+rather than assumed from the articles.
+
+### What this part does not do
+
+No wiring: six nodes exist (`LVTA RVTA LSNc RSNc LPBP RPBP`, ENIGMA
+labelling convention), each carrying identity, published volume and
+citation, and nothing consumes them yet - directed connectivity into
+the midbrain is Phase 13 work, and inventing edges before connections
+are measured would repeat the error this phase refuses everywhere else.
+No centroids (the discrepancy above), no receptor density (the search
+above), no averaging from the brainstem parcel (the refusal above),
+no rodent stand-ins, no mRNA proxies. What P12.3 delivers is a place
+for the reward circuit's source node to exist, and a guarantee that
+until real numbers arrive, nothing downstream can quietly pretend it
+already has them. Tests: 71 in `tests/test_human_midbrain.py`, offline
+off the committed fixture (the CIT168 label table, byte-identical to
+the verified bundle member) except the cache-present verification
+tests described above.
