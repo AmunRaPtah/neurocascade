@@ -960,7 +960,7 @@
       "id": "P13.1",
       "phase": "Phase 13: directed human connectivity",
       "title": "Ingest the F-TRACT CCEP atlas",
-      "brief": "Ingest F-TRACT, the only measured DIRECTED human connectivity dataset: Lemarechal J-D, Jedynak M, Trebaul L et al., 'A brain atlas of axonal and synaptic delays based on modelling of cortico-cortical evoked potentials', Brain 2022;145(5):1653-1667, PMID 35416942. 780 patients, 34,354 stimulations, 774,445 CCEPs, on HCP-MMP1 (360 parcels). EBRAINS DOI 10.25493/5AM4-J3F, CC BY-NC-SA 4.0; the matrices are explicitly asymmetric. Direction here is measured causally in living humans: stimulation site to recording site IS a direction. Record the limitations at the source: electrode placement is clinically driven and biased toward temporal/frontal epileptogenic cortex, patients are not neurotypical, CCEPs can be polysynaptic so a directed edge is not necessarily monosynaptic, and the atlas is group-average only. DO NOT use TVB's connectivity_76/_96/_192 as a human alternative: they carry ordinal {0,1,2,3} weights and RM- prefixes and are macaque CoCoMac tracer codes mapped onto human coordinates, widely mis-cited as human DSI.",
+      "brief": "Ingest F-TRACT, the only measured DIRECTED human connectivity dataset: Lemarechal J-D, Jedynak M, Trebaul L et al., 'A brain atlas of axonal and synaptic delays based on modelling of cortico-cortical evoked potentials', Brain 2022;145(5):1653-1667, PMID 35416942. 780 patients, 34,354 stimulations, 774,445 CCEPs, on HCP-MMP1 (360 parcels). EBRAINS DOI 10.25493/5AM4-J3F, CC BY-NC-SA 4.0; the matrices are explicitly asymmetric. Direction here is measured causally in living humans: stimulation site to recording site IS a direction. Record the limitations at the source: electrode placement is clinically driven and biased toward temporal/frontal epileptogenic cortex, patients are not neurotypical, CCEPs can be polysynaptic so a directed edge is not necessarily monosynaptic, and the atlas is group-average only. DO NOT use TVB's connectivity_76/_96/_192 as a human alternative: they carry ordinal {0,1,2,3} weights and RM- prefixes and are macaque CoCoMac tracer codes mapped onto human coordinates, widely mis-cited as human DSI. NOTE 2026-08-25: read docs/ftract-recon.md before starting. The claim above that connectivity_76/_96/_192 all carry ordinal {0,1,2,3} weights and RM- prefixes was measured against the real files and holds only for connectivity_96; _76 and _192 carry 34 continuous values and l/r-prefixed CoCoMac labels. Test on several signatures, not that one.",
       "acceptance": [
         "F-TRACT ingested on HCP-MMP1 with checksummed manifest and offline fixtures",
         "Asymmetry preserved and asserted by test",
@@ -971,9 +971,8 @@
         "P12.4"
       ],
       "status": "pending",
-      "attempts": 3,
-      "baseline": "4e194c72a3bc0b948d7eff2e7a354ad5f3bca2a5",
-      "result": "agent did not start: API Error: Request rejected (429) \u00b7 Rate limit exceeded: free-models-per-day-stealth."
+      "attempts": 0,
+      "notes": "Acquisition and format decoding are already done and recorded in docs/ftract-recon.md. The 915 MB archive is on disk at data/human/ftract/ and md5-verified against the source record; do not re-download it. Two open questions there need a decision, not a guess: the licence is CC BY 4.0 on Zenodo versus CC BY-NC-SA 4.0 in this brief, and Zenodo publishes no sha256. The three prior attempts failed on API rate limits, not on the work."
     },
     {
       "id": "P13.2",
