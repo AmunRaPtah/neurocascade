@@ -238,7 +238,15 @@ def figure_posterior_correlation(draws, tune, chains):
         print("sampling joint diagnostic model for", name)
         idata, summary, statistics = ident.run_joint_diagnostic(
             name, draws=draws, tune=tune, chains=chains)
+        statistics = dict(statistics, method="mcmc")
         stats_rows.append(statistics)
+        # The same two numbers computed exactly, by quadrature on the closed
+        # form. Recorded next to the chain's because they disagree on the
+        # marginal width: a random walk under-covers a thin curved ridge, and
+        # the CSV should say which instrument produced which number rather
+        # than leave a reader to assume they agree.
+        exact = dict(ident.joint_posterior_by_quadrature(name), method="quadrature")
+        stats_rows.append(exact)
         gain = np.asarray(
             idata.posterior["gaba_a_connection_modulation_gain"]).ravel()
         other = np.asarray(idata.posterior[name]).ravel()
@@ -248,9 +256,12 @@ def figure_posterior_correlation(draws, tune, chains):
         ax.set_xlabel(name.replace("_", " "))
         ax.set_ylabel("gaba_a_connection_modulation_gain")
         ax.set_title(
-            "%s\nposterior corr %.2f, posterior sd / prior sd %.2f"
+            "%s\nchain: corr %.2f, sd/prior %.2f | exact: corr %.2f, "
+            "sd/prior %.2f"
             % (name, statistics["posterior_correlation"],
-               statistics["posterior_sd_over_prior_sd"]),
+               statistics["posterior_sd_over_prior_sd"],
+               exact["posterior_correlation"],
+               exact["posterior_sd_over_prior_sd"]),
             fontsize=9)
     fig.suptitle(
         "The same non-identifiability seen as a posterior. Left: a "
@@ -298,8 +309,13 @@ def write_tables(report, reduced_rows, mcmc_rows):
 
     if mcmc_rows:
         path = os.path.join(RESULTS_DIR, "joint_posterior_diagnostics.csv")
+        fieldnames = []
+        for row in mcmc_rows:  # union, in first-seen order: the two methods
+            for key in row:    # report overlapping but not identical fields
+                if key not in fieldnames:
+                    fieldnames.append(key)
         with open(path, "w", newline="") as handle:
-            writer = csv.DictWriter(handle, fieldnames=list(mcmc_rows[0].keys()))
+            writer = csv.DictWriter(handle, fieldnames=fieldnames, restval="")
             writer.writeheader()
             for row in mcmc_rows:
                 writer.writerow(row)
@@ -347,14 +363,21 @@ def write_summary(report, reduced_rows, mcmc_rows):
                      % (row["circuit"], row["circuit_parameters"]))
     if mcmc_rows:
         lines.append("")
-        lines.append("Joint diagnostic posteriors:")
+        lines.append("Joint diagnostic posteriors, by two instruments:")
         for row in mcmc_rows:
+            tail = ("max r_hat %.3f  min ESS %.0f"
+                    % (row["max_r_hat"], row["min_ess_bulk"])
+                    if row["method"] == "mcmc" else "exact, no sampler")
             lines.append(
-                "  %-20s corr(gain, param) = %+.3f  posterior sd / prior sd = "
-                "%.3f  max r_hat %.3f  min ESS %.0f"
-                % (row["parameter"], row["posterior_correlation"],
-                   row["posterior_sd_over_prior_sd"], row["max_r_hat"],
-                   row["min_ess_bulk"]))
+                "  %-20s %-10s corr(gain, param) = %+.3f  posterior sd / "
+                "prior sd = %.3f  %s"
+                % (row["parameter"], row["method"],
+                   row["posterior_correlation"],
+                   row["posterior_sd_over_prior_sd"], tail))
+        lines.append("  The two agree on the correlation and disagree on the "
+                     "marginal width: 400-1000 random-walk draws under-cover "
+                     "a thin curved ridge, so the quadrature row is the one "
+                     "to quote for the width.")
     lines.append("")
     lines.append("Conclusion: no connectivity weight and no time constant is "
                  "identifiable from the")

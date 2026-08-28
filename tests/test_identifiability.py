@@ -18,10 +18,12 @@ particular:
 3. The Fisher information matrix built from one observation has rank one,
    whatever it is evaluated on.
 4. The profile machinery reports an open interval as open rather than
-   silently clipping it to the scan range - and the drug gain's upper side
-   IS open, for a measured reason: the observable saturates within 1.96 sd
-   of the observation, so no finite gain is excluded on that side. The
-   machinery must say so, not hide it.
+   silently clipping it to the scan range - and in the reduced space, with
+   the circuit free, the drug gain's upper side IS open: a large gain on a
+   weak synapse and a small gain on a strong one give the same ratio. The
+   machinery must say so, not hide it. With the circuit held illustrative it
+   closes on both sides and brackets the gain the observation was generated
+   at, which is the recovery check on the machinery itself.
 5. The conclusions the repository states are the conclusions the code
    computes: no weight and no tau is identifiable, and nothing here has
    quietly added a circuit parameter to the production fit - which after
@@ -45,12 +47,21 @@ from neurocascade.calibration.priors import (
 )
 
 
-#: Grid resolution for the tests that need a whole report. Nine points per
-#: parameter is far too coarse to LOCATE a confidence bound, and is plenty to
-#: tell a flat profile from a bounded one, which is all the verdicts turn on.
-#: The production artifacts under results/identifiability/ are generated at 41
-#: by `scripts/run_identifiability.py`.
-_TEST_GRID_POINTS = 9
+#: Grid resolution for the tests that need a whole report. Still far too
+#: coarse to LOCATE a confidence bound; the job is to tell a flat profile
+#: from a bounded one, which is all the verdicts turn on. The production
+#: artifacts under results/identifiability/ are generated at 41 by
+#: `scripts/run_identifiability.py`.
+#:
+#: Raised from 9 to 21 when the synthetic observation was moved out of the
+#: saturated regime (see `identifiability.SYNTHETIC_TRUTH_GAIN`). Against an
+#: informative datum the compensating minimum in regime A is SHARP - the
+#: weight that reproduces the observation with the gain held at 0.5 sits in
+#: [7.9, 8.2] - and a 9-point logarithmic grid steps straight over it, lands
+#: its minimum on the box edge, and reports an interval that is open below.
+#: That is the grid mis-measuring a bounded profile, not a flat profile, and
+#: the fix is resolution rather than a weaker claim.
+_TEST_GRID_POINTS = 21
 
 
 @pytest.fixture(scope="module")
@@ -238,36 +249,56 @@ def test_bounds_at_searched_edge_distinguishes_a_box_bound_from_a_data_bound():
         grid, ident.profile_interval(grid, edge)) == (True, True)
 
 
-def test_the_drug_gains_own_profile_excludes_only_the_null_side():
+def test_the_synthetic_observation_is_informative_about_the_gain():
+    """The condition `SYNTHETIC_TRUTH_GAIN` has to satisfy to be a truth the
+    profiles can RECOVER, asserted rather than trusted to a comment.
+
+    The readout falls from exactly 1 at the mechanistic null to a floor of
+    0.0361 as the gain grows. An observation generated inside that floor is
+    compatible with every large gain at once, so the profile stays open, the
+    joint diagnostic sees no trade-off, and the whole demonstration collapses
+    into "nothing is constrained" for a reason that is about the choice of
+    constant rather than about identifiability. This test is the guard that
+    was missing when P11.3 set the truth gain to 1.3, which is inside the
+    floor: the slow joint-diagnostic test failed for three days before the
+    daily sweep reported it.
+    """
+    activation = ident.default_activation()
+    floor = ident.predicted_anxiety_ratio(None, 40.0, activation)
+    null = ident.predicted_anxiety_ratio(None, 0.0, activation)
+    assert null == pytest.approx(1.0, abs=1e-6)
+
+    # Both ends of the readout's dynamic range are excluded by the datum, so
+    # the gain is bounded from below AND from above by the observation.
+    for edge in (null, floor):
+        assert abs(edge - ident.OBSERVED_RATIO) > (
+            math.sqrt(ident.PROFILE_THRESHOLD_CHI2) * ident.OBSERVED_RATIO_SD
+        )
+    # And the truth sits where the readout still responds: a 15% change,
+    # the size of an acute behavioural drug effect, not an obliteration.
+    assert ident.OBSERVED_RATIO == pytest.approx(0.85, abs=0.02)
+
+
+def test_the_drug_gains_own_profile_recovers_the_synthetic_truth():
     """What one synthetic scalar can say about the gain, measured rather than
     asserted.
 
-    Bounded BELOW (the data exclude small gains, down to and including the
-    mechanistic null), and deliberately OPEN above: the drug/vehicle ratio
-    saturates as the gain grows, and its saturated floor sits WITHIN 1.96 sd
-    of the observation, so no finite gain is excluded on that side and any
-    upper bound the machinery reported would be a lie about the box rather
-    than a claim about the data. This replaces P2.2-era test that checked
-    the profile against the retired rat posterior; with a synthetic
-    observation generated at `SYNTHETIC_TRUTH_GAIN` the honest content is
-    the one-sided exclusion plus the reason the other side stays open.
+    Conditional on the illustrative circuit (regime A), the gain is bounded
+    on BOTH sides and the interval brackets the gain the observation was
+    generated at - the profiling machinery recovering a truth it was not
+    told. Both crossings are interior, so both are statements about the datum
+    rather than about where the scan stopped.
+
+    The unconditional claim is the weaker one and lives in the reduced space:
+    see `test_the_reduced_space_says_what_one_scalar_can_pin`, where freeing
+    the circuit reopens the upper side.
     """
-    activation = ident.default_activation()
     grid, profile, _ = ident.profile_chi_square(
         "gaba_a_connection_modulation_gain", free_drug_gain=False, points=61)
     lower, upper = ident.profile_interval(grid, profile)
-    assert lower is not None
-    assert upper is None
-    assert lower < ident.SYNTHETIC_TRUTH_GAIN
-
-    # Both endpoints are data statements, not box statements: the lower
-    # crossing is interior, and the open upper side is open because the
-    # profile never rises, not because the scan ran out.
+    assert lower is not None and upper is not None
+    assert lower < ident.SYNTHETIC_TRUTH_GAIN < upper
     assert ident.bounds_at_searched_edge(grid, (lower, upper)) == (False, False)
-    floor = ident.predicted_anxiety_ratio(None, 40.0, activation)
-    assert abs(floor - ident.OBSERVED_RATIO) < (
-        math.sqrt(ident.PROFILE_THRESHOLD_CHI2) * ident.OBSERVED_RATIO_SD
-    )
 
 _ARBITRARY_CIRCUITS = (
     None,
@@ -394,13 +425,12 @@ def test_freeing_the_drug_gain_removes_the_apparent_bounds(report):
 def test_the_reduced_space_says_what_one_scalar_can_pin(reduced):
     """The table that answers "what did the observation actually constrain?".
 
-    Against a datum the model generated, the four combinations are no longer
-    uniformly unlocalised: A is bounded on both sides, B and C are bounded
-    below, D is bounded above, and the drug gain is bounded below only -
-    one-sided again for the saturation reason
-    `test_the_drug_gains_own_profile_excludes_only_the_null_side` measures.
-    Pinned as computed so a circuit change that alters the answer shows up
-    here instead of silently rewriting docs/architecture.md's P2.3 section.
+    Freeing the whole circuit takes back everything the fixed circuit
+    appeared to give: B and C are bounded below, D above, the drug gain below
+    only, and A - the one combination bounded on both sides - is bounded so
+    widely that the bound is not a measurement. Pinned as computed so a
+    circuit change that alters the answer shows up here instead of silently
+    rewriting docs/architecture.md's P2.3 section.
     """
     by_key = {row["combination"]: row for row in reduced}
     assert set(by_key) == set(ident.REDUCED_PARAMETERS)
@@ -410,13 +440,17 @@ def test_the_reduced_space_says_what_one_scalar_can_pin(reduced):
     lower, upper = gain_row["profile_interval"]
     assert lower is not None and upper is None
 
-    assert by_key["A"]["verdict"] == "identifiable"
     for key in ("B", "C", "D"):
         assert by_key[key]["verdict"] == "one-sided-identifiable", key
 
-    # A's interval is narrower than the ignorance span - it excludes
-    # something - while the others never close on their open sides.
-    assert by_key["A"]["interval_span_ratio"] < ident.IGNORANCE_SPAN_RATIO
+    # A closes on both sides and is still not identified: its interval spans
+    # five orders of magnitude, so what it excludes is the saturated corners
+    # where the circuit is dead and no drug effect of any size is possible.
+    # That is the distinction `IGNORANCE_SPAN_RATIO` exists to draw, and
+    # docs/architecture.md's P2.3 section states the same thing in prose.
+    assert by_key["A"]["verdict"] == "practically-unidentifiable"
+    assert all(side is not None for side in by_key["A"]["profile_interval"])
+    assert by_key["A"]["interval_span_ratio"] > ident.IGNORANCE_SPAN_RATIO
     for key in ("B", "C", "D", "gaba_a_connection_modulation_gain"):
         assert by_key[key]["interval_span_ratio"] == math.inf, key
 
@@ -550,7 +584,66 @@ def test_the_observation_label_says_it_is_synthetic():
 
 
 # ---------------------------------------------------------------------------
-# Posterior-correlation view. Real chains, hence slow.
+# Posterior-correlation view, exactly: quadrature on the closed form.
+# ---------------------------------------------------------------------------
+def test_the_weight_and_the_gain_trade_off_along_a_ridge():
+    """Practical non-identifiability, computed rather than sampled: the joint
+    posterior over (`weight_CeA__BLA`, drug gain) is a ridge, so the two are
+    almost perfectly correlated, and the weight's own marginal is no narrower
+    than the uniform prior it started from - every weight in the box is still
+    reachable, at the price of a compensating gain.
+
+    This is the claim `test_a_connectivity_weight_trades_off_against_the_
+    drug_gain` used to make from 400 MCMC draws. It belongs here: a random
+    walk on a thin curved ridge under-covers it, so the sampler's marginal
+    width is a property of the chain, and only the correlation survives from
+    that instrument.
+    """
+    stats = ident.joint_posterior_by_quadrature("weight_CeA__BLA")
+    assert stats["posterior_correlation"] > 0.9
+    assert stats["posterior_sd_over_prior_sd"] > 0.9
+    # The ridge is a ridge because the gain moves with the weight: the
+    # posterior mean gain is well away from the truth the observation was
+    # generated at, since most of the weight box needs a bigger one.
+    assert stats["posterior_mean_drug_gain"] > ident.SYNTHETIC_TRUTH_GAIN
+
+
+def test_a_time_constant_leaves_the_joint_posterior_at_its_prior():
+    """The structural counterpart, on the same instrument: the observable
+    does not depend on a tau at all, so the joint posterior factorises: zero
+    correlation, and a marginal that is exactly the prior. Both hold to
+    machine precision rather than approximately, because the tau never
+    enters the likelihood at all.
+
+    The one correction is arithmetic, not physics: `posterior_sd_over_prior_
+    sd` divides a discretely-uniform marginal over n nodes by the CONTINUOUS
+    uniform's sd, and those differ by sqrt((n+1)/(n-1)), 0.4% at n = 241. It
+    is written out rather than absorbed into a loose tolerance."""
+    n = ident.QUADRATURE_POINTS[0]
+    discrete_over_continuous = math.sqrt((n + 1.0) / (n - 1.0))
+    stats = ident.joint_posterior_by_quadrature("tau_BLA")
+    assert stats["posterior_correlation"] == pytest.approx(0.0, abs=1e-9)
+    assert stats["posterior_sd_over_prior_sd"] == pytest.approx(
+        discrete_over_continuous, abs=1e-9)
+
+
+def test_the_quadrature_is_resolved():
+    """Guards the two tests above from being a statement about the grid:
+    doubling the gain axis, the fine one, must not move either number.
+    Without this, a grid too coarse to see the ridge would report a wider
+    marginal and a weaker correlation and nothing would notice."""
+    coarse = ident.joint_posterior_by_quadrature("weight_CeA__BLA")
+    fine = ident.joint_posterior_by_quadrature(
+        "weight_CeA__BLA", points=(ident.QUADRATURE_POINTS[0],
+                                   2 * ident.QUADRATURE_POINTS[1] - 1))
+    assert fine["posterior_correlation"] == pytest.approx(
+        coarse["posterior_correlation"], abs=0.02)
+    assert fine["posterior_sd_over_prior_sd"] == pytest.approx(
+        coarse["posterior_sd_over_prior_sd"], abs=0.02)
+
+
+# ---------------------------------------------------------------------------
+# The same view from real chains, hence slow.
 # ---------------------------------------------------------------------------
 @pytest.mark.slow
 def test_a_time_constants_posterior_is_exactly_its_prior():
@@ -566,9 +659,19 @@ def test_a_time_constants_posterior_is_exactly_its_prior():
 @pytest.mark.slow
 def test_a_connectivity_weight_trades_off_against_the_drug_gain():
     """Practical non-identifiability, seen from the sampler: the joint
-    posterior is a ridge, so the two parameters are strongly correlated and
-    the weight's own marginal is barely narrower than its prior."""
+    posterior is a ridge, so the two parameters come out strongly correlated,
+    with the same sign as the exact posterior.
+
+    Only the correlation is asserted from the chain. The marginal-width half
+    of the claim is made by `test_the_weight_and_the_gain_trade_off_along_a_
+    ridge` against the exact posterior, because 400 DEMetropolisZ draws
+    traverse a thin curved ridge badly: the chain reports a marginal about a
+    third of the prior width where the true one is the whole prior, at an
+    effective sample size in the tens. Asserting the sampler's number would
+    pin an artifact of the chain length."""
     _, _, statistics = ident.run_joint_diagnostic(
         "weight_CeA__BLA", draws=400, tune=400, chains=2)
     assert abs(statistics["posterior_correlation"]) > 0.5
-    assert statistics["posterior_sd_over_prior_sd"] > 0.5
+    exact = ident.joint_posterior_by_quadrature("weight_CeA__BLA")
+    assert (np.sign(statistics["posterior_correlation"])
+            == np.sign(exact["posterior_correlation"]))

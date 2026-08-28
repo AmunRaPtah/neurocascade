@@ -167,18 +167,37 @@ MODULATED_CONNECTION = next(iter(scenarios.gaba_a_connection_modulation()))
 # ---------------------------------------------------------------------------
 
 #: The receptor activation the synthetic observation was generated at. A
-#: dimensionless occupancy-like number in [0, 1]; chosen to sit in the same
-#: near-saturated regime the retired rat exposure produced, so the profile
-#: shapes stay comparable with P2.3's published ones
-#: (`results/identifiability/`).
+#: dimensionless occupancy-like number in [0, 1], held FIXED throughout (see
+#: `default_activation`); chosen in the same near-saturated occupancy regime
+#: the retired rat exposure produced. Note that this is a RECEPTOR-layer
+#: saturation and says nothing about the readout's: what decides whether the
+#: observation can constrain anything is the product of this and the drug
+#: gain, which is what `SYNTHETIC_TRUTH_GAIN` below has to keep off the
+#: readout's floor.
 SYNTHETIC_ACTIVATION = 0.90
 
-#: The drug-action gain the synthetic observation was generated at. Deliberately
-#: NOT the illustrative scenario value (0.5): an observation generated at the
-#: nominal value would make every regime-A profile trivially minimal there and
-#: the machinery would demonstrate nothing. This number is arbitrary within
-#: the scan box; its only job is to be a truth the profiles must recover.
-SYNTHETIC_TRUTH_GAIN = 1.3
+#: The drug-action gain the synthetic observation was generated at. Its job
+#: is to be a truth the profiles must RECOVER, and that job fixes it between
+#: two conditions rather than leaving it free:
+#:
+#:   (a) not the illustrative scenario value (0.5), or every regime-A profile
+#:       would be trivially minimal at the nominal circuit and the machinery
+#:       would demonstrate nothing;
+#:   (b) far enough below the readout's saturation knee that the observation
+#:       still DEPENDS on the gain. The ratio falls from exactly 1 at the
+#:       mechanistic null to a floor of 0.0361, and every gain above about 1
+#:       lands within a fraction of `SYNTHETIC_RATIO_SD` of that floor, so a
+#:       truth generated up there is not recoverable from the observation it
+#:       generates: the profile stays open, and the joint diagnostic sees no
+#:       trade-off because neither parameter is constrained.
+#:
+#: 0.05 puts the observation at a ratio of 0.852, a 15% change in the readout
+#: - the size of an acute behavioural drug effect rather than an obliteration
+#: of the circuit - and 41 sd clear of the saturated floor. Both conditions
+#: are asserted in `tests/test_identifiability.py` rather than left to this
+#: comment, because P11.3 originally set this to 1.3, deep inside the
+#: saturated region, and nothing that runs in the fast gate noticed.
+SYNTHETIC_TRUTH_GAIN = 0.05
 
 #: The stated Gaussian width of the synthetic observation. An engineering
 #: choice, declared here rather than disguised: small enough that the
@@ -1141,10 +1160,84 @@ def diagnostic_prior_bounds(param_name):
     return AMYGDALA_PARAMETERS_BY_NAME[param_name].scan
 
 
+#: Quadrature resolution for `joint_posterior_by_quadrature`. The gain axis
+#: is the fine one on purpose: the ridge's width in the gain direction is
+#: `OBSERVED_RATIO_SD` divided by the observable's sensitivity to the gain,
+#: about 0.007, so a 5.0-wide box needs thousands of points before the
+#: quadrature resolves the thing it is measuring. 8001 puts about ten points
+#: across the ridge; `tests/test_identifiability.py` checks the answer is
+#: stable when the resolution is doubled, rather than trusting this comment.
+QUADRATURE_POINTS = (241, 8001)
+
+
+def joint_posterior_by_quadrature(param_name, points=QUADRATURE_POINTS,
+                                  activation=None):
+    """The joint posterior over (`param_name`, drug gain) computed exactly,
+    by quadrature on the closed-form ratio, with the same uniform priors the
+    MCMC diagnostic uses.
+
+    Why this exists next to `run_joint_diagnostic`: the shape being measured
+    is a long, thin, CURVED ridge, and that is the geometry a random-walk
+    sampler traverses worst. DEMetropolisZ at 400 draws reproduces the
+    correlation but explores only part of the ridge, so its marginal for
+    `param_name` comes out narrower than the posterior really is - an
+    artifact of the sampler, not a property of the likelihood. Quadrature has
+    no such failure mode here: the problem is two-dimensional and the
+    integrand is the closed form, which
+    `test_closed_form_reproduces_the_integrated_forward_model` pins against
+    the integrated model. The MCMC stays as the picture a reader can look at;
+    this is the number to assert against.
+
+    Returns the same keys as `run_joint_diagnostic`'s `statistics`, minus the
+    sampler diagnostics, so the two can be compared directly.
+    """
+    if activation is None:
+        activation = default_activation()
+    n_param, n_gain = points
+    lower, upper = diagnostic_prior_bounds(param_name)
+    gain_lower, gain_upper = diagnostic_prior_bounds(
+        "gaba_a_connection_modulation_gain")
+    values = np.linspace(lower, upper, n_param)
+    gains = np.linspace(gain_lower, gain_upper, n_gain)
+
+    combos = [structural_combinations({param_name: float(v)}) for v in values]
+    A = np.array([c["A"] for c in combos])[:, None]
+    B = np.array([c["B"] for c in combos])[:, None]
+    C = np.array([c["C"] for c in combos])[:, None]
+    D = np.array([c["D"] for c in combos])[:, None]
+    predicted = closed_form_ratio(A, B, C, D, gains[None, :], activation)
+
+    log_likelihood = -0.5 * chi_square(predicted)
+    posterior = np.exp(log_likelihood - log_likelihood.max())
+    posterior /= posterior.sum()
+
+    marginal_value = posterior.sum(axis=1)
+    marginal_gain = posterior.sum(axis=0)
+    mean_value = float((marginal_value * values).sum())
+    mean_gain = float((marginal_gain * gains).sum())
+    sd_value = float(np.sqrt((marginal_value * (values - mean_value) ** 2).sum()))
+    sd_gain = float(np.sqrt((marginal_gain * (gains - mean_gain) ** 2).sum()))
+    covariance = float((posterior * (values[:, None] - mean_value)
+                        * (gains[None, :] - mean_gain)).sum())
+    prior_sd = (upper - lower) / np.sqrt(12.0)  # uniform
+    correlation = 0.0 if sd_value == 0.0 or sd_gain == 0.0 else \
+        covariance / (sd_value * sd_gain)
+    return {
+        "parameter": param_name,
+        "posterior_correlation": float(correlation),
+        "posterior_sd": sd_value,
+        "prior_sd": float(prior_sd),
+        "posterior_sd_over_prior_sd": float(sd_value / prior_sd),
+        "posterior_mean": mean_value,
+        "posterior_mean_drug_gain": mean_gain,
+    }
+
+
 def build_joint_diagnostic_model(param_name, activation=None):
     """A two-parameter `pm.Model` over
     (`gaba_a_connection_modulation_gain`, `param_name`) against the single
-    [Graziani2022] observation.
+    synthetic observation (`OBSERVED_RATIO`; [Graziani2022]'s rat datum until
+    P11.3 retired it).
 
     The point of sampling this is not to obtain an estimate - the profile
     likelihood already says there is not one to obtain - but to SHOW the

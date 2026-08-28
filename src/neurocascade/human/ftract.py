@@ -31,6 +31,16 @@ Direction semantics
   asymmetric.
 * ``np.array_equal(M, M.T)`` is ``False`` for every feature.
 
+How these data were sampled
+---------------------------
+
+Four acquisition properties bound what any model may claim from these
+matrices: clinically driven (hence biased) electrode coverage, a patient
+cohort that is not neurotypical, responses that may be polysynaptic, and a
+group average with no per-edge dispersion.  They are enumerated with their
+consequences in ``SAMPLING_LIMITATIONS`` and pinned by
+``tests/test_human_ftract.py``.
+
 What this module deliberately does NOT do
 -----------------------------------------
 
@@ -161,6 +171,62 @@ LICENCE_NOTE = (
 ZENODO_CITATION = (
     "Source record: Zenodo record 7015415, version 21-12, published "
     "2021-12-09. " + LICENCE_NOTE
+)
+
+# --- sampling limitations ----------------------------------------------------
+# Four properties of how these data were acquired, each with the consequence
+# for a model that consumes them. They are recorded HERE, next to the
+# matrices, rather than in prose elsewhere: a directed human edge is the
+# scarcest thing in this project, and the temptation to read it as more than
+# it is is correspondingly large. Every one of them is a property of the
+# acquisition, not of this ingest, and none of them is fixable downstream.
+
+SAMPLING_LIMITATIONS = (
+    {
+        "limitation": "Electrode placement is clinically driven, not "
+                      "anatomically sampled: implants target suspected "
+                      "epileptogenic cortex, which biases coverage toward "
+                      "temporal and frontal regions.",
+        "consequence": "Parcel-pair coverage is non-uniform and non-random. "
+                       "A NaN cell means 'never probed', so absence of an "
+                       "edge is NOT evidence of absence of a connection, and "
+                       "COVERAGE's finite-cell counts must never be read as a "
+                       "connection density.",
+    },
+    {
+        "limitation": "The 780 participants are not neurotypical: all have "
+                      "drug-resistant focal epilepsy and are recorded under "
+                      "antiseizure medication, some within epileptogenic "
+                      "tissue.",
+        "consequence": "Probabilities and delays are measured in an altered "
+                       "brain. Applying them to a model of a healthy human "
+                       "brain is a transfer assumption, of the same kind the "
+                       "species gate refuses across species, and it should be "
+                       "stated wherever a prediction depends on it.",
+    },
+    {
+        "limitation": "A CCEP response can be polysynaptic: a response "
+                      "recorded at j after stimulating i may have travelled "
+                      "through one or more relays.",
+        "consequence": "A finite M[i, j] is a directed INFLUENCE, not a "
+                       "monosynaptic projection, and axonal_conduction_delay "
+                       "may sum several relays. Do not equate an F-TRACT edge "
+                       "with an anatomical fibre.",
+    },
+    {
+        "limitation": "The release is a group average only: no subject-level "
+                      "matrices and no per-edge dispersion are published.",
+        "consequence": "There is no uncertainty attached to any edge and no "
+                       "route to individual-level prediction. A model built "
+                       "on it predicts a cohort average, and any per-edge "
+                       "error bar would have to be invented.",
+    },
+)
+
+#: The same four, as one paragraph, for reports and figure captions.
+SAMPLING_LIMITATIONS_NOTE = " ".join(
+    "%s %s" % (item["limitation"], item["consequence"])
+    for item in SAMPLING_LIMITATIONS
 )
 
 ALL_CITATIONS = " ".join([LEMARECHAL_CITATION, DAVID2013_CITATION, TREBAUL2018_CITATION, ZENODO_CITATION])

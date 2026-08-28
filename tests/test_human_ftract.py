@@ -316,6 +316,43 @@ def test_licence_note_records_discrepancy():
 
 
 # ---------------------------------------------------------------------------
+# Sampling limitations
+# ---------------------------------------------------------------------------
+
+
+def test_the_four_sampling_limitations_are_recorded_with_consequences():
+    """P13.1's brief names four acquisition limitations. Each is pinned here
+    with the consequence for a consumer, because a limitation recorded
+    without its consequence is decoration: the reason to state that coverage
+    is clinically driven is that a NaN cell may not be read as an absent
+    connection."""
+    assert len(F.SAMPLING_LIMITATIONS) == 4
+    for item in F.SAMPLING_LIMITATIONS:
+        assert set(item) == {"limitation", "consequence"}
+        assert len(item["limitation"]) > 60
+        assert len(item["consequence"]) > 60
+
+
+@pytest.mark.parametrize("phrase", [
+    "epileptogenic",       # clinically driven electrode placement
+    "not neurotypical",    # the cohort
+    "polysynaptic",        # a directed edge need not be monosynaptic
+    "group average",       # no subject-level matrices, no per-edge dispersion
+])
+def test_each_named_limitation_is_present(phrase):
+    assert phrase in F.SAMPLING_LIMITATIONS_NOTE.lower()
+
+
+def test_the_coverage_counts_carry_the_absence_warning():
+    """The one misreading these numbers invite - finite-cell count as
+    connection density - is warned about in the same module that publishes
+    them."""
+    note = F.SAMPLING_LIMITATIONS_NOTE.lower()
+    assert "never probed" in note
+    assert "not evidence of absence" in note
+
+
+# ---------------------------------------------------------------------------
 # Full CSV coverage (skipped when cache absent)
 # ---------------------------------------------------------------------------
 

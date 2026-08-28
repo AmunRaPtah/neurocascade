@@ -3553,9 +3553,24 @@ this system, and it is a document-access problem, not a modelling one.
 > every structural result (they are properties of the model form plus "one
 > scalar observation", not of which datum it is) and keeps the machinery
 > executable until a human target exists. Every structural verdict below is
-> unchanged; the drug gain's regime-A interval is now one-sided for a
-> measured reason - the observable saturates within 1.96 sd of the
-> synthetic observation, so no finite gain is excluded from above.
+> unchanged.
+>
+> **Correction (2026-08-28):** P11.3 set that gain to 1.3, which is inside
+> the readout's saturated floor - the ratio falls from 1 at the mechanistic
+> null to 0.0361, and every gain above about 1 reproduces the observation to
+> within a third of a standard deviation. So the "truth" the profiles were
+> supposed to recover was not recoverable from the datum it generated: the
+> regime-A profile stayed open above, and the joint posterior stopped being
+> a ridge because neither parameter was constrained. The slow MCMC test that
+> asserts the ridge failed for three days before the daily full-suite sweep
+> surfaced it; the fast gate deselects it. The truth gain is now **0.05**,
+> which puts the observation at a ratio of 0.852 - a 15% change in the
+> readout, the size of an acute behavioural effect - and 41 sd clear of the
+> floor. Two guards were added so the choice cannot rot again: a fast test
+> asserts the observation is more than 1.96 sd from BOTH ends of the
+> readout's dynamic range, and the ridge claim is now computed by exact
+> quadrature (`joint_posterior_by_quadrature`) instead of being read off a
+> 400-draw random walk that under-covers a thin curved ridge.
 
 ### The task, and the answer
 
@@ -3729,11 +3744,12 @@ P2.3, not P2.2, is where they belong." P2.3 quantifies that, and the answer
 is stronger than "some dependency":
 
 - **Conditional on the illustrative circuit**, the gain is well determined.
-  The regime-A profile interval is
-  [0.0390, 0.1108], which brackets P2.2's independently sampled 89% ETI, as
-  it must - `test_the_drug_gains_own_profile_agrees_with_p2_2s_posterior`
-  makes that a cross-check between an optimiser here and PyMC there, over
-  what should be the same likelihood.
+  The regime-A profile interval is [0.0356, 0.0628], and it brackets the
+  gain the synthetic observation was generated at (0.05) with both crossings
+  in the interior of the scan - the machinery recovering a truth it was not
+  told, which is the check that replaced the retired cross-check against
+  P2.2's rat posterior ([0.0390, 0.1108], quoted in the P2.2 section for the
+  record and no longer computed here).
 - **Unconditionally**, that interval is gone. In regime C the gain's profile
   is flat from the bottom of the searched range up to the top of its prior
   box: with the circuit free, a large gain acting on a weak GABAergic
@@ -3742,8 +3758,8 @@ is stronger than "some dependency":
 - **What survives unconditionally is one thing, and it is a real one.** A
   drug gain of *exactly zero* predicts a ratio of *exactly one* for every
   possible circuit - both legs of the ratio become the same expression - so
-  its delta-chi-square of 17.5 (4.2 sd) does not depend on a single
-  illustrative number. The mechanistic null "diazepam does not potentiate
+  its delta-chi-square of 54.5 (7.4 sd against the synthetic scalar) does
+  not depend on a single illustrative number. The mechanistic null "diazepam does not potentiate
   this synapse" is rejected by the data, unconditionally.
   `test_the_mechanistic_null_is_rejected_whatever_the_circuit` asserts the
   exact-1.0 identity in closed form and to integrator tolerance in the
@@ -3757,7 +3773,7 @@ measured, whose one circuit-independent content is the rejection of zero.
 
 **The verdict "bounded" is not the verdict "calibrated", and the threshold
 that separates them is borrowed, not invented.** The reduced-space profiles
-do produce finite bounds - `A`'s 95% interval is [-84.6, -4.4e-4] - and
+do produce finite bounds - `A`'s 95% interval is [-71.1, -5e-4] - and
 reporting those bare would be misleading, because both ends are just the
 corners where the circuit saturates and no drug effect of *any* size is
 possible. Excluding "the circuit is dead" is not measuring a parameter. So a
@@ -3765,7 +3781,7 @@ both-sided interval is only called identifiable if it is also narrower than
 `IGNORANCE_SPAN_RATIO`, which is the width of this codebase's own
 UNINFORMED prior box (`priors.py`'s 0.1x-10x convention), i.e. the span
 this project already uses to mean "we know essentially nothing". An interval
-spanning 1.9e5 fails that by more than three orders of magnitude. Reusing
+spanning 1.4e5 fails that by more than three orders of magnitude. Reusing
 an existing convention rather than picking a new number keeps this from
 being one more free dial.
 
@@ -13030,12 +13046,13 @@ Retiring the data must not retire the species-agnostic machinery, so both
 calibration modules gained explicitly-labelled synthetic inputs:
 
 - `identifiability.py` profiles against `OBSERVED_RATIO`, generated by its
-  own forward model at `SYNTHETIC_TRUTH_GAIN = 1.3`,
-  `SYNTHETIC_ACTIVATION = 0.90`, sd 0.02. The truth gain deliberately does
-  NOT equal the scenario's illustrative 0.5 - an observation generated at
-  the nominal value would make every regime-A profile trivially minimal
-  there and demonstrate nothing - and a test enforces that separation so
-  nobody can quietly retune either constant to the other.
+  own forward model at `SYNTHETIC_TRUTH_GAIN = 0.05` (1.3 as first written;
+  see the correction below), `SYNTHETIC_ACTIVATION = 0.90`, sd 0.02. The
+  truth gain deliberately does NOT equal the scenario's illustrative 0.5 -
+  an observation generated at the nominal value would make every regime-A
+  profile trivially minimal there and demonstrate nothing - and a test
+  enforces that separation so nobody can quietly retune either constant to
+  the other.
 - `endpoint_calibration.py` grew `synthetic_target()` and
   `synthetic_target_from_curve()`. Synthetic doses are NaN by construction:
   a synthetic exposure has no honest dose behind it, and inventing one would
@@ -13045,10 +13062,24 @@ Proof-of-life takes the form of recovery tests: observations generated by
 the model at a known gain must localise the sampler's posterior near that
 gain, not near the prior mean. That is how an empty-register module shows it
 would work when real (human) data lands. One structural consequence is
-recorded rather than hidden: against a datum the model itself produced, the
-drug gain's profile interval is legitimately open above - the observable
-saturates within 1.96 sd of the observation - and the profile machinery
-reports that openness as openness instead of clipping it to the scan box.
+recorded rather than hidden: with the whole circuit free, the drug gain's
+reduced-space interval is legitimately open above - a large gain on a weak
+synapse and a small gain on a strong one predict the same ratio - and the
+profile machinery reports that openness as openness instead of clipping it
+to the scan box.
+
+**Correction, 2026-08-28.** As first written the truth gain was 1.3, which
+sits inside the readout's saturated floor (every gain above about 1 lands
+within a third of a standard deviation of a ratio of 0.036). The
+"proof-of-life recovery test" above therefore could not do what its name
+says: the truth was not recoverable from the observation it generated, the
+regime-A interval was open above for that reason rather than for the
+reduced-space one, and the slow joint-diagnostic test - which asserts the
+posterior ridge - went red and stayed red for three days, since the fast
+per-task gate deselects `slow`. The truth gain is now 0.05, a 15% change in
+the readout, 41 sd clear of the floor; a fast test asserts the observation
+is more than 1.96 sd from BOTH ends of the readout's dynamic range, and the
+ridge is computed by exact quadrature rather than read off a short chain.
 
 ### 4. What stayed measured
 
@@ -13625,6 +13656,21 @@ All three fail on shape (not 360x360), non-Glasser labels, and `weights_unit
 = "au"` (their own metadata). The _96 matrix additionally fails on ordinal
 weight values and CoCoMac prefixes. Tests: 40 in `tests/test_human_ftract.py`,
 offline off the committed fixtures.
+
+### The four sampling limitations
+
+Measured direction in a living human brain is the scarcest quantity in this
+project, which is exactly why how it was acquired is recorded next to the
+matrices (`ftract.SAMPLING_LIMITATIONS`, one test per item) rather than in
+prose here alone. Each carries its consequence, because a limitation
+without a consequence is decoration:
+
+| Acquisition property | What it forbids |
+|---|---|
+| Electrode placement is clinically driven, biased toward temporal and frontal epileptogenic cortex | Coverage is non-uniform and non-random; a NaN cell means *never probed*, so an absent edge is not evidence of an absent connection, and the finite-cell counts above are not a connection density |
+| The 780 participants have drug-resistant focal epilepsy, under antiseizure medication | The numbers are measured in an altered brain; using them for a healthy brain is a transfer assumption of the same kind the species gate refuses across species |
+| A CCEP response may be polysynaptic | A finite cell is a directed *influence*, not a monosynaptic projection; `axonal_conduction_delay` may sum several relays |
+| Group average only, no subject-level matrices | No per-edge uncertainty exists and none may be invented; a model built on it predicts a cohort average |
 
 ### What this module does NOT do
 
