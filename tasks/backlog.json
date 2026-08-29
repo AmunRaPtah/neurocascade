@@ -1015,7 +1015,8 @@
       ],
       "status": "done",
       "attempts": 1,
-      "result": "complete: provenance-safe macaque directed prior boundary added; homology limitations and Jirsa retry outcome documented."
+      "result": "complete: provenance-safe macaque directed prior boundary added; homology limitations and Jirsa retry outcome documented.",
+      "finished_at": "2026-08-29T00:00:00+00:00"
     },
     {
       "id": "P13.4",

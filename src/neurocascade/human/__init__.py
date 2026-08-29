@@ -56,12 +56,20 @@ rather than hidden:
   subdivisions the mouse CCF provides.
 """
 
-from . import atlas, build, expression, fetch, fixtures, maps, matrix, neurotransmitter, provenance, scenario, sources
+from . import atlas, build, directed_prior, expression, fetch, fixtures, maps, matrix, neurotransmitter, provenance, scenario, sources
 from .atlas import HumanAtlas, Region, atlas_from_labels, parse_label
 from .build import (
     BuildReport,
     HumanCircuit,
     build_circuit_network,
+)
+from .directed_prior import (
+    BEST_HOMOLOGY_CASES,
+    HOMOLOGY_LIMITATIONS,
+    JIRSA_RETRY_STATUS,
+    MacaqueDirectedPrior,
+    DirectedPriorEdge,
+    prior_from_weight_mapping,
 )
 from .provenance import (
     ABSENT,
@@ -129,6 +137,13 @@ from .expression import (
 __all__ = [
     "atlas",
     "build",
+    "directed_prior",
+    "DirectedPriorEdge",
+    "MacaqueDirectedPrior",
+    "prior_from_weight_mapping",
+    "HOMOLOGY_LIMITATIONS",
+    "BEST_HOMOLOGY_CASES",
+    "JIRSA_RETRY_STATUS",
     "expression",
     "fetch",
     "fixtures",
