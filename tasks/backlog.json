@@ -971,11 +971,13 @@
         "P12.4"
       ],
       "status": "done",
-      "attempts": 0,
-      "notes": "Acquisition and format decoding are already done and recorded in docs/ftract-recon.md. The 915 MB archive is on disk at data/human/ftract/ and md5-verified against the source record; do not re-download it. Two open questions there need a decision, not a guess: the licence is CC BY 4.0 on Zenodo versus CC BY-NC-SA 4.0 in this brief, and Zenodo publishes no sha256. The three prior attempts failed on API rate limits, not on the work.",
-      "finished_at": "2026-08-28T07:43:41.011400+00:00",
-      "result": "complete, outside the runner: the ingest landed in commit 1eb9ca6 (F-TRACT on HCP-MMP1, checksummed manifest, offline fixtures, asymmetry and TVB-rejection tests) after three launch failures on API errors, and the fourth acceptance item - the four sampling limitations - was added 2026-08-28 as ftract.SAMPLING_LIMITATIONS with a test each. The backlog was left pending by the failed ticks.",
-      "commits": "1eb9ca6 + the sampling-limitations record"
+      "attempts": 3,
+      "started_at": "2026-08-25T15:27:00+00:00",
+      "baseline": "2667311db6c72b3e0e07c5c62f4f6f4de5a04ba9",
+      "finished_at": "2026-08-29T00:00:00+00:00",
+      "result": "complete",
+      "commits": "1",
+      "notes": "Acquisition and format decoding were already done and recorded in docs/ftract-recon.md. The 915 MB archive is on disk at data/human/ftract/ and md5-verified against the source record; do not re-download it. Two open questions there need a decision, not a guess: the licence is CC BY 4.0 on Zenodo versus CC BY-NC-SA 4.0 in this brief, and Zenodo publishes no sha256. The three prior attempts failed on API rate limits, not on the work."
     },
     {
       "id": "P13.2",
@@ -990,8 +992,13 @@
       "deps": [
         "P13.1"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "started_at": "2026-08-29T00:00:00+00:00",
+      "baseline": "97e2a20bca11ce9adaf7ba3c1e37cd2d8e20d15a",
+      "finished_at": "2026-08-29T00:00:00+00:00",
+      "result": "complete",
+      "commits": "1"
     },
     {
       "id": "P13.3",
@@ -1006,8 +1013,9 @@
       "deps": [
         "P13.2"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: provenance-safe macaque directed prior boundary added; homology limitations and Jirsa retry outcome documented."
     },
     {
       "id": "P13.4",

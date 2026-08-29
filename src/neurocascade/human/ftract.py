@@ -714,7 +714,6 @@ class FTractFeature(object):
         i = self._label_index[source]
         j = self._label_index[target]
         return self.matrix[i, j]
-
     def measured(self, source, target):
         """True if the ordered pair was probed (finite value)."""
         return np.isfinite(self.value(source, target))
@@ -745,6 +744,17 @@ class FTractFeature(object):
         """Cells that are exactly 0.0 (probed, no response) off-diagonal."""
         off_diag = ~np.eye(self.n, dtype=bool)
         return int(np.sum((self.matrix == 0.0) & off_diag))
+
+    def provenance(self):
+        """This feature's coverage as a per-edge `ProvenanceMap`.
+
+        Finite cells (exact zeros included: probed, no response) are
+        MEASURED - CCEP stimulation resolved those directions directly;
+        NaN cells are ABSENT. See `human/provenance.py`.
+        """
+        from . import provenance
+
+        return provenance.ProvenanceMap.from_ftract(self)
 
 
 # --- public loaders ----------------------------------------------------------

@@ -1,0 +1,59 @@
+Per-edge direction provenance (P13.2)
+========================================================================
+
+Three levels: MEASURED (direction resolved by the measurement itself,
+F-TRACT CCEP: stimulation site -> recording site), INFERRED (direction-
+blind dMRI tractography whose direction was assigned afterwards by the
+per-source transmitter-sign convention), ABSENT (no data). The roadmap
+invariant: no edge without one. See `human/provenance.py`.
+
+------------------------------------------------------------------------
+F-TRACT measured direction (HCP-MMP1, 360 parcels, adult)
+------------------------------------------------------------------------
+edge provenance: 129600 directed pairs over 360 labels
+  measured   27066 ( 20.9%)
+  inferred       0 (  0.0%)
+  absent    102534 ( 79.1%)
+
+  28 of the measured cells are exact zeros: probed, no response -
+  a completed measurement, not missing data. NaN cells are ABSENT.
+
+  parcels with NO measured coverage in either direction: 4 of 360
+    L_V6A, L_PIT, R_V6A, R_7Am
+  These four are visual/superior-parietal areas far from the
+  temporal/frontal epileptogenic cortex the electrodes were
+  placed for - the clinical-placement bias, visible in the data.
+
+  COVERAGE_MMP1_PROBABILITY = {
+      'measured': 27066, 'inferred': 0, 'absent': 102534,
+  }  # of 129600 ordered pairs (360 x 360)
+
+------------------------------------------------------------------------
+ENIGMA/HCP dMRI (Desikan-Killiany + subcortex, 82 regions)
+------------------------------------------------------------------------
+edge provenance: 6724 directed pairs over 82 labels
+  measured       0 (  0.0%)
+  inferred    2380 ( 35.4%)
+  absent      4344 ( 64.6%)
+
+  Every nonzero weight is INFERRED in BOTH directions: diffusion
+  tractography cannot see which way a bundle runs, so each
+  symmetric weight was entered once per direction and signed by
+  the source region's transmitter identity. Nothing here is
+  measured; P13.6 pins that demotion.
+
+------------------------------------------------------------------------
+The built signed network (what predictions consume)
+------------------------------------------------------------------------
+edge provenance: 6724 directed pairs over 82 labels
+  measured       0 (  0.0%)
+  inferred    2317 ( 34.5%)
+  absent      4407 ( 65.5%)
+
+  The two unsigned amygdala columns are excluded by the default
+  policy, so their edges are ABSENT rather than inferred: the
+  mix behind any prediction built on this network today.
+
+  MEASURED edges in the built network: 0
+  (measured direction enters only via F-TRACT, on HCP-MMP1; the
+   DK-parcellation crosswalk is P13.3's job, not an assertion here.)

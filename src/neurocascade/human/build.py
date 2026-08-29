@@ -185,6 +185,34 @@ class HumanCircuit(object):
             self.connectivity[self.index_of(target_label), self.index_of(source_label)]
         )
 
+    def provenance(self):
+        """Per-edge provenance of the connectivity actually built.
+
+        Every nonzero signed weight is INFERRED: it is a direction-blind
+        dMRI bundle whose direction was assigned afterwards from the
+        source region's transmitter sign, and P13.6 forbids reporting it
+        as measured. Zeroed entries (no streamlines, or excluded unsigned
+        sources) are ABSENT. Nothing this builder produces is ever
+        MEASURED; measured direction only enters via F-TRACT
+        (`human/ftract.py`) and its cross-parcellation transfer (P13.3).
+        See `human/provenance.py`.
+
+        `connectivity[i, j]` is the edge ``labels[j] -> labels[i]`` (rows
+        are targets, columns are sources - the same standing hazard
+        `weight()` documents), so the flag grid is taken over the
+        TRANSPOSE: ``flags[a, b]`` describes ``labels[a] -> labels[b]``.
+        """
+        from . import provenance
+
+        return provenance.ProvenanceMap.from_levels(
+            self.labels,
+            np.where(
+                self.connectivity.T != 0.0,
+                provenance.INFERRED,
+                provenance.ABSENT,
+            ),
+        )
+
     def __repr__(self):
         return "HumanCircuit(%r, %d nodes)" % (self.report.dataset_key, self.n)
 

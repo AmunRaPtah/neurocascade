@@ -56,12 +56,20 @@ rather than hidden:
   subdivisions the mouse CCF provides.
 """
 
-from . import atlas, build, expression, fetch, fixtures, maps, matrix, neurotransmitter, scenario, sources
+from . import atlas, build, expression, fetch, fixtures, maps, matrix, neurotransmitter, provenance, scenario, sources
 from .atlas import HumanAtlas, Region, atlas_from_labels, parse_label
 from .build import (
     BuildReport,
     HumanCircuit,
     build_circuit_network,
+)
+from .provenance import (
+    ABSENT,
+    INFERRED,
+    LEVELS as PROVENANCE_LEVELS,
+    MEASURED,
+    ProvenanceError,
+    ProvenanceMap,
 )
 from .maps import (
     MISSING_POLICIES,
