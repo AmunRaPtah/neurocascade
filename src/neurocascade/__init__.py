@@ -2,6 +2,7 @@ from .pk import (
     OneCompartmentPK,
     DosedOneCompartmentPK,
     DosedTwoCompartmentPK,
+    DosedThreeCompartmentPK,
     ROUTES,
     EXTRAVASCULAR_ROUTES,
     per_hour_to_per_min,

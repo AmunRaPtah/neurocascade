@@ -30,6 +30,7 @@ from neurocascade.network import CircuitNetwork
 from neurocascade.pk import (
     DosedOneCompartmentPK,
     DosedTwoCompartmentPK,
+    DosedThreeCompartmentPK,
     OneCompartmentPK,
     clearance_L_per_h_per_kg_to_mL_per_min_per_kg,
     concentration_mg_per_L_to_nM,

@@ -866,3 +866,56 @@ def as_ode_pk_model(model):
         "PK model %r implements neither the ODE protocol "
         "(concentration_rhs/initial_state/n_states) nor the legacy rhs(C)" % (model,)
     )
+
+
+class DosedThreeCompartmentPK(_DosedPKBase):
+    """Three-compartment central + two peripheral model driven by dose."""
+    def __init__(self, route, V1_L_per_kg, V2_L_per_kg, V3_L_per_kg,
+                 Q12_mL_per_min_per_kg, Q13_mL_per_min_per_kg,
+                 CL_mL_per_min_per_kg, body_weight_kg, F=None,
+                 ka_per_min=None, molar_mass_g_per_mol=None, name=None,
+                 apparent_parameters=False, brain_partition=None, species=None):
+        super(DosedThreeCompartmentPK, self).__init__(route=route, body_weight_kg=body_weight_kg, F=F,
+            ka_per_min=ka_per_min, molar_mass_g_per_mol=molar_mass_g_per_mol, name=name,
+            apparent_parameters=apparent_parameters, brain_partition=brain_partition, species=species)
+        for key, value in (("V1_L_per_kg", V1_L_per_kg), ("V2_L_per_kg", V2_L_per_kg), ("V3_L_per_kg", V3_L_per_kg)):
+            if value <= 0.0: raise ValueError("%s must be positive" % key)
+        for key, value in (("Q12_mL_per_min_per_kg", Q12_mL_per_min_per_kg), ("Q13_mL_per_min_per_kg", Q13_mL_per_min_per_kg)):
+            if value < 0.0: raise ValueError("%s must be non-negative" % key)
+        if CL_mL_per_min_per_kg <= 0.0: raise ValueError("CL_mL_per_min_per_kg must be positive")
+        self.V1_L_per_kg, self.V2_L_per_kg, self.V3_L_per_kg = map(float, (V1_L_per_kg, V2_L_per_kg, V3_L_per_kg))
+        self.Q12_mL_per_min_per_kg, self.Q13_mL_per_min_per_kg = map(float, (Q12_mL_per_min_per_kg, Q13_mL_per_min_per_kg))
+        self.CL_mL_per_min_per_kg = float(CL_mL_per_min_per_kg)
+
+    @property
+    def V_central_L(self): return self.V1_L_per_kg * self.body_weight_kg
+    @property
+    def V_peripheral_L(self): return (self.V2_L_per_kg + self.V3_L_per_kg) * self.body_weight_kg
+    @property
+    def Vd_ss_L_per_kg(self): return self.V1_L_per_kg + self.V2_L_per_kg + self.V3_L_per_kg
+    @property
+    def CL_L_per_min(self): return self.CL_mL_per_min_per_kg * self.body_weight_kg / 1000.0
+    @property
+    def k10_per_min(self): return self.CL_mL_per_min_per_kg / (self.V1_L_per_kg * 1000.0)
+    @property
+    def k12_per_min(self): return self.Q12_mL_per_min_per_kg / (self.V1_L_per_kg * 1000.0)
+    @property
+    def k21_per_min(self): return self.Q12_mL_per_min_per_kg / (self.V2_L_per_kg * 1000.0)
+    @property
+    def k13_per_min(self): return self.Q13_mL_per_min_per_kg / (self.V1_L_per_kg * 1000.0)
+    @property
+    def k31_per_min(self): return self.Q13_mL_per_min_per_kg / (self.V3_L_per_kg * 1000.0)
+    @property
+    def n_states(self): return 4 if self.is_extravascular else 3
+    def initial_state(self, dose_mg_per_kg):
+        c0 = self.dose_equivalent_concentration(dose_mg_per_kg)
+        return np.array([0.0, 0.0, 0.0, c0] if self.is_extravascular else [c0, 0.0, 0.0], dtype=float)
+    def concentration_rhs(self, state):
+        C1, C2, C3 = state[:3]
+        d1 = -(self.k10_per_min + self.k12_per_min + self.k13_per_min) * C1 + self.k21_per_min * C2 + self.k31_per_min * C3
+        d2 = self.k12_per_min * C1 - self.k21_per_min * C2
+        d3 = self.k13_per_min * C1 - self.k31_per_min * C3
+        if self.is_extravascular:
+            d1 += self.ka_per_min * state[3]
+            return np.array([d1, d2, d3, -self.ka_per_min * state[3]], dtype=float)
+        return np.array([d1, d2, d3], dtype=float)

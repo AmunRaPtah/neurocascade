@@ -56,12 +56,22 @@ rather than hidden:
   subdivisions the mouse CCF provides.
 """
 
-from . import atlas, build, directed_prior, expression, fetch, fixtures, maps, matrix, neurotransmitter, provenance, scenario, sources
+from . import atlas, build, directed_prior, dmri_fallback, ei_time_constants, expression, fetch, fixtures, maps, matrix, neurotransmitter, provenance, scenario, sources
 from .atlas import HumanAtlas, Region, atlas_from_labels, parse_label
 from .build import (
     BuildReport,
     HumanCircuit,
     build_circuit_network,
+)
+from .dmri_fallback import (
+    DMRIFallback,
+    TRACTOGRAPHY_LIMITATIONS,
+)
+from .ei_time_constants import (
+    EXCITATORY_KEY,
+    INHIBITORY_KEY,
+    HumanEITimeConstants,
+    from_delay_maps,
 )
 from .directed_prior import (
     BEST_HOMOLOGY_CASES,
@@ -138,6 +148,14 @@ __all__ = [
     "atlas",
     "build",
     "directed_prior",
+    "dmri_fallback",
+    "DMRIFallback",
+    "TRACTOGRAPHY_LIMITATIONS",
+    "ei_time_constants",
+    "EXCITATORY_KEY",
+    "INHIBITORY_KEY",
+    "HumanEITimeConstants",
+    "from_delay_maps",
     "DirectedPriorEdge",
     "MacaqueDirectedPrior",
     "prior_from_weight_mapping",

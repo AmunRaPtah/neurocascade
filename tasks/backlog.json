@@ -1031,8 +1031,10 @@
       "deps": [
         "P13.3"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: added coverage-aware F-TRACT human E/I time-constant adapter with explicit measured provenance and opt-in illustrative fallback; missing values are never silently imputed.",
+      "finished_at": "2026-08-29T00:00:00+00:00"
     },
     {
       "id": "P13.5",
@@ -1047,8 +1049,10 @@
       "deps": [
         "P13.4"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: human stability assessment generated from the real 82-node ENIGMA network. As-built and unscaled-balanced cases fail saturation/global certification; stabilized rho=0.9 case passes with all 82 nodes responsive. Operating gain remains illustrative.",
+      "finished_at": "2026-08-29T00:00:00+00:00"
     },
     {
       "id": "P13.6",
@@ -1063,8 +1067,10 @@
       "deps": [
         "P13.5"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: added DMRIFallback enforcing inferred-only use, recorded Maier-Hein tractography error rates, and made cross-parcellation F-TRACT comparison explicitly not_comparable without a verified crosswalk.",
+      "finished_at": "2026-08-29T00:00:00+00:00"
     },
     {
       "id": "P14.1",
@@ -1079,8 +1085,10 @@
       "deps": [
         "P11.3"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "result": "complete: added DosedThreeCompartmentPK with direct Q12/Q13 parameters, central plus two peripheral states, and an ODE-native depot for extravascular dosing.",
+      "finished_at": "2026-08-29T00:00:00+00:00"
     },
     {
       "id": "P14.2",
