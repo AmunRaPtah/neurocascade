@@ -1,48 +1,52 @@
 P2.3 identifiability of circuit-layer parameters
 ==============================================================
 
-Behavioural observations available to the circuit layer: 1
-  diazepam/elevated-plus-maze/Graziani2022 (Graziani D, et al. Braz J Med Biol Res. 2022;55:e12314. doi:10.1590/1414-431X2022e12314 (PMC9728632))
-  target 0.7835 +/- 0.0517 (drug/vehicle anxiety ratio)
+Behavioural observations available to the circuit layer: 0
+  synthetic scalar ratio at gain=0.05, activation=0.9, sd=0.02 (P11.3 stand-in; the [Graziani2022] rat observation this slot held was retired with the rodent bridge, and no human behavioural target exists yet)
+  target 0.8524 +/- 0.0200 (drug/vehicle anxiety ratio)
 
 Fisher information eigenvalues (12 parameters, 1 observation):
-  3.09e+03  4.97e-13  7.51e-15  3.49e-15  1.82e-16  8.05e-17  9.5e-28  -8.51e-32  -1.37e-26  -8.6e-16  -6.36e-15  -1.41e-14
+  940  6.13e-14  2.68e-15  8.72e-16  5.74e-17  1.91e-29  -7.54e-16  -3.65e-15  -7.74e-15  -3.25e-14  -1.31e-13  -2.27e-13
   -> rank 1: at most one direction in circuit-parameter space is identifiable.
 
 Per-parameter verdicts (amygdala anxiety circuit):
-  tau_GABA_Interneuron               structurally-unidentifiable  sensitivity  1.073e-07
-  tau_BLA                            structurally-unidentifiable  sensitivity  3.147e-08
-  tau_CeA                            structurally-unidentifiable  sensitivity -1.749e-07
-  gain_GABA_Interneuron              structurally-degenerate      sensitivity -4.338e-02
-  gain_BLA                           structurally-degenerate      sensitivity -1.390e-01
-  gain_CeA                           structurally-degenerate      sensitivity -5.255e-02
-  baseline_input_GABA_Interneuron    structurally-degenerate      sensitivity -3.470e-01
-  baseline_input_BLA                 structurally-degenerate      sensitivity  2.361e-01
-  baseline_input_CeA                 structurally-degenerate      sensitivity  3.384e-01
-  weight_BLA__GABA_Interneuron       structurally-degenerate      sensitivity  2.911e-01
-  weight_CeA__BLA                    structurally-degenerate      sensitivity  6.410e-02
-  gaba_a_connection_modulation_gain  one-sided-identifiable       sensitivity -2.803e+00
+  tau_GABA_Interneuron               structurally-unidentifiable  sensitivity  2.065e-08
+  tau_BLA                            structurally-unidentifiable  sensitivity -2.530e-08
+  tau_CeA                            structurally-unidentifiable  sensitivity -7.625e-09
+  gain_GABA_Interneuron              structurally-degenerate      sensitivity -1.781e-02
+  gain_BLA                           structurally-degenerate      sensitivity -1.635e-01
+  gain_CeA                           structurally-degenerate      sensitivity -8.668e-02
+  baseline_input_GABA_Interneuron    structurally-degenerate      sensitivity -1.425e-01
+  baseline_input_BLA                 structurally-degenerate      sensitivity  2.435e-02
+  baseline_input_CeA                 structurally-degenerate      sensitivity  2.519e-01
+  weight_BLA__GABA_Interneuron       structurally-degenerate      sensitivity  1.195e-01
+  weight_CeA__BLA                    structurally-degenerate      sensitivity -4.743e-02
+  gaba_a_connection_modulation_gain  one-sided-identifiable       sensitivity -4.904e-01
 
 Reduced-space profiles (every circuit parameter free at once).
 'edge' marks an endpoint that sits in the outermost searched cell, i.e. a bound
 set by where the scan box stops rather than by the data:
-  A                                  practically-unidentifiable 95% interval (-84.62010922461307, -0.00043738365896378866)  [interior / interior]
-  B                                  one-sided-identifiable     95% interval (-7.797351291866162, None)  [interior / interior]
-  C                                  one-sided-identifiable     95% interval (0.12270154275973515, None)  [interior / interior]
-  D                                  one-sided-identifiable     95% interval (None, 1.9959821189565377)  [interior / interior]
-  gaba_a_connection_modulation_gain  one-sided-identifiable     95% interval (0.000390287691485773, None)  [edge / interior]
+  A                                  practically-unidentifiable 95% interval (-71.059481301815, -0.0005083315915075045)  [interior / interior]
+  B                                  one-sided-identifiable     95% interval (-7.609074373198219, None)  [interior / interior]
+  C                                  one-sided-identifiable     95% interval (0.11674274869192391, None)  [interior / interior]
+  D                                  one-sided-identifiable     95% interval (None, 1.5917316354559252)  [interior / interior]
+  gaba_a_connection_modulation_gain  one-sided-identifiable     95% interval (0.0004647539116890325, None)  [edge / interior]
 
 Circuits with no behavioural observation at all (Fisher information identically zero):
   reward_circuit (mu-opioid)             17 circuit-layer parameters, all unidentifiable
   basal_ganglia_indirect_pathway (D2)    19 circuit-layer parameters, all unidentifiable
   multi_region_mu_opioid                 27 circuit-layer parameters, all unidentifiable
+  amygdala_anxiety_circuit (GABA-A)      11 circuit-layer parameters, all unidentifiable
 
-Joint diagnostic posteriors:
-  weight_CeA__BLA      corr(gain, param) = +0.965  posterior sd / prior sd = 0.840  max r_hat 1.110  min ESS 14
-  tau_BLA              corr(gain, param) = +0.063  posterior sd / prior sd = 0.954  max r_hat 1.010  min ESS 205
+Joint diagnostic posteriors, by two instruments:
+  weight_CeA__BLA      mcmc       corr(gain, param) = +0.983  posterior sd / prior sd = 0.651  max r_hat 1.070  min ESS 46
+  weight_CeA__BLA      quadrature corr(gain, param) = +0.962  posterior sd / prior sd = 1.009  exact, no sampler
+  tau_BLA              mcmc       corr(gain, param) = +0.012  posterior sd / prior sd = 1.034  max r_hat 1.020  min ESS 162
+  tau_BLA              quadrature corr(gain, param) = +0.000  posterior sd / prior sd = 1.004  exact, no sampler
+  The two agree on the correlation and disagree on the marginal width: 400-1000 random-walk draws under-cover a thin curved ridge, so the quadrature row is the one to quote for the width.
 
 Conclusion: no connectivity weight and no time constant is identifiable from the
 behavioural evidence available. All of them keep their illustrative label in
 scenarios.py. The one unconditional statement the datum supports is that the
 drug-action gain is not zero (a gain of zero predicts a ratio of exactly 1 for
-every possible circuit; delta chi-square = 17.51, i.e. 4.2 sd).
+every possible circuit; delta chi-square = 54.49, i.e. 7.4 sd).

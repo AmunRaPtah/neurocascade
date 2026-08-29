@@ -1,6 +1,6 @@
 combination,box_low,box_high,profile_interval,interval_span_ratio,bounds_at_searched_edge,verdict,meaning
-A,-375.0,-2.0117266065442978e-13,"(-84.62010922461307, -0.00043738365896378866)",193468.84020561646,"(False, False)",practically-unidentifiable,"gain_BLA * W[BLA, GABA_Interneuron] * interneuron rate - the GABAergic drive onto BLA, in BLA sigmoid units. The one the drug multiplies by (1 + gain*activation)."
-B,-12.951198501345893,78.9511985013459,"(-7.797351291866162, None)",inf,"(False, False)",one-sided-identifiable,"gain_BLA * baseline_input_BLA - BLA's tonic drive, same units."
-C,0.08000000000000002,800.0,"(0.12270154275973515, None)",inf,"(False, False)",one-sided-identifiable,"gain_CeA * W[CeA, BLA] - how strongly CeA amplifies BLA."
-D,-85.95119850134591,5.951198501345898,"(None, 1.9959821189565377)",inf,"(False, False)",one-sided-identifiable,gain_CeA * baseline_input_CeA - CeA's tonic drive.
-gaba_a_connection_modulation_gain,0.0,5.0,"(0.000390287691485773, None)",inf,"(True, False)",one-sided-identifiable,the P2.2 drug-action gain; the only parameter here that is about the drug rather than about the circuit.
+A,-375.0,-2.0117266065442978e-13,"(-71.059481301815, -0.0005083315915075045)",139789.62253965272,"(False, False)",practically-unidentifiable,"gain_BLA * W[BLA, GABA_Interneuron] * interneuron rate - the GABAergic drive onto BLA, in BLA sigmoid units. The one the drug multiplies by (1 + gain*activation)."
+B,-12.951198501345893,78.9511985013459,"(-7.609074373198219, None)",inf,"(False, False)",one-sided-identifiable,"gain_BLA * baseline_input_BLA - BLA's tonic drive, same units."
+C,0.08000000000000002,800.0,"(0.11674274869192391, None)",inf,"(False, False)",one-sided-identifiable,"gain_CeA * W[CeA, BLA] - how strongly CeA amplifies BLA."
+D,-85.95119850134591,5.951198501345898,"(None, 1.5917316354559252)",inf,"(False, False)",one-sided-identifiable,gain_CeA * baseline_input_CeA - CeA's tonic drive.
+gaba_a_connection_modulation_gain,0.0,5.0,"(0.0004647539116890325, None)",inf,"(True, False)",one-sided-identifiable,the P2.2 drug-action gain; the only parameter here that is about the drug rather than about the circuit.
