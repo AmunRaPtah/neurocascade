@@ -56,13 +56,27 @@ rather than hidden:
   subdivisions the mouse CCF provides.
 """
 
-from . import atlas, build, directed_prior, dmri_fallback, ei_time_constants, expression, fetch, fixtures, maps, matrix, neurotransmitter, provenance, scenario, sources
+from . import atlas, build, d2_effect, directed_prior, dmri_fallback, ei_time_constants, expression, fetch, fixtures, kp_uu, maps, matrix, neurotransmitter, pk_parameters, pk_validation, receptor_parameters, provenance, scenario, sources
 from .atlas import HumanAtlas, Region, atlas_from_labels, parse_label
 from .build import (
     BuildReport,
     HumanCircuit,
     build_circuit_network,
 )
+from .pk_parameters import HUMAN_PK_RECORDS, HumanPKRecord, human_pk_records
+from .kp_uu import HUMAN_KP_UU_RECORDS, KpUURecord, kp_uu_records, transfer_kp_uu
+from .pk_validation import HUMAN_PK_VALIDATION, KNOWN_FAILURE_MODES, known_failure_mode, validation_outcomes
+from .receptor_parameters import HUMAN_RECEPTOR_PARAMETERS, HumanReceptorParameter, human_receptor_parameters, require_human_parameter
+from .mor_effect import HUMAN_MOR_RESERVE_PRIOR, MORReserveModel
+from .behavioral_endpoints import HUMAN_ENDPOINTS, HumanEndpoint, endpoint_score, human_endpoints
+from .ke0 import HUMAN_KE0_RECORDS, HumanKe0, human_ke0
+from .dose_response import HumanDoseResponseFit, HumanDoseResponseObservation, fit_human_log_linear
+from .endpoint_status import ENDPOINT_STATUS, EndpointStatus, endpoint_status, require_human_endpoint
+from .pet_validation import PETOccupancyComparison, PETOccupancyObservation, compare_pet_occupancy
+from .heldout_validation import HeldOutHumanDrugResult, summarize_heldout
+from .failure_analysis import HUMAN_LAYER_FINDINGS, LayerFinding, blocking_findings, human_failure_analysis
+from .gabaa_effect import GABAAOperationalModel, HUMAN_GABAA_OPERATIONAL_PRIOR
+from .d2_effect import D2Effect, d2_effect_from_occupancy
 from .dmri_fallback import (
     DMRIFallback,
     TRACTOGRAPHY_LIMITATIONS,
@@ -148,6 +162,31 @@ __all__ = [
     "atlas",
     "build",
     "directed_prior",
+    "pk_parameters",
+    "kp_uu",
+    "KpUURecord",
+    "HUMAN_KP_UU_RECORDS",
+    "kp_uu_records",
+    "transfer_kp_uu",
+    "pk_validation",
+    "ValidationOutcome",
+    "HUMAN_PK_VALIDATION",
+    "KNOWN_FAILURE_MODES",
+    "validation_outcomes",
+    "known_failure_mode",
+    "receptor_parameters",
+    "HumanReceptorParameter",
+    "HUMAN_RECEPTOR_PARAMETERS",
+    "human_receptor_parameters",
+    "require_human_parameter",
+    "GABAAOperationalModel",
+    "HUMAN_GABAA_OPERATIONAL_PRIOR",
+    "d2_effect",
+    "D2Effect",
+    "d2_effect_from_occupancy",
+    "HumanPKRecord",
+    "HUMAN_PK_RECORDS",
+    "human_pk_records",
     "dmri_fallback",
     "DMRIFallback",
     "TRACTOGRAPHY_LIMITATIONS",
