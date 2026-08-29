@@ -56,7 +56,7 @@ rather than hidden:
   subdivisions the mouse CCF provides.
 """
 
-from . import atlas, build, d2_effect, directed_prior, dmri_fallback, ei_time_constants, expression, fetch, fixtures, kp_uu, maps, matrix, neurotransmitter, pk_parameters, pk_validation, receptor_parameters, provenance, scenario, sources
+from . import atlas, build, d2_effect, dataset_manifest, directed_prior, dmri_fallback, ei_time_constants, expression, fetch, fixtures, kp_uu, maps, matrix, neurotransmitter, pk_parameters, pk_validation, receptor_parameters, provenance, scenario, sources
 from .atlas import HumanAtlas, Region, atlas_from_labels, parse_label
 from .build import (
     BuildReport,
@@ -77,6 +77,7 @@ from .heldout_validation import HeldOutHumanDrugResult, summarize_heldout
 from .failure_analysis import HUMAN_LAYER_FINDINGS, LayerFinding, blocking_findings, human_failure_analysis
 from .gabaa_effect import GABAAOperationalModel, HUMAN_GABAA_OPERATIONAL_PRIOR
 from .d2_effect import D2Effect, d2_effect_from_occupancy
+from .dataset_manifest import HumanDatasetManifest, validate_manifest, validate_manifest_set
 from .dmri_fallback import (
     DMRIFallback,
     TRACTOGRAPHY_LIMITATIONS,
@@ -184,6 +185,9 @@ __all__ = [
     "d2_effect",
     "D2Effect",
     "d2_effect_from_occupancy",
+    "HumanDatasetManifest",
+    "validate_manifest",
+    "validate_manifest_set",
     "HumanPKRecord",
     "HUMAN_PK_RECORDS",
     "human_pk_records",
