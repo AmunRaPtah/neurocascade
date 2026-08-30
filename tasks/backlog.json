@@ -1407,8 +1407,9 @@
         "No numeric parameter value is changed by this task"
       ],
       "deps": [],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 0,
+      "notes": "Gated all three illustrative constant families (HUMAN_KE0_RECORDS, HUMAN_MOR_RESERVE_PRIOR, HUMAN_GABAA_OPERATIONAL_PRIOR) behind allow_illustrative=True with GatedFloat provenance propagation; explicitly-sourced models ungated. Gate green: 2033 passed, 14 skipped (baseline 2030 + 3 new gate tests). Still missing: nothing for this task; the constants remain illustrative until P19.2+ calibrations replace them."
     },
     {
       "id": "P19.2",
