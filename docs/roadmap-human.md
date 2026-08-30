@@ -285,6 +285,43 @@ the same ~87% occupancy), and **central occupancy decays more slowly than plasma
 (Kurose 2020, PMID 32726002), so acute single-dose data needs a direct effect and
 multi-day offset needs an effect compartment or explicit slow k_off.
 
+### Phase 19: the haloperidol dose-to-occupancy chain
+
+Added 2026-08-29, after an audit found that Phases 14 to 18 delivered contracts
+and registries but almost no pharmacology: of the fifteen new modules under
+`src/neurocascade/human/`, exactly one carries a sourced human number (diazepam
+`kp_uu = 0.79`). Every human PK parameter and every receptor Ki sits at `None`
+behind a gate that always fails, and no test compares a prediction to a measured
+human observation because none exists in the tree. The backlog reading 70/70 is
+true of tasks and false of science.
+
+Phase 19 closes one gap end to end rather than widening the scaffolding:
+**dose to plasma concentration to striatal D2 occupancy, for haloperidol,
+checked against measured PET points never used in the fit.** Haloperidol is the
+right first chain because human D2 occupancy versus plasma concentration is the
+best-measured receptor-occupancy relationship available, which makes this the
+first prediction in the repository that can be wrong in public.
+
+- **P19.1** Gate the illustrative constants so `ke0`, the MOR reserve and the
+  GABA-A reserve cannot be consumed without an explicit opt-in.
+- **P19.2** Transcribe a human haloperidol PK parameter set. The trap is that
+  human disposition is usually two-compartment while the record has V3/Q13 slots.
+- **P19.3** Register real human D2 PET occupancy observations, per-point tracer
+  recorded, through `dataset_manifest`.
+- **P19.4** Fit or transcribe the in-vivo plasma EC50 and record the in-vitro Ki
+  separately, making the P15.4 correction concrete instead of nominal.
+- **P19.5** Wire the chain, identifying brain exposure from the occupancy
+  relation rather than an unmeasured partition step.
+- **P19.6** Held-out validation, reporting the real error.
+- **P19.7** Scope statement and failure analysis to the P8.3 standard.
+
+P19.6 inherits both falsification tests recorded under Phase 18: occupancy alone
+does not determine EPS, and central occupancy decays more slowly than plasma
+(Kurose 2020, PMID 32726002). The second one bounds the phase directly, since a
+single-dose occupancy curve driven by plasma kinetics will mispredict the
+multi-day offset unless an effect compartment or slow k_off is made explicit.
+Recording that mismatch is an acceptable outcome for the phase; hiding it is not.
+
 ## Honesty discipline: unchanged
 
 Every rule from v1 carries over verbatim. Never invent a parameter. Never

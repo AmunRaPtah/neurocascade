@@ -1394,6 +1394,120 @@
       "attempts": 0,
       "result": "complete",
       "notes": "Added final structured human layer failure analysis; behavioral validation remains explicitly blocked."
+    },
+    {
+      "id": "P19.1",
+      "phase": "Phase 19: haloperidol dose-to-occupancy chain",
+      "title": "Gate the illustrative constants",
+      "brief": "An audit of the P14-P18 scaffolding found three modules carrying hardcoded floats that are not measured but are consumed by live formulas: ke0.py lines 34-37 (0.10/0.08/0.05/0.04 per-min), mor_effect.py line 48 (reserve=1.5), and gabaa_effect.py line 36 (reserve=1.0). Each is labelled illustrative in a source string only, so a caller gets a plausible-looking number back with no signal that it is invented. Bring them under the same gate pattern that receptor_parameters.require_human_parameter already uses: consuming an illustrative constant from a prediction path must require an explicit opt-in argument and must raise otherwise. This task changes no numeric value; it only makes the existing placeholders impossible to consume by accident.",
+      "acceptance": [
+        "human_ke0, the MOR reserve and the GABA-A reserve raise unless an explicit allow_illustrative opt-in is passed",
+        "Any result computed with an illustrative constant carries that provenance in its return value",
+        "Tests cover both the refusal path and the opt-in path",
+        "No numeric parameter value is changed by this task"
+      ],
+      "deps": [],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P19.2",
+      "phase": "Phase 19: haloperidol dose-to-occupancy chain",
+      "title": "Human haloperidol PK parameter set",
+      "brief": "Fill the haloperidol record in HUMAN_PK_RECORDS (src/neurocascade/human/pk_parameters.py); every numeric field is currently None and the record status is searched-and-empty. Transcribe a defensible human parameter set from a primary source and cite it with a resolvable identifier. Leads to verify at source rather than trust: Kudo and Ishizaki 1999 Clin Pharmacokinet, Froemming 1989, Holley 1983, Cheng 1987. Two traps to avoid. First, human haloperidol disposition is usually reported as two-compartment while the schema has V3 and Q13 slots: do not invent a third compartment to fill them. Record the compartment count the source actually supports and leave the unsupported fields None, extending the record and complete_for_model to express that honestly. Second, most sources report absolute volumes and clearances (L, L/h) rather than per-kg: record the study's mean body weight used for normalisation, or store absolute values and normalise explicitly. Haloperidol is given PO and IM as well as IV, so F and ka must come with their route and their own source.",
+      "acceptance": [
+        "The haloperidol record carries a value for every field its compartment count supports, each traceable to a named primary source with an identifier",
+        "complete_for_model returns True for the recorded route, or the record states precisely which field is missing and why",
+        "Weight normalisation is explicit; no per-kg value is derived from an unstated body weight",
+        "If no defensible single-study set is reachable, record searched-and-empty with what was searched; do not assemble a set across several studies without labelling it as a composite"
+      ],
+      "deps": [],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P19.3",
+      "phase": "Phase 19: haloperidol dose-to-occupancy chain",
+      "title": "Human D2 PET occupancy observation set",
+      "brief": "The repository contains no measured human observation anywhere: pet_validation.py has correct comparison arithmetic and nothing real to test against, and its current tests build synthetic observations inline. Register real striatal D2 receptor occupancy measurements for haloperidol in humans. Each point must carry dose and/or plasma concentration, the occupancy value, n, tracer, region, and analysis method. Leads to verify at source: Farde et al. 1988 and 1992 Arch Gen Psychiatry, Nordstrom et al. 1993 Biol Psychiatry (plasma level versus occupancy), Kapur et al. 1996 and 2000 Am J Psychiatry (low-dose haloperidol). Tracer choice biases the occupancy estimate: raclopride, IBZM and epidepride are not interchangeable, so record the tracer per point and never pool across tracers without saying so. Route the whole set through dataset_manifest.py so its provenance is machine-checkable rather than prose.",
+      "acceptance": [
+        "Observation set committed with per-point citation, tracer, region, n, and dose or plasma concentration",
+        "The set validates against dataset_manifest",
+        "Points from different tracers remain distinguishable and are never silently merged",
+        "Any value digitised from a published figure is recorded as digitised, with the figure named"
+      ],
+      "deps": [],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P19.4",
+      "phase": "Phase 19: haloperidol dose-to-occupancy chain",
+      "title": "In-vivo D2 EC50 and the in-vitro Ki correction",
+      "brief": "HumanReceptorParameter('D2') has ki_nM=None and efficacy=None with evidence_context 'in-vivo PET'. The quantity that actually predicts occupancy in vivo is a plasma EC50, not an in-vitro Ki; P15.4 named the in-vivo versus in-vitro correction but delivered only scaffolding. Fit or transcribe the human plasma EC50 for haloperidol D2 occupancy from the P19.3 observations, and separately record a human in-vitro D2 Ki together with its assay conditions. Report the measured ratio between the two rather than assuming they are equal, and state explicitly which one the occupancy model consumes.",
+      "acceptance": [
+        "The D2 record is usable, with the in-vivo EC50 and the in-vitro Ki stored as separate cited fields",
+        "The ratio between them is computed and documented, with assay-condition caveats named",
+        "If the EC50 is fitted rather than transcribed, the fit is reproducible from the registered observations and its uncertainty is reported",
+        "No in-vitro Ki is promoted into the occupancy path without the explicit correction applied"
+      ],
+      "deps": [
+        "P19.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P19.5",
+      "phase": "Phase 19: haloperidol dose-to-occupancy chain",
+      "title": "Dose-to-occupancy chain for haloperidol",
+      "brief": "Wire the first end-to-end human chain in the repository: dose and route to a plasma concentration-time course via DosedThreeCompartmentPK on the P19.2 parameters, then to striatal D2 occupancy via the d2_effect transducer on the P19.4 EC50. Use the design the repo already anticipates: the haloperidol Kp,uu record is marked not-required with the note that occupancy data should identify effective brain exposure, so identify exposure from the occupancy relation rather than introducing an unmeasured brain-partition step. The chain must run only on gated, sourced parameters. require_human_parameter must succeed for real rather than be bypassed, and no illustrative constant may enter without the explicit P19.1 opt-in.",
+      "acceptance": [
+        "A single documented entry point maps dose, route, body weight and time to a predicted occupancy-time curve",
+        "Every parameter the chain consumes is sourced, and the call raises if any layer is ungated",
+        "The returned object carries the provenance of each layer it used",
+        "A test asserts the chain refuses to run when a required parameter is removed"
+      ],
+      "deps": [
+        "P19.2",
+        "P19.4"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P19.6",
+      "phase": "Phase 19: haloperidol dose-to-occupancy chain",
+      "title": "Held-out validation against measured occupancy",
+      "brief": "Split the P19.3 observations so the EC50 is fitted on one subset and predicted on points never used in fitting, and report the real error through pet_validation.py. This is the first falsifiable human prediction in the repository, so it is also the first place the honesty discipline can be checked from outside. Report the error you actually get. Do not widen a tolerance, do not refit after seeing the held-out result, and do not choose the split to flatter the outcome. Report separately whether the model reproduces the 65 to 80 percent striatal occupancy window associated with clinical response, and the higher occupancy associated with extrapyramidal side effects.",
+      "acceptance": [
+        "Held-out points are identified before fitting and are never used in it",
+        "Absolute and standardised error reported per point and in aggregate",
+        "The clinical occupancy window is either reproduced or the discrepancy is stated in numbers",
+        "A failure to predict is recorded as a result rather than repaired by refitting"
+      ],
+      "deps": [
+        "P19.5"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P19.7",
+      "phase": "Phase 19: haloperidol dose-to-occupancy chain",
+      "title": "Scope statement and failure analysis for the chain",
+      "brief": "Write the scope and failure analysis for the completed chain to the P8.3 standard, whose discipline held up under an autonomous driver. State precisely what the chain supports and what it does not: striatal versus extrastriatal D2, single dose versus steady state, acute versus chronic dosing, the patient populations the observations came from, and whether the PK set and the occupancy set describe comparable populations at all. Name every layer still running on an illustrative constant and what would retire it. State what the chain would need before any behavioural endpoint could hang off it.",
+      "acceptance": [
+        "Scope document committed covering region, dosing regimen, population and tracer limits",
+        "Every remaining illustrative constant named, with what would retire it",
+        "No claim anywhere that the chain predicts behaviour",
+        "Concrete prerequisites listed for extending the same pattern to fentanyl and diazepam"
+      ],
+      "deps": [
+        "P19.6"
+      ],
+      "status": "pending",
+      "attempts": 0
     }
   ]
 }
