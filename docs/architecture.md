@@ -13744,3 +13744,104 @@ These fractions are a first-class result in the P13.2 brief's sense: any
 figure, result or prediction consuming the connectome can report the
 provenance mix behind it, and any drift between the code's mapping and
 the committed numbers fails a test.
+
+## Phase 19, part two: the human haloperidol parameter set (P19.2)
+
+Phase 19 asks the repository to predict a measured human number for the
+first time: haloperidol dose to striatal D2 occupancy. P19.2 is the first
+link, dose to plasma concentration, and it is where the phase discovered
+that the parameter set it wanted does not exist in readable form.
+
+### The search result, which is itself the deliverable
+
+`docs/p19-2-human-haloperidol-pk.md` records the full trail. The short
+version: exactly three human haloperidol studies fitted a compartmental
+model to intravenous data, and none of them yields micro-parameters.
+Holley 1983 (PMID 6831826) fitted two- and three-compartment models but
+its abstract prints only CL and Vss, and the full text is behind a
+Cloudflare-gated Wiley paywall that a real Chrome session on this host
+could not clear. Chang 1992 (PMID 1579624) states that a three-compartment
+model won and then never prints the parameters of that model. Li 2022
+(PMID 35335925) is readable in full but settled on one compartment,
+in ICU patients whose clearance is roughly 2.4x Chang's.
+
+Two of the four leads in the task brief turned out to be reviews, and one
+much-cited pair of values (Vd ~18 L/kg, CL ~12 mL/min/kg) is attributed to
+a 1976 paper that is not digitised anywhere reachable and whose numbers
+are near-identical to Holley's, which is what a copied-forward citation
+error looks like. Those numbers are not used here under either name.
+
+### What was reachable, and why it is stored as apparent
+
+Pilla Reddy 2013 (PMID 24113674) publishes a complete bootstrap-validated
+two-compartment set, transcribed from Table 2 of the open-access author
+copy: CL/F 88 L/h, Q/F 233 L/h, Vc/F 669 L, Vp/F 2500 L, Ka 0.236 /h.
+Every arm of every pooled study was oral, so F was never estimated and
+each value is an X/F.
+
+This is not a defect for what P19.5 needs. F cancels out of an oral
+plasma-concentration prediction, so an apparent set predicts the
+concentration-time course exactly; what it cannot do is name an absolute
+volume or clearance. Dividing through by a bioavailability borrowed from
+Holley or Cheng would produce plausible absolute numbers and a two-study
+composite that the acceptance criteria forbid assembling silently. Since
+nothing downstream needs it, the record does not assert it, and
+`HumanPKRecord` now raises if a record marked `apparent_over_F` also
+carries an `F`.
+
+### Four distinctions the schema could not previously express
+
+The P14.2 record type had per-kg disposition fields only, and a
+`complete_for_model` flag that demanded all three compartments of every
+record. Pilla Reddy's values fit none of that honestly, so the type grew
+four distinctions, each of which is a guard that raises rather than a
+comment that asks:
+
+- **Inapplicable is not missing.** `n_compartments` says how many
+  compartments the source supported, and `required_fields` asks only for
+  the slots that count supports. A two-compartment record no longer
+  reports V3 and Q13 as gaps. A record that does not state a count is
+  judged against three compartments, so nothing looks complete merely
+  because nobody recorded what the literature supports.
+- **A per-kg value needs a stated weight.** `source_reports_per_kg`
+  distinguishes a value the paper printed per kilogram from one somebody
+  divided, and a divided value must name the `reference_weight_kg` it was
+  divided by.
+- **An absolute value still belongs to a reference subject.** 669 L is
+  the central volume of Pilla Reddy's 70 kg reference individual, not of
+  the patient in front of you, and the record says so.
+- **Apparent is not absolute.** `apparent_over_F` marks a set whose
+  volumes and clearances are X/F, and blocks the borrowed-F composite.
+
+`units` selects one of two families, per-kg or absolute, and populating
+both raises. The two families exist because the sources report in both,
+and silently converting between them was the failure mode this phase was
+most likely to commit.
+
+### Why the allometric exponent is stored rather than assumed
+
+Pilla Reddy's methods state, verbatim, "a fixed allometric relationship
+with individual body weight and CL/F was assumed: CL/F = TVCL * [weight /
+70]0.75". Clearance therefore scales with exponent 0.75, and the volumes
+carry no weight-scaling rule at all. The obvious shortcut, dividing 88 L/h
+by 70 kg into a per-kg value and multiplying it back out, silently applies
+exponent 1 and over-predicts a 90 kg subject's clearance by about 14%.
+`cl_allometric_exponent` stores the source's own exponent and
+`CL_L_per_h_at_weight` applies it, so no consumer downstream has to guess;
+a record with an absolute clearance and no exponent raises rather than
+extrapolating.
+
+### The validation record was wrong and is corrected
+
+`pk_validation.py` had haloperidol at
+`blocked-missing-readable-human-two-compartment-set`, on the stated
+grounds that Pilla Reddy 2013 was "not available for verified
+transcription". That was false: an open-access copy was reachable. The
+status is now `partial-oral-apparent-set-transcribed`, and it names what
+is still blocked rather than only what landed: no readable human IV
+micro-parameter set, F unidentified, no depot model, and no prediction yet
+compared to a measured human observation.
+
+That last one is the point. P19.2 produced a parameter set, and a
+parameter set that has never been checked against an observation cannot be
+wrong yet. P19.6 is the step that can make it wrong.
