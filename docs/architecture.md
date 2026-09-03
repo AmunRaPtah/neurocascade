@@ -13948,3 +13948,69 @@ striatal occupancy, has no data behind it in this repository. P19.6 tests
 what exists: interval containment against the three Kapur ranges, and a
 comparison against the two reported relations with their disagreement
 stated. The full search trail is in `docs/p19-3-human-d2-pet-occupancy.md`.
+
+## Phase 19, part five: the dose-to-occupancy chain (P19.5)
+
+`neurocascade.human.dose_to_occupancy.predict_occupancy` is the first
+end-to-end human chain in the repository. Dose, route, body weight and a
+time grid go in; a striatal D2 occupancy-time curve comes out, carrying the
+provenance of every layer that produced it. The full write-up is in
+`docs/p19-5-dose-to-occupancy-chain.md`; three decisions are worth stating
+here because each one is a departure from the obvious construction.
+
+### Two compartments, where the brief asked for three
+
+The brief specified `DosedThreeCompartmentPK`. P19.2 had already established
+that no human three-compartment haloperidol set exists: Holley 1983 prints
+only CL and Vss, Chang 1992 names a three-compartment model and never prints
+its micro-constants, and both are paywalled. Satisfying the brief would have
+meant inventing V3 and Q13, so the chain dispatches on the compartment count
+the sourced record declares and raises for anything else. The deviation is
+the finding.
+
+### The brain-partition step is absent on purpose
+
+The haloperidol Kp,uu record is `absent` and `not-required`, with the note
+that occupancy data should identify the effective brain exposure. That note
+is load-bearing here. The P19.4 EC50 was fitted against plasma measured in
+living people whose striatal occupancy was measured at the same time, so
+brain penetration, protein binding and competition with endogenous dopamine
+are already inside it; a Kp,uu multiplication would apply them twice. The
+chain re-reads the record on every call and raises if a value has since
+appeared, rather than trusting that the design still holds.
+
+### Body weight is accepted and then refused
+
+Pilla Reddy 2013 states an allometric exponent for clearance and for nothing
+else. `DosedTwoCompartmentPK` takes per-kg parameters, so the naive
+conversion lets body weight cancel out of the kinetics entirely, silently
+asserting an exponent of 1 where the source printed 0.75. The chain instead
+raises at any weight other than the source's 70 kg reference unless the
+caller supplies a `WeightScaling` naming the volume and Q exponents and
+where they came from; clearance keeps the source's own exponent throughout.
+
+### What the object carries
+
+Five layers, each with its own status, detail, citation and provenance:
+`pk` (measured), `weight-scaling` (structural, or caller-supplied),
+`exposure` (structural), `occupancy` (fitted-in-repo) and `transduction`
+(structural). The prediction's own provenance is the weakest claim any layer
+makes. The P19.1 gate is applied to the set: an `illustrative` layer stops
+the chain unless `allow_illustrative=True`, with the same `ILLUSTRATIVE`
+token every other gate in the package raises. No layer is illustrative
+today, so the gate is tested directly rather than through a real prediction.
+
+`require_human_parameter("D2")` succeeds for real, which it could not before
+P19.4. Nothing in the chain bypasses it.
+
+The transduction layer applies `d2_effect` with Emax 1 and baseline
+occupancy 0, neither of which has been fitted in a human, so `abs(effect)`
+equals occupancy exactly. It is the occupancy curve on the transducer's sign
+convention and is not a behavioural claim; a test asserts the identity so
+that the claim is checkable.
+
+A single 5 mg oral dose in a 70 kg subject peaks at 5.21 nM total plasma at
+195 min and 0.734 striatal occupancy, falling to 0.483 at 24 h. Whether
+those numbers are right is P19.6's question, and the EC50 behind them was
+fitted on depot intramuscular steady-state observations, a mismatch carried
+forward from P19.4 and stated in the `occupancy` layer's own text.

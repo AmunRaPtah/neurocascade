@@ -56,7 +56,7 @@ rather than hidden:
   subdivisions the mouse CCF provides.
 """
 
-from . import atlas, build, d2_ec50, d2_effect, d2_in_vitro, dataset_manifest, directed_prior, dmri_fallback, ei_time_constants, expression, fetch, fixtures, kp_uu, maps, matrix, neurotransmitter, pk_parameters, pk_validation, receptor_parameters, provenance, scenario, sources
+from . import atlas, build, d2_ec50, d2_effect, d2_in_vitro, dataset_manifest, directed_prior, dmri_fallback, dose_to_occupancy, ei_time_constants, expression, fetch, fixtures, kp_uu, maps, matrix, neurotransmitter, pk_parameters, pk_validation, receptor_parameters, provenance, scenario, sources
 from .atlas import HumanAtlas, Region, atlas_from_labels, parse_label
 from .build import (
     BuildReport,
@@ -80,6 +80,14 @@ from .d2_ec50 import (
     compare_with_reported_relations,
     ec50_landscape,
     fit_plasma_ec50,
+)
+from .dose_to_occupancy import (
+    ChainLayer,
+    OccupancyPrediction,
+    PROVENANCE_LEVELS,
+    WeightScaling,
+    default_times_min,
+    predict_occupancy,
 )
 # EXCLUDED_SOURCES and SEARCHED_AND_EMPTY are deliberately NOT hoisted here.
 # Several modules in this package define their own, and a bare name in the
@@ -243,6 +251,13 @@ __all__ = [
     "ng_per_mL_to_nM",
     "observations_by_tracer",
     "require_single_tracer",
+    "dose_to_occupancy",
+    "ChainLayer",
+    "OccupancyPrediction",
+    "PROVENANCE_LEVELS",
+    "WeightScaling",
+    "default_times_min",
+    "predict_occupancy",
     "d2_ec50",
     "EC50Comparison",
     "EC50Fit",
