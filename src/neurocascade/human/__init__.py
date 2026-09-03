@@ -72,7 +72,21 @@ from .behavioral_endpoints import HUMAN_ENDPOINTS, HumanEndpoint, endpoint_score
 from .ke0 import HUMAN_KE0_RECORDS, HumanKe0, human_ke0
 from .dose_response import HumanDoseResponseFit, HumanDoseResponseObservation, fit_human_log_linear
 from .endpoint_status import ENDPOINT_STATUS, EndpointStatus, endpoint_status, require_human_endpoint
-from .pet_validation import PETOccupancyComparison, PETOccupancyObservation, compare_pet_occupancy
+from .pet_observations import (
+    HALOPERIDOL_D2_REPORTED_RELATIONS,
+    ReportedOccupancyRelation,
+    haloperidol_d2_manifests,
+    haloperidol_d2_observations,
+    occupancy_observations,
+)
+from .pet_validation import (
+    PETOccupancyComparison,
+    PETOccupancyObservation,
+    compare_pet_occupancy,
+    ng_per_mL_to_nM,
+    observations_by_tracer,
+    require_single_tracer,
+)
 from .heldout_validation import HeldOutHumanDrugResult, summarize_heldout
 from .failure_analysis import HUMAN_LAYER_FINDINGS, LayerFinding, blocking_findings, human_failure_analysis
 from .gabaa_effect import GABAAOperationalModel, HUMAN_GABAA_OPERATIONAL_PRIOR
@@ -188,6 +202,19 @@ __all__ = [
     "HumanDatasetManifest",
     "validate_manifest",
     "validate_manifest_set",
+    "pet_validation",
+    "PETOccupancyComparison",
+    "PETOccupancyObservation",
+    "compare_pet_occupancy",
+    "ng_per_mL_to_nM",
+    "observations_by_tracer",
+    "require_single_tracer",
+    "pet_observations",
+    "HALOPERIDOL_D2_REPORTED_RELATIONS",
+    "ReportedOccupancyRelation",
+    "haloperidol_d2_manifests",
+    "haloperidol_d2_observations",
+    "occupancy_observations",
     "HumanPKRecord",
     "HUMAN_PK_RECORDS",
     "human_pk_records",

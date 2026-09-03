@@ -13845,3 +13845,106 @@ compared to a measured human observation.
 That last one is the point. P19.2 produced a parameter set, and a
 parameter set that has never been checked against an observation cannot be
 wrong yet. P19.6 is the step that can make it wrong.
+
+## Phase 19, part three: the human D2 PET occupancy set (P19.3)
+
+P19.4 fits a dose-to-occupancy chain and P19.6 checks it against held-out
+human measurements. P19.3 is the step that goes and gets those
+measurements. The result of the search matters more than the code it
+produced, so it is stated first.
+
+### No per-subject oral dose-to-occupancy table was reachable
+
+The canonical series (Farde 1988, Farde 1992, Nordstrom 1992, Kapur 1996,
+Kapur 1997, Kapur 2000) is paywalled at every point where the per-subject
+rows live. Their abstracts print group ranges, one fitted relation, and no
+means. Pirate mirrors were excluded by instruction, so paywalled here
+means unavailable with no workaround attempted. Fifteen observations were
+registered from seven sources; eight of them carry a central occupancy
+value that a prediction can be differenced against.
+
+### Three quantities that look alike and are not the same thing
+
+The schema in `pet_validation.py` gained a `quantity` field with three
+members, because the search turned up all three wearing similar labels.
+
+- **Occupancy**, the fraction of receptors bound by drug. Differenceable.
+- **Binding index**, Xiberas 2001's term for a tracer-binding reduction
+  that the authors themselves decline to call occupancy. Registered as
+  what it is; `compare_pet_occupancy` refuses it.
+- **Availability ratio**, Vallabhajosula 1997's basal-ganglia-to-cerebellum
+  ratio, which runs 1.05 to 1.61 and moves in the *opposite* direction to
+  occupancy. Registering it as occupancy would have inverted the dose
+  response of the whole chain. The enum member exists so that attempt
+  fails at construction rather than at interpretation.
+
+A fourth distinction sits alongside them: total versus free plasma.
+Videbaek 2001 reports free haloperidol, everyone else reports total, and
+the free fraction is about 9%. `plasma_concentration_basis` is mandatory
+whenever a concentration is present, so mixing the two takes a deliberate
+act.
+
+### Range-only observations are first-class
+
+Kapur 1996 prints "53%-74%" and no mean anywhere in the reachable text.
+Rather than invent a midpoint, `observed_occupancy` became optional and
+`observed_range_low` / `observed_range_high` became a supported pairing.
+Such a point supports exactly one test, `contains()`, and
+`compare_pet_occupancy` raises on it. Three of the fifteen points are of
+this kind.
+
+### The transcription digest and what it proves
+
+Every fixture CSV carries a SHA-256 recorded in `pet_observations.py`.
+Loading a fixture whose bytes have changed raises rather than returning
+data. This catches the specific failure of a later phase quietly editing an
+observation so that a prediction lands.
+
+The digest locks our reading against drift. It says nothing about fidelity
+to the paper, and `HumanDatasetManifest.checksum_proves` spells that out in
+words, because a green checksum reads like verification to anyone who does
+not know what was hashed. `derivation` on the manifest now distinguishes
+`downloaded`, `transcribed` and `digitised` for the same reason.
+
+### Two reported relations, held apart from the observations
+
+Kapur 1997 prints EC50 0.51 ng/ml (r-squared 0.84, n=12). Fitzgerald 2000
+restates a "previously derived" ED50 of 0.40 ng/ml (n=21, striatum). They
+disagree by 28%. Both are recorded in
+`HALOPERIDOL_D2_REPORTED_RELATIONS`, kept in a separate type from the
+observations, because comparing a fitted curve of ours against a fitted
+curve of theirs would be a model-to-model comparison dressed as a
+validation. Neither is averaged into the other.
+
+Kapur's abstract also prints 80% occupancy at 2.0 ng/ml, and its own stated
+EC50 implies 80% at 2.04. That internal consistency is the only check
+available on a paper whose full text could not be reached, and it passes.
+
+### The tracer disagreement P19.6 will have to report
+
+Videbaek's four subjects each identify their own hyperbola constant, and
+the paper prints a Kd column. Reconstructing it from the registered values,
+Kd = C(1-Occ)/Occ, reproduces the printed 0.16, 0.24, 0.19 and 0.39 nM to
+two decimals for all four. Converted to total plasma at the 9% free
+fraction from P19.2, the mean sits near 1.04 ng/ml, against Kapur's 0.51
+and Fitzgerald's 0.40.
+
+A factor of two to two and a half separates the IBZM-derived constant from
+the raclopride-derived ones. That is what the tracer non-interchangeability
+rule predicts, and it sets the floor on how closely any single-parameter
+chain can be expected to track the literature. P19.6 reports the spread
+rather than fitting through the middle of it.
+
+### What this leaves for the chain
+
+`occupancy_observations()` returns eight differenceable points: four depot
+group means on total plasma, four Videbaek subjects on free plasma. Region
+is absent on eleven of fifteen points because the abstracts carrying them
+name no region. Four points name no tracer at all, and each of those states
+that gap in its own notes rather than by cross-reference.
+
+The held-out test the brief imagined, per-subject oral dose against
+striatal occupancy, has no data behind it in this repository. P19.6 tests
+what exists: interval containment against the three Kapur ranges, and a
+comparison against the two reported relations with their disagreement
+stated. The full search trail is in `docs/p19-3-human-d2-pet-occupancy.md`.

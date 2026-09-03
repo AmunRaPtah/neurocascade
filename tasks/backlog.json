@@ -1440,8 +1440,9 @@
         "Any value digitised from a published figure is recorded as digitised, with the figure named"
       ],
       "deps": [],
-      "status": "pending",
-      "attempts": 0
+      "status": "running",
+      "attempts": 0,
+      "started_at": "2026-09-02T19:55:00+00:00"
     },
     {
       "id": "P19.4",
