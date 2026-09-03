@@ -1,5 +1,36 @@
-"""Human-first receptor parameter registry for P15.1-P15.4."""
+"""Human-first receptor parameter registry for P15.1-P15.4, extended in P19.4.
+
+The original registry carried one affinity slot per target, `ki_nM`. P19.4 splits
+that in two, because the two quantities that could fill it are not the same
+measurement:
+
+* An **in-vitro Ki** comes from a displacement assay against a chosen
+  radioligand, in a chosen buffer, on a chosen receptor preparation. The seven
+  primary human D2 haloperidol measurements collected in
+  :mod:`neurocascade.human.d2_in_vitro` span 0.13 to 8.85 nM, a factor of 68, so
+  there is no single number to record without the assay conditions attached.
+* An **in-vivo EC50** is the plasma concentration at which half the receptors
+  are occupied in a living person. It absorbs plasma protein binding, brain
+  penetration, competition with endogenous dopamine, and the PET tracer the
+  occupancy was measured with.
+
+They share units, which is exactly why they get confused. The occupancy path
+consumes the in-vivo EC50 and nothing else: :meth:`HumanReceptorParameter.
+occupancy_constant_nM` refuses to hand back an in-vitro Ki unless the caller
+passes an explicit correction factor and states where it came from.
+
+One further correction to the original schema. A Ki and an efficacy are
+properties of a **ligand at** a receptor, not of the receptor, so the record now
+carries a `ligand` field. The five records still awaiting a source leave it
+`None`, which is honest: no ligand has been chosen for them yet.
+"""
 from dataclasses import dataclass
+
+from .d2_ec50 import HALOPERIDOL_D2_PLASMA_EC50_nM
+from .d2_in_vitro import binding_ki_fold_spread, registry_efficacy, registry_ki
+
+_D2_KI = registry_ki()
+_D2_EFFICACY = registry_efficacy()
 
 
 @dataclass(frozen=True)
@@ -12,14 +43,145 @@ class HumanReceptorParameter:
     citation: str
     status: str
     notes: str
+    # Fields below were added in P19.4. All are defaulted, so the records that
+    # remain unsourced construct exactly as they did before.
+    ligand: str | None = None
+    ec50_in_vivo_nM: float | None = None
+    ec50_plasma_basis: str | None = None
+    ec50_origin: str | None = None
+    ec50_uncertainty: str | None = None
+    ec50_citation: str | None = None
+    ki_radioligand: str | None = None
+    ki_preparation: str | None = None
+    ki_assay_conditions: str | None = None
+    ki_citation: str | None = None
+    efficacy_origin: str | None = None
 
     @property
     def usable(self):
-        return self.species == "human" and self.ki_nM is not None and self.efficacy is not None
+        """True when this record can drive the human occupancy path.
+
+        That requires an in-vivo EC50, not an in-vitro Ki. A record holding only
+        a Ki stays unusable however well cited the Ki is.
+        """
+        return (
+            self.species == "human"
+            and self.ec50_in_vivo_nM is not None
+            and self.efficacy is not None
+        )
+
+    @property
+    def in_vitro_in_vivo_ratio(self):
+        """In-vivo EC50 divided by in-vitro Ki, or None if either is missing.
+
+        Reported rather than corrected for. A value far from 1 is the normal
+        finding and means the two assays measured different things, not that one
+        of them is wrong.
+        """
+        if self.ki_nM is None or self.ec50_in_vivo_nM is None or self.ki_nM == 0:
+            return None
+        return self.ec50_in_vivo_nM / self.ki_nM
+
+    def occupancy_constant_nM(self, in_vitro_correction=None, correction_source=None):
+        """The constant the occupancy model should use, in nM of plasma drug.
+
+        With no arguments this returns the in-vivo EC50 and raises if there is
+        none. Passing `in_vitro_correction` opts in to scaling the in-vitro Ki
+        instead, and requires naming where the factor came from, so that a
+        promoted Ki can never reach the model as if it were a measured in-vivo
+        constant.
+        """
+        if in_vitro_correction is None:
+            if self.ec50_in_vivo_nM is None:
+                raise ValueError(
+                    "no human in-vivo EC50 for %s; an in-vitro Ki will not be "
+                    "substituted without an explicit correction factor" % self.target
+                )
+            return self.ec50_in_vivo_nM
+        if self.ki_nM is None:
+            raise ValueError("no in-vitro Ki recorded for %s to correct" % self.target)
+        if not correction_source:
+            raise ValueError(
+                "correction_source must name the origin of the %r factor" % in_vitro_correction
+            )
+        if in_vitro_correction <= 0:
+            raise ValueError("in_vitro_correction must be positive")
+        return self.ki_nM * in_vitro_correction
 
 
 HUMAN_RECEPTOR_PARAMETERS = (
-    HumanReceptorParameter("D2", "human", None, None, "in-vivo PET", "Human PET occupancy calibration reserved for P16.1", "pending-human-occupancy", "No rodent affinity is promoted."),
+    HumanReceptorParameter(
+        "D2",
+        "human",
+        _D2_KI.value,
+        _D2_EFFICACY.efficacy,
+        "in-vivo PET",
+        "Fitted in P19.4 from the P19.3 observation set; see docs/p19-4-d2-ec50-and-ki.md",
+        "in-vivo-ec50-fitted",
+        (
+            "The Ki and the EC50 in this record are different measurements that "
+            "happen to share units, and the ratio between them is %.2f. Seven "
+            "primary human in-vitro Ki values were retrieved and they span %.0f-fold "
+            "(0.13 to 8.85 nM), so the ratio against the in-vivo EC50 runs from 0.21 "
+            "to 14.5 depending on which Ki is chosen. That range straddles unity: the "
+            "in-vitro literature cannot agree on whether the in-vivo constant is "
+            "larger or smaller than it is, which is why no correction factor is "
+            "recorded and why occupancy_constant_nM() returns the EC50. The efficacy "
+            "is negative because haloperidol is an inverse agonist at human D2, not a "
+            "neutral antagonist. See neurocascade.human.d2_in_vitro for every value, "
+            "its assay conditions and what each source failed to print."
+            % (HALOPERIDOL_D2_PLASMA_EC50_nM / _D2_KI.value, binding_ki_fold_spread())
+        ),
+        ligand="haloperidol",
+        ec50_in_vivo_nM=HALOPERIDOL_D2_PLASMA_EC50_nM,
+        ec50_plasma_basis="total",
+        ec50_origin="fitted-in-repo",
+        ec50_uncertainty=(
+            "95% profile-likelihood interval 1.382 to 2.525 nM, asymptotic standard "
+            "error 0.176 nM. Four group means from two depot studies, and the four "
+            "are not independent: each study measured the same eight patients at week "
+            "1 and week 4, so the interval is narrower than two independent groups "
+            "would justify. Both published oral relations, Kapur 1997 and Fitzgerald "
+            "2000, fall below the lower bound. Depot intramuscular steady state, "
+            "applied to an oral chain."
+        ),
+        ec50_citation="Nyberg 1995 and Regenthal 1997 group means, fitted here",
+        ki_radioligand=_D2_KI.tracer,
+        ki_preparation=_D2_KI.preparation,
+        ki_assay_conditions=(
+            "sodium: %s; guanine nucleotide: %s; temperature: %s; incubation: %s; "
+            "nonspecific binding: %s; replicates: %s; not printed: %s"
+            % (
+                _D2_KI.sodium,
+                _D2_KI.guanine_nucleotide,
+                _D2_KI.temperature,
+                _D2_KI.incubation_time,
+                _D2_KI.nonspecific_binding,
+                _D2_KI.replicates,
+                "; ".join(_D2_KI.not_printed),
+            )
+        ),
+        ki_citation=_D2_KI.citation,
+        efficacy_origin=(
+            "%s. %s, referenced to %s. Constitutive activity of the system: %s. %s "
+            "The independent %s readout gives -0.83 in the same laboratory, so the "
+            "measured range is -0.83 to -0.95 and no source outside that laboratory "
+            "reports a number at all; Burstein 2005 agrees on the direction from its "
+            "abstract only. Sign convention: %s"
+            % (
+                _D2_EFFICACY.classification,
+                _D2_EFFICACY.value_as_printed,
+                _D2_EFFICACY.reference_compound,
+                _D2_EFFICACY.constitutive_activity,
+                _D2_EFFICACY.citation,
+                "[35S]GTPgammaS",
+                "0 is neutral, negative is inverse agonism referenced to "
+                "(+)-butaclamol's maximal inverse response in that assay, positive is "
+                "agonism referenced to the endogenous agonist; the two ends do not "
+                "share a reference",
+            )
+        ),
+    ),
     HumanReceptorParameter("MOR", "human", None, None, "in-vivo PET", "Human PET occupancy calibration pending", "pending-human-occupancy", "No rodent affinity is promoted."),
     HumanReceptorParameter("GABA_A_BZD", "human", None, None, "in-vivo PET", "Human benzodiazepine occupancy calibration pending", "pending-human-occupancy", "No rodent affinity is promoted."),
     HumanReceptorParameter("D1", "human", None, None, "in-vitro", "Human functional affinity source not yet validated", "pending-human-source", "In-vitro values must not be treated as in-vivo occupancy parameters without an explicit correction."),

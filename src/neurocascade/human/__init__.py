@@ -56,7 +56,7 @@ rather than hidden:
   subdivisions the mouse CCF provides.
 """
 
-from . import atlas, build, d2_effect, dataset_manifest, directed_prior, dmri_fallback, ei_time_constants, expression, fetch, fixtures, kp_uu, maps, matrix, neurotransmitter, pk_parameters, pk_validation, receptor_parameters, provenance, scenario, sources
+from . import atlas, build, d2_ec50, d2_effect, d2_in_vitro, dataset_manifest, directed_prior, dmri_fallback, ei_time_constants, expression, fetch, fixtures, kp_uu, maps, matrix, neurotransmitter, pk_parameters, pk_validation, receptor_parameters, provenance, scenario, sources
 from .atlas import HumanAtlas, Region, atlas_from_labels, parse_label
 from .build import (
     BuildReport,
@@ -72,7 +72,41 @@ from .behavioral_endpoints import HUMAN_ENDPOINTS, HumanEndpoint, endpoint_score
 from .ke0 import HUMAN_KE0_RECORDS, HumanKe0, human_ke0
 from .dose_response import HumanDoseResponseFit, HumanDoseResponseObservation, fit_human_log_linear
 from .endpoint_status import ENDPOINT_STATUS, EndpointStatus, endpoint_status, require_human_endpoint
+from .d2_ec50 import (
+    EC50Comparison,
+    EC50Fit,
+    HALOPERIDOL_D2_PLASMA_EC50_nM,
+    HALOPERIDOL_PLASMA_FREE_FRACTION,
+    compare_with_reported_relations,
+    ec50_landscape,
+    fit_plasma_ec50,
+)
+# EXCLUDED_SOURCES and SEARCHED_AND_EMPTY are deliberately NOT hoisted here.
+# Several modules in this package define their own, and a bare name in the
+# package namespace would silently be one of them. Reach them through
+# `human.d2_in_vitro`.
+from .d2_in_vitro import (
+    EFFICACY_SCALE,
+    HALOPERIDOL_HUMAN_D2_BINDING,
+    HALOPERIDOL_HUMAN_D2_FUNCTIONAL,
+    HALOPERIDOL_HUMAN_D2_INTRINSIC_EFFICACY,
+    INVERSE_AGONISM_ABSTRACT_ONLY_SUPPORT,
+    IntrinsicEfficacy,
+    InVitroMeasurement,
+    REGISTRY_EFFICACY_LABEL,
+    REGISTRY_KI_LABEL,
+    binding_ki_fold_spread,
+    binding_ki_range_nM,
+    efficacy_range,
+    haloperidol_d2_binding,
+    in_vitro_in_vivo_ratio_range,
+    in_vitro_in_vivo_ratios,
+    ratio_straddles_unity,
+    registry_efficacy,
+    registry_ki,
+)
 from .pet_observations import (
+    HALOPERIDOL_D2_DATASET_IDS,
     HALOPERIDOL_D2_REPORTED_RELATIONS,
     ReportedOccupancyRelation,
     haloperidol_d2_manifests,
@@ -209,7 +243,35 @@ __all__ = [
     "ng_per_mL_to_nM",
     "observations_by_tracer",
     "require_single_tracer",
+    "d2_ec50",
+    "EC50Comparison",
+    "EC50Fit",
+    "HALOPERIDOL_D2_PLASMA_EC50_nM",
+    "HALOPERIDOL_PLASMA_FREE_FRACTION",
+    "compare_with_reported_relations",
+    "ec50_landscape",
+    "fit_plasma_ec50",
+    "d2_in_vitro",
+    "EFFICACY_SCALE",
+    "HALOPERIDOL_HUMAN_D2_BINDING",
+    "HALOPERIDOL_HUMAN_D2_FUNCTIONAL",
+    "HALOPERIDOL_HUMAN_D2_INTRINSIC_EFFICACY",
+    "INVERSE_AGONISM_ABSTRACT_ONLY_SUPPORT",
+    "IntrinsicEfficacy",
+    "InVitroMeasurement",
+    "REGISTRY_EFFICACY_LABEL",
+    "REGISTRY_KI_LABEL",
+    "binding_ki_fold_spread",
+    "binding_ki_range_nM",
+    "efficacy_range",
+    "haloperidol_d2_binding",
+    "in_vitro_in_vivo_ratio_range",
+    "in_vitro_in_vivo_ratios",
+    "ratio_straddles_unity",
+    "registry_efficacy",
+    "registry_ki",
     "pet_observations",
+    "HALOPERIDOL_D2_DATASET_IDS",
     "HALOPERIDOL_D2_REPORTED_RELATIONS",
     "ReportedOccupancyRelation",
     "haloperidol_d2_manifests",

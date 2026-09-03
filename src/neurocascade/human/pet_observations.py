@@ -147,6 +147,10 @@ _ACCESS_ROUTE = {
 
 _RETRIEVAL_DATE = "2026-09-02"
 
+#: Every registered dataset, in a stable order. Downstream code groups
+#: observations by study through this rather than by parsing citation strings.
+HALOPERIDOL_D2_DATASET_IDS = tuple(sorted(_FIXTURES))
+
 
 def _optional_float(value):
     value = value.strip()
