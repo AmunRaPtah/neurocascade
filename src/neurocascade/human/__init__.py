@@ -56,7 +56,7 @@ rather than hidden:
   subdivisions the mouse CCF provides.
 """
 
-from . import atlas, build, d2_ec50, d2_effect, d2_in_vitro, dataset_manifest, directed_prior, dmri_fallback, dose_to_occupancy, ei_time_constants, expression, fetch, fixtures, kp_uu, maps, matrix, neurotransmitter, pk_parameters, pk_validation, receptor_parameters, provenance, scenario, sources
+from . import atlas, build, d2_ec50, d2_effect, d2_in_vitro, dataset_manifest, directed_prior, dmri_fallback, dose_to_occupancy, ei_time_constants, expression, fetch, fixtures, kp_uu, maps, matrix, neurotransmitter, occupancy_validation, pk_parameters, pk_validation, receptor_parameters, provenance, scenario, sources
 from .atlas import HumanAtlas, Region, atlas_from_labels, parse_label
 from .build import (
     BuildReport,
@@ -130,6 +130,30 @@ from .pet_validation import (
     require_single_tracer,
 )
 from .heldout_validation import HeldOutHumanDrugResult, summarize_heldout
+from .occupancy_validation import (
+    CLINICAL_OCCUPANCY_THRESHOLDS,
+    CLINICAL_WINDOW_PROVENANCE,
+    OCCUPANCY_IS_NOT_THE_OUTCOME,
+    PRE_REGISTERED_SPLITS,
+    ClinicalOccupancyThreshold,
+    ContainmentResult,
+    HeldOutFold,
+    HeldOutPrediction,
+    HeldOutReport,
+    SplitRule,
+    SteadyStateOccupancy,
+    as_heldout_results,
+    basis_observations,
+    build_folds,
+    chain_testable_observations,
+    clinical_window_check,
+    dose_reaching_occupancy,
+    kapur1996_containment,
+    run_all_splits,
+    run_split,
+    split_rule,
+    steady_state_occupancy,
+)
 from .failure_analysis import HUMAN_LAYER_FINDINGS, LayerFinding, blocking_findings, human_failure_analysis
 from .gabaa_effect import GABAAOperationalModel, HUMAN_GABAA_OPERATIONAL_PRIOR
 from .d2_effect import D2Effect, d2_effect_from_occupancy
@@ -251,6 +275,29 @@ __all__ = [
     "ng_per_mL_to_nM",
     "observations_by_tracer",
     "require_single_tracer",
+    "occupancy_validation",
+    "CLINICAL_OCCUPANCY_THRESHOLDS",
+    "CLINICAL_WINDOW_PROVENANCE",
+    "OCCUPANCY_IS_NOT_THE_OUTCOME",
+    "PRE_REGISTERED_SPLITS",
+    "ClinicalOccupancyThreshold",
+    "ContainmentResult",
+    "HeldOutFold",
+    "HeldOutPrediction",
+    "HeldOutReport",
+    "SplitRule",
+    "SteadyStateOccupancy",
+    "as_heldout_results",
+    "basis_observations",
+    "build_folds",
+    "chain_testable_observations",
+    "clinical_window_check",
+    "dose_reaching_occupancy",
+    "kapur1996_containment",
+    "run_all_splits",
+    "run_split",
+    "split_rule",
+    "steady_state_occupancy",
     "dose_to_occupancy",
     "ChainLayer",
     "OccupancyPrediction",

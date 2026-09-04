@@ -14014,3 +14014,132 @@ A single 5 mg oral dose in a 70 kg subject peaks at 5.21 nM total plasma at
 those numbers are right is P19.6's question, and the EC50 behind them was
 fitted on depot intramuscular steady-state observations, a mismatch carried
 forward from P19.4 and stated in the `occupancy` layer's own text.
+
+## Phase 19, part six: held-out validation of the chain (P19.6)
+
+`neurocascade.human.occupancy_validation` is the first falsifiable human
+prediction in the repository, so it is also the first place the honesty
+discipline can be checked from outside. Four splits are declared in
+`PRE_REGISTERED_SPLITS` before any fit runs, and `build_folds` raises if a
+held-out point ever appears in its own fold's basis. The full write-up is in
+`docs/p19-6-heldout-occupancy-validation.md`.
+
+### The dose-to-plasma arm was not tested, because it cannot be
+
+`chain_testable_observations()` returns nothing. No observation in the P19.3
+set pairs an oral dose with a differenceable occupancy, so every split below
+tests the plasma-to-occupancy hyperbola alone. The chain's first arm is
+untested rather than failed, and the distinction is stated in the report's
+own headline rather than left for a reader to infer.
+
+### What the four splits found
+
+| split | what is held out | MAE | bias | max abs |
+|---|---|---|---|---|
+| A leave-one-out | one of four total-basis points, refit on the other three | 0.0459 | +0.0020 | 0.0612 |
+| B leave-one-study-out | one whole depot study, the patient-disjoint version of A | 0.0351 | +0.0042 | 0.0488 |
+| C free-plasma basis | four Videbaek subjects, total fit converted by the free fraction | 0.0620 | +0.0601 | 0.1409 |
+| D external parameter | the depot points against two published EC50s, no in-repo fit | 0.0939 | +0.0939 | 0.1637 |
+
+The ordering is the finding. Error grows exactly as the parameter moves away
+from the data being predicted, and splits C and D are one-signed: every one
+of split D's eight errors is positive, because both published constants
+(Kapur 1997 at 1.3569 nM, Fitzgerald 2000 at 1.0642 nM) fall below this
+repository's lower profile bound. Split C's +0.0601 bias is accounted for by
+a single number: the total fit converted by the 0.09 free fraction gives
+0.1696 nM where a direct free-basis fit gives 0.2298 nM, a factor of 1.355.
+That was recorded rather than repaired, since refitting after seeing the
+held-out result would destroy the property being tested.
+
+### Standardised error is reported as unavailable, not approximated
+
+No source in the P19.3 set printed an SD, so `standardized_error` is `None`
+on all twenty predictions and `standardized_errors_available` is `False`.
+Points scored against a parameter that was never fitted in repo carry
+`error_in_training_rmse_units=None` rather than borrowing another fold's
+residual scale.
+
+### The whole-chain check is a miss
+
+Against Kapur 1996's 2 mg group range of 0.53 to 0.74, the single-dose peak
+is 0.5253, which is 0.0047 below the lower bound. `ContainmentResult`
+carries `contained=False` and three caveats that a reader cannot skip: the
+comparison was not blind, since the 2 mg peak was already published in
+`docs/p19-5-dose-to-occupancy-chain.md` before P19.6 ran; the
+regimen-matched steady-state mean of 0.5635 that is contained was computed
+after the miss was seen, and explains it rather than passing a second test;
+and a range across seven patients says only that the prediction sits
+somewhere among them.
+
+Containment is in general the weaker instrument here. Split D is 8 of 8
+contained at the worst MAE in the task, because the depot ranges are wide
+enough that nothing can fail them, and split C's "0 of 0" is an absence of
+test rather than a pass.
+
+### The clinical window, in numbers
+
+`CLINICAL_OCCUPANCY_THRESHOLDS` carries the sourced thresholds and the dose
+the chain reaches each one at: clinical response at 65 percent needs
+2.89 mg/day at steady state, hyperprolactinemia at 72 percent needs
+4.02 mg/day, and extrapyramidal side effects at 78 percent need 5.56 mg/day.
+`OCCUPANCY_IS_NOT_THE_OUTCOME` states the standing caveat that an occupancy
+threshold associated with a clinical outcome is not a prediction of that
+outcome.
+
+## Phase 19, part seven: scope and failure analysis (P19.7)
+
+`docs/p19-7-scope-and-failure-analysis.md` is written to the P8.3 standard:
+attribute each gap to a layer rather than to the model, and say what data
+would close it. Three things in it change how the rest of Phase 19 should be
+read.
+
+### The striatal label is inherited, not recorded
+
+The chain is called striatal D2 throughout, and the P19.3 registry does hold
+striatal observations, but the four group means the EC50 was actually fitted
+on carry `region=None` alongside `tracer=None`, and eleven of the fifteen
+registered observations have no region at all. The label comes from the
+context of the source papers, not from a field either paper printed that
+this repository could record. Since the tracer spread across
+[11C]raclopride, [123I]IBZM and [76Br]FLB 457 sets a 2 to 2.5x floor that is
+larger than every held-out error above, this is a gap in provenance rather
+than a cosmetic one. Extrastriatal D2 is not weakly supported; it is not
+supported at all.
+
+### The fitting and driving regimens do not match
+
+The EC50 was fitted on depot intramuscular steady-state observations and the
+chain is driven orally, a mismatch carried forward unrepaired from P19.4 and
+stated in the `occupancy` layer's own text. The four points are also not
+independent: each study measured the same eight patients at weeks 1 and 4,
+so the profile interval is narrower than two independent groups would
+justify. Split B, which holds out a whole study, bounds what the
+study-to-study spread costs at MAE 0.0351.
+
+### Whether the two populations are comparable is not determined
+
+The PK set is Pilla Reddy 2013, 122 subjects, 20 healthy and 102 with
+schizophrenia, dosed orally. The occupancy set is two depot intramuscular
+studies of eight patients each, and the whole-chain check is seven orally
+dosed patients from Kapur 1996. No subject overlaps any other set, and sex,
+age, ancestry, smoking status and CYP2D6 genotype are absent from the
+repository entirely. The document records this as "not determined in the
+repo" rather than assuming exchangeability.
+
+### The illustrative register
+
+Six constants sit behind the P19.1 opt-in: the four `HUMAN_KE0_RECORDS`
+(0.10, 0.08, 0.05 and 0.04 per minute for cognitive performance, motor
+activity, subjective sedation and anxiety state), the mu-opioid reserve
+prior of 1.5 and the GABA-A operational reserve of 1.0. The document also
+lists five more that are unfitted in a human without being covered by that
+gate, including the default node gain of 4.0 reaching the human build
+through `circuit.DEFAULT_NODE` and the operating gain of 0.9 defaulted into
+`human/scenario.py`. Listing only the gated set would have understated the
+exposure.
+
+No behavioural endpoint can hang off the chain today, and the reason is
+structural rather than a matter of effort: there are zero
+`HumanDoseResponseObservation` instances outside test fixtures, and
+`fit_human_log_linear` requires three, so the fit is unreachable rather than
+merely unattempted.

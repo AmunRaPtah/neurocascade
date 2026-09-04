@@ -1501,8 +1501,10 @@
       "deps": [
         "P19.5"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 0,
+      "started_at": "2026-09-03T00:00:00+00:00",
+      "finished_at": "2026-09-03T00:00:00+00:00"
     },
     {
       "id": "P19.7",
@@ -1518,8 +1520,10 @@
       "deps": [
         "P19.6"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 0,
+      "started_at": "2026-09-03T00:00:00+00:00",
+      "finished_at": "2026-09-03T00:00:00+00:00"
     }
   ]
 }
