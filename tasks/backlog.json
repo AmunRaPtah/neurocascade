@@ -1640,26 +1640,6 @@
       "attempts": 0
     },
     {
-      "id": "P21.1",
-      "phase": "Phase 21: multi-drug D2 occupancy, FDA-sourced",
-      "title": "Turn the haloperidol EC50 constant into a drug registry",
-      "brief": "src/neurocascade/human/d2_ec50.py hardcodes HALOPERIDOL_D2_PLASMA_EC50_nM = 1.8849 as a module constant, and dose_to_occupancy is built around it. Refactor to a drug-keyed registry carrying per-drug provenance, molecular weight, protein binding fraction, the basis (total or free) and the fitted interval. This is a pure refactor: add no drug in this task.",
-      "acceptance": [
-        "D2_PLASMA_EC50 registry keyed by drug, with per-drug provenance and basis",
-        "Haloperidol predictions bit-identical before and after: a test asserts this",
-        "The old constant still resolves, or every caller is updated"
-      ],
-      "validation": {
-        "kind": "ledger-row",
-        "evidence": ""
-      },
-      "deps": [
-        "P20.5"
-      ],
-      "status": "pending",
-      "attempts": 0
-    },
-    {
       "id": "P21.2",
       "phase": "Phase 21: multi-drug D2 occupancy, FDA-sourced",
       "title": "Can the multi-drug occupancy table actually be obtained",
@@ -1674,7 +1654,27 @@
         "evidence": ""
       },
       "deps": [
-        "P21.1"
+        "P20.5"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P21.1",
+      "phase": "Phase 21: multi-drug D2 occupancy, FDA-sourced",
+      "title": "Turn the haloperidol EC50 constant into a drug registry",
+      "brief": "src/neurocascade/human/d2_ec50.py hardcodes HALOPERIDOL_D2_PLASMA_EC50_nM = 1.8849 as a module constant, and dose_to_occupancy is built around it. Refactor to a drug-keyed registry carrying per-drug provenance, molecular weight, protein binding fraction, the basis (total or free) and the fitted interval. This is a pure refactor: add no drug in this task. Sequenced after P21.2, not before it: the registry's schema is decided by what the sources actually print, and if fewer than four drugs are reachable this refactor should not happen at all.",
+      "acceptance": [
+        "D2_PLASMA_EC50 registry keyed by drug, with per-drug provenance and basis",
+        "Haloperidol predictions bit-identical before and after: a test asserts this",
+        "The old constant still resolves, or every caller is updated"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P21.2"
       ],
       "status": "pending",
       "attempts": 0
