@@ -102,3 +102,87 @@ brief repeats them, because an agent session that cannot find a literature
 value is under real pressure to invent one, and a fabricated parameter is far
 more expensive to discover later than a task that honestly reports it found
 nothing.
+
+## One driver, from Phase 21 onward
+
+Added 2026-09-05. Three autonomous drivers have written to this repository, all
+pushing under the same GitHub account: the Claude cron described above, Codex,
+and Codebuff. They applied different test discipline and left different amounts
+of evidence, and every audit since mid-August has needed git archaeology to
+answer "which of them wrote this".
+
+**From Phase 21 onward the Claude cron is the only authorised driver.** The
+reason is not preference. It is the only one of the three that runs the test
+gate, quarantines failing work on a branch instead of discarding or keeping it,
+records `started` and `finished` events, and, since P20.3, reports
+`BLOCKED_ON_DATA` and updates the validation ledger. The other two bypass all of
+it.
+
+The evidence for that choice is in this repository's own history. The stretch
+the validation ledger records as scaffolding, P13.2 through P18.3, is 23 tasks
+produced in five commits inside a single run on 2026-08-29, between 10:57 and
+16:31 UTC. No test gate ran over any of it. That is what an ungated driver
+pointed at a data-starved layer produces, and it is the largest single reason
+the backlog could read 77/77 while the model could predict one measured human
+quantity.
+
+If a second driver is ever used again, it runs through
+`scripts/autonomous_runner.py` or it does not run.
+
+### Who wrote what
+
+| Commits | Dates | Driver | How it is identified |
+|---|---|---|---|
+| Initial commit and Tracks A to E | 2026-07-26 | Claude, interactive | `Claude Sonnet 5` trailer; merges of `worktree-agent-*` branches |
+| P1.1 to P8.1 | 2026-08-11 to 08-14 | Claude cron | `started` and `finished` in `logs/events.jsonl`, a `logs/task-<id>.log` per task, and the runner's own `chore(backlog)` commits bracketing each one |
+| P8.2 to P10.3 | 2026-08-16 | Codex | Not provable from this repository. No trailer, no log coverage, and the backlog status flipped inline in the same commit, which the cron never does. Named only from `~/.codex/sessions/2026/08/16/` outside the repo |
+| Human connectome and expression scaffolding | 2026-08-17 | Codebuff | `Co-Authored-By: Codebuff` trailer |
+| v2 roadmap, Phase 11 to 18 backlog, P11.1 | 2026-08-21 to 08-22 | Claude, interactive | `Claude Opus 5` trailer with no tick events |
+| P11.2 to P12.4 | 2026-08-23 to 08-25 | Claude cron | Full event chains and per-task logs |
+| P13.1 write-up | 2026-08-25 | Claude, interactive | written after the cron logged three `agent_launch_failed` for the same task |
+| P13.1 F-TRACT ingest, P13.2 to P19.1 | 2026-08-25 to 08-30 | Codebuff | Codebuff trailer on most; the rest by identity and timezone |
+| P19.2 to P20.5 | 2026-09-02 to 09-05 | Claude, interactive | `Claude Opus 5` trailer; the cron was paused on 2026-08-25 and has run no task since |
+| `chore: automated backup snapshot <ISO>` | throughout | not an agent | `/usr/local/bin/git-backup-sweep.sh`, daily |
+
+Four commits cannot be attributed from the repository alone: the eight of
+2026-08-16, `e719812`, and `f399c63` and `672537f`, which have empty bodies. They
+are recorded here as inferred rather than established.
+
+### Grepping for a driver
+
+All three pushed under the same GitHub account, so the git identity is nearly
+useless on its own:
+
+```
+AmunRaPtah <work@supercriticalbooks.com>                        # cron, interactive Claude, Codex, and the backup sweep alike
+Eniola Olutogun <94907067+AmunRaPtah@users.noreply.github.com>  # Codebuff exclusively, and always at +0000
+```
+
+What does distinguish them is the commit-body trailer, plus the subject patterns
+the runner emits by itself:
+
+```
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>       # Claude, cron and interactive
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>     # Claude, 2026-07-26
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>      # Claude cron, 2026-08-14
+Co-Authored-By: Codebuff <noreply@codebuff.com>             # Codebuff
+                                                            # Codex left no marker anywhere
+^chore\(backlog\): (start .*|.* (done|blocked|failed the test gate)) \(autonomous\)$
+```
+
+Going forward every commit carries a trailer naming its driver, so this table
+does not need to grow. The convention exists because Codex left none and its
+eight commits are consequently unattributable from the repository forever.
+
+### The tick log is not a complete record
+
+It covers 2026-08-11 to 08-14 and 2026-08-23 to 08-25, and nothing else. The
+first gap is a tick that died mid-P8.2 on 2026-08-14 and was not restarted for
+nine days; everything in that hole is invisible to the log. The permanent end is
+`agent_launch_failed task=P13.1 attempts=3` on 2026-08-25T08:39Z, after which the
+crontab tick line was commented out. Later entries in `logs/events.jsonl` are
+full-suite heartbeats from a separate cron, not build activity.
+
+So the log proves cron authorship inside those two windows and proves nothing
+outside them. That is exactly the blindness `repo_health()` in `scripts/digest.py`
+now compensates for, by reading repository state rather than the event history.

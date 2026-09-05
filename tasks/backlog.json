@@ -1590,12 +1590,12 @@
       ],
       "validation": {
         "kind": "process",
-        "evidence": ""
+        "evidence": "tests/test_v1_frozen_layers.py, 15 tests; v1 closure is 14 modules, none frozen"
       },
       "deps": [
         "P20.2"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0
     },
     {
@@ -1610,12 +1610,12 @@
       ],
       "validation": {
         "kind": "process",
-        "evidence": ""
+        "evidence": "Claude cron named authoritative; attribution table in docs/autonomous-build.md"
       },
       "deps": [
         "P20.4"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0
     },
     {
