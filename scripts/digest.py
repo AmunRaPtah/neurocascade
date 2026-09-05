@@ -77,11 +77,74 @@ def hours_since_progress() -> float | None:
     return (datetime.now(timezone.utc) - ts).total_seconds() / 3600
 
 
+def repo_health(tasks: list[dict]) -> list[str]:
+    """Faults visible in the repository itself rather than in the event log.
+
+    Every stall this build has suffered was invisible to the event log, because
+    a wedged build stops emitting events. On 2026-08-11 a killed tick left a task
+    `running` with a dirty tree and later ticks refused to start. On 2026-09-03
+    the same signature appeared with the tick cron paused, so `--status` said
+    "nothing runnable" and the separate --verify-full cron skipped on the dirty
+    tree. By 2026-09-05 the full suite had not run for three days and nothing
+    anywhere said so: the digest keyed entirely off events, and there were none.
+
+    So this function reads state, not history, and its findings force a send.
+    """
+    faults: list[str] = []
+
+    dirty = subprocess.run(
+        ["git", "status", "--porcelain"], cwd=REPO,
+        capture_output=True, text=True).stdout.strip()
+    running = [t for t in tasks if t.get("status") == "running"]
+
+    if dirty and running:
+        faults.append(
+            f"  WEDGED: {running[0]['id']} is `running` and the tree is dirty "
+            f"({len(dirty.splitlines())} paths). Later ticks abort on a dirty "
+            "tree and the runner only picks `pending`, so this will not clear "
+            "itself. Recover the task or commit the work.")
+    elif dirty:
+        faults.append(
+            f"  dirty tree ({len(dirty.splitlines())} uncommitted path(s)). "
+            "--verify-full skips on this, so the full suite is not running.")
+    elif running:
+        faults.append(
+            f"  {running[0]['id']} has been `running` with a clean tree. "
+            "If no tick is live this task needs returning to pending.")
+
+    # The full suite skipping is only news if someone is told. Three consecutive
+    # skips passed unreported in September 2026.
+    log = REPO / "logs" / "verify-full-cron.log"
+    if log.exists():
+        tail = [ln for ln in log.read_text().splitlines() if ln.strip()][-5:]
+        trailing_skips = 0
+        for ln in reversed(tail):
+            if "full_suite_skipped" in ln:
+                trailing_skips += 1
+            else:
+                break
+        if trailing_skips >= 2:
+            faults.append(
+                f"  the full suite has skipped {trailing_skips} run(s) in a row. "
+                "The last recorded result is stale, not green.")
+
+    # A backlog with nothing runnable is either finished or abandoned, and the
+    # two look identical from here. Say it rather than going quiet, which is what
+    # happened between 2026-08-29 and 2026-09-05.
+    if not any(t.get("status") in ("pending", "running") for t in tasks):
+        faults.append(
+            "  nothing runnable: every task is done, failed or blocked. The "
+            "build is idle until a phase is added to tasks/backlog.json.")
+
+    return faults
+
+
 def build_digest(events: list[dict]) -> str:
     backlog = json.loads(BACKLOG.read_text())
     tasks = backlog["tasks"]
     done = sum(1 for t in tasks if t["status"] == "done")
     total = len(tasks)
+    faults = repo_health(tasks)
 
     finished = [e for e in events if e["kind"] == "finished"]
     quarantined = [e for e in events if e["kind"] == "quarantined"]
@@ -104,10 +167,17 @@ def build_digest(events: list[dict]) -> str:
     # digest on those alone means the one day it matters is the one day nothing
     # is sent. Faults are news too.
     if not (finished or quarantined or launch_failed or aborted
-            or full_suite or full_skipped or stalled):
+            or full_suite or full_skipped or stalled or faults):
         return ""
 
-    lines = [f"neurocascade autonomous build: {done}/{total} tasks done", ""]
+    lines = [f"neurocascade autonomous build: {done}/{total} tasks done"]
+    lines.append("validated claims: see docs/validation-ledger.md "
+                 "(task count is not progress)")
+    lines.append("")
+
+    if faults:
+        lines.extend(faults)
+        lines.append("")
 
     if stalled:
         reason = skipped[-1].get("reason", "?")
@@ -180,6 +250,14 @@ def build_digest(events: list[dict]) -> str:
     if failed:
         lines.append("")
         lines.append("needs a look: " + ", ".join(t["id"] for t in failed))
+
+    # Kept separate from `failed`. These are not broken; they are waiting on a
+    # number, and they are the only queue a human can actually clear.
+    on_data = [t for t in tasks if t["status"] == "blocked-on-data"]
+    if on_data:
+        lines.append("")
+        lines.append("waiting on data (needs you, not the runner): "
+                     + ", ".join(t["id"] for t in on_data))
 
     return "\n".join(lines)
 

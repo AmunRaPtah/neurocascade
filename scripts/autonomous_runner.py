@@ -93,6 +93,32 @@ Non-negotiable rules for this codebase:
 8. Commit your work with a clear message. Do not push; the runner pushes after
    the test gate passes.
 
+The next four rules were added on 2026-09-05 after an audit of how this backlog
+reached 77/77 while the model could predict exactly one measured human quantity.
+They are about what counts as finishing, and they override any instinct to leave
+a task looking complete.
+
+9. Scaffolding is not progress. A contract, a registry, a dataclass, a gate or a
+   schema is not a result no matter how well tested. A task closes on either a
+   prediction compared against a number nobody in this repository chose, or an
+   explicit searched-and-empty record. Phases 14 to 18 produced fifteen modules
+   and one sourced number; do not add to that pattern. Add your row to
+   docs/validation-ledger.md, which is the real measure of progress here.
+10. Never build a container for data you do not have. If the source cannot be
+   obtained, stop and report BLOCKED_ON_DATA with exactly what was unreachable
+   and where you looked. An empty registry with a `require_*` gate that always
+   fails is worse than nothing: it reads as capability and delivers none.
+11. The brief may be wrong about structure. It was written before the source was
+   read. Read the source first and follow what it actually prints; if that
+   contradicts the brief, follow the source and say so in your final message.
+   P19.5's brief assumed a three-compartment model where the source published a
+   two-compartment apparent-oral one.
+12. Check the load-bearing assumption before you build on it, not after. Thirty-
+   nine tasks of mouse-scale model were built before anyone tested whether the
+   mRNA-to-receptor-density proxy was defensible; it was not, and the whole layer
+   was retired. If your task rests on one assumption that could void it, test
+   that assumption first and report if it fails.
+
 The environment has network access. Use WebSearch and WebFetch to find real
 literature values. Prefer primary sources over review summaries when you can
 reach them.
@@ -117,9 +143,19 @@ available data, say so explicitly, commit whatever documentation of that
 conclusion is worth keeping (a searched-and-empty record), and explain in your
 final message.
 
+Before you finish, add or update this task's row in docs/validation-ledger.md.
+If the task produced no comparison against an externally measured number, say so
+there in the untested table rather than leaving the file untouched.
+
 End your final message with exactly one of these lines:
 TASK_RESULT: COMPLETE
 TASK_RESULT: BLOCKED <one-line reason>
+TASK_RESULT: BLOCKED_ON_DATA <what source was unreachable, and where you looked>
+
+BLOCKED_ON_DATA is the honest outcome when the work is gated on a number that
+does not exist or cannot be reached, and it is not a failure. Use it instead of
+building a placeholder, and instead of quietly narrowing the task to whatever
+happened to be reachable.
 """.strip()
 
 FIX_PROMPT = """
@@ -492,10 +528,21 @@ def _run_tick(dry_run: bool = False) -> int:
                   detail=final_text.strip()[:160] or "no output")
         return 1
 
+    # BLOCKED_ON_DATA is kept distinct from BLOCKED. Both stop the task, but the
+    # first says the science is waiting on a number that could not be reached and
+    # the second says the work itself failed. Collapsing them is how a data
+    # shortage gets re-read as an engineering backlog, which is the mistake that
+    # produced fifteen modules holding one sourced value.
     blocked_reason = ""
+    blocked_kind = ""
     for line in (final_text or "").splitlines():
-        if line.strip().startswith("TASK_RESULT: BLOCKED"):
-            blocked_reason = line.split("BLOCKED", 1)[1].strip()
+        stripped = line.strip()
+        if stripped.startswith("TASK_RESULT: BLOCKED_ON_DATA"):
+            blocked_reason = stripped.split("BLOCKED_ON_DATA", 1)[1].strip()
+            blocked_kind = "blocked-on-data"
+        elif stripped.startswith("TASK_RESULT: BLOCKED"):
+            blocked_reason = stripped.split("BLOCKED", 1)[1].strip()
+            blocked_kind = "blocked"
 
     # Commit anything the agent left uncommitted so the gate sees all of it.
     #
@@ -532,7 +579,7 @@ def _run_tick(dry_run: bool = False) -> int:
     made_commits = head != gate_baseline
 
     if tests_ok and made_commits:
-        task["status"] = "blocked" if blocked_reason else "done"
+        task["status"] = blocked_kind if blocked_reason else "done"
         task["finished_at"] = now()
         task["result"] = blocked_reason or "complete"
         task["commits"] = git("rev-list", "--count", f"{gate_baseline}..HEAD")
@@ -548,7 +595,7 @@ def _run_tick(dry_run: bool = False) -> int:
         return 0
 
     if tests_ok and not made_commits:
-        task["status"] = "blocked" if blocked_reason else "failed"
+        task["status"] = blocked_kind if blocked_reason else "failed"
         task["finished_at"] = now()
         task["result"] = blocked_reason or "agent produced no commits"
         commit_backlog(data, f"chore(backlog): {task['id']} {task['status']} (autonomous)")
@@ -586,7 +633,7 @@ def print_status() -> None:
     print()
     for t in data["tasks"]:
         mark = {"done": "x", "running": ">", "failed": "!", "blocked": "?",
-                "pending": " "}.get(t["status"], " ")
+                "blocked-on-data": "D", "pending": " "}.get(t["status"], " ")
         print(f"  [{mark}] {t['id']:6} {t['title']}")
     nxt = next_task(data)
     print(f"\nnext up: {nxt['id']} {nxt['title']}" if nxt else "\nnext up: nothing runnable")

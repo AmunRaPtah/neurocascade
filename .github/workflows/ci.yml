@@ -1,0 +1,59 @@
+name: tests
+
+# The repo ran from 2026-07-26 to 2026-09-05 with no CI at all. The only gate was
+# a local cron that a dirty working tree silently disabled, so the P7.3-to-P10.3
+# and P14-to-P18 stretches were never gated. This workflow is the gate that does
+# not depend on the state of one machine.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Nightly full sweep, including the slow (MCMC) tests.
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  fast:
+    # Every push. Deselects `slow` exactly as the per-task gate does.
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: pytest -m "not slow"
+        run: pytest -m "not slow" -q --junitxml=junit-fast.xml
+      - name: Upload results
+        # Always upload. A failure with no captured output is what the local
+        # verify log produced twice ("ok=False summary=") and it is unactionable.
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-fast
+          path: junit-fast.xml
+
+  full:
+    # Nightly and on demand only: the full suite takes ~30 minutes.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: pytest (full, including slow)
+        run: pytest -q --junitxml=junit-full.xml
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-full
+          path: junit-full.xml
