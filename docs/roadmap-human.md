@@ -322,6 +322,41 @@ single-dose occupancy curve driven by plasma kinetics will mispredict the
 multi-day offset unless an effect compartment or slow k_off is made explicit.
 Recording that mismatch is an acceptable outcome for the phase; hiding it is not.
 
+## Frozen for v1
+
+Added 2026-09-05, after the audit that found the backlog at 77/77 while the
+model could predict one measured human quantity. The three autonomous drivers
+generate scaffolding wherever the backlog points them, so pointing them at a
+layer that has no data produces contracts, registries and gates rather than
+predictions. Phases 14 to 18 are what that looks like at scale.
+
+The layers below are frozen for v1. Freezing is not deletion and not a judgement
+that the layer is wrong: it is a statement that the constraint on each is a
+number nobody has, so effort spent there buys nothing. Each carries the
+condition that would unfreeze it. `tests/test_v1_frozen_layers.py` enforces
+this: it imports the v1 entry points in a clean interpreter and fails if any
+frozen module is reachable, and it fails if a frozen module loses its entry
+here.
+
+| Frozen | Why | What unfreezes it |
+|---|---|---|
+| `neurocascade.circuit`, `neurocascade.human.ei_time_constants` | every Wilson-Cowan parameter is illustrative; the only fitted one, `GABA_A_CONNECTION_MODULATION_GAIN`, was rat-fitted and retired at the pivot | human-measured E/I time constants and connection weights |
+| `neurocascade.network`, `neurocascade.human.matrix`, `neurocascade.human.directed_prior` | whole-brain simulation rests on a connectome whose edge directions are inferred rather than measured, and the Jirsa directed-connectome URL is still unverified | a directed human connectome with measured directions |
+| `neurocascade.behavior`, `neurocascade.endpoints`, `neurocascade.human.behavioral_endpoints` | no test anywhere compares a predicted behaviour to a measured one; the human endpoints were retired in P17.4 | a human dataset linking exposure to a graded behavioural measure, with an identifiable Emax and baseline |
+| `neurocascade.opioid`, `neurocascade.human.mor_effect` | the mu-opioid chain is scaffolding: PK parameters and receptor Ki are `None` behind a gate | sourced human mu-opioid PK and Ki |
+| `neurocascade.human.gabaa_effect` | the operational model of agonism has no human parameters, and P14.4 established that no adult diazepam population PK exists | an adult, not pediatric, benzodiazepine population PK model |
+
+Two consequences bind Phases 21 to 24. No task may resume a frozen layer, which
+`test_no_backlog_task_after_phase_20_touches_a_frozen_layer` checks against the
+briefs themselves. And v1 claims nothing about behaviour: the deliverable is
+oral dose to striatal D2 occupancy against a sourced threshold, which is the one
+chain that has survived contact with a held-out number.
+
+What is deliberately not frozen is the off-target binding fingerprint of
+Phase 23. It is the only remaining test of the project's founding thesis, the
+data for it is free and public, and unlike the circuit layer its blocking
+constraint is work rather than an unobtainable measurement.
+
 ## Honesty discipline: unchanged
 
 Every rule from v1 carries over verbatim. Never invent a parameter. Never
