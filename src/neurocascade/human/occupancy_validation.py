@@ -723,10 +723,46 @@ class ClinicalOccupancyThreshold:
     region: str
     region_origin: str
     statistical_basis: str
+    #: A hazard specific to this source, where one exists. Not every threshold
+    #: has one, so it defaults to absent rather than to an empty string.
+    note: str | None = None
 
     def __post_init__(self):
         if not 0 < self.occupancy < 1:
             raise ValueError("occupancy must be a fraction strictly inside (0, 1)")
+
+
+#: Uchida and colleagues published two pooled analyses in J Clin Psychopharmacol
+#: volume 31 in 2011, with the same six authors in the same order, and this
+#: module cited one of them under the other's title until P21.2 caught it. The
+#: number was right and the identifier was right; only the title was borrowed
+#: from the sibling paper, which is the kind of error that survives review
+#: because every part of it looks correct on its own.
+#:
+#: They are different papers answering different questions, and the distinction
+#: is load-bearing here:
+#:
+#:   PMID 21694629, 31(4):497-502, "Dopamine D2 receptor occupancy and clinical
+#:   effects". Twelve studies, 82 subjects. Cutoffs against EPS and symptom
+#:   reduction; the 77-to-78-percent figure this module uses. No plasma
+#:   concentration modelling at all. Explicitly excludes partial agonists, which
+#:   is why it says nothing about aripiprazole.
+#:
+#:   PMID 21508857, 31(3):318-25, "Predicting dopamine D2 receptor occupancy
+#:   from plasma levels of antipsychotic drugs". Thirty-four treatment arms, 23
+#:   studies, 281 subjects. Fits a one-site binding model per drug to estimate
+#:   the total plasma concentration giving 50 percent occupancy, for
+#:   risperidone, clozapine, olanzapine, haloperidol and ziprasidone. This is
+#:   the multi-drug table Phase 21 needs, and it is fully paywalled: closed on
+#:   Unpaywall, OpenAlex, Semantic Scholar, Europe PMC and PMC, with no
+#:   repository deposit anywhere.
+UCHIDA_2011_IS_TWO_PAPERS = (
+    "Cited here for the clinical-effects paper, PMID 21694629, 31(4):497-502. "
+    "Its sibling PMID 21508857, 31(3):318-25, has the same six authors and the "
+    "confusable title 'Predicting dopamine D2 receptor occupancy from plasma "
+    "levels of antipsychotic drugs', and is the one carrying per-drug plasma "
+    "ED50 values. Neither substitutes for the other."
+)
 
 
 CLINICAL_OCCUPANCY_THRESHOLDS = (
@@ -793,10 +829,9 @@ CLINICAL_OCCUPANCY_THRESHOLDS = (
         as_printed="77% to 78%",
         source=(
             "Uchida H, Takeuchi H, Graff-Guerrero A, Suzuki T, Watanabe K, "
-            "Mamo DC. Predicting dopamine D2 receptor occupancy from plasma "
-            "levels of antipsychotic drugs: a systematic review and pooled "
-            "analysis. J Clin Psychopharmacol. 2011;31(4):497-502. "
-            "PMID 21694629."
+            "Mamo DC. Dopamine D2 receptor occupancy and clinical effects: a "
+            "systematic review and pooled analysis. J Clin Psychopharmacol. "
+            "2011;31(4):497-502. PMID 21694629."
         ),
         source_locator="abstract, Results",
         tracer=None,
@@ -807,6 +842,7 @@ CLINICAL_OCCUPANCY_THRESHOLDS = (
             "or above 0.5, pooled over 12 studies and 82 subjects. The full "
             "text is paywalled and was not obtained."
         ),
+        note=UCHIDA_2011_IS_TWO_PAPERS,
     ),
 )
 

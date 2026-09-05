@@ -593,6 +593,38 @@ def test_each_threshold_carries_what_a_reader_needs_to_discount_it():
     assert "paywalled" in uchida.statistical_basis
 
 
+def test_the_uchida_citation_names_the_paper_its_pmid_resolves_to():
+    """P21.2 found this module citing PMID 21694629 under its sibling's title.
+
+    Uchida and colleagues published two pooled analyses in J Clin Psychopharmacol
+    volume 31 in 2011 with the same six authors in the same order. The number
+    here and the identifier here were both right; only the title had drifted to
+    the other paper, which is why it survived. Pinned against the title PubMed
+    returns for that PMID, and against the sibling's, so a future edit cannot
+    swap them back silently.
+
+    This is checked offline against literal strings rather than by asking
+    PubMed, because the gate runs without a network. `scripts/verify_pmids.py`
+    is the online counterpart.
+    """
+    (uchida,) = [t for t in CLINICAL_OCCUPANCY_THRESHOLDS if "21694629" in t.source]
+
+    # PMID 21694629 -> J Clin Psychopharmacol. 2011 Aug;31(4):497-502.
+    assert "Dopamine D2 receptor occupancy and clinical effects" in uchida.source
+    assert "31(4):497-502" in uchida.source
+
+    # PMID 21508857 -> 31(3):318-25. Its title must not appear as this record's.
+    sibling_title = "Predicting dopamine D2 receptor occupancy from plasma"
+    assert sibling_title not in uchida.source, (
+        "the clinical-effects PMID has been given the plasma-levels title "
+        "again; they are different papers and neither substitutes for the other")
+
+    # The sibling is named somewhere, so the distinction is discoverable from
+    # the record rather than only from a commit message.
+    assert uchida.note and sibling_title in uchida.note
+    assert "21508857" in uchida.note
+
+
 def test_a_threshold_must_be_a_fraction_strictly_inside_zero_and_one():
     for bad in (0.0, 1.0, 78.0):
         with pytest.raises(ValueError, match="strictly inside"):

@@ -155,10 +155,18 @@ TASKS = [
         brief=(
             "Rule 12 applies: this phase rests on one assumption, that per-drug "
             "plasma EC50 values for D2 occupancy can be sourced. Test that before "
-            "building on it. Uchida 2011 (PMID 21694629) is a pooled systematic "
-            "review publishing exactly this table and is currently cited in this "
-            "repository only in prose. Attempt it first, then the primary PET "
-            "papers behind it. Report what is reachable per drug before any "
+            # Corrected by _fix_p21_2_pmid.py after P21.2 ran: this sentence
+            # originally sent the reader to PMID 21694629, which is the sibling
+            # paper and carries no ED50 table. See that script for the full
+            # account.
+            "building on it. The per-drug plasma ED50 table is in Uchida 2011 "
+            "PMID 21508857, 31(3):318-25, not in its sibling PMID 21694629, "
+            "31(4):497-502, which is the clinical-effects paper this repository "
+            "already cites for the 77-78% extrapyramidal threshold. 21508857 "
+            "was checked and is paywalled at every route tried, and its abstract "
+            "prints no ED50 and no concentration unit, so go to the primary PET "
+            "papers per drug and treat the pooled table as unreachable. "
+            "Report what is reachable per drug before any "
             "ingestion code is written. If fewer than four drugs are reachable, "
             "report BLOCKED_ON_DATA and stop rather than building a registry to "
             "hold values you do not have."

@@ -124,6 +124,15 @@ reason rather than dropped quietly.
 - **Uchida 2011, Lako 2013, PMC11843794.** Meta-analyses or re-digitisations of
   other authors' figures. Lako additionally pools across tracers, which the
   discipline in `pet_validation` forbids.
+
+  The Uchida meant here is **PMID 21508857**, 31(3):318-25, the plasma-levels
+  pooled analysis, which is the one that would otherwise have been a candidate
+  for haloperidol plasma-occupancy points. Its sibling, PMID 21694629,
+  31(4):497-502, is a different paper on clinical effects and is the source of
+  the 77-to-78-percent EPS threshold this project does use. Same six authors,
+  same journal, same year, confusable titles; P21.2 found the two conflated in
+  `occupancy_validation.py` and the disambiguation is now pinned there in
+  `UCHIDA_2011_IS_TWO_PAPERS`.
 - **"Nordstrom et al. 1993 Biol Psychiatry"**, named as a lead in the phase brief.
   PMID 8097114 is a raclopride study. Citing it for haloperidol would be an error;
   the lead is recorded here so it does not get re-followed.
