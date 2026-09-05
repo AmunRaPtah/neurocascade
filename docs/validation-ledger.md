@@ -68,3 +68,5 @@ Recorded as real results, per the standing honesty discipline.
 | Extrastriatal D2 | P19.6 | Tuppurainen 2009 excluded (n=2, no plasma); Kessler 2005 fallypride file is a 564-byte HTML stub |
 | Adult diazepam population PK | P14.4 | none exists; available model is pediatric |
 | Held-out compounds with a complete dose-to-behaviour chain | P8.3 | none of seven has one |
+| US approved oral dose range for amisulpride | P20.6 | not approved as an antipsychotic in the United States: its only application is Barhemsys, intravenous, for postoperative nausea and vomiting. Excluded from the P22.2 label-dose test; retained for the P22.3 PET test, where the European evidence applies |
+| A current innovator oral haloperidol label | P20.6 | none. Haldol oral tablets were discontinued, so all 68 current US oral labels are ANDA copies of a withdrawn label, and all use the pre-modern indication wording "management of manifestations of psychotic disorders". The dose range is still usable, but it is a generic's copy and is marked as such on the row |

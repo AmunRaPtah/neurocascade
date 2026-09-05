@@ -1619,6 +1619,27 @@
       "attempts": 0
     },
     {
+      "id": "P20.6",
+      "phase": "Phase 20: process repair, so the build can hold a validated result",
+      "title": "Spike: is the FDA approved dose range actually reachable per drug?",
+      "brief": "Phase 22 tests the chain's predicted 65-to-78-percent D2 occupancy window against the FDA-approved oral daily dose range for schizophrenia, which is held-out ground truth because it was set by the registration trials and has never entered any fit here. Before designing against that, establish it is reachable, for how many drugs, and with what traps. Fetch and snapshot the current label per drug from openFDA, pin the bytes by SHA-256 in a committed provenance module because data/ is gitignored, and record every drug that comes back empty as a searched-and-empty result rather than a gap. Do not parse a dose out of the label: the section is prose that separates initial from maintenance from maximum and adult from adolescent, so a regex over it would produce a number that looks sourced and is not. Transcription is a separate attributed step in P22.2.",
+      "acceptance": [
+        "scripts/fetch_fda_labels.py snapshots labels and writes provenance; it parses no dose",
+        "src/neurocascade/human/fda_sources.py pins application number, revision date and SHA-256 per drug, and is committed",
+        "Label selection filters on oral route before preferring an NDA, because the most recent NDA is a depot injection for 3 of 9 drugs",
+        "Label selection filters on indication, accepting the pre-modern wording 'management of manifestations of psychotic disorders' with which phrase matched recorded per drug",
+        "Drugs with no usable US oral label are recorded as searched-and-empty with the reason, not dropped",
+        "The reachable drug count is stated, and P22.2 is scoped to it"
+      ],
+      "validation": {
+        "kind": "searched-and-empty",
+        "evidence": "8 of 9 drugs have a usable US oral label. Amisulpride has none: its only US application is Barhemsys, intravenous, for postoperative nausea and vomiting, so it is excluded from the label-dose test in P22.2 and retained for the PET test in P22.3. Haloperidol has no current innovator oral label either, only 68 ANDA copies of a withdrawn one, which is recorded on the row rather than smoothed over because haloperidol is the drug the chain is validated on."
+      },
+      "deps": [],
+      "status": "done",
+      "attempts": 0
+    },
+    {
       "id": "P21.1",
       "phase": "Phase 21: multi-drug D2 occupancy, FDA-sourced",
       "title": "Turn the haloperidol EC50 constant into a drug registry",
