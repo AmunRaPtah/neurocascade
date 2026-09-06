@@ -51,6 +51,14 @@ MIN_SESSION_QUOTA = int(os.environ.get("NC_MIN_SESSION_QUOTA", 25))
 MIN_WEEK_QUOTA = int(os.environ.get("NC_MIN_WEEK_QUOTA", 15))
 MIN_MEM_MB = int(os.environ.get("NC_MIN_MEM_MB", 1500))
 
+# Server-truth quota, cached by the statusline (see /root/.claude/statusline-quota.sh).
+# quota-axi's Claude source authenticates separately and has been returning a
+# stale cached reading on this host, which quota_ok() then discards as expired,
+# leaving the build ungated. This file is written from the `rate_limits` block
+# the CLI itself reports, so when it is fresh it is the better source.
+QUOTA_CACHE = Path("/var/lib/claude-quota/rate-limits.json")
+QUOTA_CACHE_MAX_AGE_S = int(os.environ.get("NC_QUOTA_CACHE_MAX_AGE_S", 6 * 3600))
+
 ALLOWED_TOOLS = "Read,Write,Edit,Glob,Grep,Bash,WebSearch,WebFetch,TodoWrite,NotebookEdit"
 
 PROJECT_RULES = """
@@ -280,7 +288,42 @@ def _window_expired(resets_at) -> bool:
     return ts <= datetime.now(timezone.utc)
 
 
+def _quota_from_statusline_cache() -> tuple[bool, str] | None:
+    """Gate on the statusline's cached rate_limits, or None if unusable.
+
+    Returns None when the file is missing, malformed or older than
+    QUOTA_CACHE_MAX_AGE_S, so the caller falls back to quota-axi. A stale
+    reading is worse than no reading: the percentages only decay, so trusting
+    one wedges the build the same way an expired quota-axi window would.
+    """
+    try:
+        payload = json.loads(QUOTA_CACHE.read_text())
+        age = time.time() - float(payload["ts"])
+        limits = payload["rate_limits"]
+    except Exception:
+        return None
+    if age > QUOTA_CACHE_MAX_AGE_S:
+        return None
+
+    def remaining(window):
+        used = limits.get(window, {}).get("used_percentage")
+        return None if used is None else 100 - float(used)
+
+    session, week = remaining("five_hour"), remaining("seven_day")
+    if session is None and week is None:
+        return None
+    age_note = f"statusline cache {int(age // 60)}m old"
+    if session is not None and session < MIN_SESSION_QUOTA:
+        return False, f"session quota {session:.0f}% below {MIN_SESSION_QUOTA}% ({age_note})"
+    if week is not None and week < MIN_WEEK_QUOTA:
+        return False, f"weekly quota {week:.0f}% below {MIN_WEEK_QUOTA}% ({age_note})"
+    return True, f"session {session}%, week {week}% ({age_note})"
+
+
 def quota_ok() -> tuple[bool, str]:
+    cached = _quota_from_statusline_cache()
+    if cached is not None:
+        return cached
     try:
         r = subprocess.run(
             ["quota-axi", "--provider", "claude", "--json"],
