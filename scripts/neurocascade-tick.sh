@@ -7,7 +7,16 @@
 set -uo pipefail
 
 export HOME=/root
-export PATH="/root/.nvm/versions/node/v24.18.0/bin:/usr/local/bin:/usr/bin:/bin"
+# /usr/local/bin MUST precede the nvm bin dir. `claude` exists in both: the nvm
+# one is the raw CLI, and /usr/local/bin/claude is the wrapper that injects the
+# pinned durable setup token from /root/.claude-anthropic/oauth-token. With nvm
+# first, the runner got the raw binary, which falls back to
+# ~/.claude/.credentials.json, whose refresh token expired 2026-08-18, and every
+# tick died with "Failed to authenticate: OAuth session expired and could not be
+# refreshed". The ordering was harmless only while ticks were routed to
+# OpenRouter, which masked it. The wrapper resolves the newest nvm binary itself,
+# so the nvm entry is still needed for node, just not first.
+export PATH="/usr/local/bin:/root/.nvm/versions/node/v24.18.0/bin:/usr/bin:/bin"
 
 # The runner drives `claude -p --permission-mode bypassPermissions`, which the
 # CLI refuses to start as root unless IS_SANDBOX is set. An interactive session
