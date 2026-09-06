@@ -1656,8 +1656,10 @@
       "deps": [
         "P20.5"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "running",
+      "attempts": 1,
+      "started_at": "2026-09-06T10:24:20.010196+00:00",
+      "baseline": "9650ad960ebadb76b47bd42f64afe1b770c67756"
     },
     {
       "id": "P21.1",
