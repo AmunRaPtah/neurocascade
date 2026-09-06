@@ -14143,3 +14143,179 @@ structural rather than a matter of effort: there are zero
 `HumanDoseResponseObservation` instances outside test fixtures, and
 `fit_human_log_linear` requires three, so the fit is unreachable rather than
 merely unattempted.
+
+## Phase 21, part two: can the multi-drug occupancy table be obtained (P21.2)
+
+Phase 21 proposes to widen the validated core from one drug to nine. Every task
+downstream of this one, the population PK sourcing in P21.3, the active
+metabolite handling in P21.4, the partial agonism work in P21.5, the
+generalisation of the chain in P21.6 and the whole of the Phase 22 external
+validation, assumes that a per-drug plasma EC50 for striatal D2 occupancy can
+be sourced at all. That is a single load-bearing assumption carrying six tasks.
+This task tested it before any of them was built, and wrote no ingestion code
+at all.
+
+The result: eight of nine drugs are reachable from primary human sources.
+Paliperidone is not. The full per-drug record, with every route tried and every
+rejected candidate, is in `docs/p21-2-multi-drug-ec50-reachability.md`. What
+follows is why the task was shaped the way it was and what it changes about the
+phase.
+
+### The rubric was fixed before the searching started
+
+The failure mode of a reachability audit is that "reachable" quietly relaxes
+until the answer comes out positive. Four grades were written down first.
+REACHABLE_PRINTED requires a primary human PET or SPECT paper printing a
+constant in a concentration unit, read first-hand in retrieved text.
+REACHABLE_FITTABLE requires a free table of per-subject concentration and
+occupancy pairs, so the constant can be refitted here the way P19.4 refitted
+haloperidol's. SECONDARY_ONLY covers values readable only through a review,
+patent or manufacturer page. UNREACHABLE covers the rest. A figure is not a
+table, so a scatter plot never counts as fittable.
+
+The grades did the work they were meant to do. Paliperidone has a real striatal
+ED50 of 6.65 ng/mL in Arakawa 2008, and that number is easy to find, but every
+route to it runs through a Janssen medical-information page or a Janssen
+patent. Without the rubric it would have been transcribed as though sourced.
+With it, paliperidone is the one drug that does not clear the bar.
+
+### The literature search was fanned out and then re-verified from scratch
+
+Nine parallel subagents searched one drug each under an identical brief. That
+was the cheap part. The expensive and necessary part was that every claimed hit
+was then re-read by the primary session from the retrieved source text before
+it was written down.
+
+That check was not ceremonial. One search summary attributed Gründer's
+clozapine values, 950 ng/mL in putamen and 333 in inferior temporal cortex, to
+quetiapine. Another produced Uchida ED50 values in the register of a direct
+quotation from a paper that was never retrieved. A third path surfaced the EMA
+Okedi assessment report, which prints an EC50 of 4.6 ng/mL for risperidone ISM
+that is a PANSS efficacy constant rather than a D2 occupancy constant, sharing
+both the units and the order of magnitude of the thing being looked for. Any of
+the three would have put an invented or misattributed number into the model
+under a citation that looked legitimate.
+
+The general lesson for this repository is that a search summary is a lead, not
+a source. Rule 1 is enforceable only if the enforcing step is a first-hand read
+of retrieved text, and that step cannot be delegated to the same process that
+produced the lead.
+
+### The brief was wrong about where the table lives
+
+The task brief treats Uchida 2011 (PMID 21508857) as the pooled per-drug ED50
+table Phase 21 needs, and instructs that it be treated as unreachable so that
+per-drug primary sourcing can proceed as a fallback. The paywall half of that
+is right and was reproduced at every route: closed in Unpaywall, absent from
+PMC, 403 at LWW, abstract-only at Ovid, and nothing in the Toronto or Keio
+repositories.
+
+The contents half is wrong, and it inverts the phase's risk model. Uchida's own
+abstract states its inclusion rule, antipsychotics studied in twenty or more
+subjects, and names the five drugs that met it: risperidone, clozapine,
+olanzapine, haloperidol and ziprasidone. There is no quetiapine, aripiprazole,
+amisulpride or paliperidone value in that paper. Buying access would not have
+produced the table this phase was designed around. The per-drug primary route
+was never a fallback; it was the only route that could have worked.
+
+This is worth recording as a pattern rather than a one-off. The risk the brief
+identified was access. The actual risk was existence. A task that had spent its
+budget trying to obtain Uchida would have succeeded at the stated goal and
+still failed the phase.
+
+### Eight sourced constants are not eight of the same thing
+
+The count clears the threshold, but the values are heterogeneous in ways a
+naive registry would erase, and the ingestion task inherits four specific
+problems.
+
+The concentration bases differ. Remington's risperidone ED50 of 11.06 ng/mL is
+the active moiety, risperidone plus 9-hydroxy-risperidone summed. Suzuki's
+ziprasidone value is serum. Reeves's amisulpride value is total whole blood.
+Nord offers quetiapine as either parent or active moiety. de Greef's
+independent pooled table is corrected for molecular weight and plasma protein
+binding. A single `concentration_ng_per_ml` field with no basis field would
+silently mix five different quantities, and for risperidone the parent versus
+active-moiety confusion is an order-of-magnitude error rather than a rounding
+one. This is the same distinction P21.4 exists to handle, arriving a task
+earlier than expected.
+
+The Emax treatment differs. Suzuki and Nord both fixed it at 100% by fiat.
+Mamo defines it in the model equation and never prints an estimate. de Greef
+fitted it freely and obtained 87.5% to 101.8% across five drugs. A hyperbola
+with a fixed asymptote and a hyperbola with a fitted one are not the same
+object, and the repository's own V1 constant was fitted with its own
+convention.
+
+The within-drug spread across primary sources is 2- to 3-fold. Ziprasidone runs
+33, 39 to 64, and 84 ng/mL across three primary studies. Risperidone runs 6.08
+to 11.06. Clozapine's own regional values span nearly 3-fold within one paper.
+This matters because the ledger already records a 2 to 2.5-fold tracer spread
+as a floor larger than every held-out error V1 through V4 has produced. The
+multi-drug extension does not shrink that floor; it adds a second one of the
+same size.
+
+The populations differ. Nord's quetiapine subjects and Kim's aripiprazole
+subjects are healthy volunteers. The only printed amisulpride constant comes
+from twenty-eight elderly Alzheimer's patients, whose authors explicitly
+attribute their higher-than-expected occupancy to age-related blood-brain
+barrier changes and note their concentrations ran below the schizophrenia
+range. Under rule 2 that value cannot stand in for a schizophrenia-population
+amisulpride EC50, which is why the record grades amisulpride on two separate
+sources rather than one.
+
+### Two drugs can be refitted here rather than transcribed
+
+Risperidone and amisulpride both have free per-subject tables: Remington's
+Table 1 gives eighteen scan-level concentration and occupancy pairs, and la
+Fougère's Table 1 gives twenty-eight patient-level pairs spanning 27 to
+910 ng/mL. Both should be refitted in this repository on the P19.4 precedent
+rather than transcribed.
+
+The reason is the same one that motivated P19.4. A transcribed constant carries
+its author's Emax convention, censoring decisions and reference-group choice as
+invisible assumptions, and cannot be checked against anything. A refitted one
+exposes all of them and can be cross-validated. It also produces a residual,
+which a transcribed number never does.
+
+### Where the FDA route actually leads
+
+Phase 21 nominates the FDA as its primary data route. That is correct for PK
+and wrong for occupancy, and the distinction was worth establishing here rather
+than in P21.3. Five clinical pharmacology reviews were retrieved and searched:
+Invega Sustenna NDA 022264, Invega Trinza NDA 207946, Abilify Maintena NDA
+202971, Aristada NDA 207533 and Caplyta NDA 209500. None contains a plasma EC50
+for D2 occupancy. The Sustenna review is text-searchable across 306,000
+characters with zero hits for "EC50" or "receptor occupancy", its only "D2"
+being a zero-order input duration parameter. Caplyta prints in-vitro antagonist
+IC50 values against cloned human receptors and qualitative occupancy targets,
+neither of which is the quantity the chain needs.
+
+The division of labour that P21.3 assumes therefore holds: the FDA holds the
+population PK, and the PET literature holds the occupancy constants. The two
+have to be sourced separately and cited separately.
+
+### Open-access metadata is a hypothesis, not evidence
+
+Six DOIs in this search were flagged open access by Unpaywall, OpenAlex or
+Semantic Scholar and were not. Gründer 2006 and Kessler 2005 are flagged bronze
+and nature.com serves an HTML landing page in place of the PDF. Arakawa 2008,
+Kodaka 2011 and Takano 2004 are flagged green against QST repository records
+that carry `access_right c_14cb` and zero file objects in both their JSON and
+OAI-PMH representations. Vernaleken 2004 is flagged bronze and returns 403 at
+every route.
+
+Paliperidone's verdict turns entirely on this. Its green-OA flag is the reason
+it looked reachable and the repository record is the reason it is not. Future
+retrieval tasks should treat an OA flag as a lead worth one fetch, and record
+reachability only against a retrieved body.
+
+### What this task did not do
+
+It made no prediction and compared nothing against a measured number, so it
+earns no row in the validated table. It wrote no ingestion code, no registry
+and no container, because the point of testing an assumption before building on
+it is lost if the building happens anyway. Its ledger entry is a row in the
+untested table recording that the EC50 layer is now sourceable but unsourced,
+plus two searched-and-empty rows for paliperidone and for the Uchida pooled
+table.
