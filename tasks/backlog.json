@@ -1730,8 +1730,10 @@
       "deps": [
         "P21.3"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "running",
+      "attempts": 1,
+      "started_at": "2026-09-07T18:00:20.224826+00:00",
+      "baseline": "ae9f07cdc54fde4b6d86c900456835389d0dc6fa"
     },
     {
       "id": "P21.5",
