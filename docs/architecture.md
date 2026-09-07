@@ -14541,3 +14541,268 @@ input with its own `D3` and `F2` and left the disposition parameters meaning
 what they say. The diagnostic therefore predicts which rows are checkable this
 way before the answer is looked at, which is what distinguishes it from a
 post-hoc excuse for the misses.
+
+## Phase 21, part four: active metabolites that also occupy D2 (P21.4)
+
+The brief named risperidone and aripiprazole, whose metabolites 9-hydroxyrisperidone
+and dehydro-aripiprazole both bind D2, and asked for either a summed-occupancy
+model with sourced parameters or an explicit refusal. It ruled out silently
+ignoring the metabolite.
+
+The outcome is `human/active_metabolites.py`: two refusals, one clearance under a
+computed bound, and a gate wired into the chain ahead of the checks that would
+otherwise reject the same drugs for less useful reasons. The full source
+transcription is in `docs/p21-4-active-metabolites.md`; the design reasoning is
+below.
+
+### The failure is silent for an algebraic reason, and that dictates the design
+
+Two ligands competing for one receptor give
+`occupancy = (C_p/K_p + C_m/K_m)/(1 + C_p/K_p + C_m/K_m)`. If the metabolite
+tracks the parent at a fixed ratio `r = C_m/C_p`, this collapses to a rectangular
+hyperbola in the parent concentration alone, with apparent constant `K_p/(1+d)`
+where `d = r K_p/K_m`.
+
+So a parent-only fit to two-ligand data does not fail, does not warn, and
+produces no residual structure. It returns a smaller constant and relabels the
+metabolite's contribution as the parent's potency. Three consequences set the
+whole design.
+
+First, inside the regimen it was fitted in a parent-only EC50 is already correct,
+because it has absorbed the metabolite. Adding a metabolite term on top would
+count the metabolite twice, an error of the same size in the other direction and
+equally invisible. This is why the module refuses drugs rather than correcting
+them.
+
+Second, the error appears only across a change of regimen, by however much `r`
+moved. Whether `r` moved is an empirical question about two named regimens, and
+the evidence for it is half-lives and Tmax values rather than anything about
+receptors.
+
+Third, the size is set by `d`, not by `r`. Equal exposure at 85-fold weaker
+affinity is 1.2% of the drive; 40% exposure at equipotency is 40%. A registry
+keyed on exposure ratio alone would decide nothing, so `ActiveMetabolite`
+requires both ratios before it will issue a clearance.
+
+### The bound is what makes this a gate rather than a warning
+
+`max_occupancy_error()` returns `d/(1 + sqrt(1+d))**2`, the maximum over all
+doses of `x d/((1 + (1+d)x)(1 + x))` with `x = C_p/K_p`, attained at
+`x = 1/sqrt(1+d)`. Without it every active metabolite is an open worry. With it a
+metabolite either moves the prediction by more than the chain's existing error or
+it does not, and the comparison is arithmetic.
+
+The tests check the closed form against a brute-force maximisation on a
+log-concentration grid at six values of `d` spanning four orders of magnitude,
+rather than against the function's own output, because a closed form checked
+against itself tests nothing.
+
+### Haloperidol was checked first because V1 depends on it
+
+Rule 12 puts the load-bearing assumption ahead of the brief's own examples.
+Neither risperidone nor aripiprazole is in this chain; haloperidol is, and
+haloperidol has an active metabolite too. If reduced haloperidol contributed
+materially, V1 would be measuring something other than what it claims and both
+refusals would be beside the point.
+
+Exposure is human and primary: Uematsu 1992 (PMID 1432610) reports an RHL:HAL
+AUC ratio of 1.04 with SD 0.48 and an observed range of 0.39 to 1.99 across ten
+patients on oral maintenance. Affinity is rat only: Bowen 1990 (PMID 2155804)
+reports 85-fold weaker binding in rat striatal membranes, corroborated in
+direction by Jaen 1993 (PMID 7902870). No human-tissue D2 affinity for reduced
+haloperidol exists, and the searched-and-empty row records both query forms.
+
+Rule 2 forbids substituting a species, so the 85-fold is stored with
+`affinity_species="rat"` and every derived quantity is reported as conditional on
+the transfer. What it supports is the conclusion that the effect is negligible,
+which is the direction in which a cross-species assumption is least dangerous,
+and `affinity_is_cross_species` puts that on the record's face and into the
+printed summary.
+
+Conditional on the transfer, `d = 0.0122` and the worst-case occupancy error over
+all doses is 0.0030, which is 11.5-fold below the chain's own held-out MAE of
+0.0351. At the largest single-patient ratio Uematsu observed, 1.99, it is 0.0058,
+still below the MAE. The bound survives the whole observed range, which matters
+because Uematsu's regimen is oral and the repository's EC50 was fitted on depot
+steady state, where the ratio has not been measured. Haloperidol is therefore
+`bounded` rather than waved through.
+
+### Why the caveat is not a chain layer
+
+`OccupancyPrediction` carries the haloperidol record in `metabolite_caveats` and
+`summary()` prints it, but it is not a `ChainLayer`.
+
+A layer's provenance is a claim about a number the prediction consumed, and the
+prediction consumes nothing from this record. The parent-only EC50 has already
+absorbed whatever reduced haloperidol contributed in the depot regimen it was
+fitted in, per the first consequence above. Registering it as a layer with
+provenance `illustrative` would additionally degrade the whole prediction's
+provenance and break V1's own validation, in exchange for a metabolite that moves
+the answer by 0.003.
+
+### The two refusals are refused for structurally different reasons
+
+Aripiprazole fails on a regimen mismatch that is in principle repairable. The
+label's 40% AUC fraction is steady state; the only reachable in-vivo EC50, Kim
+2012's parent-only 11.1 ng/mL, is single-dose. The label supplies the evidence
+that these differ, in the 75 h against 94 h half-life pair and the 3 h against
+12 h Tmax pair: a metabolite that is slower on both accumulates to a larger share
+of the moiety at steady state. Kim's constant has therefore absorbed a smaller
+contribution than a steady-state prediction needs, and no published
+dehydro-aripiprazole EC50 exists to rebuild the two-ligand form and un-absorb it.
+A dehydro-aripiprazole EC50 would close this.
+
+Not a second parent-only fit, which is the first thing that was tried and the
+first thing that failed. Gründer 2008 does supply one at steady state, 10 ng/mL
+in putamen and 9 in caudate, reachable second-hand. A second parent-only constant
+is still a parent-only constant: it has absorbed whatever metabolite was present
+in its own subjects, so it relocates the regimen mismatch instead of removing it.
+
+Risperidone fails on well-posedness, which no future search closes. Beyond the
+absence of any parent-only risperidone EC50 established in P21.2, the label
+records that the parent:metabolite split is CYP2D6-phenotype dependent while the
+combined pharmacokinetics are not, with half-lives of 3 h and 21 h in extensive
+metabolisers against 20 h and 30 h in poor metabolisers. Parent risperidone
+concentration is therefore not a well-defined function of dose across a
+population, while the moiety is. A parent axis for this drug is not merely
+unsourced; it does not exist to be sourced.
+
+The registry keeps that distinction and a test asserts the two reasons differ, so
+that a later refactor cannot collapse them into a single rule and thereby lose
+the fact that one of them is repairable.
+
+The label's asserted equipotency for dehydro-aripiprazole is stored in `quotes`
+and not in `affinity_ratio`, and `drive_ratio()` raises for that pair. The label
+prints aripiprazole's own D2 Ki and none for the metabolite, so equipotency there
+is an unnumbered assertion; keeping it out of the numeric field is what stops it
+being consumed arithmetically. The record's `notes` state that taking it at face
+value would give a worst-case error of 0.084, which is 2.4-fold above the chain's
+MAE, and label that figure an illustration.
+
+### Two EC50 bases from one study measure an exposure ratio, and no affinities
+
+Gründer 2008 is the only study that publishes an aripiprazole EC50 on both the
+parent basis and the summed-moiety basis for the same subjects, 10/20 in putamen
+and 9/18 in caudate. Two bases are not two components and do not build the
+summed-occupancy form. They do measure the exposure ratio.
+
+At half occupancy `C_p/K_p + C_m/K_m = 1`. The parent-basis constant is `C_p*`
+at that point and the moiety-basis constant is `C_p* + C_m*` at the same point,
+so if the metabolite tracks the parent at ratio `r` then `M*/P* = 1 + r` exactly.
+The affinities cancel: they decide where half occupancy falls, and the identity
+divides two descriptions of one point.
+
+That property is what makes the result usable here. This repository refuses to
+substitute an in-vitro Ki for an in-vivo potency, so an exposure ratio that needs
+no affinity at all is worth a function of its own. Hence
+`exposure_ratio_from_ec50_bases()`, tested by constructing occupancy from the
+two-ligand form with affinities swept over a 22-fold range in each direction and
+recovering `r` to 1e-12, which is where a failure to cancel would appear. It
+raises rather than returning a negative ratio when the moiety constant is not
+above the parent constant, because a sum cannot reach half occupancy below one of
+its own parts and such a pair is not two bases of one fit.
+
+Applied to Gründer's regions, both give `r = 1.0`, against the ABILIFY label's
+0.40. Integer rounding cannot reconcile them: the most label-favourable rounding
+interval still bounds the ratio at 0.86 to 1.16 in putamen. The reporting review
+is internally inconsistent on the same point, attributing "usually 20-30%" of
+total occupancy to the metabolite, which is `d` of 0.25 to 0.43, two sentences
+before printing an EC50 pair that implies `d = 1.0`.
+
+So aripiprazole's exposure ratio is unsettled to 2.5-fold, and that is a third
+reason for refusal rather than a bound. A bound is computed from a ratio; here
+the sources disagree about which ratio. On the label's the metabolite is a
+2.4x-MAE problem and on Gründer's a 4.9x one, and both exceed the threshold, so
+the disposition does not turn on resolving it.
+
+### Risperidone's refusal is priced, which is what makes it a measurement
+
+The registry as first written could say only that risperidone's parent axis was
+missing. Both ratios turned out to be obtainable, and the refusal is now a
+number.
+
+Bråten 2022 (PMID 35253216) measured the metabolite:parent serum ratio in a
+therapeutic drug monitoring cohort stratified by CYP2D6 phenotype and NFIB
+genotype: ten subgroups from 0.25 to 33.11, with 9.93 (95% CI 8.55 to 11.54) in
+the 243-patient normal-metaboliser row. Schotte 1995 measured both ligands
+against cloned human D2L in one assay, Ki 5.9 nM for risperidone and 4.8 nM for
+9-OH-risperidone. A ratio of two same-assay Ki values is what sets relative
+occupancy drive and is not a Ki standing in for an EC50; the haloperidol record
+already rests on the same construction, and a test asserts the number came from
+Schotte's table rather than from the label's unnumbered equipotency claim.
+
+`d = 12.2`, and the worst-case occupancy error is **0.57**, sixteen times the
+chain's held-out MAE. The same closed form that clears haloperidol at 0.0030
+condemns risperidone at 0.57, so two of the three dispositions are now decided by
+arithmetic against the chain's own error rather than by argument.
+
+The conclusion is stressed against its weakest input rather than defended. At an
+affinity ratio ten times more favourable to the parent than the measured one, the
+error is still 0.197, nearly six times the MAE. The exposure ratio near 10 is
+what decides this drug, and even at the bottom of Bråten's 130-fold phenotype
+range, the poor-metaboliser ratio of 0.25, the error is 0.067, twice the MAE. No
+phenotype makes the parent-only path safe; they differ in how badly it fails,
+which is the label's phenotype dependence restated in occupancy units.
+
+### Gate ordering is deliberate because the three messages recommend three repairs
+
+`require_parent_only_path()` runs in `_require_receptor_record()` before the
+ligand check and before the existing summed-analyte check. All three would reject
+a risperidone record, so the ordering looks cosmetic and is not.
+
+The ligand message says the chain is haloperidol's, which invites a caller to
+generalise the chain, reopening the exact hole this task closes. The
+summed-analyte message says the constant is on the wrong axis, which invites a
+search P21.2 already ran to exhaustion and which cannot succeed. Only the
+metabolite message names the metabolite and states why the drug is unusable. A
+test hands in a risperidone record explicitly flagged `analyte_is_summed=False`,
+so the pre-existing gate cannot be the rejecter, and asserts the message names
+9-hydroxyrisperidone.
+
+### The rule 9 comparison uses the coincidence the brief pointed at
+
+The active-moiety problem offers one prediction against a number nobody here
+chose, and it exists only because risperidone's metabolite is itself an approved
+drug with its own PET study.
+
+If the label's equipotency claim holds, then for a moiety of mass `M` with the
+parent holding fraction `w`, competitive binding puts half-occupancy at the
+weighted harmonic mean `1/(w/K_r + (1-w)/K_p)`, with `K_r` obtained from
+paliperidone's own `K_p` by the molecular-weight ratio, because equipotency is a
+molar claim while the moiety assay sums masses. Arakawa 2008's paliperidone
+striatal ED50 of 6.65 ng/mL therefore predicts a risperidone active-moiety ED50
+of 6.52 ng/mL, and the prediction moves only between 6.40 and 6.65 across every
+possible composition, which is fortunate because the composition of neither study
+population is known.
+
+Remington 2006 measured 11.06 ng/mL on the long-acting injectable. The prediction
+misses 1.70-fold, predicting more potency than was observed, and the miss is
+reported rather than tuned away. `equipotency_check()` returns four caveats with
+the number: Arakawa is reachable second-hand only, the Emax convention on the
+Arakawa side is unestablished and P21.2 measured that this single choice moves
+clozapine 4.6-fold, the measured value is depot while the same group's oral
+figure of 6.08 ng/mL sits within 7% of the prediction, and equipotency on total
+plasma is a different claim from equipotency on free plasma given the 90% against
+77% binding difference.
+
+The check is not blind, because P21.2 transcribed the Remington value into this
+repository before P21.4 ran. The ledger row says so, on the same footing as V4.
+
+### What was deliberately not built
+
+No summed-moiety occupancy model, for any drug. It would need an in-vivo human
+EC50 for parent and metabolite on one concentration basis under one Emax
+convention. The published axes are moiety-only for risperidone, parent-only for
+aripiprazole, and parent-only for haloperidol with no human metabolite affinity
+at all. For no registered pair are both constants reachable, so a summation
+function would be a container for data that does not exist.
+
+`moiety_ec50_from_components()` exists as the algebra the equipotency check
+needs, not as a modelling path: it takes both constants as arguments and is
+reachable only by a caller who has them, which no registered drug does.
+
+What decides each case is sourced numbers rather than the registry structure: the
+0.40 AUC fraction and the 75/94 h half-life pair, the 3/21 h phenotype-dependent
+pair and the combined-pharmacokinetics statement, and the 1.04 exposure ratio
+against the 85-fold rat affinity ratio. A test asserts the registry is not empty
+and that every record carries the numbers its disposition rests on.

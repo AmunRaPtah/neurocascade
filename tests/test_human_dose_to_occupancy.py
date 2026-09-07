@@ -155,7 +155,15 @@ def test_records_for_another_drug_or_species_are_refused():
     with pytest.raises(ValueError, match="human haloperidol only"):
         predict_occupancy(5.0, pk_record=replace(record, drug="risperidone"))
     d2 = require_human_parameter("D2")
+    # Olanzapine rather than risperidone. P21.4 put the active-metabolite gate
+    # ahead of the ligand check, so a risperidone record is now refused for the
+    # stronger reason that its parent concentration does not determine its
+    # occupancy at all. Keeping risperidone here would have tested the ordering
+    # rather than the ligand check, so this case names a drug with no registered
+    # active metabolite and the risperidone case is asserted separately below.
     with pytest.raises(ValueError, match="not 'haloperidol'"):
+        predict_occupancy(5.0, receptor_record=replace(d2, ligand="olanzapine"))
+    with pytest.raises(ValueError, match="9-hydroxyrisperidone"):
         predict_occupancy(5.0, receptor_record=replace(d2, ligand="risperidone"))
 
 

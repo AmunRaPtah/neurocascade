@@ -57,6 +57,7 @@ from scipy.integrate import solve_ivp
 
 from ..pk import DosedTwoCompartmentPK
 from .d2_effect import d2_effect_from_occupancy
+from .active_metabolites import active_metabolites_for, require_parent_only_path
 from .kp_uu import kp_uu_records
 from .pet_validation import HALOPERIDOL_MW_G_PER_MOL
 from .pk_parameters import human_pk_records
@@ -147,6 +148,18 @@ class OccupancyPrediction:
     receptor_compartment: str
     ec50_nM: float
     layers: tuple
+    #: :class:`ActiveMetabolite` records for this drug whose disposition is
+    #: ``bounded``: metabolites that occupy the same receptor and were cleared
+    #: by an arithmetic bound rather than by being absent. A ``refused`` record
+    #: never reaches this field, because the prediction does not get built.
+    #:
+    #: These are not a layer. A layer's provenance is a claim about a number the
+    #: prediction consumed, and the chain consumes nothing from these records:
+    #: the parent-only EC50 already absorbs whatever the metabolite contributed
+    #: in the regimen it was fitted in. What the records carry is the size of
+    #: the residual risk if the driven regimen's exposure ratio differs from the
+    #: fitted one, which belongs in the caveats rather than in the arithmetic.
+    metabolite_caveats: tuple = ()
 
     @property
     def provenance(self):
@@ -217,6 +230,20 @@ class OccupancyPrediction:
                 "  %s: %s (%s) [%s]"
                 % (layer.name, layer.detail, layer.provenance, layer.status)
             )
+        for record in self.metabolite_caveats:
+            lines.append(
+                "  active metabolite %s: worst-case occupancy error %.4f if "
+                "ignored, %s [%s]"
+                % (
+                    record.metabolite,
+                    record.max_occupancy_error(),
+                    "conditional on the %s affinity ratio transferring to human"
+                    % record.affinity_species
+                    if record.affinity_is_cross_species
+                    else "human affinity ratio",
+                    record.exposure_citation,
+                )
+            )
         return "\n".join(lines)
 
 
@@ -278,6 +305,13 @@ def _require_receptor_record(receptor_record):
             "in-vivo EC50, and an in-vitro Ki is not substituted for one"
             % receptor_record.target
         )
+    # Ordered before the ligand check on purpose. Both would reject a
+    # risperidone record, but only this one says why the drug is unusable
+    # rather than why this chain is haloperidol's. A caller who reads "the D2
+    # record is for 'risperidone', not 'haloperidol'" will go and generalise
+    # the chain, and the parent-only path would then accept a drug whose parent
+    # concentration does not determine its occupancy (P21.4).
+    require_parent_only_path(receptor_record.ligand, target=_TARGET)
     if receptor_record.ligand != _DRUG:
         raise ValueError(
             "the %s record is for %r, not %r"
@@ -538,6 +572,7 @@ def predict_occupancy(
         receptor_compartment=model.receptor_compartment,
         ec50_nM=ec50_nM,
         layers=layers,
+        metabolite_caveats=active_metabolites_for(_DRUG, target=_TARGET),
     )
 
 
