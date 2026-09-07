@@ -1681,10 +1681,13 @@
       "deps": [
         "P21.2"
       ],
-      "status": "running",
+      "status": "done",
       "attempts": 1,
       "started_at": "2026-09-07T13:50:10.233598+00:00",
-      "baseline": "c73efde47223835a8d74b3374c6b6f5dce87146a"
+      "baseline": "c73efde47223835a8d74b3374c6b6f5dce87146a",
+      "finished_at": "2026-09-07T16:03:02.783824+00:00",
+      "result": "complete",
+      "commits": "1"
     },
     {
       "id": "P21.3",
