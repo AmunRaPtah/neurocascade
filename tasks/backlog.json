@@ -1651,15 +1651,13 @@
       ],
       "validation": {
         "kind": "searched-and-empty",
-        "evidence": ""
+        "evidence": "Assumption holds: 6 of 8 candidate drugs have a plasma EC50 for striatal D2 occupancy printed in an openable human PET paper (risperidone 11.06 ng/mL active moiety, Remington 2006; olanzapine 11.0, Mamo 2008; clozapine 950 putamen, Grunder 2006; ziprasidone 84, Suzuki 2013; aripiprazole 11.1 plasma / 8.63 effect-site, Kim 2012; amisulpride 143.6 putamen / 59.9 caudate, Vernaleken 2004). Paliperidone 6.65 ng/mL is reachable only second-hand via the sponsor's restatement of Arakawa 2008. Quetiapine is unreachable and the reason is structural: both primaries that attempted the fit report it failed. Above the four-drug floor, so not BLOCKED_ON_DATA. Rule 11 contradiction with the brief: Uchida 2011 (PMID 21508857) is confirmed paywalled, but all five of its per-drug ED50 values are quoted verbatim in open-access secondaries, so the paper is unreachable and its numbers are not. Schema findings for P21.1: EC50 is meaningless without the Emax it was fitted against (clozapine 105 vs 483 ng/mL on that choice alone), the concentration basis differs by drug (parent vs active moiety), and the region is not optional (amisulpride 2.4x putamen vs caudate). No FDA-sourced occupancy-concentration relation exists for any drug. No ingestion code written. Record: docs/p21-2-multi-drug-ec50-reachability.md"
       },
       "deps": [
         "P20.5"
       ],
-      "status": "running",
-      "attempts": 1,
-      "started_at": "2026-09-07T10:40:29.264895+00:00",
-      "baseline": "814bdbfd9417b006ff4ff62de401798705ac195c"
+      "status": "done",
+      "attempts": 1
     },
     {
       "id": "P21.1",

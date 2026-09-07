@@ -14143,3 +14143,147 @@ structural rather than a matter of effort: there are zero
 `HumanDoseResponseObservation` instances outside test fixtures, and
 `fit_human_log_linear` requires three, so the fit is unreachable rather than
 merely unattempted.
+
+## Phase 21, part two: whether a multi-drug occupancy table can be obtained at all (P21.2)
+
+Phase 21 proposes to make the D2 chain take a drug key instead of being
+hard-wired to haloperidol. That proposal rests on exactly one assumption: that a
+plasma EC50 for striatal D2 occupancy can be sourced per drug. P21.2 tested the
+assumption before anything was built on it, and wrote no ingestion code. The
+full per-drug record is in `docs/p21-2-multi-drug-ec50-reachability.md`; what
+follows is what the search changed about how the phase should be read.
+
+### The assumption holds, and the phase proceeds
+
+Six drugs have a plasma EC50 printed in a human PET paper that could actually be
+opened: risperidone (11.06 ng/mL, active moiety), olanzapine (11.0), clozapine
+(950 putamen), ziprasidone (84), aripiprazole (11.1 plasma / 8.63 effect-site)
+and amisulpride (143.6 putamen / 59.9 caudate). Paliperidone is reachable only
+through the manufacturer's restatement of its own registration study.
+Haloperidol the repository already holds. That is comfortably above the
+four-drug floor the brief set, so the outcome is not `BLOCKED_ON_DATA`.
+
+### The brief was right about the paper and wrong about the numbers
+
+The brief instructed that the pooled Uchida 2011 table be treated as unreachable
+and that the search go per drug to the primaries. The first half was confirmed
+independently: PMID 21508857 is `closed` at Unpaywall with no OA location, absent
+from PMC and Europe PMC, and its abstract prints per-drug prediction errors with
+no ED50 and no concentration unit anywhere.
+
+The instruction that followed does not survive contact with the sources, and
+rule 11 says to follow the sources. All five of Uchida's per-drug ED50 values are
+quoted verbatim in open-access secondaries, in both of the paper's
+parameterizations, including by the same first author restating his own constants
+in Uchida 2014. **The paper is unreachable; its numbers are not.** What is lost
+by going through a secondary is not the value but the apparatus around it: the
+study list behind each pooled fit, the intervals, and the ability to check
+overlap with data this repository has already used. Two of those losses turn out
+to be load-bearing, below.
+
+That route also carries a demonstrated failure mode rather than a theoretical
+one. A 2022 review's table pairs Uchida's risperidone Emax of 88% with the EC50
+of 8.2 ng/mL; in the source, 88.0% goes with 4.9 and 8.2 goes with Emax fixed at
+100%. The row describes a curve nobody fitted. Any second-hand value P21.1
+ingests has to carry the Emax from the same sentence, and be marked second-hand.
+
+### EC50 and Emax are one measurement, and this decides P21.1's schema
+
+This is the finding that most changes the design. Every recovered value is
+conditional on whether Emax was fitted or pinned at 100%, and the conditioning is
+not a refinement:
+
+| Drug | Emax free | Emax fixed 100% |
+|---|---|---|
+| Haloperidol | 0.32 ng/mL | 0.70 ng/mL |
+| Risperidone | 4.9 (Emax 88.0%) | 8.2 |
+| Olanzapine | 7.1 (Emax 90.7%) | 10 |
+| Clozapine | 105 (Emax 60%) | 483 |
+
+Clozapine moves by 4.6x on that choice alone. A registry field named `ec50_ng_ml`
+with no companion field recording the Emax it was fitted against stores an
+ambiguous number, and mixing conventions across drugs biases every comparison
+between them. The existing `D2Occupancy` model has no Emax term at all, which was
+defensible while the only drug was haloperidol fitted in one convention and
+becomes a silent cross-drug bias the moment a second drug arrives. P21.1 must
+store the pair, and the chain must refuse to compare across conventions rather
+than quietly doing it.
+
+### The concentration a drug's EC50 is expressed in is not the same quantity per drug
+
+Every reachable risperidone value is on the active moiety, parent plus
+9-hydroxyrisperidone summed; no parent-only risperidone EC50 was found anywhere.
+Every aripiprazole primary is parent-only, while the one active-moiety
+aripiprazole figure in the literature is roughly double it. Paliperidone is the
+sharpest case, because paliperidone *is* 9-hydroxyrisperidone: its 6.65 ng/mL is
+a pure-parent figure only because the subjects took paliperidone ER and had no
+risperidone to metabolise, so pooling it with the active-moiety 8.2 would be a
+category error rather than an approximation. This is what P21.4 exists for, and
+P21.2 establishes that the basis field is mandatory rather than a nicety: a
+summed concentration fed to a parent-basis EC50 is a two-fold error that raises
+no exception.
+
+### "Striatal" continues to be a label rather than a measurement
+
+The repository's own haloperidol points all carry `region=None` (P19.7). The new
+sources mostly do print a region, and what they print is that the region matters:
+amisulpride is 143.6 in putamen against 59.9 in caudate in the same nine subjects
+with the same tracer, a 2.4-fold spread, while ziprasidone runs the other way,
+174 putamen against 205 caudate. There is no consistent direction to correct for.
+Adding drugs whose sources record a region to a model anchored on a drug whose
+sources do not will widen the provenance gap rather than close it, and the
+registry should carry the region string as printed rather than normalising
+everything to "striatum".
+
+### Quetiapine fails for a reason that is not about the literature
+
+No primary prints a quetiapine plasma EC50 because the fits failed where they
+were attempted: Vernaleken 2010 "did not furnish valid fits for EC50 values in
+any brain region", Gefvert 2001 states the correlation "could not be calculated",
+and both de Greef 2011 and Uchida 2011 excluded the drug from their pooled
+models. The pharmacology explains it. Quetiapine's occupancy peaks modestly and
+falls to single-digit trough within a dosing interval, so a one-site curve fitted
+across scans taken at mixed times post-dose is fitting the scan schedule rather
+than an affinity.
+
+That is the same hysteresis Kim 2012 measured for aripiprazole and resolved with
+an effect compartment, which is why that paper reports two EC50 values, 11.1 for
+plasma and 8.63 for the effect site with a ke0 half-life of about an hour. The
+chain has no effect-site kinetics at all and its four `HUMAN_KE0_RECORDS` are
+illustrative. Quetiapine is therefore not a gap to be filled by a better search;
+it is the boundary of what a direct-effect plasma-to-occupancy model can
+represent, and it should be recorded as out of scope for the model's current form
+rather than as a missing constant.
+
+### The phase's "FDA-sourced" title does not survive this task
+
+Drugs@FDA was checked for ziprasidone, aripiprazole and paliperidone. Labels
+print in-vitro Ki values, not in-vivo EC50s; the older biopharmaceutics reviews
+are scanned and unindexed; the Invega submission lists a clinical pharmacology
+review whose every URL returns 404. No FDA-sourced occupancy-concentration
+relation was found for any drug. The occupancy layer of Phase 21 is
+literature-sourced, not regulator-sourced, and the FDA route has to earn its
+place in P21.3's population-PK layer instead.
+
+### A near-agreement that is deliberately not being claimed as a validation
+
+Uchida's Emax-constrained haloperidol ED50 of 0.70 ng/mL sits about 1.2% from the
+0.708 ng/mL (1.8849 nM) this repository fitted independently in P19.4. Against
+the V3 rows, where two published constants disagree with the repository's fit by
+enough to produce a one-signed bias of +0.0939, that agreement is conspicuous.
+It is not being recorded as a replication. Uchida pooled 35 haloperidol subjects
+across published PET studies and the study list is inside the paywalled paper, so
+whether the pool contains the Nyberg 1995 and Regenthal 1997 subjects the
+repository fitted on cannot be determined. An agreement of unknown independence
+is a provenance question, and it goes in the ledger as one.
+
+### Why no code
+
+Rule 10 and the task's own acceptance criteria both say the same thing here, and
+they would have said it even if the answer had come out the other way. The
+deliverable of P21.2 is the reachability record, because the registry's shape is
+decided by what the sources print and that was not known until they had been
+read. What they turned out to print, an EC50 that is meaningless without its
+Emax, a concentration basis that differs by drug, and a region that is not
+optional, is three schema requirements that a registry written before the search
+would not have had.
