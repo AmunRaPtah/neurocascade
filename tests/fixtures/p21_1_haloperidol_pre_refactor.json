@@ -1,0 +1,86 @@
+{
+ "generated_at_git_rev": "b6b0edc4cfbae9d7f81447c1199d128d09e16b2c",
+ "generator": "P21.1, run against the pre-refactor d2_ec50 module",
+ "note": "Bit-exact record of the haloperidol arm as it stood before d2_ec50 was turned into a drug-keyed registry. The curves are fixed by sha256 over their raw float64 bytes; the scalars are C99 hex, so every comparison in test_human_d2_registry.py is exact equality and not a tolerance.",
+ "recorded_constant_nM_hex": "0x1.e288ce703afb8p+0",
+ "free_fraction_hex": "0x1.70a3d70a3d70ap-4",
+ "refit_ec50_nM_hex": "0x1.e286417c63a56p+0",
+ "refit_free_basis_ec50_nM_hex": "0x1.d6b2fabe87526p-3",
+ "refit_interval_low_nM_hex": "0x1.61b42beb7c7b0p+0",
+ "refit_interval_high_nM_hex": "0x1.434165e86e94ap+1",
+ "refit_standard_error_nM_hex": "0x1.68098122cc283p-3",
+ "landscape": [
+  [
+   "fitted, depot, this repository",
+   "0x1.e286417c63a56p+0"
+  ],
+  [
+   "reported, oral, kapur1997",
+   "0x1.5b5d067872511p+0"
+  ],
+  [
+   "reported, oral, fitzgerald2000",
+   "0x1.10711e2c4594ep+0"
+  ],
+  [
+   "fitted, intravenous, videbaek2001",
+   "0x1.46dfd8cb6c322p+1"
+  ]
+ ],
+ "reported_comparisons": [
+  [
+   "kapur1997",
+   "0x1.639c6dae86ad2p+0"
+  ],
+  [
+   "fitzgerald2000",
+   "0x1.c567723e85500p+0"
+  ]
+ ],
+ "predictions": [
+  {
+   "dose_mg": 0.5,
+   "ec50_nM_hex": "0x1.e288ce703afb8p+0",
+   "times_min_sha256": "d999af515b0c867d2d6c4fd1c677c35f448ed5d5f39dfdc9d876514500d6f1f9",
+   "plasma_nM_sha256": "890a5c9f5799a81763c75dca70974fbb0c82144875631f0ad85681e569b43bf0",
+   "occupancy_sha256": "d04df99b6300b5f5ca18b412f3c0d811cd33eef80d23793d3b732491f0943eae",
+   "peak_plasma_nM_hex": "0x1.0adb6ff2c4965p-1",
+   "peak_occupancy_hex": "0x1.bba225e6816fep-3",
+   "time_of_peak_occupancy_min_hex": "0x1.8600000000000p+7",
+   "occupancy_at_240min_hex": "0x1.b72f943a19339p-3"
+  },
+  {
+   "dose_mg": 2.0,
+   "ec50_nM_hex": "0x1.e288ce703afb8p+0",
+   "times_min_sha256": "d999af515b0c867d2d6c4fd1c677c35f448ed5d5f39dfdc9d876514500d6f1f9",
+   "plasma_nM_sha256": "3a24057bcb819d5aa093e17a423f3a369628ce350e2e90c0a8fd32f3068f82b2",
+   "occupancy_sha256": "a8c1bac3924b752afa599c10df3678b1a4ad2b151ba16b098c836dbdb217078d",
+   "peak_plasma_nM_hex": "0x1.0adb6ff2c3e62p+1",
+   "peak_occupancy_hex": "0x1.0ce4801cc2c47p-1",
+   "time_of_peak_occupancy_min_hex": "0x1.8600000000000p+7",
+   "occupancy_at_240min_hex": "0x1.0b408f8f6472ep-1"
+  },
+  {
+   "dose_mg": 5.0,
+   "ec50_nM_hex": "0x1.e288ce703afb8p+0",
+   "times_min_sha256": "d999af515b0c867d2d6c4fd1c677c35f448ed5d5f39dfdc9d876514500d6f1f9",
+   "plasma_nM_sha256": "1450712b8b158e34f473525614cff2bc7144c853d249d7561f4cda23109ead03",
+   "occupancy_sha256": "115f57144021d735170dcb28bdf438ec536865555f4f651e7237864b87be9671",
+   "peak_plasma_nM_hex": "0x1.4d924bef76245p+2",
+   "peak_occupancy_hex": "0x1.780438342687ap-1",
+   "time_of_peak_occupancy_min_hex": "0x1.8600000000000p+7",
+   "occupancy_at_240min_hex": "0x1.76badbd0573f5p-1"
+  },
+  {
+   "dose_mg": 20.0,
+   "ec50_nM_hex": "0x1.e288ce703afb8p+0",
+   "times_min_sha256": "d999af515b0c867d2d6c4fd1c677c35f448ed5d5f39dfdc9d876514500d6f1f9",
+   "plasma_nM_sha256": "ddde50ab6a90f7aa07e026ca52177cee3054d6fd9d1a514d3647aeedca902c7e",
+   "occupancy_sha256": "3566f2091394d06dea628774045392de252996451ea99cf2d95630501f5ca306",
+   "peak_plasma_nM_hex": "0x1.4d924bef76755p+4",
+   "peak_occupancy_hex": "0x1.d58c42771da05p-1",
+   "time_of_peak_occupancy_min_hex": "0x1.8600000000000p+7",
+   "occupancy_at_240min_hex": "0x1.d50b8f0da47cbp-1"
+  }
+ ]
+}

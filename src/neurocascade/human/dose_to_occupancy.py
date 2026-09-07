@@ -6,7 +6,11 @@ The first end-to-end human chain in this repository. One entry point,
     dose (mg), route, body weight (kg), time (min)
         --HumanPKRecord for haloperidol PO, transcribed in P19.2-->
     total plasma concentration C(t), in nM
-        --occupancy = C / (C + EC50), fitted in P19.4-->
+        --occupancy = Emax * C / (C + EC50), fitted in P19.4, and since P21.1
+          read out of the drug-keyed registry in `human.d2_ec50` together with
+          the Emax convention, plasma basis and analyte it was fitted under.
+          Haloperidol's row pins Emax at 1, so the curve is the same hyperbola
+          it always was-->
     striatal D2 occupancy(t)
         --d2_effect, a unit-Emax re-expression-->
     D2Effect(t)
@@ -286,6 +290,15 @@ def _require_receptor_record(receptor_record):
             "none is applied here"
             % receptor_record.ec50_plasma_basis
         )
+    row = receptor_record.ec50_record
+    if row is not None and row.analyte_is_summed:
+        raise ValueError(
+            "the %s EC50 is expressed on %r, a summed active moiety, but this "
+            "chain integrates the parent drug alone. Feeding a parent "
+            "concentration to a summed-moiety constant is a silent error of "
+            "roughly twofold for the drugs P21.2 surveyed, so it is refused "
+            "rather than approximated." % (row.drug, row.analyte)
+        )
     return receptor_record
 
 
@@ -442,6 +455,19 @@ def predict_occupancy(
         species=pk_record.species,
     )
     ec50_nM = receptor_record.occupancy_constant_nM()
+    # P21.1: the occupancy ceiling comes from the registry row rather than being
+    # implicit in the hyperbola, because the constant and the Emax it was fitted
+    # against are one measurement. For haloperidol the row records Emax pinned at
+    # exactly 1, so this multiplication is the identity and the curve is
+    # unchanged; the point is that a drug fitted with a free Emax cannot enter
+    # this chain as if it had been fitted with Emax at 1.
+    ec50_row = receptor_record.ec50_record
+    emax = 1.0 if ec50_row is None else ec50_row.emax
+    emax_detail = (
+        "Emax is not recorded for this constant and is taken as 1"
+        if ec50_row is None
+        else "Emax %g, %s" % (ec50_row.emax, ec50_row.emax_convention)
+    )
 
     layers = (
         ChainLayer(
@@ -474,10 +500,11 @@ def predict_occupancy(
         ChainLayer(
             "occupancy",
             receptor_record.status,
-            "occupancy = C / (C + %.4f nM) on a %s plasma basis. %s"
+            "occupancy = Emax * C / (C + %.4f nM) on a %s plasma basis, %s. %s"
             % (
                 ec50_nM,
                 receptor_record.ec50_plasma_basis,
+                emax_detail,
                 receptor_record.ec50_uncertainty,
             ),
             receptor_record.ec50_citation,
@@ -496,7 +523,7 @@ def predict_occupancy(
     _gate_illustrative(layers, allow_illustrative)
 
     plasma_nM = _integrate(model, dose_mg / body_weight_kg, times)
-    occupancy = plasma_nM / (plasma_nM + ec50_nM)
+    occupancy = emax * (plasma_nM / (plasma_nM + ec50_nM))
 
     return OccupancyPrediction(
         drug=_DRUG,

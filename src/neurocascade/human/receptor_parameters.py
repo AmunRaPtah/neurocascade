@@ -26,9 +26,14 @@ carries a `ligand` field. The five records still awaiting a source leave it
 """
 from dataclasses import dataclass
 
-from .d2_ec50 import HALOPERIDOL_D2_PLASMA_EC50_nM
+from .d2_ec50 import d2_plasma_ec50
 from .d2_in_vitro import binding_ki_fold_spread, registry_efficacy, registry_ki
 
+# P21.1: the in-vivo EC50 and everything that qualifies it now come from one
+# registry row rather than from a bare module float plus prose repeated here.
+# The values below are the same floats they were; what changed is that the
+# basis, the analyte and the Emax convention travel with them.
+_D2_EC50 = d2_plasma_ec50("haloperidol")
 _D2_KI = registry_ki()
 _D2_EFFICACY = registry_efficacy()
 
@@ -56,6 +61,12 @@ class HumanReceptorParameter:
     ki_assay_conditions: str | None = None
     ki_citation: str | None = None
     efficacy_origin: str | None = None
+    # Added in P21.1. The :class:`neurocascade.human.d2_ec50.D2PlasmaEC50` row
+    # the EC50 fields above were copied out of, so a consumer that needs the
+    # analyte or the Emax convention can reach them without this dataclass
+    # growing a field per drug-specific qualifier. ``None`` on every record that
+    # has no in-vivo EC50.
+    ec50_record: object | None = None
 
     @property
     def usable(self):
@@ -130,22 +141,24 @@ HUMAN_RECEPTOR_PARAMETERS = (
             "is negative because haloperidol is an inverse agonist at human D2, not a "
             "neutral antagonist. See neurocascade.human.d2_in_vitro for every value, "
             "its assay conditions and what each source failed to print."
-            % (HALOPERIDOL_D2_PLASMA_EC50_nM / _D2_KI.value, binding_ki_fold_spread())
+            % (_D2_EC50.ec50_nM / _D2_KI.value, binding_ki_fold_spread())
         ),
-        ligand="haloperidol",
-        ec50_in_vivo_nM=HALOPERIDOL_D2_PLASMA_EC50_nM,
-        ec50_plasma_basis="total",
-        ec50_origin="fitted-in-repo",
+        ligand=_D2_EC50.drug,
+        ec50_in_vivo_nM=_D2_EC50.ec50_nM,
+        ec50_plasma_basis=_D2_EC50.plasma_basis,
+        ec50_origin=_D2_EC50.provenance,
         ec50_uncertainty=(
-            "95% profile-likelihood interval 1.382 to 2.525 nM, asymptotic standard "
-            "error 0.176 nM. Four group means from two depot studies, and the four "
-            "are not independent: each study measured the same eight patients at week "
-            "1 and week 4, so the interval is narrower than two independent groups "
-            "would justify. Both published oral relations, Kapur 1997 and Fitzgerald "
-            "2000, fall below the lower bound. Depot intramuscular steady state, "
-            "applied to an oral chain."
+            "95%% profile-likelihood interval %.3f to %.3f nM, asymptotic standard "
+            "error 0.176 nM. %s Depot intramuscular steady state, applied to an "
+            "oral chain."
+            % (
+                _D2_EC50.interval_low_nM,
+                _D2_EC50.interval_high_nM,
+                _D2_EC50.interval_caveat,
+            )
         ),
-        ec50_citation="Nyberg 1995 and Regenthal 1997 group means, fitted here",
+        ec50_citation=_D2_EC50.citation,
+        ec50_record=_D2_EC50,
         ki_radioligand=_D2_KI.tracer,
         ki_preparation=_D2_KI.preparation,
         ki_assay_conditions=(

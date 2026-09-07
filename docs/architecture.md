@@ -14287,3 +14287,125 @@ read. What they turned out to print, an EC50 that is meaningless without its
 Emax, a concentration basis that differs by drug, and a region that is not
 optional, is three schema requirements that a registry written before the search
 would not have had.
+
+## Phase 21, part one: the drug-keyed D2 EC50 registry (P21.1)
+
+Sequenced after P21.2, not before it. The brief for this task was explicit that
+the registry's schema is decided by what the sources actually print, and that if
+fewer than four drugs turned out to be reachable the refactor should not happen
+at all. P21.2 found six drugs with a plasma EC50 in a primary human PET paper,
+plus a seventh reachable only second-hand, so the precondition was met and this
+task ran.
+
+`src/neurocascade/human/d2_ec50.py` previously opened with
+
+    HALOPERIDOL_D2_PLASMA_EC50_nM = 1.8849
+    HALOPERIDOL_PLASMA_FREE_FRACTION = 0.090
+
+as two bare module floats, and every qualifier that makes those floats mean
+something, the total-plasma basis, the parent-only analyte, the depot regimen,
+the pinned Emax, the profile interval and its non-independence caveat, lived in
+prose scattered across three modules. That arrangement has exactly one drug's
+worth of room in it. The refactor moves the qualifiers into the record.
+
+### The schema is P21.2's three traps, made machine-checkable
+
+P21.2's finding was not "here are six numbers". It was that a bare EC50 is not a
+well-defined quantity, in three specific ways, each of which had already produced
+a silent error somewhere in the literature it surveyed. Each is now a required
+field rather than a paragraph.
+
+**Emax is a required companion, not an optional extra.** An EC50 fitted with Emax
+pinned at 100% and one fitted with Emax free are different parameters wearing the
+same name and the same units. Uchida's own two parameterizations of the same
+clozapine pool differ by 4.6×, 105 versus 483 ng/mL, and his haloperidol value
+moves from 0.32 to 0.70 ng/mL. A row therefore carries both `emax` and
+`emax_convention`, drawn from a closed vocabulary, and `__post_init__` refuses a
+row that claims `fixed-at-1` while carrying an Emax that is not exactly 1.0. The
+alternative, storing the number and hoping the convention was remembered, is the
+error that already happened once in a review that paired an Emax from one source
+with an EC50 from another.
+
+**The analyte is a boolean, not a string to be pattern-matched.** Risperidone's
+occupancy relations are quoted sometimes against parent risperidone and sometimes
+against the summed active moiety, which is roughly a factor of two and reads
+identically on the page. The row carries the analyte as printed *and* a separate
+`analyte_is_summed` flag, because a consumer needs to branch on that fact and
+should not do so by searching the free-text description for the word "active".
+The flag is load-bearing rather than decorative: `dose_to_occupancy` now refuses
+outright to run a summed-moiety EC50 through the chain, since the PK layer
+integrates the parent drug alone and pairing the two would produce a plausible
+curve that is wrong by about 2×. That refusal is the first consumer of the new
+schema and the reason the flag exists.
+
+**Region and tracer are stored as printed, including when nothing was printed.**
+Amisulpride's own paper gives 143.6 ng/mL in putamen and 59.9 in caudate, a 2.4×
+spread inside one drug and one study, so a registry that normalises everything to
+"striatum" would be inventing agreement. Haloperidol's row is the sharper case:
+all four points the repository fitted on carry `region=None` and `tracer=None`,
+and P19.7 already recorded that the "striatal" label on the project's central
+constant is inherited from surrounding context rather than printed by either
+source. The row now says `None` in both fields, which makes that gap visible at
+the point of use instead of only in a caveats section. `comparability_conflicts`
+reports region and tracer mismatches between two rows, and `require_comparable_with`
+raises on them, so a future cross-drug comparison has to state its terms.
+
+Two further fields come from P21.2's provenance findings. `provenance` is a
+closed vocabulary of `fitted-in-repo`, `primary`, `second-hand` and `sponsor`,
+and the last two additionally require `read_in` to name the document the value
+was actually read out of, because paliperidone's only reachable number is on a
+sponsor page citing Arakawa 2008 and Uchida's ED50 table survives only in
+secondaries quoting a paywalled primary. A row that came from a quoting document
+must say which document. The free fraction is likewise inseparable from its
+citation: `ec50_on_basis("free")` refuses when no fraction is recorded rather
+than assuming one, which matters because V2 in the ledger is the row where the
+total-to-free conversion **fails**, over-predicting with a one-signed bias.
+
+### The constant stays a recorded literal
+
+`ec50_nM=1.8849` is typed into the registry row rather than computed by calling
+`fit_plasma_ec50()` at import. Deriving it would look tidier and would be worse
+in three ways: it would make importing the module run a bisection fit, it would
+make the project's central constant depend on the SciPy build present at import
+time, and it would let a change in the fitting code silently move a number that
+the ledger's V1 row, the V3 comparison and four documents all quote explicitly.
+The fit is still the source of the number and is still tested against it; what
+the registry holds is the recorded result of that fit, with the interval and its
+caveat travelling alongside.
+
+### How "bit-identical" was actually proved
+
+The acceptance criterion was that haloperidol predictions are unchanged, and a
+tolerance-based test would not have tested it, since a refactor that shifted an
+occupancy by one ulp is still a refactor that changed the model. Before touching
+anything, the pre-refactor code at commit `b6b0edc` was run and its output
+recorded to `tests/fixtures/p21_1_haloperidol_pre_refactor.json`: sha256 digests
+over the raw float64 bytes of the time, plasma and occupancy arrays at four
+doses, plus every scalar in C99 `float.hex()` form, plus the refit, the interval,
+the landscape and the reported-relation comparisons. `tests/test_human_d2_registry.py`
+asserts equality against that fixture. Digests rather than full arrays because
+289 timepoints times four doses times two arrays is 50 KB of hex in the repository
+to prove a property a 3.5 KB file proves exactly as well.
+
+One place needed care to keep that identity. The chain's occupancy line became
+`occupancy = emax * C / (C + EC50)` so that the Emax convention is honoured
+rather than assumed, which introduces a multiplication that was not there before.
+It is safe because haloperidol's row pins `emax` at exactly 1.0 and IEEE-754
+multiplication by 1.0 is the identity on every finite value, including
+subnormals. The fixture confirms this empirically rather than the argument being
+taken on trust.
+
+### What this task is not
+
+Rule 9 says scaffolding is not progress, and rule 10 says never build a container
+for data you do not have. Both apply directly and neither is being finessed. This
+registry is a one-row table with a schema. It adds no drug, produces no new
+prediction, and earns no row in the validated table of the ledger; the ledger's
+untested row for non-haloperidol drugs has been updated to say exactly that. What
+distinguishes it from the empty-container failure mode is that the one row is
+real and already drives the working chain, and that P21.2 established by search
+that the remaining rows are reachable before any of this was written. There is no
+`require_*` gate that always fails. `d2_plasma_ec50` on an unregistered drug
+raises a message naming what is registered and pointing at
+`docs/p21-2-multi-drug-ec50-reachability.md`, so the refusal tells the reader
+where the missing data was looked for rather than implying it could be typed in.
