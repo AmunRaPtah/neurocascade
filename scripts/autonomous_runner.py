@@ -47,6 +47,9 @@ VENV_PY = Path("/root/projects/pardalos/.venv/bin/python")
 AGENT_TIMEOUT_S = int(os.environ.get("NC_AGENT_TIMEOUT_S", 150 * 60))
 TEST_TIMEOUT_S = int(os.environ.get("NC_TEST_TIMEOUT_S", 40 * 60))
 MAX_ATTEMPTS = int(os.environ.get("NC_MAX_ATTEMPTS", 3))
+# Consecutive "the agent never started" faults on one task before the build
+# pauses itself. Distinct from MAX_ATTEMPTS, which counts attempts at the work.
+MAX_INFRA_FAULTS = int(os.environ.get("NC_MAX_INFRA_FAULTS", 3))
 MIN_SESSION_QUOTA = int(os.environ.get("NC_MIN_SESSION_QUOTA", 25))
 MIN_WEEK_QUOTA = int(os.environ.get("NC_MIN_WEEK_QUOTA", 15))
 MIN_MEM_MB = int(os.environ.get("NC_MIN_MEM_MB", 1500))
@@ -291,10 +294,17 @@ def _window_expired(resets_at) -> bool:
 def _quota_from_statusline_cache() -> tuple[bool, str] | None:
     """Gate on the statusline's cached rate_limits, or None if unusable.
 
-    Returns None when the file is missing, malformed or older than
-    QUOTA_CACHE_MAX_AGE_S, so the caller falls back to quota-axi. A stale
-    reading is worse than no reading: the percentages only decay, so trusting
-    one wedges the build the same way an expired quota-axi window would.
+    Returns None when the file is missing, malformed, or holds no reading that
+    still describes the current quota window, so the caller falls back to
+    quota-axi.
+
+    Validity is decided per window by `resets_at`, not by file age. Usage only
+    rises inside a window, so a reading taken inside the window that is still
+    open is a lower bound on usage now: safe to block on, optimistic to pass
+    on. Once the window has rolled over the same number describes spending that
+    has already been refunded, and believing it wedges the build permanently.
+    File age is the fallback only for older payloads with no `resets_at`, which
+    is all the statusline wrote before 2026-09-07.
     """
     try:
         payload = json.loads(QUOTA_CACHE.read_text())
@@ -302,12 +312,16 @@ def _quota_from_statusline_cache() -> tuple[bool, str] | None:
         limits = payload["rate_limits"]
     except Exception:
         return None
-    if age > QUOTA_CACHE_MAX_AGE_S:
-        return None
 
     def remaining(window):
-        used = limits.get(window, {}).get("used_percentage")
-        return None if used is None else 100 - float(used)
+        entry = limits.get(window) or {}
+        used = entry.get("used_percentage")
+        if used is None:
+            return None
+        resets_at = entry.get("resets_at")
+        if resets_at is None:
+            return None if age > QUOTA_CACHE_MAX_AGE_S else 100 - float(used)
+        return None if time.time() >= float(resets_at) else 100 - float(used)
 
     session, week = remaining("five_hour"), remaining("seven_day")
     if session is None and week is None:
@@ -317,7 +331,33 @@ def _quota_from_statusline_cache() -> tuple[bool, str] | None:
         return False, f"session quota {session:.0f}% below {MIN_SESSION_QUOTA}% ({age_note})"
     if week is not None and week < MIN_WEEK_QUOTA:
         return False, f"weekly quota {week:.0f}% below {MIN_WEEK_QUOTA}% ({age_note})"
-    return True, f"session {session}%, week {week}% ({age_note})"
+    rolled = ",".join(
+        name for name, value in (("five_hour", session), ("seven_day", week))
+        if value is None
+    )
+    def pct(value):
+        return "n/a" if value is None else f"{value:.1f}%"
+
+    note = f"session {pct(session)}, week {pct(week)} ({age_note})"
+    if rolled:
+        # Say which window rolled over rather than printing a bare None%, the
+        # output that made the inert gate of 2026-09-06 read as a live one.
+        note += f" (window rolled over, no constraint: {rolled})"
+    return True, note
+
+
+def record_infra_fault(task: dict) -> tuple[int, bool]:
+    """Book one "the agent never started" fault against a task.
+
+    Returns the consecutive fault count and whether it has reached
+    MAX_INFRA_FAULTS. The attempt is rolled back because no attempt at the work
+    happened: an infrastructure fault that counted as an attempt would burn the
+    task's three real attempts on an environment problem, and one that counted
+    as nothing at all is what let P21.2 spin ten times on a dead auth token.
+    """
+    task["attempts"] = max(0, task.get("attempts", 1) - 1)
+    faults = task["infra_faults"] = task.get("infra_faults", 0) + 1
+    return faults, faults >= MAX_INFRA_FAULTS
 
 
 def quota_ok() -> tuple[bool, str]:
@@ -563,13 +603,36 @@ def _run_tick(dry_run: bool = False) -> int:
         # task the agent tried and lost. Put the task back to pending so a
         # repaired environment retries it, and name the cause in the event log
         # instead of recording a silent empty completion.
+        #
+        # Nothing bounded this until 2026-09-07. A dead auth token sent P21.2 to
+        # `attempts: 10` against a MAX_ATTEMPTS of 3, because this path returns
+        # the task to pending without the attempt itself counting for anything,
+        # and each cycle left a `chore(backlog)` pair behind: 20 churn commits in
+        # two hours, and one cycle swept an unrelated uncommitted edit into an
+        # "autonomous" commit. So roll the attempt back (no attempt at the task
+        # happened) and count infrastructure faults separately, with a ceiling
+        # that pauses the build for a human instead of spinning against a fault
+        # that a retry cannot fix.
         task["status"] = "pending"
         task["result"] = f"agent did not start: {final_text.strip()[:200]}"
+        faults, halted = record_infra_fault(task)
         task.pop("started_at", None)
+        detail = final_text.strip()[:160] or "no output"
         commit_backlog(data, f"chore(backlog): {task['id']} agent did not start (autonomous)")
-        log_event("agent_launch_failed", task=task["id"], attempts=task["attempts"],
-                  detail=final_text.strip()[:160] or "no output")
+        log_event("agent_launch_failed", task=task["id"], infra_faults=faults,
+                  detail=detail)
+        if halted:
+            PAUSED.write_text(
+                f"{faults} consecutive infrastructure faults on {task['id']} "
+                f"({detail}); fix the cause, then --resume (since {now()})\n"
+            )
+            log_event("build_paused", task=task["id"], infra_faults=faults,
+                      reason="infrastructure fault ceiling")
         return 1
+
+    # The agent did start, so any earlier launch faults on this task were
+    # transient and the ceiling above counts consecutive faults only.
+    task.pop("infra_faults", None)
 
     # BLOCKED_ON_DATA is kept distinct from BLOCKED. Both stop the task, but the
     # first says the science is waiting on a number that could not be reached and

@@ -34,6 +34,48 @@ Each tick:
 A task whose agent reports it cannot be completed honestly ends as `blocked`
 with the reason recorded, rather than as a silent success.
 
+## The quota gate, and how it reads a stale number
+
+The gate at step 2 reads the server-truth `rate_limits` block the CLI reports,
+which `/root/.claude/statusline-quota.sh` caches to
+`/var/lib/claude-quota/rate-limits.json`. `quota-axi` is the fallback only; its
+Claude source on this host returns a cached reading whose windows have all
+expired.
+
+Two failures shaped the current design, both found while resuming the build:
+
+- **A silent freeze (found 2026-09-07).** The CLI moved `rate_limits` from
+  `.current_usage` to the top level of the statusline payload; the statusline
+  read only the old path, so the cache stopped updating on 2026-08-29 while
+  every tick kept reading a plausible-looking file. A gate that cannot fail is
+  not a gate. The statusline now accepts either location.
+- **Age is the wrong validity test.** The statusline only writes while an
+  interactive session is rendering it, so an unattended overnight build sees
+  readings many hours old. Validity is decided per window by `resets_at`
+  instead: usage only rises inside a window, so a reading from a window that is
+  still open is a lower bound on usage now, which is safe to block on. Once the
+  window has rolled over the same number describes spending that has already
+  been refunded, and that window imposes no constraint. File age remains the
+  fallback for payloads written before `resets_at` was recorded.
+
+Covered by `tests/test_autonomous_runner_quota.py`.
+
+## When the session never starts
+
+Distinct from a killed tick: the agent process launches and exits having done
+nothing, leaving no output, no edits and no commits. Dead auth, a refused flag
+or a missing CLI all look like this. The task returns to `pending` and the
+attempt is rolled back, because no attempt at the work happened and an
+environment fault must not burn one of the task's three real attempts.
+
+Retrying cannot fix the cause, so consecutive faults on one task are counted and
+`MAX_INFRA_FAULTS` (3) of them writes `logs/.paused` and stops the build for a
+human. Without that ceiling, an expired token on 2026-09-06 sent P21.2 to
+`attempts: 10`, each cycle leaving a `chore(backlog)` start/rollback pair: 20
+churn commits in two hours, one of which swept an unrelated uncommitted edit
+into an "autonomous" commit. Covered by
+`tests/test_autonomous_runner_faults.py`.
+
 ## When a tick is killed
 
 A tick that dies mid-task (killed process tree, reboot, OOM) leaves its task
