@@ -14409,3 +14409,135 @@ that the remaining rows are reachable before any of this was written. There is n
 raises a message naming what is registered and pointing at
 `docs/p21-2-multi-drug-ec50-reachability.md`, so the refusal tells the reader
 where the missing data was looked for rather than implying it could be typed in.
+
+## P21.3: population PK transcribed from FDA review documents
+
+`src/neurocascade/human/fda_popk.py` holds 17 fitted parameter sets and 6
+searched-and-empty records drawn from 26 Drugs@FDA review PDFs. The narrative
+result, the access method and the failure analysis are in
+`docs/p21-3-fda-population-pk.md`. This section is the design reasoning.
+
+### Why a separate module rather than rows in `pk_parameters.py`
+
+`pk_parameters.py` holds one drug's parameters in the form the chain consumes:
+absolute, two-compartment, single analyte, one row. Nothing in this task fits
+that shape. Reviews fit one, two and three compartments; half the sets are
+apparent; several fit parent and metabolite simultaneously; two fit an oral and
+a depot sub-model in the same document. Widening the chain's dataclass to absorb
+all of that would have made the one working parameter set carry six optional
+fields it never uses, and would have let a depot sub-model reach
+`dose_to_occupancy` without anyone deciding that it should. The new module is a
+transcription surface with its own vocabulary, and the chain's existing
+`_require_pk_record` gate is untouched, so the two cannot be confused. Wiring is
+a later task, and it is a modelling decision rather than a transcription one.
+
+### Apparent is a field with evidence attached, not a derived property
+
+The obvious implementation is to infer `apparent` from the symbol: `CL/F` is
+apparent, `CL` is not. Two rows here break that and would break it silently.
+NDA 207946 prints bare `CL` and `V` under a legend fixing relative
+bioavailability, so it is apparent; NDA 022264 prints bare `CL` and `V` anchored
+to an IV reference, so it is not. Both would be read the same way by a symbol
+rule and one of them would be wrong by whatever `F` is.
+
+So `apparent_parameters` is a required boolean and `apparent_evidence` is a
+required quoted phrase from the document that decided it. There is no default
+and no inference. The only automatic check is one-directional: an explicit `/F`
+symbol may never appear in a record flagged absolute, while a bare symbol is
+permitted in an apparent one. The asymmetry is deliberate, because the symbol
+can be silent about apparentness but cannot lie in the other direction.
+
+### Five barriers instead of one "unreachable" flag
+
+Rule 1 requires a searched-and-empty record to say what was searched and why the
+candidates were unusable. A single boolean cannot, and here the distinctions are
+load-bearing for anyone deciding whether to try again. `redacted` (a full-page
+Trade Secret pull-sheet) is permanent. `image-table` is recoverable with OCR and
+in one case was recovered only partly. `not-fitted` means no analysis exists to
+find, so retrying is pure waste. `estimates-not-printed` means the analysis was
+performed and discussed and validated but no table was printed. `no-review-document`
+means the application has nothing posted. Four of the five are exercised by a
+real row, which is the test that keeps the taxonomy honest rather than
+aspirational.
+
+The distinction earned its keep immediately: P21.2 recorded the Invega oral
+review as a 404, and the correct fact is that it fetches and its popPK section is
+withheld across 13 pages. Those are opposite conclusions about whether to try
+again, and a boolean would have preserved neither.
+
+### Why `key` is five fields
+
+It started as `(drug, application_number, review_date)` and every widening was
+forced by a real collision, not anticipated. The review date, because one PDF
+contains two reviews of the same application completed a year apart. The analyte,
+because NDA 213586 fits risperidone and 9-hydroxyrisperidone as two separate
+models in one review. The formulation, because NDA 210655 fits an oral and a
+subcutaneous depot sub-model in one review with the same analyte and the same
+date, and NDA 209510 contains both the applicant's model and the FDA reviewer's
+refit of it, which disagree by 50% on clearance and by an order of magnitude on
+V3.
+
+`record()` therefore refuses ambiguity rather than returning the first match. An
+application number alone is not a key in this registry, and a caller who passes
+only one is asking a question with more than one answer; returning a row would
+let a depot sub-model be compared against an oral label with no sign that a
+choice was ever made.
+
+### `require_units()` returns the unit and raises when there is none
+
+Table 97 of NDA 209510, the FDA reviewer's refit, prints parameter values with no
+unit anywhere on the page. The neighbouring Table 92 prints the applicant's
+model in L/h and L, and copying those across is exactly the inference this
+project forbids: the two fits disagree substantially, so the assumption is not
+even locally safe. Assuming the units would have produced a terminal half-life
+of 88.7 h against a label of 4 to 5 h and the row would have entered the
+comparison as a spectacular false failure.
+
+The row is therefore transcribed with `units=None` and `require_units()` raises
+rather than defaulting. It returns the unit string rather than the value so that
+a caller must handle the unit explicitly to reach the number.
+
+### Why the closing comparison is half-life and how independent it is
+
+Rule 9 needs a number nobody here chose. Transcribed parameters cannot supply
+one, since checking a transcription against its source tests the typing. Label
+terminal half-life is a different FDA surface (openFDA/DailyMed rather than the
+review PDF) and is generally non-compartmental rather than model-derived.
+
+It is usable across the apparent/absolute line for an algebraic reason:
+half-life is a ratio, and `V/F` over `CL/F` cancels the unidentified `F` exactly.
+A half-life computed from apparent parameters is not itself apparent. That is
+the only quantity in these tables with that property, which is why the
+comparison is built on it and not on clearance.
+
+`terminal_half_life_h()` builds the rate-constant matrix and takes `ln 2` over
+the smallest-magnitude hybrid eigenvalue, solving the three-compartment cubic in
+closed form rather than using `0.693 V/CL`, which is correct only for one
+compartment. The tests check the two-compartment case against an independently
+derived closed-form beta root rather than against the function's own output.
+
+Independence is partial and the ledger row says so. Four of the five label
+sources are ANDA generics, whose labels copy the innovator's; `LabelHalfLife`
+carries an `innovator` flag so this cannot be forgotten, and only amisulpride's
+is one. Amisulpride is also partially circular, because the Barhemsys label
+quotes clearances from the model under test, although the half-life itself is
+non-compartmental.
+
+### The terminal AUC fraction is what makes the failures interpretable
+
+Eight of thirteen comparisons fail, and a bare fold error would leave that as a
+shrug. `terminal_phase_auc_fraction()` reconstructs the exponential coefficients
+from the eigenvalues and returns the share of total AUC carried by the slowest
+phase, which separates a real terminal phase from an arithmetic artefact.
+
+The two worst failures are exactly the two rows where that share collapses:
+ARISTADA INITIO at 0.050 with 164-fold error, ARISTADA at 0.180 with 56-fold.
+Both are depot fits that parked the prodrug release rate in a peripheral
+compartment, so the slowest eigenvalue is a release constant in a distribution
+compartment's clothing, carrying a twentieth of the exposure. ZYPREXA RELPREVV
+is the control: also a depot, also weeks-long, and it passes at fold 1.00,
+because its review modelled release explicitly as a mixed zero-order/first-order
+input with its own `D3` and `F2` and left the disposition parameters meaning
+what they say. The diagnostic therefore predicts which rows are checkable this
+way before the answer is looked at, which is what distinguishes it from a
+post-hoc excuse for the misses.

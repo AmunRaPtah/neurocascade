@@ -36,9 +36,23 @@ RETRIEVED = "2026-09-05"
 ENDPOINT = "https://api.fda.gov/drug/label.json"
 
 #: The approval packages carrying the Clinical Pharmacology and Biopharmaceutics
-#: Reviews that P21.3 needs for population PK. Not machine-fetchable: they are
-#: PDFs behind a per-application browse UI, so they are retrieved by hand and
-#: recorded with their application number and review date.
+#: Reviews that P21.3 needs for population PK.
+#:
+#: This comment used to say the packages were "not machine-fetchable: they are
+#: PDFs behind a per-application browse UI". P21.3 fetched 26 of them
+#: non-interactively and the claim is withdrawn. What was actually blocking the
+#: fetch, in order of how long each cost: the per-year document index is
+#: ``drugsatfda_docs/nda/<year>/<...>toc.html`` and not the ``.cfm`` the browse
+#: UI links to; sending a browser User-Agent trips the FDA WAF, which answers
+#: 302 to ``abuse-detection-apology.html`` while curl's default agent is served
+#: normally; the review filenames (ClinPharmR, BioPharmR, MultidisciplineR,
+#: IntegratedR) vary in case across years; and post-2020 tables of contents
+#: carry no literal links at all, synthesising the filenames in JavaScript from
+#: a ``pdfBaseName`` variable.
+#:
+#: The barrier that remains is inside the PDFs, not in front of them: sponsor
+#: final-parameter tables are usually raster images, which pdftotext skips
+#: without any signal that it did. See docs/p21-3-fda-population-pk.md.
 DRUGS_AT_FDA = "https://www.accessdata.fda.gov/scripts/cder/daf/"
 
 LABELS = [
