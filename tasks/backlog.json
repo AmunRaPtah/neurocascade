@@ -1730,12 +1730,11 @@
       "deps": [
         "P21.3"
       ],
-      "status": "running",
-      "attempts": 1,
+      "status": "pending",
+      "attempts": 0,
       "baseline": "1cb3b5cd1b605afbc648a7dfcc4dbcb044ee9316",
       "result": "agent did not start: You've hit your session limit \u00b7 resets 10:10pm (Europe/Berlin)",
-      "infra_faults": 1,
-      "started_at": "2026-09-07T18:10:11.693059+00:00"
+      "infra_faults": 2
     },
     {
       "id": "P21.5",
