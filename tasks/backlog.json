@@ -1829,12 +1829,11 @@
       "deps": [
         "P22.1"
       ],
-      "status": "running",
-      "attempts": 1,
+      "status": "pending",
+      "attempts": 0,
       "baseline": "0c50aa598a65a5617447fd3386a683afa684ad11",
       "result": "agent did not start: You've reached your Fable limit. Switch to another model to continue.",
-      "infra_faults": 1,
-      "started_at": "2026-09-08T22:00:15.132910+00:00"
+      "infra_faults": 2
     },
     {
       "id": "P22.3",
