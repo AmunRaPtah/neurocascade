@@ -1757,8 +1757,7 @@
       "status": "pending",
       "attempts": 0,
       "baseline": "0746eac263dfd8415c78a8d306f74f3beb56414b",
-      "result": "agent did not start: You've hit your session limit \u00b7 resets 3:10am (Europe/Berlin)",
-      "infra_faults": 3
+      "result": "agent did not start: You've hit your session limit \u00b7 resets 3:10am (Europe/Berlin)"
     },
     {
       "id": "P21.6",
