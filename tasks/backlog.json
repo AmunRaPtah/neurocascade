@@ -1779,11 +1779,12 @@
       "deps": [
         "P21.5"
       ],
-      "status": "pending",
-      "attempts": 0,
-      "baseline": "6277962a92b940129350a5e95d063252e6ca89a6",
+      "status": "running",
+      "attempts": 1,
+      "baseline": "fbb61a5f8b9cdccf3d607794d88519566fb845f6",
       "result": "agent did not start: You've hit your session limit \u00b7 resets 9pm (Europe/Berlin)",
-      "infra_faults": 1
+      "infra_faults": 1,
+      "started_at": "2026-09-08T19:00:11.287605+00:00"
     },
     {
       "id": "P22.1",
