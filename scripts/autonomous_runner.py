@@ -784,8 +784,21 @@ def main() -> int:
               else "no tick in flight; the tree is yours")
         return 0
     if args.resume:
+        # Clearing the flag is only half of undoing the pause. The build halts
+        # on `infra_faults >= MAX_INFRA_FAULTS`, and that counter is reset only
+        # by a launch that succeeds - so a resume that left it at the ceiling
+        # gave the offending task no tolerance at all: the next fault of any
+        # kind, on the very first tick, tripped the same pause again. The pause
+        # message asks a human to fix the cause first, and --resume is them
+        # saying they did, so take the counters with the flag.
+        data = load_backlog()
+        cleared = [t["id"] for t in data["tasks"] if t.pop("infra_faults", None)]
+        if cleared:
+            save_backlog(data)
         PAUSED.unlink(missing_ok=True)
-        print("resumed")
+        log_event("resumed", cleared_infra_faults=cleared)
+        print("resumed" + (f" (cleared infra faults on {', '.join(cleared)})"
+                           if cleared else ""))
         return 0
     if args.status:
         print_status()
