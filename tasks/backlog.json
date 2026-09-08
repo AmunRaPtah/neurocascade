@@ -1804,10 +1804,13 @@
       "deps": [
         "P21.6"
       ],
-      "status": "running",
+      "status": "done",
       "attempts": 1,
       "started_at": "2026-09-08T20:10:08.565089+00:00",
-      "baseline": "8f0c8530ef4aefe74313d10a512137e0ecde85ea"
+      "baseline": "8f0c8530ef4aefe74313d10a512137e0ecde85ea",
+      "finished_at": "2026-09-08T21:44:21.828495+00:00",
+      "result": "complete",
+      "commits": "2"
     },
     {
       "id": "P22.2",
