@@ -14806,3 +14806,110 @@ What decides each case is sourced numbers rather than the registry structure: th
 pair and the combined-pharmacokinetics statement, and the 1.04 exposure ratio
 against the 85-fold rat affinity ratio. A test asserts the registry is not empty
 and that every record carries the numbers its disposition rests on.
+
+## Phase 21, part five: partial agonism breaks the occupancy-limited transducer (P21.5)
+
+The brief observed that `D2Effect` carried `emax=1.0` and `baseline=0.0`, which
+makes `abs(effect)` equal occupancy identically. That is a re-expression of the
+occupancy curve, not a prediction, and the brief argued it is provably wrong for
+aripiprazole, a D2 partial agonist that sustains occupancy above 80% without the
+extrapyramidal consequence a full antagonist carries at that occupancy. It asked
+for intrinsic activity represented with a sourced value, or aripiprazole excluded
+with a recorded reason, and for the occupancy-equals-effect identity to stop
+holding silently for a partial agonist.
+
+The outcome is in `human/d2_effect.py`: a sourced functional classification of
+each D2 ligand and a drug-aware entry point `d2_effect_for_drug` that refuses a
+partial agonist by name. `OccupancyPrediction.effects()` now runs through that
+entry point. The design reasoning is below.
+
+### The identity is honest for an antagonist and false for a partial agonist, for one reason
+
+The transducer's effect is `direction * emax * max(0, occupancy - baseline)`. At
+`emax=1, baseline=0` its magnitude is occupancy exactly. That is defensible only
+for a silent D2 antagonist: every occupied receptor is a receptor removed from
+dopamine signalling, so occupancy is the fractional loss of D2 tone and the
+transducer is a sign-convention re-expression rather than a measurement. A
+partial agonist occupies the receptor but itself produces D2 signalling, so its
+occupancy overstates the functional effect by the drug's intrinsic activity.
+Applying `emax=1` to aripiprazole silently asserts that 90% occupancy is 90% loss
+of D2 tone, which is the claim its clinic falsifies: it holds roughly 85 to 95%
+striatal D2 occupancy while remaining largely EPS-sparing, where a full
+antagonist at that occupancy is not (Mamo 2007, PMID 17728427; Yokoi 2002, PMID
+12093598; Gründer 2008, PMID 18381901).
+
+### No single Emax can be sourced, so the honest move is exclusion not a fitted number
+
+Rule 1 forbids inventing the number, and the acceptance criterion offered
+exclusion with a recorded reason as an alternative to a sourced value. The
+literature settles which branch applies: aripiprazole's D2 intrinsic activity has
+no single defensible value because it is irreducibly system-dependent, and that
+is documented inside single primary papers rather than only across labs.
+
+Burris 2002 (PMID 12065741), in one human-D2L/CHO cAMP-accumulation assay,
+reports that "the efficacy of aripiprazole relative to that of dopamine varied
+from 25% in cells that lacked spare receptors for dopamine to 90% in cells with
+receptor reserve": one assay and one cell line, 25% to 90% by receptor reserve
+alone. Mailman and Murthy 2010 (PMID 19909227) find aripiprazole "appears to
+elicit D2-mediated functional effects that encompass the whole range of classic
+pharmacological intrinsic activity", a pure antagonist at GTPγS binding and GIRK
+activity yet a full agonist for tyrosine hydroxylase, with the cAMP intrinsic
+activity itself cell-line-dependent. Lawler 1999 (PMID 10327430) and Shapiro 2003
+(PMID 12784105) describe the same D2 action qualitatively as mixed
+agonist/antagonist and as cell-type-selective, consistent in direction.
+
+The value that would set a transducer Emax is a single in-vivo human D2 intrinsic
+activity, and that quantity does not exist. Intrinsic activity is an in-vitro
+operational construct, an Emax relative to a reference agonist in one given
+experimental system (Mailman and Murthy 2010's own definition), not a number
+measured once in humans. A 2026-09-08 search of PubMed and Europe PMC returned
+only in-vitro and animal functional characterizations and no human efficacy
+fraction; the searched-and-empty ledger row records the query forms. So there is
+nothing to fit, and the transducer excludes aripiprazole rather than assigning it
+a number.
+
+### What the code does, and why it is a dispatch rather than an always-failing gate
+
+`D2FunctionalClass` is a frozen record of one drug's functional type, its `kind`
+either `silent_antagonist` or `partial_agonist`, with a mandatory `reason` and
+`source`; construction rejects a classification with no citation. The registry
+holds two entries. Haloperidol is a silent antagonist, sourced to Mailman and
+Murthy 2010's grouping of it among antipsychotics with no D2 agonist intrinsic
+activity, and its transducer runs at `emax=1`, the identity that V1 already rests
+on. Aripiprazole is a partial agonist carrying the four-citation reason above,
+and `d2_effect_for_drug` raises `PartialAgonistTransductionError` for it.
+
+This is not the empty registry with an always-failing `require_*` gate that rule
+10 warns against. The gate passes for the one drug the chain actually integrates
+and refuses the one drug that would corrupt the transducer, so it dispatches on a
+real, sourced distinction rather than blocking everything. The raw
+`d2_effect_from_occupancy` is unchanged: it is the drug-agnostic construction
+where the caller supplies `emax` and takes responsibility, and the three original
+tests exercise it untouched. An unclassified drug raises `KeyError` naming the
+classified drugs rather than defaulting to the identity, so a future caller who
+generalises the chain meets the classification requirement instead of silently
+inheriting `emax=1`.
+
+### Relation to P21.4 and where the guarantee bites
+
+Aripiprazole is already refused upstream, at `require_parent_only_path` in
+`_require_receptor_record` (P21.4), so today the occupancy curve never reaches the
+transducer for it and the P21.5 refusal is defence in depth. The two refusals
+answer different questions and a caller could repair one without the other: P21.4
+refuses aripiprazole because parent concentration does not determine its occupancy
+across a regimen change, a data problem a dehydro-aripiprazole EC50 would close;
+P21.5 refuses it because occupancy does not determine its effect without an
+intrinsic activity that has no single value, which no PK measurement closes. The
+guarantee bites the moment either refusal is relaxed: if someone sources the
+missing EC50 and generalises the chain, `effects()` still refuses to transduce a
+partial agonist rather than silently returning occupancy as effect.
+
+### Rule 9 disposition
+
+No comparison against an externally measured number was produced, and the ledger
+says so in the untested table. The task closes on the other admissible outcome: a
+machine-enforced exclusion with a recorded, sourced reason, plus a
+searched-and-empty record that no in-vivo human D2 intrinsic activity exists. The
+regression it prevents is concrete and tested: at identical 0.9 occupancy the
+silent antagonist yields `abs(effect)` of 0.9 while the partial agonist raises, so
+the two functional classes no longer collapse to one silent number.

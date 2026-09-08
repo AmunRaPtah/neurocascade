@@ -164,7 +164,15 @@ from .occupancy_validation import (
 )
 from .failure_analysis import HUMAN_LAYER_FINDINGS, LayerFinding, blocking_findings, human_failure_analysis
 from .gabaa_effect import GABAAOperationalModel, HUMAN_GABAA_OPERATIONAL_PRIOR
-from .d2_effect import D2Effect, d2_effect_from_occupancy
+from .d2_effect import (
+    D2Effect,
+    D2FunctionalClass,
+    PartialAgonistTransductionError,
+    d2_effect_for_drug,
+    d2_effect_from_occupancy,
+    d2_functional_class,
+    registered_d2_functional_classes,
+)
 from .dataset_manifest import HumanDatasetManifest, validate_manifest, validate_manifest_set
 from .dmri_fallback import (
     DMRIFallback,
@@ -272,7 +280,12 @@ __all__ = [
     "HUMAN_GABAA_OPERATIONAL_PRIOR",
     "d2_effect",
     "D2Effect",
+    "D2FunctionalClass",
+    "PartialAgonistTransductionError",
+    "d2_effect_for_drug",
     "d2_effect_from_occupancy",
+    "d2_functional_class",
+    "registered_d2_functional_classes",
     "HumanDatasetManifest",
     "validate_manifest",
     "validate_manifest_set",

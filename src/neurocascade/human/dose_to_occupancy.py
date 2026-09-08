@@ -56,7 +56,7 @@ import numpy as np
 from scipy.integrate import solve_ivp
 
 from ..pk import DosedTwoCompartmentPK
-from .d2_effect import d2_effect_from_occupancy
+from .d2_effect import d2_effect_for_drug
 from .active_metabolites import active_metabolites_for, require_parent_only_path
 from .kp_uu import kp_uu_records
 from .pet_validation import HALOPERIDOL_MW_G_PER_MOL
@@ -203,12 +203,18 @@ class OccupancyPrediction:
     def effects(self):
         """The D2 transducer applied pointwise to the occupancy curve.
 
-        Emax is 1 and baseline occupancy is 0 because no human value has been
-        fitted for either, so ``abs(effect)`` equals occupancy exactly. This is a
-        re-expression of the occupancy curve on the transducer's sign convention,
-        not a prediction of any behavioural or clinical quantity.
+        Applied through the drug-aware transducer. For haloperidol -- a silent
+        D2 antagonist -- Emax is 1 and baseline occupancy is 0, so
+        ``abs(effect)`` equals occupancy exactly: a re-expression of the
+        occupancy curve on the transducer's sign convention, not a prediction of
+        any behavioural or clinical quantity. The drug-aware path refuses a D2
+        partial agonist (P21.5) rather than silently applying the same identity,
+        because a partial agonist's occupancy overstates its effect by an
+        intrinsic activity that has no single sourced human value.
         """
-        return tuple(d2_effect_from_occupancy(float(value)) for value in self.occupancy)
+        return tuple(
+            d2_effect_for_drug(float(value), self.drug) for value in self.occupancy
+        )
 
     def summary(self):
         lines = [
@@ -549,8 +555,11 @@ def predict_occupancy(
             "structural",
             "d2_effect with Emax 1 and baseline occupancy 0, neither of which "
             "has been fitted in a human, so the effect is the occupancy curve on "
-            "the transducer's sign convention and is not a behavioural claim",
-            "neurocascade.human.d2_effect (P16.1)",
+            "the transducer's sign convention and is not a behavioural claim. "
+            "The identity is honest only because haloperidol is a silent D2 "
+            "antagonist; the drug-aware transducer refuses a D2 partial agonist "
+            "(P21.5) rather than apply Emax 1 to it",
+            "neurocascade.human.d2_effect (P16.1, P21.5)",
             "structural",
         ),
     )
