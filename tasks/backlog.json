@@ -1754,10 +1754,11 @@
       "deps": [
         "P21.4"
       ],
-      "status": "pending",
-      "attempts": 0,
-      "baseline": "0746eac263dfd8415c78a8d306f74f3beb56414b",
-      "result": "agent did not start: You've hit your session limit \u00b7 resets 3:10am (Europe/Berlin)"
+      "status": "running",
+      "attempts": 1,
+      "baseline": "49058226770d3c6b8b0b3d3dabf33a1b8a196f5e",
+      "result": "agent did not start: You've hit your session limit \u00b7 resets 3:10am (Europe/Berlin)",
+      "started_at": "2026-09-08T14:50:03.183440+00:00"
     },
     {
       "id": "P21.6",
