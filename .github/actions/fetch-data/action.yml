@@ -1,0 +1,51 @@
+name: Fetch source data
+description: >
+  Restore (or download) the Allen connectome and ISH expression caches the
+  test suite reads.
+
+# Why this exists
+# ---------------
+# `data/` is gitignored on purpose: the committed half of the contract is the
+# checksummed manifest, not the bytes. That works on a developer box where the
+# cache was fetched once, and it silently did not work in CI, where every run
+# started from a clean checkout with no cache at all. The first five CI runs
+# after the workflow was added were red for exactly this reason - 26 setup
+# errors and failures across test_heldout_forward, test_endpoint_forward and
+# test_expression_density, all of them `MissingCachedFile` or "no expression
+# fixture for 'Grin1'" (the committed fixtures cover 8 genes; those tests want
+# the real 42-gene cache).
+#
+# This is a composite action rather than steps pasted into both jobs so the
+# fast and full jobs cannot drift into fetching different data - the same
+# argument datafetch.py makes for having one Fetcher instead of two copies.
+#
+# Only the two small caches are fetched. `data/human/` is 1.8 GB and no test
+# in either job touches it.
+
+runs:
+  using: composite
+  steps:
+    - name: Restore data cache
+      id: cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          data/connectome
+          data/expression
+        # Keyed on the manifests, so a deliberate manifest bump (a revised
+        # Allen ontology, a re-run ISH pipeline) misses the cache and re-fetches
+        # rather than verifying new digests against stale bytes. No
+        # restore-keys: a partial match here would mean exactly that.
+        key: nc-data-v1-${{ hashFiles('src/neurocascade/legacy/connectome/sources.py', 'src/neurocascade/legacy/expression/sources.py') }}
+
+    - name: Fetch and verify
+      shell: bash
+      # Runs on a hit too, and costs nothing there: `download` returns early
+      # for any key already cached at the manifest digest. On a hit this is a
+      # verification pass over the restored bytes; on a miss it is the ~16 MB
+      # download. Both scripts exit 1 on a checksum mismatch, which is the
+      # intended hard failure - a moved Allen query must be read by a human,
+      # not retried.
+      run: |
+        python scripts/fetch_connectome.py
+        python scripts/fetch_expression.py

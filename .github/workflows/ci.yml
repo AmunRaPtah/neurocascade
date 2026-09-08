@@ -26,6 +26,7 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: pip install -r requirements.txt
+      - uses: ./.github/actions/fetch-data
       - name: pytest -m "not slow"
         run: pytest -m "not slow" -q --junitxml=junit-fast.xml
       - name: Upload results
@@ -49,6 +50,7 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: pip install -r requirements.txt
+      - uses: ./.github/actions/fetch-data
       - name: pytest (full, including slow)
         run: pytest -q --junitxml=junit-full.xml
       - name: Upload results

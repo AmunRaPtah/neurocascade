@@ -45,7 +45,14 @@ EVENTS = LOGS / "events.jsonl"
 VENV_PY = Path("/root/projects/pardalos/.venv/bin/python")
 
 AGENT_TIMEOUT_S = int(os.environ.get("NC_AGENT_TIMEOUT_S", 150 * 60))
+# Two budgets, because one number covered two very different runs. The gate
+# deselects `slow` and finishes in minutes; the full sweep takes ~30 (1826s on
+# 2026-09-07) and on 2026-09-08 crossed the shared 40-minute ceiling and was
+# recorded as a failure it was not. The sweep now gets the same 90 minutes the
+# CI `full` job allows, and the gate keeps a ceiling tight enough to still mean
+# something.
 TEST_TIMEOUT_S = int(os.environ.get("NC_TEST_TIMEOUT_S", 40 * 60))
+FULL_TEST_TIMEOUT_S = int(os.environ.get("NC_FULL_TEST_TIMEOUT_S", 90 * 60))
 MAX_ATTEMPTS = int(os.environ.get("NC_MAX_ATTEMPTS", 3))
 # Consecutive "the agent never started" faults on one task before the build
 # pauses itself. Distinct from MAX_ATTEMPTS, which counts attempts at the work.
@@ -475,16 +482,26 @@ def run_tests(log_path: Path, full: bool = False) -> tuple[bool, str]:
     if not full:
         cmd += ["-m", "not slow"]
     label = "pytest (full suite)" if full else "pytest (gate, slow deselected)"
+    timeout_s = FULL_TEST_TIMEOUT_S if full else TEST_TIMEOUT_S
     with log_path.open("a") as logf:
         logf.write(f"\n===== {label} {now()} =====\n")
         logf.flush()
         try:
             r = subprocess.run(
-                cmd, cwd=REPO, capture_output=True, text=True, timeout=TEST_TIMEOUT_S,
+                cmd, cwd=REPO, capture_output=True, text=True, timeout=timeout_s,
             )
-        except subprocess.TimeoutExpired:
-            logf.write("pytest timed out\n")
-            return False, "pytest timed out"
+        except subprocess.TimeoutExpired as exc:
+            # Keep what pytest had already printed. A bare "pytest timed out"
+            # with no output is what the verify log recorded on 2026-09-08, and
+            # it says nothing about which test was hanging.
+            partial = "".join(
+                stream.decode(errors="replace") if isinstance(stream, bytes)
+                else (stream or "")
+                for stream in (exc.stdout, exc.stderr)
+            )
+            logf.write(partial)
+            logf.write(f"\npytest timed out after {timeout_s}s\n")
+            return False, f"pytest timed out after {timeout_s}s"
         out = r.stdout + r.stderr
         logf.write(out)
     return r.returncode == 0, out[-4000:]
