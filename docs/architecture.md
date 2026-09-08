@@ -14977,3 +14977,70 @@ inventing a single number for a drug that has none. What unblocks a second row i
 data, not code: a drug needs a complete PK set, a total-plasma parent-only
 in-vivo D2 EC50, a Kp,uu record, and a held-out occupancy series, all for the
 same drug.
+
+## Phase 22, part one: pre-registration before any Phase 22 number (P22.1)
+
+`docs/p22-preregistration.md`, committed alone in its own commit so git
+history proves it precedes every P22.2/P22.3/P22.4 result. The task exists
+because P19.6 had to caveat its own best whole-chain figure as not blind: the
+2 mg single-dose peak was published in the P19.5 document before the
+comparison ran, and the steady-state figure was computed after the
+single-dose miss was seen. Pre-registration is the repair for that class of
+error, applied before rather than after.
+
+Design decisions, and why they went the way they did:
+
+**The denominators are fixed by reference to already-committed records, not
+chosen fresh.** P22.2's eight drugs are exactly `fda_sources.TESTABLE`
+(committed by P20.6); P22.3's nine are exactly the P21.2 reachability census.
+Choosing a set now, by hand, would itself be a degree of freedom exercised
+with the sources already surveyed; pointing at commitments that predate this
+task removes it. `tests/test_p22_preregistration.py` guards the doc against
+drifting from those records.
+
+**The document claims procedural, not epistemic, blindness, and inventories
+its own contamination.** Haloperidol's predicted window (2.89-5.56 mg/day) is
+already published, the label dosage text already sits on disk from P20.6, and
+antipsychotic dose ranges are ordinary clinical knowledge. A pre-registration
+that claimed the answers were unknown would be false in three ways; what it
+can honestly fix is metrics, denominators, extraction rules and pass criteria
+before any comparison is computed, plus commit-ordering rules inside P22.2
+(predictions committed before label transcription) that make the procedure
+checkable afterwards.
+
+**Pass thresholds were anchored to precedents already in the repository
+rather than invented.** P22.2's twofold midpoint criterion reuses the bound
+fixed in advance for V5; P22.3's MAE 0.10 is the "somebody else's constant"
+precision measured by P19.6's split D (0.094), which is the same class of
+question a leave-one-drug-out test asks; and nothing finer would be
+defensible against the 2-2.5x tracer/region floor P19.7 and P21.2 recorded.
+
+**Every tie resolves against the more interesting reading.** Window overlap
+ties count as overlap (the phase is hunting for discriminating misses), a
+P22.3 MAE of exactly 0.100 passes, and a clozapine D65 exactly at the label
+maximum reads as Outcome B, anomaly absent. The consistent rule is that the
+boundary never donates a headline.
+
+**P22.4's interpretation is fixed as an outcome-to-reading map.** The
+clozapine anomaly's expected direction is stated in the brief itself, so the
+only thing left to protect is the reading: Outcome A (D65 above the label
+maximum, or unreachable) is a model success and a falsification of
+occupancy-as-sole-mediator; Outcome B is a disagreement with the PET
+literature, not a vindication. Neither triggers tuning in either direction,
+and the sensitivity across registered EC50 candidates (which span 4.6x on the
+Emax convention alone) is reported in full with the striatal putamen row
+designated primary in advance, because the 65/78 thresholds are themselves
+striatal.
+
+**What stays free.** Engineering choices with no ground-truth contact remain
+unconstrained, subject to commitment C3: the modeling decision the P21.3
+ledger row deliberately left unmade (what the chain does with apparent
+`CL/F`, `V/F` parameter sets and parent-plus-metabolite fits) must be made,
+coded and committed before the affected drug's ground truth is transcribed or
+compared, and may not be revisited for that drug afterwards.
+
+By ledger rule 1 this task produced no comparison against an externally
+measured number and earns no validated row; its row goes in the untested
+table. Its product is a constraint on every later Phase 22 row: none of them
+may report an analysis this document does not specify without a recorded
+deviation.
