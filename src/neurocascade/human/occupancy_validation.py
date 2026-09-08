@@ -561,17 +561,37 @@ def run_all_splits():
 # ---------------------------------------------------------------------------
 
 
-def chain_testable_observations():
-    """Observations pairing an oral dose with a differenceable occupancy.
+def _drug_observations(drug):
+    """The registered human D2 PET observation set for ``drug``.
 
-    This returns an empty tuple, and that emptiness is the single most
-    important result in P19.6. It is computed rather than asserted in prose so
-    that it becomes false the moment somebody registers an observation that
-    would make it false.
+    P21.6: the observation side of the chain is drug-keyed too. Only haloperidol
+    has a transcribed set today, so any other drug is refused here rather than
+    silently returning an empty tuple, because an empty tuple already carries the
+    P19.6 meaning "observations exist but none pairs a dose with a differenceable
+    occupancy", and "no observations are registered at all" is a different claim.
+    """
+    if str(drug).lower() == "haloperidol":
+        return haloperidol_d2_observations()
+    raise ValueError(
+        "no registered human D2 PET observations for %r; only haloperidol has a "
+        "transcribed observation set (see neurocascade.human.pet_observations), "
+        "so the chain cannot be paired with data for this drug" % drug
+    )
+
+
+def chain_testable_observations(drug="haloperidol"):
+    """Observations pairing an oral dose of ``drug`` with a differenceable occupancy.
+
+    For haloperidol this returns an empty tuple, and that emptiness is the single
+    most important result in P19.6. It is computed rather than asserted in prose
+    so that it becomes false the moment somebody registers an observation that
+    would make it false. Any drug without a registered observation set is refused
+    by :func:`_drug_observations` rather than returning the same empty tuple,
+    which would mean something different.
     """
     return tuple(
         item
-        for item in occupancy_observations(haloperidol_d2_observations())
+        for item in occupancy_observations(_drug_observations(drug))
         if item.dose is not None
         and item.dose_regimen in _CHAIN_COMPATIBLE_REGIMENS
     )
@@ -607,12 +627,16 @@ class SteadyStateOccupancy:
         return float(self.occupancy.mean())
 
 
-def steady_state_occupancy(dose_mg_per_day, n_doses=40, step_min=5.0, **kwargs):
-    """Steady-state occupancy for once-daily oral dosing.
+def steady_state_occupancy(
+    dose_mg_per_day, n_doses=40, step_min=5.0, drug="haloperidol", **kwargs
+):
+    """Steady-state occupancy for once-daily oral dosing of ``drug``.
 
     ``n_doses`` defaults to 40 because the mean occupancy at 2 mg/day is
     converged to eight decimal places by 30 doses; 40 is past that with margin
-    and cheaper than running the tail out further.
+    and cheaper than running the tail out further. ``drug`` is the P21.6 key,
+    forwarded to :func:`predict_occupancy`, which resolves the PK set and EC50
+    from the registries and refuses a drug that lacks either.
     """
     if dose_mg_per_day <= 0:
         raise ValueError("dose_mg_per_day must be positive")
@@ -622,7 +646,9 @@ def steady_state_occupancy(dose_mg_per_day, n_doses=40, step_min=5.0, **kwargs):
     if per_interval < 2:
         raise ValueError("step_min is too coarse to resolve a dosing interval")
     times = np.arange(0.0, n_doses * _DAILY_INTERVAL_MIN + step_min, step_min)
-    prediction = predict_occupancy(dose_mg_per_day, times_min=times, **kwargs)
+    prediction = predict_occupancy(
+        dose_mg_per_day, drug=drug, times_min=times, **kwargs
+    )
     concentration = prediction.plasma_nM
     n_full = len(concentration) // per_interval
     blocks = concentration[: n_full * per_interval].reshape(n_full, per_interval)
@@ -882,14 +908,18 @@ OCCUPANCY_IS_NOT_THE_OUTCOME = (
 )
 
 
-def dose_reaching_occupancy(target_occupancy, regimen="steady-state-daily", **kwargs):
-    """The daily dose at which the chain reaches a target occupancy.
+def dose_reaching_occupancy(
+    target_occupancy, regimen="steady-state-daily", drug="haloperidol", **kwargs
+):
+    """The daily dose at which the chain reaches a target occupancy for ``drug``.
 
     ``steady-state-daily`` uses the mean occupancy over a dosing interval at
     steady state; ``single-dose`` uses the peak of a single administration.
     Which one is meant matters more than the number: the same target is reached
     at very different doses under the two, and quoting one where the other was
-    intended is the easiest error to make with these figures.
+    intended is the easiest error to make with these figures. ``drug`` is the
+    P21.6 key, forwarded to the chain, which refuses a drug that lacks a PK set
+    or an EC50.
     """
     from scipy.optimize import brentq
 
@@ -897,12 +927,12 @@ def dose_reaching_occupancy(target_occupancy, regimen="steady-state-daily", **kw
         raise ValueError("target_occupancy must be a fraction strictly inside (0, 1)")
     if regimen == "steady-state-daily":
         def miss(dose):
-            return steady_state_occupancy(dose, **kwargs).mean_occupancy - target_occupancy
+            return steady_state_occupancy(dose, drug=drug, **kwargs).mean_occupancy - target_occupancy
     elif regimen == "single-dose":
         times = np.arange(0.0, 72.0 * 60.0 + 5.0, 5.0)
 
         def miss(dose):
-            return predict_occupancy(dose, times_min=times, **kwargs).peak_occupancy - target_occupancy
+            return predict_occupancy(dose, drug=drug, times_min=times, **kwargs).peak_occupancy - target_occupancy
     else:
         raise ValueError(
             "regimen must be steady-state-daily or single-dose; the chain has "

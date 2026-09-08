@@ -217,3 +217,18 @@ def require_human_parameter(target):
     if not records or not records[0].usable:
         raise ValueError("no validated human receptor parameter for %s; rodent fallback is disabled" % target)
     return records[0]
+
+
+def human_receptor_parameter_for(drug, target):
+    """The usable record for ``drug`` at ``target``, or ``None`` if there is none.
+
+    P21.6: the occupancy chain resolves its receptor parameter by drug now, not
+    by target alone. The registry is target-keyed and today carries exactly one
+    usable record per target, so this matches on the ligand and returns ``None``
+    (rather than raising) when no usable record names that drug, leaving the
+    caller to say which layer is missing for the drug it was actually asked for.
+    """
+    for record in human_receptor_parameters(target):
+        if record.usable and record.ligand == drug:
+            return record
+    return None

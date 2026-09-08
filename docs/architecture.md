@@ -14913,3 +14913,67 @@ searched-and-empty record that no in-vivo human D2 intrinsic activity exists. Th
 regression it prevents is concrete and tested: at identical 0.9 occupancy the
 silent antagonist yields `abs(effect)` of 0.9 while the partial agonist raises, so
 the two functional classes no longer collapse to one silent number.
+
+## Phase 21, part six: the chain is keyed by drug, not fixed to haloperidol (P21.6)
+
+P19.5 wrote `predict_occupancy` for haloperidol alone, with the drug named in
+constants and error messages. P21.1 then made the EC50 a drug-keyed registry and
+P21.2 established which drugs are reachable, so the chain was the last place the
+drug was still hard-coded. P21.6 turns `predict_occupancy`,
+`steady_state_occupancy`, `dose_reaching_occupancy` and
+`chain_testable_observations` into functions of a drug key that defaults to
+haloperidol and resolves the PK set and the EC50 from the registries by that key.
+
+### Three per-drug gates, not one, and the third was found by a test
+
+The brief named two refusals to preserve, the weight-scaling refusal off the 70
+kg reference and the Kp,uu double-correction guard, plus the illustrative-constant
+gate. Generalizing surfaced a third that the haloperidol-only code had hidden.
+`_require_no_brain_partition_step` requires two things in order: first that a
+Kp,uu *record exists* for the drug, then that its value is absent. The record
+must exist because the no-double-counting invariant ("the in-vivo EC50 already contains brain
+penetration, so a partition step would count it twice") can only be asserted for
+a drug whose brain-partition status has been recorded at all. A drug with no
+Kp,uu record is refused at the exposure layer rather than run as if the invariant
+held. This is why the "runs for another drug" test relabels onto fentanyl, which
+carries a `kp_uu=None` record, and not onto clozapine, which carries no Kp,uu
+record: clozapine is legitimately refused at that layer. The gate is correct, not
+an obstacle to work around.
+
+### Refusals name the layer, and the layer is resolved before the drug is trusted
+
+Each gate names the drug it was asked for and the layer that is missing, so a
+drug with a PK set but no EC50 is refused at the occupancy layer while a drug
+with an EC50 but no PK set is refused at the PK layer. PK is resolved first, so a
+drug the registries do not know at all stops at the PK layer, which is the first
+thing missing. The occupancy layer's refusal is sourced from the drug-keyed EC50
+registry rather than invented: when no usable receptor parameter names the drug,
+`_require_receptor_record` calls `d2_plasma_ec50(drug)`, which raises for every
+drug but haloperidol (P21.2), so the message points at the real registry gap
+instead of a bare "no receptor record". Building a parallel EC50-only resolution
+path would have been scaffolding for data that does not exist, so the existing
+registry is reused as the refusal source.
+
+### Haloperidol stays bit-identical, and that is tested
+
+The molar mass, the Emax and the EC50 all travel with the receptor record's
+`ec50_record`, so haloperidol resolves the same rich record it did before P21.6
+and its predicted arrays are asserted bit-identical to the pre-refactor curve.
+The one place the chain can fall back to the module-level
+`HALOPERIDOL_MW_G_PER_MOL` constant is when the EC50 row is absent, and that
+branch is reachable only by haloperidol itself; any other drug with no molar mass
+is refused rather than borrowing haloperidol's mass.
+
+### Why this earns no ledger row and could not today
+
+By rule 1 a wiring change over an existing schema never earns a validated row,
+and no external number was compared, so the ledger records P21.6 in the untested
+table. It could not earn a row even in principle right now: haloperidol is still
+the only drug with all three registry layers, so no second drug can be driven
+end-to-end against a held-out occupancy series. The "runs for another drug" test
+is therefore exercised by relabelling haloperidol's own sourced records onto a
+second key, which proves the key threads through the whole chain without
+inventing a single number for a drug that has none. What unblocks a second row is
+data, not code: a drug needs a complete PK set, a total-plasma parent-only
+in-vivo D2 EC50, a Kp,uu record, and a held-out occupancy series, all for the
+same drug.

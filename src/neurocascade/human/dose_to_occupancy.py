@@ -58,10 +58,11 @@ from scipy.integrate import solve_ivp
 from ..pk import DosedTwoCompartmentPK
 from .d2_effect import d2_effect_for_drug
 from .active_metabolites import active_metabolites_for, require_parent_only_path
+from .d2_ec50 import d2_plasma_ec50
 from .kp_uu import kp_uu_records
 from .pet_validation import HALOPERIDOL_MW_G_PER_MOL
 from .pk_parameters import human_pk_records
-from .receptor_parameters import require_human_parameter
+from .receptor_parameters import human_receptor_parameter_for
 
 #: What a layer's numbers rest on. ``illustrative`` is the P19.1 category: a
 #: constant nobody measured, which may only be consumed through an explicit
@@ -74,6 +75,12 @@ PROVENANCE_LEVELS = (
     "illustrative",
 )
 
+#: The drug the chain predicts unless the caller names another. P19.5 wrote this
+#: chain for haloperidol alone; P21.6 made the drug a parameter and resolves the
+#: PK set and the EC50 from the registries by that key, so the constant is now a
+#: default rather than a hard-coding. Every layer's refusal names the drug it was
+#: asked for, so a drug with a PK set but no EC50 (or the reverse) is refused at
+#: the layer that is missing rather than being silently run as haloperidol.
 _DRUG = "haloperidol"
 _TARGET = "D2"
 
@@ -263,18 +270,18 @@ def default_times_min():
     return np.linspace(0.0, 72.0 * 60.0, 289)
 
 
-def _require_pk_record(route, pk_record):
+def _require_pk_record(drug, route, pk_record):
     if pk_record is None:
-        records = human_pk_records(_DRUG, route)
+        records = human_pk_records(drug, route)
         if not records:
             raise ValueError(
-                "no human %s PK record for route %r" % (_DRUG, route)
+                "no human %s PK record for route %r" % (drug, route)
             )
         pk_record = records[0]
-    if pk_record.drug != _DRUG or pk_record.species != "human":
+    if pk_record.drug != drug or pk_record.species != "human":
         raise ValueError(
             "this chain is human %s only; got %s %s"
-            % (_DRUG, pk_record.species, pk_record.drug)
+            % (drug, pk_record.species, pk_record.drug)
         )
     if pk_record.route != route:
         raise ValueError(
@@ -286,14 +293,14 @@ def _require_pk_record(route, pk_record):
             "the human %s %s PK record cannot drive a model: %s missing "
             "(status %r). The chain does not substitute a value for a parameter "
             "no source printed."
-            % (_DRUG, route, ", ".join(pk_record.missing_fields), pk_record.status)
+            % (drug, route, ", ".join(pk_record.missing_fields), pk_record.status)
         )
     if pk_record.n_compartments != 2:
         raise ValueError(
             "the sourced human %s set is %r-compartment; this chain builds the "
             "two-compartment oral model P19.2 could source and will not invent "
             "the peripheral compartment a three-compartment model would need"
-            % (_DRUG, pk_record.n_compartments)
+            % (drug, pk_record.n_compartments)
         )
     if pk_record.units != "absolute":
         raise ValueError(
@@ -302,9 +309,25 @@ def _require_pk_record(route, pk_record):
     return pk_record
 
 
-def _require_receptor_record(receptor_record):
+def _require_receptor_record(drug, receptor_record):
     if receptor_record is None:
-        receptor_record = require_human_parameter(_TARGET)
+        receptor_record = human_receptor_parameter_for(drug, _TARGET)
+    if receptor_record is None:
+        # No usable human receptor parameter names this drug at this target. The
+        # drug-keyed EC50 registry is the other place the occupancy layer could
+        # be sourced from, so consult it to produce a refusal that names the
+        # occupancy layer and the drug rather than a bare "no receptor record".
+        # It raises for any drug without a registered in-vivo D2 EC50, which is
+        # every drug but haloperidol today (P21.2). If a drug ever has a
+        # registered EC50 but no wired receptor parameter, that inconsistency is
+        # refused rather than run.
+        d2_plasma_ec50(drug)
+        raise ValueError(
+            "a %s in-vivo D2 EC50 is registered but no usable human receptor "
+            "parameter names %r; wire one into "
+            "neurocascade.human.receptor_parameters before driving the "
+            "occupancy layer for this drug" % (drug, drug)
+        )
     if not receptor_record.usable:
         raise ValueError(
             "the %s record cannot drive the occupancy layer: it has no human "
@@ -318,10 +341,10 @@ def _require_receptor_record(receptor_record):
     # the chain, and the parent-only path would then accept a drug whose parent
     # concentration does not determine its occupancy (P21.4).
     require_parent_only_path(receptor_record.ligand, target=_TARGET)
-    if receptor_record.ligand != _DRUG:
+    if receptor_record.ligand != drug:
         raise ValueError(
             "the %s record is for %r, not %r"
-            % (receptor_record.target, receptor_record.ligand, _DRUG)
+            % (receptor_record.target, receptor_record.ligand, drug)
         )
     if receptor_record.ec50_plasma_basis != "total":
         raise ValueError(
@@ -342,11 +365,11 @@ def _require_receptor_record(receptor_record):
     return receptor_record
 
 
-def _require_no_brain_partition_step():
+def _require_no_brain_partition_step(drug):
     """The Kp,uu layer must still be empty for the no-partition design to hold."""
-    records = kp_uu_records(_DRUG)
+    records = kp_uu_records(drug)
     if not records:
-        raise ValueError("no human %s Kp,uu record to check" % _DRUG)
+        raise ValueError("no human %s Kp,uu record to check" % drug)
     record = records[0]
     if record.kp_uu is not None:
         raise ValueError(
@@ -355,7 +378,7 @@ def _require_no_brain_partition_step():
             "occupancy relation, which already contains brain penetration, so "
             "applying the partition as well would count it twice. Decide which "
             "one carries it before running."
-            % (_DRUG, record.kp_uu)
+            % (drug, record.kp_uu)
         )
     return record
 
@@ -431,6 +454,7 @@ def _validated_times(times_min):
 
 def predict_occupancy(
     dose_mg,
+    drug=_DRUG,
     route="PO",
     body_weight_kg=70.0,
     times_min=None,
@@ -439,13 +463,20 @@ def predict_occupancy(
     weight_scaling=None,
     allow_illustrative=False,
 ):
-    """Predict a striatal D2 occupancy-time curve for an oral haloperidol dose.
+    """Predict a striatal D2 occupancy-time curve for an oral dose of ``drug``.
 
     Parameters
     ----------
     dose_mg : absolute administered amount, mg. Zero is legal and means no drug.
-    route : must match a sourced human PK record. Only ``"PO"`` is sourced; the
-        haloperidol IV record is ``searched-and-empty``, so ``"IV"`` raises.
+    drug : which drug to predict. P21.6 made this a key: the PK set comes from
+        :func:`neurocascade.human.pk_parameters.human_pk_records` and the EC50
+        from the drug-keyed registry in :mod:`neurocascade.human.d2_ec50`, both
+        looked up by this name. Defaults to haloperidol, the only drug that has
+        both a complete PK set and a registered in-vivo D2 EC50 today; any other
+        drug is refused at the layer it is missing, naming that drug.
+    route : must match a sourced human PK record. Only haloperidol ``"PO"`` is
+        sourced; the haloperidol IV record is ``searched-and-empty``, so ``"IV"``
+        raises.
     body_weight_kg : defaults to the 70 kg reference weight of the PK source.
         Any other weight requires `weight_scaling`, because the source states a
         scaling rule for clearance and for nothing else.
@@ -453,7 +484,8 @@ def predict_occupancy(
         :func:`default_times_min`.
     pk_record, receptor_record : supply an alternative sourced record instead of
         the registry's. Both are validated exactly as the registry's are, so a
-        record with a parameter removed is refused rather than worked around.
+        record with a parameter removed is refused rather than worked around, and
+        both must name ``drug`` or they are refused.
     weight_scaling : a :class:`WeightScaling` naming the volume and Q exponents
         and where they came from.
     allow_illustrative : the P19.1 opt-in. No layer of this chain is currently
@@ -472,14 +504,29 @@ def predict_occupancy(
     if body_weight_kg <= 0.0:
         raise ValueError("body_weight_kg must be positive; got %r" % (body_weight_kg,))
 
-    pk_record = _require_pk_record(route, pk_record)
-    receptor_record = _require_receptor_record(receptor_record)
-    kp_uu_record = _require_no_brain_partition_step()
+    pk_record = _require_pk_record(drug, route, pk_record)
+    receptor_record = _require_receptor_record(drug, receptor_record)
+    kp_uu_record = _require_no_brain_partition_step(drug)
     times = default_times_min() if times_min is None else _validated_times(times_min)
 
     v1_L, v2_L, q_L_per_h, cl_L_per_h, scaling_detail, scaling_provenance, pk_citation = (
         _scaled_parameters(pk_record, body_weight_kg, weight_scaling)
     )
+
+    ec50_row = receptor_record.ec50_record
+    # The molar mass travels with the EC50 row, so a plasma concentration and the
+    # constant it is divided by are always on one drug's mass basis. Only if the
+    # row is absent does the chain fall back to the haloperidol constant, which
+    # can only be reached by haloperidol itself.
+    if ec50_row is not None:
+        mw_g_per_mol = ec50_row.molar_mass_g_per_mol
+    elif drug == _DRUG:
+        mw_g_per_mol = HALOPERIDOL_MW_G_PER_MOL
+    else:
+        raise ValueError(
+            "no molar mass available for %r: the EC50 record that carries it is "
+            "absent, and the chain will not borrow another drug's mass" % drug
+        )
 
     model = DosedTwoCompartmentPK(
         route=pk_record.route,
@@ -489,8 +536,8 @@ def predict_occupancy(
         CL_mL_per_min_per_kg=cl_L_per_h * 1000.0 / 60.0 / body_weight_kg,
         body_weight_kg=body_weight_kg,
         ka_per_min=pk_record.ka_per_min,
-        molar_mass_g_per_mol=HALOPERIDOL_MW_G_PER_MOL,
-        name="%s %s (Pilla Reddy 2013, apparent X/F)" % (_DRUG, pk_record.route),
+        molar_mass_g_per_mol=mw_g_per_mol,
+        name="%s %s two-compartment apparent (X/F)" % (drug, pk_record.route),
         apparent_parameters=pk_record.apparent_over_F,
         species=pk_record.species,
     )
@@ -501,7 +548,6 @@ def predict_occupancy(
     # exactly 1, so this multiplication is the identity and the curve is
     # unchanged; the point is that a drug fitted with a free Emax cannot enter
     # this chain as if it had been fitted with Emax at 1.
-    ec50_row = receptor_record.ec50_record
     emax = 1.0 if ec50_row is None else ec50_row.emax
     emax_detail = (
         "Emax is not recorded for this constant and is taken as 1"
@@ -569,7 +615,7 @@ def predict_occupancy(
     occupancy = emax * (plasma_nM / (plasma_nM + ec50_nM))
 
     return OccupancyPrediction(
-        drug=_DRUG,
+        drug=drug,
         target=_TARGET,
         dose_mg=dose_mg,
         route=pk_record.route,
@@ -581,7 +627,7 @@ def predict_occupancy(
         receptor_compartment=model.receptor_compartment,
         ec50_nM=ec50_nM,
         layers=layers,
-        metabolite_caveats=active_metabolites_for(_DRUG, target=_TARGET),
+        metabolite_caveats=active_metabolites_for(drug, target=_TARGET),
     )
 
 
