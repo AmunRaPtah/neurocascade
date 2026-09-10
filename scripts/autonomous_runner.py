@@ -794,7 +794,12 @@ def main() -> int:
         data = load_backlog()
         cleared = [t["id"] for t in data["tasks"] if t.pop("infra_faults", None)]
         if cleared:
-            save_backlog(data)
+            # commit_backlog, not save_backlog: backlog.json is tracked, so a
+            # bare save left the tree dirty and every following tick aborted on
+            # the cleanliness check. That turned --resume into a no-op that
+            # looked like a resume - the same silent-wedge signature as the
+            # killed-tick and left-running cases.
+            commit_backlog(data, "chore(backlog): clear infra faults on resume (autonomous)")
         PAUSED.unlink(missing_ok=True)
         log_event("resumed", cleared_infra_faults=cleared)
         print("resumed" + (f" (cleared infra faults on {', '.join(cleared)})"

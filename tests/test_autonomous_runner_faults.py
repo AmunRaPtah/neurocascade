@@ -16,6 +16,9 @@ The runner is a script rather than a package module, so it is loaded by path.
 from __future__ import annotations
 
 import importlib.util
+import json
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -57,3 +60,56 @@ def test_attempts_never_goes_negative(runner):
     task = {"id": "P0.1"}
     runner.record_infra_fault(task)
     assert task["attempts"] == 0
+
+
+def test_resume_leaves_the_tree_clean(runner, tmp_path, monkeypatch):
+    """
+    --resume clears the fault counters, and those live in a *tracked* file.
+
+    Seen 2026-09-10: the resume path called save_backlog, so it cleared the
+    pause flag and then left tasks/backlog.json modified. Every following tick
+    aborted with "working tree dirty at tick start", which is the fourth
+    variant of the same silent wedge: --status reports a runnable task, the
+    pause flag is gone, and nothing ever runs.
+    """
+    repo = tmp_path / "repo"
+    (repo / "tasks").mkdir(parents=True)
+    (repo / "logs").mkdir()
+    backlog = repo / "tasks" / "backlog.json"
+    backlog.write_text(json.dumps(
+        {"tasks": [{"id": "P0.1", "status": "pending", "attempts": 0,
+                    "infra_faults": runner.MAX_INFRA_FAULTS}]}, indent=2) + "\n")
+
+    def run(*args):
+        subprocess.run(["git", *args], cwd=repo, check=True,
+                       capture_output=True, text=True)
+
+    (repo / ".gitignore").write_text("logs/\n")   # as the real repo does
+
+    run("init", "-q")
+    run("config", "user.email", "test@example.invalid")
+    run("config", "user.name", "test")
+    run("add", "tasks/backlog.json", ".gitignore")
+    run("commit", "-q", "-m", "baseline")
+
+    paused = repo / "logs" / ".paused"
+    paused.write_text("3 consecutive infrastructure faults on P0.1\n")
+
+    monkeypatch.setattr(runner, "REPO", repo)
+    monkeypatch.setattr(runner, "BACKLOG", backlog)
+    monkeypatch.setattr(runner, "LOGS", repo / "logs")
+    monkeypatch.setattr(runner, "PAUSED", paused)
+    monkeypatch.setattr(runner, "EVENTS", repo / "logs" / "events.jsonl")
+    monkeypatch.setattr(sys, "argv", ["autonomous_runner.py", "--resume"])
+
+    assert runner.main() == 0
+    assert not paused.exists()
+
+    dirty = subprocess.run(["git", "status", "--porcelain"], cwd=repo,
+                           capture_output=True, text=True).stdout.strip()
+    assert dirty == "", f"resume left the tree dirty: {dirty}"
+
+    committed = json.loads(subprocess.run(
+        ["git", "show", "HEAD:tasks/backlog.json"], cwd=repo,
+        capture_output=True, text=True, check=True).stdout)
+    assert "infra_faults" not in committed["tasks"][0]
