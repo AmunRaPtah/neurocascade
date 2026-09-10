@@ -1832,8 +1832,7 @@
       "status": "pending",
       "attempts": 0,
       "baseline": "979e20ccf6750ae17ac72f1d10fdb32636bf7a1c",
-      "result": "agent did not start: You've reached your Fable limit. Switch to another model to continue.",
-      "infra_faults": 3
+      "result": "agent did not start: You've reached your Fable limit. Switch to another model to continue."
     },
     {
       "id": "P22.3",
