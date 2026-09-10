@@ -1829,11 +1829,12 @@
       "deps": [
         "P22.1"
       ],
-      "status": "running",
+      "status": "failed",
       "attempts": 1,
       "baseline": "da07035db877acf6b42662ab76e6f669ab07e8ad",
-      "result": "agent did not start: You've reached your Fable limit. Switch to another model to continue.",
-      "started_at": "2026-09-10T14:35:42.038694+00:00"
+      "result": "test gate failed, work parked on failed/P22.2-attempt1",
+      "started_at": "2026-09-10T14:35:42.038694+00:00",
+      "finished_at": "2026-09-10T16:27:29.983113+00:00"
     },
     {
       "id": "P22.3",
