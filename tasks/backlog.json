@@ -1852,10 +1852,11 @@
       "deps": [
         "P22.1"
       ],
-      "status": "running",
-      "attempts": 1,
-      "started_at": "2026-09-10T19:50:02.676147+00:00",
-      "baseline": "cfa6afd22546219cdfc23d27b49d30cda92bfa7c"
+      "status": "pending",
+      "attempts": 0,
+      "baseline": "cfa6afd22546219cdfc23d27b49d30cda92bfa7c",
+      "result": "agent did not start: You've hit your session limit \u00b7 resets 2:50am (Europe/Berlin)",
+      "infra_faults": 1
     },
     {
       "id": "P22.4",
