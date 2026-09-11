@@ -200,3 +200,58 @@ def test_quota_ok_prefers_the_cache_over_quota_axi(runner, tmp_path, monkeypatch
     ok, why = runner.quota_ok()
     assert ok is False
     assert "weekly quota 5%" in why
+
+
+def test_agent_rate_limit_event_refreshes_the_cache(runner, tmp_path, monkeypatch):
+    """A tick writes the quota reading its own session reports.
+
+    Until 2026-09-11 the statusline was the only writer, so between interactive
+    sessions the five_hour window rolled over unobserved and the gate ran on
+    the weekly window alone. This is what closes that blind spot: the reading
+    below is the shape the CLI emits, and it must gate the very next tick.
+    """
+    cache = tmp_path / "rate-limits.json"
+    monkeypatch.setattr(runner, "QUOTA_CACHE", cache)
+
+    assert runner.record_quota_reading({
+        "status": "allowed",
+        "rateLimitType": "five_hour",
+        "unifiedWindows": {
+            "five_hour": {"utilization": 0.9, "resetsAt": time.time() + 1800},
+            "seven_day": {"utilization": 0.35, "resetsAt": time.time() + 86400},
+        },
+    }) is True
+
+    payload = json.loads(cache.read_text())
+    assert payload["rate_limits"]["five_hour"]["used_percentage"] == 90.0
+    assert payload["rate_limits"]["seven_day"]["used_percentage"] == 35.0
+
+    ok, why = runner._quota_from_statusline_cache()
+    assert ok is False
+    assert f"below {runner.MIN_SESSION_QUOTA}%" in why
+
+
+def test_rate_limit_event_without_windows_leaves_the_cache_alone(runner, tmp_path,
+                                                                 monkeypatch):
+    """An event with no `unifiedWindows` must not overwrite a good reading."""
+    cache = write_cache(runner, tmp_path, monkeypatch, five_hour=10.0,
+                        seven_day=20.0, resets_in_s=1800)
+    before = cache.read_text()
+
+    assert runner.record_quota_reading({"status": "allowed"}) is False
+    assert runner.record_quota_reading({}) is False
+    assert cache.read_text() == before
+
+
+def test_unwritable_cache_is_not_fatal(runner, tmp_path, monkeypatch):
+    """The gate degrades to the statusline's reading; the tick does not die."""
+    monkeypatch.setattr(runner, "QUOTA_CACHE", tmp_path / "nodir" / "x.json")
+
+    def deny(*args, **kwargs):
+        raise PermissionError("read-only")
+
+    monkeypatch.setattr(runner.Path, "mkdir", deny)
+    assert runner.record_quota_reading({
+        "unifiedWindows": {"five_hour": {"utilization": 0.1,
+                                         "resetsAt": time.time() + 60}},
+    }) is False

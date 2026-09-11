@@ -353,6 +353,47 @@ def _quota_from_statusline_cache() -> tuple[bool, str] | None:
     return True, note
 
 
+def record_quota_reading(info: dict) -> bool:
+    """Write the agent's own server-truth quota reading into QUOTA_CACHE.
+
+    The statusline was the only writer of this file, and it only runs while an
+    interactive session renders it. Between interactive sessions the five_hour
+    window rolls over unobserved, `_quota_from_statusline_cache` rightly stops
+    believing the reading taken in the old window, and the gate is left with
+    the weekly window alone. That is the blind spot that let ticks keep firing
+    into a session limit overnight on 2026-09-10 until the fault ceiling paused
+    the build: the last tick watched its own five_hour utilization climb from
+    0.0 to 1.02 and nothing wrote it down.
+
+    A headless tick sees the same `rate_limit_event` the statusline reads, so
+    it can keep the next tick's gate fed. Writes are atomic because the
+    statusline may be writing the same path concurrently.
+    """
+    windows = (info or {}).get("unifiedWindows") or {}
+    limits = {}
+    for name in ("five_hour", "seven_day"):
+        window = windows.get(name) or {}
+        used, resets_at = window.get("utilization"), window.get("resetsAt")
+        if used is None or resets_at is None:
+            continue
+        # utilization is a fraction; the cache's schema is a percentage.
+        limits[name] = {
+            "used_percentage": round(float(used) * 100, 1),
+            "resets_at": resets_at,
+        }
+    if not limits:
+        return False
+    try:
+        QUOTA_CACHE.parent.mkdir(parents=True, exist_ok=True)
+        tmp = QUOTA_CACHE.with_suffix(".tmp")
+        tmp.write_text(json.dumps({"ts": time.time(), "rate_limits": limits}))
+        tmp.replace(QUOTA_CACHE)
+    except OSError:
+        # Not fatal: the gate falls back to whatever the statusline last wrote.
+        return False
+    return True
+
+
 def record_infra_fault(task: dict) -> tuple[int, bool]:
     """Book one "the agent never started" fault against a task.
 
@@ -453,6 +494,10 @@ def run_agent(prompt: str, log_path: Path) -> tuple[bool, str]:
                     continue
                 if obj.get("type") == "result":
                     final_text = obj.get("result", "") or ""
+                elif obj.get("type") == "rate_limit_event":
+                    # Keep the next tick's gate fed with a reading from the
+                    # window this tick is actually spending.
+                    record_quota_reading(obj.get("rate_limit_info") or {})
                 if time.time() - started > AGENT_TIMEOUT_S:
                     proc.kill()
                     return False, "agent exceeded timeout"

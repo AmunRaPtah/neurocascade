@@ -42,7 +42,7 @@ which `/root/.claude/statusline-quota.sh` caches to
 Claude source on this host returns a cached reading whose windows have all
 expired.
 
-Two failures shaped the current design, both found while resuming the build:
+Three failures shaped the current design, all found while resuming the build:
 
 - **A silent freeze (found 2026-09-07).** The CLI moved `rate_limits` from
   `.current_usage` to the top level of the statusline payload; the statusline
@@ -57,6 +57,15 @@ Two failures shaped the current design, both found while resuming the build:
   window has rolled over the same number describes spending that has already
   been refunded, and that window imposes no constraint. File age remains the
   fallback for payloads written before `resets_at` was recorded.
+- **One writer was not enough (found 2026-09-11).** With the statusline as the
+  only writer, an unattended build watches its five_hour window roll over and
+  then runs with the weekly window as its only constraint. Overnight on
+  2026-09-10 that let three ticks fire into a session limit until the fault
+  ceiling paused the build; the agent log of the last one shows its own
+  five_hour utilization climbing from 0.0 to 1.02 while the cache said nothing.
+  A tick receives the same `rate_limit_event` the statusline reads, so
+  `record_quota_reading()` now writes each one to the cache as the tick runs,
+  and the next tick gates on a reading from the window it is about to spend.
 
 Covered by `tests/test_autonomous_runner_quota.py`.
 
