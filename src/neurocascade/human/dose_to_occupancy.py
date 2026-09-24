@@ -167,6 +167,14 @@ class OccupancyPrediction:
     #: the residual risk if the driven regimen's exposure ratio differs from the
     #: fitted one, which belongs in the caveats rather than in the arithmetic.
     metabolite_caveats: tuple = ()
+    #: The occupancy ceiling of the registered EC50's own fit, as a fraction.
+    #: Already applied to :attr:`occupancy`; carried so that a construction
+    #: built on top of this curve (steady-state superposition, say) can apply
+    #: the same ceiling to the concentration curve rather than silently
+    #: re-deriving occupancy with the ceiling at 1. Defaults to 1 so that a
+    #: prediction built without one is the plain hyperbola it always was, which
+    #: is what haloperidol's row pins anyway.
+    emax: float = 1.0
 
     @property
     def provenance(self):
@@ -628,6 +636,7 @@ def predict_occupancy(
         ec50_nM=ec50_nM,
         layers=layers,
         metabolite_caveats=active_metabolites_for(drug, target=_TARGET),
+        emax=emax,
     )
 
 

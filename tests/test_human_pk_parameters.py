@@ -150,4 +150,19 @@ def test_clearance_cannot_be_moved_off_a_reference_weight_without_a_rule():
 def test_records_can_be_selected_by_route():
     assert len(human_pk_records("haloperidol")) == 2
     assert len(human_pk_records("haloperidol", route="PO")) == 1
-    assert human_pk_records(route="PO") == human_pk_records("haloperidol", route="PO")
+
+    # Until P22.2 the registry held exactly one PO record, so this test could
+    # assert that selecting by route and selecting by drug-and-route returned
+    # the same tuple. The FDA population-PK bridge added a second PO drug, so
+    # that identity is now false for a legitimate reason. What the filter
+    # actually promises is asserted instead: route selection returns every
+    # record on that route and nothing else, and adding the drug narrows it.
+    po = human_pk_records(route="PO")
+    assert {r.route for r in po} == {"PO"}
+    assert {r.drug for r in po} == {"haloperidol", "olanzapine"}
+    assert set(human_pk_records("haloperidol", route="PO")) < set(po)
+
+    # Provenance survives the merge: the hand-transcribed rows and the bridged
+    # ones stay distinguishable in the data, not only in the import.
+    bridged = [r for r in po if r.status == "fda-population-pk-bridged"]
+    assert [r.drug for r in bridged] == ["olanzapine"]
