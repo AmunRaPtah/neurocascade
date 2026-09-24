@@ -788,6 +788,26 @@ def cmd_doctor(args) -> None:
               ("run in progress: " if busy else "") + (", ".join(live) or "none"))
     except Exception as e:
         check("no stray burst app", False, str(e)[:200])
+    # The conductor (pipeline/conductor.py) ticks every 20 min; one architect
+    # session can hold a tick for ~2 h, so a held lock counts as alive.
+    cdir = RUNS / "conductor"
+    try:
+        age = (time.time() - json.loads((cdir / "state.json").read_text())["last_tick"]) / 60
+    except Exception:
+        age = None
+    lock = cdir / ".lock"
+    held = False
+    if lock.exists():
+        with lock.open("a+") as f:
+            try:
+                fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                fcntl.flock(f, fcntl.LOCK_UN)
+            except BlockingIOError:
+                held = True
+    paused = (cdir / "PAUSE").exists()
+    check("conductor heartbeat", paused or held or (age is not None and age < 90),
+          "paused" if paused else "session running" if held else
+          f"last tick {age:.0f} min ago" if age is not None else "never ticked")
     free_gb = shutil.disk_usage("/tmp").free / 2**30
     check("disk /tmp", free_gb > 5, f"{free_gb:.0f} GB free")
 

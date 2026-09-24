@@ -1829,12 +1829,18 @@
       "deps": [
         "P22.1"
       ],
-      "status": "failed",
+      "status": "pending",
       "attempts": 1,
       "baseline": "da07035db877acf6b42662ab76e6f669ab07e8ad",
       "result": "test gate failed, work parked on failed/P22.2-attempt1",
       "started_at": "2026-09-10T14:35:42.038694+00:00",
-      "finished_at": "2026-09-10T16:27:29.983113+00:00"
+      "finished_at": "2026-09-10T16:27:29.983113+00:00",
+      "note": "Conductor handover 2026-09-24. P22.2f (scoring function, tests/test_label_dose_scoring*) is merged via PR #2. Remaining plan: (a) generalise the drug registry to the label-dose drugs, with architect-chosen EC50 / MW / Kp,uu values each cited; (b) merge the reusable bridge code from branch origin/salvaged/P22.2-attempt1 (attempt-1 worktree, gate failed; salvage, don't trust); (c) predict_window(drug) returning the predicted effective dose window; (d) the committed prediction table, written BEFORE labels are read; (e) FDA label dose transcription and scoring, only after (d) is committed. Split mechanical parts to the worker where every value can be pinned.",
+      "conductor": {
+        "subtasks": [
+          "P22.2f"
+        ]
+      }
     },
     {
       "id": "P22.3",

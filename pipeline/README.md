@@ -4,7 +4,8 @@ Claude is the architect: it turns the roadmap into small specs with failing
 tests and supplies every scientific number with its citation. An open-weights
 model served from Modal (llm-burst) is the worker: it writes code until those
 tests pass. GitHub holds the queue (issues), the record (PRs) and the second
-gate (CI). The user steps in only on `needs-human` issues and the daily digest.
+gate (CI). The conductor (below) runs the whole loop unattended; the user gets
+Telegram only on state changes and the daily digest.
 
 ## Flow
 
@@ -136,3 +137,75 @@ saved attempt instead of paying for a new GPU run.
 Run records: `/root/nc-pipeline-runs/<ID>/<timestamp>/attempt-N/`
 (prompt, agent transcript, final text, patch, pytest output, record.json;
 `provenance.json` one level up). Batch summaries: `_batches/<timestamp>/`.
+
+## Conductor (unattended loop)
+
+`pipeline/conductor.py tick` runs from cron every 20 min
+(`pipeline/conductor-cron.sh`) and takes one step per tick, first match wins:
+
+1. **Merge** PRs labelled `approved` once CI is green. A merged `architect/<T>`
+   PR whose body says `Backlog-Task: <T>` marks backlog task T done. An
+   approved PR whose CI fails loses `approved` and is reviewed again.
+2. **Review** each `worker-pr` PR once CI has finished: a Sonnet architect
+   session checks it against the spec. It either approves, after the host
+   pushes any small cleanup through the gate, or rejects: the PR is closed and
+   the issue goes to `worker-failed`.
+3. **Work**: runs `orchestrate.py run` on `worker-ready` issues while the Modal
+   month has headroom.
+4. **Takeover**: `worker-failed` and `needs-human` issues are handled by an Opus
+   architect session, and so are ready issues while Modal is out of budget.
+   The session works on the spec branch, and the result is gated and PR'd as
+   `architect-pr` + `approved`. At most 2 tries per issue.
+5. **Advance**: the next backlog task whose deps are done gets an Opus
+   architect session. It ends with one of:
+   - `TASK_RESULT: COMPLETE`: patch, full `not slow` gate, PR.
+   - `TASK_RESULT: SPLIT <ids>`: specs + failing tests only. The host
+     publishes one `spec/<sub>` branch and one `worker-ready` issue per
+     subtask, and the task comes back once they have merged.
+   - `BLOCKED_ON_DATA` / `BLOCKED`.
+
+   Each session is recorded in the task's `conductor.history`. After 6
+   sessions the task is given up and an alert is sent.
+
+**Architect sessions** run headless Claude Code in the same `nc-worker` image
+as uid 20001, on a throwaway clone. They have internet for literature. They
+have no GitHub credential and no host paths. The OAuth token reaches the
+container through environment inheritance, never on a command line. The patch
+is checked against a path policy: no `.github/ pipeline/ tasks/backlog.json
+data/ requirements.txt scripts/autonomous_runner.py`. The host then applies it
+to its own clone, gates it in a `--network none` container, and does every
+push and GitHub write itself.
+
+**Limits, and resuming after them.** Every tick re-reads the live readings, so
+nothing has to wake it:
+
+- **Claude.** A session starts only if the 5-hour window has at least 35%
+  left, and the weekly window's usage is under a pace line that rises from 20%
+  to 75% across the week. The rest is left for interactive use. Every session
+  writes its own `rate_limit_event` readings back, and a window whose
+  `resets_at` has passed stops constraining.
+- **Modal.** Work runs while month spend plus $1.50 stays under
+  `NC_MODAL_MONTH_CAP`. The new billing month re-opens it. Until then, ready
+  issues fall to the architect.
+
+A session that dies from an API or quota error does not count against the
+task.
+
+**Alerts**, each sent once per distinct message:
+
+- a task done
+- a task blocked or given up
+- a failed takeover
+- tick errors
+- no progress for 36 h while not waiting on a limit
+- the backlog complete
+
+`doctor` also checks the conductor heartbeat.
+
+```
+pipeline/conductor.py status          # backlog, limits, what it is waiting on
+pipeline/conductor.py tick --dry-run  # what the next tick would do
+pipeline/conductor.py labels          # create the GitHub labels
+touch /root/nc-pipeline-runs/conductor/PAUSE   # pause; rm to resume
+```
+Session records: `/root/nc-pipeline-runs/conductor/<ID>/<timestamp>-<mode>/`.
