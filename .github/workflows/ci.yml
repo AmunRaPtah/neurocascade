@@ -25,7 +25,8 @@ jobs:
         with:
           python-version: '3.12'
           cache: pip
-      - run: pip install -r requirements.txt
+      # Same versions as the pipeline's gate image, so CI and the gate agree.
+      - run: pip install -r requirements.txt -c pipeline/worker-constraints.txt
       - uses: ./.github/actions/fetch-data
       - name: pytest -m "not slow"
         run: pytest -m "not slow" -q --junitxml=junit-fast.xml
@@ -49,7 +50,8 @@ jobs:
         with:
           python-version: '3.12'
           cache: pip
-      - run: pip install -r requirements.txt
+      # Same versions as the pipeline's gate image, so CI and the gate agree.
+      - run: pip install -r requirements.txt -c pipeline/worker-constraints.txt
       - uses: ./.github/actions/fetch-data
       - name: pytest (full, including slow)
         run: pytest -q --junitxml=junit-full.xml

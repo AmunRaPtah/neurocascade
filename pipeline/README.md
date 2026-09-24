@@ -11,8 +11,11 @@ gate (CI). The user steps in only on `needs-human` issues and the daily digest.
 1. **Spec.** The architect branches `spec/<ID>` from main, commits
    `tasks/specs/<ID>.md` plus the failing tests, pushes it, and opens an issue
    titled `[<ID>] <title>` with label `worker-ready`.
-2. **Run.** `pipeline/orchestrate.py run` deploys the burst model, works the
-   ready issues back to back while the container is warm, then stops the app.
+2. **Run.** `pipeline/orchestrate.py run` first checks each spec branch with
+   no GPU up (the baseline, below). Then it deploys the burst model and waits
+   for one real request to succeed from inside the sandbox. It works the ready
+   issues back to back while the container is warm, then stops the app and
+   verifies that it stopped.
 3. **Gate.** Per task: the patch must be non-empty, touch `src/`, and leave the
    spec's protected tests and `.github/ pipeline/ tasks/ data/` alone; then the
    spec tests and the `not slow` suite must pass. One retry, with the failure
@@ -56,6 +59,56 @@ repo. Now:
 * Tests execute worker code, so they run in a `--network none` container on a
   disposable copy, never on the tree the host commits from.
 
+## Reliability and reproducibility
+
+* **Baseline.** Before any GPU starts, each spec branch is gated with no worker
+  change. The spec tests must fail, or they test nothing. The rest of the
+  `not slow` suite must pass, so a later gate failure can only be the worker's.
+  (The first real run lost an attempt to missing F-TRACT data.) An unsound
+  spec gets `needs-human` and a comment. Passes are cached in
+  `/root/nc-pipeline-runs/_baseline/` per (commit, image id, data/ listing).
+* **Readiness probe.** One Anthropic-format request goes from a container on
+  `nc-sandbox`, the exact path the worker uses. It absorbs the ~5 min cold
+  start before the worker's clock starts. A broken proxy, router or Modal app
+  stops the batch as an infra failure instead of burning an attempt.
+* **Short leash.** Each attempt is capped at 100 turns and 35 min
+  (`NC_MAX_TURNS`, `NC_AGENT_TIMEOUT_S`); the retry gets the failure log.
+  The first task flailed for 30 min on attempt 1 and was fixed in 135 s on
+  attempt 2.
+* **One run at a time.** `run` and `regate` hold the flock
+  `/root/nc-pipeline-runs/.lock`.
+* **Provenance.** Every run records the following in `provenance.json` next
+  to the attempts, and in the PR body:
+  - pipeline commit
+  - orchestrator hash
+  - image id
+  - Claude Code version
+  - data/ fingerprint
+  - llm-burst commit
+  - model repo and revision
+  - vLLM version
+  - GPU
+  - turn and time limits
+
+  Each attempt's `record.json` adds the spec commit and a prompt hash.
+  `run` refuses to deploy an llm-burst tree with uncommitted changes.
+* **Pinned environment.** `worker.Dockerfile` pins the Python, Node and
+  Claude Code versions. The Python packages are installed with
+  `-c pipeline/worker-constraints.txt`, the freeze of the validated image, and
+  CI installs the same constraints, so the local gate and CI test the same
+  versions. The LLM is the one nondeterministic part: rerunning a task can
+  produce a different patch, but the gate that judges it is fixed.
+* **Doctor.** `doctor` checks:
+  - the image and network
+  - the three services
+  - sandbox confinement: proxy reachable, internet not
+  - Modal budget
+  - disk
+  - burst apps left deployed with no run holding the lock
+
+  Cron runs `doctor --reap --quiet --alert` every 30 min. It stops stray apps
+  and sends a Telegram message only when the set of failing checks changes.
+
 ## Budget
 
 `NC_MODAL_MONTH_CAP` (default $25 of the $30 free tier) is checked against
@@ -71,8 +124,15 @@ pipeline/orchestrate.py queue
 pipeline/orchestrate.py budget
 pipeline/orchestrate.py run [--ids ID ...] [--model glm47-flash|qwen38-27b|qwen3-coder-next] [--max-tasks N]
 pipeline/orchestrate.py run --dry-run --ids ID      # local spec/<ID>, no GitHub writes
+pipeline/orchestrate.py regate <run>/attempt-N [--issue N]  # re-gate a saved patch, no GPU
+pipeline/orchestrate.py doctor [--reap] [--quiet] [--alert]
 NC_GATE_FULL=0 ...                                  # spec tests only (plumbing tests)
+python -m pytest -q pipeline/test_orchestrate.py    # orchestrator unit tests
 ```
 
+After fixing an environment problem that failed a gate, use `regate` on the
+saved attempt instead of paying for a new GPU run.
+
 Run records: `/root/nc-pipeline-runs/<ID>/<timestamp>/attempt-N/`
-(prompt, agent transcript, patch, pytest output, record.json).
+(prompt, agent transcript, final text, patch, pytest output, record.json;
+`provenance.json` one level up). Batch summaries: `_batches/<timestamp>/`.
