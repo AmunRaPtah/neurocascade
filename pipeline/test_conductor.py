@@ -97,3 +97,16 @@ def test_ci_state():
     assert c.ci_state({"statusCheckRollup": [{"conclusion": "SUCCESS"}]}) == "success"
     assert c.ci_state({"statusCheckRollup": [{"conclusion": "SUCCESS"}, {"conclusion": ""}]}) == "pending"
     assert c.ci_state({"statusCheckRollup": [{"conclusion": "FAILURE"}]}) == "failure"
+
+
+def test_gemini_backoff_and_infra_detection(tmp_path):
+    assert c.gemini_ok({})[0]
+    assert not c.gemini_ok({"gemini_waiting_until": time.time() + 60})[0]
+    assert c.gemini_ok({"gemini_waiting_until": time.time() - 1})[0]
+    ok, bad, broken = tmp_path / "a", tmp_path / "b", tmp_path / "c"
+    for d in (ok, bad, broken):
+        d.mkdir()
+    (ok / "batch.json").write_text(json.dumps({"results": {"P1a": "pr #3", "P1b": "worker-failed"}}))
+    (bad / "batch.json").write_text(json.dumps({"results": {"P1a": "pr #3", "P1b": "infra"}}))
+    assert not c.batches_had_infra([ok, broken])
+    assert c.batches_had_infra([ok, bad])

@@ -112,7 +112,8 @@ repo. Now:
 
 ## Budget
 
-`NC_MODAL_MONTH_CAP` (default $25 of the $30 free tier) is checked against
+`NC_MODAL_MONTH_CAP` (default $25 of the $30 free tier) binds Modal batches
+only (`run --llm` skips it) and is checked against
 `modal billing report` before the batch and before each task. The burst app is
 deployed only for the batch and stopped after, including on errors. LLM API
 errors stop the batch without spending an attempt. The existing free-memory
@@ -151,7 +152,7 @@ Run records: `/root/nc-pipeline-runs/<ID>/<timestamp>/attempt-N/`
    pushes any small cleanup through the gate, or rejects: the PR is closed and
    the issue goes to `worker-failed`.
 3. **Work**: runs `orchestrate.py run` on `worker-ready` issues while the Modal
-   month has headroom.
+   month has headroom, and on free-tier Gemini once it has not (below).
 4. **Takeover**: `worker-failed` and `needs-human` issues are handled by an Opus
    architect session, and so are ready issues while Modal is out of budget.
    The session works on the spec branch, and the result is gated and PR'd as
@@ -185,8 +186,15 @@ nothing has to wake it:
   writes its own `rate_limit_event` readings back, and a window whose
   `resets_at` has passed stops constraining.
 - **Modal.** Work runs while month spend plus $1.50 stays under
-  `NC_MODAL_MONTH_CAP`. The new billing month re-opens it. Until then, ready
-  issues fall to the architect.
+  `NC_MODAL_MONTH_CAP`. The new billing month re-opens it.
+- **Gemini (second worker).** While Modal is spent, ready issues go to
+  `orchestrate.py run --llm worker-gemini`, 2 per batch: free-tier
+  gemini-2.5-flash through the LiteLLM proxy (entry in pardalos
+  `deploy/litellm-free.yaml`, rpm 8, 3.5-flash as fallback). A batch that stops
+  on a backend or quota failure parks Gemini for 3 h. Only while both workers
+  are unavailable do ready issues fall to the architect. `NC_GEMINI_LLM=`
+  (empty) disables it. Free-tier prompts may be used by Google for training;
+  the repo is private but the code sent is not.
 
 A session that dies from an API or quota error does not count against the
 task.

@@ -637,14 +637,16 @@ def cmd_run(args) -> None:
     if not issues:
         log("nothing worker-ready")
         return
-    spent = modal_month_spend()
-    if spent >= MONTH_CAP:
-        sys.exit(f"Modal month-to-date ${spent:.2f} >= cap ${MONTH_CAP:.2f}; not starting")
     # --llm routes to any LiteLLM model (e.g. a free one for plumbing tests) and
     # leaves Modal alone; otherwise the burst model is deployed for the batch.
     llm = args.llm or f"burst-{args.model}"
     ctx = int(os.environ.get("NC_LLM_CTX", 65536)) if args.llm else model_ctx(args.model)
     use_modal = not args.llm
+    # The Modal cap only binds batches that use Modal; --llm is the fallback for
+    # when the month is spent.
+    spent = modal_month_spend() if use_modal else 0.0
+    if spent >= MONTH_CAP:
+        sys.exit(f"Modal month-to-date ${spent:.2f} >= cap ${MONTH_CAP:.2f}; not starting")
     prov = provenance(llm, None if args.llm else args.model)
     if use_modal and prov["llm_burst"].endswith("-dirty") and os.environ.get("NC_ALLOW_DIRTY") != "1":
         sys.exit(f"{LLM_BURST} has uncommitted changes; commit them so the deployed server "
@@ -689,9 +691,8 @@ def cmd_run(args) -> None:
             if mem_available_mb() < MIN_FREE_MB:
                 log(f"only {mem_available_mb()} MB free, stopping batch")
                 break
-            spent = modal_month_spend()
-            if spent >= MONTH_CAP:
-                log(f"Modal cap reached (${spent:.2f}), stopping batch")
+            if use_modal and modal_month_spend() >= MONTH_CAP:
+                log("Modal cap reached, stopping batch")
                 break
             try:
                 results[spec["id"]] = run_task(issue, spec, base, llm, ctx, prov, args.dry_run)

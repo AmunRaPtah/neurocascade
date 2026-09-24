@@ -73,6 +73,13 @@ MIN_SESSION_LEFT = float(os.environ.get("NC_MIN_SESSION_LEFT", 35))
 #: Weekly window: used% may not exceed FLOOR + SPAN * (fraction of week elapsed).
 WEEK_FLOOR, WEEK_SPAN = 20.0, 55.0
 MODAL_HEADROOM = 1.5            # $ a batch may still cost
+# Second worker backend, used while the Modal month is spent: free-tier Gemini
+# through the LiteLLM proxy (model entry in pardalos deploy/litellm-free.yaml).
+# The free tier allows a few hundred requests a day, so batches are small and a
+# quota or backend failure parks it for GEMINI_BACKOFF_S.
+GEMINI_LLM = os.environ.get("NC_GEMINI_LLM", "worker-gemini")
+GEMINI_TASKS = 2
+GEMINI_BACKOFF_S = 3 * 3600
 STALL_H = 36
 
 L_ARCH, L_APPROVED, L_HUMAN = "architect-pr", "approved", "needs-human"
@@ -180,6 +187,27 @@ def modal_ok() -> tuple[bool, str]:
         return False, f"modal billing unreadable: {str(e)[:120]}"
     ok = spent + MODAL_HEADROOM <= o.MONTH_CAP
     return ok, f"modal ${spent:.2f} of ${o.MONTH_CAP:.0f} this month"
+
+
+def gemini_ok(st: dict) -> tuple[bool, str]:
+    if not GEMINI_LLM:
+        return False, "gemini worker disabled"
+    until = st.get("gemini_waiting_until", 0)
+    if time.time() < until:
+        return False, f"{GEMINI_LLM} backing off until {time.strftime('%H:%M', time.localtime(until))}"
+    return True, GEMINI_LLM
+
+
+def batches_had_infra(batch_dirs: list[Path]) -> bool:
+    """True if any of these orchestrate batches stopped on a backend failure."""
+    for d in batch_dirs:
+        try:
+            res = json.loads((d / "batch.json").read_text()).get("results", {})
+        except (OSError, ValueError):
+            continue
+        if "infra" in res.values():
+            return True
+    return False
 
 
 def next_task(tasks: list[dict]) -> dict | None:
@@ -702,19 +730,34 @@ def step_work(st: dict, dry: bool) -> bool:
     if not ready:
         return False
     ok, why = modal_ok()
-    if not ok:
+    llm = None
+    if ok:
+        st.pop("modal_waiting", None)
+    else:
         st["modal_waiting"] = why
-        return False          # the architect may take these over instead
-    st.pop("modal_waiting", None)
+        gok, gwhy = gemini_ok(st)
+        if not gok:
+            log(f"work: {why}; {gwhy}")
+            return False      # the architect may take these over instead
+        llm = GEMINI_LLM
     if o.mem_available_mb() < o.MIN_FREE_MB:
         st["waiting"] = "host memory low"
         return True
-    log(f"work: {len(ready)} ready issue(s) to the Modal worker ({why})")
+    log(f"work: {len(ready)} ready issue(s) to {llm or 'the Modal worker'} ({why})")
     if dry:
         return True
-    p = o.sh([sys.executable, str(Path(__file__).parent / "orchestrate.py"), "run", "--max-tasks", "4"],
-             capture_output=False, text=True, timeout=6 * 3600)
-    progress(st, f"worker batch rc={p.returncode}")
+    cmd = [sys.executable, str(Path(__file__).parent / "orchestrate.py"), "run",
+           "--max-tasks", str(GEMINI_TASKS if llm else 4)] + (["--llm", llm] if llm else [])
+    started = time.time()
+    p = o.sh(cmd, capture_output=False, text=True, timeout=6 * 3600)
+    progress(st, f"worker batch ({llm or 'modal'}) rc={p.returncode}")
+    if llm:
+        new = [d for d in (o.RUNS / "_batches").glob("*") if d.stat().st_mtime >= started - 5]
+        if batches_had_infra(new):
+            st["gemini_waiting_until"] = time.time() + GEMINI_BACKOFF_S
+            log(f"work: {llm} backend failure, backing off {GEMINI_BACKOFF_S // 3600}h")
+        else:
+            st.pop("gemini_waiting_until", None)
     return True
 
 
@@ -943,6 +986,7 @@ def status() -> None:
     done = sum(t["status"] == "done" for t in tasks)
     print(f"backlog {done}/{len(tasks)} done; next: {(next_task(tasks) or {}).get('id')}")
     print(f"claude: {claude_ok()[1]}\nmodal: {modal_ok()[1]}")
+    print(f"gemini: {gemini_ok(load_state())[1]}")
     for k in ("waiting", "waiting_on", "last_progress_what", "last_error"):
         if st.get(k):
             print(f"{k}: {st[k]}")
