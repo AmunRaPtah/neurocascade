@@ -56,6 +56,8 @@ DEPLOY = {"glm47-flash": "glm_app", "qwen38-27b": "qwen_app",
 
 # The worker may never change these, whatever the spec says.
 FORBIDDEN = (".github/", "pipeline/", "tasks/specs/", "tasks/backlog.json", "data/")
+#: Everything a worker patch may touch. Keeps scratch scripts out of the repo.
+ALLOWED = ("src/", "tests/", "docs/")
 
 class InfraError(RuntimeError):
     """The LLM backend, not the worker, failed. Stops the batch; burns no attempt."""
@@ -227,7 +229,10 @@ test files for that module (tests/test_<module>*.py).
 
 RULES
 - Do not edit, delete or skip these files: {protected}. They are the spec.
-- Do not modify .github/, pipeline/, tasks/, or data/.
+- Only change files under src/, tests/ and docs/. Do not modify .github/,
+  pipeline/, tasks/ or data/, and delete any scratch or debug scripts you
+  create before finishing; the patch is rejected if they are left behind.
+- Remove any debug logging or print statements you added while investigating.
 - Every numeric parameter must come from the spec or from code/data already in
   the repo. Never invent a value; if one is missing, stop and say so.
 - Keep the change focused on this task. No unrelated refactors.
@@ -303,6 +308,9 @@ def check_patch(patch: str, spec: dict) -> str | None:
     bad = [p for p in paths if p.startswith(FORBIDDEN) or p in spec["protected"]]
     if bad:
         return f"patch modifies protected paths: {bad}"
+    stray = [p for p in paths if not p.startswith(ALLOWED)]
+    if stray:
+        return f"patch touches files outside {'/ '.join(a.rstrip('/') for a in ALLOWED)}/: {stray}; delete them"
     if not any(p.startswith("src/") for p in paths):
         return f"patch changes no source under src/: {paths}"
     return None
