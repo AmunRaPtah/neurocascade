@@ -579,6 +579,39 @@ def format_acceptance(items) -> str:
     return "\n".join(f"- {a}" for a in items)
 
 
+def result_claim(final_text: str) -> tuple[str, str]:
+    """The agent's own verdict from its TASK_RESULT line: (kind, reason).
+
+    kind is "complete", "blocked", "blocked-on-data", or "" when the agent never
+    printed a TASK_RESULT line. The last such line wins, so a fix-round verdict
+    overrides the first session's.
+    """
+    kind, reason = "", ""
+    for line in (final_text or "").splitlines():
+        stripped = line.strip()
+        if stripped.startswith("TASK_RESULT: BLOCKED_ON_DATA"):
+            kind, reason = "blocked-on-data", stripped.split("BLOCKED_ON_DATA", 1)[1].strip()
+        elif stripped.startswith("TASK_RESULT: BLOCKED"):
+            kind, reason = "blocked", stripped.split("BLOCKED", 1)[1].strip()
+        elif stripped.startswith("TASK_RESULT: COMPLETE"):
+            kind, reason = "complete", ""
+    return kind, reason
+
+
+#: Top-level files a task may legitimately change. Anything else at the repo
+#: root is treated as debris: P22.3 was marked done on 2026-09-11 when its only
+#: commit was a swept-up Anubis bot-check page, base.html.
+ROOT_FILES = {"README.md", "pyproject.toml", "requirements.txt", "setup.cfg",
+              "CHANGELOG.md", ".gitignore"}
+
+
+def substantive_paths(paths) -> list[str]:
+    """The changed paths that could be real work, dropping root-level debris
+    and the backlog file the runner itself writes."""
+    return [p for p in paths
+            if p and p != "tasks/backlog.json" and ("/" in p or p in ROOT_FILES)]
+
+
 def run_tick(dry_run: bool = False) -> int:
     """Wrapper so the active-tick marker is cleared on every exit path."""
     try:
@@ -701,17 +734,6 @@ def _run_tick(dry_run: bool = False) -> int:
     # the second says the work itself failed. Collapsing them is how a data
     # shortage gets re-read as an engineering backlog, which is the mistake that
     # produced fifteen modules holding one sourced value.
-    blocked_reason = ""
-    blocked_kind = ""
-    for line in (final_text or "").splitlines():
-        stripped = line.strip()
-        if stripped.startswith("TASK_RESULT: BLOCKED_ON_DATA"):
-            blocked_reason = stripped.split("BLOCKED_ON_DATA", 1)[1].strip()
-            blocked_kind = "blocked-on-data"
-        elif stripped.startswith("TASK_RESULT: BLOCKED"):
-            blocked_reason = stripped.split("BLOCKED", 1)[1].strip()
-            blocked_kind = "blocked"
-
     # Commit anything the agent left uncommitted so the gate sees all of it.
     #
     # The tree was verified clean before the agent started, so in principle
@@ -737,7 +759,8 @@ def _run_tick(dry_run: bool = False) -> int:
         log_event("test_gate_failed", task=task["id"], fix_attempt=fix_attempts)
         fix_prompt = FIX_PROMPT.format(
             rules=rules, task_id=task["id"], title=task["title"], failure=failure)
-        run_agent(fix_prompt, log_path)
+        _, fix_text = run_agent(fix_prompt, log_path)
+        final_text = (final_text or "") + "\n" + (fix_text or "")
         if git("status", "--porcelain"):
             git("add", "-A")
             git("commit", "-m", f"{task['id']}: fix test failures (autonomous)")
@@ -745,9 +768,26 @@ def _run_tick(dry_run: bool = False) -> int:
 
     head = git("rev-parse", "HEAD")
     made_commits = head != gate_baseline
+    claim, claim_reason = result_claim(final_text)
+    blocked_kind = claim if claim.startswith("blocked") else ""
+    blocked_reason = claim_reason if blocked_kind else ""
+
+    # A green suite plus "some commit exists" is not completion. Require the
+    # agent to have said COMPLETE (or BLOCKED*), and a COMPLETE to have changed
+    # something that could be the work.
+    rejected = ""
+    if tests_ok and made_commits:
+        changed = git("diff", "--name-only", gate_baseline, "HEAD").split()
+        if not claim:
+            rejected = "agent never reported a TASK_RESULT"
+        elif claim == "complete" and not substantive_paths(changed):
+            rejected = "COMPLETE claimed but only debris changed: " + ",".join(changed[:6])
+    if rejected:
+        tests_ok = False
+        failure = rejected
 
     if tests_ok and made_commits:
-        task["status"] = blocked_kind if blocked_reason else "done"
+        task["status"] = blocked_kind or "done"
         task["finished_at"] = now()
         task["result"] = blocked_reason or "complete"
         task["commits"] = git("rev-list", "--count", f"{gate_baseline}..HEAD")
@@ -763,7 +803,7 @@ def _run_tick(dry_run: bool = False) -> int:
         return 0
 
     if tests_ok and not made_commits:
-        task["status"] = blocked_kind if blocked_reason else "failed"
+        task["status"] = blocked_kind or "failed"
         task["finished_at"] = now()
         task["result"] = blocked_reason or "agent produced no commits"
         commit_backlog(data, f"chore(backlog): {task['id']} {task['status']} (autonomous)")
@@ -777,7 +817,8 @@ def _run_tick(dry_run: bool = False) -> int:
     git("reset", "--hard", gate_baseline)
     task["status"] = "failed"
     task["finished_at"] = now()
-    task["result"] = f"test gate failed, work parked on {quarantine}"
+    task["result"] = (f"{rejected}; work parked on {quarantine}" if rejected
+                      else f"test gate failed, work parked on {quarantine}")
     commit_backlog(data, f"chore(backlog): {task['id']} failed the test gate (autonomous)")
     log_event("quarantined", task=task["id"], branch=quarantine,
               attempts=task["attempts"], agent_ok=agent_ok)
