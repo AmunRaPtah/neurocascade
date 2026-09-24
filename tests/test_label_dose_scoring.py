@@ -17,6 +17,9 @@ def test_round_sig():
     assert round_sig(14.749) == 14.7
     assert round_sig(1234.5) == 1230
     assert round_sig(0.012345) == 0.0123
+    assert round_sig(3.9996) == 4.0
+    assert round_sig(0.29) == 0.29
+    assert round_sig(1.13) == 1.13
 
 
 def test_touching_endpoint_counts_as_overlap():
@@ -96,6 +99,8 @@ def test_aggregate():
 def test_aggregate_all_refused():
     agg = aggregate([refused("a", "pk")])
     assert agg["median_abs_e"] is None and agg["max_abs_e"] is None
+    assert agg["per_drug"] == {"a": None}
+    assert agg["n_scored"] == 0
 
 
 def test_aggregate_rejects_duplicates_and_overflow():

@@ -5,13 +5,10 @@ against FDA label ranges (l_low, l_high). No PK, no drug data, no I/O: this
 module only evaluates overlap and log-midpoint error.
 """
 
-import inspect
-import logging
 import math
+import statistics
 from dataclasses import dataclass
 from typing import Any
-
-_log = logging.getLogger(__name__)
 
 # Metric constants from the pre-registration (C5: doses are reported to 3 sig figs)
 LOG2 = math.log10(2)  # Twofold boundary for passing
@@ -21,11 +18,11 @@ SIG_FIGS = 3  # Number of significant figures for dose rounding
 def round_sig(x: float, sig: int = SIG_FIGS) -> float:
     """Round to `sig` significant figures."""
     if x == 0:
-        return 0.0  # Zero rounds to zero
-    order = int(math.floor(math.log10(abs(x))))
-    digits = x / 10 ** order
-    rounded = round(digits, sig - 1)
-    return rounded * (10 ** order)
+        return 0.0
+    # round() to a decimal place, not digits * 10**order: the multiplication
+    # leaves artifacts like 4.000000000000001, and C5 evaluates the
+    # touching-endpoint boundary at exactly the printed value.
+    return round(x, sig - 1 - math.floor(math.log10(abs(x))))
 
 
 @dataclass(frozen=True)
@@ -158,67 +155,25 @@ def aggregate(scores: list[Score], denominator: int = 8) -> dict[str, Any]:
             - denominator: The fixed denominator
             - median_abs_e: Median of |e| values (or None if no e values)
             - max_abs_e: Max of |e| values (or None if no e values)
-            - per_drug: Dictionary mapping drug name to e values (None for refused)
-                     or None if no e values.
+            - per_drug: Dictionary mapping every drug name to its e (None when
+              refused or unreachable).
 
     Raises:
         ValueError: If drug names repeat or total drugs exceed the denominator.
     """
-    # Check for duplicate drug names first
-    seen_drugs = set()
-    for i, s in enumerate(scores):
-        if s.drug in seen_drugs:
-            raise ValueError(f"Duplicate drug name in scores: {s.drug}")
-        seen_drugs.add(s.drug)
-
-    # Check denominator constraint: total number of drugs cannot exceed denominator
+    names = [s.drug for s in scores]
+    if len(set(names)) != len(names):
+        raise ValueError(f"duplicate drug names in scores: {names}")
     if len(scores) > denominator:
-        raise ValueError(
-            f"Cannot aggregate {len(scores)} drugs for denominator {denominator}"
-        )
+        raise ValueError(f"{len(scores)} scores for a denominator of {denominator}")
 
-    # Count scored drugs (only those with refusal is None)
-    n_scored = sum(1 for s in scores if s.refusal is None)
-
-    # SUMMARY STATISTICS
-    n_pass = sum(1 for s in scores if s.passed)
-    n_scored = sum(1 for s in scores if s.refusal is None)
-
-    # Build per_drug dict for all drugs:
-    # - Scored drugs with non-None e: store the e value
-    # - Scored drugs with e=None (unreachable): store None
-    # - Refused drugs: store None
-    # per_drug is None only when there are no scored/drugs (including refused) that could have e=None
-    # Actually, based on test: if any e_values exist, per_drug should include all scored/refused with e=None
-    per_drug = {}
-    e_values = [s.e for s in scores if s.refusal is None and s.e is not None]
-
-    if e_values:
-        for s in scores:
-            per_drug[s.drug] = s.e if s.refusal is None else None
-    else:
-        # No scored drugs have non-None e - per_drug should be None per spec
-        per_drug = None
-
-    # median_abs_e and max_abs_e computed from e_values
-    if e_values:
-        # Implement median manually (math.median not available in stdlib)
-        sorted_abs_e = sorted(abs(e) for e in e_values)
-        n = len(sorted_abs_e)
-        if n % 2 == 1:
-            median_abs_e = sorted_abs_e[n // 2]
-        else:
-            median_abs_e = (sorted_abs_e[n // 2 - 1] + sorted_abs_e[n // 2]) / 2
-        max_abs_e = max(sorted_abs_e)
-    else:
-        median_abs_e = None
-        max_abs_e = None
-
+    abs_e = [abs(s.e) for s in scores if s.e is not None]
     return {
-        "n_pass": n_pass,
-        "n_scored": n_scored,
+        "n_pass": sum(s.passed for s in scores),
+        # Unreachable windows are scored failures, so they count here.
+        "n_scored": sum(s.refusal is None for s in scores),
         "denominator": denominator,
-        "median_abs_e": median_abs_e,
-        "max_abs_e": max_abs_e,
-        "per_drug": per_drug,
+        "median_abs_e": statistics.median(abs_e) if abs_e else None,
+        "max_abs_e": max(abs_e) if abs_e else None,
+        "per_drug": {s.drug: s.e for s in scores},
     }
