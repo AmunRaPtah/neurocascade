@@ -44,6 +44,7 @@ import re
 import shutil
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -469,44 +470,100 @@ def rules() -> str:
     return runner.PROJECT_RULES.format(repo="/work", venv="(none, see below)")
 
 
-def run_architect(name: str, base: str, prompt: str, model: str, adir: Path) -> dict:
-    """One headless Claude session in the sandbox image on a clone at `base`."""
-    adir.mkdir(parents=True, exist_ok=True)
-    (adir / "prompt.txt").write_text(prompt)
-    host = host_clone(name, base)
-    tree = o.WORK / "arch" / f"{name}-tree"
-    o.disposable_copy(host, tree)
-    cname = f"nca-{re.sub(r'[^a-zA-Z0-9]', '-', name)}"
-    o.sh(["docker", "rm", "-f", cname])
+NUDGE = ("Your session ended without the required final line. Background commands "
+         "do not survive a headless session: run everything in the foreground "
+         "(pass a Bash timeout of up to 45 min for the full suite). Finish the work "
+         "that is in /work and end with the TASK_RESULT (or REVIEW) line.")
+
+WIP_NOTE = """
+## Work in progress from an earlier session
+
+A previous session on this task stopped before reporting a result. Its
+uncommitted changes are already in /work (`git status`, `git diff`). Review
+them, keep what is right, and finish from there rather than starting over.
+"""
+
+# Headless sessions end when the model yields its turn, so a backgrounded test
+# run is simply lost (first live tick, 2026-09-24). No background tasks, and
+# a Bash timeout long enough for the full not-slow suite.
+SESSION_ENV = {"CLAUDE_CODE_DISABLE_BACKGROUND_TASKS": "1",
+               "BASH_DEFAULT_TIMEOUT_MS": str(45 * 60_000),
+               "BASH_MAX_TIMEOUT_MS": str(45 * 60_000)}
+
+
+def _session(cname: str, tree: Path, home: Path, claude_args: list[str],
+             log_path: Path, deadline: float) -> int:
     args = ["docker", "run", "--rm", "--name", cname, "--network", "bridge",
             "--memory", "3g", "--memory-swap", "3g", "--cpus", "4", "--pids-limit", "1024",
             "--cap-drop", "ALL", "--security-opt", "no-new-privileges",
             "--user", str(o.WORKER_UID), "-e", "CLAUDE_CODE_OAUTH_TOKEN",
-            "-v", f"{tree}:/work", "-v", f"{o.DATA}:/work/data:ro", o.IMAGE,
-            "claude", "-p", prompt, "--model", model, "--permission-mode", "bypassPermissions",
+            *[x for k in SESSION_ENV for x in ("-e", k)],
+            "-v", f"{tree}:/work", "-v", f"{o.DATA}:/work/data:ro",
+            "-v", f"{home}:/home/worker/.claude", o.IMAGE,
+            "claude", *claude_args, "--permission-mode", "bypassPermissions",
             "--max-turns", str(ARCH_MAX_TURNS), "--output-format", "stream-json", "--verbose"]
     # The token goes by environment inheritance, never on a command line.
-    env = {**os.environ, "CLAUDE_CODE_OAUTH_TOKEN": TOKEN_FILE.read_text().strip()}
-    t0, rc = now(), None
-    with (adir / "agent.jsonl").open("w") as f:
-        proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                stdin=subprocess.DEVNULL, text=True, env=env, bufsize=1)
-        for line in proc.stdout:
-            f.write(line)
-            if '"rate_limit_event"' in line:
-                try:
-                    runner.record_quota_reading(json.loads(line).get("rate_limit_info") or {})
-                except Exception:
-                    pass
-            if now() - t0 > ARCH_TIMEOUT_S:
-                o.sh(["docker", "kill", cname])
-                break
-        rc = proc.wait()
-    res = {"rc": rc, "secs": round(now() - t0), "model": model,
-           **o.parse_agent_log((adir / "agent.jsonl").read_text(errors="replace"))}
+    env = {**os.environ, **SESSION_ENV,
+           "CLAUDE_CODE_OAUTH_TOKEN": TOKEN_FILE.read_text().strip()}
+    o.sh(["docker", "rm", "-f", cname])
+    # Wall-clock kill even when the session is silent inside a long command.
+    killer = threading.Timer(max(60.0, deadline - now()), lambda: o.sh(["docker", "kill", cname]))
+    killer.start()
+    try:
+        with log_path.open("w") as f:
+            proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                    stdin=subprocess.DEVNULL, text=True, env=env, bufsize=1)
+            for line in proc.stdout:
+                f.write(line)
+                if '"rate_limit_event"' in line:
+                    try:
+                        runner.record_quota_reading(json.loads(line).get("rate_limit_info") or {})
+                    except Exception:
+                        pass
+            return proc.wait()
+    finally:
+        killer.cancel()
+
+
+def run_architect(name: str, base: str, prompt: str, model: str, adir: Path,
+                  wip: str = "") -> dict:
+    """One headless Claude session in the sandbox image on a clone at `base`,
+    optionally with an earlier session's unfinished patch already applied.
+    A session that stops without its verdict line is resumed once."""
+    adir.mkdir(parents=True, exist_ok=True)
+    host = host_clone(name, base)
+    if wip and o.sh(["git", "-C", str(host), "apply", "-"], input=wip).returncode == 0:
+        prompt += WIP_NOTE
+    (adir / "prompt.txt").write_text(prompt)
+    tree = o.WORK / "arch" / f"{name}-tree"
+    o.disposable_copy(host, tree)
+    o.sh(["git", "-C", str(host), "reset", "-q", "--hard"])
+    o.sh(["git", "-C", str(host), "clean", "-qfd"])
+    home = adir / "claude-home"
+    home.mkdir(exist_ok=True)
+    o.sh(["chown", "-R", f"{o.WORKER_UID}:{o.WORKER_UID}", str(home)])
+    cname = f"nca-{re.sub(r'[^a-zA-Z0-9]', '-', name)}"
+    t0 = now()
+    deadline = t0 + ARCH_TIMEOUT_S
+    rc = _session(cname, tree, home, ["-p", prompt, "--model", model],
+                  adir / "agent.jsonl", deadline)
+    text = (adir / "agent.jsonl").read_text(errors="replace")
+    res = {"rc": rc, "model": model, **o.parse_agent_log(text)}
+    sid = re.search(r'"session_id":\s*"([0-9a-f-]{36})"', text)
+    if (sid and not res["api_error"] and not parse_claim(res["final"])[0]
+            and deadline - now() > 600):
+        log(f"{name}: no verdict line, resuming session once")
+        rc = _session(cname, tree, home, ["-p", NUDGE, "--resume", sid.group(1), "--model", model],
+                      adir / "agent-resume.jsonl", deadline)
+        more = o.parse_agent_log((adir / "agent-resume.jsonl").read_text(errors="replace"))
+        res.update(rc=rc, api_error=more["api_error"],
+                   final=(res["final"] + "\n\n" + more["final"]).strip(),
+                   turns=(res["turns"] or 0) + (more["turns"] or 0))
+    res["secs"] = round(now() - t0)
     (adir / "final.txt").write_text(res["final"])
     res["patch"] = o.extract_patch(tree, base, adir)
     shutil.rmtree(tree, ignore_errors=True)
+    shutil.rmtree(home, ignore_errors=True)
     res["host"] = host
     res["claim"], res["rest"] = parse_claim(res["final"])
     log(f"{name}: architect rc={rc} {res['secs']}s turns={res['turns']} "
@@ -748,11 +805,19 @@ def step_advance(st: dict, base: str, dry: bool) -> bool:
         note += ("\n## Subtasks already merged into main\n\n" + ", ".join(c["subtasks"])
                  + "\nTheir specs are in tasks/specs/. Build on them.\n")
     adir = rundir(tid, "task")
+    wip_path = Path(st.setdefault("wip", {}).get(tid, "/nonexistent"))
+    wip = wip_path.read_text(errors="replace") if wip_path.is_file() else ""
     res = run_architect(f"task-{tid}", base, TASK_PROMPT.format(
         rules=rules(), override=RULES_OVERRIDE, id=tid, phase=t.get("phase", ""),
         title=t["title"], brief=t["brief"],
         acceptance="\n".join(f"- {a}" for a in t.get("acceptance", [])),
-        note=note, history=history_text(c), guide=SPEC_GUIDE), ARCH_MODEL, adir)
+        note=note, history=history_text(c), guide=SPEC_GUIDE), ARCH_MODEL, adir, wip)
+    # Unfinished work is kept for the next session; anything else starts clean.
+    if res["patch"].strip() and not res["claim"]:
+        (adir / "wip.patch").write_text(res["patch"])
+        st["wip"][tid] = str(adir / "wip.patch")
+    elif res["claim"]:
+        st["wip"].pop(tid, None)
     if res.get("infra"):
         st["waiting"] = f"{tid} session failed to run: {res['final'][:120] or res['rc']}"
         return True
