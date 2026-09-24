@@ -1839,6 +1839,10 @@
       "conductor": {
         "subtasks": [
           "P22.2f"
+        ],
+        "sessions": 1,
+        "history": [
+          "2026-09-24 20:59 no verdict; rejected: session ended without a TASK_RESULT line"
         ]
       }
     },
