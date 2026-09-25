@@ -72,6 +72,8 @@ MAX_TAKEOVERS = 2
 MIN_SESSION_LEFT = float(os.environ.get("NC_MIN_SESSION_LEFT", 35))
 #: Weekly window: used% may not exceed FLOOR + SPAN * (fraction of week elapsed).
 WEEK_FLOOR, WEEK_SPAN = 20.0, 55.0
+# P22.2a's 1108-line spec overflowed the worker's 64k context on 2026-09-25.
+MAX_SPEC_LINES = 200
 MODAL_HEADROOM = 1.5            # $ a batch may still cost
 # Second worker backend, used while the Modal month is spent: free-tier Gemini
 # through the LiteLLM proxy (model entry in pardalos deploy/litellm-free.yaml).
@@ -147,7 +149,22 @@ def check_split_patch(patch: str, subs: list[str]) -> str | None:
     stray = [p for p in paths if p not in specs and not p.startswith("tests/")]
     if stray:
         return f"a SPLIT may only add specs and tests, not {stray}"
+    big = {f: n for f, n in added_lines(patch).items() if f in specs and n > MAX_SPEC_LINES}
+    if big:
+        return (f"spec(s) too big for the worker's context {big} (max {MAX_SPEC_LINES} lines): "
+                "split further or do it yourself")
     return None
+
+
+def added_lines(patch: str) -> dict[str, int]:
+    out, cur = {}, None
+    for line in patch.splitlines():
+        if line.startswith("diff --git "):
+            cur = line.split(" b/", 1)[-1]
+            out[cur] = 0
+        elif cur and line.startswith("+") and not line.startswith("+++"):
+            out[cur] += 1
+    return out
 
 
 def week_allowance(elapsed_frac: float) -> float:
@@ -175,7 +192,7 @@ def claude_ok() -> tuple[bool, str]:
     if wk.get("resets_at") and t < float(wk["resets_at"]):
         frac = 1 - (float(wk["resets_at"]) - t) / (7 * 86400)
         used, cap = float(wk["used_percentage"]), week_allowance(frac)
-        if used > cap:
+        if used > cap and os.environ.get("NC_IGNORE_PACE") != "1":   # one-off manual kick
             return False, f"week {used:.0f}% used > pace {cap:.0f}%"
         notes.append(f"week {used:.0f}%/{cap:.0f}%")
     return True, ", ".join(notes) or "windows rolled over"
@@ -405,6 +422,10 @@ B. Split off mechanical code for the worker, then end with
    The tests must fail now, must pass once the brief is implemented, and must
    pin every output field and value: the worker satisfies the tests, not the
    prose. Every other test in the suite must still pass on your spec branch.
+   Size: the worker has a 64k-token context that must hold the spec, the tests
+   and the code it reads. Keep each spec under 200 lines (the host rejects
+   longer ones) and each subtask to one or two src modules; a task that needs
+   more is several subtasks, or yours to do.
    Only split subtasks that are independent of each other against current
    main. When they have merged, you get this task back with their ids listed
    and can do the rest, or split again.

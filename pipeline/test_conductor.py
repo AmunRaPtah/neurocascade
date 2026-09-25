@@ -110,3 +110,8 @@ def test_gemini_backoff_and_infra_detection(tmp_path):
     (bad / "batch.json").write_text(json.dumps({"results": {"P1a": "pr #3", "P1b": "infra"}}))
     assert not c.batches_had_infra([ok, broken])
     assert c.batches_had_infra([ok, bad])
+
+
+def test_split_rejects_oversized_spec():
+    big = "diff --git a/tasks/specs/P9.1a.md b/tasks/specs/P9.1a.md\n" + "+x\n" * (c.MAX_SPEC_LINES + 1)
+    assert "too big" in c.check_split_patch(big + diff("tests/t.py"), ["P9.1a"])
