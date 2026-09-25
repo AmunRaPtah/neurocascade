@@ -150,4 +150,8 @@ def test_clearance_cannot_be_moved_off_a_reference_weight_without_a_rule():
 def test_records_can_be_selected_by_route():
     assert len(human_pk_records("haloperidol")) == 2
     assert len(human_pk_records("haloperidol", route="PO")) == 1
-    assert human_pk_records(route="PO") == human_pk_records("haloperidol", route="PO")
+    # P22.2 added a bridged FDA row for oral olanzapine, pinned in
+    # tests/test_human_fda_pk_bridge.py; here the route filter's own promise.
+    oral = human_pk_records(route="PO")
+    assert all(record.route == "PO" for record in oral)
+    assert human_pk_records("haloperidol", route="PO")[0] in oral

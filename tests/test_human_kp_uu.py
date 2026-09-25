@@ -5,7 +5,10 @@ from neurocascade.human.kp_uu import kp_uu_records, transfer_kp_uu
 
 def test_human_records_are_explicitly_unavailable_until_sourced():
     records = kp_uu_records()
-    assert {r.drug for r in records} == {"fentanyl", "haloperidol", "diazepam"}
+    assert [r.drug for r in records[:3]] == ["fentanyl", "haloperidol", "diazepam"]
+    # Rows added later (olanzapine, P22.2) must not invent a human Kp,uu.
+    for record in records[3:]:
+        assert record.kp_uu is None and record.status == "not-required"
     assert records[0].kp_uu is None and records[0].status == "least-supported"
     assert records[1].kp_uu is None and records[1].status == "not-required"
     assert records[2].kp_uu == pytest.approx(0.79)

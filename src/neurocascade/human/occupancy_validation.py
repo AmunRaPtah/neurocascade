@@ -613,6 +613,9 @@ class SteadyStateOccupancy:
     plasma_nM: object
     occupancy: object
     ec50_nM: float
+    #: The occupancy ceiling of the EC50's own fit, already applied to
+    #: :attr:`occupancy`. Defaults to 1, which is what haloperidol's row pins.
+    emax: float = 1.0
 
     @property
     def trough_occupancy(self):
@@ -653,13 +656,21 @@ def steady_state_occupancy(
     n_full = len(concentration) // per_interval
     blocks = concentration[: n_full * per_interval].reshape(n_full, per_interval)
     accumulated = blocks.sum(axis=0)
+    # The Emax of the EC50's own fit, not 1. Before P22.2 this line divided
+    # without it, which was harmless while haloperidol was the only drug in the
+    # registry (its row pins Emax at exactly 1) and wrong for the first drug
+    # whose source fitted the ceiling free. The pre-registration fixes that the
+    # registered constant is used under its own Emax convention, so the ceiling
+    # has to travel with it through the superposition as well as through the
+    # single-dose curve.
     return SteadyStateOccupancy(
         dose_mg_per_day=float(dose_mg_per_day),
         n_doses=int(n_full),
         times_min=times[:per_interval],
         plasma_nM=accumulated,
-        occupancy=accumulated / (accumulated + prediction.ec50_nM),
+        occupancy=prediction.emax * accumulated / (accumulated + prediction.ec50_nM),
         ec50_nM=prediction.ec50_nM,
+        emax=prediction.emax,
     )
 
 
@@ -908,6 +919,22 @@ OCCUPANCY_IS_NOT_THE_OUTCOME = (
 )
 
 
+#: The dose bracket :func:`dose_reaching_occupancy` searches, mg/day. Named
+#: rather than inlined so that a refusal can quote the bracket it failed in.
+DOSE_SEARCH_MIN_MG_PER_DAY = 0.01
+DOSE_SEARCH_MAX_MG_PER_DAY = 500.0
+
+
+class OccupancyUnreachableError(ValueError):
+    """A target occupancy the chain cannot reach for a drug, with the reason.
+
+    Raised rather than returned as a sentinel because a dose that does not exist
+    must not be able to flow into an arithmetic mean by accident. P22.2 scores a
+    drug whose window is unreachable as an overlap failure with an undefined
+    midpoint error, which requires catching this rather than reading a NaN.
+    """
+
+
 def dose_reaching_occupancy(
     target_occupancy, regimen="steady-state-daily", drug="haloperidol", **kwargs
 ):
@@ -925,20 +952,60 @@ def dose_reaching_occupancy(
 
     if not 0 < target_occupancy < 1:
         raise ValueError("target_occupancy must be a fraction strictly inside (0, 1)")
+    # The Emax the drug's registered EC50 was fitted under, captured from
+    # whichever object the regimen builds rather than looked up a second way, so
+    # a refusal quotes the ceiling the search actually ran against.
+    seen = {}
     if regimen == "steady-state-daily":
         def miss(dose):
-            return steady_state_occupancy(dose, drug=drug, **kwargs).mean_occupancy - target_occupancy
+            result = steady_state_occupancy(dose, drug=drug, **kwargs)
+            seen["emax"] = result.emax
+            return result.mean_occupancy - target_occupancy
     elif regimen == "single-dose":
         times = np.arange(0.0, 72.0 * 60.0 + 5.0, 5.0)
 
         def miss(dose):
-            return predict_occupancy(dose, drug=drug, times_min=times, **kwargs).peak_occupancy - target_occupancy
+            result = predict_occupancy(dose, drug=drug, times_min=times, **kwargs)
+            seen["emax"] = result.emax
+            return result.peak_occupancy - target_occupancy
     else:
         raise ValueError(
             "regimen must be steady-state-daily or single-dose; the chain has "
             "no parameters for anything else"
         )
-    return float(brentq(miss, 0.01, 500.0, xtol=1e-6))
+    # Two ways the target can be out of reach, and they are different findings.
+    # A target above the EC50 fit's own Emax is unreachable at *any* dose: the
+    # source's hyperbola asymptotes below it. A target below Emax but not met at
+    # the top of the search bracket is reachable in principle and merely needs
+    # more drug than this bracket allows. The pre-registration requires the
+    # first to be recorded as unreachable rather than imputed, so both are
+    # raised as a named exception instead of surfacing as brentq's
+    # "f(a) and f(b) must have different signs".
+    top = miss(DOSE_SEARCH_MAX_MG_PER_DAY)
+    if top < 0.0:
+        emax = seen["emax"]
+        if target_occupancy >= emax:
+            raise OccupancyUnreachableError(
+                "%s cannot reach %.3f occupancy at any dose: the registered "
+                "EC50's own fit has Emax %.3f, so its hyperbola asymptotes "
+                "below the target. The bound is unreachable, not merely large."
+                % (drug, target_occupancy, emax)
+            )
+        raise OccupancyUnreachableError(
+            "%s does not reach %.3f occupancy by %g mg/day under regimen %r "
+            "(it reaches %.3f there); the EC50 fit's Emax is %.3f, so the "
+            "target is reachable in principle but not inside the dose bracket "
+            "this search uses."
+            % (
+                drug,
+                target_occupancy,
+                DOSE_SEARCH_MAX_MG_PER_DAY,
+                regimen,
+                top + target_occupancy,
+                emax,
+            )
+        )
+    return float(brentq(miss, DOSE_SEARCH_MIN_MG_PER_DAY, DOSE_SEARCH_MAX_MG_PER_DAY, xtol=1e-6))
 
 
 def clinical_window_check():

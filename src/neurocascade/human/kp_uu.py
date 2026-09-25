@@ -25,6 +25,7 @@ HUMAN_KP_UU_RECORDS = (
     KpUURecord("fentanyl", "human", None, "absent", "Searched human Kp,uu source set; no defensible direct value", "least-supported", "Illustrative transfer may use f_species near 1 only when explicitly requested."),
     KpUURecord("haloperidol", "human", None, "absent", "Human occupancy inversion reserved for P16.1", "not-required", "No Kp,uu is consumed; occupancy data should identify the effective brain exposure."),
     KpUURecord("diazepam", "human", 0.79, "Kp,uu", "Friden 2009, PMID 19764786; DiVA thesis diva2:349401", "measured-human", "CSF surrogate bias is expected to be small for this non-efflux substrate."),
+    KpUURecord("olanzapine", "human", None, "absent", "de Greef 2011 plasma EC50 (PMC3032087), fitted against plasma in living people", "not-required", "No Kp,uu is consumed; the in-vivo plasma EC50 already contains brain penetration."),
 )
 
 
