@@ -146,11 +146,13 @@ def test_the_receptor_registry_now_points_at_the_row_it_copied_from():
 # --------------------------------------------------------------------------
 
 
-def test_the_registry_holds_exactly_the_one_drug_p21_1_was_allowed_to_add():
-    """P21.1 is a pure refactor. A second row here means a drug arrived without
-    a source, which is the failure mode the whole phase is ordered to avoid."""
-    assert registered_d2_drugs() == ("haloperidol",)
-    assert set(D2_PLASMA_EC50) == {"haloperidol"}
+def test_the_registry_listing_matches_its_keys_and_keeps_haloperidols_row():
+    """P21.1 promised a drug-keyed registry whose listing is exactly what is
+    registered and whose haloperidol row is the one object the refactor moved.
+    P22.2 added olanzapine on purpose; the exact membership is pinned in
+    tests/test_label_dose_prediction.py, so this test holds the invariant."""
+    assert registered_d2_drugs() == tuple(sorted(D2_PLASMA_EC50))
+    assert "haloperidol" in D2_PLASMA_EC50
     assert d2_plasma_ec50("haloperidol") is HALOPERIDOL_D2_PLASMA_EC50
 
 

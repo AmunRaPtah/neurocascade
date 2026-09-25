@@ -232,3 +232,36 @@ def human_receptor_parameter_for(drug, target):
         if record.usable and record.ligand == drug:
             return record
     return None
+
+
+def d2_occupancy_parameter_from_ec50(row):
+    """A D2 occupancy record built from a drug-keyed EC50 registry row (P22.2).
+
+    Haloperidol's :class:`HumanReceptorParameter` also carries an in-vitro Ki
+    and an efficacy, sourced in P19.4. A drug added to the EC50 registry later
+    carries only the in-vivo constant, and the occupancy chain consumes nothing
+    else, so this record copies the row's fields and leaves the Ki and the
+    efficacy ``None`` rather than borrowing haloperidol's. It is therefore not
+    :attr:`~HumanReceptorParameter.usable`: that property also demands an
+    efficacy, which the occupancy layer does not read.
+    """
+    return HumanReceptorParameter(
+        "D2",
+        "human",
+        None,
+        None,
+        "in-vivo PET",
+        row.citation,
+        "in-vivo-ec50-transcribed",
+        "Built from the %s row of neurocascade.human.d2_ec50; no in-vitro Ki "
+        "and no efficacy are recorded for this drug." % row.drug,
+        ligand=row.drug,
+        ec50_in_vivo_nM=row.ec50_nM,
+        ec50_plasma_basis=row.plasma_basis,
+        ec50_origin=row.provenance,
+        ec50_uncertainty=(
+            "as printed by the source: %s" % row.citation
+        ),
+        ec50_citation=row.citation,
+        ec50_record=row,
+    )

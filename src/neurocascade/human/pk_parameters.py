@@ -265,7 +265,29 @@ HUMAN_PK_RECORDS = (
 
 
 def human_pk_records(drug=None, route=None):
-    records = HUMAN_PK_RECORDS
+    """Every human PK record, hand-transcribed and bridged alike.
+
+    P22.2 added a second source. ``HUMAN_PK_RECORDS`` above is hand-transcribed
+    from the literature, one record per source read; the rows appended here come
+    from :mod:`neurocascade.human.fda_pk_bridge`, which converts the FDA
+    population-PK sets P21.3 transcribed out of review documents. They are
+    appended at lookup time rather than typed into the tuple for two reasons.
+    The first is mechanical: the bridge imports :class:`HumanPKRecord` from this
+    module, so building them at module scope would be circular. The second
+    matters more -- a bridged record is derived, and if it were typed into the
+    tuple beside the hand-transcribed ones nothing would distinguish a number
+    somebody read off a page from a number a converter produced. Every bridged
+    record carries ``status="fda-population-pk-bridged"`` and names its
+    application number in its citation, so the distinction survives in the data
+    as well as in the import.
+
+    The hand-transcribed rows come first, so a drug carrying both keeps the
+    literature row as its default and the FDA row stays reachable by explicit
+    lookup. No drug is in that position today.
+    """
+    from .fda_pk_bridge import bridged_records
+
+    records = HUMAN_PK_RECORDS + bridged_records()
     if drug is not None:
         records = tuple(r for r in records if r.drug == drug)
     if route is not None:

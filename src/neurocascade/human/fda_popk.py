@@ -336,6 +336,31 @@ class FDAPopPK:
     #: place a printed name is mapped onto a modelling slot, and it is done by
     #: hand per row rather than by pattern-matching names.
     mamillary_slots: tuple = ()
+    #: Which printed symbols fill the absorption slots, as
+    #: ``(("ka", "Ka"), ("lag", "ALAG"))``. Kept separate from
+    #: :attr:`mamillary_slots` because absorption is not part of the disposition
+    #: model and a row can have one without the other: an intravenous fit has no
+    #: absorption slots, and a rate-constant parameterisation has no mamillary
+    #: ones. Hand-mapped per row, same as the disposition slots.
+    absorption_slots: tuple = ()
+    #: Which printed symbols carry the fixed allometric exponents, as
+    #: ``(("cl_weight_exponent", "WT on CL/F"),)``. An exponent without the
+    #: weight it is normalised to is useless, so a row carrying these must also
+    #: carry :attr:`reference_weight_kg`.
+    allometric_slots: tuple = ()
+    #: The body weight of the reference subject the typical values belong to, in
+    #: kg. ``None`` when the review never printed one, which is the common case:
+    #: an allometric exponent fixed at 0.75 says nothing about the weight it is
+    #: normalised to, and inferring 70 kg because 70 kg is conventional is
+    #: exactly the assumption this registry exists to avoid. Absolute typical
+    #: values mean nothing without it, so :mod:`neurocascade.human.fda_pk_bridge`
+    #: refuses to convert a row that lacks one.
+    reference_weight_kg: float = None
+    #: The reference subject as the review described them, verbatim where
+    #: possible. The covariate forest plots are usually the only place a review
+    #: pins the reference subject down, and they pin all of it at once: age,
+    #: weight, sex, race, smoking status, organ function, dose and fed state.
+    reference_subject: str = ""
     notes: str = ""
 
     def __post_init__(self):
@@ -402,6 +427,23 @@ class FDAPopPK:
         if slots and "V1" not in slots:
             raise ValueError(
                 "%s: a mamillary mapping needs a central volume slot"
+                % self.application_number
+            )
+        for label, mapping in (
+            ("absorption", self.absorption_slots),
+            ("allometric", self.allometric_slots),
+        ):
+            for slot, printed in mapping:
+                if printed not in names:
+                    raise ValueError(
+                        "%s: %s slot %r maps to %r, which is not a parameter of "
+                        "this record"
+                        % (self.application_number, label, slot, printed)
+                    )
+        if self.allometric_slots and self.reference_weight_kg is None:
+            raise ValueError(
+                "%s: allometric exponents are recorded without the weight they "
+                "are normalised to, which makes them unusable"
                 % self.application_number
             )
 
@@ -1482,6 +1524,16 @@ _OLANZAPINE_LYBALVI = FDAPopPK(
         PopPKParameter("Q/F", 6.15, "L/h", 18.4, "Table 6, PDF p.285"),
         PopPKParameter("Ka", 0.861, "1/h", 5.70, "Table 6, PDF p.285"),
         PopPKParameter("ALAG", 0.782, "h", None, "Table 6, PDF p.285, fixed"),
+        PopPKParameter(
+            "WT on CL/F", 0.75, None, None,
+            "Table 6, PDF p.285, printed as 'WT ON CL/F 0.75 Fixed' with the "
+            "footnote 'Fixed at allometric exponent'",
+        ),
+        PopPKParameter(
+            "WT on Vc/F", 1.0, None, None,
+            "Table 6, PDF p.285, printed as 'WT ON Vc/F 1.0 Fixed' with the "
+            "footnote 'Fixed at allometric exponent'",
+        ),
         PopPKParameter("smoking on CL/F", 1.30, None, 3.64, "Table 6, PDF p.285"),
         PopPKParameter("rifampin on CL/F", 1.80, None, 4.45, "Table 6, PDF p.285"),
         PopPKParameter("female on CL/F", 0.862, None, 3.56, "Table 6, PDF p.285"),
@@ -1503,6 +1555,26 @@ _OLANZAPINE_LYBALVI = FDAPopPK(
         ("V1", "Vc/F"),
         ("Q2", "Q/F"),
         ("V2", "Vp/F"),
+    ),
+    absorption_slots=(
+        ("ka", "Ka"),
+        ("lag", "ALAG"),
+    ),
+    allometric_slots=(
+        ("cl_weight_exponent", "WT on CL/F"),
+        ("volume_weight_exponent", "WT on Vc/F"),
+    ),
+    reference_weight_kg=70.0,
+    reference_subject=(
+        "read off the covariate forest plots, Figures 15 and 16, PDF pp.286-287: "
+        "'the reference subject set as a healthy 36 years old, 70 kg, non-black "
+        "male non-smoker, with normal hepatic and renal function receiving a once "
+        "daily oral doses of ALKS 3831 10/10 (10 mg olanzapine/10 mg samidorphan) "
+        "in a fasted condition'. The same two figures print the reference "
+        "exposures that subject reaches: Cmax,ss = 31.7 ng/mL and AUCtau = 635 "
+        "ng.h/mL. Table 6 itself prints only 'WT ON CL/F 0.75 Fixed' and 'WT ON "
+        "Vc/F 1.0 Fixed' and never names the normalisation weight, so the forest "
+        "plots are the only place in the review that pins it."
     ),
     notes=(
         "The best olanzapine row in this registry and the reason the "

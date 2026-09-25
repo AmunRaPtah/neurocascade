@@ -74,6 +74,11 @@ bit-identity against a fixture recorded from the pre-refactor code. Ingesting
 the drugs P21.2 found reachable is a later task, and until it happens this
 registry is a one-row table with a schema, not a capability. That is stated
 plainly here so the schema is not mistaken for coverage.
+
+P22.2 added the second row, olanzapine, transcribed from de Greef 2011 with the
+Emax it was fitted under, because it is the one further drug whose PK the FDA
+route could supply (the LYBALVI review, NDA 213378). The other drugs P21.2 found
+reachable are still not ingested.
 """
 import math
 from dataclasses import dataclass
@@ -403,10 +408,52 @@ HALOPERIDOL_D2_PLASMA_EC50 = D2PlasmaEC50(
     ),
 )
 
+#: Olanzapine, added in P22.2 as the first drug beyond haloperidol that the
+#: dose-to-occupancy chain can drive end to end. Transcribed, not fitted here.
+#: de Greef 2011 Table III is the only open multi-drug occupancy fit read
+#: first-hand in P21.2, it prints the Emax it fitted alongside the EC50, and
+#: every PET study behind it used [11C]raclopride. Mamo 2008 (PMID 17443131),
+#: the primary P21.2 listed, fits the same Emax model but never prints the
+#: fitted Emax, so its 11.0 ng/mL is half of an unreported pair and cannot be
+#: used under its own Emax convention.
+OLANZAPINE_MW_G_PER_MOL = 312.44
+
+OLANZAPINE_D2_PLASMA_EC50 = D2PlasmaEC50(
+    drug="olanzapine",
+    ec50_nM=5.29 / OLANZAPINE_MW_G_PER_MOL * 1000.0,
+    molar_mass_g_per_mol=OLANZAPINE_MW_G_PER_MOL,
+    plasma_basis="total",
+    analyte="parent olanzapine",
+    analyte_is_summed=False,
+    emax=0.875,
+    emax_convention="fitted-free",
+    region=None,
+    tracer="[11C]raclopride",
+    regimen=(
+        "pooled published PET studies, single and multiple oral doses, healthy "
+        "volunteers and patients with schizophrenia"
+    ),
+    provenance="primary",
+    citation=(
+        "de Greef 2011, AAPS J 13(1):107-11, PMC3032087, Table III: olanzapine "
+        "Emax 87.5% (SE 3.9%), EC50 5.29 ng/mL (SE 1.22)"
+    ),
+    notes=(
+        "Molar mass 312.44 g/mol from the ZYPREXA label DESCRIPTION section "
+        "(NDA020592, effective_time 20260211). A pooled population fit to "
+        "occupancy observations extracted from published PET studies, not a "
+        "single primary PET study, so the study list behind it matters for "
+        "P22.3 disjointness. Region is None because the table prints none."
+    ),
+)
+
 #: The drug-keyed registry. Read-only: adding a drug is a task that has to
 #: source it, not an assignment at runtime.
 D2_PLASMA_EC50 = MappingProxyType(
-    {HALOPERIDOL_D2_PLASMA_EC50.drug: HALOPERIDOL_D2_PLASMA_EC50}
+    {
+        HALOPERIDOL_D2_PLASMA_EC50.drug: HALOPERIDOL_D2_PLASMA_EC50,
+        OLANZAPINE_D2_PLASMA_EC50.drug: OLANZAPINE_D2_PLASMA_EC50,
+    }
 )
 
 #: The fitted human in-vivo plasma EC50 for haloperidol striatal D2 occupancy,
@@ -423,9 +470,9 @@ HALOPERIDOL_PLASMA_FREE_FRACTION = HALOPERIDOL_D2_PLASMA_EC50.plasma_free_fracti
 def registered_d2_drugs():
     """Every drug the registry can supply a D2 plasma EC50 for.
 
-    One, today. P21.2 established that six more are reachable in a primary
-    human PET paper and a seventh second-hand, but ingesting them is a later
-    task and this function reports what is here rather than what is reachable.
+    Haloperidol and olanzapine, since P22.2. P21.2 established that further
+    drugs are reachable in the literature, but this function reports what is
+    here rather than what is reachable.
     """
     return tuple(sorted(D2_PLASMA_EC50))
 

@@ -62,7 +62,10 @@ from .d2_ec50 import d2_plasma_ec50
 from .kp_uu import kp_uu_records
 from .pet_validation import HALOPERIDOL_MW_G_PER_MOL
 from .pk_parameters import human_pk_records
-from .receptor_parameters import human_receptor_parameter_for
+from .receptor_parameters import (
+    d2_occupancy_parameter_from_ec50,
+    human_receptor_parameter_for,
+)
 
 #: What a layer's numbers rest on. ``illustrative`` is the P19.1 category: a
 #: constant nobody measured, which may only be consumed through an explicit
@@ -167,6 +170,14 @@ class OccupancyPrediction:
     #: the residual risk if the driven regimen's exposure ratio differs from the
     #: fitted one, which belongs in the caveats rather than in the arithmetic.
     metabolite_caveats: tuple = ()
+    #: The occupancy ceiling of the registered EC50's own fit, as a fraction.
+    #: Already applied to :attr:`occupancy`; carried so that a construction
+    #: built on top of this curve (steady-state superposition, say) can apply
+    #: the same ceiling to the concentration curve rather than silently
+    #: re-deriving occupancy with the ceiling at 1. Defaults to 1 so that a
+    #: prediction built without one is the plain hyperbola it always was, which
+    #: is what haloperidol's row pins anyway.
+    emax: float = 1.0
 
     @property
     def provenance(self):
@@ -314,21 +325,16 @@ def _require_receptor_record(drug, receptor_record):
         receptor_record = human_receptor_parameter_for(drug, _TARGET)
     if receptor_record is None:
         # No usable human receptor parameter names this drug at this target. The
-        # drug-keyed EC50 registry is the other place the occupancy layer could
-        # be sourced from, so consult it to produce a refusal that names the
-        # occupancy layer and the drug rather than a bare "no receptor record".
-        # It raises for any drug without a registered in-vivo D2 EC50, which is
-        # every drug but haloperidol today (P21.2). If a drug ever has a
-        # registered EC50 but no wired receptor parameter, that inconsistency is
-        # refused rather than run.
-        d2_plasma_ec50(drug)
-        raise ValueError(
-            "a %s in-vivo D2 EC50 is registered but no usable human receptor "
-            "parameter names %r; wire one into "
-            "neurocascade.human.receptor_parameters before driving the "
-            "occupancy layer for this drug" % (drug, drug)
-        )
-    if not receptor_record.usable:
+        # drug-keyed EC50 registry is the other place the occupancy layer is
+        # sourced from. d2_plasma_ec50 raises, naming the drug, when no in-vivo
+        # D2 EC50 is registered for it. Since P22.2 a registered row is enough:
+        # the record is built from it with no Ki and no efficacy, because the
+        # occupancy layer reads neither.
+        receptor_record = d2_occupancy_parameter_from_ec50(d2_plasma_ec50(drug))
+    elif receptor_record.species != "human" or receptor_record.ec50_in_vivo_nM is None:
+        # Not ``usable``: that property also demands an efficacy, which the
+        # occupancy layer never reads, and a record built from an EC50 row by
+        # d2_occupancy_parameter_from_ec50 has none (P22.2).
         raise ValueError(
             "the %s record cannot drive the occupancy layer: it has no human "
             "in-vivo EC50, and an in-vitro Ki is not substituted for one"
@@ -471,9 +477,9 @@ def predict_occupancy(
     drug : which drug to predict. P21.6 made this a key: the PK set comes from
         :func:`neurocascade.human.pk_parameters.human_pk_records` and the EC50
         from the drug-keyed registry in :mod:`neurocascade.human.d2_ec50`, both
-        looked up by this name. Defaults to haloperidol, the only drug that has
-        both a complete PK set and a registered in-vivo D2 EC50 today; any other
-        drug is refused at the layer it is missing, naming that drug.
+        looked up by this name. Defaults to haloperidol. Since P22.2 olanzapine
+        also has both (the bridged LYBALVI set and de Greef 2011's EC50); any
+        other drug is refused at the layer it is missing, naming that drug.
     route : must match a sourced human PK record. Only haloperidol ``"PO"`` is
         sourced; the haloperidol IV record is ``searched-and-empty``, so ``"IV"``
         raises.
@@ -594,7 +600,9 @@ def predict_occupancy(
                 receptor_record.ec50_uncertainty,
             ),
             receptor_record.ec50_citation,
-            "fitted-in-repo",
+            "fitted-in-repo"
+            if ec50_row is None or ec50_row.provenance == "fitted-in-repo"
+            else "measured",
         ),
         ChainLayer(
             "transduction",
@@ -628,6 +636,7 @@ def predict_occupancy(
         ec50_nM=ec50_nM,
         layers=layers,
         metabolite_caveats=active_metabolites_for(drug, target=_TARGET),
+        emax=emax,
     )
 
 
