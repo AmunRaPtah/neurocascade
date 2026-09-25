@@ -250,9 +250,36 @@ def live_burst_apps() -> list[str]:
                    if a["description"] in names and a["state"] != "stopped"})
 
 
+ROUTER_UNIT = "llm-burst-router"   # :8100, the proxy's route to the Modal apps
+_router_started = False
+
+
+def router(up: bool) -> None:
+    """The router is started for a Modal batch and stopped after it, unless it was
+    already running: it is disabled between batches to save host RAM (2026-09-25)."""
+    global _router_started
+    if up:
+        if sh(["systemctl", "is-active", "--quiet", ROUTER_UNIT]).returncode == 0:
+            return
+        log(f"starting {ROUTER_UNIT}")
+        if sh(["systemctl", "start", ROUTER_UNIT]).returncode != 0:
+            raise InfraError(f"could not start {ROUTER_UNIT}")
+        _router_started = True
+        for _ in range(30):
+            if sh(["curl", "-s", "-o", "/dev/null", "http://127.0.0.1:8100/"]).returncode == 0:
+                return
+            time.sleep(1)
+        raise InfraError(f"{ROUTER_UNIT} started but :8100 is not answering")
+    if _router_started:
+        log(f"stopping {ROUTER_UNIT}")
+        sh(["systemctl", "stop", ROUTER_UNIT])
+        _router_started = False
+
+
 def modal_app(model: str, up: bool) -> None:
     app = f"llm-burst-{model}"
     if up:
+        router(True)
         log(f"deploying {app}")
         p = sh(["modal", "deploy", f"modal_app.py::{DEPLOY[model]}"], cwd=LLM_BURST)
         if p.returncode != 0:
@@ -265,11 +292,13 @@ def modal_app(model: str, up: bool) -> None:
         sh(["modal", "app", "stop", "-y", app], timeout=120)
         try:
             if app not in live_burst_apps():
+                router(False)
                 return
         except (RuntimeError, subprocess.TimeoutExpired) as e:
             log(f"could not verify stop: {e}")
         time.sleep(10)
     log(f"WARNING: {app} still deployed after 3 stops; `orchestrate.py doctor --reap` will retry")
+    router(False)
 
 
 # ----------------------------------------------------------------------- sandbox
@@ -762,7 +791,8 @@ def cmd_doctor(args) -> None:
 
     check("image", bool(image_id()), IMAGE)
     check("network", sh(["docker", "network", "inspect", NETWORK]).returncode == 0, NETWORK)
-    for unit in ("nc-sandbox-proxy", "pardalos-freeproxy", "llm-burst-router"):
+    # llm-burst-router is started per Modal batch (router()), so it is not required here.
+    for unit in ("nc-sandbox-proxy", "pardalos-freeproxy"):
         state = sh(["systemctl", "is-active", unit]).stdout.strip()
         check(unit, state == "active", state)
     # Confinement both ways: the proxy is reachable, the internet is not.

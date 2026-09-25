@@ -80,6 +80,7 @@ MODAL_HEADROOM = 1.5            # $ a batch may still cost
 GEMINI_LLM = os.environ.get("NC_GEMINI_LLM", "worker-gemini")
 GEMINI_TASKS = 2
 GEMINI_BACKOFF_S = 3 * 3600
+MODAL_BACKOFF_S = 2 * 3600
 STALL_H = 36
 
 L_ARCH, L_APPROVED, L_HUMAN = "architect-pr", "approved", "needs-human"
@@ -725,6 +726,8 @@ def step_work(st: dict, dry: bool) -> bool:
     if not ready:
         return False
     ok, why = modal_ok()
+    if ok and time.time() < st.get("modal_waiting_until", 0):
+        ok, why = False, "modal backend failed last batch, backing off"
     llm = None
     if ok:
         st.pop("modal_waiting", None)
@@ -758,7 +761,14 @@ def step_work(st: dict, dry: bool) -> bool:
         return False
     st.pop("work_stuck", None)
     progress(st, f"worker batch ({llm or 'modal'}) rc={p.returncode}")
-    if llm:
+    if not llm:
+        if batches_had_infra(new):
+            # A broken Modal path should not starve the queue: Gemini covers.
+            st["modal_waiting_until"] = time.time() + MODAL_BACKOFF_S
+            log(f"work: Modal backend failure, backing off {MODAL_BACKOFF_S // 3600}h")
+        else:
+            st.pop("modal_waiting_until", None)
+    else:
         if batches_had_infra(new):
             st["gemini_waiting_until"] = time.time() + GEMINI_BACKOFF_S
             log(f"work: {llm} backend failure, backing off {GEMINI_BACKOFF_S // 3600}h")

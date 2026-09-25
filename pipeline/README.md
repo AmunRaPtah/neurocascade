@@ -114,8 +114,11 @@ repo. Now:
 
 `NC_MODAL_MONTH_CAP` (default $25 of the $30 free tier) binds Modal batches
 only (`run --llm` skips it) and is checked against
-`modal billing report` before the batch and before each task. The burst app is
-deployed only for the batch and stopped after, including on errors. LLM API
+`modal billing report` before the batch and before each task. The burst app, and
+the `llm-burst-router` service in front of it (disabled between batches to save
+host RAM), are started only for the batch and stopped after, including on
+errors. A Modal batch that stops on a backend failure parks Modal for 2 h, and
+Gemini takes the queue meanwhile. LLM API
 errors stop the batch without spending an attempt. The existing free-memory
 floor (1500 MB) applies too.
 
