@@ -272,13 +272,8 @@ def backlog_at(sha: str) -> dict:
 
 
 def host_clone(name: str, sha: str) -> Path:
-    """o.fresh_clone, except `sha` may be reachable only from an origin/* ref
-    (spec and PR heads), which a clone of REPO does not copy: fetch it by id."""
     host = o.WORK / "arch" / name
-    o.fresh_clone(host, git("rev-parse", "origin/main"))
-    if o.sh(["git", "-C", str(host), "cat-file", "-e", f"{sha}^{{commit}}"]).returncode:
-        git("fetch", "-q", str(o.REPO), sha, cwd=host)
-    git("checkout", "-q", "--detach", sha, cwd=host)
+    o.fresh_clone(host, sha)
     return host
 
 
@@ -750,9 +745,20 @@ def step_work(st: dict, dry: bool) -> bool:
            "--max-tasks", str(GEMINI_TASKS if llm else 4)] + (["--llm", llm] if llm else [])
     started = time.time()
     p = o.sh(cmd, capture_output=False, text=True, timeout=6 * 3600)
+    new = [d for d in (o.RUNS / "_batches").glob("*") if d.stat().st_mtime >= started - 5]
+    if not new:
+        # Nothing was runnable (spec failed to load or baseline). Not progress:
+        # counting it would hide a stuck queue from the stall alert.
+        log(f"worker batch ({llm or 'modal'}) ran nothing, rc={p.returncode}")
+        stuck = st.setdefault("work_stuck", 0) + 1
+        st["work_stuck"] = stuck
+        if stuck == 3:
+            alert(st, "work", f"worker queue stuck: {len(ready)} ready issue(s) but no runnable task "
+                      "for 3 ticks; see conductor/cron.log")
+        return False
+    st.pop("work_stuck", None)
     progress(st, f"worker batch ({llm or 'modal'}) rc={p.returncode}")
     if llm:
-        new = [d for d in (o.RUNS / "_batches").glob("*") if d.stat().st_mtime >= started - 5]
         if batches_had_infra(new):
             st["gemini_waiting_until"] = time.time() + GEMINI_BACKOFF_S
             log(f"work: {llm} backend failure, backing off {GEMINI_BACKOFF_S // 3600}h")

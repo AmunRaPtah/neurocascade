@@ -334,11 +334,16 @@ def wait_ready(llm: str, out: Path) -> float:
 
 
 def fresh_clone(dest: Path, sha: str) -> None:
-    """Host-owned clone at `sha`, never touched by worker code."""
+    """Host-owned clone at `sha`, never touched by worker code.
+
+    Spec and PR heads are often reachable only from REPO's origin/* refs, which
+    a clone does not copy, so a missing commit is fetched by id."""
     if dest.exists():
         shutil.rmtree(dest)
     dest.parent.mkdir(parents=True, exist_ok=True)
     sh(["git", "clone", "-q", "--no-local", "--no-checkout", str(REPO), str(dest)], check=True)
+    if sh(["git", "-C", str(dest), "cat-file", "-e", f"{sha}^{{commit}}"]).returncode:
+        sh(["git", "-C", str(dest), "fetch", "-q", str(REPO), sha], check=True)
     sh(["git", "-C", str(dest), "checkout", "-q", "--detach", sha], check=True)
     sh(["git", "-C", str(dest), "remote", "set-url", "origin", GITHUB], check=True)
 
