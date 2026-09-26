@@ -1841,10 +1841,11 @@
           "P22.2f",
           "P22.2a"
         ],
-        "sessions": 2,
+        "sessions": 3,
         "history": [
           "2026-09-24 20:59 no verdict; rejected: session ended without a TASK_RESULT line",
-          "2026-09-25 03:15 SPLIT into P22.2a"
+          "2026-09-25 03:15 SPLIT into P22.2a",
+          "2026-09-26 13:08 COMPLETE, PR opened"
         ]
       }
     },
