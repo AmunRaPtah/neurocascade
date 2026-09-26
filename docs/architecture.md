@@ -15044,3 +15044,62 @@ measured number and earns no validated row; its row goes in the untested
 table. Its product is a constraint on every later Phase 22 row: none of them
 may report an analysis this document does not specify without a recorded
 deviation.
+
+## Phase 22, part two: the label-dose test, scored (P22.2)
+
+The prediction table (P22.2a) and the scoring function (P22.2f) were merged
+before this step, with no label range in the repository as a number. This
+step added the two transcriptions and the comparison, in
+`neurocascade.human.label_dose_result`. The full result, with verbatim label
+sentences and the deviations, is in `docs/p22-2-label-dose-test.md`. Ledger
+row V8: 2 pass / 2 scored / 8.
+
+### Only the drivable drugs' labels were transcribed
+
+Six of the eight drugs are refused by a named layer. Their labels could have
+been transcribed anyway for completeness. That would have been the one
+irreversible mistake available in this task. The pre-registration's ordering
+rule, prediction committed before ground truth, is what makes a P22.2 row
+blind. A label transcribed today for clozapine or ziprasidone makes every
+future prediction for that drug non-blind by construction. A refused drug
+scores the same with or without its label, so leaving them untranscribed
+costs nothing, and it keeps the option of a blind test open for the four drugs
+refused only at pk and occupancy. `test_only_the_drivable_drugs_have_a_transcribed_label`
+guards this. It is recorded as deviation D2 because the pre-registration is
+silent on the point, not because it contradicts it. P22.4 will transcribe
+VERSACLOZ under its own rules, after clozapine's D65 exists or is refused.
+
+### The label result carries its own hash, not the P20.6 one
+
+Haloperidol's on-disk snapshot no longer matches the SHA-256 that
+`fda_sources` pinned in P20.6. A live fetch showed the drift is on openFDA's
+side: same set_id, SPL version and effective_time, 37 more bytes. Rewriting
+the pin would have been quicker and would have destroyed the record of what
+P20.6 read. Instead each `LabelDoseRange` records `sha256_read` and a
+`matches_p20_6_pin` flag. The flag is checked against `fda_sources` in the
+fast gate. The digest and the verbatim quotes are checked against `data/fda/`
+wherever that cache exists. The quotes carry the load: whatever the bytes'
+history, the sentences that set L_low and L_high are asserted to be present,
+character for character, in the file whose digest is recorded.
+
+### Two readings, scored narrow, both reported
+
+Haloperidol's label gives "up to 100 mg" alongside ranges that top out at
+15 mg/day. Neither reading is clearly the "maximum recommended daily dose".
+The pre-registration fixed the tie-break in advance: score the narrower range.
+The wider reading fails the twofold criterion (e = −0.397), and it is reported
+with that failure in the headline table rather than a footnote. This matters
+because the anchor drug's pass depends on a reading choice, even though the
+rule, not this task, made that choice.
+
+### The power statement is not a metric
+
+With linear PK and a fixed-Emax hyperbola, the dose at a fixed occupancy is
+exactly proportional to EC50. So a pass converts directly into the range of
+EC50 values it tolerates: 0.73–2.9x for olanzapine, 0.48–1.93x for
+haloperidol. This is written down so that "2 of 2 pass" is not read as more
+than it is. The bands are about the width of the 2–2.5x tracer and region
+floor. The test does confirm the chain reaches clinically used doses for a
+drug it had not seen. It does not discriminate between EC50 candidates within
+the floor. It is a statement about the test's resolution, not an added
+metric, and it scores nothing.
