@@ -2364,7 +2364,13 @@
       },
       "deps": [],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "conductor": {
+        "sessions": 1,
+        "history": [
+          "2026-10-02 01:58 COMPLETE, PR opened"
+        ]
+      }
     },
     {
       "id": "P28.2",
@@ -2389,7 +2395,7 @@
       "id": "P28.3",
       "phase": "Phase 28: retrospective benchmark",
       "title": "Preclinical ADME/PK inputs per benchmark drug",
-      "brief": "Assemble the preclinical-type inputs each drug would have had pre-IND: plasma fu, brain fu or Kp,uu, in-vitro intrinsic clearance (microsomal/hepatocyte), and rodent in-vivo CL/Vss where published. Sources: Lombardo 2018 companion data, Frid\u00e9n/Loryan Kp,uu compilations, ChEMBL ADME assays, primary rat PK papers. Store per drug with citations; record coverage.",
+      "brief": "Assemble the preclinical-type inputs each drug would have had pre-IND: plasma fu, brain fu or Kp,uu, in-vitro intrinsic clearance (microsomal/hepatocyte), and rodent in-vivo CL/Vss where published. Sources: Lombardo 2018 companion data, Fridén/Loryan Kp,uu compilations, ChEMBL ADME assays, primary rat PK papers. Store per drug with citations; record coverage.",
       "acceptance": [
         "preclinical ADME/PK committed per drug with citations",
         "coverage reported per field in the ledger; missing fields recorded, not invented"
