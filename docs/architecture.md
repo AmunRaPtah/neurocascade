@@ -15578,7 +15578,7 @@ choice does not change the verdict.
 
 Model 0 (`lnOR ~ D2 occupancy`) gives R² = 0.314. Adding the fingerprint
 (`+ log10(5-HT2A:D2 occupancy ratio)`) gives R² = 0.636 with the ratio
-coefficient **negative** (−0.397) — the Meltzer direction, more 5-HT2A-selective
+coefficient **negative** (−0.396) — the Meltzer direction, more 5-HT2A-selective
 → lower EPS. But the nested F(1,4) = 3.54 has **p = 0.133**, not significant at
 α = 0.05. The increment is a very large effect (Cohen f² = 0.88), yet the test's
 power to detect even a conventionally large effect (f² = 0.35) is **0.20**, and
@@ -15608,3 +15608,36 @@ underpowered, with the power stated. That closes the task and earns a ledger row
 claim, because the hypothesis was neither confirmed nor rejected; the row records
 the indeterminacy and its cause (n = 7, power 0.20), and the occupancy→clinical-
 outcome row is updated to point at it.
+
+## Phase 23, part four: reporting the result (P23.4)
+
+P23.4 is the reporting half of the thesis test: "write up P23.3 whichever way it
+came out." It came out indeterminate, and the write-up says so without reading the
+trend as a finding. The deliverable is `docs/p23-4-fingerprint-result.md`, a
+plain-language, publication-ready statement that (a) opens with the one-sentence
+result, (b) gives the forced n = 7 denominator and the strong-D2 / Ki-derived-
+5-HT2A asymmetry, (c) states the numbers — R² 0.314→0.636, β_ratio −0.396,
+F(1,4) = 3.54, p = 0.133, power 0.20 — and (d) answers the task's specific demand
+of an underpowered result: *what number could settle it.* The answer is n ≈ 13 at
+the observed effect size (≈26 at a conventionally large one), beyond the eight
+drugs any dose→D2 formula covers; the two data items that would change that (an
+in-vivo dose→5-HT2A-occupancy model, or dose→D2 formulas for more drugs with a
+Siafis OR) are both searched-and-empty. The last section denies, in terms, any
+claim that the model predicts behaviour: this is a regression against published
+odds ratios, not a simulated endpoint.
+
+The write-up is also lifted into the manuscript as a human-track Results
+subsection (§3.6) and a Discussion caveat (§4.2), because the manuscript skeleton
+was still mouse-scoped and otherwise omitted the one human-outcome test the
+receptor layer was carried forward to make. A drift-guard test,
+`tests/test_fingerprint_result.py`, ties every headline number in the write-up to
+the live `fit_models()` output and to ledger row V12, so prose, code and ledger
+cannot diverge silently — this is the machine form of the acceptance criterion
+"the validation ledger row matches the write-up."
+
+**One number corrected.** P23.3 recorded the fingerprint coefficient as −0.397 in
+V12 and in the Phase 23 part-three section above. The live value is −0.39645,
+which rounds to **−0.396** at three decimals; the drift-guard test caught the
+mis-round, and V12, the part-three section and the write-up now all read −0.396.
+This is a rounding fix to an existing committed number, not a new calibration, and
+it changes no conclusion (the verdict, F, p and power are untouched).

@@ -288,6 +288,36 @@ an illustrative gain bound, not a validated fit.
 Use `results/figures/heldout_validation_scatter.png` and state that the plot
 is not a fitted prediction because the exposure and gain links are incomplete.
 
+### 3.6 Human thesis test: the serotonin–dopamine fingerprint and EPS
+
+*(Human track; see [roadmap-human.md](roadmap-human.md). The sections above
+describe the mouse scaffold. This subsection reports the one human-outcome test
+the receptor layer was carried forward to make, and its result is the human
+track's current headline.)*
+
+The founding falsification is Siafis et al. 2023 (PMC10618092; N = 37,193):
+haloperidol (11 mg/day, EPS odds ratio ≈4.7) and risperidone (16 mg/day, ≈3.3)
+sit at approximately the same ~87% striatal D2 occupancy yet carry unequal
+extrapyramidal risk, so D2 occupancy alone does not determine the clinical
+outcome. Phase 23 tested the standard explanation — that the 5-HT2A:D2 occupancy
+ratio (the Meltzer serotonin–dopamine fingerprint) explains the residual — as a
+pre-registered nested regression on the seven drugs with both a Lako 2013
+dose→D2-occupancy formula and a Siafis EPS odds ratio.
+
+The result is **indeterminate.** Adding the fingerprint ratio raises R² from
+0.314 to 0.636 with the ratio coefficient carrying the hypothesised negative sign
+(−0.397), but the increment is not significant (F(1,4) = 3.54, p = 0.133) and the
+design's power to detect even a large effect is 0.20. The 5-HT2A side is
+Ki-derived rather than in-vivo (no dose→5-HT2A-occupancy model exists for these
+drugs), and the verdict moves on single-drug deletions. Seven drugs cannot settle
+the question; ~13 would be needed at the observed effect size (~26 at a
+conventionally large one), more than the eight drugs any dose→D2 formula covers.
+The full statement, the per-drug inputs and the number that would settle it are in
+[`docs/p23-4-fingerprint-result.md`](p23-4-fingerprint-result.md), the regression
+in `src/neurocascade/human/fingerprint_eps_regression.py`, and ledger row V12. No
+behavioural endpoint is predicted: this is a regression against published odds
+ratios, not a simulated behaviour.
+
 ## 4. Discussion
 
 ### 4.1 What the model establishes
@@ -302,8 +332,12 @@ compound-to-behavior predictor.
 
 ### 4.2 What the model does not establish
 
-The study does not establish arbitrary-compound behavioral prediction. It
-does not establish that a transcript map is an absolute receptor-density map,
+The study does not establish arbitrary-compound behavioral prediction. In the
+human track it does not establish that the serotonin–dopamine fingerprint
+explains extrapyramidal risk (§3.6): that test is underpowered at seven drugs and
+is reported as indeterminate, neither a confirmation nor a refutation of the
+Meltzer hypothesis. It does not establish that a transcript map is an absolute
+receptor-density map,
 that a connectome edge scale is measured, that illustrative circuit gains are
 pharmacological constants, or that a reachable behavioral observation was
 predicted when the gain was selected to reach it. It also does not establish
@@ -445,6 +479,7 @@ the corresponding committed result.
 | Zero identifiable connectivity weights and time constants | [`results/identifiability/summary.txt`](../results/identifiability/summary.txt) |
 | Held-out direction table: 15 observations and 4 matches | [`results/heldout/heldout_errors.csv`](../results/heldout/heldout_errors.csv) |
 | Diazepam `Kp,uu = 0.918` derivation | [`docs/architecture.md`](architecture.md#phase-1-plasma-to-brain-partition-p15) |
+| Human fingerprint-vs-EPS test indeterminate (R² 0.314→0.636, p=0.133, power 0.20, n=7) | [`docs/p23-4-fingerprint-result.md`](p23-4-fingerprint-result.md); ledger row V12 |
 
 ## Author and journal placeholders
 
