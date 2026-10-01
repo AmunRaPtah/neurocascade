@@ -15523,3 +15523,88 @@ were never fitted to each other. That belongs in the ledger's *untested* table a
 a sharpening of the occupancy→clinical-outcome row, plus the directional
 cross-check, not as a validated row — the validated comparison (fingerprint vs the
 Siafis EPS contrast) is still P23.3.
+
+## Phase 23, part three: does the fingerprint explain the EPS residual (P23.3)
+
+The task Phase 23 was built to reach. P23.1 assembled the per-drug human Ki
+fingerprints; P23.2 turned them into off-target occupancy and measured how weak a
+Ki-derived occupancy is. P23.3 runs the actual pre-registered test:
+`src/neurocascade/human/fingerprint_eps_regression.py`, with the hypothesis,
+denominator, model and criterion fixed in `docs/p22-preregistration.md` (P23.3
+section) and committed one commit earlier. The result is **indeterminate**, and
+reporting it as indeterminate rather than as a finding is the deliverable.
+
+### The eight drugs are not a choice; they are the intersection of two sources
+
+The denominator is forced, not picked. Siafis 2023 built its own
+occupancy-response curves with the Lako et al. 2013 dose→D2-occupancy formulas,
+which exist for exactly eight drugs (amisulpride, aripiprazole, clozapine,
+haloperidol, olanzapine, quetiapine, risperidone, ziprasidone). Clozapine drops
+on two independent pre-existing facts: Leucht 2020 published no ED95 for it (too
+few fixed-dose studies) and Siafis 2023 had "no usable data" for its EPS OR. That
+leaves **n = 7**. The "roughly eight drugs" of the brief is this intersection,
+and the low power the brief anticipated is a property of it.
+
+### D2 occupancy is sourced in vivo; 5-HT2A occupancy cannot be, and that is the crux
+
+D2 occupancy at ED95 comes straight from Lako 2013 (PET/SPECT-fitted,
+`OccMax·dose/(dose+OccD50)`) at the Leucht 2020 ED95 — the same strong quantity
+Siafis itself used. The 5-HT2A side has **no equivalent**: there is no
+meta-analytic dose→5-HT2A-occupancy model for these drugs, only scattered
+single-dose PET studies at non-matched doses (recorded searched-and-empty in the
+pre-registration). So 5-HT2A occupancy is built on P23.2's device — one plasma
+concentration drives every receptor — by transferring the in-vitro 5-HT2A:D2
+affinity ratio (PDSP human-median Ki, the P23.1 source and date) onto the D2
+dose-response: `OccD50_5HT2A = OccD50_D2·(Ki_5HT2A/Ki_D2)`, `OccMax_5HT2A = 100%`.
+That makes every 5-HT2A occupancy here the **weaker Ki-derived quantity** P23.2
+measured at a 0.368-occupancy-unit floor, plus the extra assumption that the
+in-vitro affinity ratio transfers to the in-vivo dose-ED50 ratio. The module
+carries `KI_DERIVED_LABEL` on every row so the quantity cannot be read without
+its warning. This asymmetry — strong D2, weak 5-HT2A — is the honest shape of the
+test and is stated, not hidden.
+
+### Why the outcome is the maximum OR, and the anchor mismatch it carries
+
+The outcome is Siafis's per-drug **maximum** EPS OR (the headline reported
+numbers: haloperidol 7.56 down to quetiapine 1.11), on `ln` because an OR is
+ratio-scale. The maxima occur at each drug's top studied dose, while occupancy is
+evaluated at ED95: a real anchor mismatch, uniform across drugs, pre-declared and
+not a per-drug knob. It was chosen over "OR at ED95" because the latter is only
+reachable by reading per-drug spline figures, which would introduce a
+figure-digitisation degree of freedom worse than the mismatch. With n = 7 the
+choice does not change the verdict.
+
+### The result, and why it is indeterminate rather than either answer
+
+Model 0 (`lnOR ~ D2 occupancy`) gives R² = 0.314. Adding the fingerprint
+(`+ log10(5-HT2A:D2 occupancy ratio)`) gives R² = 0.636 with the ratio
+coefficient **negative** (−0.397) — the Meltzer direction, more 5-HT2A-selective
+→ lower EPS. But the nested F(1,4) = 3.54 has **p = 0.133**, not significant at
+α = 0.05. The increment is a very large effect (Cohen f² = 0.88), yet the test's
+power to detect even a conventionally large effect (f² = 0.35) is **0.20**, and
+~0.42 at the observed effect; n ≈ 13 would be needed for 80% power, more drugs
+than the eight that have a Lako formula. By the pre-registered rule — not
+significant, and power to find a large effect below 0.80 — this is
+**indeterminate**: the trend is consistent with H1, the data confirm nothing and
+reject nothing.
+
+Leave-one-drug-out (pre-declared sensitivity) confirms the reading: the sign is
+stable across all seven deletions but significance is fragile and never crosses
+0.05 (dropping the partial agonist aripiprazole gets closest, p = 0.059; dropping
+quetiapine, which sits at 28% D2, far below the EPS threshold, collapses the
+D2-only R² to 0.01). A result that moves this much on one drug is, itself, an
+indeterminate result. The two structural confounds — aripiprazole's partial
+agonism (P21.5 refuses its transducer; Siafis notes partial agonists carry small
+ORs at high occupancy) and quetiapine's sub-threshold occupancy — are named, not
+trimmed.
+
+### Rule 9 disposition
+
+A prediction (per-drug occupancy and fingerprint ratio) compared against a
+measured clinical quantity nobody in this repository chose (the Siafis 2023 EPS
+odds ratios), producing a definite, pre-registered outcome: indeterminate,
+underpowered, with the power stated. That closes the task and earns a ledger row
+(rule 3: a result at the size it came out). It does **not** earn a "validated"
+claim, because the hypothesis was neither confirmed nor rejected; the row records
+the indeterminacy and its cause (n = 7, power 0.20), and the occupancy→clinical-
+outcome row is updated to point at it.
