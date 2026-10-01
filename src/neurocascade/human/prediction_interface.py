@@ -302,9 +302,11 @@ def predict(drug, dose_mg, regimen):
         the once-daily dose.
     regimen : one of :data:`REGIMENS`.
 
-    The subject is the 70 kg reference weight of every sourced PK set; the
-    chain refuses any other weight without a sourced scaling rule, which no
-    drug has, so this interface does not offer one.
+    The subject is the reference subject of the drug's PK source (70 kg for
+    haloperidol and olanzapine; since P25.2 the chain takes the weight from the
+    record rather than assuming 70 kg). The chain refuses any other weight
+    without a sourced scaling rule, which no drug has, so this interface does
+    not offer one.
 
     Raises
     ------

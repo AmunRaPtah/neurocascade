@@ -264,7 +264,7 @@ HUMAN_PK_RECORDS = (
 )
 
 
-def human_pk_records(drug=None, route=None):
+def human_pk_records(drug=None, route=None, include_literature=True):
     """Every human PK record, hand-transcribed and bridged alike.
 
     P22.2 added a second source. ``HUMAN_PK_RECORDS`` above is hand-transcribed
@@ -284,10 +284,21 @@ def human_pk_records(drug=None, route=None):
     The hand-transcribed rows come first, so a drug carrying both keeps the
     literature row as its default and the FDA row stays reachable by explicit
     lookup. No drug is in that position today.
+
+    P25.2 added a third source, appended last for the same reasons: the P25.1
+    journal-literature records that :mod:`neurocascade.human.literature_pk_bridge`
+    converts, with ``status="literature-population-pk-bridged"``. Coming last,
+    they never displace a P22-era default. ``include_literature=False`` returns
+    the registry as it stood before P25.2, which the frozen P22.2 and P22.5
+    results consult.
     """
     from .fda_pk_bridge import bridged_records
 
     records = HUMAN_PK_RECORDS + bridged_records()
+    if include_literature:
+        from .literature_pk_bridge import bridged_records as literature_records
+
+        records = records + literature_records()
     if drug is not None:
         records = tuple(r for r in records if r.drug == drug)
     if route is not None:

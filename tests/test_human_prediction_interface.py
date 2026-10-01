@@ -198,9 +198,12 @@ def test_summary_names_drug_regimen_and_every_threshold():
 #: must be made deliberately, with the data that justifies it.
 EXPECTED_REFUSALS = {
     "risperidone": ("active-metabolite", "pk", "occupancy", "exposure"),
-    "aripiprazole": ("active-metabolite", "pk", "occupancy", "exposure"),
+    # P25.2: Knights 2015 (literature popPK) clears the pk layer; the drug is
+    # still refused at every other layer it was refused at before.
+    "aripiprazole": ("active-metabolite", "occupancy", "exposure"),
     "paliperidone": ("pk", "occupancy", "exposure"),
-    "quetiapine": ("pk", "occupancy", "exposure"),
+    # P25.2: Zheng 2024 (literature popPK) clears the pk layer; no D2 EC50.
+    "quetiapine": ("occupancy", "exposure"),
     "ziprasidone": ("pk", "occupancy", "exposure"),
     "clozapine": ("pk", "occupancy", "exposure"),
     "amisulpride": ("pk", "occupancy", "exposure"),
@@ -324,8 +327,10 @@ def test_olanzapine_without_its_ec50_is_refused_at_occupancy_only(monkeypatch):
 def test_olanzapine_without_its_pk_set_is_refused_at_pk_only(monkeypatch):
     original = dose_to_occupancy.human_pk_records
 
-    def without_olanzapine(drug=None, route=None):
-        return tuple(r for r in original(drug, route) if r.drug != "olanzapine")
+    def without_olanzapine(drug=None, route=None, **kwargs):
+        return tuple(
+            r for r in original(drug, route, **kwargs) if r.drug != "olanzapine"
+        )
 
     monkeypatch.setattr(dose_to_occupancy, "human_pk_records", without_olanzapine)
     monkeypatch.setattr(api, "human_pk_records", without_olanzapine)

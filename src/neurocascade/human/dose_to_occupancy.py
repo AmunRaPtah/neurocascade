@@ -55,7 +55,7 @@ from dataclasses import dataclass
 import numpy as np
 from scipy.integrate import solve_ivp
 
-from ..pk import DosedTwoCompartmentPK
+from ..pk import DosedOneCompartmentPK, DosedTwoCompartmentPK
 from .d2_effect import d2_effect_for_drug
 from .active_metabolites import active_metabolites_for, require_parent_only_path
 from .d2_ec50 import d2_plasma_ec50
@@ -281,9 +281,22 @@ def default_times_min():
     return np.linspace(0.0, 72.0 * 60.0, 289)
 
 
-def _require_pk_record(drug, route, pk_record):
+#: Compartment counts the chain integrates. Two since P19.5; one added in P25.2,
+#: because a literature record (Zheng 2024, quetiapine) is a one-compartment
+#: model and DosedOneCompartmentPK integrates it exactly. Three is refused: no
+#: sourced human oral set needs it (docs/p25-2-literature-pk-in-chain.md).
+CHAIN_COMPARTMENTS = (1, 2)
+
+
+def _require_pk_record(drug, route, pk_record, include_literature=True):
+    """The PK record the chain will integrate for ``drug``, or a ValueError.
+
+    ``include_literature=False`` consults only the P22-era sources
+    (hand-transcribed and FDA-bridged). The P22.2 and P22.5 modules pass it so
+    that results scored against the registry as it then stood stay frozen.
+    """
     if pk_record is None:
-        records = human_pk_records(drug, route)
+        records = human_pk_records(drug, route, include_literature=include_literature)
         if not records:
             raise ValueError(
                 "no human %s PK record for route %r" % (drug, route)
@@ -306,11 +319,11 @@ def _require_pk_record(drug, route, pk_record):
             "no source printed."
             % (drug, route, ", ".join(pk_record.missing_fields), pk_record.status)
         )
-    if pk_record.n_compartments != 2:
+    if pk_record.n_compartments not in CHAIN_COMPARTMENTS:
         raise ValueError(
-            "the sourced human %s set is %r-compartment; this chain builds the "
-            "two-compartment oral model P19.2 could source and will not invent "
-            "the peripheral compartment a three-compartment model would need"
+            "the sourced human %s set is %r-compartment; this chain integrates "
+            "one- and two-compartment oral models only, and no sourced human oral "
+            "set needs a third compartment"
             % (drug, pk_record.n_compartments)
         )
     if pk_record.units != "absolute":
@@ -392,6 +405,7 @@ def _require_no_brain_partition_step(drug):
 def _scaled_parameters(pk_record, body_weight_kg, weight_scaling):
     """Absolute V1, V2, Q and CL at `body_weight_kg`, and how they got there."""
     reference = pk_record.reference_weight_kg
+    one_compartment = pk_record.n_compartments == 1
     if body_weight_kg == reference:
         return (
             pk_record.V1_L,
@@ -415,8 +429,8 @@ def _scaled_parameters(pk_record, body_weight_kg, weight_scaling):
     ratio = body_weight_kg / reference
     return (
         pk_record.V1_L * ratio ** weight_scaling.volume_exponent,
-        pk_record.V2_L * ratio ** weight_scaling.volume_exponent,
-        pk_record.Q12_L_per_h * ratio ** weight_scaling.q_exponent,
+        None if one_compartment else pk_record.V2_L * ratio ** weight_scaling.volume_exponent,
+        None if one_compartment else pk_record.Q12_L_per_h * ratio ** weight_scaling.q_exponent,
         pk_record.CL_L_per_h_at_weight(body_weight_kg),
         "scaled from %g kg to %g kg: volumes ^%g, Q ^%g (%s); clearance ^%g, "
         "which is the exponent the source printed"
@@ -430,6 +444,45 @@ def _scaled_parameters(pk_record, body_weight_kg, weight_scaling):
         ),
         "caller-supplied",
         "%s; volume and Q scaling: %s" % (pk_record.citation, weight_scaling.source),
+    )
+
+
+def _build_pk_model(pk_record, body_weight_kg, mw_g_per_mol, parameters):
+    """The one- or two-compartment oral model for ``pk_record``.
+
+    ``parameters`` is ``(V1, V2, Q, CL)`` in L and L/h at ``body_weight_kg``, as
+    :func:`_scaled_parameters` returns them; V2 and Q are None for one
+    compartment. Every value is apparent (X/F), so F is folded in as bookkeeping.
+    """
+    v1_L, v2_L, q_L_per_h, cl_L_per_h = parameters
+
+    def per_kg_clearance(l_per_h):
+        # Evaluated in the P19.5 order, so the haloperidol and olanzapine
+        # curves stay bit-identical to their pre-P25.2 values.
+        return l_per_h * 1000.0 / 60.0 / body_weight_kg
+
+    common = dict(
+        route=pk_record.route,
+        body_weight_kg=body_weight_kg,
+        ka_per_min=pk_record.ka_per_min,
+        molar_mass_g_per_mol=mw_g_per_mol,
+        apparent_parameters=pk_record.apparent_over_F,
+        species=pk_record.species,
+    )
+    if pk_record.n_compartments == 1:
+        return DosedOneCompartmentPK(
+            Vd_L_per_kg=v1_L / body_weight_kg,
+            CL_mL_per_min_per_kg=per_kg_clearance(cl_L_per_h),
+            name="%s %s one-compartment apparent (X/F)" % (pk_record.drug, pk_record.route),
+            **common
+        )
+    return DosedTwoCompartmentPK(
+        V1_L_per_kg=v1_L / body_weight_kg,
+        V2_L_per_kg=v2_L / body_weight_kg,
+        Q_mL_per_min_per_kg=per_kg_clearance(q_L_per_h),
+        CL_mL_per_min_per_kg=per_kg_clearance(cl_L_per_h),
+        name="%s %s two-compartment apparent (X/F)" % (pk_record.drug, pk_record.route),
+        **common
     )
 
 
@@ -462,7 +515,7 @@ def predict_occupancy(
     dose_mg,
     drug=_DRUG,
     route="PO",
-    body_weight_kg=70.0,
+    body_weight_kg=None,
     times_min=None,
     pk_record=None,
     receptor_record=None,
@@ -483,9 +536,13 @@ def predict_occupancy(
     route : must match a sourced human PK record. Only haloperidol ``"PO"`` is
         sourced; the haloperidol IV record is ``searched-and-empty``, so ``"IV"``
         raises.
-    body_weight_kg : defaults to the 70 kg reference weight of the PK source.
+    body_weight_kg : defaults to the reference weight of the PK source (70 kg
+        for haloperidol and olanzapine; 74.19 kg for Knights 2015's
+        aripiprazole). Before P25.2 the default was a literal 70 kg, which
+        equals every P22-era reference weight, so their outputs are unchanged.
         Any other weight requires `weight_scaling`, because the source states a
-        scaling rule for clearance and for nothing else.
+        scaling rule for clearance at most; a literature-bridged record carries
+        none and so cannot be moved off its reference weight at all.
     times_min : grid to report on, minutes from the dose. Defaults to
         :func:`default_times_min`.
     pk_record, receptor_record : supply an alternative sourced record instead of
@@ -506,11 +563,13 @@ def predict_occupancy(
     dose_mg = float(dose_mg)
     if dose_mg < 0.0:
         raise ValueError("dose_mg must be non-negative; got %r" % (dose_mg,))
+    pk_record = _require_pk_record(drug, route, pk_record)
+    if body_weight_kg is None:
+        body_weight_kg = pk_record.reference_weight_kg
     body_weight_kg = float(body_weight_kg)
     if body_weight_kg <= 0.0:
         raise ValueError("body_weight_kg must be positive; got %r" % (body_weight_kg,))
 
-    pk_record = _require_pk_record(drug, route, pk_record)
     receptor_record = _require_receptor_record(drug, receptor_record)
     kp_uu_record = _require_no_brain_partition_step(drug)
     times = default_times_min() if times_min is None else _validated_times(times_min)
@@ -534,18 +593,8 @@ def predict_occupancy(
             "absent, and the chain will not borrow another drug's mass" % drug
         )
 
-    model = DosedTwoCompartmentPK(
-        route=pk_record.route,
-        V1_L_per_kg=v1_L / body_weight_kg,
-        V2_L_per_kg=v2_L / body_weight_kg,
-        Q_mL_per_min_per_kg=q_L_per_h * 1000.0 / 60.0 / body_weight_kg,
-        CL_mL_per_min_per_kg=cl_L_per_h * 1000.0 / 60.0 / body_weight_kg,
-        body_weight_kg=body_weight_kg,
-        ka_per_min=pk_record.ka_per_min,
-        molar_mass_g_per_mol=mw_g_per_mol,
-        name="%s %s two-compartment apparent (X/F)" % (drug, pk_record.route),
-        apparent_parameters=pk_record.apparent_over_F,
-        species=pk_record.species,
+    model = _build_pk_model(
+        pk_record, body_weight_kg, mw_g_per_mol, (v1_L, v2_L, q_L_per_h, cl_L_per_h)
     )
     ec50_nM = receptor_record.occupancy_constant_nM()
     # P21.1: the occupancy ceiling comes from the registry row rather than being
@@ -565,10 +614,19 @@ def predict_occupancy(
         ChainLayer(
             "pk",
             pk_record.status,
-            "two-compartment oral apparent set: Vc/F %g L, Vp/F %g L, Q/F %g L/h, "
-            "CL/F %g L/h, ka %g /min. F is unidentified by the source and is "
-            "folded into these values, not borrowed from another study"
-            % (v1_L, v2_L, q_L_per_h, cl_L_per_h, pk_record.ka_per_min),
+            (
+                "two-compartment oral apparent set: Vc/F %g L, Vp/F %g L, Q/F %g L/h, "
+                "CL/F %g L/h, ka %g /min. F is unidentified by the source and is "
+                "folded into these values, not borrowed from another study"
+                % (v1_L, v2_L, q_L_per_h, cl_L_per_h, pk_record.ka_per_min)
+            )
+            if pk_record.n_compartments == 2
+            else (
+                "one-compartment oral apparent set: V/F %g L, CL/F %g L/h, ka %g "
+                "/min. F is unidentified by the source and is folded into these "
+                "values, not borrowed from another study"
+                % (v1_L, cl_L_per_h, pk_record.ka_per_min)
+            ),
             pk_citation,
             "measured",
         ),
