@@ -643,6 +643,14 @@ def steady_state_occupancy(
     """
     if dose_mg_per_day <= 0:
         raise ValueError("dose_mg_per_day must be positive")
+    if kwargs.get("regimen") is not None:
+        # The single-dose curve is superposed into a steady state here, so a
+        # regimen that cleared the active-metabolite gate for one dose (P25.3)
+        # does not describe what this function returns.
+        raise ValueError(
+            "steady_state_occupancy builds a repeated-dose curve; regimen=%r "
+            "describes a single dose and is refused" % kwargs["regimen"]
+        )
     if n_doses < 1:
         raise ValueError("n_doses must be at least 1")
     per_interval = int(round(_DAILY_INTERVAL_MIN / step_min))

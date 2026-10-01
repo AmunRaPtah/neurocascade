@@ -15996,3 +15996,88 @@ Both pass. The result is weak, for three reasons:
 - Knights 2015 is the sponsor's model;
 - Zheng 2024's ka is borrowed from an AstraZeneca-authored paper, and
   AstraZeneca holds the SEROQUEL label.
+
+## Phase 25, part three: dose to occupancy end to end, scored against held-out PET (P25.3)
+
+Module `neurocascade.human.heldout_dose_occupancy`; document
+`docs/p25-3-heldout-dose-occupancy.md`; ledger V15.
+
+### The brief's two missing pieces are one layer in this chain
+
+The brief asked for Kp,uu and D2 affinity per drug. The chain has used an
+in-vivo plasma EC50 since P19.5, and that constant already contains brain
+penetration and protein binding. A Kp,uu value or an in-vitro Ki would count the
+same effects twice, so neither is entered.
+
+What each new drug gets instead:
+- a first-hand [11C]raclopride plasma EC50: Kim 2012 for aripiprazole, as in
+  P22.3; Nord 2011's IR-only K_i,app of 1373 nM for quetiapine;
+- a `not-required` Kp,uu record naming that EC50, which the double-counting
+  guard checks.
+
+That is the source-over-brief deviation, stated under rule 11.
+
+### The new rows stay out of the live registries
+
+They are passed explicitly, through a new `kp_uu_record` argument that mirrors
+`pk_record` and `receptor_record`. Adding them to `D2_PLASMA_EC50` or
+`HUMAN_KP_UU_RECORDS` would have rewritten the frozen P22.2 and P22.5
+attributions and the public interface's refusal lists. That is the P22.3 D1
+precedent. Whether `predict()` should drive aripiprazole and quetiapine is a
+separate decision:
+- for aripiprazole it should not, because the interface's regimens are repeated
+  dosing;
+- for quetiapine, the constant is only defensible in the once-daily
+  peak-and-trough design it was fitted in.
+
+### The active-metabolite gate is opened for one regimen, with the evidence attached
+
+Aripiprazole's refusal (P21.4) was a regimen mismatch: a single-dose parent-only
+EC50 against a steady-state metabolite share. In the test subjects' own plasma
+during the scan, Ito 2012 measured dehydro-aripiprazole at about 3% of the
+parent.
+
+`ActiveMetabolite.parent_only_regimen` records the one regimen that clears a
+refused record. The record must also carry the measurement that justifies it.
+`predict_occupancy(regimen=)` forwards the regimen to the gate, and
+`steady_state_occupancy` refuses any regimen, because it superposes doses.
+
+Without the argument, every caller behaves exactly as before. The alternative,
+re-labelling the record `bounded`, was rejected: a bound needs an affinity ratio,
+and none exists for the metabolite.
+
+### Observation selection and the threshold
+
+**Threshold.** It is P22.3's pre-registered same-tracer MAE of 0.10, reused
+unchanged. The plasma arm uses the V5/V13 twofold threshold and is reported only.
+
+**Selection rules.** An observation qualifies only if:
+- it uses the same tracer as the constant;
+- dose, schedule and scan time can be read from the source;
+- its subjects are disjoint from the constant's source.
+
+**The two quetiapine sources left unscored.** Gefvert 1998 and Kapur 2000 do
+not print a schedule, and the once- and twice-daily readings disagree about
+pass or fail. Both readings are printed in the module rather than either one
+being chosen.
+
+The disclosure that I computed those readings before choosing
+Tauscher-Wisniewski 2002 is in the P25.3 document.
+
+### What the result says
+
+All four drugs pass, so the result is a calibration of the layers rather than a
+fault in any one of them.
+
+- **Aripiprazole:** the whole-chain bias of −0.041, with all six errors
+  negative, comes from the PK layer. Plasma is predicted at 0.77–0.93 of
+  observed. Given the measured plasma, P22.3's bias was −0.005. A cause
+  consistent with this, but untestable, is that Knights' 74.19 kg reference
+  subject is heavier than Ito's Japanese volunteers. A bridged record cannot be
+  moved off its reference weight.
+- **Olanzapine:** the over-prediction comes from the occupancy constant. At
+  Mamo's own measured plasma it would be +0.076. The PK under-prediction offsets
+  part of that.
+- **Quetiapine:** it passes only in the design its constant was fitted in.
+- **Not tested:** every comparison is a group mean predicted at a mean dose, for
+  a typical subject. Nothing here tests variability between individuals.
