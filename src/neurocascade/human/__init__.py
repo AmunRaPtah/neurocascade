@@ -56,7 +56,7 @@ rather than hidden:
   subdivisions the mouse CCF provides.
 """
 
-from . import atlas, build, d2_ec50, d2_effect, d2_in_vitro, dataset_manifest, directed_prior, dmri_fallback, dose_to_occupancy, ei_time_constants, expression, fetch, fixtures, kp_uu, maps, matrix, neurotransmitter, occupancy_validation, pk_parameters, pk_validation, receptor_parameters, provenance, scenario, sources
+from . import atlas, build, clozapine_falsification, d2_ec50, d2_effect, d2_in_vitro, dataset_manifest, directed_prior, dmri_fallback, dose_to_occupancy, ei_time_constants, expression, fetch, fixtures, kp_uu, maps, matrix, neurotransmitter, occupancy_validation, pk_parameters, pk_validation, receptor_parameters, provenance, scenario, sources
 from .atlas import HumanAtlas, Region, atlas_from_labels, parse_label
 from .build import (
     BuildReport,
@@ -393,6 +393,7 @@ __all__ = [
     "neurotransmitter",
     "scenario",
     "sources",
+    "clozapine_falsification",
     "CITATIONS",
     "RegionSignRule",
     "SIGN_RULES",

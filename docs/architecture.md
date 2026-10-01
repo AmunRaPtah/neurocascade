@@ -15181,3 +15181,96 @@ pooled constant can be shown to exclude Bench 1993. The result stands as the
 second documented case, after V3 for haloperidol, where a published constant
 from one study fails to predict another study's occupancy by more than the
 tracer floor. This time the tracers are the same, so tracer cannot explain it.
+
+## Phase 22, part four: the clozapine anomaly as a falsification test (P22.4)
+
+Clozapine is the most effective antipsychotic available and is clinically
+effective at striatal D2 occupancy well below the 65% response threshold this
+repository sources from Kapur 2000. P22.4 asks whether the untuned chain
+reproduces that real anomaly, under the outcome→reading mapping fixed in advance
+in `docs/p22-preregistration.md`. It does. The result is Outcome A: anomaly
+reproduced, hypothesis falsified. The module is
+`neurocascade.human.clozapine_falsification`; the result is validation-ledger row
+V11 and `docs/p22-4-clozapine-falsification.md`.
+
+### The decision that shaped the task: concentration domain, not dose domain
+
+The pre-registration's literal procedure computes D65 as a *dose* and the
+occupancy at the VERSACLOZ label dose range, "by the identical procedure as
+P22.2". That procedure needs a clozapine dose→plasma PK bridge, and the chain
+does not have one. P21.3 recorded clozapine population-PK as searched-and-empty
+(VERSACLOZ NDA203479 ran no popPK analysis; the older applications predate
+electronic review posting); no clozapine PK set is hand-transcribed; and
+`fda_pk_bridge` has nothing to convert. P22.2 (ledger V8) already recorded this
+pk-layer refusal. So the dose-domain procedure cannot run.
+
+This is where rule 11 (the brief may be wrong about structure) and the
+pre-registration's own C1 deviation clause meet. The pre-registration was written
+before P22.2 established clozapine's pk refusal, so it assumed a drivable chain —
+a genuine error in the document. The correction, logged as a deviation: run the
+falsification in the concentration domain. The clozapine anomaly is, and always
+has been in the literature (Nordström 1995, Gründer 2006, Kapur 2000), a
+statement about plasma concentration and occupancy, not about dose. Clozapine is
+dosed clinically to a *plasma* target (therapeutic drug monitoring) rather than a
+fixed mg/day precisely because dose→plasma varies more than 45-fold between
+patients (Potkin 1994). Comparing the model's 65%-occupancy *concentration*
+against the clinically-effective *concentration* range removes the one unsourced
+link (dose→plasma) instead of inventing it, so the concentration domain is not a
+workaround but the sharper test. The pre-registered A/B logic translates exactly:
+Outcome A if C65 exceeds the top of the effective range or does not exist, B
+otherwise, tie→B. The dose-domain refusal is still reported, under C2
+(`dose_domain_refusal`), rather than letting that half of the test disappear.
+
+### Why clozapine's EC50 stays out of the live registry
+
+The pre-registration says to ingest clozapine's EC50 "under P22.2/P22.3's rules".
+That is satisfied by building the records with the same schema-validated
+`D2PlasmaEC50` dataclass the registry uses — carrying Emax convention, analyte,
+plasma basis, region, tracer and provenance. It is **not** satisfied by inserting
+them into `D2_PLASMA_EC50`, and doing so would be wrong on three counts. First,
+C1: P22.2 (V8) and P22.3 both committed clozapine as refused / searched-and-empty
+before this task ran, and registering the EC50 would retroactively flip clozapine
+from an occupancy-layer refusal to an occupancy-layer pass in P22.2, changing a
+comparison already seen. Second, the suite uses clozapine as its canonical
+"unknown drug" fixture (`test_human_multidrug_occupancy`) to prove the
+refusal-layer ordering, and that fixture depends on clozapine having no registered
+EC50. Third, the chain cannot drive clozapine anyway (no PK), so a live-registry
+row would read as a capability it does not have — exactly the empty-container
+failure mode rule 10 warns against. The records therefore live in the P22.4
+module, outside the chain.
+
+### The numbers and why they are robust
+
+Primary (Gründer 2006 putamen, EC50 950 ng/mL, Emax approached 100% recorded as
+1.0): 65% striatal occupancy requires 1764 ng/mL, 78% requires 3368 ng/mL. The
+AGNP consensus therapeutic reference range is 350–600 ng/mL (Hiemke 2018, sourced
+independently of Gründer to avoid circularity), so C65 is 2.94× above the top of
+the range at which clozapine works. Equivalently, across that range the model
+predicts 27–39% striatal occupancy, matching Gründer's measured putamen 36% /
+caudate 43%. Even the highest observed steady-state peak on the VERSACLOZ label
+(723 ng/mL, across 100–800 mg/day) gives only 43% occupancy — the anomaly holds
+against the label's own measured concentrations.
+
+The Emax=1.0 recording for "approached 100%" is the choice least favourable to
+the anomaly: a lower ceiling raises C65 or makes 65% unreachable, so Outcome A
+holds a fortiori. The sensitivity sweep confirms it across the full literature
+span — caudate (582→C65 1081), Uchida Emax-fixed (483→897), and most sharply
+Uchida free-Emax (105 ng/mL with ceiling 0.60), under which 65% occupancy is
+unreachable at any plasma concentration. Every striatal candidate is Outcome A.
+The single candidate that lands near the threshold rather than far above it is the
+extrastriatal inferior-temporal-cortex EC50 (333→C65 618, just over the range
+top), which is Gründer's own extrastriatal-preference thesis in quantitative form;
+because the 0.65/0.78 thresholds were measured striatally, it is reported as
+sensitivity and never decides the headline.
+
+### What this adds to the ledger
+
+Row V11 is the fourth independent entry in this project (V2, V3, V5–V7, V10 being
+the others) where a comparison against a number nobody here chose comes out as a
+failure of a hypothesis rather than of an arbitrary tolerance — and the first
+where the hypothesis failing is the central one the whole occupancy chain was
+built to test. The chain predicts an occupancy correctly and, in doing so,
+demonstrates that occupancy alone cannot be the sole mediator of clozapine's
+clinical effect. This is consistent with `OCCUPANCY_IS_NOT_THE_OUTCOME` (Siafis
+2023's equal-occupancy / unequal-EPS falsification) and sets up Phase 23's
+off-target fingerprint work: the thing occupancy does not capture.
