@@ -15352,3 +15352,87 @@ two kinds of row are kept apart.
 No new comparison, so no new validated row. The ledger changes are a caveat
 on V11, superseded notes on three stale rows, and two "Untested" rows: the
 layer attribution, and the journal popPK route that was never searched.
+
+## Phase 23, part one: human off-target binding fingerprints (P23.1)
+
+Phase 23 is the one remaining test of the founding thesis, and the roadmap left
+it deliberately unfrozen: the data is free and public and the blocker is work,
+not an unobtainable measurement. The thesis is that a drug's *binding
+fingerprint* — the whole receptor profile, not D2 occupancy alone — is what maps
+to a behavioural outcome. The ledger already records (V11, and the
+occupancy-to-clinical-outcome row) that occupancy alone is falsified as a sole
+determinant, on exactly the dataset this phase is built around: **Siafis 2023**
+(PMC10618092, N=37,193), where haloperidol at 11 mg/day carries an EPS odds ratio
+of 4.7 against risperidone's 3.3 at ~16 mg/day, both at ~87% striatal D2
+occupancy. Equal occupancy, unequal extrapyramidal risk. If anything in the model
+can explain the gap, it is the rest of the profile.
+
+P23.1 is the input layer, not the test. It assembles per-drug **human** Ki at the
+five off-targets the phase names — 5-HT2A, M1, H1, alpha-1 and D3 — for the two
+drugs the Siafis contrast rests on. It makes no prediction and claims no
+validated-ledger row (rule 1).
+
+### Why PDSP here, when D2 refused it
+
+`d2_in_vitro` (P19.4) explicitly *excluded* the PDSP Ki database, on the grounds
+that it is an aggregator and that for D2 seven primaries could be pulled in full
+text with their sodium, tracer and temperature. That reasoning does not transfer
+to five off-targets across two drugs: no full-text assay-condition retrieval was
+done here, and PDSP is the task's named source precisely because it is the one
+public resource that carries **species and a primary reference on every row**.
+So P23.1 uses PDSP as the primary access route and says so. The full CSV (98,678
+rows) was downloaded from `kiDownload/` on 2026-10-01; the loss relative to
+`d2_in_vitro` is the per-row assay conditions, and the price of that loss is
+visible as the within-cell spread (up to ~17-fold across human measurements of
+one drug at one target). The three load-bearing primaries carry resolved PMIDs
+(Richelson & Souder 2000 = 11132243, human post-mortem brain; Schotte 1996 =
+8935801; Kroeze 2003 = 12629531).
+
+### The gate is reused, not re-implemented
+
+PDSP mixes species in a single table, and Schotte 1996 — the canonical
+risperidone binding paper — is the sharpest case: it measured 5-HT2A, D2 and D3
+on cloned **human** receptors but alpha-1 on **rat** cortex and H1 on
+**guinea-pig** cerebellum. A naive import would carry the rodent numbers into a
+human fingerprint, which is exactly rule 2. `gate_record` routes each record's
+provenance species through the *existing* `species_gate.gate` — the same function
+every PK, partition and endpoint parameter already passes — so a fingerprint
+value cannot enter a human comparison on a looser rule than anything else. Human
+rows pass; every non-human row raises `UnsourcedParameterError`.
+`NON_HUMAN_EXCLUDED` holds a representative refused set spanning rat, guinea-pig,
+pig, bovine and mouse, and a test confirms Schotte's own mixed table is split
+human-from-rodent by the gate rather than by hand.
+
+### The selection rule, stated so it is not cherry-picking
+
+Each cell has 8–30 human PDSP rows, most of them secondary re-tabulations of the
+same primaries and several stored as pKi back-conversions (the long-decimal
+values). Registering all of them would dress duplication as independence;
+registering one would hide the spread. The registry instead holds a fixed,
+outcome-independent set per cell: the human-tissue value (Richelson & Souder
+2000) where one exists, the PDSP minimum **and** maximum (each with its own
+reference, so `human_ki_range_nM` reports the true span), the canonical Schotte
+1996 human-receptor value, Kroeze 2003 where present, and one classic human
+primary for D3 and M1.
+
+### What the fingerprints show, and the two searched-and-empty sub-gaps
+
+All ten cells (two drugs × five targets) resolved to a human value; none is
+searched-and-empty at the target level, and `missing_cells()` is empty. The
+contrast the Siafis test needs is already legible in the data without a model:
+risperidone's human 5-HT2A range (0.14–7 nM) sits entirely below haloperidol's
+(25–435 nM) — the Meltzer serotonin-dopamine mechanism — and risperidone is also
+the more potent at H1 and comparable at alpha-1, while **M1 is a floor for both**
+(every human value ≥ ~1.5 µM, ceiling-dominated): neither drug is anticholinergic,
+so M1 cannot be part of whatever distinguishes their EPS. Two sub-class absences
+are recorded as searched-and-empty: there is no human-**tissue** D3 or M1 Ki for
+either drug in PDSP, only cloned/recombinant — recorded so the D3 and M1
+fingerprints are not later misread as tissue measurements.
+
+### Rule 9 disposition
+
+A documented data layer with two searched-and-empty records, no new prediction,
+no validated row. The ledger changes are two rows in the searched-and-empty
+table and a note that the off-target-fingerprint data for the Phase 23 test now
+exists. The comparison that would earn a validated row — fingerprint difference
+against the Siafis EPS contrast — is a later Phase 23 task.
