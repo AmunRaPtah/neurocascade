@@ -15274,3 +15274,81 @@ demonstrates that occupancy alone cannot be the sole mediator of clozapine's
 clinical effect. This is consistent with `OCCUPANCY_IS_NOT_THE_OUTCOME` (Siafis
 2023's equal-occupancy / unequal-EPS falsification) and sets up Phase 23's
 off-target fingerprint work: the thing occupancy does not capture.
+
+## Phase 22, part five: scope and failure analysis for the multi-drug chain (P22.5)
+
+`docs/p22-5-multidrug-failure-analysis.md` applies the P8.3/P19.7 standard to
+what Phases 21 and 22 built. It gives a per-drug grid of every layer's status
+across the nine-drug census, then a failure matrix. Each row of the matrix
+names a layer, the drugs affected, regenerated evidence, an attribution and a
+data requirement. The module behind it is
+`neurocascade.human.multidrug_failure_analysis`. It adds no constant, no drug
+and no prediction.
+
+### Why the tables are rendered by code and pasted, not written
+
+Pre-registration commitment C4 requires every number to be regenerated rather
+than copied. P19.7 met that by hand. Here the two tables are produced by
+`layer_grid_markdown()` and `failure_matrix_markdown()`, each figure computed
+by calling the module that produced it (`fda_popk`, `fda_pk_bridge`,
+`active_metabolites`, `label_dose_result`, `leave_one_drug_out`,
+`clozapine_falsification`, `occupancy_validation`). A test fails if the
+document stops containing them verbatim. The reasoning is that a failure
+analysis goes stale silently when an upstream registry changes, and the
+earlier ledger rows show it happening: three "Untested" rows still said no
+second drug could be driven, after P22.2a had wired olanzapine in. Those rows
+are now marked superseded rather than rewritten, so the ledger still shows
+what was true when each one was added.
+
+The module does only three pieces of arithmetic of its own, all
+rearrangements of existing outputs. First, the EC50 one ziprasidone point
+implies under Emax 1. Second, the EC50 multiplier band inside which a P22.2
+pass still passes, which is closed-form because dose scales exactly with
+EC50, and a test checks the band edges against `label_dose_scoring.score`.
+Third, aripiprazole's worst-case metabolite error at the two exposure ratios
+V7 found disagreeing. That third one is conditional on the label's
+equipotency assertion. P21.4 deliberately kept that assertion out of
+`affinity_ratio`, and the `ActiveMetabolite` validator rightly refuses a
+ratio with no species. So the module applies the same closed-form bound to
+d = r directly and labels the result conditional, rather than building a
+record that carries a number the source never printed. A test ties the
+closed form to the record method on the two drugs that have a real drive
+ratio.
+
+### The layer set is the chain's gates plus the hypothesis, plus the ground truth kept separate
+
+The model layers are the chain's own gates in order (analyte, pk, exposure,
+occupancy constant), then what the chain lacks (regimen correction,
+effect-site kinetics, a non-identity transducer), then the occupancy-to-outcome
+hypothesis. Ground-truth gaps (held-out PET observations, label dose ranges)
+get their own rows and are labelled as the test side. The P8.3 discipline is
+to attribute a failure to a layer and not to the model. That fails just as
+badly if an empty or low-power test side gets read as a model failure, so the
+two kinds of row are kept apart.
+
+### Three things it found that the earlier records did not say
+
+- **V11 is cross-tracer.** The primary clozapine constant is [18F]fallypride
+  and the thresholds are [11C]raclopride. With the same-tracer candidates
+  only, the outcome is still A, but the margin is 1.50x, not 2.94x. C1 keeps
+  the pre-registered primary, so the result is a caveat on the ledger row,
+  not a re-run.
+- **The Kp,uu gate is missing from P22.2's attribution.**
+  `refusal_layers` checks three gates. The chain also refuses any drug without
+  a Kp,uu record. That gate is masked today, because the drugs it would refuse
+  are exactly the pk-refused ones. It was not fixed here: changing
+  `refusal_layers` would rewrite P22.2's committed refusal tuples, which C1
+  forbids for drugs whose comparison has been seen. The repair is listed for
+  the next drug that gets PK.
+- **The PK search covered FDA documents only.** P21.3's searched-and-empty
+  rows describe the FDA corpus. No task here has searched the journal
+  literature for oral adult population PK, and seven of nine drugs stop at
+  that layer. It is recorded in the ledger as an untested route, so it cannot
+  be read as an empty one. It is first in the repair order because it is the
+  only repair that could add drivable drugs without new measurement.
+
+### Rule 9 disposition
+
+No new comparison, so no new validated row. The ledger changes are a caveat
+on V11, superseded notes on three stale rows, and two "Untested" rows: the
+layer attribution, and the journal popPK route that was never searched.
