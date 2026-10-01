@@ -2015,7 +2015,13 @@
         "P23.2"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "conductor": {
+        "sessions": 1,
+        "history": [
+          "2026-10-01 11:04 COMPLETE, PR opened"
+        ]
+      }
     },
     {
       "id": "P23.4",
