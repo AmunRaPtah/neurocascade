@@ -2014,14 +2014,17 @@
       "deps": [
         "P23.2"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-01 11:04 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 11
+      },
+      "finished_at": "2026-10-01T09:20:31+00:00",
+      "result": "complete"
     },
     {
       "id": "P23.4",
