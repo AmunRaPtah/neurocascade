@@ -2156,14 +2156,17 @@
       "deps": [
         "P24.2"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-01 19:15 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 16
+      },
+      "finished_at": "2026-10-01T17:40:26+00:00",
+      "result": "complete"
     },
     {
       "id": "P25.2",
