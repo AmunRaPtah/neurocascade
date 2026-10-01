@@ -15436,3 +15436,90 @@ no validated row. The ledger changes are two rows in the searched-and-empty
 table and a note that the off-target-fingerprint data for the Phase 23 test now
 exists. The comparison that would earn a validated row — fingerprint difference
 against the Siafis EPS contrast — is a later Phase 23 task.
+
+## Phase 23, part two: off-target occupancy from the shared plasma curve (P23.2)
+
+P23.1 assembled the per-drug human Ki fingerprints. P23.2 turns those affinities
+into occupancy-time curves driven by the **same** plasma concentration-time curve
+that `dose_to_occupancy` already produces for D2 —
+`human/offtarget_occupancy.py`. The brief's one standing instruction is that an
+in-vitro Ki is not an in-vivo EC50 (P19.4 proved this for D2), so every off-target
+occupancy is a *weaker quantity* and must be labelled as such everywhere it
+appears.
+
+### The hyperbola, unchanged; the constant in it, weaker
+
+An off-target occupancy is the same rectangular hyperbola the D2 curve uses,
+`theta(t) = C(t) / (C(t) + K)`, on the same total-plasma axis. The only thing
+that changes is what sits in the `K` slot: the D2 curve fills it with an in-vivo
+plasma EC50 (1.885 nM, fitted on human PET occupancy, which absorbs protein
+binding, brain penetration and endogenous dopamine competition); the off-target
+curves fill it with an in-vitro Ki, which absorbs none of that. The functional
+form being identical is exactly why the labelling matters: nothing in the shape of
+the curve warns a reader that one of them is a far weaker claim than the other.
+
+Each off-target is reported as a **band**, not a point, because the P23.1
+fingerprint is a Ki *range* (human measurements of one drug at one target span up
+to ~17-fold). `occ_low` uses the largest Ki and `occ_high` the smallest. Every
+`OffTargetOccupancyCurve` carries `quantity_kind = "ki-derived-occupancy"` and
+the full `KI_DERIVED_LABEL`, distinct from the `"in-vivo-fitted-occupancy"` tag
+and `IN_VIVO_LABEL` the D2 curve would carry, and the labels differ in
+`summary()` output too, so the distinction survives into any text rendering.
+
+### The measured floor: D2 is the one place the error can be weighed
+
+Saying "weaker" is cheap; P23.2 measures how much weaker. D2 is the only target
+for these drugs where both an in-vivo EC50 and an in-vitro Ki exist, so it is the
+only place the error of using a Ki where an EC50 belongs can be *measured* rather
+than asserted. `d2_invivo_vs_ki_discrepancy` computes the haloperidol D2 occupancy
+the honest way (EC50 1.885 nM) and the way the off-targets are forced to be
+computed (the registered in-vitro Ki, Bartuzi 2022, 8.85 nM) on the same plasma
+curve, and returns the gap. Over a clinical 5 mg curve the two disagree by up to
+**0.368 occupancy units** — larger than any held-out error anywhere in the
+ledger. That gap is not a tolerance chosen here; it is two independent
+measurements (the Nyberg/Regenthal PET behind the EC50, Bartuzi 2022 behind the
+Ki) disagreeing, and it is the floor on how wrong every off-target occupancy in
+this module could be. The sign is instructive: the in-vivo EC50 is *below* the
+in-vitro Ki, so using the Ki *under*-states occupancy here — the opposite of the
+naive "total plasma overstates free drug" intuition, because brain accumulation
+and the high-affinity state dominate. And because the P19.4 EC50/Ki ratio
+straddles unity (0.21–14.5 across the seven sources), the sign of the gap even
+flips with the choice of Ki: at the smallest in-vitro value (0.13 nM) the Ki
+*over*-states occupancy. A test pins both signs.
+
+### Scope: haloperidol only, and not by choice
+
+"The same plasma curve that drives D2" exists only for a drug the chain can drive
+end to end. That is haloperidol. Olanzapine has a plasma curve (the bridged
+LYBALVI set) but no P23.1 off-target fingerprint. Risperidone — the other half of
+the Siafis contrast — has a fingerprint but no plasma curve: the chain refuses it
+because parent-only disposition is ill-posed across CYP2D6 phenotype (P21.4), and
+there is no in-vivo risperidone D2 EC50 here. `offtarget_occupancy_from_curve`
+raises for any drug with no fingerprint, which naturally catches both gaps. The
+asymmetry is stated, not papered over: the full Siafis two-drug comparison is
+P23.3's problem and will have to source risperidone occupancy another way.
+
+### Directional cross-check, recorded as weak
+
+One real-number ordering is reachable without new literature. The measured
+typical-antipsychotic signature is high striatal D2 and comparatively low cortical
+5-HT2 occupancy for haloperidol (Kapur & Remington 1996, high D2 at low dose;
+Farde/Nyberg 1995 established the reciprocal crossover for risperidone, 5-HT2
+78–88% ≥ D2 75–80% at 6 mg/day). The Ki fingerprint reproduces the **sign** of
+the 5-HT2A-minus-D2 occupancy difference for haloperidol: at a clinical 5 mg curve
+its Ki-derived cortical 5-HT2A occupancy peaks at 0.01–0.17 against an in-vivo D2
+peak of 0.73. This is a one-drug, direction-only check — no numeric error, n=1 —
+and is labelled as such. It is consistent with the measured ordering; it is not a
+quantitative validation and earns no validated row.
+
+### Rule 9 disposition
+
+P23.2 produces no new prediction against an independently measured off-target
+occupancy number — none is reachable for haloperidol paired to a plasma
+concentration (the familiar paywall/absence pattern). What it does produce is a
+measured quantification of the weakness the brief demanded be labelled: the
+0.368-occupancy-unit floor is a comparison of two independent measurements that
+were never fitted to each other. That belongs in the ledger's *untested* table as
+a sharpening of the occupancy→clinical-outcome row, plus the directional
+cross-check, not as a validated row — the validated comparison (fingerprint vs the
+Siafis EPS contrast) is still P23.3.
