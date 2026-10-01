@@ -15816,3 +15816,85 @@ The card's figures from V1, V4 and V8 are recomputed in the test from
 checked row by row against `refusal_layers`. The other ledger figures the card
 quotes are checked as present in both the card and the ledger, so the card
 cannot drift away from the ledger without a test failing.
+
+## Phase 25, part one: literature population PK for six antipsychotics (P25.1)
+
+P22.5 attributed seven of nine census drugs' failure to the PK layer and
+recorded that PK had only ever been looked for in FDA review documents. P25.1
+searched the journal literature. The record is
+`src/neurocascade/human/literature_popk.py`, the write-up
+`docs/p25-1-literature-popk.md`, the ledger row V13.
+
+### A separate module, reusing the FDA parameter type
+
+The literature records reuse `fda_popk.PopPKParameter` (printed symbol, value,
+printed unit or `None`) and the rule that `apparent_parameters` is decided by a
+quoted sentence. They are a separate class rather than more `FDAPopPK` rows
+because the provenance key is different (PMID and the raw copy read, against
+application number and review date), and because the literature needed three
+things the reviews did not:
+
+- **Fixed parameters with an origin.** Five of the eight models fix ka to
+  another study's value. Both quetiapine models borrow it from Zhou 2015, which
+  is paywalled. Recording that a parameter was fixed, and from where, is what
+  stops a borrowed constant being read as an estimate.
+- **A variability scale of `unstated`.** The Xuzhou TDM papers print ω without
+  a scale. Assigning variance, SD or CV would be a guess worth up to a square
+  root.
+- **Disposition mapped per entity, plus an optional parallel elimination rate.**
+  Half the models co-fit a metabolite, and each entity's half-life has its own
+  label value. Reeves 2024's parent also leaves by a metabolic rate constant
+  `km` beside CL/F. The mapping was validated against the source's own printed
+  reference half-life: 36.8 h computed against 36 h printed, where omitting km
+  would give 50 h. A parallel rate is refused on a two-compartment entity,
+  where it would need a micro-constant nobody printed.
+
+Each drug's search is a `DrugSearch` holding every query with its hit count and
+every candidate with a disposition. Absence is therefore a data structure, not
+a missing row. That is what lets ziprasidone be `searched-and-empty` with nine
+queries and two named closed-access papers behind it.
+
+### Why "summariser-only" is a refusal and not a caveat
+
+Two otherwise-acceptable open-access papers (Kim 2008, Feng 2008) were
+reachable only through a fetch tool that returns a model's summary of the page.
+Asked twice for Kim 2008's Table 3, it gave V/F as 192 L and as 193 L. The
+project's rule is that every number is traceable to a source, and a summary is
+not one. The alternative, entering the values with a warning, would have put
+two drugs' worth of numbers into the registry whose provenance is a language
+model. So every transcribed value was read from a raw copy: XML, PDF, PMC HTML,
+or a supplementary control stream. That was checked again by re-fetching each
+source, not by trusting the search agents' reports.
+
+### The comparison and the one modelling decision in it
+
+The closing comparison reuses V5's quantity, terminal half-life against the
+label, because `/F` cancels in V/CL. It also reuses V5's twofold threshold
+unchanged. The one new decision was Korell 2017. Its clearance is
+`10.9·(WT/74.4)^0.727 + 0.024·CrCL` with no reference CrCL printed. A
+"typical" CrCL of, say, 100 mL/min would have invented a reference subject the
+source does not define. The comparison instead evaluates both ends of the
+covariate range the source itself prints (0 to the 150 mL/min cap) and scores
+the worse end. Both ends pass.
+
+### What the result says about TDM-derived volumes
+
+6 of 9 pass. All three failures (Reeves, Chen, Størset's metabolite) are fits
+to sparse trough TDM samples whose volume is poorly identified, and every
+dense-sampling model passes. The two clozapine models agree on CL/F (21.9
+against 20.2 L/h) and disagree 2.8-fold on V/F. The two quetiapine models come
+from the same group with the same method and differ 4.6-fold on V/F. That is
+the expected behaviour of troughs: they pin the average concentration, which is
+dose over CL/F, and say little about the curve's shape, which is V. The
+consequence for the chain, when someone wires these in: **a TDM model's CL/F is
+usable for a steady-state mean, and its V/F is not evidence about a time
+course.**
+
+### Not wired in, deliberately
+
+Only Chen 2024, Zheng 2024 and Knights 2015 have the shape `fda_pk_bridge`
+accepts: single entity, mamillary, apparent, with a printed reference weight.
+Their drugs (quetiapine, aripiprazole) are blocked at the occupancy layer for
+reasons P21.2, P21.4 and P21.5 recorded. Wiring them would add PK rows the
+chain must still refuse, so it was left alone. The P22.5 pinned numbers and the
+P24.1 interface are unchanged.
