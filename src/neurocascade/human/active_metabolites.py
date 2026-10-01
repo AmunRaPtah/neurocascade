@@ -205,6 +205,16 @@ class ActiveMetabolite:
 
     notes: str = ""
 
+    #: The one driven regimen in which a ``refused`` record's reason does not
+    #: apply, or ``None`` when no regimen clears it. Added in P25.3 for
+    #: aripiprazole, whose refusal is a regimen mismatch: the parent-only EC50
+    #: was fitted after a single oral dose, so a single-dose prediction is in the
+    #: regimen the constant already absorbed. A record refused for any other
+    #: reason (risperidone's parent axis does not exist) leaves this ``None``.
+    parent_only_regimen: str | None = None
+    #: The measurement that shows the metabolite is minor in that regimen.
+    parent_only_regimen_evidence: str = ""
+
     def __post_init__(self):
         if self.disposition not in DISPOSITIONS:
             raise ValueError(
@@ -244,6 +254,14 @@ class ActiveMetabolite:
             raise ValueError(
                 "affinity ratio %r for %s is not positive"
                 % (self.affinity_ratio, self.parent)
+            )
+        if self.parent_only_regimen is not None and (
+            self.disposition != "refused" or not self.parent_only_regimen_evidence
+        ):
+            raise ValueError(
+                "%s/%s names a clearing regimen, which only a refused record "
+                "can have, and only with the evidence that clears it"
+                % (self.parent, self.metabolite)
             )
         if self.disposition == "bounded" and (
             self.exposure_ratio is None or self.affinity_ratio is None
@@ -506,6 +524,17 @@ ARIPIPRAZOLE_DEHYDRO_ARIPIPRAZOLE = ActiveMetabolite(
         "bounded: a bound needs a ratio, and here the sources disagree about "
         "which ratio."
     ),
+    # P25.3. Every reason above is about a steady-state prediction. After one
+    # oral dose, the regimen Kim 2012 fitted in, the metabolite is a few percent
+    # of the parent, measured in the subjects of the held-out test itself.
+    parent_only_regimen="single oral dose",
+    parent_only_regimen_evidence=(
+        "Ito H et al. PLoS One 2012;7:e46488 (PMC3460902), Results: during the "
+        "[11C]raclopride scan 3.5-4.5 h after one oral dose, dehydroaripiprazole "
+        "was 0.4+/-0.2 ng/mL against parent 12.0+/-2.1 ng/mL (3 mg), 0.9+/-0.3 "
+        "against 29.0+/-2.1 (6 mg) and 1.1-1.6 against 39.6-40.4 (9 mg): about "
+        "3% of the parent, against the label's steady-state 40%"
+    ),
 )
 
 #: Risperidone -> 9-hydroxyrisperidone (paliperidone).
@@ -733,15 +762,24 @@ def active_metabolites_for(drug, target="D2"):
     return tuple(r for r in records if r.target == target)
 
 
-def require_parent_only_path(drug, target="D2"):
+def require_parent_only_path(drug, target="D2", regimen=None):
     """Raise if `drug` may not be predicted through a parent-only chain.
 
     Returns the registered records for the drug, which the caller can attach to
     its provenance. The records returned are always ``bounded``; a ``refused``
     record raises, quoting the reason and the source that forces it.
+
+    ``regimen`` names the regimen the prediction will be read under. A refused
+    record whose :attr:`ActiveMetabolite.parent_only_regimen` equals it does not
+    raise (P25.3); it is not returned either, because it carries no bound.
     """
     records = active_metabolites_for(drug, target=target)
-    refused = [r for r in records if r.disposition == "refused"]
+    refused = [
+        r
+        for r in records
+        if r.disposition == "refused"
+        and (r.parent_only_regimen is None or r.parent_only_regimen != regimen)
+    ]
     if refused:
         record = refused[0]
         raise ValueError(
@@ -759,7 +797,7 @@ def require_parent_only_path(drug, target="D2"):
                 ", ".join(record.ec50_axes_available) or "none",
             )
         )
-    return records
+    return tuple(r for r in records if r.disposition == "bounded")
 
 
 # ---------------------------------------------------------------------------

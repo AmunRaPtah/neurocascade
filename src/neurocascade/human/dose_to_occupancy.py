@@ -333,7 +333,7 @@ def _require_pk_record(drug, route, pk_record, include_literature=True):
     return pk_record
 
 
-def _require_receptor_record(drug, receptor_record):
+def _require_receptor_record(drug, receptor_record, regimen=None):
     if receptor_record is None:
         receptor_record = human_receptor_parameter_for(drug, _TARGET)
     if receptor_record is None:
@@ -359,7 +359,7 @@ def _require_receptor_record(drug, receptor_record):
     # record is for 'risperidone', not 'haloperidol'" will go and generalise
     # the chain, and the parent-only path would then accept a drug whose parent
     # concentration does not determine its occupancy (P21.4).
-    require_parent_only_path(receptor_record.ligand, target=_TARGET)
+    require_parent_only_path(receptor_record.ligand, target=_TARGET, regimen=regimen)
     if receptor_record.ligand != drug:
         raise ValueError(
             "the %s record is for %r, not %r"
@@ -384,12 +384,25 @@ def _require_receptor_record(drug, receptor_record):
     return receptor_record
 
 
-def _require_no_brain_partition_step(drug):
-    """The Kp,uu layer must still be empty for the no-partition design to hold."""
-    records = kp_uu_records(drug)
-    if not records:
-        raise ValueError("no human %s Kp,uu record to check" % drug)
-    record = records[0]
+def _require_no_brain_partition_step(drug, kp_uu_record=None):
+    """The Kp,uu layer must still be empty for the no-partition design to hold.
+
+    ``kp_uu_record`` supplies a record instead of the registry's, as
+    ``pk_record`` and ``receptor_record`` do (P25.3). It must name the drug and
+    is checked exactly as the registry's record is.
+    """
+    if kp_uu_record is None:
+        records = kp_uu_records(drug)
+        if not records:
+            raise ValueError("no human %s Kp,uu record to check" % drug)
+        record = records[0]
+    else:
+        record = kp_uu_record
+        if record.drug != drug or record.species != "human":
+            raise ValueError(
+                "the Kp,uu record is for %s %s, not human %s"
+                % (record.species, record.drug, drug)
+            )
     if record.kp_uu is not None:
         raise ValueError(
             "a human %s Kp,uu of %r has been recorded since this chain was "
@@ -521,6 +534,8 @@ def predict_occupancy(
     receptor_record=None,
     weight_scaling=None,
     allow_illustrative=False,
+    kp_uu_record=None,
+    regimen=None,
 ):
     """Predict a striatal D2 occupancy-time curve for an oral dose of ``drug``.
 
@@ -554,6 +569,16 @@ def predict_occupancy(
     allow_illustrative : the P19.1 opt-in. No layer of this chain is currently
         illustrative, so the default refuses nothing today; it is the gate that
         keeps an illustrative constant from entering silently later.
+    kp_uu_record : supply the exposure-layer record instead of the registry's
+        (P25.3). It is checked as the registry's is: a recorded Kp,uu value is
+        refused, because the plasma EC50 already contains brain penetration.
+    regimen : the regimen the curve will be read under, passed to the
+        active-metabolite gate. Only ``"single oral dose"`` clears anything
+        today, and only aripiprazole's record, whose refusal is a mismatch
+        between a single-dose EC50 and a steady-state metabolite share (P25.3).
+        A caller that superposes this curve into a steady state must not pass
+        it; :func:`~neurocascade.human.occupancy_validation.steady_state_occupancy`
+        refuses to.
 
     Returns
     -------
@@ -570,8 +595,8 @@ def predict_occupancy(
     if body_weight_kg <= 0.0:
         raise ValueError("body_weight_kg must be positive; got %r" % (body_weight_kg,))
 
-    receptor_record = _require_receptor_record(drug, receptor_record)
-    kp_uu_record = _require_no_brain_partition_step(drug)
+    receptor_record = _require_receptor_record(drug, receptor_record, regimen)
+    kp_uu_record = _require_no_brain_partition_step(drug, kp_uu_record)
     times = default_times_min() if times_min is None else _validated_times(times_min)
 
     v1_L, v2_L, q_L_per_h, cl_L_per_h, scaling_detail, scaling_provenance, pk_citation = (
@@ -656,6 +681,12 @@ def predict_occupancy(
                 receptor_record.ec50_plasma_basis,
                 emax_detail,
                 receptor_record.ec50_uncertainty,
+            )
+            + (
+                ""
+                if regimen is None
+                else ". Read under the regimen %r, which the caller declared to "
+                "the active-metabolite gate" % regimen
             ),
             receptor_record.ec50_citation,
             "fitted-in-repo"
@@ -693,7 +724,11 @@ def predict_occupancy(
         receptor_compartment=model.receptor_compartment,
         ec50_nM=ec50_nM,
         layers=layers,
-        metabolite_caveats=active_metabolites_for(drug, target=_TARGET),
+        metabolite_caveats=tuple(
+            record
+            for record in active_metabolites_for(drug, target=_TARGET)
+            if record.disposition == "bounded"
+        ),
         emax=emax,
     )
 
