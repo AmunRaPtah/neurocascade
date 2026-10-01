@@ -330,6 +330,111 @@ EC50 record.
 
 ---
 
+## P23.3: does the off-target fingerprint explain the EPS residual that D2 occupancy cannot
+
+Added for Phase 23's thesis test. The P22.1 document is the pre-registration
+home per the task brief; this section is committed in its own commit, before the
+commit that adds the regression code and its result, so git history shows
+criterion-before-number the way the P22.2–P22.4 sections do.
+
+### What this section can and cannot claim (contamination inventory)
+
+Procedural blindness only, and **less than P22.2–P22.4 had.** Rule 12 required
+the load-bearing assumption (that the inputs for an eight-drug regression exist
+and are sourceable) to be checked *before* building on it. Checking it meant
+assembling the inputs and running the regression once during feasibility
+scoping. So the result was seen before this text was committed: this section is
+**not blind**, and is flagged the way the haloperidol row of P22.2 is. Three
+further contaminations, stated so they cannot later read as concealment:
+
+1. The Siafis 2023 contrast (haloperidol 11 mg EPS OR 4.7 vs risperidone 16 mg
+   OR 3.3 at ~87% D2) and the Meltzer 5-HT2A hypothesis are in the task brief
+   itself and throughout P23.1/P23.2 and the ledger. The *direction* of the
+   hypothesis was never unknown.
+2. The eight Lako-2013 drugs and the Siafis per-drug ORs are already published
+   numbers; nothing here is a blind prediction of an unseen quantity.
+3. The 5-HT2A occupancy side has no in-vivo occupancy model (there is no
+   Lako-equivalent for 5-HT2A, searched-and-empty below), so it is computed from
+   in-vitro Ki — the *weaker quantity* P23.2 measured at a 0.368-occupancy-unit
+   floor. The predictor inherits that weakness by construction.
+
+What is nonetheless fixed in advance and honored by the code with no post-hoc
+tuning: the denominator, the model form, the predictor definitions, the
+criterion, the decision rule, and — most importantly — the commitment to report
+an indeterminate result as indeterminate rather than reading a trend as a
+finding (the task's explicit instruction).
+
+### Hypothesis
+
+- **H1**: across the drugs with both a Lako-2013 dose→D2-occupancy formula and a
+  Siafis-2023 EPS odds ratio, the **5-HT2A:D2 occupancy ratio at the drug's ED95
+  dose** explains variance in ln(EPS OR) beyond D2 occupancy at ED95 alone, and
+  it enters **negatively** (more 5-HT2A-selective → lower EPS; the Meltzer
+  mechanism).
+- **H0**: the ratio adds no explanatory variance (β on the ratio term = 0).
+
+### Denominator, fixed now
+
+The eight drugs for which Lako et al. 2013 published a dose→D2-occupancy formula
+(amisulpride, aripiprazole, clozapine, haloperidol, olanzapine, quetiapine,
+risperidone, ziprasidone), **minus clozapine**, which has neither an ED95 in
+Leucht 2020 (not estimated — too few fixed-dose studies) nor a usable EPS OR in
+Siafis 2023 ("no usable data"). Both are pre-existing facts, not choices made
+here. Denominator = **7**: haloperidol, risperidone, olanzapine, quetiapine,
+aripiprazole, ziprasidone, amisulpride. No drug may be dropped from the primary
+analysis after the result is seen; leave-one-drug-out is a pre-declared
+sensitivity, below, reported never scored.
+
+### Model, fixed now
+
+- **Outcome** Y = ln(OR), OR = the Siafis 2023 per-drug **maximum** EPS odds
+  ratio vs placebo (the headline reported numbers; transcribed verbatim with
+  dose and CI). The anchor mismatch — occupancy evaluated at ED95, OR being the
+  maximum (which occurs at each drug's top studied dose) — is a known limitation,
+  uniform across drugs, pre-declared and not a per-drug knob.
+- **occ_D2** = D2 occupancy fraction at ED95 = OccMax·D/(D+OccD50) with the Lako
+  2013 (OccMax, OccD50) for the drug and D = the Leucht 2020 ED95 (mg/day).
+- **occ_5HT2A** = 5-HT2A occupancy at ED95, computed on the P23.2 principle that
+  one plasma concentration drives every receptor: OccD50_5HT2A =
+  OccD50_D2·(Ki_5HT2A/Ki_D2), OccMax_5HT2A = 100% (**stated assumption**), Ki =
+  PDSP human-median. This is **Ki-derived and weaker** (P23.2) and additionally
+  assumes the in-vitro affinity ratio transfers to the in-vivo dose–ED50 ratio.
+- **ratio** = occ_5HT2A / occ_D2; the predictor is log10(ratio).
+- **Model 0** (null): Y ~ 1 + occ_D2. **Model 1**: Y ~ 1 + occ_D2 + log10(ratio).
+
+### Criterion and decision rule, fixed now
+
+Nested partial F-test (Model 1 vs Model 0) at α = 0.05.
+
+- **SUPPORTED** iff p < 0.05 **and** β_ratio < 0 (hypothesized sign).
+- **INDETERMINATE** iff not supported **and** the achievable power to detect even
+  a large increment (Cohen f² ≥ 0.35) is < 0.80 — i.e. the test could not have
+  reliably found a real effect, so a non-significant result distinguishes
+  neither way.
+- **NULL-FAVORED** only if p ≥ 0.05 **and** power ≥ 0.80 (an equivalence-style
+  read). **Pre-declared unreachable**: at n = 7, df = (1, 4), power to detect
+  f² = 0.35 is ≈ 0.20, so a non-significant result here is INDETERMINATE by
+  construction, stated in advance so the negative is not over-read in either
+  direction.
+
+### Sensitivity (pre-declared, reported not scored)
+
+Median Ki is primary; the PDSP min/max Ki span and leave-one-drug-out are
+reported as robustness, in full. The two structural confounds are named now:
+aripiprazole is a D2 **partial agonist** (Siafis found partial agonists carry
+small ORs despite high occupancy; P21.5 refuses its transducer), and quetiapine
+sits far **below** the EPS occupancy threshold at ED95 (28% D2). A result that
+depends on the in/out of either is, itself, an indeterminate result.
+
+### Searched-and-empty, recorded now
+
+An in-vivo 5-HT2A **occupancy** model (a Lako-equivalent dose→5-HT2A-occupancy
+function) for these drugs: none exists. 5-HT2A occupancy is reported only in
+scattered single-dose PET studies at non-matched doses, so the 5-HT2A side of
+the ratio cannot be put on the same in-vivo footing as D2 and is Ki-derived.
+
+---
+
 ## What this document does not constrain
 
 Engineering choices with no ground-truth contact (module layout, refusal
