@@ -1928,14 +1928,17 @@
         "P22.3",
         "P22.4"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-01 06:45 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 8
+      },
+      "finished_at": "2026-10-01T05:00:24+00:00",
+      "result": "complete"
     },
     {
       "id": "P23.1",
