@@ -2117,7 +2117,7 @@
       "id": "P24.3",
       "phase": "Phase 24: the deliverable",
       "title": "Manuscript",
-      "brief": "Draft the manuscript from the validation ledger rather than from the roadmap. The contribution is a mechanistic dose-to-occupancy chain for antipsychotics validated against FDA label dose ranges and held-out PET, plus whatever P23 concluded. Journal-direct rather than preprint. Do not claim behavioural prediction, whole-brain simulation or any frozen layer.",
+      "brief": "Draft the manuscript from the validation ledger rather than from the roadmap. The contribution is a mechanistic dose-to-occupancy chain for antipsychotics validated against FDA label dose ranges and held-out PET, plus whatever P23 concluded. Journal-direct rather than preprint. Do not claim behavioural prediction beyond what P26.2 validated, whole-brain simulation or any frozen layer. Waits for Phase 26 so the paper covers the added drugs and the EPS result (positive or negative).",
       "acceptance": [
         "Every quantitative claim traceable to a ledger row",
         "Negative and indeterminate results included",
@@ -2128,7 +2128,7 @@
         "evidence": ""
       },
       "deps": [
-        "P24.2"
+        "P26.2"
       ],
       "status": "pending",
       "attempts": 0,
@@ -2138,6 +2138,162 @@
           "2026-10-01 16:58 COMPLETE, PR opened"
         ]
       }
+    },
+    {
+      "id": "P25.1",
+      "phase": "Phase 25: more drugs",
+      "title": "Literature popPK for six oral antipsychotics",
+      "brief": "docs/p22-5 found 7 of 9 drugs stall at the PK step, and PK was only ever searched in FDA review documents. Search the journal literature (PubMed, Europe PMC, PMC full text) for published adult population-PK models of oral clozapine, quetiapine, ziprasidone, aripiprazole, risperidone and paliperidone. Transcribe structural model, typical values, IIV and covariates with full citations into the PK registry format. Record every empty search with its query so absence is evidence, not silence.",
+      "acceptance": [
+        "One registry record per drug with a found model, each parameter cited to a page/table",
+        "A searched-and-empty entry with queries for every drug where nothing usable was found",
+        "No parameter invented or back-fitted"
+      ],
+      "validation": {
+        "kind": "searched-and-empty",
+        "evidence": ""
+      },
+      "deps": [
+        "P24.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P25.2",
+      "phase": "Phase 25: more drugs",
+      "title": "Accept literature PK models in the occupancy pipeline",
+      "brief": "_require_pk_record currently only accepts haloperidol's exact model type. Widening it is a modelling decision: write a short design note first (which structural models are allowed, how IIV and covariates are handled, what is refused), then implement it so predict() can run any drug whose P25.1 record passes.",
+      "acceptance": [
+        "Design note committed before code",
+        "Haloperidol and olanzapine outputs unchanged (regression test)",
+        "Records outside the allowed model classes refused with a stated reason"
+      ],
+      "validation": {
+        "kind": "process",
+        "evidence": ""
+      },
+      "deps": [
+        "P25.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P25.3",
+      "phase": "Phase 25: more drugs",
+      "title": "End-to-end occupancy for the new drugs, scored against held-out PET",
+      "brief": "For each drug with accepted PK, fill in the missing brain-exposure (Kp,uu) and D2 affinity pieces from cited sources, then run dose-to-occupancy end to end and score against held-out PET occupancy data. Do not tune on the held-out points.",
+      "acceptance": [
+        "At least 4 drugs run end to end with a scored comparison to PET in the ledger",
+        "Each failure recorded with the missing layer named"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P25.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P26.1",
+      "phase": "Phase 26: first behavioural outcome",
+      "title": "Per-dose EPS rates and a pre-registered fit/held-out split",
+      "brief": "Collect per-dose extrapyramidal-symptom rates (EPS, akathisia where separated) from FDA labels and pivotal trials for the drugs covered after P25.3. Before any fitting, commit in writing which drugs are for fitting and which are held out, and the pass criterion for P26.2.",
+      "acceptance": [
+        "EPS table with per-dose rates, placebo rates and citations",
+        "Pre-registration file committed before any P26.2 code"
+      ],
+      "validation": {
+        "kind": "process",
+        "evidence": ""
+      },
+      "deps": [
+        "P25.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P26.2",
+      "phase": "Phase 26: first behavioural outcome",
+      "title": "Occupancy-to-EPS risk link, scored on held-out drugs",
+      "brief": "Fit an occupancy -> EPS-risk model on the fitting drugs from P26.1, then score it once on the held-out drugs against the pre-registered criterion. A negative result is acceptable and must be recorded as such.",
+      "acceptance": [
+        "Held-out score in the ledger against the pre-registered criterion",
+        "Result recorded whether it passes or fails",
+        "No change to the pre-registration after seeing held-out data"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P26.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P27.1",
+      "phase": "Phase 27: make it usable",
+      "title": "pip-installable package and CLI",
+      "brief": "Make neurocascade pip-installable with a CLI such as `neurocascade predict olanzapine 10mg --daily`. Output a readable table or --json, and plain-English reasons when a drug is refused.",
+      "acceptance": [
+        "pip install . in a clean venv then the CLI works",
+        "Refusals print the missing layer in plain English",
+        "CLI tests in CI"
+      ],
+      "validation": {
+        "kind": "process",
+        "evidence": ""
+      },
+      "deps": [
+        "P26.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P27.2",
+      "phase": "Phase 27: make it usable",
+      "title": "One-page report per prediction",
+      "brief": "Add a one-page report (HTML or PDF) per prediction: occupancy curve, EPS risk band if available, and provenance for every number.",
+      "acceptance": [
+        "Report generated from the CLI",
+        "Every number links to its source record"
+      ],
+      "validation": {
+        "kind": "process",
+        "evidence": ""
+      },
+      "deps": [
+        "P27.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P27.3",
+      "phase": "Phase 27: make it usable",
+      "title": "Split test suite: fast CI and nightly slow tests",
+      "brief": "Split tests so CI runs a fast set in under 5 minutes and the slow statistical tests run nightly.",
+      "acceptance": [
+        "CI fast set under 5 minutes",
+        "Nightly workflow runs the slow set"
+      ],
+      "validation": {
+        "kind": "process",
+        "evidence": ""
+      },
+      "deps": [
+        "P27.1"
+      ],
+      "status": "pending",
+      "attempts": 0
     }
   ]
 }
