@@ -138,6 +138,13 @@ from .pet_validation import (
     require_single_tracer,
 )
 from .heldout_validation import HeldOutHumanDrugResult, summarize_heldout
+from .prediction_interface import (
+    Prediction,
+    PredictionRefused,
+    ThresholdPosition,
+    predict,
+    supported_drugs,
+)
 from .occupancy_validation import (
     CLINICAL_OCCUPANCY_THRESHOLDS,
     CLINICAL_WINDOW_PROVENANCE,
@@ -443,4 +450,9 @@ __all__ = [
     "load_expression",
     "read_expression",
     "relative_density",
+    "Prediction",
+    "PredictionRefused",
+    "ThresholdPosition",
+    "predict",
+    "supported_drugs",
 ]

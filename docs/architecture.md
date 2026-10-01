@@ -15641,3 +15641,104 @@ which rounds to **−0.396** at three decimals; the drift-guard test caught the
 mis-round, and V12, the part-three section and the write-up now all read −0.396.
 This is a rounding fix to an existing committed number, not a new calibration, and
 it changes no conclusion (the verdict, F, p and power are untouched).
+
+## Phase 24, part one: the public prediction interface (P24.1)
+
+`neurocascade.human.prediction_interface.predict(drug, dose_mg, regimen)`, also
+exported as `neurocascade.human.predict`. It returns the striatal D2
+occupancy-time course for a once-daily (`steady-state-daily`, one 24 h interval
+at steady state) or `single-dose` (0–72 h) oral regimen. It also returns where
+the regimen's statistic sits against every row of `CLINICAL_OCCUPANCY_THRESHOLDS`.
+The statistic is the steady-state mean, which is the P22.1 pre-registered statistic, or
+the single-dose peak. It adds no model. The curves are `steady_state_occupancy`
+and `predict_occupancy`, and the tests assert them bit-identical to those
+functions. The tests also pin the ledger figures they reproduce: V4's 0.5635
+steady-state mean and 0.5253 single-dose peak at 2 mg, and V8's haloperidol
+window edges 2.89 and 5.56 mg/day sitting on 0.65 and 0.78.
+
+### Refusal collects every missing layer, before anything runs
+
+The chain's own gates stop at the first missing layer, which is right inside
+the chain and wrong at the boundary. A caller asking "can this drug be
+predicted?" needs the whole list, because a drug missing PK *and* EC50 *and*
+a Kp,uu record is three data items from a prediction, not one.
+`refusal_layers(drug)` checks the four layers independently: active-metabolite,
+pk, occupancy and exposure (Kp,uu). `predict` raises `PredictionRefused`, a
+`ValueError`, carrying `(layer, reason)` for each one and listing the drugs that
+do clear every layer. The check runs before integration, and a test replaces both
+chain functions with ones that fail if called, to prove it. Every drug in the
+P22.2 denominator plus amisulpride, fentanyl and diazepam is pinned to its exact
+refused-layer tuple. Changing one of those is a change in what the model can
+predict, so it should fail a test until someone makes it on purpose. Today exactly two drugs clear
+every layer: haloperidol and olanzapine, the same two V8 scored.
+
+### Where a cross-drug fallback could hide, and what closes each one
+
+- **The default drug.** `predict_occupancy`, `steady_state_occupancy` and
+  `dose_reaching_occupancy` still default to haloperidol (P19.5 backward
+  compatibility; many tests rely on it). `predict` has no default. Omitting the
+  drug is a `TypeError`, and `predict` always passes the drug explicitly. A test
+  pins the signature.
+- **Name normalisation.** `active_metabolites_for` lower-cases its key while the
+  PK, EC50 and Kp,uu lookups do not. `"Haloperidol"` therefore clears the
+  metabolite check and is refused at the other three layers. That is the
+  intended outcome: case-folding is a lookup guessing which drug was meant.
+  `predict` performs no normalisation, and `"Haloperidol"`, `" haloperidol"` and
+  `""` are pinned as refusals.
+- **Layer removal.** Removing olanzapine's EC50 row, its PK set or its Kp,uu
+  record, one at a time, produces a refusal at exactly that layer, naming
+  olanzapine, with the chain never called. Removing haloperidol's registry row
+  refuses haloperidol at occupancy. It does not fall through to the P19.4
+  receptor record, which carries the same constant. The boundary refuses when
+  any registry the chain is documented to read is missing the drug.
+- **Provenance text.** The chain's `transduction` layer describes `d2_effect`
+  and is written for haloperidol ("honest only because haloperidol is a silent
+  D2 antagonist"). `predict` applies no transducer, so it drops that layer.
+  Returning it for olanzapine would hand olanzapine a haloperidol statement as
+  provenance. A test asserts that no olanzapine layer cites Pilla Reddy, Nyberg,
+  Regenthal or haloperidol at all.
+- **The molar-mass fallback** in `predict_occupancy` to
+  `HALOPERIDOL_MW_G_PER_MOL` is reachable only with `drug == "haloperidol"`
+  (P21.6), so it is not cross-drug.
+
+### The thresholds are a haloperidol relation, and the interface says so
+
+The 65/72/78% thresholds come from Kapur 2000 (PMID 10739409). Its abstract,
+read for this task, says patients "were randomly assigned to 1.0 or 2.5 mg/day
+of haloperidol. After 2 weeks of treatment, D(2) receptor occupancy was
+determined", and concludes "While limited to haloperidol". Showing olanzapine's
+occupancy against those numbers therefore transfers a haloperidol
+occupancy-outcome relation to another drug, which is the substitution rule 2
+forbids when it happens silently. P22.2 already applied these thresholds across
+drugs under pre-registration. The interface keeps the comparison and labels it
+rather than suppressing it. `ClinicalOccupancyThreshold` gained
+`measured_in_drugs` and `measured_regimen`, set to `("haloperidol",)` and
+`steady-state-daily` on the three Kapur rows and left `None` on Uchida 2011,
+whose pooled drug list is in a paywalled full text. Each `ThresholdPosition`
+carries the following:
+`same_drug`, `same_regimen`, the margin, the fraction of the time course at or
+above the threshold, `unreachable_at_any_dose` (true when the drug's own Emax
+fit sits below the threshold, the P22.2 distinction), and a note in words.
+Olanzapine against Kapur reads "measured in haloperidol-treated patients, not
+olanzapine: a cross-drug transfer". A single-dose peak against Kapur reads as
+a regimen mismatch. Every `Prediction` carries `OCCUPANCY_IS_NOT_THE_OUTCOME`
+and `CLINICAL_WINDOW_PROVENANCE` as `caveats`. Sitting above 0.78 is a statement
+about occupancy, not a prediction of extrapyramidal symptoms; Siafis 2023 is
+the falsification already on file.
+
+### Scope fixed by the data, not by the interface
+
+PO only, because no drug has a sourced IV set. The body weight is the 70 kg
+reference only, because no sourced set prints volume or Q exponents (P19.2) and
+the interface does not offer the caller-supplied `WeightScaling` escape hatch.
+A public entry point should not invite numbers the repository has no source for.
+Striatal only, with no effect compartment (ke0), carried from P19.7.
+
+### Why this earns no validated row
+
+The interface is wiring: by rule 9 it is scaffolding, and it compared nothing
+against an external number. Its outputs are the computations that already
+earned V4 and V8, and the tests prove that bit-for-bit, so no new claim exists
+to score. The ledger records it in the untested table. What it does deliver is
+that the only public way to get a number out of the chain now refuses, by layer,
+for every drug the ledger does not cover.
