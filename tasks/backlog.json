@@ -2185,14 +2185,17 @@
       "deps": [
         "P25.1"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-01 21:26 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 17
+      },
+      "finished_at": "2026-10-01T19:40:19+00:00",
+      "result": "complete"
     },
     {
       "id": "P25.3",
