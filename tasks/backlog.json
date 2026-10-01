@@ -1867,15 +1867,18 @@
         "P22.1",
         "P22.2"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "note": "Reset 2026-09-24: was marked done on 2026-09-11 with no work. The only commit (5491f88) was a swept-up Anubis bot-check page, base.html, removed in 99d7329, and the runner's gate then accepted green tests plus any commit as done (fixed the same day). Depends on P22.2 because the test consumes each drug's registered EC50 and the registry holds only haloperidol until P22.2a ingests the P21.2 drugs.",
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-01 03:24 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 6
+      },
+      "finished_at": "2026-10-01T01:40:15+00:00",
+      "result": "complete"
     },
     {
       "id": "P22.4",
