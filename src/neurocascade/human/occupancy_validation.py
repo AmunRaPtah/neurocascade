@@ -763,6 +763,15 @@ class ClinicalOccupancyThreshold:
     #: A hazard specific to this source, where one exists. Not every threshold
     #: has one, so it defaults to absent rather than to an empty string.
     note: str | None = None
+    #: The drugs whose patients the threshold was measured in, or ``None`` when
+    #: the source pooled drugs and its composition was not read (P24.1). A
+    #: threshold is an occupancy-outcome relation observed under one drug;
+    #: placing another drug's occupancy against it is a cross-drug transfer,
+    #: and :func:`neurocascade.human.prediction_interface.predict` labels it as one.
+    measured_in_drugs: tuple | None = None
+    #: The dosing regimen the threshold was observed under, in the regimen
+    #: vocabulary of :func:`dose_reaching_occupancy`, or ``None`` if unread.
+    measured_regimen: str | None = None
 
     def __post_init__(self):
         if not 0 < self.occupancy < 1:
@@ -802,6 +811,13 @@ UCHIDA_2011_IS_TWO_PAPERS = (
 )
 
 
+#: ``measured_in_drugs`` and ``measured_regimen`` on the Kapur 2000 rows
+#: (P24.1) are read from its PubMed abstract (fetched 2026-10-01): "22 patients
+#: with first-episode schizophrenia were randomly assigned to 1.0 or 2.5 mg/day
+#: of haloperidol. After 2 weeks of treatment, D(2) receptor occupancy was
+#: determined", and in the conclusions "While limited to haloperidol". Uchida
+#: 2011 pooled 12 studies whose drug list sits in the paywalled full text, so
+#: its row leaves both fields unread rather than guessing.
 CLINICAL_OCCUPANCY_THRESHOLDS = (
     ClinicalOccupancyThreshold(
         outcome="clinical response",
@@ -827,6 +843,8 @@ CLINICAL_OCCUPANCY_THRESHOLDS = (
             "was derived. The full text is paywalled and was not obtained, so "
             "no statistical method is attributed to this paper."
         ),
+        measured_in_drugs=("haloperidol",),
+        measured_regimen="steady-state-daily",
     ),
     ClinicalOccupancyThreshold(
         outcome="hyperprolactinemia",
@@ -843,6 +861,8 @@ CLINICAL_OCCUPANCY_THRESHOLDS = (
         region="striatum",
         region_origin="inferred, as above",
         statistical_basis="as above: significantly, with nothing behind it in the abstract",
+        measured_in_drugs=("haloperidol",),
+        measured_regimen="steady-state-daily",
     ),
     ClinicalOccupancyThreshold(
         outcome="extrapyramidal side effects",
@@ -859,6 +879,8 @@ CLINICAL_OCCUPANCY_THRESHOLDS = (
         region="striatum",
         region_origin="inferred, as above",
         statistical_basis="as above: significantly, with nothing behind it in the abstract",
+        measured_in_drugs=("haloperidol",),
+        measured_regimen="steady-state-daily",
     ),
     ClinicalOccupancyThreshold(
         outcome="extrapyramidal side effects, pooled reanalysis",
