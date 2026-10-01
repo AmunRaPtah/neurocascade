@@ -2072,14 +2072,17 @@
       "deps": [
         "P23.4"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-01 13:57 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 13
+      },
+      "finished_at": "2026-10-01T12:20:19+00:00",
+      "result": "complete"
     },
     {
       "id": "P24.2",
