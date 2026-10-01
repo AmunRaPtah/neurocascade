@@ -15816,3 +15816,80 @@ The card's figures from V1, V4 and V8 are recomputed in the test from
 checked row by row against `refusal_layers`. The other ledger figures the card
 quotes are checked as present in both the card and the ledger, so the card
 cannot drift away from the ledger without a test failing.
+
+## Phase 24, part three: the manuscript (P24.3)
+
+`docs/manuscript.md` is the journal-direct research article for the v1
+deliverable. It is drafted from `docs/validation-ledger.md`, not from the
+roadmap, because the roadmap describes what was attempted and the ledger records
+what survived contact with a held-out number. It adds no model and no number of
+its own, and it earns no validated row (rule 9): it reports the rows V1–V12 and
+the untested and searched-and-empty layers already in the ledger.
+
+### Why a new file rather than editing the skeleton
+
+`docs/manuscript-skeleton.md` (P10.3) was written at mouse scale before the
+human pivot. Its abstract and results are about a 291-region mouse connectome, a
+whole-brain Wilson–Cowan simulation and a seven-compound behavioural held-out
+set — exactly the layers the pivot froze and the P24.3 brief forbids claiming.
+Rewriting it in place would have destroyed the record of that earlier scope and
+left `tests/test_manuscript_skeleton.py` (which pins the mouse-scale artifacts)
+to be deleted or rewritten, which rule 4 forbids. The manuscript is therefore a
+new document that states, in its preamble, that it supersedes the skeleton for
+the v1 deliverable; the skeleton and its test are left untouched as the mouse-era
+record.
+
+### The contribution the manuscript is allowed to claim
+
+The brief fixes it: a mechanistic dose-to-occupancy chain for antipsychotics
+validated against FDA label dose ranges and held-out PET, plus whatever P23
+concluded. So the manuscript's results section is the V-rows and nothing else.
+The successes are V1 (haloperidol plasma→occupancy, MAE 0.0351), V8 (both drugs'
+untuned dose windows inside the label ranges) and V9 (aripiprazole held-out PET,
+MAE 0.0244). The negatives are reported at the size they came out: V2 (free-basis
+over-prediction), V3 (published-EC50 disagreement), V5 (FDA-parameter half-lives,
+8 of 13 fail), V6 and V7 (active-metabolite misses, 1.7× and 2.5×), V10
+(anecdotal ziprasidone miss) and V11 (the clozapine anomaly reproduced, a
+falsification). V12 is reported as indeterminate, not as its suggestive trend,
+the same way P23.4 wrote it up. The abstract states up front that the chain
+predicts no behaviour, simulates no circuit or network, and refuses every drug
+and route it cannot source.
+
+### What "traceable to a ledger row" means mechanically, and the one scope-of-scan choice
+
+The citation convention is the P24.2 model card's, reused unchanged: `[V4]`
+resolves to a validated row, `[ledger: X]` to the untested or searched-and-empty
+row whose first cell begins with `X` (which must match exactly one row).
+`tests/test_manuscript.py` splits the article into claim units and fails on any
+unit **carrying a decimal figure** that lacks a citation — a narrower rule than
+the card's "every unit", chosen because a manuscript has connective prose the
+card does not, and the acceptance criterion is about *quantitative* claims.
+Citations are resolved against the body from "## 1. Introduction" to
+"## 7. References": the preamble is excluded because it spells out the
+`[ledger: X]` syntax with a literal placeholder, and the reference list is
+excluded because its DOIs and volume numbers (`10.1038`, `13(1):107-11`) trip the
+decimal rule without being claims. Everything the manuscript asserts quantitatively
+lives between those two headings.
+
+### The frozen-layer guard
+
+Three acceptance criteria, three test groups. Traceability is the citation
+resolver above. Negatives-and-indeterminates is a test that every one of V1–V12
+appears, plus that the results section contains the failure vocabulary
+(over-predicts, disagree, fail, miss, falsif, anecdotal) and that the clozapine
+and fingerprint verdicts are stated with their numbers. "No claim about frozen
+layers" is enforced positively: the introduction must contain the four scope
+denials (no behavioural/clinical prediction, no whole-brain/circuit/network
+simulation, circuit parameters illustrative, the scaffold chains unsourced),
+each with its ledger citation. A positive check is the enforceable form — a test
+cannot prove the absence of every possible overclaim, but it can require the
+disclaimers that make an overclaim contradict the text around it.
+
+### Live numbers
+
+As in the card, the headline figures are recomputed in the test: the 2 mg
+single-dose peak 0.5253 and steady-state mean 0.5635 from `predict`, the dose
+windows 2.89–5.56 and 5.77–16.4 mg/day from `predict_window`, the EC50 1.8849 nM
+and olanzapine Emax 0.875 / 5.29 ng/mL from the registry, and the V9/V11/V12
+figures checked present in both the manuscript and the ledger. The prose cannot
+drift from the chain without a test failing.
