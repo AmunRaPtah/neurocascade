@@ -1897,14 +1897,17 @@
       "deps": [
         "P22.2"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-01 05:04 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 7
+      },
+      "finished_at": "2026-10-01T03:20:18+00:00",
+      "result": "complete"
     },
     {
       "id": "P22.5",
