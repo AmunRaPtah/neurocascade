@@ -2213,14 +2213,17 @@
       "deps": [
         "P25.2"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-01 23:35 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 18
+      },
+      "finished_at": "2026-10-01T22:01:12+00:00",
+      "result": "complete"
     },
     {
       "id": "P26.1",
