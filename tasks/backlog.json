@@ -1985,14 +1985,17 @@
       "deps": [
         "P23.1"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-01 09:24 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 10
+      },
+      "finished_at": "2026-10-01T07:40:18+00:00",
+      "result": "complete"
     },
     {
       "id": "P23.3",
