@@ -45,6 +45,17 @@ IMAGE = "nc-worker"
 NETWORK = "nc-sandbox"
 PROXY = "http://172.31.250.1:4000"
 WORKER_UID = 20001
+# `--llm agy` runs the Antigravity CLI instead of Claude Code against a LiteLLM
+# model. agy needs Google's endpoints, so its container is on the default bridge
+# rather than nc-sandbox; the filesystem confinement is unchanged (fresh clone at
+# /work, data read-only, a throwaway HOME holding only a copy of the OAuth token).
+# Quota is per model, so the probe takes the first model in AGY_MODELS that answers.
+AGY = "agy"
+AGY_BIN = Path("/root/.local/bin/agy")
+AGY_TOKEN = Path("/root/.gemini/antigravity-cli/antigravity-oauth-token")
+AGY_MODELS = os.environ.get("NC_AGY_MODELS",
+                            "claude-sonnet-4-6,gemini-3.1-pro-high,gemini-3.8-flash-high").split(",")
+_agy_model: str | None = None
 
 MONTH_CAP = float(os.environ.get("NC_MODAL_MONTH_CAP", 25.0))
 # The first real task flailed for 30 min / 160 tool calls on attempt 1 and was
@@ -348,6 +359,56 @@ print(json.dumps({"ready_s": round(time.time() - t0, 1), "model": body.get("mode
 """
 
 
+def agy_home(adir: Path) -> Path:
+    home = adir / "agy-home"
+    (home / ".gemini" / "antigravity-cli").mkdir(parents=True, exist_ok=True)
+    shutil.copy(AGY_TOKEN, home / ".gemini" / "antigravity-cli" / AGY_TOKEN.name)
+    sh(["chown", "-R", str(WORKER_UID), str(home)], check=True)
+    home.chmod(0o700)
+    return home
+
+
+def agy_run(name: str, model: str, prompt: str, mounts: list[str], home: Path,
+            timeout: int, out: Path) -> dict:
+    """One agy print-mode turn in the worker image; returns its JSON result."""
+    rc = docker_run(name, [*mounts, f"{AGY_BIN}:/usr/local/bin/agy:ro", f"{home}:/home/agy"],
+                    ["agy", "--model", model, "--dangerously-skip-permissions",
+                     "--print-timeout", f"{timeout}s", "--output-format", "json", "-p", prompt],
+                    network="bridge", env={"HOME": "/home/agy"}, timeout=timeout + 120,
+                    stdout_path=out)
+    text = out.read_text(errors="replace")
+    try:
+        obj = json.loads(text[text.index("{"):])
+    except ValueError:
+        obj = {}
+    return {"rc": rc, **obj}
+
+
+def agy_ready(out_dir: Path) -> float:
+    """Pick the first AGY_MODELS entry that answers; quota is tracked per model,
+    and an exhausted one can exit 0 with an empty response."""
+    t0 = time.time()
+    home = agy_home(out_dir)
+    tried = []
+    try:
+        return _agy_pick(home, out_dir, tried, t0)
+    finally:
+        shutil.rmtree(home, ignore_errors=True)   # no token copies left in run dirs
+
+
+def _agy_pick(home: Path, out_dir: Path, tried: list, t0: float) -> float:
+    global _agy_model
+    for m in AGY_MODELS:
+        r = agy_run("ncw-probe", m, "Reply with the single word PONG", [], home, 120,
+                    out_dir / f"probe-{m}.txt")
+        if r.get("status") == "SUCCESS" and "PONG" in (r.get("response") or ""):
+            _agy_model = m
+            log(f"agy model {m}")
+            return round(time.time() - t0, 1)
+        tried.append(f"{m}: rc={r['rc']} {str(r.get('error') or r.get('response') or '')[:80]}")
+    raise InfraError("no agy model answered: " + "; ".join(tried))
+
+
 def wait_ready(llm: str, out: Path) -> float:
     """One real Anthropic-format request from inside the sandbox, the exact path the
     worker uses (container -> socat -> LiteLLM -> router -> Modal). It absorbs the
@@ -426,6 +487,8 @@ def run_worker(spec: dict, llm: str, ctx: int, tree: Path, adir: Path, failure: 
         tests=" ".join(spec["tests"]), protected=", ".join(spec["protected"]),
         retry=RETRY.format(failure=failure) if failure else "")
     (adir / "prompt.txt").write_text(prompt)
+    if llm == AGY:
+        return run_agy_worker(spec, prompt, tree, adir)
     env = {"ANTHROPIC_BASE_URL": PROXY, "ANTHROPIC_AUTH_TOKEN": proxy_key(),
            "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "8192",
            "CLAUDE_CODE_MAX_CONTEXT_TOKENS": str(ctx),
@@ -445,6 +508,29 @@ def run_worker(spec: dict, llm: str, ctx: int, tree: Path, adir: Path, failure: 
     (adir / "final.txt").write_text(res["final"])
     if res["api_error"]:
         raise InfraError(f"LLM API error {res['api_error']}: {res['final'][:200]}")
+    return res
+
+
+def run_agy_worker(spec: dict, prompt: str, tree: Path, adir: Path) -> dict:
+    # agy has no turn cap; the print timeout is the leash.
+    t0 = time.time()
+    home = agy_home(adir)
+    try:
+        r = agy_run(f"ncw-{spec['id'].replace('.', '-')}-agent", _agy_model, prompt,
+                    [f"{tree}:/work", f"{DATA}:/work/data:ro"], home,
+                    AGENT_TIMEOUT_S, adir / "agent.json")
+    finally:
+        shutil.rmtree(home, ignore_errors=True)
+    final = r.get("response") or ""
+    res = {"rc": r["rc"], "agent_s": round(time.time() - t0), "final": final,
+           "turns": r.get("num_turns"), "subtype": r.get("status"), "api_error": None,
+           "model": _agy_model}
+    (adir / "final.txt").write_text(final)
+    if r.get("status") != "SUCCESS" or not final.strip():
+        if r["rc"] == 124:
+            return res        # our timeout: a worker failure, not a backend one
+        raise InfraError(f"agy/{_agy_model} failed rc={r['rc']}: "
+                         f"{str(r.get('error') or 'empty response, likely quota')[:200]}")
     return res
 
 
@@ -719,7 +805,9 @@ def cmd_run(args) -> None:
     try:
         if use_modal:
             modal_app(args.model, up=True)
-        prov["ready_s"] = wait_ready(llm, bdir / "probe.txt")
+        prov["ready_s"] = agy_ready(bdir) if llm == AGY else wait_ready(llm, bdir / "probe.txt")
+        if llm == AGY:
+            prov["agy_model"] = _agy_model
         log(f"backend ready after {prov['ready_s']}s")
         for issue, spec, base in runnable:
             if mem_available_mb() < MIN_FREE_MB:
@@ -880,7 +968,8 @@ def main() -> None:
     r.add_argument("--model", default=os.environ.get("NC_WORKER_MODEL", "glm47-flash"),
                    choices=sorted(DEPLOY))
     r.add_argument("--max-tasks", type=int, default=5)
-    r.add_argument("--llm", help="LiteLLM model name instead of a Modal burst model")
+    r.add_argument("--llm", help="LiteLLM model name instead of a Modal burst model, "
+                   "or 'agy' for the Antigravity CLI")
     r.add_argument("--dry-run", action="store_true",
                    help="local spec branches, no GitHub writes")
     g = sub.add_parser("regate", help="re-gate a saved attempt's patch without a GPU")

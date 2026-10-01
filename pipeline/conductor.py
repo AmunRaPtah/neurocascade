@@ -75,7 +75,12 @@ WEEK_FLOOR, WEEK_SPAN = 20.0, 55.0
 # P22.2a's 1108-line spec overflowed the worker's 64k context on 2026-09-25.
 MAX_SPEC_LINES = 200
 MODAL_HEADROOM = 1.5            # $ a batch may still cost
-# Second worker backend, used while the Modal month is spent: free-tier Gemini
+# Worker backends in order (2026-10-01): Antigravity (agy, Google-account quota,
+# per model), then Gemini by API key. Modal is no longer used by the conductor;
+# `orchestrate.py run` without --llm still drives it by hand.
+AGY_TASKS = 4
+AGY_BACKOFF_S = 2 * 3600
+# Second worker backend, used while agy is out of quota: free-tier Gemini
 # through the LiteLLM proxy (model entry in pardalos deploy/litellm-free.yaml).
 # The free tier allows a few hundred requests a day, so batches are small and a
 # quota or backend failure parks it for GEMINI_BACKOFF_S.
@@ -746,34 +751,34 @@ def step_work(st: dict, dry: bool) -> bool:
     ready = issues(o.LABEL_READY)
     if not ready:
         return False
-    ok, why = modal_ok()
-    if ok and time.time() < st.get("modal_waiting_until", 0):
-        ok, why = False, "modal backend failed last batch, backing off"
-    llm = None
-    if ok:
-        st.pop("modal_waiting", None)
+    until = st.get("agy_waiting_until", 0)
+    if time.time() >= until:
+        llm, why = o.AGY, "antigravity"
     else:
-        st["modal_waiting"] = why
+        why = f"agy backing off until {time.strftime('%H:%M', time.localtime(until))}"
         gok, gwhy = gemini_ok(st)
         if not gok:
+            st["worker_waiting"] = f"{why}; {gwhy}"
             log(f"work: {why}; {gwhy}")
             return False      # the architect may take these over instead
         llm = GEMINI_LLM
+    st.pop("worker_waiting", None)
+    st.pop("modal_waiting", None)
     if o.mem_available_mb() < o.MIN_FREE_MB:
         st["waiting"] = "host memory low"
         return True
-    log(f"work: {len(ready)} ready issue(s) to {llm or 'the Modal worker'} ({why})")
+    log(f"work: {len(ready)} ready issue(s) to {llm} ({why})")
     if dry:
         return True
     cmd = [sys.executable, str(Path(__file__).parent / "orchestrate.py"), "run",
-           "--max-tasks", str(GEMINI_TASKS if llm else 4)] + (["--llm", llm] if llm else [])
+           "--max-tasks", str(AGY_TASKS if llm == o.AGY else GEMINI_TASKS), "--llm", llm]
     started = time.time()
     p = o.sh(cmd, capture_output=False, text=True, timeout=6 * 3600)
     new = [d for d in (o.RUNS / "_batches").glob("*") if d.stat().st_mtime >= started - 5]
     if not new:
         # Nothing was runnable (spec failed to load or baseline). Not progress:
         # counting it would hide a stuck queue from the stall alert.
-        log(f"worker batch ({llm or 'modal'}) ran nothing, rc={p.returncode}")
+        log(f"worker batch ({llm}) ran nothing, rc={p.returncode}")
         stuck = st.setdefault("work_stuck", 0) + 1
         st["work_stuck"] = stuck
         if stuck == 3:
@@ -781,14 +786,14 @@ def step_work(st: dict, dry: bool) -> bool:
                       "for 3 ticks; see conductor/cron.log")
         return False
     st.pop("work_stuck", None)
-    progress(st, f"worker batch ({llm or 'modal'}) rc={p.returncode}")
-    if not llm:
+    progress(st, f"worker batch ({llm}) rc={p.returncode}")
+    if llm == o.AGY:
         if batches_had_infra(new):
-            # A broken Modal path should not starve the queue: Gemini covers.
-            st["modal_waiting_until"] = time.time() + MODAL_BACKOFF_S
-            log(f"work: Modal backend failure, backing off {MODAL_BACKOFF_S // 3600}h")
+            # agy out of quota or broken: Gemini covers until the backoff ends.
+            st["agy_waiting_until"] = time.time() + AGY_BACKOFF_S
+            log(f"work: agy backend failure, backing off {AGY_BACKOFF_S // 3600}h")
         else:
-            st.pop("modal_waiting_until", None)
+            st.pop("agy_waiting_until", None)
     else:
         if batches_had_infra(new):
             st["gemini_waiting_until"] = time.time() + GEMINI_BACKOFF_S
@@ -800,7 +805,7 @@ def step_work(st: dict, dry: bool) -> bool:
 
 def step_takeover(st: dict, dry: bool) -> bool:
     cands = issues(o.LABEL_FAILED) + issues(L_HUMAN)
-    if st.get("modal_waiting"):
+    if st.get("worker_waiting"):
         cands += issues(o.LABEL_READY)
     cands = [i for i in cands if st.setdefault("takeovers", {}).get(i["id"], 0) < MAX_TAKEOVERS]
     if not cands:
@@ -1022,8 +1027,10 @@ def status() -> None:
     tasks = backlog_at(base)["tasks"]
     done = sum(t["status"] == "done" for t in tasks)
     print(f"backlog {done}/{len(tasks)} done; next: {(next_task(tasks) or {}).get('id')}")
-    print(f"claude: {claude_ok()[1]}\nmodal: {modal_ok()[1]}")
-    print(f"gemini: {gemini_ok(load_state())[1]}")
+    until = st.get("agy_waiting_until", 0)
+    print(f"claude: {claude_ok()[1]}\nagy: " + (f"backing off until {time.strftime('%H:%M', time.localtime(until))}"
+          if time.time() < until else "ready (worker 1)"))
+    print(f"gemini: {gemini_ok(load_state())[1]} (worker 2)")
     for k in ("waiting", "waiting_on", "last_progress_what", "last_error"):
         if st.get(k):
             print(f"{k}: {st[k]}")
