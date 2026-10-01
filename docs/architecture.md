@@ -15742,3 +15742,77 @@ earned V4 and V8, and the tests prove that bit-for-bit, so no new claim exists
 to score. The ledger records it in the untested table. What it does deliver is
 that the only public way to get a number out of the chain now refuses, by layer,
 for every drug the ledger does not cover.
+
+## Phase 24, part two: the model card (P24.2)
+
+`docs/model-card.md` is the card for the deliverable `predict(drug, dose_mg,
+regimen)`. `tests/test_model_card.py` guards it. It adds no model and no number
+of its own, and it earns no validated row (rule 9). It is recorded in the
+ledger's untested table, like P24.1.
+
+### Why the limits come first, and how that is enforced
+
+The brief requires out-of-scope uses before capabilities. That is a reading
+order, so a test checks it: the five section headings must appear in the order
+"do not use", "unrepaired mismatches", "populations", "intended use", "what it
+can do". The first section must name every scope limit P19.7 set (region,
+route, chronic, effect compartment, behaviour, other drugs, body weight). The
+mismatch table must name sixteen specific mismatches. Deleting one
+fails a test, and so does softening one until its key phrase is gone.
+
+### What "traceable to a ledger row" means mechanically
+
+Each claim carries a bracketed citation. `[V4]` points to a validated row.
+`[ledger: X]` points to the untested or searched-and-empty row whose first cell
+begins with `X`, and that prefix must match exactly one row. The ledger's
+second and third tables have no ids. Adding ids would have meant rewriting
+every row of a file that other documents quote, so the first cell serves as
+the key instead. The test splits the card into claim units (paragraphs,
+bullets and table rows) and fails on any unit without a citation, or on any
+citation that resolves to no row or to more than one.
+
+Enforcing this exposed four gaps. The card has to state them, but the ledger
+recorded them nowhere: chronic pharmacology (P19.7 had it, the ledger did not),
+between-subject variability and covariates for the two drivable drugs, the
+olanzapine absorption lag that `fda_pk_bridge` drops, and the population
+exchangeability assumption. Each became an untested row. That is the ledger
+recording an untested layer, which is what that table is for. None of the four
+claims a result, and none was written to let a citation resolve. Each is a
+limitation that applies to `predict()` today and was missing from the ledger.
+
+### P19.7 verbatim, and what no longer applies
+
+Block quotes in the card are checked as exact substrings of the P19.7 document
+after whitespace normalisation. The card quotes what still holds: striatal
+only, the depot-fitted versus orally-driven mismatch, no chronic pharmacology,
+no effect compartment, the four haloperidol populations with the
+exchangeability sentence, and the number-versus-behaviour sentence. Three P19.7
+statements are not carried over:
+
+- "The chain's published predictions ... are single oral doses." `predict()` now
+  also offers a once-daily steady-state regimen, and the card names the
+  steady-state mean as the reading closest to the fitting data.
+- "which is why it reports `fitted-in-repo` rather than `illustrative`." The
+  code does not do this. `Prediction.provenance` returns `"illustrative"` or
+  `"measured"` and nothing else, so haloperidol reads `"measured"` even though
+  its occupancy layer is `fitted-in-repo`. Existing tests pin that value
+  (`test_human_dose_to_occupancy.py`, `test_human_prediction_interface.py`).
+  P24.2 is a documentation task, so it changes neither those tests nor the
+  field. The card warns that the flag is a gate rather than a grade. A test
+  asserts the warning stays true: if someone later makes the flag
+  three-valued, that test fails and the card has to be updated.
+- The P19.7 population section covers haloperidol only, because olanzapine
+  became drivable later, in P22.2. The olanzapine populations are written
+  fresh from the registry records. The LYBALVI label (NDA213378,
+  `effective_time` 20260131, read via openFDA for this task) was also read for
+  two facts. It states that there is no PK interaction between olanzapine and
+  samidorphan, which matters because every subject in the PK set took both. Its
+  population-PK statement gives the race breakdown.
+
+### Live numbers
+
+The card's figures from V1, V4 and V8 are recomputed in the test from
+`predict`, `predict_window` and the EC50 registry. The refusal table is
+checked row by row against `refusal_layers`. The other ledger figures the card
+quotes are checked as present in both the card and the ledger, so the card
+cannot drift away from the ledger without a test failing.
