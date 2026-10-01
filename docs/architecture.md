@@ -15103,3 +15103,81 @@ floor. The test does confirm the chain reaches clinically used doses for a
 drug it had not seen. It does not discriminate between EC50 candidates within
 the floor. It is a statement about the test's resolution, not an added
 metric, and it scores nothing.
+
+## Phase 22, part three: leave-one-drug-out against published PET occupancy (P22.3)
+
+Result in `docs/p22-3-leave-one-drug-out.md`, code in
+`human/leave_one_drug_out.py`, ledger rows V9 and V10 plus two
+searched-and-empty rows. **Two drugs scored out of nine. Aripiprazole passes
+(MAE 0.024, three independent dose groups). Ziprasidone fails on its one
+eligible subject (error −0.42).**
+
+### What decided the outcome was the observation side, not the constants
+
+The brief assumed the bottleneck was the EC50 registry: "the registry holds
+only haloperidol until P22.2a ingests the P21.2 drugs". It was not. Five
+parallel literature sweeps found constants for every drug except paliperidone,
+which is second-hand only. The binding constraint was the pre-registered
+eligibility test: a held-out observation must pair occupancy and
+concentration *from the same visit*, on the same analyte and plasma basis,
+in subjects shown to be disjoint from the EC50 source. Across nine drugs,
+exactly two full texts that this host could open met all three conditions.
+The typical failures teach more than the passes:
+
+- **Unpaired summaries.** Ito 2009 (risperidone) prints occupancy by dose
+  but plasma pooled over everyone. Ismail 2022 prints a mean concentration
+  that matches neither visit of its own cohort. A model can be scored against
+  neither without inventing the pairing.
+- **Binding potential without a chosen reference.** Bench 1996 prints BP and
+  serum per subject. Occupancy follows only once a reference BP is chosen,
+  and the paper leaves three candidates open. The repository refused the
+  same move for Xiberas 2001 in P19.3, and refusing it again keeps the rule
+  the same for every drug.
+- **A cross-paper link that the source itself makes.** The one ziprasidone
+  point exists because Bench 1996 footnotes its subject (8) as Bench 1993's
+  40 mg subject, and age, weight, dose and BP all match. Joining the two
+  tables is the authors' own identification, not an inference. That is why
+  it was accepted while the BP conversion was not.
+
+### Why the new EC50 rows live in the P22.3 module
+
+`D2_PLASMA_EC50` is not just a table. P22.2's result attributes each
+refusal to the first layer that refuses, and the occupancy layer refuses by
+looking a drug up in that registry. Registering aripiprazole or ziprasidone
+there would change P22.2's published refusal list without changing any
+evidence. So `HELD_OUT_EC50` holds the two rows, reusing the `D2PlasmaEC50`
+schema so that every P21.1 field (Emax convention, analyte, region, tracer)
+is still enforced. A test asserts the chain registry is unchanged. Wiring
+either drug into the chain needs oral PK, which P21.3 found absent for both.
+Clozapine is deliberately **not** ingested: no observation needs it, and
+P22.4's inputs are clozapine's records "as they stand when P22.4 runs".
+
+### Independence is counted, not assumed
+
+Ito 2012 prints caudate and putamen for the same subjects. The
+pre-registered metric is MAE over observations, so both regions enter. But
+`DrugResult.n_independent_groups` counts the three dose groups, and the
+anecdotal flag is keyed to that count, not to the six rows. Without this the
+two-regions-per-subject structure would inflate n, the same mistake P19.6
+recorded for V1's four non-independent points.
+
+### Two corrections to earlier records
+
+- P21.2 and the pre-registration said no plasma EC50 exists for quetiapine.
+  Nord 2011 (PMC3198174) prints an Emax-fixed K_i,app of 1369 nmol/l. The
+  ledger row is amended, not replaced. P21.2's hysteresis argument against
+  trusting such a constant still holds.
+- P22.2 left the disjointness of de Greef 2011's olanzapine pool open. Its
+  Table II names the pool: Kapur 1999 and Nyberg 1997. Any future olanzapine
+  held-out source must avoid those two.
+
+### What the ziprasidone miss does and does not say
+
+The point implies an EC50 near 13 ng/mL, against Suzuki's 84. That fits the
+5.5-fold spread P21.2 had already found among published ziprasidone
+constants, at its low end. The miss is not repaired by switching to de Greef's
+15.4: that would choose a constant after seeing the error (C1), and neither
+pooled constant can be shown to exclude Bench 1993. The result stands as the
+second documented case, after V3 for haloperidol, where a published constant
+from one study fails to predict another study's occupancy by more than the
+tracer floor. This time the tracers are the same, so tracer cannot explain it.
