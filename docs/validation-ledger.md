@@ -117,3 +117,28 @@ Recorded as real results, per the standing honesty discipline.
 | Human-**tissue** D3 Ki for haloperidol and risperidone | P23.1 | none in the PDSP Ki database (full download, 2026-10-01). Every human D3 value for either drug is on a cloned/recombinant receptor; the only tissue D3 rows are bovine caudate (Schoemaker 1997, Claustre 2003), which the species gate refuses. The D3 *target* is sourced for both drugs from human cloned receptors; only the tissue provenance sub-class is empty |
 | Human-**tissue** M1 Ki for haloperidol and risperidone | P23.1 | none in the PDSP download. Human M1 values are cloned or undefined-preparation and are dominated by the >10000 nM assay ceiling; the few finite numbers sit at 1.6–2.8 µM. Neither drug has clinically meaningful muscarinic affinity, so M1 is sourced but at the floor of measurability — recorded as a result (M1 cannot distinguish the two drugs' EPS), not a gap |
 | A haloperidol cortical/frontal 5-HT2 occupancy paired to a plasma concentration (to score the Ki-derived off-target curve quantitatively) | P23.2 | none reachable open-access. The robust, repeatedly reported fact is ordinal — haloperidol shows high striatal D2 and comparatively low cortical 5-HT2 occupancy (Kapur & Remington 1996; Farde/Nyberg 1995 established the reciprocal crossover for risperidone, 5-HT2 78–88% ≥ D2 75–80% at 6 mg/day) — but a per-subject or group-mean haloperidol 5-HT2 occupancy with a matched plasma concentration sits in paywalled setoperone/NMSP PET tables. The directional check (sign of 5-HT2A−D2) is used instead and labelled n=1, direction-only. Supersedable by one open paired datum |
+
+## Frozen benchmark split (Phase 28)
+
+This is not a validated claim. Under rule 1 a split never earns a row. It is
+recorded here because every claim from Phase 29 onward must name it, and this
+file is where the hash is pinned. The split is frozen: no later phase may redraw
+it, edit it, or move a drug between its halves.
+
+| Artefact | sha256 | Contents |
+|---|---|---|
+| `src/neurocascade/benchmark/split.json` (P28.1, drawn 2026-10-01) | `54a08acfe76b21237bd3152653184796c875f064c66408c9449980f9df6628d9` | 185 drugs, 130 train / 55 held-out, stratified by ATC level 3. N05A antipsychotics 47/20, N05B anxiolytics 25/10, N06A antidepressants 46/20, FAIL clinical failures 12/5. Seeded `random.Random(20261001)`, held-out = round(0.3 n) per stratum |
+
+The drug list is `src/neurocascade/benchmark/drugs.json`, built by
+`scripts/build_benchmark.py` from ChEMBL_37 and PubChem. The inclusion rules
+and their reasons are in docs/architecture.md under P28.1.
+
+**Held-out drugs that are not blind.** Four held-out drugs already have human
+data in this repository from Phases 19-25: **amisulpride, quetiapine,
+ziprasidone and diazepam**. Their PET, PK or label values were read and in
+places fitted (quetiapine's Nord 2011 constant, ziprasidone's Suzuki 2013
+EC50). The split was drawn by seed without consulting this list, and it is not
+redrawn to fix it, because redrawing after seeing the result is the exact
+failure a frozen split exists to prevent. Every held-out score from Phase 29 on
+must therefore be reported twice: over all 55 drugs and over the 51 that this
+repository had never touched.
