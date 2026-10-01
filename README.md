@@ -51,6 +51,13 @@ rationale and the honesty notes on what's illustrative versus calibrated.
 
 ## Status: current model coverage
 
+**Read [`docs/model-card.md`](docs/model-card.md) before using any output.**
+The v1 deliverable is narrower than the premise above: oral dose to striatal
+D2 occupancy, for haloperidol and olanzapine only. It makes no behavioural
+claim. The card lists what the model must not be used for, then what it can
+do, and every claim in it cites a row of
+[`docs/validation-ledger.md`](docs/validation-ledger.md).
+
 The project has a working receptor-to-circuit-to-connectome pipeline, but its
 outputs have different epistemic status. The receptor-layer API can predict
 occupancy for an arbitrary compound when the caller supplies Ki, efficacy and
