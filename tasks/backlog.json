@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Progress is measured by docs/validation-ledger.md, not by the count of tasks marked done. A task closes on a prediction compared against an externally measured number, or on an explicit searched-and-empty record. Contracts, registries and gates do not close a task. Work gated on an unreachable number takes status blocked-on-data, never done.",
+  "note": "Progress is measured by docs/validation-ledger.md held-out rows, not by task count. From 2026-10-02 the product (docs/roadmap-product.md) predicts HUMAN outcomes from a compound's PRECLINICAL package for CNS discovery teams. Translation of animal/in-vitro data to human is the product and is allowed as an explicit, cited, error-measured step; silent species substitution is still forbidden. Calibrated uncertainty bands replace refusals except for missing core inputs. Every headline number is a held-out number. Phases 24.3/26/27 are parked (blocked).",
   "tasks": [
     {
       "id": "P1.1",
@@ -2130,12 +2130,13 @@
       "deps": [
         "P26.2"
       ],
-      "status": "pending",
+      "status": "blocked",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
-          "2026-10-01 16:58 COMPLETE, PR opened"
+          "2026-10-01 16:58 COMPLETE, PR opened",
+          "2026-10-02 parked: product pivot, superseded by Phases 28-32 (docs/roadmap-product.md)"
         ]
       }
     },
@@ -2241,8 +2242,13 @@
       "deps": [
         "P25.3"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "blocked",
+      "attempts": 0,
+      "conductor": {
+        "history": [
+          "2026-10-02 parked: product pivot, superseded by Phases 28-32 (docs/roadmap-product.md)"
+        ]
+      }
     },
     {
       "id": "P26.2",
@@ -2261,8 +2267,13 @@
       "deps": [
         "P26.1"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "blocked",
+      "attempts": 0,
+      "conductor": {
+        "history": [
+          "2026-10-02 parked: product pivot, superseded by Phases 28-32 (docs/roadmap-product.md)"
+        ]
+      }
     },
     {
       "id": "P27.1",
@@ -2281,8 +2292,13 @@
       "deps": [
         "P26.2"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "blocked",
+      "attempts": 0,
+      "conductor": {
+        "history": [
+          "2026-10-02 parked: product pivot, superseded by Phases 28-32 (docs/roadmap-product.md)"
+        ]
+      }
     },
     {
       "id": "P27.2",
@@ -2300,8 +2316,13 @@
       "deps": [
         "P27.1"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "blocked",
+      "attempts": 0,
+      "conductor": {
+        "history": [
+          "2026-10-02 parked: product pivot, superseded by Phases 28-32 (docs/roadmap-product.md)"
+        ]
+      }
     },
     {
       "id": "P27.3",
@@ -2318,6 +2339,284 @@
       },
       "deps": [
         "P27.1"
+      ],
+      "status": "blocked",
+      "attempts": 0,
+      "conductor": {
+        "history": [
+          "2026-10-02 parked: product pivot, superseded by Phases 28-32 (docs/roadmap-product.md)"
+        ]
+      }
+    },
+    {
+      "id": "P28.1",
+      "phase": "Phase 28: retrospective benchmark",
+      "title": "Benchmark drug list and locked held-out split",
+      "brief": "Assemble the canonical CNS benchmark drug list (target ~150: antipsychotics, antidepressants, anxiolytics, and known clinical failures with public preclinical data). Build data/benchmark/drugs.json with one record per drug keyed by INN plus CAS/ChEMBL id and ATC class. Then draw a drug-level train/held-out split (~70/30, stratified by ATC class), write it to data/benchmark/split.json, and record its sha256 in docs/validation-ledger.md. The split is frozen: no later phase may redraw it.",
+      "acceptance": [
+        "data/benchmark/drugs.json committed with >=120 drugs and a source per field",
+        "data/benchmark/split.json committed and its sha256 recorded in the ledger",
+        "a test asserts the split hash never changes"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P28.2",
+      "phase": "Phase 28: retrospective benchmark",
+      "title": "Receptor binding panel (Ki + efficacy) per benchmark drug",
+      "brief": "For each benchmark drug, assemble a receptor affinity panel (Ki, nM) with functional efficacy/action-type per target, from PDSP Ki db, ChEMBL and IUPHAR Guide to Pharmacology. Store as data/benchmark/binding/<drug>.json with a citation per value. Report coverage: drugs with a usable panel vs searched-and-empty.",
+      "acceptance": [
+        "binding panels committed for the benchmark drugs with per-value citations",
+        "coverage table in the ledger: drugs covered, mean targets/drug, searched-and-empty list"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P28.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P28.3",
+      "phase": "Phase 28: retrospective benchmark",
+      "title": "Preclinical ADME/PK inputs per benchmark drug",
+      "brief": "Assemble the preclinical-type inputs each drug would have had pre-IND: plasma fu, brain fu or Kp,uu, in-vitro intrinsic clearance (microsomal/hepatocyte), and rodent in-vivo CL/Vss where published. Sources: Lombardo 2018 companion data, Frid\u00e9n/Loryan Kp,uu compilations, ChEMBL ADME assays, primary rat PK papers. Store per drug with citations; record coverage.",
+      "acceptance": [
+        "preclinical ADME/PK committed per drug with citations",
+        "coverage reported per field in the ledger; missing fields recorded, not invented"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P28.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P28.4",
+      "phase": "Phase 28: retrospective benchmark",
+      "title": "Human clinical truth: PK, dose, PET, effect labels",
+      "brief": "Assemble the human outcomes to score against: human CL/Vss/t1/2 (Lombardo 2018 IV set + openFDA labels for oral), clinical dose (WHO DDD + label ranges), PET D2/5-HT2A/SERT occupancy where published, and a binary clinical-effect label vector per drug (EPS, sedation, weight gain, anticholinergic, orthostasis, sexual dysfunction, seizure) from openFDA adverse-reaction tables and SIDER 4.1 with a frequency threshold. Store as data/benchmark/truth/<drug>.json with citations.",
+      "acceptance": [
+        "human truth committed per drug with citations and the SIDER/label frequency rule stated",
+        "effect-label matrix built; prevalence per effect reported in the ledger"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P28.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P29.1",
+      "phase": "Phase 29: preclinical-to-human translation",
+      "title": "Translation-aware species gate",
+      "brief": "Extend species_gate so a quantity can be a declared translation input: a non-human measurement carrying an explicit, cited translation method (allometric scaling, in-vitro-in-vivo extrapolation, Kp,uu transfer) is allowed into a human prediction only when tagged as such, and the tag propagates to the prediction's provenance. A bare non-human number with no translation tag stays refused. Tests pin both paths.",
+      "acceptance": [
+        "species_gate admits a tagged translation input and still refuses an untagged non-human number",
+        "provenance of a prediction records which inputs were translated and by what method",
+        "ledger row: the rule and the tests that enforce it"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P28.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P29.2",
+      "phase": "Phase 29: preclinical-to-human translation",
+      "title": "Human PK from preclinical inputs, scored held-out",
+      "brief": "Predict human CL, Vss and oral exposure from the preclinical ADME/PK inputs (allometric scaling and IVIVE from intrinsic clearance + fu). Fit any scaling coefficients on the train split only; score fold-error on the held-out split. Report geometric-mean fold-error and the fraction within 2- and 3-fold per parameter.",
+      "acceptance": [
+        "held-out fold-error for CL, Vss and oral exposure in the ledger, with the within-2x/3x fractions",
+        "coefficients fitted on train only; a test guards against touching held-out drugs in the fit"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P28.3",
+        "P28.4",
+        "P29.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P29.3",
+      "phase": "Phase 29: preclinical-to-human translation",
+      "title": "Predicted human target-engagement dose, scored held-out",
+      "brief": "Chain predicted human PK (P29.2) with the binding panel and a Kp,uu translation to predict the oral dose reaching the class's target-engagement occupancy (e.g. ~70% D2 for antipsychotics), and score it against the clinical dose on the held-out split. Report fold-error vs clinical dose and vs any available PET-anchored dose.",
+      "acceptance": [
+        "held-out dose fold-error against clinical dose in the ledger",
+        "per-drug table with the missing-layer reason where a drug could not be run"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P29.2",
+        "P28.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P29.4",
+      "phase": "Phase 29: preclinical-to-human translation",
+      "title": "Occupancy-time across the panel, scored against PET",
+      "brief": "For held-out drugs with published PET, predict the occupancy-time course at the clinical dose across every panel receptor with a usable Ki, and score the PET-measured targets against the held-out observations (MAE, bias). This generalises the P25.3 single-target chain to the multi-receptor panel.",
+      "acceptance": [
+        "held-out PET MAE/bias per receptor in the ledger for >=8 drugs",
+        "predicted occupancy exposed for every panel target, with a band from the P29.2 PK error"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P29.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P30.1",
+      "phase": "Phase 30: occupancy-to-effects",
+      "title": "Occupancy profile to clinical-effect probabilities",
+      "brief": "Train a transparent model mapping a drug's panel occupancy/activation profile (at clinical dose) to the binary clinical-effect vector, on the train split. Keep it interpretable (per-effect regularised logistic or similar) so each effect's receptor drivers are inspectable. No held-out drug enters the fit.",
+      "acceptance": [
+        "model trained on train split only; per-effect receptor coefficients reported",
+        "a test guards the train/held-out boundary"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P28.4",
+        "P29.4"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P30.2",
+      "phase": "Phase 30: occupancy-to-effects",
+      "title": "Score effects held-out against baselines",
+      "brief": "Score P30.1 on the held-out drugs: per-effect AUROC and calibration with bootstrap CIs, against two baselines (single strongest-target Ki, and nearest-neighbour by binding fingerprint). Report where the occupancy model beats the baselines and where it does not. Report either way.",
+      "acceptance": [
+        "held-out per-effect AUROC with bootstrap CI vs both baselines in the ledger",
+        "a failure-analysis section naming the effects the model cannot predict"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P30.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P31.1",
+      "phase": "Phase 31: mechanism as explanation",
+      "title": "Does the circuit mechanism add held-out value",
+      "brief": "Use the frozen circuit/network engine as an explanatory layer for a mechanism where panel occupancy underdetermines the effect (e.g. the D2/5-HT2A balance for EPS). Test whether adding a mechanistic feature improves held-out prediction over the occupancy-only model of P30. Unfreeze the circuit layer only under its roadmap-human condition and only as a declared-illustrative explanatory feature, never as a sourced number.",
+      "acceptance": [
+        "held-out comparison of occupancy-only vs occupancy+mechanism in the ledger, reported either way",
+        "if the circuit layer is touched, the unfreezing condition is cited and the illustrative labels stay"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P30.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P32.1",
+      "phase": "Phase 32: the product surface",
+      "title": "Compound package schema and predict_compound()",
+      "brief": "Define a compound preclinical-package schema (binding panel, efficacy, ADME, rodent PK) and a single entry point predict_compound(package) returning predicted human PK, target-engagement dose, panel occupancy-time, and effect probabilities, each with its calibrated band and provenance, plus the nearest benchmark drugs. Refuse only on a missing core input; widen the band for missing optional inputs.",
+      "acceptance": [
+        "predict_compound runs end to end on a held-out benchmark drug given only its preclinical package",
+        "every returned number carries a band and provenance; refusal only on missing core inputs",
+        "tests cover a full package, a minimal package, and a refused package"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P30.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P32.2",
+      "phase": "Phase 32: the product surface",
+      "title": "CLI, pip package and one-page report",
+      "brief": "Make neurocascade pip-installable exposing predict_compound via a CLI that reads a package file (CSV/JSON) and writes a one-page HTML/PDF report: predicted dose, panel occupancy curves with bands, effect-probability table, nearest drugs, and provenance per number. Fold in the parked P27 work.",
+      "acceptance": [
+        "pip install . in a clean venv, then the CLI runs a package file to a report",
+        "every number in the report links to its source or its translation method",
+        "CLI tests in CI"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P32.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P32.3",
+      "phase": "Phase 32: the product surface",
+      "title": "Blind demo on held-out compounds and web UI",
+      "brief": "Run predict_compound blind on 5 held-out benchmark drugs and tabulate predicted vs actual human outcome. Ship a wg0-only web UI (like the owner's other internal tools) to upload a package and view the report. This is the usefulness demonstration.",
+      "acceptance": [
+        "a committed blind-demo table: 5 held-out drugs, predicted vs actual dose/occupancy/effects",
+        "web UI reachable on wg0 serving predict_compound",
+        "ledger row summarising held-out product accuracy"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P32.2"
       ],
       "status": "pending",
       "attempts": 0
