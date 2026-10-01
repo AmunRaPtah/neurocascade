@@ -130,7 +130,9 @@ def test_bridged_records_are_reachable_through_the_ordinary_registry():
     olanzapine = human_pk_records("olanzapine", "PO")
     assert len(olanzapine) == 1
     assert olanzapine[0].status == "fda-population-pk-bridged"
-    po = human_pk_records(route="PO")
+    # The P22-era registry; P25.2's literature records are tested in
+    # test_literature_pk_bridge.py.
+    po = human_pk_records(route="PO", include_literature=False)
     assert {r.drug for r in po} == {"haloperidol", "olanzapine"}
     bridged = [r for r in po if r.status == "fda-population-pk-bridged"]
     assert [r.drug for r in bridged] == ["olanzapine"]
@@ -140,9 +142,16 @@ def test_hand_transcribed_rows_come_first_and_are_unchanged():
     """The append must not reorder or shadow anything typed by hand."""
     from neurocascade.human.pk_parameters import HUMAN_PK_RECORDS
 
+    from neurocascade.human.literature_pk_bridge import (
+        bridged_records as literature_records,
+    )
+
     combined = human_pk_records()
     assert combined[: len(HUMAN_PK_RECORDS)] == tuple(HUMAN_PK_RECORDS)
-    assert len(combined) == len(HUMAN_PK_RECORDS) + len(bridged_records())
+    # FDA rows follow the hand-typed ones; P25.2's literature rows come last.
+    fda = bridged_records()
+    assert combined[len(HUMAN_PK_RECORDS) : len(HUMAN_PK_RECORDS) + len(fda)] == fda
+    assert len(combined) == len(HUMAN_PK_RECORDS) + len(fda) + len(literature_records())
 
 
 def test_bridge_survey_covers_every_row():

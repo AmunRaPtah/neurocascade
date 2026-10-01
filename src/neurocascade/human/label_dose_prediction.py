@@ -86,7 +86,9 @@ def refusal_layers(drug):
     except ValueError as error:
         found.append(("active-metabolite", str(error)))
     try:
-        _require_pk_record(drug, "PO", None)
+        # Frozen at the P22 sources: this result was scored against the PK
+        # registry as it stood then, before P25.2 added literature records.
+        _require_pk_record(drug, "PO", None, include_literature=False)
     except ValueError as error:
         found.append(("pk", _pk_reason(drug, error)))
     try:

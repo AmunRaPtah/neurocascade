@@ -15898,3 +15898,101 @@ Their drugs (quetiapine, aripiprazole) are blocked at the occupancy layer for
 reasons P21.2, P21.4 and P21.5 recorded. Wiring them would add PK rows the
 chain must still refuse, so it was left alone. The P22.5 pinned numbers and the
 P24.1 interface are unchanged.
+
+## Phase 25, part two: literature PK records in the occupancy chain (P25.2)
+
+The rules are in docs/p25-2-literature-pk-in-chain.md, committed before the code.
+The implementation is `human/literature_pk_bridge.py`. This section records why
+those rules were chosen.
+
+### Two gates, kept apart
+
+**Converting a record and integrating it are separate questions.**
+`literature_pk_bridge.refusals` decides whether a P25.1 record can become a
+`HumanPKRecord`. `_require_pk_record` decides whether the chain can integrate a
+record of that shape. Only the second needed widening, from two compartments to
+one or two, because `DosedOneCompartmentPK` already integrates the one-compartment
+case exactly.
+
+**Three compartments stay refused.** No sourced human oral set needs a third
+compartment, and accepting it without a record to exercise it would be
+capability nobody has tested.
+
+### The rule the FDA bridge does not have: V13 as an entry gate
+
+P25.1 found that every model fitted to sparse TDM troughs failed the label
+half-life check, and that the failure sat in V/F every time. The chain predicts
+time courses, single-dose peaks included. A volume the label already
+contradicts would feed straight into those.
+
+So **a literature record enters only if its own V13 comparison passed.** That
+uses a number nobody in this repository chose, at the threshold V13 already
+used. It is the only thing that separates Chen 2024 (refused) from Zheng 2024
+(accepted): same group, same method, same borrowed ka.
+
+The FDA bridge was not retrofitted with the same rule. Doing so would change
+olanzapine's PK layer underneath a scored result (V8), and LYBALVI passed V5
+anyway.
+
+### Covariates and variability: the reference subject, and nothing else
+
+**Every converted record is its source's reference subject.** Variability and
+covariate effects are named in the record's notes as not carried.
+
+**`cl_allometric_exponent` is left unset even when a source prints 0.75.** P25.1
+stored covariate relations as verbatim text and deliberately did not evaluate
+them, and Reeves 2024 shows why: it prints its age effect two incompatible ways.
+Parsing an exponent out of a string here would be the first evaluation of one,
+done quietly inside a converter. The consequence is real:
+
+- a literature record cannot be moved off its reference weight;
+- so `predict_occupancy` now defaults to the source's reference weight rather
+  than a literal 70 kg.
+
+That change is inert for haloperidol and olanzapine, whose references are both
+70 kg. A regression test pins their `predict()` outputs to values computed at
+the base commit, at a relative tolerance of 1e-12.
+
+**One near miss.** While refactoring the model construction into
+`_build_pk_model`, I reassociated `x * 1000 / 60 / bw` into
+`x * (1000 / 60 / bw)`. That moved olanzapine's steady-state mean by about
+1e-11. The original evaluation order was restored, and the curves are now
+bit-identical.
+
+### Freezing P22.2 and P22.5
+
+`label_dose_prediction` and `multidrug_failure_analysis` call
+`_require_pk_record(..., include_literature=False)`. Those modules reproduce
+results that were scored and committed against the PK registry as it stood in
+P22 (V8, and P22.5's layer matrix). Letting the registry grow underneath them
+would rewrite quetiapine's recorded refusal reason after the fact. The
+interface and the model card do see the literature records. The model card says
+so beside the V8 citation.
+
+### What this bought
+
+**The PK layer of two more drugs, and no new occupancy prediction.**
+
+- **Quetiapine** now fails only at occupancy and exposure. It has no D2 EC50,
+  being outside the direct-effect form (P21.2).
+- **Aripiprazole** now fails at active-metabolite, occupancy and exposure. That
+  is P21.4's refusal; the EC50 is Kim 2012, which sits in the P22.3 module and
+  not in the chain registry.
+
+Each refusal list now names only missing data.
+
+The one external comparison this enables is the absorption phase, which V13
+never tested. The chain's own integrated Tmax was compared with the innovator
+labels (V14), under the reused twofold criterion fixed in the design note:
+
+| drug | source | predicted Tmax | label Tmax | fold |
+|---|---|---|---|---|
+| quetiapine | Zheng 2024 | 1.77 h | 1.5 h | 1.18 |
+| aripiprazole | Knights 2015 | 4.55 h | 3–5 h | inside the range |
+
+Both pass. The result is weak, for three reasons:
+
+- n is 2;
+- Knights 2015 is the sponsor's model;
+- Zheng 2024's ka is borrowed from an AstraZeneca-authored paper, and
+  AstraZeneca holds the SEROQUEL label.

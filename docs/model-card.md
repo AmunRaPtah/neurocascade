@@ -210,13 +210,15 @@ interface. [ledger: Public prediction interface] [V1] [V4] [V8]
 | Drug | Refused at | Ledger |
 |---|---|---|
 | risperidone | active-metabolite, pk, occupancy, exposure | [ledger: Risperidone or aripiprazole → D2 occupancy] [ledger: Public prediction interface] |
-| aripiprazole | active-metabolite, pk, occupancy, exposure | [ledger: Risperidone or aripiprazole → D2 occupancy] [ledger: Public prediction interface] |
+| aripiprazole | active-metabolite, occupancy, exposure | [ledger: Risperidone or aripiprazole → D2 occupancy] [ledger: Public prediction interface] |
 | paliperidone | pk, occupancy, exposure | [ledger: Multi-drug chain, layer by layer (P22.5)] |
-| quetiapine | pk, occupancy, exposure | [ledger: Quetiapine → D2 occupancy] [ledger: A population-PK parameter set for quetiapine] |
+| quetiapine | occupancy, exposure | [ledger: Quetiapine → D2 occupancy] [ledger: A population-PK parameter set for quetiapine] |
 | ziprasidone | pk, occupancy, exposure | [ledger: A population-PK parameter set for clozapine or ziprasidone] |
 | clozapine | pk, occupancy, exposure | [ledger: A population-PK parameter set for clozapine or ziprasidone] |
 | amisulpride | pk, occupancy, exposure | [ledger: Multi-drug chain, layer by layer (P22.5)] |
 | fentanyl | pk, occupancy | [ledger: Mu-opioid and GABA-A chains] |
 | diazepam | pk, occupancy, exposure | [ledger: Mu-opioid and GABA-A chains] [ledger: Adult diazepam population PK] |
+
+Since P25.2, quetiapine and aripiprazole clear the pk layer, through the journal-literature records Zheng 2024 and Knights 2015, and every other layer still refuses them. [V14] V8's table still records both as refused at pk, because that result is frozen at the P22 sources. [V8]
 
 Supported: haloperidol and olanzapine, the two drugs V8 scored. [V8] [ledger: Public prediction interface]
