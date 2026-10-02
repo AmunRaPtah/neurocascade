@@ -16830,3 +16830,132 @@ placebo rows are not paired with drug rows by trial.
   cannot be judged more precisely than that.
 - **45 drugs have no human truth of any kind.** These are mostly the FAIL
   stratum and regional or withdrawn drugs. They can carry inputs, but no score.
+
+## Phase 29, part one: the translation-aware species gate (P29.1)
+
+P11.2 built the species gate on one rule: a non-human provenance species raises
+`UnsourcedParameterError` at every driving position, with a single licensed
+exception — a registered `CrossSpeciesAnchor`, which may be *reported* beside its
+human counterpart but structurally can never *drive* a prediction
+(`may_drive_predictions = False`). That rule was correct for a human-primary
+model whose numbers were all meant to be human. Phase 29 is preclinical-to-human
+translation, and it needs exactly the move P11.2 forbade: a rat Kp,uu or a
+rat-hepatocyte intrinsic clearance driving a human prediction. The whole point of
+allometric scaling, IVIVE and Kp,uu transfer is to carry a non-human measurement
+across the species boundary.
+
+### Why a tag, not a species
+
+The failure mode to avoid is the obvious one: relaxing the gate to "rat is fine
+for PK" would re-open the door P11.2 closed, because a bare rat number carries no
+evidence that anyone intended it as a translation input, and nothing would
+distinguish a deliberate IVIVE from a mouse Km that drifted in beside a human Ki.
+So the exception is a **tag on the quantity, never a property of the species.**
+`gate(species, ..., translation=TranslationTag(...))` admits the number; the same
+`gate("rat", ...)` with no tag refuses it exactly as before. The two paths are
+pinned against each other in `tests/test_species_gate_translation.py`
+(`test_an_untagged_non_human_number_is_still_refused` and
+`test_a_tagged_non_human_number_is_admitted_as_a_translated_input`).
+
+A `TranslationTag` names three things and validates all three:
+
+1. **A registered method.** `TRANSLATION_METHODS` holds three, each cited to the
+   paper that defines it as a species bridge and each verified against Europe PMC
+   on 2026-10-02: `allometric-scaling` (Boxenbaum 1982, PMID 7120049),
+   `ivive` (Obach 1999, PMID 10534321, the in-vitro half-life approach with
+   microsomal and blood binding), and `kp-uu-transfer` (Friden 2009, PMID
+   19764786, which showed the rank order of rat and human Kp,uu,CSF is similar
+   across 43 drugs). None of these papers supplies a *parameter value* — they
+   supply the *method* — so registering them is not inventing a number. An
+   unregistered method string is a `ValueError`.
+2. **The source species**, which must normalize to a recognized non-human token.
+   A tag "from human" is a `ValueError` (there is no crossing to declare), and so
+   is one from an unrecognized token like `HEK293` (the crossing cannot be
+   checked). The tag must also name the *same* species the parameter carries:
+   a rat tag on a mouse number is refused, so a tag licenses only the one species
+   it names.
+3. **A citation for the measurement being translated.** Empty is a `ValueError`.
+   The method citation says the bridge is real; the measurement citation says
+   *this* number is real. Both are required.
+
+### What the gate returns, and why it must be carried
+
+The gate does not return `None` (pass) for a tagged input the way it does for a
+human number. It returns a `TranslatedInput` — layer, label, species, source and
+tag. This is deliberate: a translated number is not the same as a human number
+and the prediction must say so. `ChainLayer` now carries a `translations` tuple,
+and the invariant is enforced both ways — provenance `"translated"` requires a
+non-empty tuple of `TranslatedInput` records, and a non-empty tuple requires
+provenance `"translated"` (`test_a_layer_cannot_claim_translated_without_the_gate_record_or_hide_one`).
+A layer cannot quietly consume a translated number under a `"measured"` label,
+and cannot claim `"translated"` without naming what crossed and by what method.
+`OccupancyPrediction.translated_inputs` gathers them across layers and
+`.summary()` prints each, so a reader sees which of a prediction's inputs crossed
+a species. `"translated"` sits between `"structural"` and `"illustrative"` in the
+provenance ordering: one translated layer makes the whole prediction
+`"translated"`, but one illustrative layer still outranks it
+(`test_illustrative_still_outranks_translated`).
+
+### The exposure layer and the scored check (V16)
+
+`transfer_kp_uu` is the first consumer. Before P29.1 it accepted a rat Kp,uu and
+an arbitrary transfer factor with no gate at all — a hole, since the module's
+whole job is the species crossing P11.2 polices. It now routes the non-human
+source through `gate(..., translation=...)`: without a tag the rat number is
+refused (`UnsourcedParameterError`), with a `kp-uu-transfer` tag it is admitted
+and the returned record carries the `TranslatedInput`. A tag for a different
+method is refused, because a Kp,uu transfer is not an allometric scaling.
+
+To close the task on a number nobody here chose (rule 9), `score_rat_kp_uu_transfer`
+translates each drug's rat Kp,uu,brain from its P28.3 ADME record to human by the
+tagged identity transfer (factor 1.0 — Friden 2009's own cross-species claim,
+not a fitted coefficient, so no split is needed) and compares against the human
+Kp,uu,CSF measured in the *same* Friden 2009 dataset (ChEMBL_37 document
+CHEMBL1795238, human assay CHEMBL1798468). Four benchmark drugs have both:
+bupropion (1.00x), diazepam (1.35x over), amitriptyline (4.06x over) and
+thioridazine (3.11x under), GMFE 2.03, 2 of 4 within twofold. The surrogate is
+imperfect on purpose and the ledger says so: CSF is not brain interstitial
+fluid, and Friden's own rat data put Kp,uu,CSF within 3-fold of Kp,uu,brain for
+33/39 drugs and over-predicting for strongly effluxed drugs, which is exactly
+where amitriptyline and thioridazine miss. The number is a sanity check on a
+surrogate; the *result* of P29.1 is the enforced rule and the provenance it
+propagates, which is what later Phase-29 tasks (human PK from preclinical inputs,
+dose-to-engagement) build on when they cross a species.
+
+### What this is not
+
+A translation input is not an anchor. An anchor is a matched pair kept to
+*measure* transfer error and structurally never drives anything; a translation
+input *drives* a prediction and *declares* that it does. Both coexist in the
+module and the anchors' `may_drive_predictions = False` is untouched
+(`test_anchors_still_never_drive_a_prediction`). The translation path adds a way
+in for a number that announces its crossing; it does not weaken the refusal for a
+number that does not.
+
+### The leaf module, and why the types do not live in species_gate
+
+Wiring the tag into the occupancy chain exposed a constraint. `species_gate`
+imports `fingerprint` (its binding-layer check in `check_binding_target` resolves
+targets through it), and `fingerprint` imports the eager `neurocascade` package,
+which loads the frozen circuit/connectome/opioid tree. `test_v1_frozen_layers.py`
+forbids the v1 prediction path (`human.dose_to_occupancy` and its closure) from
+reaching any frozen layer. The v1 chain did *not* import `species_gate` before —
+it relies on its registries already being human — so adding
+`from ..species_gate import TranslatedInput` to `dose_to_occupancy`, and a gate
+call to `kp_uu`, would have dragged the whole frozen tree into the v1 closure and
+failed that guard.
+
+The fix is a genuine architectural improvement rather than a workaround: the
+parts of the species boundary with no fingerprint dependency —
+`UnsourcedParameterError`, the species tokens, `normalize_species`, and all the
+P29.1 translation types plus `check_translation` — moved to a new leaf module
+`neurocascade/translation.py` that imports only `re`. `species_gate` re-imports
+every name from it, so its public API (`species_gate.normalize_species`,
+`species_gate.TranslationTag`, the shared `UnsourcedParameterError` identity that
+`legacy.drug_pk` re-exports, …) is byte-for-byte unchanged, and `gate()`
+delegates its translation handling to the leaf's `_admit_translation` so there is
+one implementation of the rule. `dose_to_occupancy` and `kp_uu` import from the
+leaf, keeping the v1 closure free of the fingerprint layer. `check_translation`
+is the leaf's self-contained gate: human/no-claim → `None`, tagged non-human →
+`TranslatedInput`, untagged non-human → `UnsourcedParameterError`, the same two
+paths `gate()` enforces, available to a caller that must not import the full gate.

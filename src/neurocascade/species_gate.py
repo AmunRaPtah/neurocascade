@@ -12,6 +12,13 @@ under a human Ki. P11.2 is the other half of the boundary:
     HUMAN SCENARIO BUILDER, UNLESS IT IS EXPLICITLY DECLARED A CROSS-SPECIES
     ANCHOR IN THE REGISTRY BELOW.
 
+P29.1 adds one exception, and it is a tag rather than a species: a non-human
+measurement carrying a `TranslationTag` -- a registered, cited translation
+method (allometric scaling, IVIVE, Kp,uu transfer) plus the citation of the
+measurement -- is admitted as a declared translation input, and the gate
+hands back a `TranslatedInput` that the prediction carries in its provenance.
+The same number without the tag is refused as before.
+
 An anchor may be reported and compared; it may never drive a prediction. So
 an anchored parameter is refused at every DRIVING position too, with its own
 message saying so -- the registry licenses a non-human value to appear at the
@@ -88,83 +95,23 @@ re-verified against the primary sources while seeding the registry:
   and notes the blood-vs-plasma matrix difference between them.
 """
 
-import re
+from .translation import (  # noqa: F401  (re-exported for the module's public API)
+    HUMAN,
+    SPECIES_SYNONYMS,
+    TRANSLATION_METHODS,
+    TranslatedInput,
+    TranslationMethod,
+    TranslationTag,
+    UnsourcedParameterError,
+    _admit_translation,
+    check_translation,
+    normalize_species,
+)
 
-
-class UnsourcedParameterError(LookupError):
-    """Raised when a parameter whose provenance does not license the use it
-    is being put to reaches a prediction or scenario builder.
-
-    The canonical definition lives HERE since P11.2, because the species
-    gate raises it across four layers and the gate module may not import
-    `legacy.drug_pk` (nothing outside `legacy/` may). `legacy.drug_pk`
-    re-imports it, so every pre-existing import path and except-clause keeps
-    working, and a rodent PK lookup and a species-gate refusal are caught by
-    the same clause -- both are "this parameter does not exist for this use".
-
-    Two distinct situations raise it, and the messages distinguish them:
-
-    * the parameter has been searched for and not found (drug_pk's original
-      use -- see `SEARCHED_AND_EMPTY`);
-    * the parameter EXISTS but was measured in a non-human species, so it
-      may not enter a human prediction (the species gate's use).
-    """
-
-
-# ---------------------------------------------------------------------------
-# Species tokens
-# ---------------------------------------------------------------------------
-
-#: The canonical token for the modelling species.
-HUMAN = "human"
-
-#: Recognized spellings -> canonical token. Deliberately SHORT: a name is
-#: mapped only when it names the animal unambiguously. Cell-line names
-#: ("HEK293", "CHO"), preparation words ("CLONED") and strain names are NOT
-#: here -- they do not say which species' receptor was measured, which is
-#: exactly the fact the gate exists to check, so they stay unrecognized and
-#: refuse.
-SPECIES_SYNONYMS = {
-    "human": (
-        "human", "homo sapiens", "homo sapien", "human receptor",
-        "humans",
-    ),
-    "mouse": ("mouse", "mus musculus", "mice"),
-    "rat": ("rat", "rattus norvegicus", "rats"),
-    "rhesus": ("rhesus", "rhesus macaque", "rhesus monkey",
-               "macaca mulatta"),
-    "baboon": ("baboon",),
-}
-
-_REVERSED_SPECIES = {
-    spelling: canonical
-    for canonical, spellings in SPECIES_SYNONYMS.items()
-    for spelling in spellings
-}
-
-
-def normalize_species(value):
-    """The canonical species token for `value`, or None when there is none.
-
-    None means NO CLAIM was made -- the argument was None or empty -- which
-    the gate treats as "no provenance to check" and lets through. Anything
-    else that does not map is returned lowercased and stripped, so it can
-    never compare equal to `HUMAN` and will surface verbatim in the refusal.
-    """
-    if value is None:
-        return None
-    text = str(value).strip().lower()
-    if not text:
-        return None
-    mapped = _REVERSED_SPECIES.get(text)
-    if mapped is not None:
-        return mapped
-    # Tolerate decorations around a recognized name: "rat (probable)",
-    # "human recombinant", "Mus musculus (C57BL/6J)".
-    for spelling, canonical in _REVERSED_SPECIES.items():
-        if re.search(r"\b%s\b" % re.escape(spelling), text):
-            return canonical
-    return text
+# UnsourcedParameterError, the species tokens and the P29.1 translation types
+# live in the leaf module neurocascade.translation so a v1-path module can use
+# them without importing this one (which pulls the fingerprint layer). They are
+# re-exported here unchanged; see translation.py for why.
 
 
 # ---------------------------------------------------------------------------
@@ -882,6 +829,22 @@ _register_record(_transporter_record(
 
 
 # ---------------------------------------------------------------------------
+# Declared translation inputs (P29.1)
+# ---------------------------------------------------------------------------
+#
+# P11.2 refused every non-human number at a driving position. Phase 29 adds one
+# narrow exception: preclinical-to-human translation, where a rat Kp,uu or a
+# rat-hepatocyte intrinsic clearance is the INPUT to a published method whose
+# whole purpose is to carry it to human. The exception is a tag, never a species.
+# The machinery (`TranslationMethod`, `TRANSLATION_METHODS`, `TranslationTag`,
+# `TranslatedInput`, `_admit_translation`, `check_translation`) lives in the leaf
+# module `neurocascade.translation`, imported at the top of this file, so a module
+# on the v1 prediction path can consume it without importing this gate. `gate()`
+# below delegates its translation handling to `_admit_translation` so there is
+# one implementation of the rule.
+
+
+# ---------------------------------------------------------------------------
 # The gate itself
 # ---------------------------------------------------------------------------
 
@@ -917,7 +880,7 @@ def _anchor_clause(anchor):
 
 
 def gate(species, *, layer, label, source="", allow_anchors=False,
-         anchor_key=None):
+         anchor_key=None, translation=None):
     """The one gate every layer goes through.
 
     `species` is the parameter's provenance species, in any spelling
@@ -934,8 +897,19 @@ def gate(species, *, layer, label, source="", allow_anchors=False,
     comparison surface can show it next to its human counterpart. An
     anchored species is found whether or not `anchor_key` narrows it; a
     non-human species NO anchor covers always raises, in both modes.
+
+    `translation` (P29.1) is a `TranslationTag`. A non-human parameter that
+    carries one is admitted as a DECLARED TRANSLATION INPUT: the gate returns
+    a `TranslatedInput` instead of raising, and the caller is expected to put
+    that record into the prediction's provenance. The tag must name the same
+    species as the parameter; a tag on a human or no-claim parameter is a
+    ValueError, because there is no species crossing for it to declare. A
+    non-human parameter WITHOUT a tag is refused exactly as before.
     """
     normalized = normalize_species(species)
+    if translation is not None:
+        return _admit_translation(normalized, layer, label, source,
+                                  translation)
     if normalized is None or normalized == HUMAN:
         return None
 
@@ -944,6 +918,7 @@ def gate(species, *, layer, label, source="", allow_anchors=False,
         return anchor
     _refuse(layer, label, normalized, source, anchor=anchor,
             role="report" if allow_anchors else "input")
+
 
 
 # --- per-layer entry points -------------------------------------------------
@@ -1399,6 +1374,11 @@ __all__ = [
     "BINDING_RECORDS",
     "SITE_BINDING_RECORDS",
     "gate",
+    "TranslationMethod",
+    "TRANSLATION_METHODS",
+    "TranslationTag",
+    "TranslatedInput",
+    "check_translation",
     "check_pk_model",
     "check_brain_partition",
     "check_binding_target",

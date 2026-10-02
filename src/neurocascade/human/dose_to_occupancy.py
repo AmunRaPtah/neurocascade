@@ -56,6 +56,7 @@ import numpy as np
 from scipy.integrate import solve_ivp
 
 from ..pk import DosedOneCompartmentPK, DosedTwoCompartmentPK
+from ..translation import TranslatedInput
 from .d2_effect import d2_effect_for_drug
 from .active_metabolites import active_metabolites_for, require_parent_only_path
 from .d2_ec50 import d2_plasma_ec50
@@ -69,12 +70,16 @@ from .receptor_parameters import (
 
 #: What a layer's numbers rest on. ``illustrative`` is the P19.1 category: a
 #: constant nobody measured, which may only be consumed through an explicit
-#: opt-in. The other four are all claims about where a real number came from.
+#: opt-in. ``translated`` (P29.1) is a non-human measurement the species gate
+#: admitted under a cited translation method; a layer claiming it must carry the
+#: gate's ``TranslatedInput`` records, and vice versa. The others are all claims
+#: about where a real number came from.
 PROVENANCE_LEVELS = (
     "measured",
     "fitted-in-repo",
     "structural",
     "caller-supplied",
+    "translated",
     "illustrative",
 )
 
@@ -127,12 +132,30 @@ class ChainLayer:
     detail: str
     citation: str
     provenance: str
+    #: The species gate's ``TranslatedInput`` records for every non-human number
+    #: this layer consumed (P29.1). Required exactly when provenance is
+    #: ``translated``, so a translated number cannot sit in a layer that does not
+    #: say so, and a layer cannot say so without naming the input and method.
+    translations: tuple = ()
 
     def __post_init__(self):
         if self.provenance not in PROVENANCE_LEVELS:
             raise ValueError(
                 "provenance %r for layer %r is not one of %s"
                 % (self.provenance, self.name, ", ".join(PROVENANCE_LEVELS))
+            )
+        object.__setattr__(self, "translations", tuple(self.translations))
+        for record in self.translations:
+            if not isinstance(record, TranslatedInput):
+                raise TypeError(
+                    "layer %r: translations must be species_gate.TranslatedInput "
+                    "records returned by the gate; got %r" % (self.name, record)
+                )
+        if (self.provenance == "translated") != bool(self.translations):
+            raise ValueError(
+                "layer %r: provenance 'translated' and a non-empty translations "
+                "tuple go together; got provenance %r with %d translated inputs"
+                % (self.name, self.provenance, len(self.translations))
             )
 
 
@@ -182,10 +205,19 @@ class OccupancyPrediction:
     @property
     def provenance(self):
         """The weakest claim any layer makes. One illustrative layer makes the
-        whole prediction illustrative."""
+        whole prediction illustrative; otherwise one translated layer makes it
+        translated (P29.1)."""
         if any(layer.provenance == "illustrative" for layer in self.layers):
             return "illustrative"
+        if self.translated_inputs:
+            return "translated"
         return "measured"
+
+    @property
+    def translated_inputs(self):
+        """Every non-human input the species gate admitted under a translation
+        tag, across all layers: which number, from which species, by what method."""
+        return tuple(record for layer in self.layers for record in layer.translations)
 
     @property
     def peak_occupancy(self):
@@ -254,6 +286,8 @@ class OccupancyPrediction:
                 "  %s: %s (%s) [%s]"
                 % (layer.name, layer.detail, layer.provenance, layer.status)
             )
+        for record in self.translated_inputs:
+            lines.append("  translated input: %s" % record.describe())
         for record in self.metabolite_caveats:
             lines.append(
                 "  active metabolite %s: worst-case occupancy error %.4f if "
