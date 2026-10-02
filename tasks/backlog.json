@@ -2506,14 +2506,17 @@
         "P28.4",
         "P29.1"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-02 23:43 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 24
+      },
+      "finished_at": "2026-10-02T22:00:41+00:00",
+      "result": "complete"
     },
     {
       "id": "P29.3",
