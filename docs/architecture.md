@@ -16081,3 +16081,173 @@ fault in any one of them.
 - **Quetiapine:** it passes only in the design its constant was fitted in.
 - **Not tested:** every comparison is a group mean predicted at a mean dose, for
   a typical subject. Nothing here tests variability between individuals.
+
+## Phase 28, part one: benchmark drug list and frozen split (P28.1)
+
+The product roadmap (`docs/roadmap-product.md`) is judged by one test: a
+retrospective benchmark of CNS drugs, each given only preclinical-type inputs
+and scored against what was observed in humans. P28.1 fixes **which drugs** are
+in it and **which of them are held out**, before any data for any of them is
+collected. It is deliberately the first task in the phase. A split drawn after
+coverage was known would let coverage steer the split.
+
+### Where the files live, and why not `data/benchmark/`
+
+The brief named `data/benchmark/drugs.json`. In this build `data/` is read-only
+reference data, and patches that touch it are rejected. The two files therefore
+live with the code at `src/neurocascade/benchmark/`, the same pattern
+`human/fixtures/` follows. This is a path change only; the contents are what the
+brief asked for.
+
+### Inclusion rules
+
+The list is not hand-picked. Where a rule could decide inclusion, a rule did.
+
+1. **Approved drugs: every WHO ATC level-5 entry under N05A (antipsychotics),
+   N05B (anxiolytics) and N06A (antidepressants)**, read from the ChEMBL REST
+   API `atc_class` endpoint (ChEMBL_37, released 2026-05-01). That gives 176
+   entries: N05A 69, N05B 39, N06A 68. These three level-3 classes are the brief's
+   three named classes. Hypnotics (N05C), anti-dementia drugs (N06D) and
+   psychostimulants (N06B) were left out because the brief did not name them,
+   not because of any judgement about them. Taking the whole ATC class rather
+   than picking within it is what keeps the list from being chosen by
+   expectation. The cost is that obscure regional drugs come in (dimetacrine,
+   pivagabine, mephenoxalone) whose preclinical packages may be thin. That is
+   accepted: Phase 28's coverage tasks report per-field coverage, and a drug
+   with no binding panel will show up there as a gap rather than having been
+   quietly dropped here.
+2. **Eight ATC entries excluded by a mechanical rule** (one small-molecule
+   entity per record), each recorded with its reason in
+   `drugs.json["excluded_atc_entries"]`:
+   - five fixed combinations, each of whose single components is already in;
+   - two herbal preparations (lavender oil, St John's wort);
+   - lithium, an inorganic ion with no receptor binding panel. The benchmark's
+     premise is binding panel → occupancy → effect, and lithium has nothing for
+     that path to score.
+
+   That leaves 168.
+3. **ChEMBL id is the parent of the molecule ChEMBL maps to the ATC code.**
+   Every code resolved to exactly one parent; the script raises if any did not.
+   One override: ChEMBL maps N05AC04 to pipotiazine *palmitate* (CHEMBL2106439,
+   a depot ester registered as its own parent). The active moiety pipotiazine
+   (CHEMBL398880) is used instead, because binding and PK belong to the moiety.
+4. **Clinical failures (stratum FAIL), 17 drugs.** The brief's "known clinical
+   failures with public preclinical data" has no registry to read from, so this
+   stratum is the one place judgement entered. To bound that judgement, a
+   compound qualifies only if all three hold:
+   - it is not approved for the psychiatric indication it was tested in;
+   - a published placebo-controlled trial **printed** that its primary
+     endpoint was not met. Press releases do not count;
+   - ChEMBL carries it with a structure, and its synonyms include the INN and
+     the trial code name.
+
+   Every PMID, title and quoted conclusion was read from Europe PMC on
+   2026-10-01 and is stored per drug (`failure.pmid`, `failure.evidence`).
+   Candidates considered and **rejected**, with the reason:
+   - casopitant (Ratti 2011, PMID 22020354): one of its two trials was positive
+     at 80 mg, so it is not a clean failure;
+   - vabicaserin (Shen 2014, PMID 24613032): the 200 mg arm met its primary
+     endpoint;
+   - ocinaplon (Czobor 2010, PMID 20041911): its trial was positive. Development
+     stopped for liver safety, which is a different kind of failure from the one
+     this stratum scores;
+   - bifeprunox: the only publication is a Cochrane review (PMID 27732740) that
+     finds some positive effects and says the failing data were never released;
+   - emraclidine, ulotaront, encenicline, rapastinel, aticaprant: the failing
+     phase 3 results reached Europe PMC only as press-release-level or
+     conference-abstract records, not a trial paper with a PMID;
+   - MK-0777, Lu AF35700, L-745,870: no INN, and the list is keyed by INN.
+
+   Esmethadone and roluperidone are borderline and are kept on the stated rule.
+   Esmethadone missed its primary endpoint (P=.154) but was positive post hoc in
+   severe depression. Roluperidone's ITT primary endpoint was P≤.064, and
+   modified-ITT was nominally significant. Aprepitant is approved, but as an
+   antiemetic (A04AD12), never as an antidepressant, so it qualifies.
+   `intended_atc_level3` records the class each failure was being developed
+   into, so that Phase 30 can group it with its would-be peers.
+
+Total: 168 + 17 = **185 drugs**.
+
+### Per-field sources
+
+Every record carries `sources` with an entry for every field: name, stratum,
+ChEMBL id, preferred name, InChIKey, CAS, ATC code, all ATC codes, max phase
+and withdrawn flag. `tests/test_benchmark_split.py` enforces this.
+
+- **Name.** For ATC drugs the name is the WHO ATC/DDD name, which WHO takes from
+  the INN where one exists. A few are ATC forms rather than bare INNs
+  ("potassium clorazepate", "imipramine oxide"). They are kept verbatim because
+  they are what the classification prints. For failures the name is the INN as
+  it appears in ChEMBL's synonym list.
+- **CAS** comes from PubChem PUG-View, heading "CAS". Sources are tried in a
+  fixed order, and the first that lists exactly one CAS is used: CAS Common
+  Chemistry (172 drugs), FDA GSRS (8), ChemIDplus (2), EPA DSSTox (3). The
+  PubChem record is found by ChEMBL's standard InChIKey. When that lookup gives
+  no CAS, the fallback is a name lookup, and the match quality is recorded in
+  `sources.cas.match`:
+  - **inchikey**: 180 drugs;
+  - **connectivity**: 2 drugs (cariprazine, reboxetine), where the stereo layer
+    differs;
+  - **name_only**: 3 drugs, each with a note.
+    - Chlordiazepoxide and tranylcypromine are representation differences:
+      ChEMBL draws a different tautomer for one and writes the trans racemate
+      as two components for the other.
+    - **Flupentixol is genuinely unresolved.** Its ATC-mapped ChEMBL record
+      (CHEMBL6066864) has no structure, and PubChem's "flupentixol" is the Z
+      isomer. The stored CAS therefore identifies cis-flupentixol, not
+      necessarily the marketed substance. Phase 28's binding task must settle
+      the isomer before using ChEMBL activities for this drug.
+
+  Each CAS passes its check digit, and the test asserts this.
+  - *Why not stop at the InChIKey?* Five of the seven first-pass misses were
+    PubChem returning a secondary CID first (aprepitant's InChIKey resolves to
+    CID 6918365 before the main record, CID 135413536). Trying up to five CIDs
+    and then the name fallback was enough to make the list complete.
+
+### The split
+
+- **Drug-level**, so no drug has rows on both sides.
+- **Stratified** by the four strata (N05A, N05B, N06A, FAIL).
+- **Drawn once**:
+  - Within each stratum the INNs are sorted, then shuffled by a single
+    `random.Random(20261001)` that is walked across the strata in sorted
+    order.
+  - The first round(0.3 n) of each stratum are held out.
+  - The seed is the drawing date. It was fixed before the draw and was not
+    tuned.
+- **Result:**
+
+  | Stratum | Train | Held out |
+  |---|---|---|
+  | N05A | 47 | 20 |
+  | N05B | 25 | 10 |
+  | N06A | 46 | 20 |
+  | FAIL | 12 | 5 |
+  | **Total** | **130** | **55** |
+
+- **Frozen in three places:**
+  - `neurocascade.benchmark.SPLIT_SHA256`, which `load_split()` checks on every
+    load;
+  - a literal in `tests/test_benchmark_split.py`;
+  - `docs/validation-ledger.md`.
+
+  Changing the split means editing all three, and that should look exactly as
+  deliberate as it is. The `split` stage of the build script refuses to run if
+  `split.json` exists.
+
+**Disclosed after the draw:** four held-out drugs are not blind to this
+repository. Amisulpride, quetiapine, ziprasidone and diazepam already have human
+PET, PK or label values read or fitted in Phases 19-25. Alprazolam appears only
+as a rodent elevated-plus-maze series in the retired mouse calibration, which
+is not human data. The split was not redrawn: choosing a split after seeing what
+it contains is the leak the freeze exists to stop. Instead the ledger requires
+every held-out score to be reported both over all 55 drugs and over the 51
+untouched ones.
+
+### What this task did not do
+
+It collected no preclinical or human data for any drug, so it produced no
+prediction and earned no validated-claims row in the ledger. It is a
+precondition for Phase 28's coverage tasks, not a result. The list is useful
+only to the extent that those tasks fill it. The drugs with thin public data
+will show up as coverage gaps; they were not quietly dropped here.
