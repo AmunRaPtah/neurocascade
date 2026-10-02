@@ -1,0 +1,435 @@
+{
+ "chembl_query_id": "CHEMBL637",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 4,
+  "human_invivo_vss": 4
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3536595",
+     "description": "Percentage unbound in Crl:NMRI(Han) mouse brain at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.18
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534720",
+     "description": "Percentage unbound in solid supported porcine brain membrane vesicles at 5 uM by TRANSIL assay",
+     "ref": "CHEMBL3526149",
+     "relation": "=",
+     "species": "pig",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.123
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531910",
+     "description": "Percentage unbound in Sprague-Dawley rat brain at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.092
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534719",
+     "description": "Fraction unbound in Wistar rat brain homogenate at 5 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3526149",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.21
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534722",
+     "description": "Binding affinity to Wistar rat brain lipid assessed as percentage unbound by TRANSIL assay",
+     "ref": "CHEMBL3526149",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.2419
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.18,
+     "min": 0.18,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": 0.18
+    },
+    {
+     "max": 0.123,
+     "min": 0.123,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "pig",
+     "units": null,
+     "value": 0.123
+    },
+    {
+     "max": 0.2419,
+     "min": 0.092,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 3,
+     "species": "rat",
+     "units": null,
+     "value": 0.158693
+    }
+   ]
+  },
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1020693",
+     "description": "Metabolic stability in human liver microsomes assessed as intrinsic clearance per mg of protein",
+     "matrix": "microsomes",
+     "ref": "CHEMBL1139373",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 59.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 59.0,
+     "min": 59.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 59.0
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3531553",
+     "description": "Total brain to plasma partition coefficient of the compound in mdr1a-deficient mouse at 12 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 8.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL3530257",
+     "description": "Total brain to plasma partition coefficient of the compound in wild type Crl:CF1 mouse expressing Abcb1a mutant at 12 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 4.7
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528408",
+     "description": "Total brain to plasma partition coefficient of the compound in mdr1a-deficient rat at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 6.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528201",
+     "description": "Total brain to plasma partition coefficient of the compound in wild type Sprague-Dawley rat expressing Abcb1a at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 3.3
+    }
+   ],
+   "summary": [
+    {
+     "max": 8.3,
+     "min": 4.7,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "mouse",
+     "units": null,
+     "value": 6.245799
+    },
+    {
+     "max": 6.3,
+     "min": 3.3,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": null,
+     "value": 4.559605
+    }
+   ]
+  },
+  "kp_uu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3424152",
+     "description": "Ratio of unbound drug in brain to plasma in mouse",
+     "ref": "CHEMBL3421561",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 0.98
+    },
+    {
+     "assay_chembl_id": "CHEMBL3536597",
+     "description": "Unbound brain to plasma partition coefficient of the compound in wild type Crl:CF1 mouse expressing Abcb1a mutant at 12 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 0.86
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537531",
+     "description": "Unbound brain to plasma partition coefficient of the compound in mdr1a-deficient mouse at 12 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 1.4
+    },
+    {
+     "assay_chembl_id": "CHEMBL3536590",
+     "description": "Unbound brain to plasma partition coefficient of the compound in mdr1a-deficient rat at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 0.89
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531911",
+     "description": "Unbound brain to plasma partition coefficient of the compound in wild type Sprague-Dawley rat expressing Abcb1a at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 0.45
+    }
+   ],
+   "summary": [
+    {
+     "max": 1.4,
+     "min": 0.86,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 3,
+     "species": "mouse",
+     "units": null,
+     "value": 1.038635
+    },
+    {
+     "max": 0.89,
+     "min": 0.45,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": null,
+     "value": 0.632851
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL618310",
+     "description": "Unbound fraction (plasma)",
+     "ref": "CHEMBL1148291",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.73
+    },
+    {
+     "assay_chembl_id": "CHEMBL1100461",
+     "description": "Fraction unbound in human plasma",
+     "ref": "CHEMBL1153781",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "logFu",
+     "units": null,
+     "value": 0.73
+    },
+    {
+     "assay_chembl_id": "CHEMBL1043580",
+     "description": "Fraction unbound in human plasma",
+     "ref": "CHEMBL1156824",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.73
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301365",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 18.64,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.8136
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528198",
+     "description": "Percentage unbound in Crl:NMRI(Han) mouse plasma at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": ">",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.99
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531909",
+     "description": "Percentage unbound in Sprague-Dawley rat plasma at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.64
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.8136,
+     "min": 0.73,
+     "n_censored": 0,
+     "n_documents": 4,
+     "n_measurements": 4,
+     "species": "human",
+     "units": null,
+     "value": 0.73
+    },
+    {
+     "max": null,
+     "min": null,
+     "n_censored": 1,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": null
+    },
+    {
+     "max": 0.64,
+     "min": 0.64,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.64
+    }
+   ]
+  }
+ },
+ "inn": "venlafaxine",
+ "references": {
+  "CHEMBL1139373": {
+   "chembl_document_id": "CHEMBL1139373",
+   "journal": "J Med Chem",
+   "pmid": "19108654",
+   "title": "Metabolic soft spot identification and compound optimization in early discovery phases using MetaSite and LC-MS/MS validation.",
+   "year": 2009
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL3421561": {
+   "chembl_document_id": "CHEMBL3421561",
+   "journal": "J Med Chem",
+   "pmid": "25494650",
+   "title": "CNS drug design: balancing physicochemical properties for optimal brain exposure.",
+   "year": 2015
+  },
+  "CHEMBL3525946": {
+   "chembl_document_id": "CHEMBL3525946",
+   "journal": "Drug Metab Dispos",
+   "pmid": "22112383",
+   "title": "Species comparison of in vivo P-glycoprotein-mediated brain efflux using mdr1a-deficient rats and mice.",
+   "year": 2012
+  },
+  "CHEMBL3526149": {
+   "chembl_document_id": "CHEMBL3526149",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21071520",
+   "title": "Brain tissue binding of drugs: evaluation and validation of solid supported porcine brain membrane vesicles (TRANSIL) as a novel high-throughput method.",
+   "year": 2011
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 272
+ },
+ "status": "data",
+ "stratum": "N06A"
+}

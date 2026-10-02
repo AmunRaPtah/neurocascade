@@ -1,0 +1,83 @@
+{
+ "chembl_query_id": "CHEMBL1258006",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": false,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL2187711",
+     "description": "Ratio of drug level in brain to plasma in rat measured 6 hrs post dose",
+     "ref": "CHEMBL2177097",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 0.4
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.4,
+     "min": 0.4,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.4
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL2187712",
+     "description": "Protein binding in human plasma",
+     "ppb_percent": 60.0,
+     "ref": "CHEMBL2177097",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.4
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.4,
+     "min": 0.4,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.4
+    }
+   ]
+  }
+ },
+ "inn": "bradanicline",
+ "references": {
+  "CHEMBL2177097": {
+   "chembl_document_id": "CHEMBL2177097",
+   "journal": "J Med Chem",
+   "pmid": "23126648",
+   "title": "Discovery of (2S,3R)-N-[2-(pyridin-3-ylmethyl)-1-azabicyclo[2.2.2]oct-3-yl]benzo[b]furan-2-carboxamide (TC-5619), a selective \u03b17 nicotinic acetylcholine receptor agonist, for the treatment of cognitive disorders.",
+   "year": 2012
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 14
+ },
+ "status": "data",
+ "stratum": "FAIL"
+}

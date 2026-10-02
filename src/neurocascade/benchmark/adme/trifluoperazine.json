@@ -1,0 +1,141 @@
+{
+ "chembl_query_id": "CHEMBL422",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": false,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3534720",
+     "description": "Percentage unbound in solid supported porcine brain membrane vesicles at 5 uM by TRANSIL assay",
+     "ref": "CHEMBL3526149",
+     "relation": "=",
+     "species": "pig",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.0018
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534719",
+     "description": "Fraction unbound in Wistar rat brain homogenate at 5 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3526149",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.0007
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534722",
+     "description": "Binding affinity to Wistar rat brain lipid assessed as percentage unbound by TRANSIL assay",
+     "ref": "CHEMBL3526149",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.0033
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.0018,
+     "min": 0.0018,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "pig",
+     "units": null,
+     "value": 0.0018
+    },
+    {
+     "max": 0.0033,
+     "min": 0.0007,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": null,
+     "value": 0.00152
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3301365",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 99.19,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.0081
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301366",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole rat plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 99.3,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.007
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.0081,
+     "min": 0.0081,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.0081
+    },
+    {
+     "max": 0.007,
+     "min": 0.007,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.007
+    }
+   ]
+  }
+ },
+ "inn": "trifluoperazine",
+ "references": {
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL3526149": {
+   "chembl_document_id": "CHEMBL3526149",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21071520",
+   "title": "Brain tissue binding of drugs: evaluation and validation of solid supported porcine brain membrane vesicles (TRANSIL) as a novel high-throughput method.",
+   "year": 2011
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 85
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

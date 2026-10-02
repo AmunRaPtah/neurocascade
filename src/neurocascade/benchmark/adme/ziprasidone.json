@@ -1,0 +1,302 @@
+{
+ "chembl_query_id": "CHEMBL708",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 4,
+  "human_invivo_vss": 2
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3532270",
+     "description": "Unbound intrinsic clearance in human intestinal cytosol at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis",
+     "matrix": "intestinal_or_cytosol",
+     "ref": "CHEMBL3525922",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 15.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3532271",
+     "description": "Unbound intrinsic clearance in human liver cytosol at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis",
+     "matrix": "intestinal_or_cytosol",
+     "ref": "CHEMBL3525922",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 23.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3532268",
+     "description": "Unbound intrinsic clearance in human intestinal microsomes at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3525922",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 29.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3532269",
+     "description": "Unbound intrinsic clearance in human liver microsomes at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3525922",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 118.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3532272",
+     "description": "Unbound intrinsic clearance in human intestinal S9 fraction at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis",
+     "matrix": "s9",
+     "ref": "CHEMBL3525922",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 28.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3532273",
+     "description": "Unbound intrinsic clearance in human liver S9 fraction at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis",
+     "matrix": "s9",
+     "ref": "CHEMBL3525922",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 89.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3532277",
+     "description": "Intrinsic clearance in human intestinal S9 fraction at 50 to 1000 nM after 60 mins by HPLC-MS/MS analysis",
+     "matrix": "s9",
+     "ref": "CHEMBL3525922",
+     "relation": "<",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 1.8
+    },
+    {
+     "assay_chembl_id": "CHEMBL3532280",
+     "description": "Unbound intrinsic clearance in human intestinal S9 fraction at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis in presence of NADH",
+     "matrix": "s9",
+     "ref": "CHEMBL3525922",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 15.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3532281",
+     "description": "Unbound intrinsic clearance in human intestinal S9 fraction at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis in presence of NADPH",
+     "matrix": "s9",
+     "ref": "CHEMBL3525922",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 28.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "intestinal_or_cytosol",
+     "max": 23.0,
+     "min": 15.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 18.574176
+    },
+    {
+     "matrix": "microsomes",
+     "max": 118.0,
+     "min": 29.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 58.497863
+    },
+    {
+     "matrix": "s9",
+     "max": 89.0,
+     "min": 15.0,
+     "n_censored": 1,
+     "n_documents": 1,
+     "n_measurements": 5,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 31.985219
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4376339",
+     "description": "Brain to plasma partition coefficient, Kp of the compound in rat",
+     "ref": "CHEMBL4373730",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 8.5
+    }
+   ],
+   "summary": [
+    {
+     "max": 8.5,
+     "min": 8.5,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 8.5
+    }
+   ]
+  },
+  "kp_uu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4376342",
+     "description": "Unbound brain-to-plasma concentration ratio in rat",
+     "ref": "CHEMBL4373730",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 0.9
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.9,
+     "min": 0.9,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.9
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1043580",
+     "description": "Fraction unbound in human plasma",
+     "ref": "CHEMBL1156824",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.0012
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301365",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 99.9,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.001
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301366",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole rat plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 99.7,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.003
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.0012,
+     "min": 0.001,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "human",
+     "units": null,
+     "value": 0.0011
+    },
+    {
+     "max": 0.003,
+     "min": 0.003,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.003
+    }
+   ]
+  }
+ },
+ "inn": "ziprasidone",
+ "references": {
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL3525922": {
+   "chembl_document_id": "CHEMBL3525922",
+   "journal": "Drug Metab Dispos",
+   "pmid": "23444387",
+   "title": "Significance of reductive metabolism in human intestine and quantitative prediction of intestinal first-pass metabolism by cytosolic reductive enzymes.",
+   "year": 2013
+  },
+  "CHEMBL4373730": {
+   "chembl_document_id": "CHEMBL4373730",
+   "journal": "Eur J Med Chem",
+   "pmid": "31514017",
+   "title": "Practical approaches to evaluating and optimizing brain exposure in early drug discovery.",
+   "year": 2019
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 194
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

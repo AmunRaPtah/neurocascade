@@ -1,0 +1,182 @@
+{
+ "chembl_query_id": "CHEMBL2111101",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL5135482",
+     "description": "Metabolic stability in human liver microsomes assessed as intrinsic clearance at 100 uM preincubated for 10 mins followed by NADPH addition by LC/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL5131502",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 11.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL5135481",
+     "description": "Metabolic stability in Sprague-Dawley rat liver microsomes assessed as intrinsic clearance at 100 uM preincubated for 10 mins followed by NADPH addition by LC/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL5131502",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 23.2
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 11.0,
+     "min": 11.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.kg-1",
+     "value": 11.0
+    },
+    {
+     "matrix": "microsomes",
+     "max": 23.2,
+     "min": 23.2,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 23.2
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4615124",
+     "description": "Ratio of drug level in brain to plasma of ICR mouse at 10 mg/kg, iv measured after 0.5 hrs by LC-MS/MS analysis",
+     "ref": "CHEMBL4613264",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 4.98
+    }
+   ],
+   "summary": [
+    {
+     "max": 4.98,
+     "min": 4.98,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": 4.98
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL5135455",
+     "description": "Plasma protein binding in human at 10 uM",
+     "ppb_percent": 95.5,
+     "ref": "CHEMBL5131502",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.045
+    },
+    {
+     "assay_chembl_id": "CHEMBL5135454",
+     "description": "Plasma protein binding in monkey at 10 uM",
+     "ppb_percent": 94.7,
+     "ref": "CHEMBL5131502",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.053
+    },
+    {
+     "assay_chembl_id": "CHEMBL5135460",
+     "description": "Plasma protein binding in rat at 10 uM",
+     "ppb_percent": 96.3,
+     "ref": "CHEMBL5131502",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.037
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.045,
+     "min": 0.045,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.045
+    },
+    {
+     "max": 0.053,
+     "min": 0.053,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": null,
+     "value": 0.053
+    },
+    {
+     "max": 0.037,
+     "min": 0.037,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.037
+    }
+   ]
+  }
+ },
+ "inn": "pimavanserin",
+ "references": {
+  "CHEMBL4613264": {
+   "chembl_document_id": "CHEMBL4613264",
+   "journal": "J Med Chem",
+   "pmid": "32285676",
+   "title": "Design, Synthesis, and Biological Evaluation of New Peripheral 5HT2A Antagonists for Nonalcoholic Fatty Liver Disease.",
+   "year": 2020
+  },
+  "CHEMBL5131502": {
+   "chembl_document_id": "CHEMBL5131502",
+   "journal": "Eur J Med Chem",
+   "pmid": "35279606",
+   "title": "Improving the treatment of Parkinson's disease: Structure-based development of novel 5-HT<sub>2A</sub> receptor antagonists/inverse agonists.",
+   "year": 2022
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 46
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

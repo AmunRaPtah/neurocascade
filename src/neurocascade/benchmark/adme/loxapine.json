@@ -1,0 +1,56 @@
+{
+ "chembl_query_id": "CHEMBL831",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": false,
+  "plasma_fu": false,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1023025",
+     "description": "Fraction unbound in rat brain",
+     "ref": "CHEMBL1152804",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.011
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.011,
+     "min": 0.011,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.011
+    }
+   ]
+  }
+ },
+ "inn": "loxapine",
+ "references": {
+  "CHEMBL1152804": {
+   "chembl_document_id": "CHEMBL1152804",
+   "journal": "J Med Chem",
+   "pmid": "19256501",
+   "title": "Relationship between brain tissue partitioning and microemulsion retention factors of CNS drugs.",
+   "year": 2009
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 186
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

@@ -118,6 +118,7 @@ Recorded as real results, per the standing honesty discipline.
 | Human-**tissue** M1 Ki for haloperidol and risperidone | P23.1 | none in the PDSP download. Human M1 values are cloned or undefined-preparation and are dominated by the >10000 nM assay ceiling; the few finite numbers sit at 1.6–2.8 µM. Neither drug has clinically meaningful muscarinic affinity, so M1 is sourced but at the floor of measurability — recorded as a result (M1 cannot distinguish the two drugs' EPS), not a gap |
 | A haloperidol cortical/frontal 5-HT2 occupancy paired to a plasma concentration (to score the Ki-derived off-target curve quantitatively) | P23.2 | none reachable open-access. The robust, repeatedly reported fact is ordinal — haloperidol shows high striatal D2 and comparatively low cortical 5-HT2 occupancy (Kapur & Remington 1996; Farde/Nyberg 1995 established the reciprocal crossover for risperidone, 5-HT2 78–88% ≥ D2 75–80% at 6 mg/day) — but a per-subject or group-mean haloperidol 5-HT2 occupancy with a matched plasma concentration sits in paywalled setoperone/NMSP PET tables. The directional check (sign of 5-HT2A−D2) is used instead and labelled n=1, direction-only. Supersedable by one open paired datum |
 | A human Ki panel for 67 of the 185 benchmark drugs (list under "Benchmark input coverage") | P28.2 | none with a printed value in PDSP (full CSV), ChEMBL_37 or GtoPdb 2026.3, after exact-INN, alias, ChEMBL-parent and InChIKey matching. Three kinds of gap. **Species**: the benzodiazepine-site Ki is rat or bovine brain; 81 non-human ChEMBL rows each for lorazepam and iproniazide. **Unit**: GtoPdb prints only human pIC50 for iclepertin, levomilnacipran, mardepodect and pexacerfont, and no affinity at all for brexanolone's GABA-A action. **Absence**: most regional and older drugs have nothing in any source. The action type is still recorded where a source prints one (`actions_without_ki`). Not filled by substituting a racemate, enantiomer, prodrug or metabolite |
+| Any preclinical ADME/PK field (plasma fu, brain fu/Kp,uu, in-vitro CLint, rodent in-vivo CL/Vss) for 105 of the 185 benchmark drugs (coverage under "Benchmark input coverage"; `adme/<inn>.json` `status: searched_and_empty`) | P28.3 | none in ChEMBL_37's ADME activities (`assay_type=A`) on the drug's parent molecule. ChEMBL carries the compilations the brief names (Lombardo 2002/2008/2016, Obach 2008, Fridén 2011, Loryan 2011), so a drug absent from ChEMBL's ADME tables has no cited value to take. The gap is the same population as P28.2's: 30 of 35 N05B benzodiazepines and most pre-2000 regional antipsychotics/antidepressants (acepromazine, dimetacrine, pivagabine, prothipendyl, …) were characterised before the microsomal-stability/brain-binding assay era and their ADME sits only in closed primary PK papers. No value was taken from a paywalled Lombardo/Fridén supplement (publisher returns HTTP 403) or substituted across entity (racemate/enantiomer/prodrug). Primary rat PK exists in the literature for some empty drugs but is not in ChEMBL; transcribing it per drug is deferred, recorded as a known residual gap not an invented value |
 
 ## Frozen benchmark split (Phase 28)
 
@@ -201,3 +202,55 @@ and why rows were refused. **N05B is the gap: 30 of 35 anxiolytics are empty.**
 The classical benzodiazepine-site binding literature was measured on rat or
 bovine brain, and the human-only rule refuses it. Lorazepam and iproniazide
 have 81 non-human ChEMBL rows each, and nothing human.
+
+### Preclinical ADME/PK inputs (P28.3, retrieved 2026-10-02)
+
+Source: ChEMBL_37 ADME activities (`assay_type=A`) on each drug's parent
+molecule (salts included via `parent_molecule_chembl_id`), every value keeping
+its own species, tissue, units and source document. ChEMBL already carries the
+compilations the brief names — Lombardo 2002/2008/2016 and Obach 2008 IV-PK
+(CHEMBL1135488, CHEMBL1148291, CHEMBL1614630/1614632, CHEMBL3588773), Fridén
+2011 brain tissue binding (CHEMBL3526149, CHEMBL3525956) and Loryan 2011 unbound
+brain exposure (CHEMBL3525927) — so it is used as the single per-row-cited
+mirror rather than scraping paywalled supplements (all return HTTP 403). Files:
+`src/neurocascade/benchmark/adme/<inn>.json`, summary `adme/coverage.json`.
+Rules and the classifier in docs/architecture.md under P28.3.
+
+Four preclinical fields (brief): plasma fraction unbound; brain fraction unbound
+**or** Kp,uu; in-vitro intrinsic clearance (microsomal/hepatocyte/S9); and
+**rodent** in-vivo CL/Vss. The in-vivo CL/Vss field is non-human only — human
+in-vivo CL/Vss is clinical outcome data scored in P28.4, not a preclinical
+input; human in-vitro plasma fu and CLint are kept here.
+
+| Stratum | Drugs | ≥1 field | plasma fu | brain fu / Kp,uu | in-vitro CLint | rodent CL/Vss |
+|---|---|---|---|---|---|---|
+| N05A antipsychotics | 67 | 28 | 24 | 15 | 14 | 5/6 |
+| N05B anxiolytics | 35 | 11 | 10 | 5 | 6 | 3/2 |
+| N06A antidepressants | 66 | 34 | 30 | 19 | 24 | 9/9 |
+| FAIL clinical failures | 17 | 7 | 7 | 1 | 3 | 5/5 |
+| **All** | **185** | **80** (43%) | **71** | **40** | **47** | **22/22** |
+
+- 903 cited measurements across 117 ChEMBL documents, 113 resolving to a PMID.
+- Train / held-out with ≥1 field: 53/130 and 27/55. Per field, held-out
+  coverage: plasma fu 25, brain fu/Kp,uu 14, CLint 13, rodent CL 5, rodent
+  Vss 7.
+- Human in-vivo CL/Vss rows are present in ChEMBL for ~50 drugs but are
+  **excluded** here and counted per drug under `excluded` (e.g. haloperidol
+  `human_invivo_cl: 8`, `human_invivo_vss: 10`); they are P28.4's to score.
+- Summaries never pool incompatible units or in-vitro systems: a value is
+  computed only within one (species, units, matrix) group, so mL·min⁻¹·g⁻¹ is
+  never averaged with µL·min⁻¹·(10⁶cells)⁻¹, nor liver microsomes with S9.
+  Within a group: exact values only, geometric mean per document then median
+  across documents, with min/max/n kept. PPB% rows enter plasma fu as
+  fu = 1 − PPB/100 (original percent retained).
+
+**Searched and empty (105 drugs)**: no ChEMBL ADME value on the parent
+molecule. 28 are held out (amineptine, asenapine, benzoctamine, bifemelane,
+bitopertin, butaperazine, chlorproethazine, clobazam, dosulepin, droperidol,
+fabomotizole, fluanisone, gedocarnil, levosulpiride, lofepramine, mephenoxalone,
+moperone, mosapramine, nialamide, oxitriptan, penfluridol, perazine,
+periciazine, pinazepam, pipotiazine, tofisopam, triflupromazine, zuclopenthixol).
+The empties are the same population as P28.2's — N05B benzodiazepines and the
+pre-2000 regional drugs characterised before the microsomal-stability and
+brain-binding assay era — plus some marketed drugs (asenapine, droperidol,
+penfluridol) whose ADME sits only in closed primary PK papers not in ChEMBL.

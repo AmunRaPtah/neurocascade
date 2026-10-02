@@ -1,0 +1,372 @@
+{
+ "chembl_query_id": "CHEMBL580",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 7,
+  "human_invivo_vss": 5
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": true,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1001484",
+     "description": "Hepatic clearance in human hepatocytes in absence of fetal calf serum",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL1137707",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 1.1
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301372",
+     "description": "ASTRAZENECA: Intrinsic clearance measured in human hepatocytes following incubation at 37C. Experimental range <3 to >150 microL/min/1E6 cells. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736.",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 4.57
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301370",
+     "description": "ASTRAZENECA: Intrinsic clearance measured in human liver microsomes following incubation at 37C. Experimental range <3 to >150 microL/min/mg. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736.",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 7.94
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301371",
+     "description": "ASTRAZENECA: Intrinsic clearance measured in rat hepatocytes following incubation at 37C. Experimental range <3 to >150 microL/min/1E6 cells. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 17.38
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 7.94,
+     "min": 7.94,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 7.94
+    },
+    {
+     "matrix": "hepatocytes",
+     "max": 1.1,
+     "min": 1.1,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.kg-1",
+     "value": 1.1
+    },
+    {
+     "matrix": "hepatocytes",
+     "max": 4.57,
+     "min": 4.57,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 4.57
+    },
+    {
+     "matrix": "hepatocytes",
+     "max": 17.38,
+     "min": 17.38,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 17.38
+    }
+   ]
+  },
+  "invivo_cl_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL634459",
+     "description": "In vivo clearance in dog",
+     "ref": "CHEMBL1132496",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 26.1
+    },
+    {
+     "assay_chembl_id": "CHEMBL635504",
+     "description": "In vivo clearance in rat",
+     "ref": "CHEMBL1132496",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 27.2
+    }
+   ],
+   "summary": [
+    {
+     "max": 26.1,
+     "min": 26.1,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "mL.min-1.kg-1",
+     "value": 26.1
+    },
+    {
+     "max": 27.2,
+     "min": 27.2,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 27.2
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3528935",
+     "description": "Fraction unbound in dog plasma by ultracentrifugation method",
+     "ref": "CHEMBL3526069",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.073
+    },
+    {
+     "assay_chembl_id": "CHEMBL618310",
+     "description": "Unbound fraction (plasma)",
+     "ref": "CHEMBL1148291",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.09
+    },
+    {
+     "assay_chembl_id": "CHEMBL1043580",
+     "description": "Fraction unbound in human plasma",
+     "ref": "CHEMBL1156824",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.09
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301365",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 92.8,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.072
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528936",
+     "description": "Fraction unbound in human plasma by ultracentrifugation method",
+     "ref": "CHEMBL3526069",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.057
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528934",
+     "description": "Fraction unbound in monkey plasma by ultracentrifugation method",
+     "ref": "CHEMBL3526069",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.103
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528932",
+     "description": "Fraction unbound in mouse plasma by ultracentrifugation method",
+     "ref": "CHEMBL3526069",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.158
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528933",
+     "description": "Fraction unbound in rat plasma by ultracentrifugation method",
+     "ref": "CHEMBL3526069",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.09
+    },
+    {
+     "assay_chembl_id": "CHEMBL639855",
+     "description": "Unbound fraction (plasma)",
+     "ref": "CHEMBL1135488",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.09
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.073,
+     "min": 0.073,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": null,
+     "value": 0.073
+    },
+    {
+     "max": 0.09,
+     "min": 0.057,
+     "n_censored": 0,
+     "n_documents": 4,
+     "n_measurements": 4,
+     "species": "human",
+     "units": null,
+     "value": 0.081
+    },
+    {
+     "max": 0.103,
+     "min": 0.103,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": null,
+     "value": 0.103
+    },
+    {
+     "max": 0.158,
+     "min": 0.158,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": 0.158
+    },
+    {
+     "max": 0.09,
+     "min": 0.09,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.09
+    },
+    {
+     "max": 0.09,
+     "min": 0.09,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "unspecified",
+     "units": null,
+     "value": 0.09
+    }
+   ]
+  }
+ },
+ "inn": "lorazepam",
+ "references": {
+  "CHEMBL1132496": {
+   "chembl_document_id": "CHEMBL1132496",
+   "journal": "J Med Chem",
+   "pmid": "10602692",
+   "title": "Combining in vitro and in vivo pharmacokinetic data for prediction of hepatic drug clearance in humans by artificial neural networks and multivariate statistical techniques.",
+   "year": 1999
+  },
+  "CHEMBL1135488": {
+   "chembl_document_id": "CHEMBL1135488",
+   "journal": "J Med Chem",
+   "pmid": "12061889",
+   "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+   "year": 2002
+  },
+  "CHEMBL1137707": {
+   "chembl_document_id": "CHEMBL1137707",
+   "journal": "Eur J Med Chem",
+   "pmid": "18768239",
+   "title": "First-principle, structure-based prediction of hepatic metabolic clearance values in human.",
+   "year": 2009
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL3526069": {
+   "chembl_document_id": "CHEMBL3526069",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21282406",
+   "title": "Human pharmacokinetic prediction of UDP-glucuronosyltransferase substrates with an animal scale-up approach.",
+   "year": 2011
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 81
+ },
+ "status": "data",
+ "stratum": "N05B"
+}

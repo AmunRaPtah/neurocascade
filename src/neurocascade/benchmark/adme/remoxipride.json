@@ -1,0 +1,215 @@
+{
+ "chembl_query_id": "CHEMBL22242",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 5,
+  "human_invivo_vss": 4
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": false,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": true,
+  "rodent_in_vivo_vss": true
+ },
+ "fields": {
+  "invivo_cl_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1614685",
+     "description": "Clearance in dog after iv administration",
+     "ref": "CHEMBL1614630",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 4.9
+    },
+    {
+     "assay_chembl_id": "CHEMBL1614687",
+     "description": "Clearance in monkey after iv administration",
+     "ref": "CHEMBL1614630",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 11.8
+    },
+    {
+     "assay_chembl_id": "CHEMBL1614683",
+     "description": "Clearance in rat after iv administration",
+     "ref": "CHEMBL1614630",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 170.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 4.9,
+     "min": 4.9,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "mL.min-1.kg-1",
+     "value": 4.9
+    },
+    {
+     "max": 11.8,
+     "min": 11.8,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": "mL.min-1.kg-1",
+     "value": 11.8
+    },
+    {
+     "max": 170.0,
+     "min": 170.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 170.0
+    }
+   ]
+  },
+  "invivo_vss_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1614686",
+     "description": "Volume of distribution at steady state in dog after iv administration",
+     "ref": "CHEMBL1614630",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Vdss",
+     "units": "L.kg-1",
+     "value": 1.6
+    },
+    {
+     "assay_chembl_id": "CHEMBL1614688",
+     "description": "Volume of distribution at steady state in monkey after iv administration",
+     "ref": "CHEMBL1614630",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "Vdss",
+     "units": "L.kg-1",
+     "value": 1.1
+    },
+    {
+     "assay_chembl_id": "CHEMBL1614684",
+     "description": "Volume of distribution at steady state in rat after iv administration",
+     "ref": "CHEMBL1614630",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Vdss",
+     "units": "mL/min/kg",
+     "value": 4.5
+    }
+   ],
+   "summary": [
+    {
+     "max": 1.6,
+     "min": 1.6,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "L.kg-1",
+     "value": 1.6
+    },
+    {
+     "max": 1.1,
+     "min": 1.1,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": "L.kg-1",
+     "value": 1.1
+    },
+    {
+     "max": 4.5,
+     "min": 4.5,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL/min/kg",
+     "value": 4.5
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL618310",
+     "description": "Unbound fraction (plasma)",
+     "ref": "CHEMBL1148291",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.28
+    },
+    {
+     "assay_chembl_id": "CHEMBL1043580",
+     "description": "Fraction unbound in human plasma",
+     "ref": "CHEMBL1156824",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.16
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.28,
+     "min": 0.16,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "human",
+     "units": null,
+     "value": 0.22
+    }
+   ]
+  }
+ },
+ "inn": "remoxipride",
+ "references": {
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614630": {
+   "chembl_document_id": "CHEMBL1614630",
+   "journal": "Drug Metab Dispos",
+   "pmid": "16621936",
+   "title": "Extrapolation of preclinical pharmacokinetics and molecular feature analysis of \"discovery-like\" molecules to predict human pharmacokinetics.",
+   "year": 2006
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 43
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

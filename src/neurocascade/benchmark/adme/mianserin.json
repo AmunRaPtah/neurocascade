@@ -1,0 +1,120 @@
+{
+ "chembl_query_id": "CHEMBL6437",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 1,
+  "species_unresolved_invivo_vss": 1
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3540989",
+     "description": "Intrinsic clearance in cryopreserved human hepatocytes cells assessed per 10'6 cells by LC-MS/MS method",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3526137",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 50.4
+    },
+    {
+     "assay_chembl_id": "CHEMBL3540988",
+     "description": "Intrinsic clearance in cryopreserved human HepaRG cells assessed per 10'6 cells by LC-MS/MS method",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3526137",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 54.6
+    },
+    {
+     "assay_chembl_id": "CHEMBL3540990",
+     "description": "Intrinsic clearance in human using well stirred liver model by LC-MS/MS method",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526137",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 1463.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 1463.0,
+     "min": 1463.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.kg-1",
+     "value": 1463.0
+    },
+    {
+     "matrix": "hepatocytes",
+     "max": 54.6,
+     "min": 50.4,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 52.457983
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3540986",
+     "description": "Fraction unbound in blood (not specified)",
+     "ref": "CHEMBL3526137",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.14
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.14,
+     "min": 0.14,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "unspecified",
+     "units": null,
+     "value": 0.14
+    }
+   ]
+  }
+ },
+ "inn": "mianserin",
+ "references": {
+  "CHEMBL3526137": {
+   "chembl_document_id": "CHEMBL3526137",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21998403",
+   "title": "Comparison of cryopreserved HepaRG cells with cryopreserved human hepatocytes for prediction of clearance for 26 drugs.",
+   "year": 2012
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 173
+ },
+ "status": "data",
+ "stratum": "N06A"
+}

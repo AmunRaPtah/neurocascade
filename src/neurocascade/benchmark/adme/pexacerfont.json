@@ -1,0 +1,238 @@
+{
+ "chembl_query_id": "CHEMBL482950",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": false,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": true,
+  "rodent_in_vivo_vss": true
+ },
+ "fields": {
+  "invivo_cl_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL994537",
+     "description": "Clearance in chimpanzee at 0.5 mg/kg, iv",
+     "ref": "CHEMBL1138476",
+     "relation": "=",
+     "species": "chimp",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 2.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3533862",
+     "description": "Plasma clearance in chimpanzee at 0.5 mg/kg, iv",
+     "ref": "CHEMBL3526146",
+     "relation": "=",
+     "species": "chimp",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 2.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3533853",
+     "description": "Plasma clearance in beagle dog at 1 mg/kg, iv",
+     "ref": "CHEMBL3526146",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 11.6
+    },
+    {
+     "assay_chembl_id": "CHEMBL994527",
+     "description": "Clearance in rat at 1 mg/kg, iv and 5 mg/kg, po",
+     "ref": "CHEMBL1138476",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 17.9
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528627",
+     "description": "Plasma clearance in Sprague-Dawley rat at 1 mg/kg, iv",
+     "ref": "CHEMBL3526146",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 17.9
+    }
+   ],
+   "summary": [
+    {
+     "max": 2.0,
+     "min": 2.0,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "chimp",
+     "units": "mL.min-1.kg-1",
+     "value": 2.0
+    },
+    {
+     "max": 11.6,
+     "min": 11.6,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "mL.min-1.kg-1",
+     "value": 11.6
+    },
+    {
+     "max": 17.9,
+     "min": 17.9,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 17.9
+    }
+   ]
+  },
+  "invivo_vss_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL994538",
+     "description": "Volume of distribution at steady state in chimpanzee at 0.5 mg/kg, iv",
+     "ref": "CHEMBL1138476",
+     "relation": "=",
+     "species": "chimp",
+     "standard_type": "Vdss",
+     "units": "L.kg-1",
+     "value": 4.2
+    },
+    {
+     "assay_chembl_id": "CHEMBL994528",
+     "description": "Volume of distribution at steady state in rat at 1 mg/kg, iv and 5 mg/kg, po",
+     "ref": "CHEMBL1138476",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Vdss",
+     "units": "L.kg-1",
+     "value": 14.9
+    }
+   ],
+   "summary": [
+    {
+     "max": 4.2,
+     "min": 4.2,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "chimp",
+     "units": "L.kg-1",
+     "value": 4.2
+    },
+    {
+     "max": 14.9,
+     "min": 14.9,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "L.kg-1",
+     "value": 14.9
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3539314",
+     "description": "Protein binding in dog serum after 3 hrs by equilibrium dialysis",
+     "ppb_percent": 95.2,
+     "ref": "CHEMBL3526146",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.048
+    },
+    {
+     "assay_chembl_id": "CHEMBL3539315",
+     "description": "Protein binding in human serum after 3 hrs by equilibrium dialysis",
+     "ppb_percent": 96.1,
+     "ref": "CHEMBL3526146",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.039
+    },
+    {
+     "assay_chembl_id": "CHEMBL3539313",
+     "description": "Protein binding in rat serum after 3 hrs by equilibrium dialysis",
+     "ppb_percent": 93.6,
+     "ref": "CHEMBL3526146",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.064
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.048,
+     "min": 0.048,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": null,
+     "value": 0.048
+    },
+    {
+     "max": 0.039,
+     "min": 0.039,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.039
+    },
+    {
+     "max": 0.064,
+     "min": 0.064,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.064
+    }
+   ]
+  }
+ },
+ "inn": "pexacerfont",
+ "references": {
+  "CHEMBL1138476": {
+   "chembl_document_id": "CHEMBL1138476",
+   "journal": "J Med Chem",
+   "pmid": "19361209",
+   "title": "Synthesis and structure-activity relationships of 8-(pyrid-3-yl)pyrazolo[1,5-a]-1,3,5-triazines: potent, orally bioavailable corticotropin releasing factor receptor-1 (CRF1) antagonists.",
+   "year": 2009
+  },
+  "CHEMBL3526146": {
+   "chembl_document_id": "CHEMBL3526146",
+   "journal": "Drug Metab Dispos",
+   "pmid": "22381334",
+   "title": "In vitro and in vivo metabolism and pharmacokinetics of BMS-562086, a potent and orally bioavailable corticotropin-releasing factor-1 receptor antagonist.",
+   "year": 2012
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 130
+ },
+ "status": "data",
+ "stratum": "FAIL"
+}

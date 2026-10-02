@@ -1,0 +1,133 @@
+{
+ "chembl_query_id": "CHEMBL10878",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": false,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1670264",
+     "description": "Intrinsic clearance in human liver microsome at 1 uM by LC/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL1667823",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL/min",
+     "value": 361.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL1670265",
+     "description": "Intrinsic clearance in rat liver microsome at 1 uM by LC/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL1667823",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "uL/min",
+     "value": 144.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 361.0,
+     "min": 361.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "uL/min",
+     "value": 361.0
+    },
+    {
+     "matrix": "microsomes",
+     "max": 144.0,
+     "min": 144.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "uL/min",
+     "value": 144.0
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4834884",
+     "description": "Ratio of drug concentration in brain to plasma in Wistar Han rat at 100 mg/kg, po measured at 0.37 hrs by HPLC-MS/MS",
+     "ref": "CHEMBL4834400",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 3.19
+    },
+    {
+     "assay_chembl_id": "CHEMBL4834887",
+     "description": "Ratio of drug concentration in brain to plasma in Wistar Han rat at 100 mg/kg, po measured at 2 hrs by HPLC-MS/MS",
+     "ref": "CHEMBL4834400",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 2.73
+    },
+    {
+     "assay_chembl_id": "CHEMBL4834890",
+     "description": "Ratio of drug concentration in brain to plasma in Wistar Han rat at 100 mg/kg, po measured at 6 hrs by HPLC-MS/MS",
+     "ref": "CHEMBL4834400",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 2.73
+    }
+   ],
+   "summary": [
+    {
+     "max": 3.19,
+     "min": 2.73,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 3,
+     "species": "rat",
+     "units": null,
+     "value": 2.875447
+    }
+   ]
+  }
+ },
+ "inn": "agomelatine",
+ "references": {
+  "CHEMBL1667823": {
+   "chembl_document_id": "CHEMBL1667823",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "21237644",
+   "title": "Design and synthesis of 4-arylpiperidinyl amide and N-arylpiperdin-3-yl-cyclopropane carboxamide derivatives as novel melatonin receptor ligands.",
+   "year": 2011
+  },
+  "CHEMBL4834400": {
+   "chembl_document_id": "CHEMBL4834400",
+   "journal": "J Med Chem",
+   "pmid": "33626870",
+   "title": "Discovery of <b>ACH-000143</b>: A Novel Potent and Peripherally Preferred Melatonin Receptor Agonist that Reduces Liver Triglycerides and Steatosis in Diet-Induced Obese Rats.",
+   "year": 2021
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 25
+ },
+ "status": "data",
+ "stratum": "N06A"
+}

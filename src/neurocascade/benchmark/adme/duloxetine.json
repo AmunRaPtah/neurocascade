@@ -1,0 +1,117 @@
+{
+ "chembl_query_id": "CHEMBL1175",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": false,
+  "rodent_in_vivo_cl": true,
+  "rodent_in_vivo_vss": true
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1051049",
+     "description": "Intrinsic clearance in human liver microsomes",
+     "matrix": "microsomes",
+     "ref": "CHEMBL1153074",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 38.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 38.0,
+     "min": 38.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 38.0
+    }
+   ]
+  },
+  "invivo_cl_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1225498",
+     "description": "Clearance in rat",
+     "ref": "CHEMBL1221322",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 178.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 178.0,
+     "min": 178.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 178.0
+    }
+   ]
+  },
+  "invivo_vss_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1225501",
+     "description": "Volume of distribution at steady state in rat",
+     "ref": "CHEMBL1221322",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Vdss",
+     "units": "L.kg-1",
+     "value": 20.9
+    }
+   ],
+   "summary": [
+    {
+     "max": 20.9,
+     "min": 20.9,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "L.kg-1",
+     "value": 20.9
+    }
+   ]
+  }
+ },
+ "inn": "duloxetine",
+ "references": {
+  "CHEMBL1153074": {
+   "chembl_document_id": "CHEMBL1153074",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "19592243",
+   "title": "Novel, achiral aminoheterocycles as selective monoamine reuptake inhibitors.",
+   "year": 2009
+  },
+  "CHEMBL1221322": {
+   "chembl_document_id": "CHEMBL1221322",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "20691589",
+   "title": "Design, synthesis, and biological evaluation of new monoamine reuptake inhibitors with potential therapeutic utility in depression and pain.",
+   "year": 2010
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 179
+ },
+ "status": "data",
+ "stratum": "N06A"
+}

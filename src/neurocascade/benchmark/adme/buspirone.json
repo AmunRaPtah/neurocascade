@@ -1,0 +1,446 @@
+{
+ "chembl_query_id": "CHEMBL49",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 1
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3537180",
+     "description": "Fraction unbound in Beagle dog brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.265
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537179",
+     "description": "Fraction unbound in Hartley guinea pig brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "guinea_pig",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.209
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537182",
+     "description": "Fraction unbound in human occipital cortex at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.263
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537181",
+     "description": "Fraction unbound in cynomolgus monkey brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.207
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537178",
+     "description": "Fraction unbound in CD-1 mouse brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.227
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534720",
+     "description": "Percentage unbound in solid supported porcine brain membrane vesicles at 5 uM by TRANSIL assay",
+     "ref": "CHEMBL3526149",
+     "relation": "=",
+     "species": "pig",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.24
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537177",
+     "description": "Fraction unbound in Sprague-Dawley rat brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.181
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537176",
+     "description": "Fraction unbound in Wistar Han rat brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.258
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534719",
+     "description": "Fraction unbound in Wistar rat brain homogenate at 5 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3526149",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.22
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.265,
+     "min": 0.265,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": null,
+     "value": 0.265
+    },
+    {
+     "max": 0.209,
+     "min": 0.209,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "guinea_pig",
+     "units": null,
+     "value": 0.209
+    },
+    {
+     "max": 0.263,
+     "min": 0.263,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.263
+    },
+    {
+     "max": 0.207,
+     "min": 0.207,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": null,
+     "value": 0.207
+    },
+    {
+     "max": 0.227,
+     "min": 0.227,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": 0.227
+    },
+    {
+     "max": 0.24,
+     "min": 0.24,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "pig",
+     "units": null,
+     "value": 0.24
+    },
+    {
+     "max": 0.258,
+     "min": 0.181,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 3,
+     "species": "rat",
+     "units": null,
+     "value": 0.218049
+    }
+   ]
+  },
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1001484",
+     "description": "Hepatic clearance in human hepatocytes in absence of fetal calf serum",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL1137707",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 19.2
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301372",
+     "description": "ASTRAZENECA: Intrinsic clearance measured in human hepatocytes following incubation at 37C. Experimental range <3 to >150 microL/min/1E6 cells. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736.",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 38.9
+    },
+    {
+     "assay_chembl_id": "CHEMBL1030619",
+     "description": "Metabolic stability in human liver microsomes assessed as intrinsic clearance",
+     "matrix": "microsomes",
+     "ref": "CHEMBL1136854",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 148.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301370",
+     "description": "ASTRAZENECA: Intrinsic clearance measured in human liver microsomes following incubation at 37C. Experimental range <3 to >150 microL/min/mg. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736.",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 116.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 116.0,
+     "min": 116.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 116.0
+    },
+    {
+     "matrix": "hepatocytes",
+     "max": 19.2,
+     "min": 19.2,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.kg-1",
+     "value": 19.2
+    },
+    {
+     "matrix": "microsomes",
+     "max": 148.0,
+     "min": 148.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.kg-1",
+     "value": 148.0
+    },
+    {
+     "matrix": "hepatocytes",
+     "max": 38.9,
+     "min": 38.9,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 38.9
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3301367",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole dog plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 67.12,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.3288
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301365",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 77.62,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.2238
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301366",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole rat plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 75.12,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.2488
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537690",
+     "description": "Unbound fraction in plasma (unknown origin) under normal atmospheric condition at pH 7.72 after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3526113",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.214
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537689",
+     "description": "Unbound fraction in plasma (unknown origin) at pH 7.63 after 6 hrs by equilibrium dialysis method in presence of 5% CO2",
+     "ref": "CHEMBL3526113",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.261
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537688",
+     "description": "Unbound fraction in plasma (unknown origin) at pH 7.4 after 6 hrs by equilibrium dialysis method in presence of 5% CO2",
+     "ref": "CHEMBL3526113",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.277
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537687",
+     "description": "Unbound fraction in plasma (unknown origin) under normal atmospheric condition at pH 7.22 after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3526113",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.333
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.3288,
+     "min": 0.3288,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": null,
+     "value": 0.3288
+    },
+    {
+     "max": 0.2238,
+     "min": 0.2238,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.2238
+    },
+    {
+     "max": 0.2488,
+     "min": 0.2488,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.2488
+    },
+    {
+     "max": 0.333,
+     "min": 0.214,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 4,
+     "species": "unspecified",
+     "units": null,
+     "value": 0.267913
+    }
+   ]
+  }
+ },
+ "inn": "buspirone",
+ "references": {
+  "CHEMBL1136854": {
+   "chembl_document_id": "CHEMBL1136854",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "19147349",
+   "title": "Synthesis and pharmacological evaluation of aminopyrimidine series of 5-HT1A partial agonists.",
+   "year": 2009
+  },
+  "CHEMBL1137707": {
+   "chembl_document_id": "CHEMBL1137707",
+   "journal": "Eur J Med Chem",
+   "pmid": "18768239",
+   "title": "First-principle, structure-based prediction of hepatic metabolic clearance values in human.",
+   "year": 2009
+  },
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL3525956": {
+   "chembl_document_id": "CHEMBL3525956",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21474681",
+   "title": "Species independence in brain tissue binding using brain homogenates.",
+   "year": 2011
+  },
+  "CHEMBL3526113": {
+   "chembl_document_id": "CHEMBL3526113",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21098647",
+   "title": "Control and measurement of plasma pH in equilibrium dialysis: influence on drug plasma protein binding.",
+   "year": 2011
+  },
+  "CHEMBL3526149": {
+   "chembl_document_id": "CHEMBL3526149",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21071520",
+   "title": "Brain tissue binding of drugs: evaluation and validation of solid supported porcine brain membrane vesicles (TRANSIL) as a novel high-throughput method.",
+   "year": 2011
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 291
+ },
+ "status": "data",
+ "stratum": "N05B"
+}

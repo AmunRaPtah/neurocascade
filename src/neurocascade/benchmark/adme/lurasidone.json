@@ -1,0 +1,57 @@
+{
+ "chembl_query_id": "CHEMBL1237021",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": false,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4770555",
+     "description": "Plasma protein binding in rat at 2 to 10 uM after 30 mins by LC-MS/MS analysis",
+     "ppb_percent": 99.5,
+     "ref": "CHEMBL4765335",
+     "relation": ">",
+     "species": "rat",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.005
+    }
+   ],
+   "summary": [
+    {
+     "max": null,
+     "min": null,
+     "n_censored": 1,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": null
+    }
+   ]
+  }
+ },
+ "inn": "lurasidone",
+ "references": {
+  "CHEMBL4765335": {
+   "chembl_document_id": "CHEMBL4765335",
+   "journal": "Eur J Med Chem",
+   "pmid": "32442850",
+   "title": "Privileged scaffold-based design to identify a novel drug-like 5-HT receptor-preferring agonist to target Fragile X syndrome.",
+   "year": 2020
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 2
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

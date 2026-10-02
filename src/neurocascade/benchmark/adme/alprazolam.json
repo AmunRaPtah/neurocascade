@@ -1,0 +1,273 @@
+{
+ "chembl_query_id": "CHEMBL661",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 6,
+  "human_invivo_vss": 5
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": true
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3537288",
+     "description": "Fraction unbound in Sprague-Dawley rat brain homogenates at 5 uM by equilibrium dialysis analysis",
+     "ref": "CHEMBL3525927",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.16
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.16,
+     "min": 0.16,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.16
+    }
+   ]
+  },
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3301372",
+     "description": "ASTRAZENECA: Intrinsic clearance measured in human hepatocytes following incubation at 37C. Experimental range <3 to >150 microL/min/1E6 cells. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736.",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 3.98
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301371",
+     "description": "ASTRAZENECA: Intrinsic clearance measured in rat hepatocytes following incubation at 37C. Experimental range <3 to >150 microL/min/1E6 cells. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 42.66
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "hepatocytes",
+     "max": 3.98,
+     "min": 3.98,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 3.98
+    },
+    {
+     "matrix": "hepatocytes",
+     "max": 42.66,
+     "min": 42.66,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 42.66
+    }
+   ]
+  },
+  "invivo_vss_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3537289",
+     "description": "Unbound volume of distribution in Sprague-Dawley rat brain slices at 100 nM after 5 hrs",
+     "ref": "CHEMBL3525927",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Vd",
+     "units": "L.kg-1",
+     "value": 6.5
+    }
+   ],
+   "summary": [
+    {
+     "max": 6.5,
+     "min": 6.5,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "L.kg-1",
+     "value": 6.5
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3537290",
+     "description": "Unbound drug partitioning coefficient, Kp of the compound assessed as ratio of unbound concentration in Sprague-Dawley rat brain to unbound concentration in plasma",
+     "ref": "CHEMBL3525927",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 1.07
+    }
+   ],
+   "summary": [
+    {
+     "max": 1.07,
+     "min": 1.07,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 1.07
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL618310",
+     "description": "Unbound fraction (plasma)",
+     "ref": "CHEMBL1148291",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.29
+    },
+    {
+     "assay_chembl_id": "CHEMBL1100461",
+     "description": "Fraction unbound in human plasma",
+     "ref": "CHEMBL1153781",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "logFu",
+     "units": null,
+     "value": 0.29
+    },
+    {
+     "assay_chembl_id": "CHEMBL1043580",
+     "description": "Fraction unbound in human plasma",
+     "ref": "CHEMBL1156824",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.29
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301365",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 71.05,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.2895
+    },
+    {
+     "assay_chembl_id": "CHEMBL639855",
+     "description": "Unbound fraction (plasma)",
+     "ref": "CHEMBL1135488",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.29
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.29,
+     "min": 0.2895,
+     "n_censored": 0,
+     "n_documents": 4,
+     "n_measurements": 4,
+     "species": "human",
+     "units": null,
+     "value": 0.29
+    },
+    {
+     "max": 0.29,
+     "min": 0.29,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "unspecified",
+     "units": null,
+     "value": 0.29
+    }
+   ]
+  }
+ },
+ "inn": "alprazolam",
+ "references": {
+  "CHEMBL1135488": {
+   "chembl_document_id": "CHEMBL1135488",
+   "journal": "J Med Chem",
+   "pmid": "12061889",
+   "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+   "year": 2002
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL3525927": {
+   "chembl_document_id": "CHEMBL3525927",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21149540",
+   "title": "Measurement of unbound drug exposure in brain: modeling of pH partitioning explains diverging results between the brain slice and brain homogenate methods.",
+   "year": 2011
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 99
+ },
+ "status": "data",
+ "stratum": "N05B"
+}

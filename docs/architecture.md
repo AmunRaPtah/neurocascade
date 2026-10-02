@@ -16486,3 +16486,129 @@ Fourteen of the 55 held-out drugs are empty.
 - **No minimum-panel threshold.** A drug with one human Ki has a panel.
   Whether one target suffices for a prediction is a Phase 29-30 question, and
   answering it here would be deciding the score before it is run.
+
+## Phase 28, part three: preclinical ADME/PK inputs per benchmark drug (P28.3)
+
+P28.3 assembles the second input in each benchmark drug's preclinical package:
+the ADME/PK quantities a compound would have had before an IND. The brief names
+four fields — plasma fraction unbound, brain fraction unbound or Kp,uu, in-vitro
+intrinsic clearance (microsomal/hepatocyte), and rodent in-vivo CL/Vss — and
+four source families: Lombardo 2018 companion data, the Fridén/Loryan Kp,uu
+compilations, ChEMBL ADME assays, and primary rat PK papers. Like P28.2 it makes
+no prediction and earns no validated row (ledger rule 1); its result is a
+coverage table, now in the ledger.
+
+### Why ChEMBL is the aggregator, not a scrape of each named source (rule 11)
+
+The brief lists four source families as if they were four separate ingests. Read
+first: ChEMBL_37 already **contains** three of the four as curated activities,
+each row carrying its own species, tissue, units and source document, and the
+document resolves to a PMID. Confirmed by fetching `assay_type=A` activities on
+the parent molecules and reading the documents behind them:
+
+- **Lombardo/Obach IV-PK** — the human CL and Vss trend-analysis databases are
+  in ChEMBL as documents CHEMBL1135488 (Lombardo 2002, *J Med Chem*, PMID
+  12061889), CHEMBL1148291 (Lombardo 2004), CHEMBL1614630/1614632 (Obach 2008
+  670-compound set, PMID 18426954) and CHEMBL3588773 (Lombardo 2016 "Volume of
+  Distribution in Drug Design", PMID 25799158).
+- **Fridén brain tissue binding** — CHEMBL3526149 (Fridén 2011 porcine brain
+  TRANSIL, PMID 21071520) and CHEMBL3525956 (Fridén 2011 species-independence,
+  PMID 21474681).
+- **Loryan unbound brain exposure** — CHEMBL3525927 (Loryan 2011, PMID 21149540)
+  and CHEMBL4373730 (2019 Kp,uu set).
+
+Scraping the published supplements directly was tried and is not available: the
+Elsevier (`ars.els-cdn.com`) and ASPET (`dmd.aspetjournals.org`) supplement
+URLs for Lombardo 2018 all return HTTP 403. ChEMBL is the one machine-readable
+mirror that carries these compilations **with a per-row citation and the
+original species/units**, which is exactly what the sourcing discipline needs.
+So P28.3 ingests ChEMBL ADME activities and resolves each to its primary paper,
+rather than hand-transcribing supplements behind a paywall. The fourth family,
+primary rat PK papers not in ChEMBL, is a documented residual gap (below), not a
+field left blank by oversight.
+
+`scripts/build_benchmark_adme.py` has the same two-stage shape as the P28.2
+build: `fetch` caches ChEMBL activities, assays and documents outside the repo;
+`build` runs offline and writes `src/neurocascade/benchmark/adme/<inn>.json` and
+`coverage.json`. Records load through `neurocascade.benchmark.load_adme_record`
+and `load_adme_coverage`.
+
+### The field classifier
+
+ChEMBL's ADME layer is heterogeneous free text (the parent-molecule pull returns
+~12,700 activities across ~160 `standard_type` values, most of them irrelevant:
+bacterial biotransformation, hepatotoxicity indices, Caco-2 permeability). A
+drug's ADME record keeps only rows `_classify` maps to one of the four fields:
+
+- **plasma_fu** ← `Fu`/`logFu` rows whose tissue/description is plasma, serum or
+  blood, and `PPB` rows (converted, below). In this corpus `logFu` rows store the
+  de-logged fraction (haloperidol 0.08), so they are read as a fraction.
+- **brain_fu** ← `Fu` rows whose tissue or description is brain or cortex.
+- **kp_uu** ← `K(p,uu,brain)`. **kp_total** ← `Kp` (unitless) and `BPR`.
+- **clint** ← `CL` rows naming an in-vitro system (microsomes, hepatocytes, S9,
+  intestinal/cytosol) or carrying a per-mass/per-cell unit; the matrix is
+  recorded.
+- **invivo_cl / invivo_vss** ← `CL` in mL·min⁻¹·kg⁻¹ (or ml/min) and
+  `Vdss`/`Vd` in L·kg⁻¹, that are **not** an in-vitro system.
+
+Two refusals are explicit and tested: a `Kp` row whose unit is cm/s is PAMPA
+permeability, not a partition coefficient, and is dropped; a `PPB` row described
+as microsomal/liver covalent binding is not plasma protein binding.
+
+### The human / non-human boundary for in-vivo PK (the P28.4 seam)
+
+The brief scopes the in-vivo field to **rodent** CL/Vss because this is the
+*preclinical* package. Human in-vivo CL, Vss and half-life are the clinical
+outcomes P28.4 scores the model against; putting them in the preclinical inputs
+here would be scoring against part of the input. So `_classify`'s in-vivo fields
+accept only non-human species, and a human in-vivo CL/Vss row is dropped and
+counted per drug under `excluded` (`human_invivo_cl`, `human_invivo_vss`). A
+test asserts no in-vivo measurement is human. The headline coverage is rodent
+(rat/mouse); dog and monkey in-vivo PK are kept (they are preclinical species a
+real IND package would carry) but tagged by species. In-vitro plasma fu and
+CLint are preclinical regardless of species, so human in-vitro values stay.
+
+Species is read from ChEMBL's `assay_organism`, falling back to the assay
+description when the organism is null — the Lombardo rows say "in man" with no
+organism field, and a null-species row would otherwise be wrongly admissible to
+the rodent in-vivo field. "in man" → human (excluded); "in rat/Wistar/Sprague"
+→ rat. Rows whose species cannot be resolved are kept out of the in-vivo field
+and counted (`species_unresolved_*`).
+
+### Summarising without fabricating a number (rule 1, rule 5)
+
+The first draft summarised each field per species with a single median. That is
+wrong where a field's rows carry different units: a drug's clint rows mix
+mL·min⁻¹·g⁻¹ (microsomal) with µL·min⁻¹·(10⁶cells)⁻¹ (hepatocyte), and a median
+across the two is a number nobody measured. Several `Vdss` rows are even
+mislabelled mL/min/kg (a flow unit) in ChEMBL. The summary therefore computes
+one value **per (species, units, matrix) group**: mL·min⁻¹·g⁻¹ microsomes and
+S9 are separate rows, the mislabelled mL/min/kg Vdss sits alone rather than
+contaminating the L·kg⁻¹ figure, and a reader sees the unit on every value. A
+test (`test_summaries_never_pool_incompatible_units_or_matrices`) enforces this.
+
+Within a group the rule mirrors P28.2: exact (`=`) values only; geometric mean
+within a document (fu, clearance and partition coefficients are ratios/
+concentrations that span decades, so the log scale is the right average), then
+the median across documents, keeping `min`/`max`/`n_measurements`/`n_documents`/
+`n_censored` visible. A `PPB` percent enters plasma_fu as fu = 1 − PPB/100, is
+marked unitless so it pools with the `Fu` fractions, and keeps the original
+percent in `ppb_percent`. Censored (`<`/`>`) rows are stored but never summarised.
+
+Spot checks against well-established human plasma protein binding (a test, not a
+hand-entered number — the build computes these medians): diazepam fu 0.0215
+(~98% bound), haloperidol 0.08 (~90%), fluoxetine 0.0514 (~95%).
+
+### Coverage and the residual gap
+
+80 of 185 drugs have at least one preclinical field (53 train, 27 held out), from
+903 cited measurements across 117 ChEMBL documents. Per field: plasma fu 71,
+brain fu/Kp,uu 40, in-vitro CLint 47, rodent in-vivo CL 22, rodent Vss 22. The
+105 empties are the same population as P28.2's — the N05B benzodiazepines and the
+pre-2000 regional antipsychotics/antidepressants, characterised before the
+microsomal-stability and brain-binding assay era — plus a few marketed drugs
+(asenapine, droperidol, penfluridol) whose ADME is only in closed primary PK
+papers. The fourth brief source, primary rat PK papers not in ChEMBL, would
+reach some of these, but transcribing per-drug paywalled PK was out of scope for
+a reproducible single-source build; it is recorded as the known residual gap in
+the searched-and-empty row rather than closed by an invented value.

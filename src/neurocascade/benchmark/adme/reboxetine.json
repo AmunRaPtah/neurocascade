@@ -1,0 +1,202 @@
+{
+ "chembl_query_id": "CHEMBL14370",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 4,
+  "human_invivo_vss": 2
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": false,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3537180",
+     "description": "Fraction unbound in Beagle dog brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.058
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537179",
+     "description": "Fraction unbound in Hartley guinea pig brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "guinea_pig",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.043
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537182",
+     "description": "Fraction unbound in human occipital cortex at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.046
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537181",
+     "description": "Fraction unbound in cynomolgus monkey brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.074
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537178",
+     "description": "Fraction unbound in CD-1 mouse brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.051
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537177",
+     "description": "Fraction unbound in Sprague-Dawley rat brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.033
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537176",
+     "description": "Fraction unbound in Wistar Han rat brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.042
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.058,
+     "min": 0.058,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": null,
+     "value": 0.058
+    },
+    {
+     "max": 0.043,
+     "min": 0.043,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "guinea_pig",
+     "units": null,
+     "value": 0.043
+    },
+    {
+     "max": 0.046,
+     "min": 0.046,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.046
+    },
+    {
+     "max": 0.074,
+     "min": 0.074,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": null,
+     "value": 0.074
+    },
+    {
+     "max": 0.051,
+     "min": 0.051,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": 0.051
+    },
+    {
+     "max": 0.042,
+     "min": 0.033,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": null,
+     "value": 0.037229
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1043580",
+     "description": "Fraction unbound in human plasma",
+     "ref": "CHEMBL1156824",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.019
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.019,
+     "min": 0.019,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.019
+    }
+   ]
+  }
+ },
+ "inn": "reboxetine",
+ "references": {
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL3525956": {
+   "chembl_document_id": "CHEMBL3525956",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21474681",
+   "title": "Species independence in brain tissue binding using brain homogenates.",
+   "year": 2011
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 25
+ },
+ "status": "data",
+ "stratum": "N06A"
+}

@@ -1,0 +1,691 @@
+{
+ "chembl_query_id": "CHEMBL549",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 5,
+  "human_invivo_vss": 4
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": true,
+  "rodent_in_vivo_vss": true
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3537180",
+     "description": "Fraction unbound in Beagle dog brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.057
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537179",
+     "description": "Fraction unbound in Hartley guinea pig brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "guinea_pig",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.038
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537182",
+     "description": "Fraction unbound in human occipital cortex at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.047
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537181",
+     "description": "Fraction unbound in cynomolgus monkey brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.061
+    },
+    {
+     "assay_chembl_id": "CHEMBL3536595",
+     "description": "Percentage unbound in Crl:NMRI(Han) mouse brain at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.035
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537178",
+     "description": "Fraction unbound in CD-1 mouse brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.06
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531910",
+     "description": "Percentage unbound in Sprague-Dawley rat brain at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.031
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537177",
+     "description": "Fraction unbound in Sprague-Dawley rat brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.03
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537176",
+     "description": "Fraction unbound in Wistar Han rat brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.05
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.057,
+     "min": 0.057,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": null,
+     "value": 0.057
+    },
+    {
+     "max": 0.038,
+     "min": 0.038,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "guinea_pig",
+     "units": null,
+     "value": 0.038
+    },
+    {
+     "max": 0.047,
+     "min": 0.047,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.047
+    },
+    {
+     "max": 0.061,
+     "min": 0.061,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": null,
+     "value": 0.061
+    },
+    {
+     "max": 0.06,
+     "min": 0.035,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "mouse",
+     "units": null,
+     "value": 0.0475
+    },
+    {
+     "max": 0.05,
+     "min": 0.03,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 3,
+     "species": "rat",
+     "units": null,
+     "value": 0.034865
+    }
+   ]
+  },
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1020693",
+     "description": "Metabolic stability in human liver microsomes assessed as intrinsic clearance per mg of protein",
+     "matrix": "microsomes",
+     "ref": "CHEMBL1139373",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 36.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 36.0,
+     "min": 36.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 36.0
+    }
+   ]
+  },
+  "invivo_cl_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1614677",
+     "description": "Clearance in dog after iv administration",
+     "ref": "CHEMBL1614629",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 14.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL1614679",
+     "description": "Clearance in monkey after iv administration",
+     "ref": "CHEMBL1614629",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 39.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL1614675",
+     "description": "Clearance in rat after iv administration",
+     "ref": "CHEMBL1614629",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 82.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 14.0,
+     "min": 14.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "mL.min-1.kg-1",
+     "value": 14.0
+    },
+    {
+     "max": 39.0,
+     "min": 39.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": "mL.min-1.kg-1",
+     "value": 39.0
+    },
+    {
+     "max": 82.0,
+     "min": 82.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 82.0
+    }
+   ]
+  },
+  "invivo_vss_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1614678",
+     "description": "Volume of distribution at steady state in dog after iv administration",
+     "ref": "CHEMBL1614629",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Vdss",
+     "units": "L.kg-1",
+     "value": 10.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL1614680",
+     "description": "Volume of distribution at steady state in monkey after iv administration",
+     "ref": "CHEMBL1614629",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "Vdss",
+     "units": "L.kg-1",
+     "value": 10.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL1614676",
+     "description": "Volume of distribution at steady state in rat after iv administration",
+     "ref": "CHEMBL1614629",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Vdss",
+     "units": "mL/min/kg",
+     "value": 21.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 10.0,
+     "min": 10.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "L.kg-1",
+     "value": 10.0
+    },
+    {
+     "max": 10.0,
+     "min": 10.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": "L.kg-1",
+     "value": 10.0
+    },
+    {
+     "max": 21.0,
+     "min": 21.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL/min/kg",
+     "value": 21.0
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3531550",
+     "description": "Total brain to plasma partition coefficient of the compound in mdr1a-deficient mouse at 6 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 44.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3530254",
+     "description": "Total brain to plasma partition coefficient of the compound in wild type Crl:CF1 mouse expressing Abcb1a mutant at 6 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 22.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528408",
+     "description": "Total brain to plasma partition coefficient of the compound in mdr1a-deficient rat at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 33.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528201",
+     "description": "Total brain to plasma partition coefficient of the compound in wild type Sprague-Dawley rat expressing Abcb1a at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 10.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534412",
+     "description": "Ratio of drug level in brain to plasma in Sprague-Dawley rat at 10 mg/kg, sc by LC-MS/MS analysis",
+     "ref": "CHEMBL3526130",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 13.4
+    }
+   ],
+   "summary": [
+    {
+     "max": 44.0,
+     "min": 22.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "mouse",
+     "units": null,
+     "value": 31.112698
+    },
+    {
+     "max": 33.0,
+     "min": 10.0,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 3,
+     "species": "rat",
+     "units": null,
+     "value": 15.782951
+    }
+   ]
+  },
+  "kp_uu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3538818",
+     "description": "Unbound brain to plasma partition coefficient of the compound in mdr1a-deficient mouse at 6 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 4.8
+    },
+    {
+     "assay_chembl_id": "CHEMBL3536596",
+     "description": "Unbound brain to plasma partition coefficient of the compound in wild type Crl:CF1 mouse expressing Abcb1a mutant at 6 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 2.4
+    },
+    {
+     "assay_chembl_id": "CHEMBL3536590",
+     "description": "Unbound brain to plasma partition coefficient of the compound in mdr1a-deficient rat at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 2.1
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531911",
+     "description": "Unbound brain to plasma partition coefficient of the compound in wild type Sprague-Dawley rat expressing Abcb1a at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 0.61
+    }
+   ],
+   "summary": [
+    {
+     "max": 4.8,
+     "min": 2.4,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "mouse",
+     "units": null,
+     "value": 3.394113
+    },
+    {
+     "max": 2.1,
+     "min": 0.61,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": null,
+     "value": 1.131813
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3301367",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole dog plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 59.66,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.4034
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301369",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole guinea pig plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 37.06,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "guinea_pig",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.6294
+    },
+    {
+     "assay_chembl_id": "CHEMBL618310",
+     "description": "Unbound fraction (plasma)",
+     "ref": "CHEMBL1148291",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.2
+    },
+    {
+     "assay_chembl_id": "CHEMBL1043580",
+     "description": "Fraction unbound in human plasma",
+     "ref": "CHEMBL1156824",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.2
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301365",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 59.66,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.4034
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301368",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole mouse plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 48.85,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.5115
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528198",
+     "description": "Percentage unbound in Crl:NMRI(Han) mouse plasma at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.32
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301366",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole rat plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 56.3,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.437
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531909",
+     "description": "Percentage unbound in Sprague-Dawley rat plasma at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.5
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.4034,
+     "min": 0.4034,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": null,
+     "value": 0.4034
+    },
+    {
+     "max": 0.6294,
+     "min": 0.6294,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "guinea_pig",
+     "units": null,
+     "value": 0.6294
+    },
+    {
+     "max": 0.4034,
+     "min": 0.2,
+     "n_censored": 0,
+     "n_documents": 3,
+     "n_measurements": 3,
+     "species": "human",
+     "units": null,
+     "value": 0.2
+    },
+    {
+     "max": 0.5115,
+     "min": 0.32,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "mouse",
+     "units": null,
+     "value": 0.41575
+    },
+    {
+     "max": 0.5,
+     "min": 0.437,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": null,
+     "value": 0.4685
+    }
+   ]
+  }
+ },
+ "inn": "citalopram",
+ "references": {
+  "CHEMBL1139373": {
+   "chembl_document_id": "CHEMBL1139373",
+   "journal": "J Med Chem",
+   "pmid": "19108654",
+   "title": "Metabolic soft spot identification and compound optimization in early discovery phases using MetaSite and LC-MS/MS validation.",
+   "year": 2009
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614629": {
+   "chembl_document_id": "CHEMBL1614629",
+   "journal": "J Pharm Sci",
+   "pmid": "15920768",
+   "title": "Extrapolation of human pharmacokinetic parameters from rat, dog, and monkey data: Molecular properties associated with extrapolative success or failure.",
+   "year": 2005
+  },
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL3525946": {
+   "chembl_document_id": "CHEMBL3525946",
+   "journal": "Drug Metab Dispos",
+   "pmid": "22112383",
+   "title": "Species comparison of in vivo P-glycoprotein-mediated brain efflux using mdr1a-deficient rats and mice.",
+   "year": 2012
+  },
+  "CHEMBL3525956": {
+   "chembl_document_id": "CHEMBL3525956",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21474681",
+   "title": "Species independence in brain tissue binding using brain homogenates.",
+   "year": 2011
+  },
+  "CHEMBL3526130": {
+   "chembl_document_id": "CHEMBL3526130",
+   "journal": "Drug Metab Dispos",
+   "pmid": "22899853",
+   "title": "An evaluation of using rat-derived single-dose neuropharmacokinetic parameters to project accurately large animal unbound brain drug concentrations.",
+   "year": 2012
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 261
+ },
+ "status": "data",
+ "stratum": "N06A"
+}
