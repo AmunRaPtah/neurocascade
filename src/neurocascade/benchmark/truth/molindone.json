@@ -1,0 +1,177 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AE02",
+    "ddd": [
+     {
+      "ddd": 50.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "molindone"
+   }
+  ],
+  "label": [
+   {
+    "high": 225,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The usual starting dosage is 50 to 75 mg/day.",
+     "An increase to 225 mg/day may be required in patients with severe symptomatology."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "1275e92f-9573-4d0c-8e77-1c9ac47696d2"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100023897"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 77,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "molindone",
+ "label": {
+  "application_number": [
+   "ANDA090453"
+  ],
+  "brand_name": [
+   "Molindone Hydrochloride"
+  ],
+  "effective_time": "20251217",
+  "generic_name": [
+   "MOLINDONE HYDROCHLORIDE"
+  ],
+  "id": "d7c8ea49-c06c-441d-820e-def3920f7c1e",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "1275e92f-9573-4d0c-8e77-1c9ac47696d2",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "1275e92f-9573-4d0c-8e77-1c9ac47696d2"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 22,
+  "openfda_labels_returned": 1,
+  "openfda_labels_same_entity": 1,
+  "openfda_query": "openfda.generic_name:\"molindone\"",
+  "pet_searched_empty": [
+   {
+    "drug": "molindone",
+    "note": "No PET/SPECT occupancy abstract found for molindone.",
+    "queries": [
+     "(ABSTRACT:\"molindone\" OR TITLE:\"molindone\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"NMSP\")",
+     "(ABSTRACT:\"molindone\" OR TITLE:\"molindone\") AND ABSTRACT:\"occupancy\""
+    ],
+    "target": "D2"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

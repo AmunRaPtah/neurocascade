@@ -1,0 +1,218 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX19",
+    "ddd": [],
+    "index_last_updated": "2026-01-20",
+    "who_name": "gepirone"
+   }
+  ],
+  "label": [
+   {
+    "high": 72.6,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 18.2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dosage of EXXUA is 18.2 mg once daily.",
+     "The maximum recommended daily dosage of EXXUA is 72.6 mg once daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2 Adverse Reactions that Occurred in ≥ 2% of Patients Treated with EXXUA and Greater than the Incidence in Placebo-Treated Patients in Pooled MDD Studies (Study 1 and Study 2)",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 8.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2 Adverse Reactions that Occurred in ≥ 2% of Patients Treated with EXXUA and Greater than the Incidence in Placebo-Treated Patients in Pooled MDD Studies (Study 1 and Study 2)",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2 Adverse Reactions that Occurred in ≥ 2% of Patients Treated with EXXUA and Greater than the Incidence in Placebo-Treated Patients in Pooled MDD Studies (Study 1 and Study 2)",
+     "term": "Weight Increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 0,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 8.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": 3.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [
+    "dizziness postural"
+   ],
+   "sedation": [
+    "sedation",
+    "somnolence"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 1,
+    "n_ar_tables_used": 1,
+    "n_rows_with_drug_arm_value": 23,
+    "set_id": "0c78edd8-6acb-433c-9d34-2527da8d64e1"
+   }
+  }
+ },
+ "inn": "gepirone",
+ "label": {
+  "application_number": [
+   "NDA021164"
+  ],
+  "brand_name": [
+   "EXXUA"
+  ],
+  "effective_time": "20260714",
+  "generic_name": [
+   "GEPIRONE"
+  ],
+  "id": "5694dd0b-7231-c5ba-e063-6394a90a9621",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "0c78edd8-6acb-433c-9d34-2527da8d64e1",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "0c78edd8-6acb-433c-9d34-2527da8d64e1"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL870202",
+      "description": "Elimination half life in human",
+      "ref": "CHEMBL1147799",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 6.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 6.0,
+      "min": 6.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 6.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean terminal half-life is approximately 5 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 5
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The apparent volume of distribution of EXXUA is approximately 94.5L."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 94.5
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1147799": {
+   "chembl_document_id": "CHEMBL1147799",
+   "journal": "J Med Chem",
+   "pmid": "16722631",
+   "title": "An integrated in silico 3D model-driven discovery of a novel, potent, and selective amidosulfonamide 5-HT1A agonist (PRX-00023) for the treatment of anxiety and depression.",
+   "year": 2006
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 7,
+  "openfda_labels_returned": 1,
+  "openfda_labels_same_entity": 1,
+  "openfda_query": "openfda.generic_name:\"gepirone\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

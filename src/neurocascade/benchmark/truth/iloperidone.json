@@ -1,0 +1,398 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AX14",
+    "ddd": [
+     {
+      "ddd": 18.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "iloperidone"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "1 mg twice daily start printed: 2 x 1 = 2 mg/day; 12 mg twice daily upper recommended: 2 x 12 = 24 mg/day",
+    "high": 24,
+    "high_basis": "upper end of recommended range",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Schizophrenia ( 2.1 ) 1 mg twice daily 6 mg to 12 mg twice daily"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "1 mg twice daily start printed: 2 x 1 = 2 mg/day; 12 mg twice daily recommended: 2 x 12 = 24 mg/day",
+    "high": 24,
+    "high_basis": "recommended dose",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Bipolar Mania ( 2.1 ) 1 mg twice daily 12 mg twice daily"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "10%",
+     "frequency_lower": 0.1,
+     "frequency_upper": 0.1,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 10.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Dry Mouth"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Vision Blurred"
+    }
+   ],
+   "eps": [
+    {
+     "description": "2.3%",
+     "frequency_lower": 0.023,
+     "frequency_upper": 0.023,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "0.6%",
+     "frequency_lower": 0.006,
+     "frequency_upper": 0.006,
+     "source": "SIDER 4.1",
+     "term": "Bradykinesia"
+    },
+    {
+     "description": "1.7%",
+     "frequency_lower": 0.017,
+     "frequency_upper": 0.017,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "0.3%",
+     "frequency_lower": 0.003,
+     "frequency_upper": 0.003,
+     "source": "SIDER 4.1",
+     "term": "Parkinsonism"
+    },
+    {
+     "drug_arm_percent": 4.4,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Akathisia"
+    },
+    {
+     "drug_arm_percent": 0.6,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Bradykinesia"
+    },
+    {
+     "drug_arm_percent": 1.7,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Dyskinesia"
+    },
+    {
+     "drug_arm_percent": 1.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Dystonia"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Extrapyramidal Disorder"
+    },
+    {
+     "drug_arm_percent": 0.3,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Parkinsonism"
+    },
+    {
+     "drug_arm_percent": 0.5,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Torticollis"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Orthostatic Hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "15%",
+     "frequency_lower": 0.15,
+     "frequency_upper": 0.15,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 15.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation failure"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Ejaculation Failure"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Sexual Dysfunction"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "9%",
+     "frequency_lower": 0.09,
+     "frequency_upper": 0.09,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    },
+    {
+     "drug_arm_percent": 9.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Weight Increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 10.0,
+   "eps": 5.0,
+   "orthostasis": 5.0,
+   "sedation": 15.0,
+   "seizure": null,
+   "sexual_dysfunction": 4.0,
+   "weight_gain": 9.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention"
+   ],
+   "eps": [
+    "muscle rigidity",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "dizziness postural"
+   ],
+   "sedation": [
+    "sedation"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "anorgasmia",
+    "ejaculation delayed",
+    "erectile dysfunction",
+    "libido decreased",
+    "retrograde ejaculation"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 4,
+    "n_ar_tables_used": 4,
+    "n_rows_with_drug_arm_value": 53,
+    "set_id": "33f60b40-3fca-11de-8f56-0002a5d5c51b"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100071360"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 111,
+    "n_frequency_rows_placebo": 59,
+    "n_frequency_rows_postmarketing": 2,
+    "n_side_effect_rows": 286,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "iloperidone",
+ "label": {
+  "application_number": [
+   "NDA022192"
+  ],
+  "brand_name": [
+   "FANAPT"
+  ],
+  "effective_time": "20260506",
+  "generic_name": [
+   "ILOPERIDONE"
+  ],
+  "id": "2609a5b3-d7ec-48a9-a32b-54a9b207f9aa",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "33f60b40-3fca-11de-8f56-0002a5d5c51b",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "33f60b40-3fca-11de-8f56-0002a5d5c51b"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "elimination half-life, CYP2D6 extensive metabolizers",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The observed mean elimination half-lives for iloperidone, P88, and P95 in CYP2D6 extensive metabolizers (EM) are 18, 26, and 23 hours, respectively"
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 18
+   },
+   {
+    "high": 102,
+    "kind": "pk",
+    "low": 47,
+    "note": "apparent clearance",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "Iloperidone has an apparent clearance (clearance / bioavailability) of 47 to 102 L/h."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "L/h",
+    "value": null
+   },
+   {
+    "high": 2800,
+    "kind": "pk",
+    "low": 1340,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Iloperidone has an apparent volume of distribution of 1340-2800 L."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "L",
+    "value": null
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 7,
+  "openfda_labels_returned": 2,
+  "openfda_labels_same_entity": 2,
+  "openfda_query": "openfda.generic_name:\"iloperidone\"",
+  "pet_searched_empty": [
+   {
+    "drug": "iloperidone",
+    "note": "No human PET/SPECT occupancy study found in Europe PMC abstracts (only radiolabelling, reviews, meta-analyses).",
+    "queries": [
+     "(ABSTRACT:\"iloperidone\" OR TITLE:\"iloperidone\") AND ABSTRACT:\"occupancy\"",
+     "(ABSTRACT:\"iloperidone\" OR ABSTRACT:\"HP 873\" OR ABSTRACT:\"HP-873\") AND (ABSTRACT:\"occupancy\" OR ABSTRACT:\"PET\" OR ABSTRACT:\"positron\" OR ABSTRACT:\"SPECT\")"
+    ],
+    "target": "D2/5-HT2A"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

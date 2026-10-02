@@ -1,0 +1,613 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AE04",
+    "ddd": [
+     {
+      "ddd": 80.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 40.0,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "ziprasidone"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "20 mg twice daily = 40 mg/day; 80 mg twice daily = 160 mg/day",
+    "high": 160,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 40,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Ziprasidone capsules should be administered at an initial daily dose of 20 mg twice daily with food.",
+     "An increase to a dose greater than 80 mg twice daily is not generally recommended."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "40 mg twice daily = 80 mg/day; 80 mg twice daily = 160 mg/day",
+    "high": 160,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 80,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "In adults oral ziprasidone should be administered at an initial daily dose of 40 mg twice daily with food.",
+     "subsequently adjusted on the basis of tolerance and efficacy within the range 40 mg to 80 mg twice daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "9%",
+     "frequency_lower": 0.09,
+     "frequency_upper": 0.09,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "description": "1.6%",
+     "frequency_lower": 0.016,
+     "frequency_upper": 0.016,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 9.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11: Treatment-Emergent Adverse Reaction Incidence in Short-Term Oral Placebo-Controlled Trials-Schizophrenia",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "10%",
+     "frequency_lower": 0.1,
+     "frequency_upper": 0.1,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Bradykinesia"
+    },
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Cogwheel rigidity"
+    },
+    {
+     "description": "1.2%",
+     "frequency_lower": 0.012,
+     "frequency_upper": 0.012,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "31%",
+     "frequency_lower": 0.31,
+     "frequency_upper": 0.31,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "31%",
+     "frequency_lower": 0.31,
+     "frequency_upper": 0.31,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal symptoms"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Oculogyric crisis"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Opisthotonus"
+    },
+    {
+     "description": "1.2%",
+     "frequency_lower": 0.012,
+     "frequency_upper": 0.012,
+     "source": "SIDER 4.1",
+     "term": "Parkinsonism"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Tardive dyskinesia"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Torticollis"
+    },
+    {
+     "drug_arm_percent": 10.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Akathisia"
+    },
+    {
+     "drug_arm_percent": 31.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Extrapyramidal Symptoms*"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dizziness postural"
+    },
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Hypersomnia"
+    },
+    {
+     "description": "31%",
+     "frequency_lower": 0.31,
+     "frequency_upper": 0.31,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 31.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Grand mal convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Abnormal ejaculation"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Anorgasmia"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Female sexual dysfunction"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Male sexual dysfunction"
+    }
+   ],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 9.0,
+   "eps": 31.0,
+   "orthostasis": 5.0,
+   "sedation": 31.0,
+   "seizure": 0.1,
+   "sexual_dysfunction": 0.1,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "dystonia"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 3,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 43,
+    "set_id": "947881af-08e6-47eb-87e3-24cc162c12bc"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100060853"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 821,
+    "n_frequency_rows_placebo": 142,
+    "n_frequency_rows_postmarketing": 78,
+    "n_side_effect_rows": 698,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "ziprasidone",
+ "label": {
+  "application_number": [
+   "ANDA077561"
+  ],
+  "brand_name": [
+   "ziprasidone hydrochloride"
+  ],
+  "effective_time": "20260811",
+  "generic_name": [
+   "ZIPRASIDONE HCL"
+  ],
+  "id": "c1a0ae4c-8934-4dcf-ac0d-0a747d7191de",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "947881af-08e6-47eb-87e3-24cc162c12bc",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "947881af-08e6-47eb-87e3-24cc162c12bc"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 5.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 5.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 5.1
+     }
+    ],
+    "summary": [
+     {
+      "max": 5.1,
+      "min": 5.1,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 5.1
+     },
+     {
+      "max": 5.1,
+      "min": 5.1,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 5.1
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 3.1
+     }
+    ],
+    "summary": [
+     {
+      "max": 3.1,
+      "min": 3.1,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 3.1
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 1.0,
+      "min": 1.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 1.0
+     },
+     {
+      "max": 1.0,
+      "min": 1.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 1.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean terminal half-life within clinical dose range",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Elimination of ziprasidone is mainly via hepatic metabolism with a mean terminal half-life of about 7 hours within the proposed clinical dose range."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 7
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean apparent systemic clearance",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "The mean apparent systemic clearance is 7.5 mL/min/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "mL/min/kg",
+    "value": 7.5
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Ziprasidone has a mean apparent volume of distribution of 1.5 L/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 1.5
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 194,
+  "openfda_labels_returned": 39,
+  "openfda_labels_same_entity": 39,
+  "openfda_query": "openfda.generic_name:\"ziprasidone\"",
+  "pet_searched_empty": [
+   {
+    "drug": "ziprasidone",
+    "note": "Candidate human PET studies found (Mamo 2004 PMID 15121646 D2 mean 56%/5-HT2 76% at 40-160 mg/day; Suzuki 2013 PMID 23417515 60 mg bid time-course 66/39/2% putamen; Vernaleken 2008 PMID 19011428 40 mg single dose) but in every abstract the oral dose and the occupancy value appear in separate, non-adjacent sentences (dose in Methods, pooled/time-course value in Results) so no <=2-sentence contiguous quote contains both dose and occupancy. Skipped per quote rule.",
+    "queries": [
+     "(TITLE:\"ziprasidone\" OR ABSTRACT:\"ziprasidone\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:raclopride OR ABSTRACT:setoperone)",
+     "(TITLE:\"ziprasidone\" ...) AND ABSTRACT:\"occupancy\" AND ABSTRACT:\"mg\""
+    ],
+    "target": "D2"
+   }
+  ]
+ },
+ "split": "heldout",
+ "stratum": "N05A"
+}

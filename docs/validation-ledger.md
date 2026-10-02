@@ -119,6 +119,9 @@ Recorded as real results, per the standing honesty discipline.
 | A haloperidol cortical/frontal 5-HT2 occupancy paired to a plasma concentration (to score the Ki-derived off-target curve quantitatively) | P23.2 | none reachable open-access. The robust, repeatedly reported fact is ordinal — haloperidol shows high striatal D2 and comparatively low cortical 5-HT2 occupancy (Kapur & Remington 1996; Farde/Nyberg 1995 established the reciprocal crossover for risperidone, 5-HT2 78–88% ≥ D2 75–80% at 6 mg/day) — but a per-subject or group-mean haloperidol 5-HT2 occupancy with a matched plasma concentration sits in paywalled setoperone/NMSP PET tables. The directional check (sign of 5-HT2A−D2) is used instead and labelled n=1, direction-only. Supersedable by one open paired datum |
 | A human Ki panel for 67 of the 185 benchmark drugs (list under "Benchmark input coverage") | P28.2 | none with a printed value in PDSP (full CSV), ChEMBL_37 or GtoPdb 2026.3, after exact-INN, alias, ChEMBL-parent and InChIKey matching. Three kinds of gap. **Species**: the benzodiazepine-site Ki is rat or bovine brain; 81 non-human ChEMBL rows each for lorazepam and iproniazide. **Unit**: GtoPdb prints only human pIC50 for iclepertin, levomilnacipran, mardepodect and pexacerfont, and no affinity at all for brexanolone's GABA-A action. **Absence**: most regional and older drugs have nothing in any source. The action type is still recorded where a source prints one (`actions_without_ki`). Not filled by substituting a racemate, enantiomer, prodrug or metabolite |
 | Any preclinical ADME/PK field (plasma fu, brain fu/Kp,uu, in-vitro CLint, rodent in-vivo CL/Vss) for 105 of the 185 benchmark drugs (coverage under "Benchmark input coverage"; `adme/<inn>.json` `status: searched_and_empty`) | P28.3 | none in ChEMBL_37's ADME activities (`assay_type=A`) on the drug's parent molecule. ChEMBL carries the compilations the brief names (Lombardo 2002/2008/2016, Obach 2008, Fridén 2011, Loryan 2011), so a drug absent from ChEMBL's ADME tables has no cited value to take. The gap is the same population as P28.2's: 30 of 35 N05B benzodiazepines and most pre-2000 regional antipsychotics/antidepressants (acepromazine, dimetacrine, pivagabine, prothipendyl, …) were characterised before the microsomal-stability/brain-binding assay era and their ADME sits only in closed primary PK papers. No value was taken from a paywalled Lombardo/Fridén supplement (publisher returns HTTP 403) or substituted across entity (racemate/enantiomer/prodrug). Primary rat PK exists in the literature for some empty drugs but is not in ChEMBL; transcribing it per drug is deferred, recorded as a known residual gap not an invented value |
+| The Lombardo 2018 1352-drug human IV PK set (Drug Metab Dispos 46:1466, PMID 30115648) as such | P28.4 | not reachable: Unpaywall lists the publisher PDF as the only OA location and it and the supplement (`DMD82966_supplemental_data.xlsx`) return HTTP 403; ChEMBL_37 has no document for PMID 30115648. Human CL/Vss/t1/2 were taken instead from the compilations ChEMBL does carry row by row (Obach 2008 PMID 18426954, Lombardo 2002-2016), so the IV truth covers 46 drugs for CL, 48 Vss, 55 t1/2 rather than whatever the 2018 superset would add. No value was copied from a third-party mirror of the paywalled file |
+| Any human clinical truth (IV PK, label, WHO DDD, PET, SIDER) for 45 of the 185 benchmark drugs | P28.4 | none in ChEMBL_37 human in-vivo PK, openFDA (no US label for the entity), the WHO ATC/DDD index (no DDD assigned, or no ATC code), the 82-row abstract PET set, or SIDER 4.1. 16 of the 17 FAIL drugs are here: a compound that failed in phase 2/3 has no label, no DDD and no post-approval PK compilation, so its clinical truth is the trial outcome P28.1 already recorded (`failure.pmid`), not a label vector. The rest are regional and withdrawn drugs (alaproclate, amineptine, bifemelane, cyamemazine, etifoxine, etizolam, mosapramine, pipotiazine, tofisopam, …). List in `truth/coverage.json` |
+| Human PET occupancy with a stated oral dose, printed in an abstract, for 33 benchmark drug/target pairs | P28.4 | none in Europe PMC abstracts. Two causes, recorded per drug in `scripts/benchmark_truth_inputs/pet_searched_empty.json` with the queries run. **Not printed contiguously**: ziprasidone (Mamo 2004, Suzuki 2013 give dose in Methods and a pooled occupancy in Results), paliperidone (Arakawa 2008, model-estimated), clozapine (Kapur 1999), sertraline (Parsey 2006), fluoxetine (Meyer 2004 prints no mg). **No human study**: chlorpromazine, thioridazine, pimozide, molindone, iloperidone, pimavanserin and most TCAs and atypical antidepressants. Depot-only data (fluphenazine, perphenazine, zuclopenthixol) are not an oral dose. Full texts were not read, so a value in a paper's table is not excluded by this row |
 
 ## Frozen benchmark split (Phase 28)
 
@@ -254,3 +257,73 @@ The empties are the same population as P28.2's — N05B benzodiazepines and the
 pre-2000 regional drugs characterised before the microsomal-stability and
 brain-binding assay era — plus some marketed drugs (asenapine, droperidol,
 penfluridol) whose ADME sits only in closed primary PK papers not in ChEMBL.
+
+### Human clinical truth: PK, dose, PET, effect labels (P28.4, retrieved 2026-10-02)
+
+Coverage is not a validated claim (rule 1). This is what Phase 29-30 will score
+against. Files: `src/neurocascade/benchmark/truth/<inn>.json`, summaries
+`truth/coverage.json` and `truth/effect_labels.json`, built by
+`scripts/build_benchmark_truth.py`. Rules and the reasons for them are in
+docs/architecture.md under P28.4.
+
+| Stratum | n | IV CL / Vss / t½ | label t½ | WHO DDD (oral) | label dose range | PET D2 / 5-HT2A / SERT | openFDA label | SIDER | effect vector known |
+|---|---|---|---|---|---|---|---|---|---|
+| N05A | 67 | 15 / 16 / 16 | 16 | 56 | 25 | 18 / 6 / 2 | 25 | 26 | 18 |
+| N05B | 35 | 10 / 10 / 12 | 7 | 23 | 10 | 0 / 0 / 0 | 10 | 10 | 6 |
+| N06A | 66 | 20 / 21 / 26 | 22 | 48 | 31 | 0 / 0 / 9 | 31 | 34 | 29 |
+| FAIL | 17 | 1 / 1 / 1 | 1 | 1 | 1 | 0 / 0 / 0 | 1 | 1 | 1 |
+| **All** | **185** | **46 / 48 / 55** | **46** | **128** | **67** | **18 / 6 / 11** | **67** | **71** | **54** |
+| held-out | 55 | 14 / 16 / 17 | 15 | 38 | 21 | 4 / 2 / 4 | 21 | 28 | 19 |
+
+- **Sources.** Human IV CL/Vss/t½ from ChEMBL_37 (Obach 2008 and Lombardo
+  2002-2016 rows; route kept, never pooled across routes). Label PK and dose
+  ranges hand-transcribed from one selected openFDA label per drug (the oral
+  innovator NDA with a psychiatric indication where one exists), 196 items, each
+  with its verbatim sentence; the build refuses a quote not in the label or a
+  number not in its quote. WHO DDD as printed for every ATC code. PET: 82 group
+  occupancies for 27 drugs (D2 54, SERT 20, 5-HT2A 8) from 37 abstracts, each
+  quote checked verbatim against Europe PMC at build time; 8 of the 55 held-out
+  drugs have PET (amisulpride and quetiapine are the non-blind ones).
+- **Truth is itself noisy, and that is measured.** For the 16 drugs with both a
+  ChEMBL IV t½ and a label t½, the two independent sources differ by a median
+  1.17-fold (max 2.47-fold, trazodone; 14 of 16 within 2-fold). Phase 29's
+  half-life fold-error cannot meaningfully go below that floor.
+
+**Effect-label rule (stated before prevalence was computed).** Positive if a
+category's MedDRA term has a drug-arm incidence ≥ 5% in the drug's own adult
+adverse-reaction table, or a non-placebo SIDER 4.1 frequency whose lower bound
+is ≥ 0.05. Negative if no term reaches 5% and either the drug's own table was
+parsed (it lists every reaction above its 2% or 5% inclusion threshold) or every
+category concept named for the drug has a SIDER frequency below 5%. Otherwise
+unknown, never negative. SIDER "postmarketing" rows are not frequencies. The
+twice-placebo half of the label convention is **not** applied. Term lists are
+in `effect_labels.json["terms"]`.
+
+| Effect | Prevalence, all (pos / known) | train | held-out | N05A | N06A | listed at any frequency |
+|---|---|---|---|---|---|---|
+| EPS | 16 / 45 (0.36) | 10 / 30 | 6 / 15 | 13 / 16 | 2 / 24 | 64 / 79 |
+| sedation | 38 / 49 (0.78) | 25 / 31 | 13 / 18 | 15 / 17 | 18 / 26 | 77 / 79 |
+| weight gain | 16 / 44 (0.36) | 11 / 28 | 5 / 16 | 10 / 16 | 5 / 23 | 63 / 79 |
+| anticholinergic | 42 / 46 (0.91) | 26 / 29 | 16 / 17 | 13 / 16 | 25 / 26 | 77 / 79 |
+| orthostasis | 6 / 48 (0.13) | 3 / 32 | 3 / 16 | 4 / 16 | 2 / 26 | 53 / 79 |
+| sexual dysfunction | 14 / 42 (0.33) | 8 / 29 | 6 / 13 | 1 / 15 | 12 / 22 | 63 / 79 |
+| seizure | **0 / 46 (0.00)** | 0 / 31 | 0 / 15 | 0 / 16 | 0 / 25 | 70 / 79 |
+
+- 53 drugs have at least one known effect label (18 held out). The old
+  phenothiazines and TCAs (haloperidol, chlorpromazine, amitriptyline,
+  nortriptyline) are mostly **unknown**: their labels name EPS or dry mouth with
+  no incidence.
+- **Seizure cannot be scored with this truth.** No drug reaches 5%; seizure is a
+  rare, dose-dependent warning, and 70 of 79 drugs with a source name it, so
+  neither vector separates drugs. Phase 30 should drop it or source a different
+  truth (per-dose incidence from the warning sections), not lower the threshold
+  until it separates.
+- **Anticholinergic is near-saturated** (0.91) because dry mouth and
+  constipation at ≥ 5% are common to SSRIs, SNRIs and most antipsychotics. The
+  vector is honest to the rule and is a weak target for AUROC.
+- **The two sources agree on 202 of 224 drug-effect pairs (90.2%)** where a drug
+  has both SIDER frequencies and a parsed table. The disagreements are mostly
+  SIDER-positive: no placebo subtraction (bupropion "akinesia/bradykinesia 8%"
+  counted as EPS), and pediatric tables that SIDER includes but the label parse
+  skips (risperidone weight gain). The term list was not edited after seeing
+  these.

@@ -1,0 +1,445 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AB06",
+    "ddd": [
+     {
+      "ddd": 50.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "sertraline"
+   }
+  ],
+  "label": [
+   {
+    "high": 200,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "MDD ( 2.1 ) 50 mg per day 200 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 200,
+    "high_basis": "maximum recommended dose",
+    "indication": "OCD",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "OCD ( 2.1 ) 25 mg per day (ages 6-12) 50 mg per day (ages ≥ 13) 200 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 200,
+    "high_basis": "maximum recommended dose",
+    "indication": "panic disorder",
+    "kind": "dose",
+    "low": 25,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "PD, PTSD, SAD ( 2.1 ) 25 mg per day 200 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 200,
+    "high_basis": "maximum recommended dose",
+    "indication": "PTSD",
+    "kind": "dose",
+    "low": 25,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "PD, PTSD, SAD ( 2.1 ) 25 mg per day 200 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 200,
+    "high_basis": "maximum recommended dose",
+    "indication": "social anxiety disorder",
+    "kind": "dose",
+    "low": 25,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "PD, PTSD, SAD ( 2.1 ) 25 mg per day 200 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 150,
+    "high_basis": "maximum recommended dose",
+    "indication": "PMDD (continuous dosing)",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "PMDD ( 2.2 ) continuous dosing 50 mg per day 150 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "8%",
+     "frequency_lower": 0.08,
+     "frequency_upper": 0.08,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "16%",
+     "frequency_lower": 0.16,
+     "frequency_upper": 0.16,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Common Adverse Reactions in Pooled Placebo-Controlled Trials in Adults with MDD, OCD, PD, PTSD, SAD, and PMDD",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 14.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Common Adverse Reactions in Pooled Placebo-Controlled Trials in Adults with MDD, OCD, PD, PTSD, SAD, and PMDD",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal symptoms"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dizziness postural"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "15%",
+     "frequency_lower": 0.15,
+     "frequency_upper": 0.15,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 11.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Common Adverse Reactions in Pooled Placebo-Controlled Trials in Adults with MDD, OCD, PD, PTSD, SAD, and PMDD",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "14%",
+     "frequency_lower": 0.14,
+     "frequency_upper": 0.14,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation delayed"
+    },
+    {
+     "description": "19%",
+     "frequency_lower": 0.19,
+     "frequency_upper": 0.19,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation failure"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Female sexual dysfunction"
+    },
+    {
+     "description": "11%",
+     "frequency_lower": 0.11,
+     "frequency_upper": 0.11,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Male sexual dysfunction"
+    },
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Sexual dysfunction"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Common Adverse Reactions in Pooled Placebo-Controlled Trials in Adults with MDD, OCD, PD, PTSD, SAD, and PMDD",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "drug_arm_percent": 8.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Common Adverse Reactions in Pooled Placebo-Controlled Trials in Adults with MDD, OCD, PD, PTSD, SAD, and PMDD",
+     "term": "Ejaculation failure"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Common Adverse Reactions in Pooled Placebo-Controlled Trials in Adults with MDD, OCD, PD, PTSD, SAD, and PMDD",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "drug_arm_percent": 7.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Most Common Sexual Adverse Reactions (≥2% and twice placebo) in Men or Women from ZOLOFT Pooled Controlled Trials in Adults with MDD, OCD, PD, PTSD, SAD, and PMDD",
+     "term": "Libido decreased"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Most Common Sexual Adverse Reactions (≥2% and twice placebo) in Men or Women from ZOLOFT Pooled Controlled Trials in Adults with MDD, OCD, PD, PTSD, SAD, and PMDD",
+     "term": "Male sexual dysfunction"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 16.0,
+   "eps": 1.0,
+   "orthostasis": 0.1,
+   "sedation": 15.0,
+   "seizure": 1.0,
+   "sexual_dysfunction": 19.0,
+   "weight_gain": 1.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "vision blurred"
+   ],
+   "eps": [
+    "dystonia",
+    "muscle rigidity",
+    "oculogyric crisis"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 2,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 27,
+    "set_id": "fda754f6-d0f3-4dce-a17a-927d64f912f7"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100005203"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 1080,
+    "n_frequency_rows_placebo": 266,
+    "n_frequency_rows_postmarketing": 362,
+    "n_side_effect_rows": 781,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "sertraline",
+ "label": {
+  "application_number": [
+   "NDA019839",
+   "NDA020990"
+  ],
+  "brand_name": [
+   "Zoloft"
+  ],
+  "effective_time": "20230808",
+  "generic_name": [
+   "SERTRALINE HYDROCHLORIDE"
+  ],
+  "id": "fd27d2f5-1ade-4dbf-b2d2-bb98daf7da3a",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "fda754f6-d0f3-4dce-a17a-927d64f912f7",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "fda754f6-d0f3-4dce-a17a-927d64f912f7"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "average terminal elimination half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The average terminal elimination half-life of plasma sertraline is about 26 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 26
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 247,
+  "openfda_labels_returned": 158,
+  "openfda_labels_same_entity": 158,
+  "openfda_query": "openfda.generic_name:\"sertraline\"",
+  "pet_searched_empty": [
+   {
+    "drug": "sertraline",
+    "note": "Voineskos 2007 (17497139) ~85% at 'high therapeutic dose' with no mg number; Arakawa 2016 (27082864) 50 mg value is pooled with escitalopram; Parsey 2006 (16213473) prints 25-100 mg dose and 106.8% max occupancy but in non-contiguous sentences; Zitterl 2009 (19717141) 175 mg but no occupancy number. No valid contiguous quote.",
+    "queries": [
+     "(ABSTRACT:sertraline OR TITLE:sertraline) AND occupancy AND (serotonin transporter OR DASB)"
+    ],
+    "target": "SERT"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

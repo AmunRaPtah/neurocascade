@@ -1,0 +1,3351 @@
+{
+ "alprazolam": {
+  "items": [
+   {
+    "derivation": "0.25 mg three times daily printed; 3 x 0.25 = 0.75 mg/day",
+    "high": 4,
+    "high_basis": "maximum recommended dose",
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 0.75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting oral dosage of alprazolam for the acute treatment of patients with GAD is 0.25 mg to 0.5 mg administered three times daily.",
+     "The maximum recommended dosage is 4 mg daily (in divided doses)."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "0.5 mg three times daily printed; 3 x 0.5 = 1.5 mg/day",
+    "high": null,
+    "high_basis": null,
+    "indication": "panic disorder",
+    "kind": "dose",
+    "low": 1.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting oral dosage of alprazolam for the treatment of PD is 0.5 mg three times daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 26.9,
+    "kind": "pk",
+    "low": 6.3,
+    "note": "mean plasma elimination half-life in healthy adults; range 6.3-26.9 h",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean plasma elimination half-life (T 1/2 ) of alprazolam is approximately 11.2 hours (range: 6.3 to 26.9 hours) in healthy adults."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 11.2
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "13930c94-d83a-414f-be35-b1fef35f738d"
+ },
+ "amitriptyline": {
+  "items": [
+   {
+    "high": 150,
+    "high_basis": "upper end of recommended range",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "For outpatients, 75 mg of amitriptyline hydrochloride a day in divided doses is usually satisfactory. If necessary, this may be increased to a total of 150 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "61b29703-cfc2-45c7-ae24-7bf3b77e8587"
+ },
+ "amoxapine": {
+  "items": [
+   {
+    "derivation": "50 mg two or three times daily printed; 2 x 50 = 100 mg/day (low end)",
+    "high": 400,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 100,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Usual starting dosage is 50 mg two or three times daily.",
+     "If no response is seen at 300 mg, dosage may be increased, depending upon tolerance, up to 400 mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "'eight hours' printed; 8 h",
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "serum half-life of parent",
+    "quantity": "t_half_h",
+    "quotes": [
+     "In man, amoxapine serum concentration declines with a half-life of eight hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 8
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "eed5e856-dd7b-4eaa-9dad-508f2bef9328"
+ },
+ "aprepitant": {
+  "items": [
+   {
+    "high": 125,
+    "high_basis": "upper end of recommended range",
+    "indication": "prevention of chemotherapy-induced nausea and vomiting",
+    "kind": "dose",
+    "low": 80,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "EMEND capsules in adults and pediatric patients 12 years of age and older: is 125 mg on Day 1 and 80 mg on Days 2 and 3."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 13,
+    "kind": "pk",
+    "low": 9,
+    "note": "apparent terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The apparent terminal half-life ranged from approximately 9 to 13 hours."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": 90,
+    "kind": "pk",
+    "low": 62,
+    "note": "apparent plasma clearance",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "The apparent plasma clearance of aprepitant ranged from approximately 62 to 90 mL/min."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "mL/min",
+    "value": null
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean apparent volume of distribution at steady state",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The mean apparent volume of distribution at steady state (Vd ss ) was approximately 70 L in humans."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 70
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "696f9e80-9cae-403b-de9e-078343ce4713"
+ },
+ "aripiprazole": {
+  "items": [
+   {
+    "high": 30,
+    "high_basis": "upper end of recommended range",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting and target dose for ABILIFY is 10 or 15 mg/day administered on a once-a-day schedule without regard to meals.",
+     "ABILIFY has been systematically evaluated and shown to be effective in a dose range of 10 to 30 mg/day, when administered as the tablet formulation;"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 30,
+    "high_basis": "maximum recommended dose",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose in adults is 15 mg given once daily as monotherapy and 10 mg to 15 mg given once daily as adjunctive therapy with lithium or valproate.",
+     "The dose may be increased to 30 mg/day based on clinical response."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 15,
+    "high_basis": "upper end of recommended range",
+    "indication": "MDD (adjunctive)",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose for ABILIFY as adjunctive treatment for patients already taking an antidepressant is 2 to 5 mg/day. The recommended dosage range is 2 to 15 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean elimination half-life of parent aripiprazole",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half-lives are about 75 hours and 94 hours for aripiprazole and dehydro-aripiprazole, respectively."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 75
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "steady-state volume of distribution after IV administration (also printed as 4.9 L/kg)",
+    "quantity": "vss",
+    "quotes": [
+     "The steady-state volume of distribution of aripiprazole following intravenous administration is high (404 L or 4.9 L/kg), indicating extensive extravascular distribution."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 404
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "c040bd1d-45b7-49f2-93ea-aed7220b30ac"
+ },
+ "asenapine": {
+  "items": [
+   {
+    "derivation": "5 mg twice daily = 10 mg/day; 10 mg twice daily = 20 mg/day",
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose of SAPHRIS is 5 mg given twice daily.",
+     "If tolerated, daily dosage can be increased to 10 mg twice daily after one week."
+    ],
+    "route": "sublingual",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "5 mg twice daily = 10 mg/day; 10 mg twice daily = 20 mg/day",
+    "high": 20,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting and treatment dose of SAPHRIS is 5 mg to 10 mg twice daily."
+    ],
+    "route": "sublingual",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Following an initial more rapid distribution phase, the terminal half-life of asenapine is approximately 24 hours."
+    ],
+    "route": "unspecified",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 24
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "clearance after IV administration",
+    "quantity": "cl",
+    "quotes": [
+     "Asenapine is a high clearance drug with a clearance after intravenous administration of 52 L/h."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "L/h",
+    "value": 52
+   },
+   {
+    "high": 25,
+    "kind": "pk",
+    "low": 20,
+    "note": "volume of distribution",
+    "quantity": "vd",
+    "quotes": [
+     "Asenapine is rapidly distributed and has a large volume of distribution (approximately 20 - 25 L/kg), indicating extensive extravascular distribution."
+    ],
+    "route": "unspecified",
+    "statistic": "range",
+    "units": "L/kg",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "5429f134-839f-4ffc-9944-55f51238def8"
+ },
+ "brexpiprazole": {
+  "items": [
+   {
+    "high": 3,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD (adjunctive)",
+    "kind": "dose",
+    "low": 0.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting REXULTI dosage for the adjunctive treatment of MDD in adults is 0.5 mg or 1 mg orally once daily .",
+     "The maximum recommended daily dosage is 3 mg."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 4,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 1,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting REXULTI dosage for the treatment of schizophrenia in adults is 1 mg orally once daily on Days 1 to 4.",
+     "On Day 8, the dosage can be increased to the maximum recommended daily dosage of 4 mg based on clinical response and tolerability."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal elimination half-life after multiple once-daily doses",
+    "quantity": "t_half_h",
+    "quotes": [
+     "After multiple once-daily administrations of REXULTI, the terminal elimination half-lives of brexpiprazole and its major metabolite, DM-3411, were 91 hours and 86 hours, respectively."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 91
+   },
+   {
+    "derivation": "19.8 mL/h/kg printed; /1000 = 0.0198 L/h/kg",
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent oral clearance, once daily tablet",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "Apparent oral clearance of a brexpiprazole oral tablet after once daily administration is 19.8 (±11.4) mL/h/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/h/kg",
+    "value": 0.0198
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "volume of distribution after IV",
+    "quantity": "vd",
+    "quotes": [
+     "The volume of distribution of brexpiprazole following intravenous administration is high (1.56 ± 0.42 L/kg), indicating extravascular distribution."
+    ],
+    "route": "iv",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 1.56
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "6991c065-0f6e-433a-8f4f-796e0ece327f"
+ },
+ "bupropion": {
+  "items": [
+   {
+    "high": 400,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 150,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initiate dosing with 150 mg/day given as a single daily dose in the morning.",
+     "A maximum of 400 mg/day, given as 200 mg twice daily, may be considered for patients in whom no clinical improvement is noted after several weeks of treatment at 300 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean elimination half-life after chronic dosing (SD 9 h)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half‑life (±SD) of bupropion after chronic dosing is 21 (±9) hours"
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 21
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "cbc8c074-f080-4489-a5ae-207b5fadeba3"
+ },
+ "buspirone": {
+  "items": [
+   {
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended initial dose is 15 mg daily (7.5 mg b.i.d.).",
+     "The maximum daily dosage should not exceed 60 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 3,
+    "kind": "pk",
+    "low": 2,
+    "note": "average elimination half-life of unchanged buspirone after single doses",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The average elimination half-life of unchanged buspirone after single doses of 10 mg to 40 mg is about 2 to 3 hours."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "fa4d5cac-f687-4440-99d2-8bb27cf2f4ed"
+ },
+ "cariprazine": {
+  "items": [
+   {
+    "high": 6,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 1.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting dosage of VRAYLAR is 1.5 mg orally once daily.",
+     "The maximum recommended dosage is 6 mg orally once daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 6,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 1.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting dosage of VRAYLAR is 1.5 mg orally once daily.",
+     "The recommended dosage range is 3 mg to 6 mg orally once daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 3,
+    "high_basis": "maximum recommended dose",
+    "indication": "bipolar depression",
+    "kind": "dose",
+    "low": 1.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting dosage of VRAYLAR is 1.5 mg orally once daily.",
+     "Maximum recommended dosage is 3 mg orally once daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 3,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD (adjunctive)",
+    "kind": "dose",
+    "low": 1.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting dosage of VRAYLAR is 1.5 mg orally once daily.",
+     "Adjunctive therapy for treatment of MDD in Adults: Maximum recommended daily dosage is 3 mg"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "2 to 4 days printed; 2 x 24 = 48 h, 4 x 24 = 96 h",
+    "high": 96,
+    "kind": "pk",
+    "low": 48,
+    "note": "half-life based on time to reach steady state (parent)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The half-lives based on time to reach steady state, estimated from the mean concentration-time curves, are 2 to 4 days for cariprazine, about 1 to 2 days for DCAR, and approximately 1 to 3 weeks for DDCAR."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "4b5f7c65-aa2d-452a-b3db-bc85c06ff12f"
+ },
+ "chlordiazepoxide": {
+  "items": [
+   {
+    "derivation": "5 mg 3 times daily = 15 mg/day; 25 mg 4 times daily = 100 mg/day",
+    "high": 100,
+    "high_basis": "upper end of recommended range",
+    "indication": "anxiety",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Relief of Mild and Moderate Anxiety Disorders and Symptoms of Anxiety 5 mg or 10 mg, 3 or 4 times daily Relief of Severe Anxiety Disorders and Symptoms of Anxiety 20 mg or 25 mg, 3 or 4 times daily"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 48,
+    "kind": "pk",
+    "low": 24,
+    "note": "half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "It takes several hours for peak blood levels to be reached and the half-life of the drug is between 24 and 48 hours."
+    ],
+    "route": "unspecified",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "9aba3135-00ff-47ba-b926-55eb16b361bf"
+ },
+ "chlorpromazine": {
+  "items": [
+   {
+    "derivation": "10 mg t.i.d. printed; 3 x 10 = 30 mg/day",
+    "high": 1000,
+    "high_basis": "upper end of recommended range",
+    "indication": "schizophrenia / psychotic disorders",
+    "kind": "dose",
+    "low": 30,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Outpatients 10 mg t.i.d. or q.i.d., or 25 mg b.i.d. or t.i.d.",
+     "there is usually little therapeutic gain to be achieved by exceeding 1,000 mg a day for extended periods"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "d1d8fd92-bba6-4521-8cea-3e1089ffd951"
+ },
+ "citalopram": {
+  "items": [
+   {
+    "high": 40,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Administer CELEXA once daily, with or without food, at an initial dosage of 20 mg once daily, with an increase to a maximum dosage of 40 mg once daily at an interval of no less than one week."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Biotransformation of citalopram is mainly hepatic, with a mean terminal half-life of about 35 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 35
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "systemic clearance as printed (~20% renal)",
+    "quantity": "cl",
+    "quotes": [
+     "The systemic clearance of citalopram was 330 mL/min, with approximately 20% of that due to renal clearance."
+    ],
+    "route": "unspecified",
+    "statistic": "approximate",
+    "units": "mL/min",
+    "value": 330
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "volume of distribution",
+    "quantity": "vd",
+    "quotes": [
+     "The volume of distribution of citalopram is about 12 L/kg"
+    ],
+    "route": "unspecified",
+    "statistic": "approximate",
+    "units": "L/kg",
+    "value": 12
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "4259d9b1-de34-43a4-85a8-41dd214e9177"
+ },
+ "clobazam": {
+  "items": [
+   {
+    "high": 40,
+    "high_basis": "maximum recommended dose",
+    "indication": "Lennox-Gastaut syndrome seizures (patients >30 kg)",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Patients >30 kg body weight: Initiate at 10 mg daily and titrate as tolerated up to 40 mg daily"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 42,
+    "kind": "pk",
+    "low": 36,
+    "note": "estimated mean elimination half-life of parent clobazam, printed as range",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The estimated mean elimination half-lives (t 1/2 ) of clobazam and N-desmethylclobazam were 36-42 hours and 71-82 hours, respectively."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution at steady state",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The apparent volume of distribution at steady state was approximately 100 L."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 100
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "de03bd69-2dca-459c-93b4-541fd3e9571c"
+ },
+ "clomipramine": {
+  "items": [
+   {
+    "high": 250,
+    "high_basis": "maximum recommended dose",
+    "indication": "OCD",
+    "kind": "dose",
+    "low": 25,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Treatment with clomipramine hydrochloride capsules should be initiated at a dosage of 25 mg daily and gradually increased, as tolerated, to approximately 100 mg during the first 2 weeks.",
+     "Thereafter, the dosage may be increased gradually over the next several weeks, up to a maximum of 250 mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 37,
+    "kind": "pk",
+    "low": 19,
+    "note": "half-life after a 150 mg dose (mean, range)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "After a 150 mg dose, the half-life of CMI ranges from 19 hours to 37 hours (mean, 32 hr) and that of DMI ranges from 54 hours to 77 hours (mean, 69 hr)."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 32
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "d7cee3fa-d05c-4702-8f75-f446627bdb49"
+ },
+ "clozapine": {
+  "items": [
+   {
+    "derivation": "low: 12.5 mg once daily printed; high: 450 mg twice daily printed; 2 x 450 = 900 mg/day",
+    "high": 900,
+    "high_basis": "maximum recommended dose",
+    "indication": "treatment-resistant schizophrenia",
+    "kind": "dose",
+    "low": 12.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting oral dosage of CLOZARIL is 12.5 mg once or twice daily.",
+     "The maximum recommended CLOZARIL oral dosage is 450 mg twice daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 66,
+    "kind": "pk",
+    "low": 4,
+    "note": "mean elimination half-life at steady state (100 mg twice daily); range 4-66 h",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half-life of clozapine after a single 75 mg dose was 8 hours (range: 4 to 12 hours), compared to a mean elimination half-life of 12 hours (range: 4 to 66 hours), after achieving steady state with 100 mg twice daily dosing."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 12
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "90876802-0e3a-44c9-9ff7-1754dfbe736a"
+ },
+ "desipramine": {
+  "items": [
+   {
+    "high": 300,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 100,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The usual adult dose is 100 mg to 200 mg per day.",
+     "Dosages above 300 mg/day are not recommended."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "70b562ea-9f21-4e4a-b3ed-0590b2892f6a"
+ },
+ "desvenlafaxine": {
+  "items": [
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose for PRISTIQ is 50 mg once daily, with or without food."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "steady-state volume of distribution",
+    "quantity": "vss",
+    "quotes": [
+     "Steady-state volume of distribution of desvenlafaxine is 3.4 L/kg."
+    ],
+    "route": "unspecified",
+    "statistic": "unspecified",
+    "units": "L/kg",
+    "value": 3.4
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "0f43610c-f290-46ea-d186-4f998ed99fce"
+ },
+ "diazepam": {
+  "items": [
+   {
+    "derivation": "2 mg 2 times daily = 4 mg/day; 10 mg 4 times daily = 40 mg/day",
+    "high": 40,
+    "high_basis": "upper end of recommended range",
+    "indication": "anxiety",
+    "kind": "dose",
+    "low": 4,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Management of Anxiety Disorders and Relief of Symptoms of Anxiety. Depending upon severity of symptoms—2 mg to 10 mg, 2 to 4 times daily"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 48,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal elimination half-life, up to 48 h",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The initial distribution phase is followed by a prolonged terminal elimination phase (half-life up to 48 hours)."
+    ],
+    "route": "unspecified",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": 30,
+    "kind": "pk",
+    "low": 20,
+    "note": "clearance in young adults",
+    "quantity": "cl",
+    "quotes": [
+     "The clearance of diazepam is 20 to 30 mL/min in young adults."
+    ],
+    "route": "unspecified",
+    "statistic": "range",
+    "units": "mL/min",
+    "value": null
+   },
+   {
+    "high": 1.0,
+    "kind": "pk",
+    "low": 0.8,
+    "note": "volume of distribution at steady state, young healthy males",
+    "quantity": "vss",
+    "quotes": [
+     "In young healthy males, the volume of distribution at steady-state is 0.8 to 1.0 L/kg."
+    ],
+    "route": "unspecified",
+    "statistic": "range",
+    "units": "L/kg",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "260e2041-2bb3-482f-850e-b5d47a7bdbe6"
+ },
+ "doxepin": {
+  "items": [
+   {
+    "derivation": "100 mg three times daily printed; 3 x 100 = 300 mg/day",
+    "high": 300,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting oral dosage for doxepin hydrochloride capsule is 25 mg three times daily or 75 mg once daily.",
+     "The maximum recommended oral dosage for doxepin hydrochloride capsule is 100 mg three times daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 24,
+    "kind": "pk",
+    "low": 8,
+    "note": "plasma elimination half-life in healthy volunteers",
+    "quantity": "t_half_h",
+    "quotes": [
+     "In healthy volunteers, the plasma elimination half-life of doxepin ranged from 8 to 24 hours (mean 17 hours)."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 17
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean plasma clearance",
+    "quantity": "cl",
+    "quotes": [
+     "The mean plasma clearance for doxepin was approximately 0.84 L/hour/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/h/kg",
+    "value": 0.84
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The mean apparent volume of distribution for doxepin was approximately 20 L/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 20
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "21dc77be-23af-4a1f-b189-dfee8ae2f894"
+ },
+ "duloxetine": {
+  "items": [
+   {
+    "high": 120,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 40,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dosage in adults with MDD is 40 mg/day (given as 20 mg twice daily) to 60 mg/day (given either once daily or as 30 mg twice daily).",
+     "Maintenance Treatment: 60 mg/day 120 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 120,
+    "high_basis": "maximum recommended dose",
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 60,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Adults 60 mg/day 60 mg/day (once daily) 120 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 17,
+    "kind": "pk",
+    "low": 8,
+    "note": "elimination half-life; range 8-17 h",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Duloxetine has an elimination half-life of about 12 hours (range 8 to 17 hours)"
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 12
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The apparent volume of distribution averages about 1640 L."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L",
+    "value": 1640
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "2f7d4d67-10c1-4bf4-a7f2-c185fbad64ba"
+ },
+ "escitalopram": {
+  "items": [
+   {
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dosage of Lexapro in adults is 10 mg once daily.",
+     "Depending on clinical response and tolerability, dosage may be increased to the maximum recommended dosage of 20 mg once daily at an interval of no less than 1 week."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dosage of Lexapro in adults is 10 mg once daily. Depending on clinical response and tolerability, dosage may be increased to the maximum recommended dosage of 20 mg once daily at an interval of no less than 1 week."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 32,
+    "kind": "pk",
+    "low": 27,
+    "note": "mean terminal half-life, printed as range",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Biotransformation of escitalopram is mainly hepatic, with a mean terminal half-life of about 27-32 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "oral clearance (~7% renal)",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "The oral clearance of escitalopram is 600 mL/min, with approximately 7% of that due to renal clearance."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "mL/min",
+    "value": 600
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "13bb8267-1cab-43e5-acae-55a4d957630a"
+ },
+ "fluoxetine": {
+  "items": [
+   {
+    "high": 80,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initiate PROZAC 20 mg/day orally in the morning.",
+     "The maximum fluoxetine dose should not exceed 80 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 80,
+    "high_basis": "maximum recommended dose",
+    "indication": "OCD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initiate PROZAC 20 mg/day, orally in the morning.",
+     "however, doses of up to 80 mg/day have been well tolerated in open studies of OCD.",
+     "The maximum fluoxetine dose should not exceed 80 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "bulimia nervosa",
+    "kind": "dose",
+    "low": 60,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Administer PROZAC 60 mg/day in the morning."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 60,
+    "high_basis": "upper end of recommended range",
+    "indication": "panic disorder",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initiate treatment with PROZAC 10 mg/day.",
+     "patients were administered fluoxetine doses in the range of 10 to 60 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 50,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar depression (with olanzapine)",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "generally beginning with 5 mg of oral olanzapine and 20 mg of fluoxetine.",
+     "Make dosage adjustments, if indicated, according to efficacy and tolerability within dose ranges of fluoxetine 20 to 50 mg and oral olanzapine 5 to 12.5 mg."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "4 to 6 days printed; 4 x 24 = 96 h, 6 x 24 = 144 h",
+    "high": 144,
+    "kind": "pk",
+    "low": 96,
+    "note": "elimination half-life after chronic administration (1-3 days after acute)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The relatively slow elimination of fluoxetine (elimination half-life of 1 to 3 days after acute administration and 4 to 6 days after chronic administration)"
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "c88f33ed-6dfb-4c5e-bc01-d8e36dd97299"
+ },
+ "fluphenazine": {
+  "items": [
+   {
+    "high": 40,
+    "high_basis": "maximum recommended dose",
+    "indication": "psychotic disorders",
+    "kind": "dose",
+    "low": 2.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "total daily dosage for adult psychotic patients may range initially from 2.5 mg to 10 mg and should be divided and given at 6 to 8 hour intervals.",
+     "Daily doses up to 40 mg may be necessary; controlled clinical studies have not been performed to demonstrate safety of prolonged administration of such doses."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "91b85b8d-4c10-4395-915e-272b81ef3b12"
+ },
+ "fluvoxamine": {
+  "items": [
+   {
+    "high": 300,
+    "high_basis": "maximum recommended dose",
+    "indication": "OCD",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose for Fluvoxamine Maleate Tablets in adult patients is 50 mg, administered as a single daily dose at bedtime.",
+     "until maximum therapeutic benefit is achieved, not to exceed 300 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "plasma half-life at steady state, healthy young volunteers",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean plasma half-life of fluvoxamine at steady state after multiple oral doses of 100 mg/day in healthy, young volunteers was 15.6 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 15.6
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The mean apparent volume of distribution for fluvoxamine is approximately 25 L/kg, suggesting extensive tissue distribution."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 25
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "5198b1c8-8dd6-4b8f-bd85-294ac468af53"
+ },
+ "gepirone": {
+  "items": [
+   {
+    "high": 72.6,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 18.2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dosage of EXXUA is 18.2 mg once daily.",
+     "The maximum recommended daily dosage of EXXUA is 72.6 mg once daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean terminal half-life is approximately 5 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 5
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The apparent volume of distribution of EXXUA is approximately 94.5L."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 94.5
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "0c78edd8-6acb-433c-9d34-2527da8d64e1"
+ },
+ "haloperidol": {
+  "items": [
+   {
+    "derivation": "0.5 mg b.i.d. printed as lowest initial adult dose; 2 x 0.5 = 1 mg/day",
+    "high": 100,
+    "high_basis": "maximum recommended dose",
+    "indication": "psychotic disorders",
+    "kind": "dose",
+    "low": 1,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Moderate Symptomatology - 0.5 mg to 2 mg b.i.d. or t.i.d.",
+     "Daily dosages up to 100 mg may be necessary in some cases to achieve an optimal response."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "a0751f2e-05ab-4ba9-9bae-7b791bf1a621"
+ },
+ "hydroxyzine": {
+  "items": [
+   {
+    "derivation": "50 to 100 mg q.i.d. printed; 4 x 50 = 200 and 4 x 100 = 400 mg/day",
+    "high": 400,
+    "high_basis": "upper end of recommended range",
+    "indication": "anxiety",
+    "kind": "dose",
+    "low": 200,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "For symptomatic relief of anxiety and tension associated with psychoneurosis and as an adjunct in organic disease states in which anxiety is manifested: Adults, 50 to 100 mg q.i.d.;"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "58d99cf6-2319-410b-b8be-de9c304541b6"
+ },
+ "iloperidone": {
+  "items": [
+   {
+    "derivation": "1 mg twice daily start printed: 2 x 1 = 2 mg/day; 12 mg twice daily upper recommended: 2 x 12 = 24 mg/day",
+    "high": 24,
+    "high_basis": "upper end of recommended range",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Schizophrenia ( 2.1 ) 1 mg twice daily 6 mg to 12 mg twice daily"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "1 mg twice daily start printed: 2 x 1 = 2 mg/day; 12 mg twice daily recommended: 2 x 12 = 24 mg/day",
+    "high": 24,
+    "high_basis": "recommended dose",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Bipolar Mania ( 2.1 ) 1 mg twice daily 12 mg twice daily"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "elimination half-life, CYP2D6 extensive metabolizers",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The observed mean elimination half-lives for iloperidone, P88, and P95 in CYP2D6 extensive metabolizers (EM) are 18, 26, and 23 hours, respectively"
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 18
+   },
+   {
+    "high": 102,
+    "kind": "pk",
+    "low": 47,
+    "note": "apparent clearance",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "Iloperidone has an apparent clearance (clearance / bioavailability) of 47 to 102 L/h."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "L/h",
+    "value": null
+   },
+   {
+    "high": 2800,
+    "kind": "pk",
+    "low": 1340,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Iloperidone has an apparent volume of distribution of 1340-2800 L."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "L",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "33f60b40-3fca-11de-8f56-0002a5d5c51b"
+ },
+ "imipramine": {
+  "items": [
+   {
+    "high": 300,
+    "high_basis": "upper end of recommended range",
+    "indication": "depression",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Outpatients - Initially, 75 mg/day increased to 150 mg/day.",
+     "If no response after two weeks, increase to 250 to 300 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "490263ce-b4d2-428a-87da-fcd07f85499a"
+ },
+ "isocarboxazid": {
+  "items": [
+   {
+    "derivation": "10 mg twice daily printed; 2 x 10 = 20 mg/day",
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "depression",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Dosage should be started with one tablet (10 mg) of Marplan twice daily.",
+     "to a maximum recommended dosage of 60 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "95fde749-44ad-4668-86c4-0ff17bca0074"
+ },
+ "levomilnacipran": {
+  "items": [
+   {
+    "high": 120,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "FETZIMA should be initiated at 20 mg once daily for 2 days and then increased to 40 mg once daily.",
+     "The maximum recommended dosage is 120 mg once daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent terminal elimination half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The apparent terminal elimination half-life of levomilnacipran is approximately 12 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 12
+   },
+   {
+    "high": 29,
+    "kind": "pk",
+    "low": 21,
+    "note": "mean apparent total clearance",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "Following an oral administration, the mean apparent total clearance of levomilnacipran is 21-29 L/h."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "L/h",
+    "value": null
+   },
+   {
+    "high": 473,
+    "kind": "pk",
+    "low": 387,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Levomilnacipran is widely distributed with an apparent volume of distribution of 387-473 L;"
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "L",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "f371258d-91b3-4b6a-ac99-434a1964c3af"
+ },
+ "lorazepam": {
+  "items": [
+   {
+    "high": 10,
+    "high_basis": "upper end of recommended range",
+    "indication": "anxiety",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "For anxiety, most patients require an initial dose of 2 to 3 mg/day given two times a day or three times a day.",
+     "The usual range is 2 to 6 mg/day given in divided doses, the largest dose being taken before bedtime, but the daily dosage may vary from 1 to 10 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean half-life of unconjugated lorazepam",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean half-life of unconjugated lorazepam in human plasma is about 12 hours"
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 12
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "89057c93-8155-4040-acec-64e877bd2b4c"
+ },
+ "loxapine": {
+  "items": [
+   {
+    "derivation": "10 mg twice daily printed; 2 x 10 = 20 mg/day",
+    "high": 250,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initial dosage of 10 mg twice daily is recommended, although in severely disturbed patients initial dosage up to a total of 50 mg daily may be desirable.",
+     "Daily dosage higher than 250 mg is not recommended."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "ce8c5a31-7600-4525-a0c7-b3adc9ec2977"
+ },
+ "lumateperone": {
+  "items": [
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 42,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended CAPLYTA dosage is 42 mg administered orally once daily with or without food."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "bipolar depression",
+    "kind": "dose",
+    "low": 42,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended CAPLYTA dosage is 42 mg administered orally once daily with or without food."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "MDD (adjunctive)",
+    "kind": "dose",
+    "low": 42,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended CAPLYTA dosage is 42 mg administered orally once daily with or without food."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal half-life after IV administration",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The clearance of lumateperone is approximately 27.9 L/hour and the terminal half-life is about 18 hours after intravenous administration."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 18
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "clearance after IV administration",
+    "quantity": "cl",
+    "quotes": [
+     "The clearance of lumateperone is approximately 27.9 L/hour and the terminal half-life is about 18 hours after intravenous administration."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "L/h",
+    "value": 27.9
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "volume of distribution after IV administration",
+    "quantity": "vd",
+    "quotes": [
+     "The volume of distribution of lumateperone following intravenous administration is about 4.1 L/kg."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "L/kg",
+    "value": 4.1
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "db730b06-6351-47fd-8183-e61e61bbead5"
+ },
+ "lurasidone": {
+  "items": [
+   {
+    "high": 160,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 40,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose of LATUDA is 40 mg once daily.",
+     "The maximum recommended dose is 160 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 120,
+    "high_basis": "maximum recommended dose",
+    "indication": "bipolar depression",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose of LATUDA is 20 mg given once daily as monotherapy or as adjunctive therapy with lithium or valproate.",
+     "The maximum recommended dose, as monotherapy or as adjunctive therapy with lithium or valproate, is 120 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "elimination half-life after 40 mg",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Following administration of 40 mg of LATUDA, the mean (%CV) elimination half-life was 18 ( 7 ) hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 18
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent clearance after 40 mg",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "Following administration of 40 mg of LATUDA, the mean (%CV) apparent clearance was 3902 (18.0) mL/min."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "mL/min",
+    "value": 3902
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution after 40 mg",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Following administration of 40 mg of LATUDA, the mean (%CV) apparent volume of distribution was 6173 (17.2) L."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L",
+    "value": 6173
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "afad3051-9df2-4c54-9684-e8262a133af8"
+ },
+ "meprobamate": {
+  "items": [
+   {
+    "high": 2400,
+    "high_basis": "maximum recommended dose",
+    "indication": "anxiety",
+    "kind": "dose",
+    "low": 1200,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The usual adult daily dosage is 1200 mg to 1600 mg, in three or four divided doses; a daily dosage above 2400mg is not recommended."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "17d814e2-b277-4dce-8615-e7fd7cab773f"
+ },
+ "milnacipran": {
+  "items": [
+   {
+    "high": 200,
+    "high_basis": "upper end of recommended range",
+    "indication": "fibromyalgia",
+    "kind": "dose",
+    "low": 100,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose of milnacipran hydrochloride is 100 mg/day (50 mg twice daily).",
+     "Based on individual patient response, the dose may be increased to 200 mg/day (100 mg twice daily)."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 8,
+    "kind": "pk",
+    "low": 6,
+    "note": "terminal elimination half-life (racemate)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "It is excreted predominantly unchanged in urine (55%) and has a terminal elimination half-life of about 6 to 8 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "volume of distribution after single IV dose",
+    "quantity": "vd",
+    "quotes": [
+     "The mean volume of distribution of milnacipran following a single intravenous dose to healthy subjects is approximately 400 L."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 400
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "b66b1850-0d2a-41d6-b0ad-c676166394c7"
+ },
+ "mirtazapine": {
+  "items": [
+   {
+    "high": 45,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose of REMERON/REMERONSolTab is 15 mg once daily, administered orally, preferably in the evening prior to sleep.",
+     "If patients do not have an adequate response to the initial 15 mg dose, increase the dose up to a maximum of 45 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 40,
+    "kind": "pk",
+    "low": 20,
+    "note": "elimination half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Mirtazapine has a half-life of about 20 to 40 hours following oral administration of REMERON or REMERONSolTab."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "98ad1917-a094-44f5-a28f-a64a8cfcd887"
+ },
+ "molindone": {
+  "items": [
+   {
+    "high": 225,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The usual starting dosage is 50 to 75 mg/day.",
+     "An increase to 225 mg/day may be required in patients with severe symptomatology."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "1275e92f-9573-4d0c-8e77-1c9ac47696d2"
+ },
+ "nefazodone": {
+  "items": [
+   {
+    "high": 600,
+    "high_basis": "upper end of recommended range",
+    "indication": "depression",
+    "kind": "dose",
+    "low": 200,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose for nefazodone hydrochloride tablets USP is 200 mg/day, administered in two divided doses (BID).",
+     "In the controlled clinical trials establishing the antidepressant efficacy of nefazodone, the effective dose range was generally 300 to 600 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 4,
+    "kind": "pk",
+    "low": 2,
+    "note": "half-life of parent",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Peak plasma concentrations occur at about one hour and the half-life of nefazodone is 2 to 4 hours."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": 0.87,
+    "kind": "pk",
+    "low": 0.22,
+    "note": "volume of distribution",
+    "quantity": "vd",
+    "quotes": [
+     "In humans the volume of distribution of nefazodone ranges from 0.22 to 0.87 L/kg."
+    ],
+    "route": "unspecified",
+    "statistic": "range",
+    "units": "L/kg",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "0bd4c34a-4f43-4c84-8b98-1d074cba97d5"
+ },
+ "nortriptyline": {
+  "items": [
+   {
+    "derivation": "25 mg three times daily printed as usual adult dose; 3 x 25 = 75 mg/day",
+    "high": 150,
+    "high_basis": "maximum recommended dose",
+    "indication": "depression",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Usual Adult Dose – 25 mg three or four times daily; dosage should begin at a low level and be increased as required.",
+     "Doses above 150 mg/day are not recommended."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "e17dc299-f52d-414d-ab6e-e809bd6f8acb"
+ },
+ "olanzapine": {
+  "items": [
+   {
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Oral olanzapine should be administered on a once-a-day schedule without regard to meals, generally beginning with 5 to 10 mg initially, with a target dose of 10 mg/day within several days.",
+     "Olanzapine is not indicated for use in doses above 20 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 20,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Oral olanzapine should be administered on a once-a-day schedule without regard to meals, generally beginning with 10 or 15 mg.",
+     "Short-term (3-4 weeks) antimanic efficacy was demonstrated in a dose range of 5 mg to 20 mg/day in clinical trials."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 54,
+    "kind": "pk",
+    "low": 21,
+    "note": "half-life; range is 5th to 95th percentile",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Its half-life ranges from 21 to 54 hours (5th to 95th percentile; mean of 30 hr),"
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 30
+   },
+   {
+    "high": 47,
+    "kind": "pk",
+    "low": 12,
+    "note": "apparent plasma clearance; range is 5th to 95th percentile",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "apparent plasma clearance ranges from 12 to 47 L/hr (5th to 95th percentile; mean of 25 L/hr)."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/h",
+    "value": 25
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "volume of distribution",
+    "quantity": "vd",
+    "quotes": [
+     "Olanzapine is extensively distributed throughout the body, with a volume of distribution of approximately 1000 L."
+    ],
+    "route": "unspecified",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 1000
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "b418946a-1ab4-4d89-a012-d94fc361a3c4"
+ },
+ "oxazepam": {
+  "items": [
+   {
+    "derivation": "mild-to-moderate 10 mg 3 times daily = 30 mg/day; severe 30 mg 4 times daily = 120 mg/day",
+    "high": 120,
+    "high_basis": "upper end of recommended range",
+    "indication": "anxiety",
+    "kind": "dose",
+    "low": 30,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "10 to 15 mg, 3 or 4 times daily Severe anxiety syndromes, agitation, or anxiety associated with depression. 15 to 30 mg, 3 or 4 times daily"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 10.9,
+    "kind": "pk",
+    "low": 5.7,
+    "note": "mean elimination half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half-life for oxazepam was approximately 8.2 hours (range 5.7 to 10.9 hours)."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 8.2
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "67f821fa-5663-4d69-82c9-5ee13a09f324"
+ },
+ "paliperidone": {
+  "items": [
+   {
+    "high": 12,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 6,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose of INVEGA (paliperidone) Extended-Release Tablets for the treatment of schizophrenia in adults is 6 mg administered once daily.",
+     "The maximum recommended dose is 12 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 12,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizoaffective disorder",
+    "kind": "dose",
+    "low": 6,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose of INVEGA (paliperidone) Extended-Release Tablets for the treatment of schizoaffective disorder in adults is 6 mg administered once daily.",
+     "The maximum recommended dose is 12 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal elimination half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The terminal elimination half-life of paliperidone is approximately 23 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 23
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution, population analysis",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Based on a population analysis, the apparent volume of distribution of paliperidone is 487 L."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L",
+    "value": 487
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "7b8e5b26-b9e4-4704-921b-3c3c0d159916"
+ },
+ "paroxetine": {
+  "items": [
+   {
+    "high": 50,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Indication Starting Dose Maximum Dose MDD 20 mg 50 mg OCD 20 mg 60 mg PD 10 mg 60 mg PTSD 20 mg 50 mg"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "OCD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Indication Starting Dose Maximum Dose MDD 20 mg 50 mg OCD 20 mg 60 mg PD 10 mg 60 mg PTSD 20 mg 50 mg"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "panic disorder",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Indication Starting Dose Maximum Dose MDD 20 mg 50 mg OCD 20 mg 60 mg PD 10 mg 60 mg PTSD 20 mg 50 mg"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 50,
+    "high_basis": "maximum recommended dose",
+    "indication": "PTSD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Indication Starting Dose Maximum Dose MDD 20 mg 50 mg OCD 20 mg 60 mg PD 10 mg 60 mg PTSD 20 mg 50 mg"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "SAD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting and recommended dosage in patients with SAD is 20 mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting and recommended dosage in patients with GAD is 20 mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean elimination half-life, 30 mg daily for 30 days",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half-life is approximately 21 hours (CV 32%) after oral dosing of 30 mg tablets daily for 30 days of paroxetine."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 21
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "598efb76-93ef-f7de-e063-6394a90a632e"
+ },
+ "perphenazine": {
+  "items": [
+   {
+    "derivation": "4 mg t.i.d. initially printed; 3 x 4 = 12 mg/day; 64 mg daily printed as ceiling",
+    "high": 64,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 12,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Moderately disturbed nonhospitalized patients with schizophrenia: 4 to 8 mg t.i.d. initially;",
+     "Hospitalized patients with schizophrenia: 8 to 16 mg b.i.d. to q.i.d.; avoid dosages in excess of 64 mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 16,
+    "high_basis": "upper end of recommended range",
+    "indication": "severe nausea and vomiting",
+    "kind": "dose",
+    "low": 8,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Severe nausea and vomiting in adults: 8 to 16 mg daily in divided doses; 24 mg occasionally may be necessary;"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 12,
+    "kind": "pk",
+    "low": 9,
+    "note": "plasma elimination half-life, independent of dose",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The plasma elimination half-life of perphenazine was independent of dose and ranged between 9 and 12 hours."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "c4150683-0772-4344-bb1c-f050b84175d6"
+ },
+ "phenelzine": {
+  "items": [
+   {
+    "derivation": "15 mg three times a day printed; 3 x 15 = 45 mg/day",
+    "high": 90,
+    "high_basis": "maximum recommended dose",
+    "indication": "depression (atypical)",
+    "kind": "dose",
+    "low": 45,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The usual starting dose of phenelzine sulfate is one tablet (15 mg) three times a day.",
+     "It may be necessary to increase dosage up to 90 mg per day to obtain sufficient MAO inhibition."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "elimination half-life after single 30 mg dose",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half-life after a single 30 mg dose is 11.6 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 11.6
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "fa041652-fdde-4794-a8d2-279dd309e075"
+ },
+ "pimavanserin": {
+  "items": [
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "Parkinson's disease psychosis",
+    "kind": "dose",
+    "low": 34,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose of NUPLAZID is 34 mg taken orally once daily, without titration."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "plasma half-life of parent",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean plasma half-lives for pimavanserin and the active metabolite ( N -desmethylated metabolite) are approximately 57 hours and 200 hours, respectively."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 57
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution, single 34 mg dose",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Following administration of a single dose of NUPLAZID (34 mg), the mean (SD) apparent volume of distribution was 2173 (307) L."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L",
+    "value": 2173
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "1e6bea44-57d6-4bac-9328-46e1ee59f83b"
+ },
+ "pimozide": {
+  "items": [
+   {
+    "high": 10,
+    "high_basis": "maximum recommended dose",
+    "indication": "Tourette's disorder",
+    "kind": "dose",
+    "low": 1,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "In general, treatment with pimozide tablets, USP should be initiated with a dose of 1 to 2 mg a day in divided doses.",
+     "Doses greater than 0.2 mg/kg/day or 10 mg/day are not recommended."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean serum elimination half-life in schizophrenic patients",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean serum elimination half-life of pimozide in schizophrenic patients was approximately 55 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 55
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "70b079e2-a1f7-4a93-8685-d60a4d7c1280"
+ },
+ "potassium clorazepate": {
+  "items": [
+   {
+    "high": 60,
+    "high_basis": "upper end of recommended range",
+    "indication": "anxiety",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The usual daily dose is 30 mg. The dose should be adjusted gradually within the range of 15 to 60 mg daily in accordance with the response of the patient."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "7.5 mg three times a day printed; 3 x 7.5 = 22.5 mg/day",
+    "high": 90,
+    "high_basis": "maximum recommended dose",
+    "indication": "adjunct for partial seizures",
+    "kind": "dose",
+    "low": 22.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The maximum recommended initial dose in patients over 12 years old is 7.5 mg three times a day. Dosage should be increased by no more than 7.5 mg every week and should not exceed 90 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "6e07efe5-29b6-6d1e-661a-f696c4b17f43"
+ },
+ "prochlorperazine": {
+  "items": [
+   {
+    "derivation": "5 mg 3 times daily = 15 mg/day; 40 mg/day printed",
+    "high": 40,
+    "high_basis": "maximum recommended dose",
+    "indication": "severe nausea and vomiting",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Oral Dosage-Tablets: Usually one 5mg or 10mg tablet 3 or 4 times daily. Daily dosages above 40 mg should be used only in resistant cases."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "5 mg 3 times daily printed; 3 x 5 = 15 mg/day; 20 mg/day printed",
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "non-psychotic anxiety (GAD)",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Non-Psychotic Anxiety--Usual dosage is 5 mg 3 or 4 times daily. Do not administer in doses of more than 20mg per day or for longer than 12 weeks."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "5 mg 3 times daily printed; 3 x 5 = 15 mg/day; 150 mg daily printed",
+    "high": 150,
+    "high_basis": "upper end of recommended range",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "In relatively mild conditions , as seen in private psychiatric practice or in outpatient clinics, dosage is 5 or 10 mg 3 or 4 times daily.",
+     "In more severe disturbances, optimum dosage is usually 100 to 150mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "851dddc0-26da-48eb-b039-cd85384ce864"
+ },
+ "protriptyline": {
+  "items": [
+   {
+    "derivation": "'Fifteen' printed in words = 15 mg/day",
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "depression",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Usual Adult Dosage Fifteen to 40 mg a day divided into 3 or 4 doses. If necessary, dosage may be increased to 60 mg a day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "c6c7c39e-e510-4f4a-bf7a-926f0e075d3a"
+ },
+ "quetiapine": {
+  "items": [
+   {
+    "derivation": "25 mg twice daily printed; 2 x 25 = 50 mg/day",
+    "high": 750,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Schizophrenia - Adults (2.2) 25 mg twice daily 150-750 mg/day 750 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "50 mg twice daily printed; 2 x 50 = 100 mg/day",
+    "high": 800,
+    "high_basis": "maximum recommended dose",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 100,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Bipolar Mania - Adults Monotherapy or as an adjunct to lithium or divalproex (2.2) 50 mg twice daily 400-800 mg/day 800 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 300,
+    "high_basis": "maximum recommended dose",
+    "indication": "bipolar depression",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Bipolar Depression - Adults (2.2) 50 mg once daily at bedtime 300 mg/day 300 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Elimination of quetiapine is mainly via hepatic metabolism with a mean terminal half-life of about 6 hours within the proposed clinical dose range."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 6
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution (SD 4 L/kg)",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Quetiapine is widely distributed throughout the body with an apparent volume of distribution of 10±4 L/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 10
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "8ae62aaf-f8c5-417f-baac-0098369ca322"
+ },
+ "risperidone": {
+  "items": [
+   {
+    "high": 16,
+    "high_basis": "upper end of recommended range",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initial dosing is 2 mg per day.",
+     "Efficacy has been demonstrated in a range of 4 mg to 16 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 6,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The initial dose range is 2 mg to 3 mg per day.",
+     "The effective dose range is 1 mg to 6 mg per day, as studied in the short-term, placebo-controlled trials."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent half-life of parent risperidone in CYP2D6 extensive metabolizers (20 h in poor metabolizers)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The apparent half-life of risperidone was 3 hours (CV=30%) in extensive metabolizers and 20 hours (CV=40%) in poor metabolizers."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 3
+   },
+   {
+    "high": 2,
+    "kind": "pk",
+    "low": 1,
+    "note": "volume of distribution",
+    "quantity": "vd",
+    "quotes": [
+     "The volume of distribution is 1–2 L/kg."
+    ],
+    "route": "unspecified",
+    "statistic": "range",
+    "units": "L/kg",
+    "value": null
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "7e117c7e-02fc-4343-92a1-230061dfc5e0"
+ },
+ "sertraline": {
+  "items": [
+   {
+    "high": 200,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "MDD ( 2.1 ) 50 mg per day 200 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 200,
+    "high_basis": "maximum recommended dose",
+    "indication": "OCD",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "OCD ( 2.1 ) 25 mg per day (ages 6-12) 50 mg per day (ages ≥ 13) 200 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 200,
+    "high_basis": "maximum recommended dose",
+    "indication": "panic disorder",
+    "kind": "dose",
+    "low": 25,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "PD, PTSD, SAD ( 2.1 ) 25 mg per day 200 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 200,
+    "high_basis": "maximum recommended dose",
+    "indication": "PTSD",
+    "kind": "dose",
+    "low": 25,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "PD, PTSD, SAD ( 2.1 ) 25 mg per day 200 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 200,
+    "high_basis": "maximum recommended dose",
+    "indication": "social anxiety disorder",
+    "kind": "dose",
+    "low": 25,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "PD, PTSD, SAD ( 2.1 ) 25 mg per day 200 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 150,
+    "high_basis": "maximum recommended dose",
+    "indication": "PMDD (continuous dosing)",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "PMDD ( 2.2 ) continuous dosing 50 mg per day 150 mg per day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "average terminal elimination half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The average terminal elimination half-life of plasma sertraline is about 26 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 26
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "fda754f6-d0f3-4dce-a17a-927d64f912f7"
+ },
+ "thioridazine": {
+  "items": [
+   {
+    "derivation": "50 mg three times a day printed; 3 x 50 = 150 mg/day",
+    "high": 800,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 150,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The usual starting dose for adult schizophrenic patients is 50 mg to 100 mg three times a day, with a gradual increment to a maximum of 800 mg daily if necessary."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "1fd16a99-e856-4a37-9dae-c443714fac14"
+ },
+ "tiotixene": {
+  "items": [
+   {
+    "derivation": "2 mg three times daily printed; 3 x 2 = 6 mg/day",
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 6,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "In milder conditions, an initial dose of 2 mg three times daily is recommended.",
+     "If indicated, an increase to 60 mg/day total daily dose is often effective."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "9480a406-c85b-ba06-e053-2a95a90a0912"
+ },
+ "tranylcypromine": {
+  "items": [
+   {
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 30,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dosage is 30 mg per day (in divided doses). If patients do not have an adequate response, increase the dosage in increments of 10 mg per day every 1 to 3 weeks to a maximum 30 mg twice daily (60 mg per day)."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "6a0b609b-0625-4c26-91a1-59ee3ece3ddf"
+ },
+ "trazodone": {
+  "items": [
+   {
+    "high": 400,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 150,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The initial dosage of RALDESY for the treatment of MDD in adults is 150 mg daily, taken orally, in divided doses.",
+     "The maximum recommended dosage for outpatients usually should not exceed 400 mg daily in divided doses."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "average terminal elimination half-life, fed state",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The average terminal elimination half-life of RALDESY under fed state is 18 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 18
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "34708cc1-b0b2-4fd0-b9f3-7f008b457fc9"
+ },
+ "trifluoperazine": {
+  "items": [
+   {
+    "derivation": "2 mg b.i.d. printed; 2 x 2 = 4 mg/day",
+    "high": 40,
+    "high_basis": "upper end of recommended range",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 4,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Usual starting dosage is 2 mg to 5 mg b.i.d.",
+     "Most patients will show optimum response on 15 mg or 20 mg daily, although a few may require 40 mg a day or more."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "1 mg twice daily printed; 2 x 1 = 2 mg/day",
+    "high": 6,
+    "high_basis": "maximum recommended dose",
+    "indication": "non-psychotic anxiety (GAD)",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Non-psychotic Anxiety Usual dosage is 1 or 2 mg twice daily. Do not administer at doses of more than 6 mg per day or for longer than 12 weeks."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "f789e8f4-7ed2-4cac-b1b1-5068690cd0ed"
+ },
+ "trimipramine": {
+  "items": [
+   {
+    "high": 200,
+    "high_basis": "maximum recommended dose",
+    "indication": "depression",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initially, 75 mg/day in divided doses, increased to 150 mg/day. Dosages over 200 mg/day are not recommended."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "4f31df66-7dc2-1f04-e054-00144ff88e88"
+ },
+ "venlafaxine": {
+  "items": [
+   {
+    "high": 225,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "For most patients, the recommended starting dose for Effexor XR is 75 mg per day, administered in a single dose.",
+     "Patients not responding to the initial 75 mg per day dose may benefit from dose increases to a maximum of 225 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 225,
+    "high_basis": "maximum recommended dose",
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "GAD (2.3) 37.5-75 mg/day 75 mg/day 225 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 75,
+    "high_basis": "maximum recommended dose",
+    "indication": "social anxiety disorder",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "SAD (2.4) 75 mg/day 75 mg/day 75 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 225,
+    "high_basis": "maximum recommended dose",
+    "indication": "panic disorder",
+    "kind": "dose",
+    "low": 37.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "PD (2.5) 37.5 mg/day 75 mg/day 225 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent elimination half-life (SD 2 h), Effexor XR",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The apparent elimination half-life is 5 ± 2 hours for venlafaxine and 11 ± 2 hours for ODV."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 5
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent clearance at steady state (SD 0.6)",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "Mean ± SD plasma apparent clearance at steady-state is 1.3 ± 0.6 L/h/kg for venlafaxine and 0.4 ± 0.2 L/h/kg for ODV."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/h/kg",
+    "value": 1.3
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution at steady state (SD 3.7)",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The apparent volume of distribution at steady-state is 7.5 ± 3.7 L/kg for venlafaxine and 5.7 ± 1.8 L/kg for ODV."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 7.5
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "c848a5d8-ba94-4c84-80e3-0bf35fb8e32e"
+ },
+ "vilazodone": {
+  "items": [
+   {
+    "high": 40,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Start with an initial dosage of 10 mg once daily with food for 7 days, Then increase to 20 mg once daily with food. The dose may be increased up to 40 mg once daily with food after a minimum of 7 days between dosage increases."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Vilazodone concentrations peaked at a median of 4-5 hours (T max ) after VIIBRYD administration and declined with a terminal half-life of approximately 25 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 25
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "4c55ccfb-c4cf-11df-851a-0800200c9a66"
+ },
+ "vortioxetine": {
+  "items": [
+   {
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose is 10 mg administered orally once daily without regard to meals. Dosage should then be increased to 20 mg/day, as tolerated."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean terminal half-life is approximately 66 hours, and steady-state plasma concentrations are typically achieved within two weeks of dosing."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 66
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The apparent volume of distribution of vortioxetine is approximately 2600 L, indicating extensive extravascular distribution."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 2600
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "bd0107e5-1cb9-4b40-a6af-fa65fcbe6b4e"
+ },
+ "ziprasidone": {
+  "items": [
+   {
+    "derivation": "20 mg twice daily = 40 mg/day; 80 mg twice daily = 160 mg/day",
+    "high": 160,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 40,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Ziprasidone capsules should be administered at an initial daily dose of 20 mg twice daily with food.",
+     "An increase to a dose greater than 80 mg twice daily is not generally recommended."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "40 mg twice daily = 80 mg/day; 80 mg twice daily = 160 mg/day",
+    "high": 160,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 80,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "In adults oral ziprasidone should be administered at an initial daily dose of 40 mg twice daily with food.",
+     "subsequently adjusted on the basis of tolerance and efficacy within the range 40 mg to 80 mg twice daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean terminal half-life within clinical dose range",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Elimination of ziprasidone is mainly via hepatic metabolism with a mean terminal half-life of about 7 hours within the proposed clinical dose range."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 7
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean apparent systemic clearance",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "The mean apparent systemic clearance is 7.5 mL/min/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "mL/min/kg",
+    "value": 7.5
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Ziprasidone has a mean apparent volume of distribution of 1.5 L/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 1.5
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "947881af-08e6-47eb-87e3-24cc162c12bc"
+ },
+ "zuranolone": {
+  "items": [
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "postpartum depression",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dosage of ZURZUVAE is 50 mg taken orally once daily in the evening for 14 days."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 24.6,
+    "kind": "pk",
+    "low": 19.7,
+    "note": "terminal half-life in adults",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The terminal half-life of zuranolone is approximately 19.7 to 24.6 hours in an adult population."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean apparent clearance",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "The mean apparent clearance (CL/F) of zuranolone is 33 L/h."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/h",
+    "value": 33
+   }
+  ],
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "f18e53b0-d0bb-422d-8de7-ab64b7292b29"
+ }
+}

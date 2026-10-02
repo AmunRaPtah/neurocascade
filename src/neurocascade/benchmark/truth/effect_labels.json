@@ -1,0 +1,4575 @@
+{
+ "drugs": {
+  "acepromazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "acetophenazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "adinazolam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "agomelatine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": null,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "alaproclate": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "alprazolam": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N05B"
+  },
+  "amineptine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "amisulpride": {
+   "label": {
+    "anticholinergic": 0,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 0,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "amitriptyline": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "amoxapine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": null,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "aprepitant": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 0,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "FAIL"
+  },
+  "aripiprazole": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "asenapine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "balipodect": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "basimglurant": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "benperidol": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "bentazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "benzoctamine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05B"
+  },
+  "bifemelane": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "bitopertin": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "FAIL"
+  },
+  "bradanicline": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "FAIL"
+  },
+  "brexanolone": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "brexpiprazole": {
+   "label": {
+    "anticholinergic": 0,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "bromazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": null,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "bromperidol": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "bupropion": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 0,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "buspirone": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "butaperazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "butriptyline": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "camazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "captodiame": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "cariprazine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "chlordiazepoxide": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "chlorproethazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "chlorpromazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "chlorprothixene": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "citalopram": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "clobazam": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N05B"
+  },
+  "clomipramine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "clopenthixol": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "clotiapine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "clotiazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "cloxazolam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "clozapine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "cyamemazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "decoglurant": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "desipramine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "desvenlafaxine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "diazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": 1,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N05B"
+  },
+  "dibenzepin": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "dimetacrine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "dixyrazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "dosulepin": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "doxepin": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": null,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "droperidol": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 0,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "duloxetine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "edivoxetine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "emylcamate": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "escitalopram": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "esketamine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "esmethadone": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "ethyl loflazepate": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "etifoxine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "etizolam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "etoperidone": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "fabomotizole": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05B"
+  },
+  "fluanisone": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "fludiazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "fluoxetine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "flupentixol": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "fluphenazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "fluspirilene": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "fluvoxamine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "gedocarnil": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05B"
+  },
+  "gepirone": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 0,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "halazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "haloperidol": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": 0,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "hydroxyzine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "iclepertin": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "iloperidone": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "imipramine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": null,
+    "orthostasis": 1,
+    "sedation": 0,
+    "seizure": 0,
+    "sexual_dysfunction": null,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "imipramine oxide": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "iprindole": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "iproclozide": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "iproniazide": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "isocarboxazid": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 0,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "ketazolam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "lanicemine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "levomepromazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "levomilnacipran": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 0,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 0,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "levosulpiride": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "lofepramine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "lorazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": 0,
+    "sedation": null,
+    "seizure": 0,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "loxapine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": 1,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "lumateperone": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "lurasidone": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "maprotiline": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": 1,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "mardepodect": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "mebutamate": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "medazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "medifoxamine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "melitracen": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "melperone": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "mephenoxalone": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05B"
+  },
+  "meprobamate": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 0,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "mesoridazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "mexazolam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "mianserin": {
+   "label": {
+    "anticholinergic": null,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": null,
+    "seizure": 0,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "milnacipran": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 0,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "minaprine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "mirtazapine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "moclobemide": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "molindone": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "moperone": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "mosapramine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "navacaprant": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "FAIL"
+  },
+  "nefazodone": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "nialamide": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "nomifensine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "nordazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05B"
+  },
+  "nortriptyline": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "olanzapine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "opipramol": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "oxaflozane": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "oxazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "oxitriptan": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "oxypertine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "paliperidone": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "paroxetine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "penfluridol": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "perazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "periciazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "perphenazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "pexacerfont": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "phenelzine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "pimavanserin": {
+   "label": {
+    "anticholinergic": 0,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 0,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "pimozide": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "pinazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05B"
+  },
+  "pipamperone": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "pipotiazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "pivagabine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "pomaglumetad methionil": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "potassium clorazepate": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "prazepam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05B"
+  },
+  "prochlorperazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "promazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "prothipendyl": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "protriptyline": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "quetiapine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "quinupramine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "reboxetine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": null,
+    "sedation": 0,
+    "seizure": 0,
+    "sexual_dysfunction": null,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "remoxipride": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "risperidone": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "roluperidone": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "sertindole": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "sertraline": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "sonepiprazole": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "FAIL"
+  },
+  "sulpiride": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "sultopride": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "thiopropazate": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "thioproperazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "thioridazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "tianeptine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "tiapride": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "tiotixene": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "tofisopam": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05B"
+  },
+  "toloxatone": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "tranylcypromine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "trazodone": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 1
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "trifluoperazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "trifluperidol": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "triflupromazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "trimipramine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "tryptophan": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "venlafaxine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "veralipride": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "verucerfont": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "heldout",
+   "stratum": "FAIL"
+  },
+  "vilazodone": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 1,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N06A"
+  },
+  "viloxazine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "vortioxetine": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 0,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 0,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "zimeldine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N06A"
+  },
+  "ziprasidone": {
+   "label": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "zotepine": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "split": "train",
+   "stratum": "N05A"
+  },
+  "zuclopenthixol": {
+   "label": {
+    "anticholinergic": null,
+    "eps": null,
+    "orthostasis": null,
+    "sedation": null,
+    "seizure": null,
+    "sexual_dysfunction": null,
+    "weight_gain": null
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 1,
+    "orthostasis": 1,
+    "sedation": 1,
+    "seizure": 1,
+    "sexual_dysfunction": 1,
+    "weight_gain": 1
+   },
+   "split": "heldout",
+   "stratum": "N05A"
+  },
+  "zuranolone": {
+   "label": {
+    "anticholinergic": 0,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "listed": {
+    "anticholinergic": 1,
+    "eps": 0,
+    "orthostasis": 0,
+    "sedation": 1,
+    "seizure": 0,
+    "sexual_dysfunction": 0,
+    "weight_gain": 0
+   },
+   "split": "train",
+   "stratum": "N06A"
+  }
+ },
+ "effects": [
+  "eps",
+  "sedation",
+  "weight_gain",
+  "anticholinergic",
+  "orthostasis",
+  "sexual_dysfunction",
+  "seizure"
+ ],
+ "prevalence": {
+  "FAIL": {
+   "label": {
+    "anticholinergic": {
+     "n_known": 1,
+     "n_positive": 1,
+     "prevalence": 1.0
+    },
+    "eps": {
+     "n_known": 1,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "orthostasis": {
+     "n_known": 1,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "sedation": {
+     "n_known": 1,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "seizure": {
+     "n_known": 1,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "sexual_dysfunction": {
+     "n_known": 1,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "weight_gain": {
+     "n_known": 1,
+     "n_positive": 0,
+     "prevalence": 0.0
+    }
+   }
+  },
+  "N05A": {
+   "label": {
+    "anticholinergic": {
+     "n_known": 16,
+     "n_positive": 13,
+     "prevalence": 0.8125
+    },
+    "eps": {
+     "n_known": 16,
+     "n_positive": 13,
+     "prevalence": 0.8125
+    },
+    "orthostasis": {
+     "n_known": 16,
+     "n_positive": 4,
+     "prevalence": 0.25
+    },
+    "sedation": {
+     "n_known": 17,
+     "n_positive": 15,
+     "prevalence": 0.8824
+    },
+    "seizure": {
+     "n_known": 16,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "sexual_dysfunction": {
+     "n_known": 15,
+     "n_positive": 1,
+     "prevalence": 0.0667
+    },
+    "weight_gain": {
+     "n_known": 16,
+     "n_positive": 10,
+     "prevalence": 0.625
+    }
+   }
+  },
+  "N05B": {
+   "label": {
+    "anticholinergic": {
+     "n_known": 3,
+     "n_positive": 3,
+     "prevalence": 1.0
+    },
+    "eps": {
+     "n_known": 4,
+     "n_positive": 1,
+     "prevalence": 0.25
+    },
+    "orthostasis": {
+     "n_known": 5,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "sedation": {
+     "n_known": 5,
+     "n_positive": 5,
+     "prevalence": 1.0
+    },
+    "seizure": {
+     "n_known": 4,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "sexual_dysfunction": {
+     "n_known": 4,
+     "n_positive": 1,
+     "prevalence": 0.25
+    },
+    "weight_gain": {
+     "n_known": 4,
+     "n_positive": 1,
+     "prevalence": 0.25
+    }
+   }
+  },
+  "N06A": {
+   "label": {
+    "anticholinergic": {
+     "n_known": 26,
+     "n_positive": 25,
+     "prevalence": 0.9615
+    },
+    "eps": {
+     "n_known": 24,
+     "n_positive": 2,
+     "prevalence": 0.0833
+    },
+    "orthostasis": {
+     "n_known": 26,
+     "n_positive": 2,
+     "prevalence": 0.0769
+    },
+    "sedation": {
+     "n_known": 26,
+     "n_positive": 18,
+     "prevalence": 0.6923
+    },
+    "seizure": {
+     "n_known": 25,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "sexual_dysfunction": {
+     "n_known": 22,
+     "n_positive": 12,
+     "prevalence": 0.5455
+    },
+    "weight_gain": {
+     "n_known": 23,
+     "n_positive": 5,
+     "prevalence": 0.2174
+    }
+   }
+  },
+  "all": {
+   "label": {
+    "anticholinergic": {
+     "n_known": 46,
+     "n_positive": 42,
+     "prevalence": 0.913
+    },
+    "eps": {
+     "n_known": 45,
+     "n_positive": 16,
+     "prevalence": 0.3556
+    },
+    "orthostasis": {
+     "n_known": 48,
+     "n_positive": 6,
+     "prevalence": 0.125
+    },
+    "sedation": {
+     "n_known": 49,
+     "n_positive": 38,
+     "prevalence": 0.7755
+    },
+    "seizure": {
+     "n_known": 46,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "sexual_dysfunction": {
+     "n_known": 42,
+     "n_positive": 14,
+     "prevalence": 0.3333
+    },
+    "weight_gain": {
+     "n_known": 44,
+     "n_positive": 16,
+     "prevalence": 0.3636
+    }
+   },
+   "listed": {
+    "anticholinergic": {
+     "n_known": 79,
+     "n_positive": 77,
+     "prevalence": 0.9747
+    },
+    "eps": {
+     "n_known": 79,
+     "n_positive": 64,
+     "prevalence": 0.8101
+    },
+    "orthostasis": {
+     "n_known": 79,
+     "n_positive": 53,
+     "prevalence": 0.6709
+    },
+    "sedation": {
+     "n_known": 79,
+     "n_positive": 77,
+     "prevalence": 0.9747
+    },
+    "seizure": {
+     "n_known": 79,
+     "n_positive": 70,
+     "prevalence": 0.8861
+    },
+    "sexual_dysfunction": {
+     "n_known": 79,
+     "n_positive": 63,
+     "prevalence": 0.7975
+    },
+    "weight_gain": {
+     "n_known": 79,
+     "n_positive": 63,
+     "prevalence": 0.7975
+    }
+   }
+  },
+  "heldout": {
+   "label": {
+    "anticholinergic": {
+     "n_known": 17,
+     "n_positive": 16,
+     "prevalence": 0.9412
+    },
+    "eps": {
+     "n_known": 15,
+     "n_positive": 6,
+     "prevalence": 0.4
+    },
+    "orthostasis": {
+     "n_known": 16,
+     "n_positive": 3,
+     "prevalence": 0.1875
+    },
+    "sedation": {
+     "n_known": 18,
+     "n_positive": 13,
+     "prevalence": 0.7222
+    },
+    "seizure": {
+     "n_known": 15,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "sexual_dysfunction": {
+     "n_known": 13,
+     "n_positive": 6,
+     "prevalence": 0.4615
+    },
+    "weight_gain": {
+     "n_known": 16,
+     "n_positive": 5,
+     "prevalence": 0.3125
+    }
+   },
+   "listed": {
+    "anticholinergic": {
+     "n_known": 28,
+     "n_positive": 27,
+     "prevalence": 0.9643
+    },
+    "eps": {
+     "n_known": 28,
+     "n_positive": 25,
+     "prevalence": 0.8929
+    },
+    "orthostasis": {
+     "n_known": 28,
+     "n_positive": 19,
+     "prevalence": 0.6786
+    },
+    "sedation": {
+     "n_known": 28,
+     "n_positive": 28,
+     "prevalence": 1.0
+    },
+    "seizure": {
+     "n_known": 28,
+     "n_positive": 24,
+     "prevalence": 0.8571
+    },
+    "sexual_dysfunction": {
+     "n_known": 28,
+     "n_positive": 25,
+     "prevalence": 0.8929
+    },
+    "weight_gain": {
+     "n_known": 28,
+     "n_positive": 23,
+     "prevalence": 0.8214
+    }
+   }
+  },
+  "train": {
+   "label": {
+    "anticholinergic": {
+     "n_known": 29,
+     "n_positive": 26,
+     "prevalence": 0.8966
+    },
+    "eps": {
+     "n_known": 30,
+     "n_positive": 10,
+     "prevalence": 0.3333
+    },
+    "orthostasis": {
+     "n_known": 32,
+     "n_positive": 3,
+     "prevalence": 0.0938
+    },
+    "sedation": {
+     "n_known": 31,
+     "n_positive": 25,
+     "prevalence": 0.8065
+    },
+    "seizure": {
+     "n_known": 31,
+     "n_positive": 0,
+     "prevalence": 0.0
+    },
+    "sexual_dysfunction": {
+     "n_known": 29,
+     "n_positive": 8,
+     "prevalence": 0.2759
+    },
+    "weight_gain": {
+     "n_known": 28,
+     "n_positive": 11,
+     "prevalence": 0.3929
+    }
+   },
+   "listed": {
+    "anticholinergic": {
+     "n_known": 51,
+     "n_positive": 50,
+     "prevalence": 0.9804
+    },
+    "eps": {
+     "n_known": 51,
+     "n_positive": 39,
+     "prevalence": 0.7647
+    },
+    "orthostasis": {
+     "n_known": 51,
+     "n_positive": 34,
+     "prevalence": 0.6667
+    },
+    "sedation": {
+     "n_known": 51,
+     "n_positive": 49,
+     "prevalence": 0.9608
+    },
+    "seizure": {
+     "n_known": 51,
+     "n_positive": 46,
+     "prevalence": 0.902
+    },
+    "sexual_dysfunction": {
+     "n_known": 51,
+     "n_positive": 38,
+     "prevalence": 0.7451
+    },
+    "weight_gain": {
+     "n_known": 51,
+     "n_positive": 40,
+     "prevalence": 0.7843
+    }
+   }
+  }
+ },
+ "rule": {
+  "listed_vector": "1 if any category term appears in SIDER 4.1 side effects for the drug or in the selected label's adverse-reactions, warnings, precautions or boxed-warning text, at any or no frequency; 0 if the drug has a source and no mention; null if neither source exists",
+  "negative": "no category term reaches 5% and EITHER the drug's own adult adverse-reaction table was parsed (it lists every reaction at or above its inclusion threshold, 2% or 5% in these labels, so a term absent from it is below that) OR, with SIDER frequencies only, every category concept that SIDER or the label names has a printed frequency below 5%",
+  "not_applied": "the 'twice placebo' half of the Highlights convention: SIDER placebo rows are not paired to drug rows by trial, so it cannot be applied uniformly",
+  "null": "otherwise: no frequency-bearing source, or a category concept is named (SIDER side effect, label prose) with no frequency anywhere. Unknown is never defaulted to negative: old labels name haloperidol's EPS and amitriptyline's dry mouth without a number. Synonyms ('weight gain' / 'weight increased') are one concept",
+  "positive": "a category term has a drug-arm incidence >= 5% in the drug's own adult adverse-reaction table (selected openFDA label), or a SIDER 4.1 non-placebo frequency row whose LOWER bound is >= 0.05",
+  "postmarketing": "SIDER rows described 'postmarketing' (stored as 0-0.001) are not frequency evidence: a spontaneous report has no denominator. They count toward the listed vector only",
+  "threshold_percent": 5.0,
+  "why_5_percent": "the incidence most US labels use for their Highlights 'most common adverse reactions'; the CIOMS 'common' boundary (1%) admits almost every term in a psychiatric label table. Fixed before any prevalence was computed; every per-term maximum is stored so another threshold can be applied without refetching",
+  "why_lower_bound": "SIDER encodes a frequency word as a range ('frequent' = 0.01-1); only the lower bound is a frequency the label actually asserts"
+ },
+ "terms": {
+  "anticholinergic": [
+   "dry mouth",
+   "constipation",
+   "urinary retention",
+   "vision blurred",
+   "blurred vision"
+  ],
+  "eps": [
+   "extrapyramidal disorder",
+   "extrapyramidal symptoms",
+   "extrapyramidal syndrome",
+   "extrapyramidal reaction",
+   "extrapyramidal reactions",
+   "extrapyramidal events",
+   "extrapyramidal signs",
+   "extrapyramidal symptom",
+   "eps",
+   "akathisia",
+   "dystonia",
+   "acute dystonia",
+   "parkinsonism",
+   "drug-induced parkinsonism",
+   "parkinsonian syndrome",
+   "dyskinesia",
+   "tardive dyskinesia",
+   "oculogyric crisis",
+   "oculogyration",
+   "muscle rigidity",
+   "cogwheel rigidity",
+   "hypokinesia",
+   "bradykinesia",
+   "torticollis",
+   "opisthotonus"
+  ],
+  "orthostasis": [
+   "orthostatic hypotension",
+   "postural hypotension",
+   "hypotension orthostatic",
+   "dizziness postural",
+   "postural dizziness",
+   "orthostatic intolerance"
+  ],
+  "sedation": [
+   "sedation",
+   "somnolence",
+   "drowsiness",
+   "hypersomnia",
+   "sleepiness"
+  ],
+  "seizure": [
+   "seizure",
+   "seizures",
+   "convulsion",
+   "convulsions",
+   "grand mal convulsion",
+   "epilepsy",
+   "status epilepticus",
+   "generalised tonic-clonic seizure",
+   "generalized tonic-clonic seizure",
+   "tonic-clonic seizure"
+  ],
+  "sexual_dysfunction": [
+   "sexual dysfunction",
+   "ejaculation disorder",
+   "ejaculation delayed",
+   "ejaculation failure",
+   "abnormal ejaculation",
+   "ejaculatory dysfunction",
+   "ejaculation disturbance",
+   "retrograde ejaculation",
+   "erectile dysfunction",
+   "impotence",
+   "libido decreased",
+   "decreased libido",
+   "loss of libido",
+   "anorgasmia",
+   "orgasm abnormal",
+   "abnormal orgasm",
+   "orgasmic disorder",
+   "female orgasmic disorder",
+   "male sexual dysfunction",
+   "female sexual dysfunction",
+   "orgasm delayed",
+   "delayed orgasm",
+   "sexual function abnormal"
+  ],
+  "weight_gain": [
+   "weight increased",
+   "weight gain",
+   "increased weight",
+   "abnormal weight gain",
+   "weight increase"
+  ]
+ }
+}

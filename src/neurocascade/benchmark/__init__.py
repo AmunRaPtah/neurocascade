@@ -1,4 +1,5 @@
-"""Phase 28 retrospective benchmark: the drug list and its frozen held-out split.
+"""Phase 28 retrospective benchmark: the drug list and its frozen held-out split,
+and the per-drug inputs (P28.2 binding, P28.3 ADME) and human truth (P28.4).
 
 ``drugs.json`` and ``split.json`` were built by ``scripts/build_benchmark.py``
 (P28.1). The split is frozen: its sha256 is pinned here, in
@@ -18,6 +19,7 @@ DRUGS_PATH = BENCHMARK_DIR / "drugs.json"
 SPLIT_PATH = BENCHMARK_DIR / "split.json"
 BINDING_DIR = BENCHMARK_DIR / "binding"
 ADME_DIR = BENCHMARK_DIR / "adme"
+TRUTH_DIR = BENCHMARK_DIR / "truth"
 
 SPLIT_SHA256 = "54a08acfe76b21237bd3152653184796c875f064c66408c9449980f9df6628d9"
 
@@ -79,3 +81,26 @@ def load_adme_record(inn: str) -> dict:
 def load_adme_coverage() -> dict:
     """The P28.3 coverage summary and per-drug coverage rows."""
     return json.loads((ADME_DIR / "coverage.json").read_text())
+
+
+def truth_record_path(inn: str) -> Path:
+    return TRUTH_DIR / f"{inn.replace(' ', '_')}.json"
+
+
+def load_truth_record(inn: str) -> dict:
+    """One drug's P28.4 human clinical truth (PK, dose, PET, effect labels).
+    Raises ``KeyError`` for a non-benchmark INN."""
+    path = truth_record_path(inn)
+    if not path.exists():
+        raise KeyError(f"{inn!r} is not a benchmark drug with a P28.4 truth record")
+    return json.loads(path.read_text())
+
+
+def load_truth_coverage() -> dict:
+    """The P28.4 coverage summary and per-drug coverage rows."""
+    return json.loads((TRUTH_DIR / "coverage.json").read_text())
+
+
+def load_effect_labels() -> dict:
+    """The P28.4 clinical-effect label matrix, its rule, and prevalence per effect."""
+    return json.loads((TRUTH_DIR / "effect_labels.json").read_text())

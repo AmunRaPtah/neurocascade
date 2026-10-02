@@ -1,0 +1,201 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05BB01",
+    "ddd": [
+     {
+      "ddd": 75.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 75.0,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "hydroxyzine"
+   },
+   {
+    "atc_code": "N05BB51",
+    "ddd": [],
+    "index_last_updated": "2026-01-20",
+    "who_name": "hydroxyzine, combinations"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "50 to 100 mg q.i.d. printed; 4 x 50 = 200 and 4 x 100 = 400 mg/day",
+    "high": 400,
+    "high_basis": "upper end of recommended range",
+    "indication": "anxiety",
+    "kind": "dose",
+    "low": 200,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "For symptomatic relief of anxiety and tension associated with psychoneurosis and as an adjunct in organic disease states in which anxiety is manifested: Adults, 50 to 100 mg q.i.d.;"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "dry mouth"
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    "sedation",
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "58d99cf6-2319-410b-b8be-de9c304541b6"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100003658"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 26,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "hydroxyzine",
+ "label": {
+  "application_number": [
+   "ANDA040840"
+  ],
+  "brand_name": [
+   "HydrOXYzine Hydrochloride"
+  ],
+  "effective_time": "20260908",
+  "generic_name": [
+   "HYDROXYZINE HYDROCHLORIDE"
+  ],
+  "id": "5afc478b-c131-fcff-e063-6394a90aad18",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "58d99cf6-2319-410b-b8be-de9c304541b6",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "58d99cf6-2319-410b-b8be-de9c304541b6"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL633319",
+      "description": "Pharmacokinetic parameter :half life in humans was reported",
+      "ref": "CHEMBL1131523",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 20.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 20.0,
+      "min": 20.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 20.0
+     }
+    ]
+   }
+  },
+  "label": []
+ },
+ "references": {
+  "CHEMBL1131523": {
+   "chembl_document_id": "CHEMBL1131523",
+   "journal": "J Med Chem",
+   "pmid": "9526560",
+   "title": "Molecular properties and pharmacokinetic behavior of cetirizine, a zwitterionic H1-receptor antagonist.",
+   "year": 1998
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 72,
+  "openfda_labels_returned": 220,
+  "openfda_labels_same_entity": 151,
+  "openfda_query": "openfda.generic_name:\"hydroxyzine\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05B"
+}

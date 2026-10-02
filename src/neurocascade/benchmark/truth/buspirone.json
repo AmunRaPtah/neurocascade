@@ -1,0 +1,321 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05BE01",
+    "ddd": [
+     {
+      "ddd": 30.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "buspirone"
+   }
+  ],
+  "label": [
+   {
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended initial dose is 15 mg daily (7.5 mg b.i.d.).",
+     "The maximum daily dosage should not exceed 60 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "6%",
+     "frequency_lower": 0.06,
+     "frequency_upper": 0.06,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Blurred Vision"
+    },
+    {
+     "drug_arm_percent": 1.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    }
+   ],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "10%",
+     "frequency_lower": 0.1,
+     "frequency_upper": 0.1,
+     "source": "SIDER 4.1",
+     "term": "Drowsiness"
+    },
+    {
+     "description": "10%",
+     "frequency_lower": 0.1,
+     "frequency_upper": 0.1,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 10.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Drowsiness"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation delayed"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 6.0,
+   "eps": 0.1,
+   "orthostasis": null,
+   "sedation": 10.0,
+   "seizure": 0.1,
+   "sexual_dysfunction": 0.0,
+   "weight_gain": 0.1
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention"
+   ],
+   "eps": [
+    "dystonia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "parkinsonism",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 1,
+    "n_ar_tables_used": 1,
+    "n_rows_with_drug_arm_value": 28,
+    "set_id": "fa4d5cac-f687-4440-99d2-8bb27cf2f4ed"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100002477"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 292,
+    "n_frequency_rows_placebo": 34,
+    "n_frequency_rows_postmarketing": 39,
+    "n_side_effect_rows": 322,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "buspirone",
+ "label": {
+  "application_number": [
+   "ANDA078246"
+  ],
+  "brand_name": [
+   "BUSPIRONE HYDROCHLORIDE"
+  ],
+  "effective_time": "20260904",
+  "generic_name": [
+   "BUSPIRONE HYDROCHLORIDE"
+  ],
+  "id": "5aa99494-571a-ac36-e063-6394a90a8a0a",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "fa4d5cac-f687-4440-99d2-8bb27cf2f4ed",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "fa4d5cac-f687-4440-99d2-8bb27cf2f4ed"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL870202",
+      "description": "Elimination half life in human",
+      "ref": "CHEMBL1147799",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 2.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 2.0,
+      "min": 2.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 2.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 3,
+    "kind": "pk",
+    "low": 2,
+    "note": "average elimination half-life of unchanged buspirone after single doses",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The average elimination half-life of unchanged buspirone after single doses of 10 mg to 40 mg is about 2 to 3 hours."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1147799": {
+   "chembl_document_id": "CHEMBL1147799",
+   "journal": "J Med Chem",
+   "pmid": "16722631",
+   "title": "An integrated in silico 3D model-driven discovery of a novel, potent, and selective amidosulfonamide 5-HT1A agonist (PRX-00023) for the treatment of anxiety and depression.",
+   "year": 2006
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 291,
+  "openfda_labels_returned": 169,
+  "openfda_labels_same_entity": 169,
+  "openfda_query": "openfda.generic_name:\"buspirone\"",
+  "pet_searched_empty": [
+   {
+    "drug": "buspirone",
+    "note": "Rabiner 2000 (10962259): buspirone was the one drug showing no measurable 5-HT1A occupancy; no dose/occupancy value. 5-HT1A outside target set; no SERT/5-HT2A data.",
+    "queries": [
+     "buspirone AND occupancy AND 5-HT1A"
+    ],
+    "target": "5-HT1A"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05B"
+}

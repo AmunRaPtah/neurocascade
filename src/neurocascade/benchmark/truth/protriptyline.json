@@ -1,0 +1,164 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AA11",
+    "ddd": [
+     {
+      "ddd": 30.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "protriptyline"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "'Fifteen' printed in words = 15 mg/day",
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "depression",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Usual Adult Dosage Fifteen to 40 mg a day divided into 3 or 4 doses. If necessary, dosage may be increased to 60 mg a day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "extrapyramidal disorder"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction",
+    "libido decreased"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "c6c7c39e-e510-4f4a-bf7a-926f0e075d3a"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100004976"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 174,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "protriptyline",
+ "label": {
+  "application_number": [
+   "ANDA202220"
+  ],
+  "brand_name": [
+   "Protriptyline Hydrochloride"
+  ],
+  "effective_time": "20230725",
+  "generic_name": [
+   "PROTRIPTYLINE HYDROCHLORIDE"
+  ],
+  "id": "e68d74c7-1d6a-4453-bb46-0047047b7527",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "c6c7c39e-e510-4f4a-bf7a-926f0e075d3a",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "c6c7c39e-e510-4f4a-bf7a-926f0e075d3a"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 27,
+  "openfda_labels_returned": 2,
+  "openfda_labels_same_entity": 2,
+  "openfda_query": "openfda.generic_name:\"protriptyline\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

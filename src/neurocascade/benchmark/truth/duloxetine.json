@@ -1,0 +1,454 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX21",
+    "ddd": [
+     {
+      "ddd": 60.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "duloxetine"
+   }
+  ],
+  "label": [
+   {
+    "high": 120,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 40,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dosage in adults with MDD is 40 mg/day (given as 20 mg twice daily) to 60 mg/day (given either once daily or as 30 mg twice daily).",
+     "Maintenance Treatment: 60 mg/day 120 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 120,
+    "high_basis": "maximum recommended dose",
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 60,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Adults 60 mg/day 60 mg/day (once daily) 120 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "15%",
+     "frequency_lower": 0.15,
+     "frequency_upper": 0.15,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "18%",
+     "frequency_lower": 0.18,
+     "frequency_upper": 0.18,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 10.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Adverse Reactions: Incidence of 2% or More and Greater than Placebo in DPNP, FM, OA, and CLBP Placebo-Controlled Trials",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 14.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions: Incidence of 2% or More and Greater than Placebo in MDD and GAD Placebo-Controlled Trials in Adults",
+     "term": "Dry mouth"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions: Incidence of 2% or More and Greater than Placebo in MDD and GAD Placebo-Controlled Trials in Adults",
+     "term": "Vision blurred"
+    }
+   ],
+   "eps": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "very rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.0001,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Hypersomnia"
+    },
+    {
+     "description": "21%",
+     "frequency_lower": 0.21,
+     "frequency_upper": 0.21,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 11.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Adverse Reactions: Incidence of 2% or More and Greater than Placebo in DPNP, FM, OA, and CLBP Placebo-Controlled Trials",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "very rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.0001,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Anorgasmia"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation delayed"
+    },
+    {
+     "description": "4%",
+     "frequency_lower": 0.04,
+     "frequency_upper": 0.04,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation failure"
+    },
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "6%",
+     "frequency_lower": 0.06,
+     "frequency_upper": 0.06,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Loss of libido"
+    },
+    {
+     "description": "4%",
+     "frequency_lower": 0.04,
+     "frequency_upper": 0.04,
+     "source": "SIDER 4.1",
+     "term": "Orgasm abnormal"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Sexual dysfunction"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions: Incidence of 2% or More and Greater than Placebo in MDD and GAD Placebo-Controlled Trials in Adults",
+     "term": "Ejaculation delayed"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Adverse Reactions: Incidence of 2% or More and Greater than Placebo in DPNP, FM, OA, and CLBP Placebo-Controlled Trials",
+     "term": "Ejaculation Disorder"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions: Incidence of 2% or More and Greater than Placebo in MDD and GAD Placebo-Controlled Trials in Adults",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions: Incidence of 2% or More and Greater than Placebo in MDD and GAD Placebo-Controlled Trials in Adults",
+     "term": "Libido decreased"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions: Incidence of 2% or More and Greater than Placebo in MDD and GAD Placebo-Controlled Trials in Adults",
+     "term": "Orgasm abnormal"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 18.0,
+   "eps": 0.1,
+   "orthostasis": 0.1,
+   "sedation": 21.0,
+   "seizure": 0.0,
+   "sexual_dysfunction": 6.0,
+   "weight_gain": 2.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "akathisia"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "sedation"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 6,
+    "n_ar_tables_used": 4,
+    "n_rows_with_drug_arm_value": 67,
+    "set_id": "2f7d4d67-10c1-4bf4-a7f2-c185fbad64ba"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100060834"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 1166,
+    "n_frequency_rows_placebo": 264,
+    "n_frequency_rows_postmarketing": 299,
+    "n_side_effect_rows": 642,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "duloxetine",
+ "label": {
+  "application_number": [
+   "NDA021427"
+  ],
+  "brand_name": [
+   "Cymbalta"
+  ],
+  "effective_time": "20250721",
+  "generic_name": [
+   "DULOXETINE HYDROCHLORIDE"
+  ],
+  "id": "aa5061b1-f237-425a-9d05-575c333dfd37",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "2f7d4d67-10c1-4bf4-a7f2-c185fbad64ba",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "2f7d4d67-10c1-4bf4-a7f2-c185fbad64ba"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": [
+    5,
+    60
+   ],
+   "drug": "duloxetine",
+   "first_author": "Takano",
+   "n_subjects": null,
+   "occupancy_percent": [
+    35.3,
+    86.5
+   ],
+   "pmid": "16506079",
+   "quote": "a single administration of duloxetine (5-60 mg), and three consecutive scans were performed after a single dose or repeated doses of 60 mg of duloxetine.<h4>Results</h4>5-HTT occupancies by duloxetine were increased by 35.3 to 86.5% with dose and plasma concentration increments.",
+   "regimen": "single dose",
+   "region": "brain",
+   "route": "oral",
+   "statistic": "range",
+   "target": "SERT",
+   "tracer": "[11C]DASB",
+   "year": 2006
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL6183038",
+      "description": "Half life in po dosed human",
+      "ref": "CHEMBL6182828",
+      "relation": "=",
+      "route": "oral",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 12.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 12.0,
+      "min": 12.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "oral",
+      "species": "human",
+      "units": "hr",
+      "value": 12.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 17,
+    "kind": "pk",
+    "low": 8,
+    "note": "elimination half-life; range 8-17 h",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Duloxetine has an elimination half-life of about 12 hours (range 8 to 17 hours)"
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 12
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The apparent volume of distribution averages about 1640 L."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L",
+    "value": 1640
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL6182828": {
+   "chembl_document_id": "CHEMBL6182828",
+   "journal": "RSC Med Chem",
+   "pmid": "39601022",
+   "title": "Medicinal chemistry-based perspectives on thiophene and its derivatives: exploring structural insights to discover plausible druggable leads.",
+   "year": 2025
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 179,
+  "openfda_labels_returned": 131,
+  "openfda_labels_same_entity": 131,
+  "openfda_query": "openfda.generic_name:\"duloxetine\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

@@ -1,0 +1,316 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX12",
+    "ddd": [
+     {
+      "ddd": 0.3,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "bupropion"
+   }
+  ],
+  "label": [
+   {
+    "high": 400,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 150,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initiate dosing with 150 mg/day given as a single daily dose in the morning.",
+     "A maximum of 400 mg/day, given as 200 mg twice daily, may be considered for patients in whom no clinical improvement is noted after several weeks of treatment at 300 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "26%",
+     "frequency_lower": 0.26,
+     "frequency_upper": 0.26,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "27.6%",
+     "frequency_lower": 0.276,
+     "frequency_upper": 0.276,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "1.9%",
+     "frequency_lower": 0.019,
+     "frequency_upper": 0.019,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "description": "14.6%",
+     "frequency_lower": 0.146,
+     "frequency_upper": 0.146,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3. Adverse Reactions Reported by at Least 1% of Subjects and at a Greater Frequency than Placebo in Controlled Clinical Trials",
+     "term": "Blurred vision or diplopia"
+    },
+    {
+     "drug_arm_percent": 10.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3. Adverse Reactions Reported by at Least 1% of Subjects and at a Greater Frequency than Placebo in Controlled Clinical Trials",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 24.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3. Adverse Reactions Reported by at Least 1% of Subjects and at a Greater Frequency than Placebo in Controlled Clinical Trials",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "1.5%",
+     "frequency_lower": 0.015,
+     "frequency_upper": 0.015,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "8%",
+     "frequency_lower": 0.08,
+     "frequency_upper": 0.08,
+     "source": "SIDER 4.1",
+     "term": "Bradykinesia"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "1.5%",
+     "frequency_lower": 0.015,
+     "frequency_upper": 0.015,
+     "source": "SIDER 4.1",
+     "term": "Parkinsonism"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3. Adverse Reactions Reported by at Least 1% of Subjects and at a Greater Frequency than Placebo in Controlled Clinical Trials",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "3.4%",
+     "frequency_lower": 0.034,
+     "frequency_upper": 0.034,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "3.1%",
+     "frequency_lower": 0.031,
+     "frequency_upper": 0.031,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Sexual dysfunction"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "13.6%",
+     "frequency_lower": 0.136,
+     "frequency_upper": 0.136,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 0,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 27.6,
+   "eps": 8.0,
+   "orthostasis": 0.1,
+   "sedation": 3.0,
+   "seizure": 1.0,
+   "sexual_dysfunction": 3.4,
+   "weight_gain": 13.6
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "dystonia",
+    "extrapyramidal disorder",
+    "hypokinesia",
+    "muscle rigidity",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "hypersomnia"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "ejaculation disorder",
+    "orgasm abnormal"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 3,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 49,
+    "set_id": "cbc8c074-f080-4489-a5ae-207b5fadeba3"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100000444"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 1185,
+    "n_frequency_rows_placebo": 362,
+    "n_frequency_rows_postmarketing": 338,
+    "n_side_effect_rows": 994,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "bupropion",
+ "label": {
+  "application_number": [
+   "NDA020358"
+  ],
+  "brand_name": [
+   "WELLBUTRIN SR"
+  ],
+  "effective_time": "20251105",
+  "generic_name": [
+   "BUPROPION HYDROCHLORIDE"
+  ],
+  "id": "5ffc8b63-7d69-4f3a-bf05-a9c138724a91",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "cbc8c074-f080-4489-a5ae-207b5fadeba3",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "cbc8c074-f080-4489-a5ae-207b5fadeba3"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean elimination half-life after chronic dosing (SD 9 h)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half‑life (±SD) of bupropion after chronic dosing is 21 (±9) hours"
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 21
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 364,
+  "openfda_labels_returned": 248,
+  "openfda_labels_same_entity": 246,
+  "openfda_query": "openfda.generic_name:\"bupropion\"",
+  "pet_searched_empty": [
+   {
+    "drug": "bupropion",
+    "note": "Bupropion acts at DAT/NET (outside target set D2/DAT not needed; no clinically relevant SERT/5-HT2A). No human SERT/5-HT2A occupancy data point.",
+    "queries": [
+     "bupropion AND occupancy AND serotonin"
+    ],
+    "target": "SERT"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

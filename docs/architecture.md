@@ -16612,3 +16612,221 @@ papers. The fourth brief source, primary rat PK papers not in ChEMBL, would
 reach some of these, but transcribing per-drug paywalled PK was out of scope for
 a reproducible single-source build; it is recorded as the known residual gap in
 the searched-and-empty row rather than closed by an invented value.
+
+## Phase 28, part four: human clinical truth per benchmark drug (P28.4)
+
+P28.4 assembles what the benchmark is scored **against**: human PK, clinical
+dose, PET occupancy, and a clinical-effect label vector per drug. Like
+P28.1-28.3 it makes no prediction and earns no validated row. Its ledger
+entries are a coverage table, the effect prevalences, two measurements of how
+noisy the truth itself is, and three searched-and-empty rows.
+
+### Where the files live, and how they are built
+
+The brief named `data/benchmark/truth/<drug>.json`. `data/` is read-only in this
+build, so the records sit at `src/neurocascade/benchmark/truth/<inn>.json`, for
+the reason given under P28.1. `coverage.json` and `effect_labels.json` (the
+matrix, its rule, and prevalence) sit beside them. They load through
+`neurocascade.benchmark.load_truth_record`, `load_truth_coverage` and
+`load_effect_labels`.
+
+`scripts/build_benchmark_truth.py` has the P28.2/28.3 two-stage shape:
+
+- `fetch` caches openFDA, SIDER 4.1, WHO ATC/DDD pages, ChEMBL and Europe PMC
+  outside the repo;
+- `build` runs offline.
+
+The hand-curated inputs live in `scripts/benchmark_truth_inputs/`:
+
+- `pet_observations.json` and `pet_searched_empty.json`;
+- `label_transcriptions.json`.
+
+The build checks each one against its cached source and refuses to write if a
+check fails. Quote-level verification is the only defence against a
+transcription error, so it runs on every build, not once.
+
+### Human PK: ChEMBL's IV compilations, not the Lombardo 2018 file (rule 11)
+
+The brief named the Lombardo 2018 1352-drug IV set. It is not reachable:
+
+- the article PDF and the supplement return HTTP 403;
+- ChEMBL has no document for PMID 30115648.
+
+ChEMBL does carry, row by row with citations, the compilations that preceded
+it: Obach 2008 (670 drugs, IV CL/Vss/t½) and Lombardo 2002-2016. P28.3 already
+excluded exactly these human rows from the preclinical package and counted them
+per drug (`human_invivo_cl`), so the seam between input and truth is the same
+classifier read from the other side.
+
+`classify_human_pk` keeps three kinds of row:
+
+- **total systemic CL** (mL·min⁻¹·kg⁻¹). It refuses hepatic, renal, unbound and
+  intrinsic clearances, any in-vitro system, and oral CL. Oral CL is CL/F, a
+  different quantity, which comes from the label instead.
+- **Vss** (L·kg⁻¹), excluding unbound and oral.
+- **Terminal t½**. It refuses absorption half-lives, metabolite and enantiomer
+  half-lives, DDI arms, and microsomal "half-lives".
+
+Route is kept on every row and is a grouping key in the summary, so an
+explicit-IV value is never pooled with an unspecified-route compilation value.
+The summary rule is P28.3's: geometric mean within a document, median across
+documents.
+
+### The label: one per drug, chosen by a fixed rule, then transcribed by hand
+
+**Why one label.** openFDA returns up to 248 labels per drug (generics,
+reformulations, combinations). A truth record needs one cited document. The
+selection rule:
+
+1. **Same entity only.** The generic name must equal the INN once salt and
+   formulation words are removed. This drops combinations (olanzapine and
+   fluoxetine), esters (haloperidol decanoate, paliperidone palmitate,
+   aripiprazole lauroxil) and supplement "tryptophan" labels.
+2. **Oral or sublingual, NDA or ANDA.** amisulpride's only US label is
+   Barhemsys, an IV antiemetic: a different dose and population, so amisulpride
+   has no label.
+3. **A psychiatric indication first.** BRISDELLE (paroxetine 7.5 mg for hot
+   flushes) and SILENOR (doxepin 3-6 mg for insomnia) are otherwise the newest
+   NDAs.
+4. **NDA over ANDA, and among NDAs the lowest application number.**
+
+**The first version of rule 4 was wrong, and reading the transcriptions found
+it.** It preferred the latest NDA. That picked 505(b)(2) reformulations whose
+dosing is product-specific:
+
+- a sertraline capsule label recommending "150 mg or 200 mg once daily";
+- a duloxetine product dosed at 80-120 mg;
+- a venlafaxine tablet only for patients switching from another product.
+
+NDA numbers are assigned in submission order, so the lowest is the innovator.
+Thirteen drugs changed label and were re-transcribed. A test pins Zoloft
+50-200 mg/day and Cymbalta 40-120 mg/day.
+
+**Why transcription, not a parser.** `scripts/fetch_fda_labels.py` (P22.2)
+already explains that a regular expression over DOSAGE AND ADMINISTRATION
+produces a number that looks sourced and is not. A quick test confirmed it.
+Regex candidates included:
+
+- a flattened table ("MDD 50 mg 50-200 mg OCD 50 mg …");
+- a nasal diazepam product;
+- "450 mg twice daily" read as a daily dose.
+
+So the label PK and dose ranges (196 items over 67 drugs) were transcribed by
+hand, each with its verbatim sentence. `verify_transcription` then refuses:
+
+- a transcription whose set_id is not the selected label;
+- a quote that is not in that label's text;
+- a value not printed in its quotes, unless a `derivation` states the arithmetic
+  ("450 mg twice daily printed; 2 × 450 = 900 mg/day").
+
+Doses are mg of the labelled salt, as printed (e.g. bupropion HCl).
+
+**WHO DDD** is parsed as printed for every ATC code: value, unit, route and
+note, so haloperidol's 8 mg oral, 8 mg parenteral and 3.3 mg depot rows all
+stay. An ATC code with no DDD (lumateperone, vilazodone, every unapproved FAIL
+compound) stays `ddd: []`.
+
+### PET: abstract-quoted, checked against the abstract on every build
+
+There are 82 group occupancies (D2 54, SERT 20, 5-HT2A 8) for 27 drugs, from 37
+abstracts. Each row carries the abstract sentence that prints both the dose and
+the occupancy, and the build refuses any quote that is not a verbatim substring
+of the Europe PMC abstract. Rows were reviewed one by one:
+
+- **Doses written per administration** ("300 mg b.i.d.", "100 mg three times
+  daily") carry a `dose_derivation`. So does asenapine's "100 micrograms", a
+  single sublingual sub-therapeutic dose that is flagged as such.
+- **Bounds are not means.** "<5%" is `upper_bound`, ">80%" is `lower_bound`, and
+  "up to 39%" is `peak`. A test pins these.
+- **Not a dose-occupancy table.** Abstracts print group values, so this set is
+  for Phase 29's occupancy-at-dose check, not for fitting an EC50. The per-
+  subject PET this repo holds from Phases 19-25 stays in `human/`.
+
+Full texts were not read, so a drug in `pet_searched_empty.json` may still have
+a value in a paper's table. The ledger row says so.
+
+### The effect-label vector, and the two places the first rule was wrong
+
+**Sources.**
+
+- SIDER 4.1, the frequency and side-effect tables.
+- The selected label's own adverse-reaction tables, parsed into per-term
+  drug-arm incidences. `parse_ar_tables` lays the HTML out on a real grid
+  (colspan *and* rowspan; ABILIFY's header uses rowspan, which shifted every
+  drug column onto placebo until this was handled). A column counts as the
+  drug's only when its stacked header names the drug and not placebo, so a
+  haloperidol comparator column in another drug's table is never attributed to
+  it. Pediatric and discontinuation tables are skipped.
+
+**Matching SIDER to the drug (rule 2).** SIDER keys rows by a STITCH "flat" id
+that merges stereoisomers. Matching rules:
+
+- **The ATC links are not usable.** SIDER's ATC table maps escitalopram's code
+  to citalopram's flat id, clopenthixol's to zuclopenthixol, and esketamine's
+  to racemic ketamine.
+- **So matching is by SIDER drug name equal to the INN** (or a same-entity
+  spelling: dothiepin, thiothixene, propericiazine).
+- **Two flat ids hold two benchmark entities each.** Citalopram/escitalopram and
+  milnacipran/levomilnacipran are split by SIDER's stereo-id column.
+- **Clopenthixol and esketamine get no SIDER data.**
+- **Fluphenazine keeps the hydrochloride record**, not the decanoate's.
+
+**The rule** is in `effect_labels.json["rule"]` and in the ledger. The threshold
+is 5%: the incidence most US labels use for "most common adverse reactions" in
+Highlights. CIOMS "common" (1%) would admit almost every term in a psychiatric
+label table. 5% was fixed before any prevalence was computed. Every per-term
+maximum is stored, so another threshold can be applied without refetching.
+**Tremor is not EPS** and plain hypotension is not orthostasis, because both are
+labelled for SSRIs and TCAs through other mechanisms.
+
+**The rule-12 check found two errors in the first negative rule:**
+
+1. **"No term reaches 5%" was read as negative.** Haloperidol came out
+   EPS-negative and amitriptyline anticholinergic-negative, because their old
+   labels name these effects with no incidence at all. A first fix still made
+   haloperidol anticholinergic-negative off one "very rare" urinary-retention
+   row while its label names dry mouth and constipation without numbers. The
+   final rule works per concept:
+   - with the drug's own table parsed, absence means below the table's
+     inclusion threshold;
+   - without one, the effect is negative only if every concept named for the
+     drug has a printed frequency below 5%;
+   - otherwise it is unknown.
+
+   Synonyms ("weight gain", "weight increased") are one concept.
+2. **SIDER stores a postmarketing report as frequency 0-0.001.** A spontaneous
+   report has no denominator, so that range is a placeholder, not an incidence.
+   It had made thioridazine EPS-negative. Postmarketing rows now name a term
+   (the `listed` vector) and are never frequency evidence.
+
+**What was not changed after seeing the data.** The two sources agree on 202 of
+224 drug-effect pairs (90.2%). The disagreements are visible:
+
+- SIDER counts bupropion's "akinesia/bradykinesia 8%" as EPS with no placebo
+  subtraction;
+- SIDER includes the pediatric tables that the label parse skips.
+
+Editing the term list to remove these would be tuning the truth toward an
+expected answer, so it was left alone and the disagreement is reported instead.
+The twice-placebo half of the label convention is not applied, because SIDER
+placebo rows are not paired with drug rows by trial.
+
+### What the truth can and cannot score (for Phase 29-30)
+
+- **Seizure cannot be scored.** It is 0 of 46 under the frequency rule and 70 of
+  79 under "listed". It is a rare, dose-dependent warning. Phase 30 should drop
+  it or source a per-dose incidence, not lower the threshold until it
+  separates.
+- **Anticholinergic is near-saturated** (42 of 46). Dry mouth and constipation
+  at ≥5% are common to SSRIs and SNRIs, so as defined this is a weak AUROC
+  target.
+- **The FAIL stratum has almost no human truth.** 16 of 17 failed compounds have
+  no label, no DDD and no PK compilation. Their outcome is the failed trial
+  P28.1 recorded, which is a different kind of label from an adverse-event
+  vector.
+- **The truth has its own noise floor.** For 16 drugs with both a ChEMBL IV t½
+  and a label t½, the two sources differ by a median 1.17-fold (max 2.47:
+  trazodone, label terminal t½ 18 h against 7.3 h in the IV compilation). A predicted half-life
+  cannot be judged more precisely than that.
+- **45 drugs have no human truth of any kind.** These are mostly the FAIL
+  stratum and regional or withdrawn drugs. They can carry inputs, but no score.

@@ -1,0 +1,690 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX16",
+    "ddd": [
+     {
+      "ddd": 0.1,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "venlafaxine"
+   }
+  ],
+  "label": [
+   {
+    "high": 225,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "For most patients, the recommended starting dose for Effexor XR is 75 mg per day, administered in a single dose.",
+     "Patients not responding to the initial 75 mg per day dose may benefit from dose increases to a maximum of 225 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 225,
+    "high_basis": "maximum recommended dose",
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "GAD (2.3) 37.5-75 mg/day 75 mg/day 225 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 75,
+    "high_basis": "maximum recommended dose",
+    "indication": "social anxiety disorder",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "SAD (2.4) 75 mg/day 75 mg/day 75 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 225,
+    "high_basis": "maximum recommended dose",
+    "indication": "panic disorder",
+    "kind": "dose",
+    "low": 37.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "PD (2.5) 37.5 mg/day 75 mg/day 225 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "10%",
+     "frequency_lower": 0.1,
+     "frequency_upper": 0.1,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "17%",
+     "frequency_lower": 0.17,
+     "frequency_upper": 0.17,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "drug_arm_percent": 9.3,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Common Adverse Reactions: Percentage of Patients Reporting Adverse Reactions (≥2% and > placebo) in Placebo-controlled Studies (up to 12 Weeks Duration) across All Indications",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 14.8,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Common Adverse Reactions: Percentage of Patients Reporting Adverse Reactions (≥2% and > placebo) in Placebo-controlled Studies (up to 12 Weeks Duration) across All Indications",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Bradykinesia"
+    },
+    {
+     "description": "very rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.0001,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    },
+    {
+     "description": "very rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.0001,
+     "source": "SIDER 4.1",
+     "term": "Tardive dyskinesia"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Torticollis"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "26.1%",
+     "frequency_lower": 0.261,
+     "frequency_upper": 0.261,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 15.3,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Common Adverse Reactions: Percentage of Patients Reporting Adverse Reactions (≥2% and > placebo) in Placebo-controlled Studies (up to 12 Weeks Duration) across All Indications",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "19%",
+     "frequency_lower": 0.19,
+     "frequency_upper": 0.19,
+     "source": "SIDER 4.1",
+     "term": "Abnormal ejaculation"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Anorgasmia"
+    },
+    {
+     "description": "19%",
+     "frequency_lower": 0.19,
+     "frequency_upper": 0.19,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "10%",
+     "frequency_lower": 0.1,
+     "frequency_upper": 0.1,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "9%",
+     "frequency_lower": 0.09,
+     "frequency_upper": 0.09,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Orgasm abnormal"
+    },
+    {
+     "drug_arm_percent": 9.9,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Common Adverse Reactions: Percentage of Patients Reporting Adverse Reactions (≥2% and > placebo) in Placebo-controlled Studies (up to 12 Weeks Duration) across All Indications",
+     "term": "Abnormal ejaculation/orgasm (men)"
+    },
+    {
+     "drug_arm_percent": 3.6,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Common Adverse Reactions: Percentage of Patients Reporting Adverse Reactions (≥2% and > placebo) in Placebo-controlled Studies (up to 12 Weeks Duration) across All Indications",
+     "term": "Anorgasmia (men)"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Common Adverse Reactions: Percentage of Patients Reporting Adverse Reactions (≥2% and > placebo) in Placebo-controlled Studies (up to 12 Weeks Duration) across All Indications",
+     "term": "Anorgasmia (women)"
+    },
+    {
+     "drug_arm_percent": 5.3,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Common Adverse Reactions: Percentage of Patients Reporting Adverse Reactions (≥2% and > placebo) in Placebo-controlled Studies (up to 12 Weeks Duration) across All Indications",
+     "term": "Impotence (men)"
+    },
+    {
+     "drug_arm_percent": 5.1,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Common Adverse Reactions: Percentage of Patients Reporting Adverse Reactions (≥2% and > placebo) in Placebo-controlled Studies (up to 12 Weeks Duration) across All Indications",
+     "term": "Libido decreased"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 17.0,
+   "eps": 0.1,
+   "orthostasis": 1.0,
+   "sedation": 26.1,
+   "seizure": 0.1,
+   "sexual_dysfunction": 19.0,
+   "weight_gain": 1.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "vision blurred"
+   ],
+   "eps": [
+    "dystonia",
+    "extrapyramidal disorder"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "ejaculation delayed",
+    "orgasm delayed",
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 8,
+    "n_ar_tables_used": 5,
+    "n_rows_with_drug_arm_value": 43,
+    "set_id": "c848a5d8-ba94-4c84-80e3-0bf35fb8e32e"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100005656"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 1440,
+    "n_frequency_rows_placebo": 259,
+    "n_frequency_rows_postmarketing": 181,
+    "n_side_effect_rows": 1052,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "venlafaxine",
+ "label": {
+  "application_number": [
+   "NDA020699"
+  ],
+  "brand_name": [
+   "Effexor XR"
+  ],
+  "effective_time": "20230815",
+  "generic_name": [
+   "VENLAFAXINE HYDROCHLORIDE"
+  ],
+  "id": "2319042f-5d24-42d3-9b0a-8893bed66813",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "c848a5d8-ba94-4c84-80e3-0bf35fb8e32e",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "c848a5d8-ba94-4c84-80e3-0bf35fb8e32e"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 150,
+   "drug": "venlafaxine",
+   "first_author": "Shang",
+   "n_subjects": 8,
+   "occupancy_percent": 55.4,
+   "pmid": "17224717",
+   "quote": "Eight healthy subjects were administered open-label venlafaxine extended release capsules (75 mg/d for 4 days followed by 150 mg/d for 5 days). Venlafaxine significantly inhibited [123I]beta-CIT binding to SERT in the brainstem (55.4%) and the diencephalon (54.1%).",
+   "regimen": "steady state",
+   "region": "brainstem",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[123I]beta-CIT",
+   "year": 2007
+  },
+  {
+   "dose_mg_per_day": 150,
+   "drug": "venlafaxine",
+   "first_author": "Shang",
+   "n_subjects": 8,
+   "occupancy_percent": 54.1,
+   "pmid": "17224717",
+   "quote": "Eight healthy subjects were administered open-label venlafaxine extended release capsules (75 mg/d for 4 days followed by 150 mg/d for 5 days). Venlafaxine significantly inhibited [123I]beta-CIT binding to SERT in the brainstem (55.4%) and the diencephalon (54.1%).",
+   "regimen": "steady state",
+   "region": "diencephalon",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[123I]beta-CIT",
+   "year": 2007
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 14.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 14.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 14.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 14.0,
+      "min": 14.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 14.0
+     },
+     {
+      "max": 14.0,
+      "min": 14.0,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 14.0
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 5.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL4396618",
+      "description": "Half life in human at 75 mg",
+      "ref": "CHEMBL4393729",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 5.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 5.0,
+      "min": 5.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 5.0
+     },
+     {
+      "max": 5.0,
+      "min": 5.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 5.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 4.4
+     },
+     {
+      "assay_chembl_id": "CHEMBL1100462",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1153781",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 4.4
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 4.4
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 4.4
+     }
+    ],
+    "summary": [
+     {
+      "max": 4.4,
+      "min": 4.4,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 4.4
+     },
+     {
+      "max": 4.4,
+      "min": 4.4,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 4.4
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent elimination half-life (SD 2 h), Effexor XR",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The apparent elimination half-life is 5 ± 2 hours for venlafaxine and 11 ± 2 hours for ODV."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 5
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent clearance at steady state (SD 0.6)",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "Mean ± SD plasma apparent clearance at steady-state is 1.3 ± 0.6 L/h/kg for venlafaxine and 0.4 ± 0.2 L/h/kg for ODV."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/h/kg",
+    "value": 1.3
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution at steady state (SD 3.7)",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The apparent volume of distribution at steady-state is 7.5 ± 3.7 L/kg for venlafaxine and 5.7 ± 1.8 L/kg for ODV."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 7.5
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  },
+  "CHEMBL4393729": {
+   "chembl_document_id": "CHEMBL4393729",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "31307886",
+   "title": "Sleep modulating agents.",
+   "year": 2019
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 272,
+  "openfda_labels_returned": 184,
+  "openfda_labels_same_entity": 183,
+  "openfda_query": "openfda.generic_name:\"venlafaxine\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "N06A"
+}

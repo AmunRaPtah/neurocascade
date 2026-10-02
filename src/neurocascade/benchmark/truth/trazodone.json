@@ -1,0 +1,451 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX05",
+    "ddd": [
+     {
+      "ddd": 0.3,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "trazodone"
+   }
+  ],
+  "label": [
+   {
+    "high": 400,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 150,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The initial dosage of RALDESY for the treatment of MDD in adults is 150 mg daily, taken orally, in divided doses.",
+     "The maximum recommended dosage for outpatients usually should not exceed 400 mg daily in divided doses."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "7.92%",
+     "frequency_lower": 0.0792079,
+     "frequency_upper": 0.0792079,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "33.8%",
+     "frequency_lower": 0.338,
+     "frequency_upper": 0.338,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "14.7%",
+     "frequency_lower": 0.147,
+     "frequency_upper": 0.147,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 15.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Blurred Vision"
+    },
+    {
+     "drug_arm_percent": 8.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 34.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "40.8%",
+     "frequency_lower": 0.408,
+     "frequency_upper": 0.408,
+     "source": "SIDER 4.1",
+     "term": "Drowsiness"
+    },
+    {
+     "description": "46%",
+     "frequency_lower": 0.460396,
+     "frequency_upper": 0.460396,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 41.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Drowsiness"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "description": "1.3%",
+     "frequency_lower": 0.013,
+     "frequency_upper": 0.013,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "4.5%",
+     "frequency_lower": 0.045,
+     "frequency_upper": 0.045,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Weight Gain"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 34.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": 46.0396,
+   "seizure": null,
+   "sexual_dysfunction": 1.3,
+   "weight_gain": 5.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention"
+   ],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "extrapyramidal disorder",
+    "hypokinesia",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "sedation"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction",
+    "orgasm abnormal",
+    "retrograde ejaculation",
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 1,
+    "n_ar_tables_used": 1,
+    "n_rows_with_drug_arm_value": 27,
+    "set_id": "34708cc1-b0b2-4fd0-b9f3-7f008b457fc9"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100005533"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 280,
+    "n_frequency_rows_placebo": 194,
+    "n_frequency_rows_postmarketing": 128,
+    "n_side_effect_rows": 375,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "trazodone",
+ "label": {
+  "application_number": [
+   "NDA218637"
+  ],
+  "brand_name": [
+   "RALDESY TM"
+  ],
+  "effective_time": "20260901",
+  "generic_name": [
+   "TRAZODONE HYDROCHLORIDE ORAL"
+  ],
+  "id": "5a6b7808-40bf-ced4-e063-6294a90a4249",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "34708cc1-b0b2-4fd0-b9f3-7f008b457fc9",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "34708cc1-b0b2-4fd0-b9f3-7f008b457fc9"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.4
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.4
+     }
+    ],
+    "summary": [
+     {
+      "max": 1.4,
+      "min": 1.4,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 1.4
+     },
+     {
+      "max": 1.4,
+      "min": 1.4,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 1.4
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 7.3
+     }
+    ],
+    "summary": [
+     {
+      "max": 7.3,
+      "min": 7.3,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 7.3
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL632931",
+      "description": "Volume of distribution in man (IV dose)",
+      "ref": "CHEMBL1135488",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.52
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.52
+     }
+    ],
+    "summary": [
+     {
+      "max": 1.0,
+      "min": 0.52,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.76
+     },
+     {
+      "max": 1.0,
+      "min": 0.52,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.76
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "average terminal elimination half-life, fed state",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The average terminal elimination half-life of RALDESY under fed state is 18 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 18
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1135488": {
+   "chembl_document_id": "CHEMBL1135488",
+   "journal": "J Med Chem",
+   "pmid": "12061889",
+   "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+   "year": 2002
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 249,
+  "openfda_labels_returned": 104,
+  "openfda_labels_same_entity": 104,
+  "openfda_query": "openfda.generic_name:\"trazodone\"",
+  "pet_searched_empty": [
+   {
+    "drug": "trazodone",
+    "note": "Only modeling/estimation papers (Settimo 2018 29332554, Oggianu 2022 35233913) that estimate occupancy from PK, not measured PET/SPECT. Skip.",
+    "queries": [
+     "trazodone AND occupancy AND (5-HT2 OR setoperone OR altanserin)"
+    ],
+    "target": "5-HT2A"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

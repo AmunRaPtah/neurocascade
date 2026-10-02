@@ -1,0 +1,151 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AF05",
+    "ddd": [
+     {
+      "ddd": 30.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 15.0,
+      "note": "depot",
+      "route": "P",
+      "unit": "mg"
+     },
+     {
+      "ddd": 30.0,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "zuclopenthixol"
+   }
+  ],
+  "label": []
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "extrapyramidal disorder",
+    "hypokinesia",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "opisthotonus",
+    "parkinsonism",
+    "tardive dyskinesia",
+    "torticollis"
+   ],
+   "orthostasis": [
+    "dizziness postural"
+   ],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "ejaculation failure",
+    "erectile dysfunction",
+    "libido decreased",
+    "orgasm abnormal"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "sider": {
+    "flat_ids": [
+     "CID100012453"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 350,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "zuclopenthixol",
+ "label": null,
+ "label_transcription": null,
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 6,
+  "openfda_labels_returned": 0,
+  "openfda_labels_same_entity": 0,
+  "openfda_query": "openfda.generic_name:\"zuclopenthixol\"",
+  "pet_searched_empty": [
+   {
+    "drug": "zuclopenthixol",
+    "note": "Only human PET study (Nyberg 1995, PMID 8748043) used 12.5 mg zuclopenthixol acetate by intramuscular injection (D2 51-75% at 7h), not an oral daily dose. Excluded as injection data per oral-dose rule.",
+    "queries": [
+     "(ABSTRACT:\"zuclopenthixol\" OR TITLE:\"zuclopenthixol\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"NMSP\")"
+    ],
+    "target": "D2"
+   }
+  ]
+ },
+ "split": "heldout",
+ "stratum": "N05A"
+}

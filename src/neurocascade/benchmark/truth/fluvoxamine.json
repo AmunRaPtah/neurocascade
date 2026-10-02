@@ -1,0 +1,412 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AB08",
+    "ddd": [
+     {
+      "ddd": 0.1,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "fluvoxamine"
+   }
+  ],
+  "label": [
+   {
+    "high": 300,
+    "high_basis": "maximum recommended dose",
+    "indication": "OCD",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose for Fluvoxamine Maleate Tablets in adult patients is 50 mg, administered as a single daily dose at bedtime.",
+     "until maximum therapeutic benefit is achieved, not to exceed 300 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "18%",
+     "frequency_lower": 0.18,
+     "frequency_upper": 0.18,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "25.7%",
+     "frequency_lower": 0.257,
+     "frequency_upper": 0.257,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "drug_arm_percent": 10.0,
+     "source": "openFDA label table",
+     "table_caption": "TABLE 2 TREATMENT-EMERGENT ADVERSE REACTION INCIDENCE RATES BY BODY SYSTEM IN ADULT OCD AND DEPRESSION POPULATIONS COMBINED",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 14.0,
+     "source": "openFDA label table",
+     "table_caption": "TABLE 2 TREATMENT-EMERGENT ADVERSE REACTION INCIDENCE RATES BY BODY SYSTEM IN ADULT OCD AND DEPRESSION POPULATIONS COMBINED",
+     "term": "Dry Mouth"
+    },
+    {
+     "drug_arm_percent": 1.0,
+     "source": "openFDA label table",
+     "table_caption": "TABLE 2 TREATMENT-EMERGENT ADVERSE REACTION INCIDENCE RATES BY BODY SYSTEM IN ADULT OCD AND DEPRESSION POPULATIONS COMBINED",
+     "term": "Urinary Retention"
+    }
+   ],
+   "eps": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal symptoms"
+    },
+    {
+     "description": "8.1%",
+     "frequency_lower": 0.081,
+     "frequency_upper": 0.081,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Tardive dyskinesia"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Torticollis"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Hypersomnia"
+    },
+    {
+     "description": "27%",
+     "frequency_lower": 0.27,
+     "frequency_upper": 0.27,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 22.0,
+     "source": "openFDA label table",
+     "table_caption": "TABLE 2 TREATMENT-EMERGENT ADVERSE REACTION INCIDENCE RATES BY BODY SYSTEM IN ADULT OCD AND DEPRESSION POPULATIONS COMBINED",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "11%",
+     "frequency_lower": 0.11,
+     "frequency_upper": 0.11,
+     "source": "SIDER 4.1",
+     "term": "Abnormal ejaculation"
+    },
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Anorgasmia"
+    },
+    {
+     "description": "11%",
+     "frequency_lower": 0.11,
+     "frequency_upper": 0.11,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "7.5%",
+     "frequency_lower": 0.075,
+     "frequency_upper": 0.075,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Sexual dysfunction"
+    },
+    {
+     "drug_arm_percent": 8.0,
+     "source": "openFDA label table",
+     "table_caption": "TABLE 2 TREATMENT-EMERGENT ADVERSE REACTION INCIDENCE RATES BY BODY SYSTEM IN ADULT OCD AND DEPRESSION POPULATIONS COMBINED",
+     "term": "Abnormal Ejaculation"
+    },
+    {
+     "drug_arm_percent": 8.0,
+     "source": "openFDA label table",
+     "table_caption": "TABLE 3 PERCENTAGE OF PATIENTS REPORTING SEXUAL ADVERSE REACTIONS IN ADULT PLACEBO-CONTROLLED TRIALS IN OCD AND DEPRESSION",
+     "term": "Abnormal Ejaculation*"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "TABLE 2 TREATMENT-EMERGENT ADVERSE REACTION INCIDENCE RATES BY BODY SYSTEM IN ADULT OCD AND DEPRESSION POPULATIONS COMBINED",
+     "term": "Anorgasmia"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "TABLE 2 TREATMENT-EMERGENT ADVERSE REACTION INCIDENCE RATES BY BODY SYSTEM IN ADULT OCD AND DEPRESSION POPULATIONS COMBINED",
+     "term": "Decreased Libido"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "TABLE 2 TREATMENT-EMERGENT ADVERSE REACTION INCIDENCE RATES BY BODY SYSTEM IN ADULT OCD AND DEPRESSION POPULATIONS COMBINED",
+     "term": "Impotence"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "TABLE 3 PERCENTAGE OF PATIENTS REPORTING SEXUAL ADVERSE REACTIONS IN ADULT PLACEBO-CONTROLLED TRIALS IN OCD AND DEPRESSION",
+     "term": "Impotence*"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 25.7,
+   "eps": 8.1,
+   "orthostasis": 0.1,
+   "sedation": 27.0,
+   "seizure": 0.1,
+   "sexual_dysfunction": 11.0,
+   "weight_gain": 1.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "vision blurred"
+   ],
+   "eps": [
+    "dystonia",
+    "parkinsonism"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "ejaculation delayed"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 2,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 42,
+    "set_id": "5198b1c8-8dd6-4b8f-bd85-294ac468af53"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100003404"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 1341,
+    "n_frequency_rows_placebo": 367,
+    "n_frequency_rows_postmarketing": 160,
+    "n_side_effect_rows": 852,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "fluvoxamine",
+ "label": {
+  "application_number": [
+   "NDA021519"
+  ],
+  "brand_name": [
+   "fluvoxamine maleate"
+  ],
+  "effective_time": "20260423",
+  "generic_name": [
+   "FLUVOXAMINE MALEATE"
+  ],
+  "id": "5023bd30-d8fa-9222-e063-6394a90a59e0",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "5198b1c8-8dd6-4b8f-bd85-294ac468af53",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "5198b1c8-8dd6-4b8f-bd85-294ac468af53"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 50,
+   "drug": "fluvoxamine",
+   "first_author": "Suhara",
+   "n_subjects": null,
+   "occupancy_percent": 80,
+   "pmid": "12695316",
+   "quote": "Even 10 mg of clomipramine hydrochloride showed approximately 80% occupancy, which was comparable with that of 50 mg of fluvoxamine maleate.",
+   "regimen": "single dose",
+   "region": "thalamus",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[11C](+)McN5652",
+   "year": 2003
+  }
+ ],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "plasma half-life at steady state, healthy young volunteers",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean plasma half-life of fluvoxamine at steady state after multiple oral doses of 100 mg/day in healthy, young volunteers was 15.6 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 15.6
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The mean apparent volume of distribution for fluvoxamine is approximately 25 L/kg, suggesting extensive tissue distribution."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 25
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 206,
+  "openfda_labels_returned": 24,
+  "openfda_labels_same_entity": 24,
+  "openfda_query": "openfda.generic_name:\"fluvoxamine\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

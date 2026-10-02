@@ -1,0 +1,616 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AB04",
+    "ddd": [
+     {
+      "ddd": 20.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 20.0,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "citalopram"
+   }
+  ],
+  "label": [
+   {
+    "high": 40,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Administer CELEXA once daily, with or without food, at an initial dosage of 20 mg once daily, with an increase to a maximum dosage of 40 mg once daily at an interval of no less than one week."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "8.4%",
+     "frequency_lower": 0.084,
+     "frequency_upper": 0.084,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "20%",
+     "frequency_lower": 0.2,
+     "frequency_upper": 0.2,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "drug_arm_percent": 20.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions (≥2% and Greater than Placebo) Among CELEXA-Treated Patients*",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "18%",
+     "frequency_lower": 0.18,
+     "frequency_upper": 0.18,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 18.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions (≥2% and Greater than Placebo) Among CELEXA-Treated Patients*",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Grand mal convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "6.1%",
+     "frequency_lower": 0.061,
+     "frequency_upper": 0.061,
+     "source": "SIDER 4.1",
+     "term": "Abnormal ejaculation"
+    },
+    {
+     "description": "6.1%",
+     "frequency_lower": 0.061,
+     "frequency_upper": 0.061,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "3.8%",
+     "frequency_lower": 0.038,
+     "frequency_upper": 0.038,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "6.1%",
+     "frequency_lower": 0.061,
+     "frequency_upper": 0.061,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Orgasm abnormal"
+    },
+    {
+     "drug_arm_percent": 6.1,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Adverse Reactions (≥2%) Related to Sexual Dysfunction in CELEXA-Treated Male Patients in Pooled Placebo-Controlled Clinical Trials of MDD",
+     "term": "Abnormal ejaculation (mostly ejaculatory delay)"
+    },
+    {
+     "drug_arm_percent": 3.8,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Adverse Reactions (≥2%) Related to Sexual Dysfunction in CELEXA-Treated Male Patients in Pooled Placebo-Controlled Clinical Trials of MDD",
+     "term": "Decreased libido"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions (≥2% and Greater than Placebo) Among CELEXA-Treated Patients*",
+     "term": "Ejaculation Disorder"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions (≥2% and Greater than Placebo) Among CELEXA-Treated Patients*",
+     "term": "Impotence"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions (≥2% and Greater than Placebo) Among CELEXA-Treated Patients*",
+     "term": "Libido Decreased"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 20.0,
+   "eps": 0.1,
+   "orthostasis": 1.0,
+   "sedation": 18.0,
+   "seizure": 0.1,
+   "sexual_dysfunction": 6.1,
+   "weight_gain": 1.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "dystonia",
+    "muscle rigidity"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "anorgasmia",
+    "ejaculation failure",
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 3,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 29,
+    "set_id": "4259d9b1-de34-43a4-85a8-41dd214e9177"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100002771"
+    ],
+    "match": "stereo_split",
+    "n_frequency_rows_drug": 1022,
+    "n_frequency_rows_placebo": 188,
+    "n_frequency_rows_postmarketing": 128,
+    "n_side_effect_rows": 789,
+    "stereo_ids": [
+     "CID000002771"
+    ]
+   }
+  }
+ },
+ "inn": "citalopram",
+ "label": {
+  "application_number": [
+   "NDA020822"
+  ],
+  "brand_name": [
+   "Celexa"
+  ],
+  "effective_time": "20231009",
+  "generic_name": [
+   "CITALOPRAM"
+  ],
+  "id": "7a584cdb-dfe3-4360-a36d-7e8b93d7d7db",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "4259d9b1-de34-43a4-85a8-41dd214e9177",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "4259d9b1-de34-43a4-85a8-41dd214e9177"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 20,
+   "drug": "citalopram",
+   "first_author": "Meyer",
+   "n_subjects": 4,
+   "occupancy_percent": 77,
+   "pmid": "11691690",
+   "quote": "For patients treated with 20 mg/day of citalopram (N=4), the mean 5-HTT occupancy was 77%.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[11C]DASB",
+   "year": 2001
+  },
+  {
+   "dose_mg_per_day": 10,
+   "drug": "citalopram",
+   "first_author": "Klein",
+   "n_subjects": 5,
+   "occupancy_percent": 65,
+   "pmid": "16955282",
+   "quote": "SERT occupancies for subjects treated with single doses of 10 and 20 mg citalopram were 65+/-10 and 70+/-6%, respectively.",
+   "regimen": "single dose",
+   "region": "midbrain",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "SERT",
+   "tracer": "[123I]ADAM",
+   "year": 2006
+  },
+  {
+   "dose_mg_per_day": 20,
+   "drug": "citalopram",
+   "first_author": "Klein",
+   "n_subjects": 5,
+   "occupancy_percent": 70,
+   "pmid": "16955282",
+   "quote": "SERT occupancies for subjects treated with single doses of 10 and 20 mg citalopram were 65+/-10 and 70+/-6%, respectively.",
+   "regimen": "single dose",
+   "region": "midbrain",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "SERT",
+   "tracer": "[123I]ADAM",
+   "year": 2006
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 4.3
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 4.3
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614681",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614629",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 5.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 4.3
+     }
+    ],
+    "summary": [
+     {
+      "max": 5.0,
+      "min": 4.3,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 4.65
+     },
+     {
+      "max": 4.3,
+      "min": 4.3,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 4.3
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 33.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 33.0,
+      "min": 33.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 33.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 13.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 12.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614682",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614629",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 14.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 12.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 14.0,
+      "min": 12.0,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 13.0
+     },
+     {
+      "max": 13.0,
+      "min": 12.0,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 12.5
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Biotransformation of citalopram is mainly hepatic, with a mean terminal half-life of about 35 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 35
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "systemic clearance as printed (~20% renal)",
+    "quantity": "cl",
+    "quotes": [
+     "The systemic clearance of citalopram was 330 mL/min, with approximately 20% of that due to renal clearance."
+    ],
+    "route": "unspecified",
+    "statistic": "approximate",
+    "units": "mL/min",
+    "value": 330
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "volume of distribution",
+    "quantity": "vd",
+    "quotes": [
+     "The volume of distribution of citalopram is about 12 L/kg"
+    ],
+    "route": "unspecified",
+    "statistic": "approximate",
+    "units": "L/kg",
+    "value": 12
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614629": {
+   "chembl_document_id": "CHEMBL1614629",
+   "journal": "J Pharm Sci",
+   "pmid": "15920768",
+   "title": "Extrapolation of human pharmacokinetic parameters from rat, dog, and monkey data: Molecular properties associated with extrapolative success or failure.",
+   "year": 2005
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 261,
+  "openfda_labels_returned": 90,
+  "openfda_labels_same_entity": 90,
+  "openfda_query": "openfda.generic_name:\"citalopram\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

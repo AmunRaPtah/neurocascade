@@ -1,0 +1,440 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "D04AX01",
+    "ddd": [],
+    "index_last_updated": "2026-01-20",
+    "who_name": "doxepin"
+   },
+   {
+    "atc_code": "N06AA12",
+    "ddd": [
+     {
+      "ddd": 0.1,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     },
+     {
+      "ddd": 0.1,
+      "note": null,
+      "route": "P",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "doxepin"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "100 mg three times daily printed; 3 x 100 = 300 mg/day",
+    "high": 300,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting oral dosage for doxepin hydrochloride capsule is 25 mg three times daily or 75 mg once daily.",
+     "The maximum recommended oral dosage for doxepin hydrochloride capsule is 100 mg three times daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "9.7%",
+     "frequency_lower": 0.0969697,
+     "frequency_upper": 0.0969697,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "21.5%",
+     "frequency_lower": 0.215152,
+     "frequency_upper": 0.215152,
+     "source": "SIDER 4.1",
+     "term": "Drowsiness"
+    },
+    {
+     "description": "21.5%",
+     "frequency_lower": 0.215152,
+     "frequency_upper": 0.215152,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    }
+   ],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": 1,
+   "eps": null,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 9.697,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": 21.5152,
+   "seizure": null,
+   "sexual_dysfunction": 0.0,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention"
+   ],
+   "eps": [
+    "dyskinesia",
+    "extrapyramidal disorder",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "sedation"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "21dc77be-23af-4a1f-b189-dfee8ae2f894"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100003158"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 343,
+    "n_frequency_rows_placebo": 12,
+    "n_frequency_rows_postmarketing": 2,
+    "n_side_effect_rows": 632,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "doxepin",
+ "label": {
+  "application_number": [
+   "ANDA215076"
+  ],
+  "brand_name": [
+   "DOXEPIN HYDROCHLORIDE"
+  ],
+  "effective_time": "20260903",
+  "generic_name": [
+   "DOXEPIN HYDROCHLORIDE"
+  ],
+  "id": "5a9576a5-2362-5cd8-e063-6394a90a7c9f",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "21dc77be-23af-4a1f-b189-dfee8ae2f894",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "21dc77be-23af-4a1f-b189-dfee8ae2f894"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 14.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 14.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 14.0,
+      "min": 14.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 14.0
+     },
+     {
+      "max": 14.0,
+      "min": 14.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 14.0
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 15.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1815399",
+      "description": "Elimination half life in human at 50 mg by RIA",
+      "ref": "CHEMBL1811812",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 18.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 15.0,
+      "min": 15.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 15.0
+     },
+     {
+      "max": 18.0,
+      "min": 18.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 18.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1100462",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1153781",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 11.7
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 12.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 12.0,
+      "min": 12.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 12.0
+     },
+     {
+      "max": 11.7,
+      "min": 11.7,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 11.7
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 24,
+    "kind": "pk",
+    "low": 8,
+    "note": "plasma elimination half-life in healthy volunteers",
+    "quantity": "t_half_h",
+    "quotes": [
+     "In healthy volunteers, the plasma elimination half-life of doxepin ranged from 8 to 24 hours (mean 17 hours)."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 17
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean plasma clearance",
+    "quantity": "cl",
+    "quotes": [
+     "The mean plasma clearance for doxepin was approximately 0.84 L/hour/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/h/kg",
+    "value": 0.84
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The mean apparent volume of distribution for doxepin was approximately 20 L/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 20
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  },
+  "CHEMBL1811812": {
+   "chembl_document_id": "CHEMBL1811812",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "20800486",
+   "title": "Identification of a novel selective H1-antihistamine with optimized pharmacokinetic properties for clinical evaluation in the treatment of insomnia.",
+   "year": 2010
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 222,
+  "openfda_labels_returned": 101,
+  "openfda_labels_same_entity": 101,
+  "openfda_query": "openfda.generic_name:\"doxepin\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

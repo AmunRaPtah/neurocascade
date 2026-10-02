@@ -1,0 +1,355 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX17",
+    "ddd": [
+     {
+      "ddd": 0.1,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "milnacipran"
+   }
+  ],
+  "label": [
+   {
+    "high": 200,
+    "high_basis": "upper end of recommended range",
+    "indication": "fibromyalgia",
+    "kind": "dose",
+    "low": 100,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose of milnacipran hydrochloride is 100 mg/day (50 mg twice daily).",
+     "Based on individual patient response, the dose may be increased to 200 mg/day (100 mg twice daily)."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "16%",
+     "frequency_lower": 0.16,
+     "frequency_upper": 0.16,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 16.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Treatment-Emergent Adverse Reaction Incidence in Placebo Controlled Trials in Fibromyalgia Patients (Events Occurring in at Least 2% of All Milnacipran hydrochloride-Treated Patients and Occurring More Frequently in Either Milnacipran hydrochloride Treatment Group Than in the Placebo Treatment Group)",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Treatment-Emergent Adverse Reaction Incidence in Placebo Controlled Trials in Fibromyalgia Patients (Events Occurring in at Least 2% of All Milnacipran hydrochloride-Treated Patients and Occurring More Frequently in Either Milnacipran hydrochloride Treatment Group Than in the Placebo Treatment Group)",
+     "term": "Dry mouth"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Treatment-Emergent Adverse Reaction Incidence in Placebo Controlled Trials in Fibromyalgia Patients (Events Occurring in at Least 2% of All Milnacipran hydrochloride-Treated Patients and Occurring More Frequently in Either Milnacipran hydrochloride Treatment Group Than in the Placebo Treatment Group)",
+     "term": "Vision blurred"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 0,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": 16.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention"
+   ],
+   "eps": [
+    "akathisia",
+    "parkinsonism"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "ejaculation disorder",
+    "ejaculation failure",
+    "erectile dysfunction",
+    "libido decreased",
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 1,
+    "n_ar_tables_used": 1,
+    "n_rows_with_drug_arm_value": 31,
+    "set_id": "b66b1850-0d2a-41d6-b0ad-c676166394c7"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100055480"
+    ],
+    "match": "stereo_split",
+    "n_frequency_rows_drug": 129,
+    "n_frequency_rows_placebo": 64,
+    "n_frequency_rows_postmarketing": 77,
+    "n_side_effect_rows": 209,
+    "stereo_ids": [
+     "CID000055480"
+    ]
+   }
+  }
+ },
+ "inn": "milnacipran",
+ "label": {
+  "application_number": [
+   "NDA022256"
+  ],
+  "brand_name": [
+   "Milnacipran Hydrochloride"
+  ],
+  "effective_time": "20260319",
+  "generic_name": [
+   "MILNACIPRAN HYDROCHLORIDE"
+  ],
+  "id": "97a7eb14-fa99-40e4-91c2-be5b34f5e203",
+  "indication_psychiatric": false,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "b66b1850-0d2a-41d6-b0ad-c676166394c7",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "b66b1850-0d2a-41d6-b0ad-c676166394c7"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 50,
+   "drug": "milnacipran",
+   "first_author": "Nogami",
+   "n_subjects": null,
+   "occupancy_percent": 33.0,
+   "pmid": "23067569",
+   "quote": "Our data show that mean 5-HTT occupancy in the thalamus was 33.0% at 50 mg, 38.6% at 100 mg, 60.0% at 150 mg and 61.5% at 200 mg.",
+   "regimen": "steady state",
+   "region": "thalamus",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[11C]DASB",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 100,
+   "drug": "milnacipran",
+   "first_author": "Nogami",
+   "n_subjects": null,
+   "occupancy_percent": 38.6,
+   "pmid": "23067569",
+   "quote": "Our data show that mean 5-HTT occupancy in the thalamus was 33.0% at 50 mg, 38.6% at 100 mg, 60.0% at 150 mg and 61.5% at 200 mg.",
+   "regimen": "steady state",
+   "region": "thalamus",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[11C]DASB",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 150,
+   "drug": "milnacipran",
+   "first_author": "Nogami",
+   "n_subjects": null,
+   "occupancy_percent": 60.0,
+   "pmid": "23067569",
+   "quote": "Our data show that mean 5-HTT occupancy in the thalamus was 33.0% at 50 mg, 38.6% at 100 mg, 60.0% at 150 mg and 61.5% at 200 mg.",
+   "regimen": "steady state",
+   "region": "thalamus",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[11C]DASB",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 200,
+   "drug": "milnacipran",
+   "first_author": "Nogami",
+   "n_subjects": null,
+   "occupancy_percent": 61.5,
+   "pmid": "23067569",
+   "quote": "Our data show that mean 5-HTT occupancy in the thalamus was 33.0% at 50 mg, 38.6% at 100 mg, 60.0% at 150 mg and 61.5% at 200 mg.",
+   "regimen": "steady state",
+   "region": "thalamus",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[11C]DASB",
+   "year": 2013
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL3532602",
+      "description": "Half life in human plasma",
+      "ref": "CHEMBL3526138",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 8.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL3535554",
+      "description": "Half life in human at 100 mg, po by LC-MS/MS analysis",
+      "ref": "CHEMBL3526138",
+      "relation": "=",
+      "route": "oral",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 8.9
+     }
+    ],
+    "summary": [
+     {
+      "max": 8.9,
+      "min": 8.9,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "oral",
+      "species": "human",
+      "units": "hr",
+      "value": 8.9
+     },
+     {
+      "max": 8.0,
+      "min": 8.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 8.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 8,
+    "kind": "pk",
+    "low": 6,
+    "note": "terminal elimination half-life (racemate)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "It is excreted predominantly unchanged in urine (55%) and has a terminal elimination half-life of about 6 to 8 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "volume of distribution after single IV dose",
+    "quantity": "vd",
+    "quotes": [
+     "The mean volume of distribution of milnacipran following a single intravenous dose to healthy subjects is approximately 400 L."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 400
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL3526138": {
+   "chembl_document_id": "CHEMBL3526138",
+   "journal": "Drug Metab Dispos",
+   "pmid": "22653299",
+   "title": "Excretion and metabolism of milnacipran in humans after oral administration of milnacipran hydrochloride.",
+   "year": 2012
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 246,
+  "openfda_labels_returned": 5,
+  "openfda_labels_same_entity": 5,
+  "openfda_query": "openfda.generic_name:\"milnacipran\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "N06A"
+}

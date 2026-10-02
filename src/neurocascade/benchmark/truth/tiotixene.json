@@ -1,0 +1,165 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AF04",
+    "ddd": [
+     {
+      "ddd": 30.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "tiotixene"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "2 mg three times daily printed; 3 x 2 = 6 mg/day",
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 6,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "In milder conditions, an initial dose of 2 mg three times daily is recommended.",
+     "If indicated, an increase to 60 mg/day total daily dose is often effective."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "parkinsonism",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "sedation",
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "9480a406-c85b-ba06-e053-2a95a90a0912"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100005454"
+    ],
+    "match": "name_alias",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 290,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "tiotixene",
+ "label": {
+  "application_number": [
+   "ANDA211642"
+  ],
+  "brand_name": [
+   "Thiothixene"
+  ],
+  "effective_time": "20250411",
+  "generic_name": [
+   "THIOTHIXENE"
+  ],
+  "id": "3284fb4d-549c-d0dc-e063-6394a90a8af4",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "9480a406-c85b-ba06-e053-2a95a90a0912",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "9480a406-c85b-ba06-e053-2a95a90a0912"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 185,
+  "openfda_labels_returned": 4,
+  "openfda_labels_same_entity": 4,
+  "openfda_query": "openfda.generic_name:\"thiothixene\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

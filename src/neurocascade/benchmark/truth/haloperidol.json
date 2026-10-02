@@ -1,0 +1,590 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AD01",
+    "ddd": [
+     {
+      "ddd": 8.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 8.0,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     },
+     {
+      "ddd": 3.3,
+      "note": "depot",
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "haloperidol"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "0.5 mg b.i.d. printed as lowest initial adult dose; 2 x 0.5 = 1 mg/day",
+    "high": 100,
+    "high_basis": "maximum recommended dose",
+    "indication": "psychotic disorders",
+    "kind": "dose",
+    "low": 1,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Moderate Symptomatology - 0.5 mg to 2 mg b.i.d. or t.i.d.",
+     "Daily dosages up to 100 mg may be necessary in some cases to achieve an optimal response."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "very rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.0001,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [
+    {
+     "description": "very rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.0001,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": 0,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 0.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": 0.0,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "bradykinesia",
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "hypokinesia",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "opisthotonus",
+    "parkinsonism",
+    "tardive dyskinesia",
+    "torticollis"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "erectile dysfunction",
+    "libido decreased",
+    "sexual dysfunction"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "a0751f2e-05ab-4ba9-9bae-7b791bf1a621"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100003559"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 105,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 137,
+    "n_side_effect_rows": 316,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "haloperidol",
+ "label": {
+  "application_number": [
+   "ANDA216918"
+  ],
+  "brand_name": [
+   "Haloperidol"
+  ],
+  "effective_time": "20260831",
+  "generic_name": [
+   "HALOPERIDOL"
+  ],
+  "id": "5a5a5e13-73d5-e3f0-e063-6394a90a07c5",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "a0751f2e-05ab-4ba9-9bae-7b791bf1a621",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "a0751f2e-05ab-4ba9-9bae-7b791bf1a621"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 2,
+   "drug": "haloperidol",
+   "first_author": "Kapur",
+   "n_subjects": 7,
+   "occupancy_percent": [
+    53,
+    74
+   ],
+   "pmid": "8659621",
+   "quote": "Seven patients with schizophrenia were treated with 2 mg/day of haloperidol for 2 weeks, and D2 receptor occupancy was measured by [11C]raclopride and positron emission tomography.<h4>Results</h4>The patients showed high levels of D2 occupancy (53%-74%);",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1996
+  },
+  {
+   "dose_mg_per_day": [
+    1,
+    5
+   ],
+   "drug": "haloperidol",
+   "first_author": "Kapur",
+   "n_subjects": 12,
+   "occupancy_percent": [
+    53,
+    88
+   ],
+   "pmid": "9201802",
+   "quote": "Twelve patients treated with 1-5 mg/day of haloperidol had their D2 occupancy measured using [11C]-raclopride and positron emission tomography and haloperidol plasma levels measured using gas chromatograph mass spectrophotometer. The patients exhibited haloperidol plasma levels ranging from 0.5 to 5.8 ng/ml and D2 occupancy from 53 to 88%.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1997
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 7.8
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 7.8
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614689",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614630",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 11.8
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 7.8
+     }
+    ],
+    "summary": [
+     {
+      "max": 11.8,
+      "min": 7.8,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 9.8
+     },
+     {
+      "max": 7.8,
+      "min": 7.8,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 7.8
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 35.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL3790141",
+      "description": "Terminal half life in psychotic patient (9 patients) at 3.5 +/- 1.2 mg, iv by reversed phase HPLC method",
+      "ref": "CHEMBL3784949",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 18.8
+     },
+     {
+      "assay_chembl_id": "CHEMBL3790151",
+      "description": "Terminal half life in psychotic patient (9 patients) at 2.9 +/- 1.2 mg, po by reversed phase HPLC method",
+      "ref": "CHEMBL3784949",
+      "relation": "=",
+      "route": "oral",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 18.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL4258129",
+      "description": "Half life in po dosed human plasma",
+      "ref": "CHEMBL4257461",
+      "relation": "=",
+      "route": "oral",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 24.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL4258130",
+      "description": "Half life in iv dosed human plasma",
+      "ref": "CHEMBL4257461",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 14.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL4258131",
+      "description": "Half life in im dosed human plasma",
+      "ref": "CHEMBL4257461",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 21.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 35.0,
+      "min": 14.0,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 18.8
+     },
+     {
+      "max": 24.0,
+      "min": 18.1,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "oral",
+      "species": "human",
+      "units": "hr",
+      "value": 21.05
+     },
+     {
+      "max": 21.0,
+      "min": 21.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 21.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL632931",
+      "description": "Volume of distribution in man (IV dose)",
+      "ref": "CHEMBL1135488",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 18.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 18.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1100462",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1153781",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 18.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 17.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614690",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614630",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 18.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 17.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL3790143",
+      "description": "Volume of distribution at steady state in psychotic patient (9 patients) at 3.5 +/- 1.2 mg, iv by reversed phase HPLC method",
+      "ref": "CHEMBL3784949",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 7.9
+     }
+    ],
+    "summary": [
+     {
+      "max": 18.0,
+      "min": 7.9,
+      "n_censored": 0,
+      "n_documents": 4,
+      "n_measurements": 4,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 17.5
+     },
+     {
+      "max": 18.0,
+      "min": 17.0,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 18.0
+     }
+    ]
+   }
+  },
+  "label": []
+ },
+ "references": {
+  "CHEMBL1135488": {
+   "chembl_document_id": "CHEMBL1135488",
+   "journal": "J Med Chem",
+   "pmid": "12061889",
+   "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+   "year": 2002
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614630": {
+   "chembl_document_id": "CHEMBL1614630",
+   "journal": "Drug Metab Dispos",
+   "pmid": "16621936",
+   "title": "Extrapolation of preclinical pharmacokinetics and molecular feature analysis of \"discovery-like\" molecules to predict human pharmacokinetics.",
+   "year": 2006
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  },
+  "CHEMBL3784949": {
+   "chembl_document_id": "CHEMBL3784949",
+   "journal": "Psychopharmacology (Berl)",
+   "pmid": "3108922",
+   "title": "Pharmacokinetics of haloperidol in psychotic patients.",
+   "year": 1987
+  },
+  "CHEMBL4257461": {
+   "chembl_document_id": "CHEMBL4257461",
+   "journal": "Medchemcomm",
+   "pmid": "30108966",
+   "title": "Schizophrenia: synthetic strategies and recent advances in drug design.",
+   "year": 2018
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 472,
+  "openfda_labels_returned": 108,
+  "openfda_labels_same_entity": 85,
+  "openfda_query": "openfda.generic_name:\"haloperidol\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

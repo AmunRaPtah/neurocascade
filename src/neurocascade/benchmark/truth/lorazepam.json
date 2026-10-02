@@ -1,0 +1,474 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05BA06",
+    "ddd": [
+     {
+      "ddd": 2.5,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 2.5,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     },
+     {
+      "ddd": 2.5,
+      "note": null,
+      "route": "SL",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "lorazepam"
+   },
+   {
+    "atc_code": "N05BA56",
+    "ddd": [],
+    "index_last_updated": "2026-01-20",
+    "who_name": "lorazepam, combinations"
+   }
+  ],
+  "label": [
+   {
+    "high": 10,
+    "high_basis": "upper end of recommended range",
+    "indication": "anxiety",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "For anxiety, most patients require an initial dose of 2 to 3 mg/day given two times a day or three times a day.",
+     "The usual range is 2 to 6 mg/day given in divided doses, the largest dose being taken before bedtime, but the daily dosage may vary from 1 to 10 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "3.75%",
+     "frequency_lower": 0.0375,
+     "frequency_upper": 0.0375,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "0.769%",
+     "frequency_lower": 0.00769231,
+     "frequency_upper": 0.00769231,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": 0,
+   "sedation": null,
+   "seizure": 0,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": 3.75,
+   "seizure": 0.7692,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "vision blurred"
+   ],
+   "eps": [
+    "extrapyramidal disorder"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "hypersomnia",
+    "sedation"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "erectile dysfunction"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "89057c93-8155-4040-acec-64e877bd2b4c"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100003958"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 156,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 56,
+    "n_side_effect_rows": 233,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "lorazepam",
+ "label": {
+  "application_number": [
+   "NDA017794"
+  ],
+  "brand_name": [
+   "Ativan"
+  ],
+  "effective_time": "20250709",
+  "generic_name": [
+   "LORAZEPAM"
+  ],
+  "id": "93bdf2de-1222-44a4-b4d5-2280f9ce58d8",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "89057c93-8155-4040-acec-64e877bd2b4c",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "89057c93-8155-4040-acec-64e877bd2b4c"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL875174",
+      "description": "In vivo clearance in human",
+      "ref": "CHEMBL1132496",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL3529376",
+      "description": "Plasma clearance in human",
+      "ref": "CHEMBL3526069",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.21
+     }
+    ],
+    "summary": [
+     {
+      "max": 1.0,
+      "min": 1.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 1.0
+     },
+     {
+      "max": 1.21,
+      "min": 1.0,
+      "n_censored": 0,
+      "n_documents": 4,
+      "n_measurements": 4,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 1.05
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 17.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL3529380",
+      "description": "Half life in human",
+      "ref": "CHEMBL3526069",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 12.4
+     }
+    ],
+    "summary": [
+     {
+      "max": 17.0,
+      "min": 17.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 17.0
+     },
+     {
+      "max": 12.4,
+      "min": 12.4,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 12.4
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL632931",
+      "description": "Volume of distribution in man (IV dose)",
+      "ref": "CHEMBL1135488",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.3
+     },
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.6
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.3
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.3
+     },
+     {
+      "assay_chembl_id": "CHEMBL3529379",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL3526069",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.3
+     }
+    ],
+    "summary": [
+     {
+      "max": 1.3,
+      "min": 1.3,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 1.3
+     },
+     {
+      "max": 1.6,
+      "min": 1.3,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 1.3
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean half-life of unconjugated lorazepam",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean half-life of unconjugated lorazepam in human plasma is about 12 hours"
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 12
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1132496": {
+   "chembl_document_id": "CHEMBL1132496",
+   "journal": "J Med Chem",
+   "pmid": "10602692",
+   "title": "Combining in vitro and in vivo pharmacokinetic data for prediction of hepatic drug clearance in humans by artificial neural networks and multivariate statistical techniques.",
+   "year": 1999
+  },
+  "CHEMBL1135488": {
+   "chembl_document_id": "CHEMBL1135488",
+   "journal": "J Med Chem",
+   "pmid": "12061889",
+   "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+   "year": 2002
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  },
+  "CHEMBL3526069": {
+   "chembl_document_id": "CHEMBL3526069",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21282406",
+   "title": "Human pharmacokinetic prediction of UDP-glucuronosyltransferase substrates with an animal scale-up approach.",
+   "year": 2011
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 81,
+  "openfda_labels_returned": 103,
+  "openfda_labels_same_entity": 103,
+  "openfda_query": "openfda.generic_name:\"lorazepam\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05B"
+}

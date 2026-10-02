@@ -1,0 +1,401 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AX13",
+    "ddd": [
+     {
+      "ddd": 6.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 2.5,
+      "note": "depot Expressed as paliperidone",
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "paliperidone"
+   }
+  ],
+  "label": [
+   {
+    "high": 12,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 6,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose of INVEGA (paliperidone) Extended-Release Tablets for the treatment of schizophrenia in adults is 6 mg administered once daily.",
+     "The maximum recommended dose is 12 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 12,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizoaffective disorder",
+    "kind": "dose",
+    "low": 6,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose of INVEGA (paliperidone) Extended-Release Tablets for the treatment of schizoaffective disorder in adults is 6 mg administered once daily.",
+     "The maximum recommended dose is 12 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "very rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.0001,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 6. Adverse Drug Reactions Reported by ≥ 2% of INVEGA -Treated Adult Subjects with Schizoaffective Disorder in Two Double-Blind, Placebo-Controlled Clinical Trials",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4. Adverse Reactions Reported by ≥ 2% of INVEGA-Treated Adult Subjects with Schizophrenia in Three Short-Term, Fixed-Dose, Placebo-Controlled Clinical Trials",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "17%",
+     "frequency_lower": 0.17,
+     "frequency_upper": 0.17,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "9%",
+     "frequency_lower": 0.09,
+     "frequency_upper": 0.09,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "23%",
+     "frequency_lower": 0.23,
+     "frequency_upper": 0.23,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "23%",
+     "frequency_lower": 0.23,
+     "frequency_upper": 0.23,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal symptoms"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Muscle rigidity"
+    },
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Oculogyric crisis"
+    },
+    {
+     "description": "15%",
+     "frequency_lower": 0.15,
+     "frequency_upper": 0.15,
+     "source": "SIDER 4.1",
+     "term": "Parkinsonism"
+    },
+    {
+     "drug_arm_percent": 10.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4. Adverse Reactions Reported by ≥ 2% of INVEGA-Treated Adult Subjects with Schizophrenia in Three Short-Term, Fixed-Dose, Placebo-Controlled Clinical Trials",
+     "term": "Akathisia"
+    },
+    {
+     "drug_arm_percent": 9.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8. Treatment-Emergent Extrapyramidal Symptoms (EPS)-Related Adverse Events by MedDRA Preferred Term – Schizophrenia Studies in Adults",
+     "term": "Dyskinesia"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8. Treatment-Emergent Extrapyramidal Symptoms (EPS)-Related Adverse Events by MedDRA Preferred Term – Schizophrenia Studies in Adults",
+     "term": "Dystonia"
+    },
+    {
+     "drug_arm_percent": 20.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4. Adverse Reactions Reported by ≥ 2% of INVEGA-Treated Adult Subjects with Schizophrenia in Three Short-Term, Fixed-Dose, Placebo-Controlled Clinical Trials",
+     "term": "Extrapyramidal symptoms"
+    },
+    {
+     "drug_arm_percent": 15.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 7. Treatment-Emergent Extrapyramidal Symptoms (EPS) Assessed by Incidence of Ratings Scales and Use of Anticholinergic Medication – Schizophrenia Studies in Adults",
+     "term": "Parkinsonism"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dizziness postural"
+    },
+    {
+     "description": "4%",
+     "frequency_lower": 0.04,
+     "frequency_upper": 0.04,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4. Adverse Reactions Reported by ≥ 2% of INVEGA-Treated Adult Subjects with Schizophrenia in Three Short-Term, Fixed-Dose, Placebo-Controlled Clinical Trials",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "26%",
+     "frequency_lower": 0.26,
+     "frequency_upper": 0.26,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 12.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 6. Adverse Drug Reactions Reported by ≥ 2% of INVEGA -Treated Adult Subjects with Schizoaffective Disorder in Two Double-Blind, Placebo-Controlled Clinical Trials",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Grand mal convulsion"
+    }
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 6. Adverse Drug Reactions Reported by ≥ 2% of INVEGA -Treated Adult Subjects with Schizoaffective Disorder in Two Double-Blind, Placebo-Controlled Clinical Trials",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 5.0,
+   "eps": 23.0,
+   "orthostasis": 4.0,
+   "sedation": 26.0,
+   "seizure": 0.1,
+   "sexual_dysfunction": null,
+   "weight_gain": 7.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "bradykinesia",
+    "hypokinesia",
+    "opisthotonus",
+    "tardive dyskinesia",
+    "torticollis"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "hypersomnia",
+    "sedation"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "anorgasmia",
+    "ejaculation delayed",
+    "ejaculation disorder",
+    "erectile dysfunction",
+    "libido decreased",
+    "retrograde ejaculation",
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 7,
+    "n_ar_tables_used": 5,
+    "n_rows_with_drug_arm_value": 59,
+    "set_id": "7b8e5b26-b9e4-4704-921b-3c3c0d159916"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100115237"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 582,
+    "n_frequency_rows_placebo": 273,
+    "n_frequency_rows_postmarketing": 87,
+    "n_side_effect_rows": 714,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "paliperidone",
+ "label": {
+  "application_number": [
+   "NDA021999"
+  ],
+  "brand_name": [
+   "INVEGA"
+  ],
+  "effective_time": "20250131",
+  "generic_name": [
+   "PALIPERIDONE"
+  ],
+  "id": "3c5e5b30-a841-4dfe-88ce-361806c9275f",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "7b8e5b26-b9e4-4704-921b-3c3c0d159916",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "7b8e5b26-b9e4-4704-921b-3c3c0d159916"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal elimination half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The terminal elimination half-life of paliperidone is approximately 23 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 23
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution, population analysis",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Based on a population analysis, the apparent volume of distribution of paliperidone is 487 L."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L",
+    "value": 487
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 214,
+  "openfda_labels_returned": 29,
+  "openfda_labels_same_entity": 25,
+  "openfda_query": "openfda.generic_name:\"paliperidone\"",
+  "pet_searched_empty": [
+   {
+    "drug": "paliperidone",
+    "note": "Main oral study Arakawa 2008 (PMID 18058087): doses 3/9/15 mg/day in Methods, striatal occupancy range 54.2-85.5% in Results (non-adjacent, >2 sentences apart); the only dose+occupancy sentence ('paliperidone ER at 6-9 mg provides an estimated level ... between 70-80%') is an estimated/modeled value, excluded by the no-interpolation rule. Skipped.",
+    "queries": [
+     "(TITLE:\"paliperidone\" OR ABSTRACT:\"paliperidone\") AND ABSTRACT:\"occupancy\"",
+     "(TITLE:\"paliperidone\" OR ABSTRACT:\"paliperidone\" OR ABSTRACT:\"9-hydroxyrisperidone\") AND ABSTRACT:\"occupancy\" AND ABSTRACT:\"mg\""
+    ],
+    "target": "D2"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

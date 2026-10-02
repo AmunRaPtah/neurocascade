@@ -1,0 +1,181 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AF03",
+    "ddd": [
+     {
+      "ddd": 60.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "phenelzine"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "15 mg three times a day printed; 3 x 15 = 45 mg/day",
+    "high": 90,
+    "high_basis": "maximum recommended dose",
+    "indication": "depression (atypical)",
+    "kind": "dose",
+    "low": 45,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The usual starting dose of phenelzine sulfate is one tablet (15 mg) three times a day.",
+     "It may be necessary to increase dosage up to 90 mg per day to obtain sufficient MAO inhibition."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "muscle rigidity"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "hypersomnia",
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "anorgasmia",
+    "erectile dysfunction"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "fa041652-fdde-4794-a8d2-279dd309e075"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100003675"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 124,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "phenelzine",
+ "label": {
+  "application_number": [
+   "NDA011909"
+  ],
+  "brand_name": [
+   "phenelzine sulfate"
+  ],
+  "effective_time": "20260521",
+  "generic_name": [
+   "PHENELZINE SULFATE"
+  ],
+  "id": "d7302106-710a-49a4-9ab4-2de28937306c",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "fa041652-fdde-4794-a8d2-279dd309e075",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "fa041652-fdde-4794-a8d2-279dd309e075"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "elimination half-life after single 30 mg dose",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half-life after a single 30 mg dose is 11.6 hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 11.6
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 65,
+  "openfda_labels_returned": 3,
+  "openfda_labels_same_entity": 3,
+  "openfda_query": "openfda.generic_name:\"phenelzine\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

@@ -1,0 +1,379 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AB03",
+    "ddd": [
+     {
+      "ddd": 30.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 7.0,
+      "note": "depot",
+      "route": "P",
+      "unit": "mg"
+     },
+     {
+      "ddd": 10.0,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     },
+     {
+      "ddd": 16.0,
+      "note": null,
+      "route": "R",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "perphenazine"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "4 mg t.i.d. initially printed; 3 x 4 = 12 mg/day; 64 mg daily printed as ceiling",
+    "high": 64,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 12,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Moderately disturbed nonhospitalized patients with schizophrenia: 4 to 8 mg t.i.d. initially;",
+     "Hospitalized patients with schizophrenia: 8 to 16 mg b.i.d. to q.i.d.; avoid dosages in excess of 64 mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 16,
+    "high_basis": "upper end of recommended range",
+    "indication": "severe nausea and vomiting",
+    "kind": "dose",
+    "low": 8,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Severe nausea and vomiting in adults: 8 to 16 mg daily in divided doses; 24 mg occasionally may be necessary;"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "opisthotonus",
+    "parkinsonism",
+    "tardive dyskinesia",
+    "torticollis"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "sedation",
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "c4150683-0772-4344-bb1c-f050b84175d6"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100004748"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 231,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "perphenazine",
+ "label": {
+  "application_number": [
+   "ANDA210163"
+  ],
+  "brand_name": [
+   "PERPHENAZINE"
+  ],
+  "effective_time": "20260827",
+  "generic_name": [
+   "PERPHENAZINE"
+  ],
+  "id": "5a0b359a-ab38-1cb2-e063-6294a90a7f43",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "c4150683-0772-4344-bb1c-f050b84175d6",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "c4150683-0772-4344-bb1c-f050b84175d6"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 27.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 27.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 27.0,
+      "min": 27.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 27.0
+     },
+     {
+      "max": 27.0,
+      "min": 27.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 27.0
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 9.4
+     }
+    ],
+    "summary": [
+     {
+      "max": 9.4,
+      "min": 9.4,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 9.4
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 20.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 18.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 18.0,
+      "min": 18.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 18.0
+     },
+     {
+      "max": 20.0,
+      "min": 20.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 20.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 12,
+    "kind": "pk",
+    "low": 9,
+    "note": "plasma elimination half-life, independent of dose",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The plasma elimination half-life of perphenazine was independent of dose and ranged between 9 and 12 hours."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 83,
+  "openfda_labels_returned": 36,
+  "openfda_labels_same_entity": 35,
+  "openfda_query": "openfda.generic_name:\"perphenazine\"",
+  "pet_searched_empty": [
+   {
+    "drug": "perphenazine",
+    "note": "Only human PET study (Talvik 2004, PMID 15007534) used perphenazine DECANOATE depot and reports dose as serum nmol/l (not mg); D2 66-82%. Excluded by depot/LAI rule and no mg dose.",
+    "queries": [
+     "(ABSTRACT:\"perphenazine\" OR TITLE:\"perphenazine\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\")"
+    ],
+    "target": "D2"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

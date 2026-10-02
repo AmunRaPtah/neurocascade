@@ -1,0 +1,256 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX28",
+    "ddd": [
+     {
+      "ddd": 40.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "levomilnacipran"
+   }
+  ],
+  "label": [
+   {
+    "high": 120,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "FETZIMA should be initiated at 20 mg once daily for 2 days and then increased to 40 mg once daily.",
+     "The maximum recommended dosage is 120 mg once daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "9%",
+     "frequency_lower": 0.09,
+     "frequency_upper": 0.09,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 9.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3 Adverse Reactions Occurring in ≥ 2% of FETZIMA-treated Patients and at Least Twice the rate of Placebo-treated Patients in Pooled MDD Studies",
+     "term": "Constipation"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "10%",
+     "frequency_lower": 0.1,
+     "frequency_upper": 0.1,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3 Adverse Reactions Occurring in ≥ 2% of FETZIMA-treated Patients and at Least Twice the rate of Placebo-treated Patients in Pooled MDD Studies",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "drug_arm_percent": 10.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4 Dose-Related Adverse Reactions",
+     "term": "Erectile dysfunction"
+    }
+   ],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 0,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 0,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": 9.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": 10.0,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "extrapyramidal disorder"
+   ],
+   "orthostasis": [
+    "dizziness postural",
+    "orthostatic hypotension"
+   ],
+   "sedation": [],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "ejaculation delayed",
+    "ejaculation failure",
+    "libido decreased",
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 2,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 19,
+    "set_id": "f371258d-91b3-4b6a-ac99-434a1964c3af"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100055480"
+    ],
+    "match": "stereo_split",
+    "n_frequency_rows_drug": 44,
+    "n_frequency_rows_placebo": 38,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 136,
+    "stereo_ids": [
+     "CID006917778"
+    ]
+   }
+  }
+ },
+ "inn": "levomilnacipran",
+ "label": {
+  "application_number": [
+   "NDA204168"
+  ],
+  "brand_name": [
+   "Fetzima"
+  ],
+  "effective_time": "20240430",
+  "generic_name": [
+   "LEVOMILNACIPRAN HYDROCHLORIDE"
+  ],
+  "id": "b4f9c587-d1eb-462b-bad2-ed0ce6d76c57",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "f371258d-91b3-4b6a-ac99-434a1964c3af",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "f371258d-91b3-4b6a-ac99-434a1964c3af"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent terminal elimination half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The apparent terminal elimination half-life of levomilnacipran is approximately 12 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 12
+   },
+   {
+    "high": 29,
+    "kind": "pk",
+    "low": 21,
+    "note": "mean apparent total clearance",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "Following an oral administration, the mean apparent total clearance of levomilnacipran is 21-29 L/h."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "L/h",
+    "value": null
+   },
+   {
+    "high": 473,
+    "kind": "pk",
+    "low": 387,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Levomilnacipran is widely distributed with an apparent volume of distribution of 387-473 L;"
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "L",
+    "value": null
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 17,
+  "openfda_labels_returned": 1,
+  "openfda_labels_same_entity": 1,
+  "openfda_query": "openfda.generic_name:\"levomilnacipran\"",
+  "pet_searched_empty": [
+   {
+    "drug": "levomilnacipran",
+    "note": "No human PET/SPECT SERT or NET occupancy study found. Abanades 2011 (20940733) is a duloxetine study, not levomilnacipran, and reports only OC50. Only preclinical/PK references available.",
+    "queries": [
+     "levomilnacipran AND occupancy",
+     "AUTH:Abanades AND occupancy"
+    ],
+    "target": "SERT"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

@@ -1,0 +1,216 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX26",
+    "ddd": [
+     {
+      "ddd": 10.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "vortioxetine"
+   }
+  ],
+  "label": [
+   {
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose is 10 mg administered orally once daily without regard to meals. Dosage should then be increased to 20 mg/day, as tolerated."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2: Adverse Reactions Occurring in ≥2% of Patients Treated with Any TRINTELLIX Dose and at Least 2% Greater Than the Incidence in Placebo-Treated Patients",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 8.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2: Adverse Reactions Occurring in ≥2% of Patients Treated with Any TRINTELLIX Dose and at Least 2% Greater Than the Incidence in Placebo-Treated Patients",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 0,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 0,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 8.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction",
+    "libido decreased",
+    "sexual dysfunction"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 2,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 11,
+    "set_id": "bd0107e5-1cb9-4b40-a6af-fa65fcbe6b4e"
+   }
+  }
+ },
+ "inn": "vortioxetine",
+ "label": {
+  "application_number": [
+   "NDA204447"
+  ],
+  "brand_name": [
+   "Trintellix"
+  ],
+  "effective_time": "20260423",
+  "generic_name": [
+   "VORTIOXETINE"
+  ],
+  "id": "50254973-3e27-33a6-e063-6294a90aea61",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "bd0107e5-1cb9-4b40-a6af-fa65fcbe6b4e",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "bd0107e5-1cb9-4b40-a6af-fa65fcbe6b4e"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 2.5,
+   "drug": "vortioxetine",
+   "first_author": "Stenkrona",
+   "n_subjects": null,
+   "occupancy_percent": 2,
+   "pmid": "23428337",
+   "quote": "5-HTT occupancy ranged from 2 (mean, 2.5 mg day 1) to 97% (60 mg day 9).",
+   "regimen": "single dose",
+   "region": "brain",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[11C]MADAM",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 60,
+   "drug": "vortioxetine",
+   "first_author": "Stenkrona",
+   "n_subjects": null,
+   "occupancy_percent": 97,
+   "pmid": "23428337",
+   "quote": "5-HTT occupancy ranged from 2 (mean, 2.5 mg day 1) to 97% (60 mg day 9).",
+   "regimen": "steady state",
+   "region": "brain",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[11C]MADAM",
+   "year": 2013
+  }
+ ],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean terminal half-life is approximately 66 hours, and steady-state plasma concentrations are typically achieved within two weeks of dosing."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 66
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The apparent volume of distribution of vortioxetine is approximately 2600 L, indicating extensive extravascular distribution."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 2600
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 73,
+  "openfda_labels_returned": 4,
+  "openfda_labels_same_entity": 4,
+  "openfda_query": "openfda.generic_name:\"vortioxetine\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

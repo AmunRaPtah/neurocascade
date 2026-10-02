@@ -1,0 +1,641 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AB05",
+    "ddd": [
+     {
+      "ddd": 20.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "paroxetine"
+   }
+  ],
+  "label": [
+   {
+    "high": 50,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Indication Starting Dose Maximum Dose MDD 20 mg 50 mg OCD 20 mg 60 mg PD 10 mg 60 mg PTSD 20 mg 50 mg"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "OCD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Indication Starting Dose Maximum Dose MDD 20 mg 50 mg OCD 20 mg 60 mg PD 10 mg 60 mg PTSD 20 mg 50 mg"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "panic disorder",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Indication Starting Dose Maximum Dose MDD 20 mg 50 mg OCD 20 mg 60 mg PD 10 mg 60 mg PTSD 20 mg 50 mg"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 50,
+    "high_basis": "maximum recommended dose",
+    "indication": "PTSD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Indication Starting Dose Maximum Dose MDD 20 mg 50 mg OCD 20 mg 60 mg PD 10 mg 60 mg PTSD 20 mg 50 mg"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "SAD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting and recommended dosage in patients with SAD is 20 mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting and recommended dosage in patients with GAD is 20 mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "13%",
+     "frequency_lower": 0.13,
+     "frequency_upper": 0.13,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "20.6%",
+     "frequency_lower": 0.206,
+     "frequency_upper": 0.206,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "description": "7.8%",
+     "frequency_lower": 0.078,
+     "frequency_upper": 0.078,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 7.8,
+     "source": "openFDA label table",
+     "table_caption": "Table 7 Adverse Reactions (≥ 5% of Paroxetine-Treated Patients and ≥ Twice the Rate of Placebo) (in a Dose-Comparison Trial in the Treatment of MDD)",
+     "term": "Blurred Vision"
+    },
+    {
+     "drug_arm_percent": 16.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 5 Adverse Reactions (≥ 2% of Paroxetine-Treated Patients and Greater than Placebo) in 10 to 12-Week Clinical Trials for OCD, PD, and SAD",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 20.6,
+     "source": "openFDA label table",
+     "table_caption": "Table 7 Adverse Reactions (≥ 5% of Paroxetine-Treated Patients and ≥ Twice the Rate of Placebo) (in a Dose-Comparison Trial in the Treatment of MDD)",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Torticollis"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "22%",
+     "frequency_lower": 0.22,
+     "frequency_upper": 0.22,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 24.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 5 Adverse Reactions (≥ 2% of Paroxetine-Treated Patients and Greater than Placebo) in 10 to 12-Week Clinical Trials for OCD, PD, and SAD",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Grand mal convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "27%",
+     "frequency_lower": 0.27,
+     "frequency_upper": 0.27,
+     "source": "SIDER 4.1",
+     "term": "Abnormal ejaculation"
+    },
+    {
+     "description": "27%",
+     "frequency_lower": 0.27,
+     "frequency_upper": 0.27,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "10%",
+     "frequency_lower": 0.1,
+     "frequency_upper": 0.1,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "13%",
+     "frequency_lower": 0.13,
+     "frequency_upper": 0.13,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "very common",
+     "frequency_lower": 0.1,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Sexual dysfunction"
+    },
+    {
+     "drug_arm_percent": 28.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 5 Adverse Reactions (≥ 2% of Paroxetine-Treated Patients and Greater than Placebo) in 10 to 12-Week Clinical Trials for OCD, PD, and SAD",
+     "term": "Abnormal Ejaculation"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8 Adverse Reactions Related to Sexual Dysfunction in Patients Treated with Paroxetine in Clinical Trials of MDD, OCD, PD, SAD, GAD, and PTSD",
+     "term": "Decreased Libido"
+    },
+    {
+     "drug_arm_percent": 9.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 6 Adverse Reactions (≥ 2% of Paroxetine-Treated Patients and Greater than Placebo) in 8- to 12-Week Clinical Trials for GAD and PTSD",
+     "term": "Impotence"
+    },
+    {
+     "drug_arm_percent": 12.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 5 Adverse Reactions (≥ 2% of Paroxetine-Treated Patients and Greater than Placebo) in 10 to 12-Week Clinical Trials for OCD, PD, and SAD",
+     "term": "Libido Decreased"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 20.6,
+   "eps": 0.1,
+   "orthostasis": 1.0,
+   "sedation": 24.0,
+   "seizure": 0.1,
+   "sexual_dysfunction": 28.0,
+   "weight_gain": 3.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "bradykinesia",
+    "dystonia",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "parkinsonism"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "anorgasmia",
+    "ejaculation delayed",
+    "orgasm abnormal",
+    "orgasm delayed"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 6,
+    "n_ar_tables_used": 5,
+    "n_rows_with_drug_arm_value": 133,
+    "set_id": "598efb76-93ef-f7de-e063-6394a90a632e"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100004691"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 2149,
+    "n_frequency_rows_placebo": 517,
+    "n_frequency_rows_postmarketing": 257,
+    "n_side_effect_rows": 1135,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "paroxetine",
+ "label": {
+  "application_number": [
+   "ANDA077584"
+  ],
+  "brand_name": [
+   "Paroxetine"
+  ],
+  "effective_time": "20260821",
+  "generic_name": [
+   "PAROXETINE"
+  ],
+  "id": "598ef448-e888-ba0d-e063-6294a90a3ad4",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "598efb76-93ef-f7de-e063-6394a90a632e",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "598efb76-93ef-f7de-e063-6394a90a632e"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 20,
+   "drug": "paroxetine",
+   "first_author": "Meyer",
+   "n_subjects": 7,
+   "occupancy_percent": 83,
+   "pmid": "11691690",
+   "quote": "For patients treated with 20 mg/day of paroxetine (N=7), the mean proportion of 5-HTT sites occupied was 83%.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[11C]DASB",
+   "year": 2001
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 18.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 18.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 18.0,
+      "min": 18.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 18.0
+     },
+     {
+      "max": 18.0,
+      "min": 18.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 18.0
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1002565",
+      "description": "Half life in human at 20 mg, po qd for 10 days",
+      "ref": "CHEMBL1137661",
+      "relation": "=",
+      "route": "oral",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 21.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1005844",
+      "description": "Half life in human at 20 mg, po qd for 10 days followed by 16 days washout period and treated with 20 mg, po qd for 10 days coadministered with fosamprenavir at 700 mg, po bid and ritonavir at 100 mg, po bid",
+      "ref": "CHEMBL1137661",
+      "relation": "=",
+      "route": "oral",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 15.9
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 13.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 13.0,
+      "min": 13.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 13.0
+     },
+     {
+      "max": 21.1,
+      "min": 15.9,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 2,
+      "route": "oral",
+      "species": "human",
+      "units": "hr",
+      "value": 18.316386
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 17.2
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 18.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 18.0,
+      "min": 18.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 18.0
+     },
+     {
+      "max": 17.2,
+      "min": 17.2,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 17.2
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean elimination half-life, 30 mg daily for 30 days",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half-life is approximately 21 hours (CV 32%) after oral dosing of 30 mg tablets daily for 30 days of paroxetine."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 21
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1137661": {
+   "chembl_document_id": "CHEMBL1137661",
+   "journal": "Antimicrob Agents Chemother",
+   "pmid": "17846135",
+   "title": "Interaction study of the combined use of paroxetine and fosamprenavir-ritonavir in healthy subjects.",
+   "year": 2007
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 311,
+  "openfda_labels_returned": 84,
+  "openfda_labels_same_entity": 84,
+  "openfda_query": "openfda.generic_name:\"paroxetine\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "N06A"
+}

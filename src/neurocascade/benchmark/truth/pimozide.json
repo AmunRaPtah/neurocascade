@@ -1,0 +1,288 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AG02",
+    "ddd": [
+     {
+      "ddd": 4.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "pimozide"
+   }
+  ],
+  "label": [
+   {
+    "high": 10,
+    "high_basis": "maximum recommended dose",
+    "indication": "Tourette's disorder",
+    "kind": "dose",
+    "low": 1,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "In general, treatment with pimozide tablets, USP should be initiated with a dose of 1 to 2 mg a day in divided doses.",
+     "Doses greater than 0.2 mg/kg/day or 10 mg/day are not recommended."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "4%",
+     "frequency_lower": 0.04,
+     "frequency_upper": 0.04,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "8%",
+     "frequency_lower": 0.08,
+     "frequency_upper": 0.08,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Muscle rigidity"
+    },
+    {
+     "description": "2.78%",
+     "frequency_lower": 0.0277778,
+     "frequency_upper": 0.0277778,
+     "source": "SIDER 4.1",
+     "term": "Torticollis"
+    },
+    {
+     "drug_arm_percent": 8.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Akathisia"
+    }
+   ],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Drowsiness"
+    },
+    {
+     "description": "27.8%",
+     "frequency_lower": 0.277778,
+     "frequency_upper": 0.277778,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 7.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Drowsiness"
+    },
+    {
+     "drug_arm_percent": 14.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Sedation"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Impotence"
+    }
+   ],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 5.0,
+   "eps": 8.0,
+   "orthostasis": null,
+   "sedation": 27.7778,
+   "seizure": null,
+   "sexual_dysfunction": 3.0,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "bradykinesia",
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "oculogyric crisis",
+    "opisthotonus",
+    "parkinsonism",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "libido decreased"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 2,
+    "n_ar_tables_used": 1,
+    "n_rows_with_drug_arm_value": 33,
+    "set_id": "70b079e2-a1f7-4a93-8685-d60a4d7c1280"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100016362"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 91,
+    "n_frequency_rows_placebo": 46,
+    "n_frequency_rows_postmarketing": 116,
+    "n_side_effect_rows": 231,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "pimozide",
+ "label": {
+  "application_number": [
+   "ANDA204521"
+  ],
+  "brand_name": [
+   "Pimozide"
+  ],
+  "effective_time": "20260812",
+  "generic_name": [
+   "PIMOZIDE"
+  ],
+  "id": "a3c5958c-a773-4d10-ae80-9cd453bf07fe",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "70b079e2-a1f7-4a93-8685-d60a4d7c1280",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "70b079e2-a1f7-4a93-8685-d60a4d7c1280"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean serum elimination half-life in schizophrenic patients",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean serum elimination half-life of pimozide in schizophrenic patients was approximately 55 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 55
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 277,
+  "openfda_labels_returned": 2,
+  "openfda_labels_same_entity": 2,
+  "openfda_query": "openfda.generic_name:\"pimozide\"",
+  "pet_searched_empty": [
+   {
+    "drug": "pimozide",
+    "note": "No non-review human abstract found that prints a pimozide occupancy value with a stated dose.",
+    "queries": [
+     "(ABSTRACT:\"pimozide\" OR TITLE:\"pimozide\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\")",
+     "(ABSTRACT:\"pimozide\" OR TITLE:\"pimozide\") AND ABSTRACT:\"occupancy\"",
+     "TITLE:\"pimozide\"",
+     "(TITLE:\"pimozide\" OR ABSTRACT:\"pimozide\") AND (ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"spiperone\" OR ABSTRACT:\"NMSP\")"
+    ],
+    "target": "D2"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

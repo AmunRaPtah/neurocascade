@@ -1,0 +1,709 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AX12",
+    "ddd": [
+     {
+      "ddd": 15.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 15.0,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     },
+     {
+      "ddd": 13.3,
+      "note": "depot",
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "aripiprazole"
+   }
+  ],
+  "label": [
+   {
+    "high": 30,
+    "high_basis": "upper end of recommended range",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting and target dose for ABILIFY is 10 or 15 mg/day administered on a once-a-day schedule without regard to meals.",
+     "ABILIFY has been systematically evaluated and shown to be effective in a dose range of 10 to 30 mg/day, when administered as the tablet formulation;"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 30,
+    "high_basis": "maximum recommended dose",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose in adults is 15 mg given once daily as monotherapy and 10 mg to 15 mg given once daily as adjunctive therapy with lithium or valproate.",
+     "The dose may be increased to 30 mg/day based on clinical response."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 15,
+    "high_basis": "upper end of recommended range",
+    "indication": "MDD (adjunctive)",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose for ABILIFY as adjunctive treatment for patients already taking an antidepressant is 2 to 5 mg/day. The recommended dosage range is 2 to 15 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "13%",
+     "frequency_lower": 0.13,
+     "frequency_upper": 0.13,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "8%",
+     "frequency_lower": 0.08,
+     "frequency_upper": 0.08,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 21: Adverse Reactions in Short-Term, Placebo-Controlled Adjunctive Trials in Patients with Major Depressive Disorder",
+     "term": "Blurred Vision"
+    },
+    {
+     "drug_arm_percent": 11.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 15: Adverse Reactions in Short-Term, Placebo-Controlled Trials in Adult Patients Treated with ABILIFY",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 15: Adverse Reactions in Short-Term, Placebo-Controlled Trials in Adult Patients Treated with ABILIFY",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "25%",
+     "frequency_lower": 0.25,
+     "frequency_upper": 0.25,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "20%",
+     "frequency_lower": 0.2,
+     "frequency_upper": 0.2,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "drug_arm_percent": 25.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 21: Adverse Reactions in Short-Term, Placebo-Controlled Adjunctive Trials in Patients with Major Depressive Disorder",
+     "term": "Akathisia"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 14: Commonly Observed Adverse Reactions in Short-Term, Placebo-Controlled Trials of Adult Patients with Bipolar Mania Treated with ABILIFY Monotherapy",
+     "term": "Extrapyramidal Disorder"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Hypersomnia"
+    },
+    {
+     "description": "23%",
+     "frequency_lower": 0.23,
+     "frequency_upper": 0.23,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 8.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 14: Commonly Observed Adverse Reactions in Short-Term, Placebo-Controlled Trials of Adult Patients with Bipolar Mania Treated with ABILIFY Monotherapy",
+     "term": "Sedation"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 21: Adverse Reactions in Short-Term, Placebo-Controlled Adjunctive Trials in Patients with Major Depressive Disorder",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    {
+     "description": "9%",
+     "frequency_lower": 0.09,
+     "frequency_upper": 0.09,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 21: Adverse Reactions in Short-Term, Placebo-Controlled Adjunctive Trials in Patients with Major Depressive Disorder",
+     "term": "Weight Increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 13.0,
+   "eps": 25.0,
+   "orthostasis": 1.0,
+   "sedation": 23.0,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": 9.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention"
+   ],
+   "eps": [
+    "bradykinesia",
+    "dystonia",
+    "hypokinesia",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "parkinsonism",
+    "tardive dyskinesia",
+    "torticollis"
+   ],
+   "orthostasis": [
+    "dizziness postural"
+   ],
+   "sedation": [],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "anorgasmia",
+    "ejaculation disorder",
+    "erectile dysfunction",
+    "libido decreased",
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 8,
+    "n_ar_tables_used": 4,
+    "n_rows_with_drug_arm_value": 65,
+    "set_id": "c040bd1d-45b7-49f2-93ea-aed7220b30ac"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100060795"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 469,
+    "n_frequency_rows_placebo": 258,
+    "n_frequency_rows_postmarketing": 24,
+    "n_side_effect_rows": 1610,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "aripiprazole",
+ "label": {
+  "application_number": [
+   "NDA021436"
+  ],
+  "brand_name": [
+   "ABILIFY"
+  ],
+  "effective_time": "20250129",
+  "generic_name": [
+   "ARIPIPRAZOLE"
+  ],
+  "id": "1b189d15-798d-4bed-a93d-a543ed7abd81",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "c040bd1d-45b7-49f2-93ea-aed7220b30ac",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "c040bd1d-45b7-49f2-93ea-aed7220b30ac"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": [
+    0.5,
+    30
+   ],
+   "drug": "aripiprazole",
+   "first_author": "Yokoi",
+   "n_subjects": 15,
+   "occupancy_percent": [
+    40,
+    95
+   ],
+   "pmid": "12093598",
+   "quote": "Administration of aripiprazole for 14 days resulted in a dose-dependent receptor occupancy between 40 - 95% after the administration of 0.5mg, 1 mg, 2 mg, 10 mg, and 30 mg per day.",
+   "regimen": "steady state (14 days)",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2002
+  },
+  {
+   "dose_mg_per_day": 10,
+   "drug": "aripiprazole",
+   "first_author": "Mamo",
+   "n_subjects": null,
+   "occupancy_percent": 85,
+   "pmid": "17728427",
+   "quote": "D(2) occupancy levels were significantly correlated with plasma drug concentrations, and even the lowest dose (10 mg) led to 85% D(2) occupancy.",
+   "regimen": "steady state (>=14 days)",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2007
+  },
+  {
+   "dose_mg_per_day": [
+    10,
+    30
+   ],
+   "drug": "aripiprazole",
+   "first_author": "Mamo",
+   "n_subjects": 12,
+   "occupancy_percent": [
+    54,
+    60
+   ],
+   "pmid": "17728427",
+   "quote": "Twelve patients who had previously received antipsychotic treatment were randomly assigned to receive 10 mg, 15 mg, 20 mg, or 30 mg of aripiprazole. After at least 14 days of treatment, participants underwent high-resolution PET scans using [(11)C]raclopride, [(18)F]setoperone, and [(11)C]WAY100635.<h4>Results</h4>Very high occupancy was observed at striatal D(2) receptors (average putamen, 87%; caudate, 93%; and ventral striatum, 91%), lower occupancy at 5-HT(2) receptors (54%-60%)",
+   "regimen": "steady state (>=14 days)",
+   "region": "cortex",
+   "route": "oral",
+   "statistic": "range",
+   "target": "5-HT2A",
+   "tracer": "[18F]setoperone",
+   "year": 2007
+  },
+  {
+   "dose_mg_per_day": 2,
+   "drug": "aripiprazole",
+   "first_author": "Kegeles",
+   "n_subjects": null,
+   "occupancy_percent": 71.6,
+   "pmid": "18418366",
+   "quote": "Occupancy levels were high across regions of interest, ranging from 71.6+/-5.5% at 2 mg/day to 96.8+/-5.3% at 40 mg/day.",
+   "regimen": "steady state (>=10 days)",
+   "region": "regions of interest (striatal and extrastriatal)",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "D2",
+   "tracer": "[18F]fallypride",
+   "year": 2008
+  },
+  {
+   "dose_mg_per_day": 40,
+   "drug": "aripiprazole",
+   "first_author": "Kegeles",
+   "n_subjects": null,
+   "occupancy_percent": 96.8,
+   "pmid": "18418366",
+   "quote": "Occupancy levels were high across regions of interest, ranging from 71.6+/-5.5% at 2 mg/day to 96.8+/-5.3% at 40 mg/day.",
+   "regimen": "steady state (>=10 days)",
+   "region": "regions of interest (striatal and extrastriatal)",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "D2",
+   "tracer": "[18F]fallypride",
+   "year": 2008
+  },
+  {
+   "dose_mg_per_day": 2,
+   "drug": "aripiprazole",
+   "first_author": "Kim",
+   "n_subjects": null,
+   "occupancy_percent": 22.2,
+   "pmid": "23271192",
+   "quote": "The mean (±SD) D2 receptor occupancies were 22.2 ± 16.0 % in the 2 mg group, 35.5 ± 3.6 % in the 5 mg group, 63.2 ± 9.9 % in the 10 mg group and 72.8 ± 2.1 % in the 30 mg group.",
+   "regimen": "single dose",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 5,
+   "drug": "aripiprazole",
+   "first_author": "Kim",
+   "n_subjects": null,
+   "occupancy_percent": 35.5,
+   "pmid": "23271192",
+   "quote": "The mean (±SD) D2 receptor occupancies were 22.2 ± 16.0 % in the 2 mg group, 35.5 ± 3.6 % in the 5 mg group, 63.2 ± 9.9 % in the 10 mg group and 72.8 ± 2.1 % in the 30 mg group.",
+   "regimen": "single dose",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 10,
+   "drug": "aripiprazole",
+   "first_author": "Kim",
+   "n_subjects": null,
+   "occupancy_percent": 63.2,
+   "pmid": "23271192",
+   "quote": "The mean (±SD) D2 receptor occupancies were 22.2 ± 16.0 % in the 2 mg group, 35.5 ± 3.6 % in the 5 mg group, 63.2 ± 9.9 % in the 10 mg group and 72.8 ± 2.1 % in the 30 mg group.",
+   "regimen": "single dose",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 30,
+   "drug": "aripiprazole",
+   "first_author": "Kim",
+   "n_subjects": null,
+   "occupancy_percent": 72.8,
+   "pmid": "23271192",
+   "quote": "The mean (±SD) D2 receptor occupancies were 22.2 ± 16.0 % in the 2 mg group, 35.5 ± 3.6 % in the 5 mg group, 63.2 ± 9.9 % in the 10 mg group and 72.8 ± 2.1 % in the 30 mg group.",
+   "regimen": "single dose",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 6,
+   "drug": "aripiprazole",
+   "first_author": "Takahata",
+   "n_subjects": 11,
+   "occupancy_percent": [
+    70.1,
+    74.1
+   ],
+   "pmid": "22237854",
+   "quote": "Using PET and two radioligands with different affinities for dopamine D₂ receptors, [¹¹C]raclopride and [¹¹C]FLB457, striatal and extrastriatal dopamine D₂ receptor bindings at baseline and after oral administration of 6 mg aripiprazole were measured in 11 male healthy subjects.<h4>Results</h4>Our data showed that dopamine D₂ receptor occupancies in the striatum measured with [¹¹C]raclopride were 70.1% and 74.1%, with the corresponding values for the extrastriatal regions measured with [¹¹C]FLB457 ranging from 46.6% to 58.4%.",
+   "regimen": "single dose",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2012
+  },
+  {
+   "dose_mg_per_day": 6,
+   "drug": "aripiprazole",
+   "first_author": "Takahata",
+   "n_subjects": 11,
+   "occupancy_percent": [
+    46.6,
+    58.4
+   ],
+   "pmid": "22237854",
+   "quote": "Using PET and two radioligands with different affinities for dopamine D₂ receptors, [¹¹C]raclopride and [¹¹C]FLB457, striatal and extrastriatal dopamine D₂ receptor bindings at baseline and after oral administration of 6 mg aripiprazole were measured in 11 male healthy subjects.<h4>Results</h4>Our data showed that dopamine D₂ receptor occupancies in the striatum measured with [¹¹C]raclopride were 70.1% and 74.1%, with the corresponding values for the extrastriatal regions measured with [¹¹C]FLB457 ranging from 46.6% to 58.4%.",
+   "regimen": "single dose",
+   "region": "extrastriatal regions",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]FLB457",
+   "year": 2012
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 0.83
+     },
+     {
+      "assay_chembl_id": "CHEMBL2185195",
+      "description": "Clearance in human",
+      "ref": "CHEMBL2176960",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 0.8
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.83,
+      "min": 0.83,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 0.83
+     },
+     {
+      "max": 0.8,
+      "min": 0.8,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 0.8
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 75.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL2185196",
+      "description": "Half life in human",
+      "ref": "CHEMBL2176960",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 75.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 75.0,
+      "min": 75.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 75.0
+     },
+     {
+      "max": 75.0,
+      "min": 75.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 75.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 4.9
+     }
+    ],
+    "summary": [
+     {
+      "max": 4.9,
+      "min": 4.9,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 4.9
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean elimination half-life of parent aripiprazole",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half-lives are about 75 hours and 94 hours for aripiprazole and dehydro-aripiprazole, respectively."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 75
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "steady-state volume of distribution after IV administration (also printed as 4.9 L/kg)",
+    "quantity": "vss",
+    "quotes": [
+     "The steady-state volume of distribution of aripiprazole following intravenous administration is high (404 L or 4.9 L/kg), indicating extensive extravascular distribution."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 404
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  },
+  "CHEMBL2176960": {
+   "chembl_document_id": "CHEMBL2176960",
+   "journal": "J Med Chem",
+   "pmid": "22409598",
+   "title": "Mechanism-based inactivation (MBI) of cytochrome P450 enzymes: structure-activity relationships and discovery strategies to mitigate drug-drug interaction risks.",
+   "year": 2012
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 127,
+  "openfda_labels_returned": 122,
+  "openfda_labels_same_entity": 118,
+  "openfda_query": "openfda.generic_name:\"aripiprazole\"",
+  "pet_searched_empty": [
+   {
+    "drug": "aripiprazole",
+    "note": "No SERT data. Excluded: Shin 2018/Kim 2022 (no dose), Mizrahi 2009 (no dose), Freudenmann 2010 case report (no dose), Grunder 2008 (EC50 only).",
+    "queries": [
+     "ABSTRACT:\"aripiprazole\" AND (ABSTRACT:\"receptor occupancy\" OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"fallypride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"FLB457\" OR ABSTRACT:\"PHNO\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"MDL100907\")"
+    ],
+    "target": "SERT"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}
