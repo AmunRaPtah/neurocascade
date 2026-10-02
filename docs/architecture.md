@@ -16959,3 +16959,65 @@ leaf, keeping the v1 closure free of the fingerprint layer. `check_translation`
 is the leaf's self-contained gate: human/no-claim → `None`, tagged non-human →
 `TranslatedInput`, untagged non-human → `UnsourcedParameterError`, the same two
 paths `gate()` enforces, available to a caller that must not import the full gate.
+
+## Phase 29, part two: preclinical-to-human PK, scored held out (P29.2)
+
+P29.2 was constrained by the source as soon as the benchmark records were
+read. The P28.3 animal observations contain species, units and an assay
+description, but no animal body weight. A classic multi-species allometric
+projection therefore cannot be evaluated from these records without adding a
+body weight that nobody measured in this benchmark. The honest animal model is
+the narrower one that the data support: for rat observations with compatible
+units, fit
+
+``log(human value per kg) = intercept + exponent * log(rat value per kg)``
+
+on the train drugs only. The result is labelled ``rat single-species
+allometric scaling`` in code because it is the empirical single-species form;
+the documentation does not present its fitted exponent as a literature
+allometric exponent. This distinction matters: the fitted exponent is a
+benchmark coefficient, while Boxenbaum 1982 (PMID 7120049) is the citation for
+the scaling method, not a source of a number imported into this model.
+
+The clearance IVIVE arm is equally narrow and explicit. It uses only the
+compatible group shared by enough train and held-out records: human liver
+microsomal CLint in mL min^-1 g^-1 multiplied by human plasma fu. Microsomes,
+hepatocytes, S9, per-cell units and per-kg units are not pooled. The log-log
+coefficient is fitted on train drugs; Obach 1999 (PMID 10534321) and Ring et
+al. 2011 (PMID 21541938) support the method and the binding correction, not the
+coefficient. Rat allometry is preferred for a drug when rat in-vivo CL exists;
+otherwise the compatible human-microsome IVIVE model is used. Vss has only the
+rat scaling arm. Human truth is selected by a fixed rule: IV summary first,
+then unspecified route, never an oral or depot value.
+
+`neurocascade.benchmark.human_pk_translation` records the fitted drug names,
+method citation, input references and each prediction. With the frozen P28.1
+split, the training fits use 8 rat-CL drugs, 8 IVIVE drugs and 2 rat-Vss drugs.
+The held-out result is:
+
+| parameter | scored held-out drugs | geometric-mean fold-error | within 2-fold | within 3-fold |
+|---|---:|---:|---:|---:|
+| CL | 5 | 6.774746573244732 | 1/5 (0.20) | 1/5 (0.20) |
+| Vss | 3 | 1.284574380699600 | 3/3 (1.00) | 3/3 (1.00) |
+
+These denominators are not silently expanded to all 55 held-out drugs: the
+other drugs do not have the required compatible preclinical field and human
+truth pair. No tolerance was changed after scoring. The CL result is a real,
+poor prediction and remains in the ledger; Vss is a small result, not evidence
+that the method generalizes broadly.
+
+### Oral exposure is searched-and-empty, not a fabricated endpoint
+
+The frozen human truth has no matched oral AUC, absolute F, or CL/F. Its
+records contain IV CL/Vss compilations plus labels for dose and sometimes
+half-life, but no quantity from which oral exposure can be scored. The
+repository-wide search covered every P28.4 truth record, its ChEMBL human-PK
+inputs, and the selected openFDA label transcriptions. The external PhRMA
+CPCDC dataset described by Ring et al. 2011 (PMID 21541938) does contain oral
+AUC for 107 blinded compounds, but the compound identities are intentionally
+hidden and cannot be matched to these benchmark INNs. It is therefore not a
+usable held-out source here. Because ``AUC_po = F * dose / CL`` requires F (or
+CL/F), assuming F=1 or borrowing a value from another drug would violate rules
+1 and 2. P29.2 adds no oral-exposure container or score until a same-entity,
+route-matched truth is obtained; the searched-and-empty result is recorded in
+the ledger.
