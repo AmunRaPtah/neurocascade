@@ -2477,7 +2477,13 @@
         "P28.1"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "conductor": {
+        "sessions": 1,
+        "history": [
+          "2026-10-02 09:08 COMPLETE, PR opened"
+        ]
+      }
     },
     {
       "id": "P29.2",
