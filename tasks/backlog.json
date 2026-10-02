@@ -2363,14 +2363,17 @@
         "evidence": ""
       },
       "deps": [],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-02 01:58 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 19
+      },
+      "finished_at": "2026-10-02T00:20:22+00:00",
+      "result": "complete"
     },
     {
       "id": "P28.2",
