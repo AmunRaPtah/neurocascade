@@ -61,6 +61,16 @@ STATE = HOME / "state.json"
 PAUSE = HOME / "PAUSE"
 CLOCK = HOME / ".lock"
 TOKEN_FILE = Path("/root/.claude-anthropic/oauth-token.pinned")
+#: Architect backend: "claude" (default) or "codex[:profile]". Written to this
+#: file (or NC_ARCH_BACKEND) to hand the architect role to Codex while the
+#: Claude weekly pace gate holds (2026-10-02). Delete the file to go back.
+ARCH_BACKEND_FILE = HOME / "ARCH_BACKEND"
+CODEX_VENDOR = Path("/root/.nvm/versions/node/v24.18.0/lib/node_modules/@openai/codex/"
+                    "node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl")
+CODEX_PROFILES = Path("/root/.codex-profiles")
+CODEX_MODEL = os.environ.get("NC_CODEX_MODEL", "gpt-5.6-luna")
+CODEX_BACKOFF_S = 2 * 3600
+CODEX_BACKOFF = HOME / "codex_backoff_until"
 
 ARCH_MODEL = os.environ.get("NC_ARCH_MODEL", "opus")
 REVIEW_MODEL = os.environ.get("NC_REVIEW_MODEL", "sonnet")
@@ -381,6 +391,31 @@ def ensure_labels() -> None:
         o.sh(["gh", "label", "create", name, "--color", color, "--force"], cwd=o.REPO)
 
 
+def arch_backend() -> tuple[str, str]:
+    """("claude", "") or ("codex", profile)."""
+    raw = os.environ.get("NC_ARCH_BACKEND") or (
+        ARCH_BACKEND_FILE.read_text().strip() if ARCH_BACKEND_FILE.exists() else "claude")
+    kind, _, prof = raw.partition(":")
+    if kind != "codex":
+        return "claude", ""
+    if not prof:
+        r = subprocess.run(["cx", "next"], capture_output=True, text=True, timeout=60)
+        prof = (r.stdout.strip().split() or ["main"])[-1]
+    return "codex", prof
+
+
+def arch_ok() -> tuple[bool, str]:
+    kind, prof = arch_backend()
+    if kind == "claude":
+        return claude_ok()
+    until = float(CODEX_BACKOFF.read_text()) if CODEX_BACKOFF.exists() else 0
+    if now() < until:
+        return False, f"codex/{prof} backing off until {time.strftime('%H:%M', time.localtime(until))}"
+    if not (CODEX_PROFILES / prof / "auth.json").exists():
+        return False, f"codex profile {prof} has no auth.json"
+    return True, f"codex architect ({prof}, {CODEX_MODEL})"
+
+
 # ------------------------------------------------------------- architect session
 
 RULES_OVERRIDE = """
@@ -575,11 +610,133 @@ def _session(cname: str, tree: Path, home: Path, claude_args: list[str],
         killer.cancel()
 
 
+def parse_codex_log(text: str) -> dict:
+    """`codex exec --json` events: last agent message, item count, errors."""
+    res = {"final": "", "turns": None, "subtype": None, "api_error": None, "thread": None}
+    items = 0
+    for line in text.splitlines():
+        if not line.startswith("{"):
+            continue
+        try:
+            obj = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        typ = obj.get("type")
+        if typ == "thread.started":
+            res["thread"] = obj.get("thread_id")
+        elif typ == "item.completed":
+            items += 1
+            it = obj.get("item") or {}
+            if it.get("type") == "agent_message":
+                res["final"] = it.get("text") or ""
+        elif typ in ("turn.failed", "error"):
+            res["api_error"] = str((obj.get("error") or {}).get("message") or obj.get("message") or typ)[:300]
+        elif typ == "turn.completed":
+            res["api_error"] = None
+            res["subtype"] = "success"
+    res["turns"] = items if items else None
+    return res
+
+
+def _codex_session(cname: str, tree: Path, home: Path, prof: str, prompt: str,
+                   resume: str | None, effort: str, log_path: Path, deadline: float) -> int:
+    """One `codex exec` run in the sandbox image. The profile's auth.json is
+    copied into a throwaway CODEX_HOME and copied back if Codex refreshed it,
+    since a refresh rotates the token and would otherwise log the profile out."""
+    auth = CODEX_PROFILES / prof / "auth.json"
+    shutil.copy2(auth, home / "auth.json")
+    before = (home / "auth.json").read_bytes()
+    (home / "config.toml").write_text(
+        f'model = "{CODEX_MODEL}"\nmodel_reasoning_effort = "{effort}"\n[tools]\nweb_search = true\n')
+    (home / "prompt.txt").write_text(prompt)
+    o.sh(["chown", "-R", f"{o.WORKER_UID}:{o.WORKER_UID}", str(home)])
+    cmd = ["codex", "exec", *(["resume", resume] if resume else []), "--json",
+           "--skip-git-repo-check", "--dangerously-bypass-approvals-and-sandbox", "-"]
+    args = ["docker", "run", "--rm", "-i", "--name", cname, "--network", "bridge",
+            "--memory", "3g", "--memory-swap", "3g", "--cpus", "4", "--pids-limit", "1024",
+            "--cap-drop", "ALL", "--security-opt", "no-new-privileges",
+            "--user", str(o.WORKER_UID), "-w", "/work",
+            "-e", "HOME=/tmp", "-e", "CODEX_HOME=/cx",
+            "-e", "PATH=/opt/codex/bin:/opt/codex/codex-path:/usr/local/bin:/usr/bin:/bin",
+            "-v", f"{tree}:/work", "-v", f"{o.DATA}:/work/data:ro",
+            "-v", f"{CODEX_VENDOR}:/opt/codex:ro", "-v", f"{home}:/cx", o.IMAGE, *cmd]
+    o.sh(["docker", "rm", "-f", cname])
+    killer = threading.Timer(max(60.0, deadline - now()), lambda: o.sh(["docker", "kill", cname]))
+    killer.start()
+    try:
+        with log_path.open("w") as f, (home / "prompt.txt").open() as stdin:
+            rc = subprocess.run(args, stdout=f, stderr=subprocess.STDOUT, stdin=stdin).returncode
+    finally:
+        killer.cancel()
+        after = (home / "auth.json").read_bytes()
+        if after != before:
+            try:
+                json.loads(after)
+                tmp = auth.with_suffix(".json.nc-tmp")
+                tmp.write_bytes(after)
+                tmp.chmod(0o600)
+                tmp.replace(auth)
+                log(f"codex/{prof}: refreshed auth.json copied back")
+            except Exception as e:
+                log(f"codex/{prof}: auth.json changed but not copied back: {e}")
+    return rc
+
+
+def run_codex_architect(name: str, base: str, prompt: str, model: str, adir: Path,
+                        prof: str, wip: str = "") -> dict:
+    """run_architect with Codex in place of Claude Code; same contract."""
+    adir.mkdir(parents=True, exist_ok=True)
+    host = host_clone(name, base)
+    if wip and o.sh(["git", "-C", str(host), "apply", "-"], input=wip).returncode == 0:
+        prompt += WIP_NOTE
+    (adir / "prompt.txt").write_text(prompt)
+    tree = o.WORK / "arch" / f"{name}-tree"
+    o.disposable_copy(host, tree)
+    o.sh(["git", "-C", str(host), "reset", "-q", "--hard"])
+    o.sh(["git", "-C", str(host), "clean", "-qfd"])
+    home = adir / "codex-home"
+    home.mkdir(exist_ok=True)
+    effort = "medium" if model == REVIEW_MODEL else "high"
+    cname = f"nca-{re.sub(r'[^a-zA-Z0-9]', '-', name)}"
+    t0 = now()
+    deadline = t0 + ARCH_TIMEOUT_S
+    _codex_session(cname, tree, home, prof, prompt, None, effort, adir / "agent.jsonl", deadline)
+    res = parse_codex_log((adir / "agent.jsonl").read_text(errors="replace"))
+    rc = 0 if res["subtype"] else 1
+    if (res["thread"] and not res["api_error"] and not parse_claim(res["final"])[0]
+            and deadline - now() > 600):
+        log(f"{name}: no verdict line, resuming codex session once")
+        _codex_session(cname, tree, home, prof, NUDGE, res["thread"], effort,
+                       adir / "agent-resume.jsonl", deadline)
+        more = parse_codex_log((adir / "agent-resume.jsonl").read_text(errors="replace"))
+        res.update(api_error=more["api_error"],
+                   final=(res["final"] + "\n\n" + more["final"]).strip(),
+                   turns=(res["turns"] or 0) + (more["turns"] or 0))
+    res.update(rc=rc, model=f"codex/{CODEX_MODEL}", secs=round(now() - t0))
+    (adir / "final.txt").write_text(res["final"])
+    res["patch"] = o.extract_patch(tree, base, adir)
+    shutil.rmtree(tree, ignore_errors=True)
+    shutil.rmtree(home, ignore_errors=True)
+    res["host"] = host
+    res["claim"], res["rest"] = parse_claim(res["final"])
+    log(f"{name}: codex architect ({prof}) {res['secs']}s items={res['turns']} "
+        f"claim={res['claim']} {res['rest'][:80]} files={len(o.patch_paths(res['patch']))}")
+    if res["api_error"] or (not res["final"] and res["turns"] is None):
+        res["infra"] = True
+        # Own file: tick() saves its state dict over anything written here.
+        CODEX_BACKOFF.write_text(str(now() + CODEX_BACKOFF_S))
+        log(f"codex/{prof}: infra failure ({res['api_error']}), backing off {CODEX_BACKOFF_S // 3600}h")
+    return res
+
+
 def run_architect(name: str, base: str, prompt: str, model: str, adir: Path,
                   wip: str = "") -> dict:
     """One headless Claude session in the sandbox image on a clone at `base`,
     optionally with an earlier session's unfinished patch already applied.
     A session that stops without its verdict line is resumed once."""
+    kind, prof = arch_backend()
+    if kind == "codex":
+        return run_codex_architect(name, base, prompt, model, adir, prof, wip)
     adir.mkdir(parents=True, exist_ok=True)
     host = host_clone(name, base)
     if wip and o.sh(["git", "-C", str(host), "apply", "-"], input=wip).returncode == 0:
@@ -687,7 +844,7 @@ def step_review(st: dict, prs: list[dict], dry: bool) -> bool:
         if ci == "pending":
             continue
         sid = pr["headRefName"].split("/", 1)[-1]
-        ok, why = claude_ok()
+        ok, why = arch_ok()
         if not ok:
             st["waiting"] = f"review PR #{pr['number']}: {why}"
             return True
@@ -812,7 +969,7 @@ def step_takeover(st: dict, dry: bool) -> bool:
         return False
     issue = cands[0]
     sid = issue["id"]
-    ok, why = claude_ok()
+    ok, why = arch_ok()
     if not ok:
         st["waiting"] = f"takeover {sid}: {why}"
         return True
@@ -877,7 +1034,7 @@ def step_advance(st: dict, base: str, dry: bool) -> bool:
     if any(p["headRefName"] == f"architect/{t['id']}" for p in open_prs()):
         st["waiting_on"] = f"{t['id']} PR awaiting CI/merge"
         return False
-    ok, why = claude_ok()
+    ok, why = arch_ok()
     if not ok:
         st["waiting"] = f"advance {t['id']}: {why}"
         return True
@@ -1028,7 +1185,7 @@ def status() -> None:
     done = sum(t["status"] == "done" for t in tasks)
     print(f"backlog {done}/{len(tasks)} done; next: {(next_task(tasks) or {}).get('id')}")
     until = st.get("agy_waiting_until", 0)
-    print(f"claude: {claude_ok()[1]}\nagy: " + (f"backing off until {time.strftime('%H:%M', time.localtime(until))}"
+    print(f"architect: {arch_ok()[1]}\nclaude: {claude_ok()[1]}\nagy: " + (f"backing off until {time.strftime('%H:%M', time.localtime(until))}"
           if time.time() < until else "ready (worker 1)"))
     print(f"gemini: {gemini_ok(load_state())[1]} (worker 2)")
     for k in ("waiting", "waiting_on", "last_progress_what", "last_error"):
