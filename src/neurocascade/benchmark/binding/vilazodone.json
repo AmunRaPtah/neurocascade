@@ -1,0 +1,888 @@
+{
+ "actions_without_ki": {
+  "HTR4": [
+   {
+    "action": "agonist",
+    "label": "Agonist / Agonist",
+    "ref": "PMID:15341484",
+    "source": "GtoPdb"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL439849",
+ "chembl_id_queried": "CHEMBL439849",
+ "entity_note": null,
+ "inn": "vilazodone",
+ "mechanism_targets": [
+  "HTR1A",
+  "SLC6A4"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_DOC:CHEMBL5442175": {
+   "chembl_document": "CHEMBL5442175",
+   "citation": "EUbOPEN (2024) DATASET :",
+   "doi": "10.6019/CHEMBL5442175",
+   "pmid": null
+  },
+  "GTOPDB:ligand 7427 target 928": {
+   "citation": "GtoPdb interaction, ligand 7427 (vilazodone), target 928; primary PMIDs 19499624,15341484",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:15341484": {
+   "citation": "GtoPdb interaction, ligand 7427 (vilazodone), target 1; primary PMIDs 15341484",
+   "doi": null,
+   "pmid": "15341484"
+  },
+  "PMID:15740724": {
+   "citation": "ChEMBL drug mechanism 403: Serotonin transporter inhibitor; refs FDA label/2012/022567s005lbl.pdf; PubMed 15740724",
+   "doi": null,
+   "pmid": "15740724"
+  },
+  "PMID:19499624": {
+   "citation": "GtoPdb interaction, ligand 7427 (vilazodone), target 1; primary PMIDs 19499624",
+   "doi": null,
+   "pmid": "19499624"
+  },
+  "PMID:22520153": {
+   "chembl_document": "CHEMBL2034919",
+   "citation": "Zhu XY, Etukala JR, Eyunni SV, Setola V, Roth BL, Ablordeppey SY. (2012) Eur J Med Chem 53:124",
+   "doi": "10.1016/j.ejmech.2012.03.042",
+   "pmid": "22520153"
+  },
+  "PMID:31586817": {
+   "chembl_document": "CHEMBL4311986",
+   "citation": "Wr\u00f3bel MZ, Chodkowski A, Herold F, Marciniak M, Dawidowski M, Siwek A, Starowicz G, Stachowicz K, Szewczyk B, Nowak G, Belka M, B\u0105czek T, Sata\u0142a G, Bojarski AJ, Tur\u0142o J. (2019) Eur J Med Chem 183:111736",
+   "doi": "10.1016/j.ejmech.2019.111736",
+   "pmid": "31586817"
+  },
+  "PMID:31627993": {
+   "chembl_document": "CHEMBL4406867",
+   "citation": "Gu ZS, Wang WT, Qian H, Zhou AN, Sun HB, Zhang QW, Li JQ. (2019) Bioorg Med Chem Lett 29:126703",
+   "doi": "10.1016/j.bmcl.2019.126703",
+   "pmid": "31627993"
+  },
+  "PMID:36202190": {
+   "chembl_document": "CHEMBL5214965",
+   "citation": "Yuan RX, Jiang KY, Wu JW, Zhang ZX, Li MS, Li JQ, Ni F. (2022) Bioorg Med Chem Lett 76:129006",
+   "doi": "10.1016/j.bmcl.2022.129006",
+   "pmid": "36202190"
+  }
+ },
+ "screened_inactive_without_ki": {
+  "HTR2A": [
+   {
+    "chembl_document": "CHEMBL2034919",
+    "record": "activity 10913327 / assay CHEMBL2037808",
+    "source": "ChEMBL",
+    "statement": "Not Determined"
+   }
+  ],
+  "HTR2C": [
+   {
+    "chembl_document": "CHEMBL2034919",
+    "record": "activity 10913350 / assay CHEMBL2037809",
+    "source": "ChEMBL",
+    "statement": "Not Determined"
+   }
+  ]
+ },
+ "searched": {
+  "chembl_ki_rows_returned": 33,
+  "excluded_counts": {
+   "chembl_no_ki_value": 3,
+   "pdsp_species_not_human": 3
+  },
+  "gtopdb_ligand_id": "7427",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "vilazodone"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "ADRA1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA1A"
+   ],
+   "ki_max_nM": 278.07,
+   "ki_min_nM": 278.07,
+   "ki_nM": 278.07,
+   "measurements": [
+    {
+     "ki_nM": 278.07,
+     "record": "activity 25741069 / assay CHEMBL5442203",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Alpha-1A adrenergic receptor",
+   "pki_median": 6.5558,
+   "uniprot": [
+    "P35348"
+   ]
+  },
+  "ADRA1B": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA1B"
+   ],
+   "ki_max_nM": 2902.69,
+   "ki_min_nM": 2902.69,
+   "ki_nM": 2902.69,
+   "measurements": [
+    {
+     "ki_nM": 2902.69,
+     "record": "activity 25741070 / assay CHEMBL5442193",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Alpha-1B adrenergic receptor",
+   "pki_median": 5.5372,
+   "uniprot": [
+    "P35368"
+   ]
+  },
+  "ADRA1D": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA1D"
+   ],
+   "ki_max_nM": 716.31,
+   "ki_min_nM": 716.31,
+   "ki_nM": 716.31,
+   "measurements": [
+    {
+     "ki_nM": 716.31,
+     "record": "activity 25741071 / assay CHEMBL5442201",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Alpha-1D adrenergic receptor",
+   "pki_median": 6.1449,
+   "uniprot": [
+    "P25100"
+   ]
+  },
+  "ADRA2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA2A"
+   ],
+   "ki_max_nM": 2494.41,
+   "ki_min_nM": 2494.41,
+   "ki_nM": 2494.41,
+   "measurements": [
+    {
+     "ki_nM": 2494.41,
+     "record": "activity 25741072 / assay CHEMBL5442194",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Alpha-2A adrenergic receptor",
+   "pki_median": 5.603,
+   "uniprot": [
+    "P08913"
+   ]
+  },
+  "ADRA2C": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA2C"
+   ],
+   "ki_max_nM": 1378.32,
+   "ki_min_nM": 1378.32,
+   "ki_nM": 1378.32,
+   "measurements": [
+    {
+     "ki_nM": 1378.32,
+     "record": "activity 25741073 / assay CHEMBL5442196",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Alpha-2C adrenergic receptor",
+   "pki_median": 5.8606,
+   "uniprot": [
+    "P18825"
+   ]
+  },
+  "ADRB2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRB2"
+   ],
+   "ki_max_nM": 2490.29,
+   "ki_min_nM": 2490.29,
+   "ki_nM": 2490.29,
+   "measurements": [
+    {
+     "ki_nM": 2490.29,
+     "record": "activity 25741074 / assay CHEMBL5442214",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Beta-2 adrenergic receptor",
+   "pki_median": 5.6038,
+   "uniprot": [
+    "P07550"
+   ]
+  },
+  "DRD2": {
+   "action_types": [
+    "agonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "agonist",
+     "label": "Agonist / Agonist",
+     "ref": "PMID:15341484",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 666.0,
+   "ki_min_nM": 552.71,
+   "ki_nM": 606.716458,
+   "measurements": [
+    {
+     "ki_nM": 552.71,
+     "record": "activity 25741075 / assay CHEMBL5442215",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 666.0,
+     "record": "activity 10913396 / assay CHEMBL2037965",
+     "ref": "PMID:22520153",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "D(2) dopamine receptor",
+   "pki_median": 6.217,
+   "uniprot": [
+    "P14416"
+   ]
+  },
+  "DRD3": {
+   "action_types": [
+    "agonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "agonist",
+     "label": "Agonist / Agonist",
+     "ref": "PMID:15341484",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD3"
+   ],
+   "ki_max_nM": 133.28,
+   "ki_min_nM": 133.28,
+   "ki_nM": 133.28,
+   "measurements": [
+    {
+     "ki_nM": 133.28,
+     "record": "activity 25741076 / assay CHEMBL5442198",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "D(3) dopamine receptor",
+   "pki_median": 6.8752,
+   "uniprot": [
+    "P35462"
+   ]
+  },
+  "DRD4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD4"
+   ],
+   "ki_max_nM": 823.76,
+   "ki_min_nM": 823.76,
+   "ki_nM": 823.76,
+   "measurements": [
+    {
+     "ki_nM": 823.76,
+     "record": "activity 25741077 / assay CHEMBL5442186",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "D(4) dopamine receptor",
+   "pki_median": 6.0842,
+   "uniprot": [
+    "P21917"
+   ]
+  },
+  "HRH1": {
+   "action_types": [
+    "agonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "agonist",
+     "label": "Agonist / Agonist",
+     "ref": "PMID:15341484",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HRH1"
+   ],
+   "ki_max_nM": 364.46,
+   "ki_min_nM": 364.46,
+   "ki_nM": 364.46,
+   "measurements": [
+    {
+     "ki_nM": 364.46,
+     "record": "activity 25741078 / assay CHEMBL5442204",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Histamine H1 receptor",
+   "pki_median": 6.4384,
+   "uniprot": [
+    "P35367"
+   ]
+  },
+  "HTR1A": {
+   "action_types": [
+    "partial agonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "partial agonist",
+     "label": "Agonist / Partial agonist",
+     "ref": "PMID:19499624",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "partial agonist",
+     "label": "Agonist / Partial agonist",
+     "ref": "PMID:15341484",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "partial agonist",
+     "label": "PARTIAL AGONIST",
+     "ref": "PMID:15740724",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR1A"
+   ],
+   "ki_max_nM": 31.64,
+   "ki_min_nM": 0.1995263191254866,
+   "ki_nM": 1.705872,
+   "measurements": [
+    {
+     "ki_nM": 31.64,
+     "record": "activity 25741079 / assay CHEMBL5442178",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.3,
+     "record": "activity 10913281 / assay CHEMBL2037806",
+     "ref": "PMID:22520153",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 9.7,
+     "record": "activity 18891608 / assay CHEMBL4314362",
+     "ref": "PMID:31586817",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.2,
+     "record": "activity 19283857 / assay CHEMBL4409660",
+     "ref": "PMID:31627993",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 28.0,
+     "record": "activity 24966879 / assay CHEMBL5217327",
+     "ref": "PMID:36202190",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.1995263191254866,
+     "record": "GtoPdb ligand 7427 target 1 pKi 9.699999809265137",
+     "ref": "PMID:19499624",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 6,
+   "n_references": 6,
+   "name": "5-hydroxytryptamine receptor 1A",
+   "pki_median": 8.7681,
+   "uniprot": [
+    "P08908"
+   ]
+  },
+  "HTR1B": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1B"
+   ],
+   "ki_max_nM": 1244.8,
+   "ki_min_nM": 1244.8,
+   "ki_nM": 1244.8,
+   "measurements": [
+    {
+     "ki_nM": 1244.8,
+     "record": "activity 25741080 / assay CHEMBL5442179",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 1B",
+   "pki_median": 5.9049,
+   "uniprot": [
+    "P28222"
+   ]
+  },
+  "HTR1D": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1D"
+   ],
+   "ki_max_nM": 368.59,
+   "ki_min_nM": 368.59,
+   "ki_nM": 368.59,
+   "measurements": [
+    {
+     "ki_nM": 368.59,
+     "record": "activity 25741081 / assay CHEMBL5442180",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 1D",
+   "pki_median": 6.4335,
+   "uniprot": [
+    "P28221"
+   ]
+  },
+  "HTR2B": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2B"
+   ],
+   "ki_max_nM": 65.01,
+   "ki_min_nM": 65.01,
+   "ki_nM": 65.01,
+   "measurements": [
+    {
+     "ki_nM": 65.01,
+     "record": "activity 25741082 / assay CHEMBL5442192",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 2B",
+   "pki_median": 7.187,
+   "uniprot": [
+    "P41595"
+   ]
+  },
+  "HTR6": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR6"
+   ],
+   "ki_max_nM": 960.06,
+   "ki_min_nM": 960.06,
+   "ki_nM": 960.06,
+   "measurements": [
+    {
+     "ki_nM": 960.06,
+     "record": "activity 25741083 / assay CHEMBL5442206",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 6",
+   "pki_median": 6.0177,
+   "uniprot": [
+    "P50406"
+   ]
+  },
+  "HTR7": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR7"
+   ],
+   "ki_max_nM": 3900.0,
+   "ki_min_nM": 793.78,
+   "ki_nM": 1759.47208,
+   "measurements": [
+    {
+     "ki_nM": 793.78,
+     "record": "activity 25741084 / assay CHEMBL5442182",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 3900.0,
+     "record": "activity 19283870 / assay CHEMBL4409662",
+     "ref": "PMID:31627993",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "5-hydroxytryptamine receptor 7",
+   "pki_median": 5.7546,
+   "uniprot": [
+    "P34969"
+   ]
+  },
+  "OPRM1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "OPRM1"
+   ],
+   "ki_max_nM": 729.62,
+   "ki_min_nM": 729.62,
+   "ki_nM": 729.62,
+   "measurements": [
+    {
+     "ki_nM": 729.62,
+     "record": "activity 25741085 / assay CHEMBL5442190",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Mu-type opioid receptor",
+   "pki_median": 6.1369,
+   "uniprot": [
+    "P35372"
+   ]
+  },
+  "SIGMAR1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SIGMAR1"
+   ],
+   "ki_max_nM": 14.21,
+   "ki_min_nM": 14.21,
+   "ki_nM": 14.21,
+   "measurements": [
+    {
+     "ki_nM": 14.21,
+     "record": "activity 25741086 / assay CHEMBL5442188",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Sigma non-opioid intracellular receptor 1",
+   "pki_median": 7.8474,
+   "uniprot": [
+    "Q99720"
+   ]
+  },
+  "SLC6A2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A2"
+   ],
+   "ki_max_nM": 15.48,
+   "ki_min_nM": 15.48,
+   "ki_nM": 15.48,
+   "measurements": [
+    {
+     "ki_nM": 15.48,
+     "record": "activity 25741087 / assay CHEMBL5442183",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Sodium-dependent noradrenaline transporter",
+   "pki_median": 7.8102,
+   "uniprot": [
+    "P23975"
+   ]
+  },
+  "SLC6A3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A3"
+   ],
+   "ki_max_nM": 21.81,
+   "ki_min_nM": 21.81,
+   "ki_nM": 21.81,
+   "measurements": [
+    {
+     "ki_nM": 21.81,
+     "record": "activity 25741088 / assay CHEMBL5442184",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Sodium-dependent dopamine transporter",
+   "pki_median": 7.6613,
+   "uniprot": [
+    "Q01959"
+   ]
+  },
+  "SLC6A4": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "GTOPDB:ligand 7427 target 928",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "PMID:15740724",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A4"
+   ],
+   "ki_max_nM": 1.9,
+   "ki_min_nM": 0.4705,
+   "ki_nM": 0.5,
+   "measurements": [
+    {
+     "ki_nM": 0.4705,
+     "record": "activity 25741089 / assay CHEMBL5442191",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.5,
+     "record": "activity 10913304 / assay CHEMBL2037807",
+     "ref": "PMID:22520153",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.9,
+     "record": "activity 18891579 / assay CHEMBL4314363",
+     "ref": "PMID:31586817",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 3,
+   "name": "Sodium-dependent serotonin transporter",
+   "pki_median": 9.301,
+   "uniprot": [
+    "P31645"
+   ]
+  },
+  "TMEM97": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "TMEM97"
+   ],
+   "ki_max_nM": 1089.05,
+   "ki_min_nM": 1089.05,
+   "ki_nM": 1089.05,
+   "measurements": [
+    {
+     "ki_nM": 1089.05,
+     "record": "activity 25741090 / assay CHEMBL5442185",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Sigma intracellular receptor 2",
+   "pki_median": 5.963,
+   "uniprot": [
+    "Q5BJF2"
+   ]
+  }
+ }
+}

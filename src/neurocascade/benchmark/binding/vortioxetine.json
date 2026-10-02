@@ -1,0 +1,694 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL2104993",
+ "chembl_id_queried": "CHEMBL2104993",
+ "entity_note": null,
+ "inn": "vortioxetine",
+ "mechanism_targets": [
+  "HTR1A",
+  "HTR3A",
+  "SLC6A4"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "GTOPDB:ligand 7351 target 378": {
+   "citation": "GtoPdb interaction, ligand 7351 (vortioxetine), target 378; primary PMIDs 21486038,30257860",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:Gu, Zheng-Song, et al., 2017": {
+   "citation": "Gu, Zheng-Song, et al., 2017",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:21486038": {
+   "chembl_document": "CHEMBL2203036",
+   "citation": "Bang-Andersen B, Ruhland T, J\u00f8rgensen M, Smith G, Frederiksen K, Jensen KG, Zhong H, Nielsen SM, Hogg S, M\u00f8rk A, Stensb\u00f8l TB. (2011) J Med Chem 54:3206",
+   "doi": "10.1021/jm101459g",
+   "pmid": "21486038"
+  },
+  "PMID:29138029": {
+   "chembl_document": "CHEMBL4177692",
+   "citation": "Gu ZS, Xiao Y, Zhang QW, Li JQ. (2017) Bioorg Med Chem Lett 27:5420",
+   "doi": "10.1016/j.bmcl.2017.11.007",
+   "pmid": "29138029"
+  },
+  "PMID:34311086": {
+   "chembl_document": "CHEMBL5214911",
+   "citation": "Kucwaj-Brysz K, Baltrukevich H, Czarnota K, Handzlik J. (2021) Bioorg Med Chem Lett 49:128275",
+   "doi": "10.1016/j.bmcl.2021.128275",
+   "pmid": "34311086"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 28,
+  "excluded_counts": {
+   "chembl_potential_duplicate": 6
+  },
+  "gtopdb_ligand_id": "7351",
+  "pdsp_ligand_names_matched": [
+   "Vortioxetine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "vortioxetine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "ADRB1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRB1"
+   ],
+   "ki_max_nM": 46.0,
+   "ki_min_nM": 46.0,
+   "ki_nM": 46.0,
+   "measurements": [
+    {
+     "ki_nM": 46.0,
+     "record": "activity 12167210 / assay CHEMBL2215360",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Beta-1 adrenergic receptor",
+   "pki_median": 7.3372,
+   "uniprot": [
+    "P08588"
+   ]
+  },
+  "ADRB2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRB2"
+   ],
+   "ki_max_nM": 560.0,
+   "ki_min_nM": 560.0,
+   "ki_nM": 560.0,
+   "measurements": [
+    {
+     "ki_nM": 560.0,
+     "record": "activity 12167209 / assay CHEMBL2215359",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Beta-2 adrenergic receptor",
+   "pki_median": 6.2518,
+   "uniprot": [
+    "P07550"
+   ]
+  },
+  "HRH1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HRH1"
+   ],
+   "ki_max_nM": 180.0,
+   "ki_min_nM": 180.0,
+   "ki_nM": 180.0,
+   "measurements": [
+    {
+     "ki_nM": 180.0,
+     "record": "activity 12167213 / assay CHEMBL2215363",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Histamine H1 receptor",
+   "pki_median": 6.7447,
+   "uniprot": [
+    "P35367"
+   ]
+  },
+  "HRH2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HRH2"
+   ],
+   "ki_max_nM": 180.0,
+   "ki_min_nM": 180.0,
+   "ki_nM": 180.0,
+   "measurements": [
+    {
+     "ki_nM": 180.0,
+     "record": "activity 12167212 / assay CHEMBL2215361",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Histamine H2 receptor",
+   "pki_median": 6.7447,
+   "uniprot": [
+    "P25021"
+   ]
+  },
+  "HTR1A": {
+   "action_types": [
+    "agonist",
+    "partial agonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "partial agonist",
+     "label": "Agonist / Partial agonist",
+     "ref": "PMID:21486038",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "agonist",
+     "label": "AGONIST",
+     "ref": "PMID:21486038",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR1A"
+   ],
+   "ki_max_nM": 39.0,
+   "ki_min_nM": 9.5,
+   "ki_nM": 11.937336,
+   "measurements": [
+    {
+     "ki_nM": 15.0,
+     "record": "activity 12168471 / assay CHEMBL2215839",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 39.0,
+     "record": "activity 12168492 / assay CHEMBL2215842",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 9.5,
+     "record": "activity 18467408 / assay CHEMBL4182005",
+     "ref": "PMID:29138029",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 15.0,
+     "record": "activity 24961685 / assay CHEMBL5215978",
+     "ref": "PMID:34311086",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 15.13560650178649,
+     "record": "GtoPdb ligand 7351 target 1 pKi 7.820000171661377",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 9.5,
+     "record": "PDSP Ki ID 101226 (CLONED, hot ligand 3H-8-OH-DPAT)",
+     "ref": "PDSP_REF:Gu, Zheng-Song, et al., 2017",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 6,
+   "n_references": 4,
+   "name": "5-hydroxytryptamine receptor 1A",
+   "pki_median": 7.9231,
+   "uniprot": [
+    "P08908"
+   ]
+  },
+  "HTR1B": {
+   "action_types": [
+    "partial agonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "partial agonist",
+     "label": "Agonist / Partial agonist",
+     "ref": "PMID:21486038",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR1B"
+   ],
+   "ki_max_nM": 33.11311069398671,
+   "ki_min_nM": 33.0,
+   "ki_nM": 33.056507,
+   "measurements": [
+    {
+     "ki_nM": 33.0,
+     "record": "activity 12167192 / assay CHEMBL2215845",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 33.11311069398671,
+     "record": "GtoPdb ligand 7351 target 2 pKi 7.480000019073486",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 1B",
+   "pki_median": 7.4807,
+   "uniprot": [
+    "P28222"
+   ]
+  },
+  "HTR2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 180.0,
+   "ki_min_nM": 180.0,
+   "ki_nM": 180.0,
+   "measurements": [
+    {
+     "ki_nM": 180.0,
+     "record": "activity 12167206 / assay CHEMBL2215356",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 2A",
+   "pki_median": 6.7447,
+   "uniprot": [
+    "P28223"
+   ]
+  },
+  "HTR2C": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2C"
+   ],
+   "ki_max_nM": 180.0,
+   "ki_min_nM": 180.0,
+   "ki_nM": 180.0,
+   "measurements": [
+    {
+     "ki_nM": 180.0,
+     "record": "activity 12167205 / assay CHEMBL2215355",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 2C",
+   "pki_median": 6.7447,
+   "uniprot": [
+    "P28335"
+   ]
+  },
+  "HTR3A": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [
+    "partial agonist"
+   ],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:21486038",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [
+    "HTR3A+HTR3B"
+   ],
+   "gene_symbols": [
+    "HTR3A"
+   ],
+   "ki_max_nM": 23.0,
+   "ki_min_nM": 3.7,
+   "ki_nM": 5.842292,
+   "measurements": [
+    {
+     "ki_nM": 3.7,
+     "record": "activity 12168472 / assay CHEMBL2215840",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 23.0,
+     "record": "activity 12168508 / assay CHEMBL2215843",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 3.7,
+     "record": "activity 24961686 / assay CHEMBL5215979",
+     "ref": "PMID:34311086",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 2,
+   "name": "5-hydroxytryptamine receptor 3A",
+   "pki_median": 8.2334,
+   "uniprot": [
+    "P46098"
+   ]
+  },
+  "HTR3A+HTR3B": {
+   "action_types": [
+    "partial agonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "partial agonist",
+     "label": "Agonist / Partial agonist",
+     "ref": "GTOPDB:ligand 7351 target 378",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR3A",
+    "HTR3B"
+   ],
+   "ki_max_nM": 3.715349680219835,
+   "ki_min_nM": 3.715349680219835,
+   "ki_nM": 3.71535,
+   "measurements": [
+    {
+     "ki_nM": 3.715349680219835,
+     "record": "GtoPdb ligand 7351 target 378 pKi 8.430000305175781",
+     "ref": "GTOPDB:ligand 7351 target 378",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT3AB",
+   "pki_median": 8.43,
+   "uniprot": [
+    "O95264",
+    "P46098"
+   ]
+  },
+  "HTR5A": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:21486038",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR5A"
+   ],
+   "ki_max_nM": 220.0,
+   "ki_min_nM": 218.77623926123007,
+   "ki_nM": 219.387266,
+   "measurements": [
+    {
+     "ki_nM": 220.0,
+     "record": "activity 12167203 / assay CHEMBL2215353",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 218.77623926123007,
+     "record": "GtoPdb ligand 7351 target 10 pKi 6.659999847412109",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 5A",
+   "pki_median": 6.6588,
+   "uniprot": [
+    "P47898"
+   ]
+  },
+  "HTR6": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:21486038",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR6"
+   ],
+   "ki_max_nM": 331.1311069398671,
+   "ki_min_nM": 330.0,
+   "ki_nM": 330.56507,
+   "measurements": [
+    {
+     "ki_nM": 330.0,
+     "record": "activity 12167202 / assay CHEMBL2215352",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 331.1311069398671,
+     "record": "GtoPdb ligand 7351 target 11 pKi 6.480000019073486",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 6",
+   "pki_median": 6.4807,
+   "uniprot": [
+    "P50406"
+   ]
+  },
+  "HTR7": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:21486038",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR7"
+   ],
+   "ki_max_nM": 450.0,
+   "ki_min_nM": 19.0,
+   "ki_nM": 26.0,
+   "measurements": [
+    {
+     "ki_nM": 19.0,
+     "record": "activity 12167201 / assay CHEMBL2215351",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 450.0,
+     "record": "activity 12168372 / assay CHEMBL2215348",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 26.0,
+     "record": "activity 18467412 / assay CHEMBL4182006",
+     "ref": "PMID:29138029",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 19.0,
+     "record": "activity 24961691 / assay CHEMBL5215983",
+     "ref": "PMID:34311086",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 446.6836902389504,
+     "record": "GtoPdb ligand 7351 target 12 pKi 6.349999904632568",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 26.0,
+     "record": "PDSP Ki ID 101227 (CLONED, hot ligand 3H-LSD)",
+     "ref": "PDSP_REF:Gu, Zheng-Song, et al., 2017",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 6,
+   "n_references": 4,
+   "name": "5-hydroxytryptamine receptor 7",
+   "pki_median": 7.585,
+   "uniprot": [
+    "P34969"
+   ]
+  },
+  "SLC6A4": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:21486038",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "PMID:21486038",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A4"
+   ],
+   "ki_max_nM": 1.6,
+   "ki_min_nM": 1.5848924964027185,
+   "ki_nM": 1.59621,
+   "measurements": [
+    {
+     "ki_nM": 1.6,
+     "record": "activity 12167191 / assay CHEMBL2215364",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.6,
+     "record": "activity 24961687 / assay CHEMBL5215980",
+     "ref": "PMID:34311086",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.5848924964027185,
+     "record": "GtoPdb ligand 7351 target 928 pKi 8.800000190734863",
+     "ref": "PMID:21486038",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 2,
+   "name": "Sodium-dependent serotonin transporter",
+   "pki_median": 8.7969,
+   "uniprot": [
+    "P31645"
+   ]
+  }
+ }
+}

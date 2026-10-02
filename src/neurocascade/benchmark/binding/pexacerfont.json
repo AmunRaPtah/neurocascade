@@ -1,0 +1,68 @@
+{
+ "actions_without_ki": {
+  "CRHR1": [
+   {
+    "action": "antagonist",
+    "label": "Antagonist / Antagonist",
+    "ref": "PMID:28174066",
+    "source": "GtoPdb"
+   },
+   {
+    "action": "antagonist",
+    "label": "ANTAGONIST",
+    "ref": "PMID:22381334",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL482950",
+ "chembl_id_queried": "CHEMBL482950",
+ "entity_note": null,
+ "inn": "pexacerfont",
+ "mechanism_targets": [
+  "CRHR1"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:22381334": {
+   "citation": "ChEMBL drug mechanism 5382: Corticotropin releasing factor receptor 1 antagonist; refs PubMed 22381334; PubMed 25409596",
+   "doi": null,
+   "pmid": "22381334"
+  },
+  "PMID:28174066": {
+   "citation": "GtoPdb interaction, ligand 10379 (pexacerfont), target 212; primary PMIDs 28174066",
+   "doi": null,
+   "pmid": "28174066"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 0,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": "10379",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "pexacerfont"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "searched_and_empty",
+ "stratum": "FAIL",
+ "targets": {}
+}

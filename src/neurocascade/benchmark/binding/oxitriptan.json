@@ -1,0 +1,176 @@
+{
+ "actions_without_ki": {
+  "SLC36A2": [
+   {
+    "action": "inhibitor",
+    "label": "Inhibitor / Inhibition",
+    "ref": "PMID:20691150",
+    "source": "GtoPdb"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL350221",
+ "chembl_id_queried": "CHEMBL350221",
+ "entity_note": null,
+ "inn": "oxitriptan",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:16126914": {
+   "citation": "GtoPdb interaction, ligand 4671 (5-hydroxy-L-tryptophan), target 1161; primary PMIDs 16126914",
+   "doi": null,
+   "pmid": "16126914"
+  },
+  "PMID:20691150": {
+   "citation": "GtoPdb interaction, ligand 4671 (5-hydroxy-L-tryptophan), target 1162; primary PMIDs 20691150",
+   "doi": null,
+   "pmid": "20691150"
+  },
+  "PMID:25759032": {
+   "chembl_document": "CHEMBL3400047",
+   "citation": "Modica MN, Intagliata S, Pittal\u00e0 V, Salerno L, Siracusa MA, Cagnotto A, Salmona M, Romeo G. (2015) Bioorg Med Chem Lett 25:1427",
+   "doi": "10.1016/j.bmcl.2015.02.042",
+   "pmid": "25759032"
+  },
+  "PMID:26227779": {
+   "chembl_document": "CHEMBL3608303",
+   "citation": "Deng X, Guo L, Xu L, Zhen X, Yu K, Zhao W, Fu W. (2015) Bioorg Med Chem Lett 25:3970",
+   "doi": "10.1016/j.bmcl.2015.07.030",
+   "pmid": "26227779"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 3,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": "4671",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "oxitriptan"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "HTR1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1A"
+   ],
+   "ki_max_nM": 1.8,
+   "ki_min_nM": 0.91,
+   "ki_nM": 1.279844,
+   "measurements": [
+    {
+     "ki_nM": 0.91,
+     "record": "activity 15180259 / assay CHEMBL3404181",
+     "ref": "PMID:25759032",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.8,
+     "record": "activity 15697708 / assay CHEMBL3610648",
+     "ref": "PMID:26227779",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "5-hydroxytryptamine receptor 1A",
+   "pki_median": 8.8928,
+   "uniprot": [
+    "P08908"
+   ]
+  },
+  "HTR7": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR7"
+   ],
+   "ki_max_nM": 2.12,
+   "ki_min_nM": 2.12,
+   "ki_nM": 2.12,
+   "measurements": [
+    {
+     "ki_nM": 2.12,
+     "record": "activity 15180286 / assay CHEMBL3404182",
+     "ref": "PMID:25759032",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 7",
+   "pki_median": 8.6737,
+   "uniprot": [
+    "P34969"
+   ]
+  },
+  "SLC36A1": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:16126914",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC36A1"
+   ],
+   "ki_max_nM": 1000000.0,
+   "ki_min_nM": 1000000.0,
+   "ki_nM": 1000000.0,
+   "measurements": [
+    {
+     "ki_nM": 1000000.0,
+     "record": "GtoPdb ligand 4671 target 1161 pKi 3.0",
+     "ref": "PMID:16126914",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Proton-coupled Amino acid Transporter 1",
+   "pki_median": 3.0,
+   "uniprot": [
+    "Q7Z2H8"
+   ]
+  }
+ }
+}

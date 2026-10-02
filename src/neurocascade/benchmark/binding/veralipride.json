@@ -1,0 +1,383 @@
+{
+ "actions_without_ki": {
+  "DRD2": [
+   {
+    "action": "antagonist",
+    "label": "ANTAGONIST",
+    "ref": "PMID:20852674",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL2105581",
+ "chembl_id_queried": "CHEMBL2105581",
+ "entity_note": null,
+ "inn": "veralipride",
+ "mechanism_targets": [
+  "DRD2"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:20852674": {
+   "citation": "ChEMBL drug mechanism 6320: Dopamine D2 receptor antagonist; refs PubMed 20852674",
+   "doi": null,
+   "pmid": "20852674"
+  },
+  "PMID:40104783": {
+   "chembl_document": "CHEMBL6103659",
+   "citation": "Angeli A, Ferraroni M, Capasso C, Supuran CT. (2025) ACS Med Chem Lett 16:483",
+   "doi": "10.1021/acsmedchemlett.5c00034",
+   "pmid": "40104783"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 12,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": null,
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "veralipride"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "CA1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CA1"
+   ],
+   "ki_max_nM": 2723.0,
+   "ki_min_nM": 2723.0,
+   "ki_nM": 2723.0,
+   "measurements": [
+    {
+     "ki_nM": 2723.0,
+     "record": "activity 29168450 / assay CHEMBL6108734",
+     "ref": "PMID:40104783",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Carbonic anhydrase 1",
+   "pki_median": 5.565,
+   "uniprot": [
+    "P00915"
+   ]
+  },
+  "CA12": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CA12"
+   ],
+   "ki_max_nM": 23.9,
+   "ki_min_nM": 23.9,
+   "ki_nM": 23.9,
+   "measurements": [
+    {
+     "ki_nM": 23.9,
+     "record": "activity 29168477 / assay CHEMBL6108743",
+     "ref": "PMID:40104783",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Carbonic anhydrase 12",
+   "pki_median": 7.6216,
+   "uniprot": [
+    "O43570"
+   ]
+  },
+  "CA13": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CA13"
+   ],
+   "ki_max_nM": 91.9,
+   "ki_min_nM": 91.9,
+   "ki_nM": 91.9,
+   "measurements": [
+    {
+     "ki_nM": 91.9,
+     "record": "activity 29168480 / assay CHEMBL6108744",
+     "ref": "PMID:40104783",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Carbonic anhydrase 13",
+   "pki_median": 7.0367,
+   "uniprot": [
+    "Q8N1Q1"
+   ]
+  },
+  "CA14": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CA14"
+   ],
+   "ki_max_nM": 157.7,
+   "ki_min_nM": 157.7,
+   "ki_nM": 157.7,
+   "measurements": [
+    {
+     "ki_nM": 157.7,
+     "record": "activity 29168483 / assay CHEMBL6108745",
+     "ref": "PMID:40104783",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Carbonic anhydrase 14",
+   "pki_median": 6.8022,
+   "uniprot": [
+    "Q9ULX7"
+   ]
+  },
+  "CA2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CA2"
+   ],
+   "ki_max_nM": 405.7,
+   "ki_min_nM": 405.7,
+   "ki_nM": 405.7,
+   "measurements": [
+    {
+     "ki_nM": 405.7,
+     "record": "activity 29168453 / assay CHEMBL6108735",
+     "ref": "PMID:40104783",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Carbonic anhydrase 2",
+   "pki_median": 6.3918,
+   "uniprot": [
+    "P00918"
+   ]
+  },
+  "CA4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CA4"
+   ],
+   "ki_max_nM": 1138.0,
+   "ki_min_nM": 1138.0,
+   "ki_nM": 1138.0,
+   "measurements": [
+    {
+     "ki_nM": 1138.0,
+     "record": "activity 29168459 / assay CHEMBL6108737",
+     "ref": "PMID:40104783",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Carbonic anhydrase 4",
+   "pki_median": 5.9439,
+   "uniprot": [
+    "P22748"
+   ]
+  },
+  "CA5A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CA5A"
+   ],
+   "ki_max_nM": 700.6,
+   "ki_min_nM": 700.6,
+   "ki_nM": 700.6,
+   "measurements": [
+    {
+     "ki_nM": 700.6,
+     "record": "activity 29168462 / assay CHEMBL6108738",
+     "ref": "PMID:40104783",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Carbonic anhydrase 5A, mitochondrial",
+   "pki_median": 6.1545,
+   "uniprot": [
+    "P35218"
+   ]
+  },
+  "CA5B": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CA5B"
+   ],
+   "ki_max_nM": 46.6,
+   "ki_min_nM": 46.6,
+   "ki_nM": 46.6,
+   "measurements": [
+    {
+     "ki_nM": 46.6,
+     "record": "activity 29168465 / assay CHEMBL6108739",
+     "ref": "PMID:40104783",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Carbonic anhydrase 5B, mitochondrial",
+   "pki_median": 7.3316,
+   "uniprot": [
+    "Q9Y2D0"
+   ]
+  },
+  "CA6": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CA6"
+   ],
+   "ki_max_nM": 65.1,
+   "ki_min_nM": 65.1,
+   "ki_nM": 65.1,
+   "measurements": [
+    {
+     "ki_nM": 65.1,
+     "record": "activity 29168468 / assay CHEMBL6108740",
+     "ref": "PMID:40104783",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Carbonic anhydrase 6",
+   "pki_median": 7.1864,
+   "uniprot": [
+    "P23280"
+   ]
+  },
+  "CA7": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CA7"
+   ],
+   "ki_max_nM": 978.2,
+   "ki_min_nM": 978.2,
+   "ki_nM": 978.2,
+   "measurements": [
+    {
+     "ki_nM": 978.2,
+     "record": "activity 29168471 / assay CHEMBL6108741",
+     "ref": "PMID:40104783",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Carbonic anhydrase 7",
+   "pki_median": 6.0096,
+   "uniprot": [
+    "P43166"
+   ]
+  },
+  "CA9": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CA9"
+   ],
+   "ki_max_nM": 31.1,
+   "ki_min_nM": 31.1,
+   "ki_nM": 31.1,
+   "measurements": [
+    {
+     "ki_nM": 31.1,
+     "record": "activity 29168474 / assay CHEMBL6108742",
+     "ref": "PMID:40104783",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Carbonic anhydrase 9",
+   "pki_median": 7.5072,
+   "uniprot": [
+    "Q16790"
+   ]
+  }
+ }
+}

@@ -1,0 +1,71 @@
+{
+ "actions_without_ki": {
+  "SLC6A2": [
+   {
+    "action": "inhibitor",
+    "label": "INHIBITOR",
+    "ref": "CHEMBL_MECHANISM:9077",
+    "source": "ChEMBL mechanism"
+   }
+  ],
+  "SLC6A4": [
+   {
+    "action": "inhibitor",
+    "label": "INHIBITOR",
+    "ref": "CHEMBL_MECHANISM:9110",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL1492500",
+ "chembl_id_queried": "CHEMBL1492500",
+ "entity_note": null,
+ "inn": "dosulepin",
+ "mechanism_targets": [
+  "SLC6A2",
+  "SLC6A4"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_MECHANISM:9077": {
+   "citation": "ChEMBL drug mechanism 9077: Norepinephrine transporter inhibitor; refs Other https://www.hpra.ie/img/uploaded/swedocuments/Licence_PA1235-005-001_12082020172302.pdf",
+   "doi": null,
+   "pmid": null
+  },
+  "CHEMBL_MECHANISM:9110": {
+   "citation": "ChEMBL drug mechanism 9110: Serotonin transporter inhibitor; refs Other https://www.hpra.ie/img/uploaded/swedocuments/Licence_PA1235-005-001_12082020172302.pdf",
+   "doi": null,
+   "pmid": null
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 0,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": null,
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "dosulepin"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "searched_and_empty",
+ "stratum": "N06A",
+ "targets": {}
+}

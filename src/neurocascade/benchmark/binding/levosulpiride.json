@@ -1,0 +1,520 @@
+{
+ "actions_without_ki": {
+  "HTR4": [
+   {
+    "action": "agonist",
+    "label": "AGONIST",
+    "ref": "PMID:20850200",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL267044",
+ "chembl_id_queried": "CHEMBL267044",
+ "entity_note": null,
+ "inn": "levosulpiride",
+ "mechanism_targets": [
+  "DRD2",
+  "HTR4"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "GTOPDB:ligand 958 target 215": {
+   "citation": "GtoPdb interaction, ligand 958 ((-)-sulpiride), target 215; primary PMIDs 8301582,1354163,8301592",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 958 target 216": {
+   "citation": "GtoPdb interaction, ligand 958 ((-)-sulpiride), target 216; primary PMIDs 8301582,1354163,8301592",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 958 target 217": {
+   "citation": "GtoPdb interaction, ligand 958 ((-)-sulpiride), target 217; primary PMIDs 8301592,8967990",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:1586393": {
+   "citation": "Sokoloff P, et al., 1992",
+   "doi": null,
+   "pmid": "1586393"
+  },
+  "PMID:1840645": {
+   "citation": "Van Tol, HH et al., 1991",
+   "doi": null,
+   "pmid": "1840645"
+  },
+  "PMID:20850200": {
+   "citation": "ChEMBL drug mechanism 8809: Dopamine D2 receptor antagonist; refs PubMed 20850200",
+   "doi": null,
+   "pmid": "20850200"
+  },
+  "PMID:2137193": {
+   "citation": "Stormann TM, et al., 1990",
+   "doi": null,
+   "pmid": "2137193"
+  },
+  "PMID:8097160": {
+   "citation": "Seeman P, et al., 1993",
+   "doi": null,
+   "pmid": "8097160"
+  },
+  "PMID:8301582": {
+   "citation": "Freedman SB, et al., 1994",
+   "doi": null,
+   "pmid": "8301582"
+  },
+  "PMID:8301592": {
+   "citation": "Tang L, et al. 1994",
+   "doi": null,
+   "pmid": "8301592"
+  },
+  "PMID:9262370": {
+   "citation": "TALLMAN JF, ET AL., 1997",
+   "doi": null,
+   "pmid": "9262370"
+  },
+  "PMID:93617739": {
+   "citation": "Seeman, Philip  2001",
+   "doi": null,
+   "pmid": "93617739"
+  },
+  "PMID:9577836": {
+   "citation": "Seeman P, Tallerico T., 1998",
+   "doi": null,
+   "pmid": "9577836"
+  }
+ },
+ "screened_inactive_without_ki": {
+  "CA2": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7772335 / assay CHEMBL1909123",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "CTSG": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7774464 / assay CHEMBL1909194",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "ELANE": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7774466 / assay CHEMBL1909195",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "MMP1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7774468 / assay CHEMBL1909196",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PDE5A": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7774448 / assay CHEMBL1909186",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTAFR": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7774450 / assay CHEMBL1909187",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTGS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7772349 / assay CHEMBL1909130",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "TBXAS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7776511 / assay CHEMBL1909116",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ]
+ },
+ "searched": {
+  "chembl_ki_rows_returned": 97,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 85,
+   "chembl_no_ki_value": 8,
+   "chembl_potential_duplicate": 4,
+   "pdsp_receptor_name_unmapped": 1,
+   "pdsp_species_not_human": 31
+  },
+  "gtopdb_ligand_id": "958",
+  "pdsp_ligand_names_matched": [
+   "SULPIRIDE,(-)",
+   "Sulpiride-S"
+  ],
+  "pdsp_ligand_names_tried": [
+   "levosulpiride",
+   "sulpiride,(-)",
+   "sulpiride-l",
+   "sulpiride-s"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "DRD2": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "GTOPDB:ligand 958 target 215",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:20850200",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 524.8072067145215,
+   "ki_min_nM": 5.0,
+   "ki_nM": 19.432554,
+   "measurements": [
+    {
+     "ki_nM": 10.0,
+     "record": "GtoPdb ligand 958 target 215 pKi 8.0",
+     "ref": "GTOPDB:ligand 958 target 215",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 524.8072067145215,
+     "record": "GtoPdb ligand 958 target 215 pKi 6.28000020980835",
+     "ref": "GTOPDB:ligand 958 target 215",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 10.0,
+     "record": "PDSP Ki ID 11690 (CLONED, hot ligand 125I-IODOSULPRIDE)",
+     "ref": "PMID:1586393",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 31.0,
+     "record": "PDSP Ki ID 33844 (CLONED, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:1840645",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 46.0,
+     "record": "PDSP Ki ID 32813 (CLONED, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:1840645",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 46.0,
+     "record": "PDSP Ki ID 32985 (CLONED, hot ligand 3H-RACLOPRIDE)",
+     "ref": "PMID:2137193",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 38.0,
+     "record": "PDSP Ki ID 32452 (CLONED, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:8097160",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 6.0,
+     "record": "PDSP Ki ID 10794 (CLONED, hot ligand 125I-IODOSULPRIDE)",
+     "ref": "PMID:8301582",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 5.0,
+     "record": "PDSP Ki ID 23874 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:93617739",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 8.0,
+     "record": "PDSP Ki ID 23896 (CLONED, hot ligand 3H-RACLOPRIDE)",
+     "ref": "PMID:93617739",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 10.0,
+     "record": "PDSP Ki ID 23918 (CLONED, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:93617739",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 20.0,
+     "record": "PDSP Ki ID 23940 (CLONED, hot ligand 3H-NEMONAPRIDE)",
+     "ref": "PMID:93617739",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 5.0,
+     "record": "PDSP Ki ID 19758 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:9577836",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 13,
+   "n_references": 8,
+   "name": "DOPAMINE D2",
+   "pki_median": 7.7115,
+   "uniprot": []
+  },
+  "DRD3": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "GTOPDB:ligand 958 target 216",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD3"
+   ],
+   "ki_max_nM": 208.92969566796867,
+   "ki_min_nM": 6.4,
+   "ki_nM": 13.027111,
+   "measurements": [
+    {
+     "ki_nM": 19.95263191254866,
+     "record": "GtoPdb ligand 958 target 216 pKi 7.699999809265137",
+     "ref": "GTOPDB:ligand 958 target 216",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 208.92969566796867,
+     "record": "GtoPdb ligand 958 target 216 pKi 6.679999828338623",
+     "ref": "GTOPDB:ligand 958 target 216",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 20.0,
+     "record": "PDSP Ki ID 11712 (CLONED, hot ligand 125I-IODOSULPRIDE)",
+     "ref": "PMID:1586393",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 8.0,
+     "record": "PDSP Ki ID 10809 (CLONED, hot ligand 125I-IODOSULPRIDE)",
+     "ref": "PMID:8301582",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 6.4,
+     "record": "PDSP Ki ID 23957 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:93617739",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 10.0,
+     "record": "PDSP Ki ID 23973 (CLONED, hot ligand 3H-RACLOPRIDE)",
+     "ref": "PMID:93617739",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 15.0,
+     "record": "PDSP Ki ID 23989 (CLONED, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:93617739",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 30.0,
+     "record": "PDSP Ki ID 24005 (CLONED, hot ligand 3H-NEMONAPRIDE)",
+     "ref": "PMID:93617739",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 6.4,
+     "record": "PDSP Ki ID 19842 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:9577836",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 9,
+   "n_references": 5,
+   "name": "DOPAMINE D3",
+   "pki_median": 7.8852,
+   "uniprot": []
+  },
+  "DRD4": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "GTOPDB:ligand 958 target 217",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD4"
+   ],
+   "ki_max_nM": 2000.0,
+   "ki_min_nM": 19.952623149688787,
+   "ki_nM": 383.876621,
+   "measurements": [
+    {
+     "ki_nM": 19.952623149688787,
+     "record": "GtoPdb ligand 958 target 217 pKi 7.7",
+     "ref": "GTOPDB:ligand 958 target 217",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 1905.4607179632483,
+     "record": "GtoPdb ligand 958 target 217 pKi 5.72",
+     "ref": "GTOPDB:ligand 958 target 217",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 1005.0,
+     "record": "PDSP Ki ID 32470 (CLONED, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:8097160",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 20.0,
+     "record": "PDSP Ki ID 10909 (CLONED, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:8301592",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 21.5,
+     "record": "PDSP Ki ID 10903 (CLONED, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:8301592",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 800.0,
+     "record": "PDSP Ki ID 7056 (CLONED, hot ligand 3H-NGD 94-1)",
+     "ref": "PMID:9262370",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1305.0,
+     "record": "PDSP Ki ID 7073 (CLONED, hot ligand 3H-YM 09151-2)",
+     "ref": "PMID:9262370",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 200.0,
+     "record": "PDSP Ki ID 24022 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:93617739",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1000.0,
+     "record": "PDSP Ki ID 24040 (CLONED, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:93617739",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2000.0,
+     "record": "PDSP Ki ID 24058 (CLONED, hot ligand 3H-NEMONAPRIDE)",
+     "ref": "PMID:93617739",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 200.0,
+     "record": "PDSP Ki ID 19807 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:9577836",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 11,
+   "n_references": 6,
+   "name": "DOPAMINE D4.2",
+   "pki_median": 6.4158,
+   "uniprot": []
+  }
+ }
+}

@@ -117,6 +117,7 @@ Recorded as real results, per the standing honesty discipline.
 | Human-**tissue** D3 Ki for haloperidol and risperidone | P23.1 | none in the PDSP Ki database (full download, 2026-10-01). Every human D3 value for either drug is on a cloned/recombinant receptor; the only tissue D3 rows are bovine caudate (Schoemaker 1997, Claustre 2003), which the species gate refuses. The D3 *target* is sourced for both drugs from human cloned receptors; only the tissue provenance sub-class is empty |
 | Human-**tissue** M1 Ki for haloperidol and risperidone | P23.1 | none in the PDSP download. Human M1 values are cloned or undefined-preparation and are dominated by the >10000 nM assay ceiling; the few finite numbers sit at 1.6–2.8 µM. Neither drug has clinically meaningful muscarinic affinity, so M1 is sourced but at the floor of measurability — recorded as a result (M1 cannot distinguish the two drugs' EPS), not a gap |
 | A haloperidol cortical/frontal 5-HT2 occupancy paired to a plasma concentration (to score the Ki-derived off-target curve quantitatively) | P23.2 | none reachable open-access. The robust, repeatedly reported fact is ordinal — haloperidol shows high striatal D2 and comparatively low cortical 5-HT2 occupancy (Kapur & Remington 1996; Farde/Nyberg 1995 established the reciprocal crossover for risperidone, 5-HT2 78–88% ≥ D2 75–80% at 6 mg/day) — but a per-subject or group-mean haloperidol 5-HT2 occupancy with a matched plasma concentration sits in paywalled setoperone/NMSP PET tables. The directional check (sign of 5-HT2A−D2) is used instead and labelled n=1, direction-only. Supersedable by one open paired datum |
+| A human Ki panel for 67 of the 185 benchmark drugs (list under "Benchmark input coverage") | P28.2 | none with a printed value in PDSP (full CSV), ChEMBL_37 or GtoPdb 2026.3, after exact-INN, alias, ChEMBL-parent and InChIKey matching. Three kinds of gap. **Species**: the benzodiazepine-site Ki is rat or bovine brain; 81 non-human ChEMBL rows each for lorazepam and iproniazide. **Unit**: GtoPdb prints only human pIC50 for iclepertin, levomilnacipran, mardepodect and pexacerfont, and no affinity at all for brexanolone's GABA-A action. **Absence**: most regional and older drugs have nothing in any source. The action type is still recorded where a source prints one (`actions_without_ki`). Not filled by substituting a racemate, enantiomer, prodrug or metabolite |
 
 ## Frozen benchmark split (Phase 28)
 
@@ -142,3 +143,61 @@ redrawn to fix it, because redrawing after seeing the result is the exact
 failure a frozen split exists to prevent. Every held-out score from Phase 29 on
 must therefore be reported twice: over all 55 drugs and over the 51 that this
 repository had never touched.
+
+## Benchmark input coverage (Phase 28)
+
+Coverage is not a validated claim and earns no row in the first table (rule 1).
+It is recorded because the Phase 29-30 scores are only defined on drugs that
+have their inputs, and a reader needs to see how many that is before they read
+any score.
+
+### Receptor binding panel, human Ki + action type (P28.2, retrieved 2026-10-02)
+
+Sources: PDSP Ki database full CSV (98,678 rows), ChEMBL_37 REST API, GtoPdb
+2026.3 bulk interactions. **Human only**: the assay organism (ChEMBL
+`assay_tax_id` 9606, confidence 9 single protein or 7 complex) or PDSP species
+`HUMAN`. Files: `src/neurocascade/benchmark/binding/<inn>.json`, summary
+`binding/coverage.json`. Rules are in docs/architecture.md under P28.2.
+
+| Stratum | Drugs | With a panel | Train / held-out with a panel | Mean targets per covered drug |
+|---|---|---|---|---|
+| N05A antipsychotics | 67 | 57 | 40/47, 17/20 | 17.04 |
+| N05B anxiolytics | 35 | **5** | 3/25, 2/10 | 7.80 |
+| N06A antidepressants | 66 | 47 | 30/46, 17/20 | 9.51 |
+| FAIL clinical failures | 17 | 9 | 4/12, 5/5 | 2.89 |
+| **All** | **185** | **118** (64%) | 77/130, 41/55 | **12.57** (median 9) |
+
+- 1,483 drug-target Ki summaries from 5,619 cited measurements.
+- 370 of those targets (25%) carry a target-specific action type from GtoPdb or
+  ChEMBL's curated mechanism table. Another 51 have only a receptor-family-level
+  action. 94 of the 118 covered drugs have at least one action-typed target.
+- **Efficacy is the thin field**: 3.14 action-typed targets per covered drug,
+  against 12.57 with a Ki.
+- 86 of 118 covered drugs have a Ki at one of their ChEMBL-curated mechanism
+  targets. 28 covered drugs have no curated mechanism row in ChEMBL.
+
+**Searched and empty (67 drugs)**: no human Ki with a printed value in any of
+the three sources.
+
+- acepromazine, acetophenazine, adinazolam, alaproclate, amineptine
+- balipodect, bentazepam, benzoctamine, brexanolone, bromazepam, butaperazine
+- camazepam, captodiame, clobazam, clopenthixol, clotiazepam, cloxazolam
+- decoglurant, dimetacrine, dixyrazine, dosulepin
+- edivoxetine, emylcamate, esketamine, ethyl loflazepate, etifoxine, etizolam
+- fabomotizole, fluanisone, fludiazepam, gedocarnil, halazepam
+- iclepertin, imipramine oxide, iproclozide, iproniazide, isocarboxazid
+- ketazolam, lanicemine, levomilnacipran, lorazepam
+- mardepodect, mebutamate, medazepam, medifoxamine, melitracen, mephenoxalone,
+  meprobamate, mexazolam, minaprine
+- nialamide, nordazepam, oxaflozane, oxazepam, oxypertine
+- perazine, pexacerfont, pinazepam, pivagabine, pomaglumetad methionil,
+  potassium clorazepate, prazepam, prothipendyl
+- quinupramine, thiopropazate, tofisopam, zuranolone
+
+Of these, 14 are held out: amineptine, benzoctamine, butaperazine, clobazam,
+dosulepin, fabomotizole, fluanisone, gedocarnil, mephenoxalone, nialamide,
+nordazepam, perazine, pinazepam, tofisopam. Each record keeps what was searched
+and why rows were refused. **N05B is the gap: 30 of 35 anxiolytics are empty.**
+The classical benzodiazepine-site binding literature was measured on rat or
+bovine brain, and the human-only rule refuses it. Lorazepam and iproniazide
+have 81 non-human ChEMBL rows each, and nothing human.

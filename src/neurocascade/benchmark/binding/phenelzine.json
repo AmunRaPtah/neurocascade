@@ -1,0 +1,476 @@
+{
+ "actions_without_ki": {
+  "AOC3": [
+   {
+    "action": "inhibitor",
+    "label": "Inhibitor / Inhibition",
+    "ref": "PMID:20690686",
+    "source": "GtoPdb"
+   }
+  ],
+  "MAOA+MAOB": [
+   {
+    "action": "inhibitor",
+    "label": "INHIBITOR",
+    "ref": "CHEMBL_MECHANISM:1241",
+    "source": "ChEMBL mechanism"
+   }
+  ],
+  "SLC6A4": [
+   {
+    "action": "inhibitor",
+    "label": "Inhibitor / Inhibition",
+    "ref": "PMID:9537821",
+    "source": "GtoPdb"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL1089",
+ "chembl_id_queried": "CHEMBL1089",
+ "entity_note": null,
+ "inn": "phenelzine",
+ "mechanism_targets": [
+  "MAOA+MAOB"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_MECHANISM:1241": {
+   "citation": "ChEMBL drug mechanism 1241: Monoamine oxidase inhibitor; refs FDA label/2007/011909s038lbl.pdf; Wikipedia Monoamine_oxidase_inhibitor",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:16248836": {
+   "chembl_document": "CHEMBL1743341",
+   "citation": "Fontana E, Dansette PM, Poli SM. (2005) Curr Drug Metab 6:413",
+   "doi": "10.2174/138920005774330639",
+   "pmid": "16248836"
+  },
+  "PMID:18426226": {
+   "citation": "GtoPdb interaction, ligand 7266 (phenelzine), target 2489; primary PMIDs 18426226",
+   "doi": null,
+   "pmid": "18426226"
+  },
+  "PMID:20690686": {
+   "citation": "GtoPdb interaction, ligand 7266 (phenelzine), target 2767; primary PMIDs 20690686",
+   "doi": null,
+   "pmid": "20690686"
+  },
+  "PMID:25600407": {
+   "chembl_document": "CHEMBL3399931",
+   "citation": "Rojas RJ, Edmondson DE, Almos T, Scott R, Massari ME. (2015) Bioorg Med Chem 23:770",
+   "doi": "10.1016/j.bmc.2014.12.063",
+   "pmid": "25600407"
+  },
+  "PMID:27754693": {
+   "chembl_document": "CHEMBL4041501",
+   "citation": "Chaurasiya ND, Gogineni V, Elokely KM, Le\u00f3n F, N\u00fa\u00f1ez MJ, Klein ML, Walker LA, Cutler SJ, Tekwani BL. (2016) J Nat Prod 79:2538",
+   "doi": "10.1021/acs.jnatprod.6b00440",
+   "pmid": "27754693"
+  },
+  "PMID:27769034": {
+   "chembl_document": "CHEMBL4041507",
+   "citation": "Wang S, Zhao LJ, Zheng YC, Shen DD, Miao EF, Qiao XP, Zhao LJ, Liu Y, Huang R, Yu B, Liu HM. (2017) Eur J Med Chem 125:940",
+   "doi": "10.1016/j.ejmech.2016.10.021",
+   "pmid": "27769034"
+  },
+  "PMID:34591474": {
+   "chembl_document": "CHEMBL5230152",
+   "citation": "Vaidergorn MM, da Silva Emery F, Ganesan A. (2021) J Med Chem 64:13980",
+   "doi": "10.1021/acs.jmedchem.1c00787",
+   "pmid": "34591474"
+  },
+  "PMID:9537821": {
+   "citation": "Tatsumi M, et al., 1997",
+   "doi": null,
+   "pmid": "9537821"
+  }
+ },
+ "screened_inactive_without_ki": {
+  "CA2": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7713128 / assay CHEMBL1909123",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "CTSG": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7717260 / assay CHEMBL1909194",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "ELANE": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7717262 / assay CHEMBL1909195",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "MMP1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7717264 / assay CHEMBL1909196",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PDE5A": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7715252 / assay CHEMBL1909186",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTAFR": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7715254 / assay CHEMBL1909187",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTGS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7715140 / assay CHEMBL1909130",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "TBXAS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7717320 / assay CHEMBL1909116",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ]
+ },
+ "searched": {
+  "chembl_ki_rows_returned": 101,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 82,
+   "chembl_no_ki_value": 8,
+   "chembl_potential_duplicate": 4
+  },
+  "gtopdb_ligand_id": "7266",
+  "pdsp_ligand_names_matched": [
+   "Phenelzine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "phenelzine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "CYP2C8": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:16248836",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "CYP2C8"
+   ],
+   "ki_max_nM": 54300.0,
+   "ki_min_nM": 1200.0,
+   "ki_nM": 7786.227156,
+   "measurements": [
+    {
+     "ki_nM": 1200.0,
+     "record": "activity 6075049 / assay CHEMBL1743393",
+     "ref": "PMID:16248836",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 54300.0,
+     "record": "activity 6075042 / assay CHEMBL1743392",
+     "ref": "PMID:16248836",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 7244.361827871233,
+     "record": "GtoPdb ligand 7266 target 1325 pKi 5.139999866485596",
+     "ref": "PMID:16248836",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 1,
+   "name": "Cytochrome P450 2C8",
+   "pki_median": 5.1087,
+   "uniprot": [
+    "P10632"
+   ]
+  },
+  "KDM1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "KDM1A"
+   ],
+   "ki_max_nM": 6000.0,
+   "ki_min_nM": 5600.0,
+   "ki_nM": 5796.550698,
+   "measurements": [
+    {
+     "ki_nM": 5600.0,
+     "record": "activity 18195911 / assay CHEMBL4042251",
+     "ref": "PMID:27769034",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 6000.0,
+     "record": "activity 24998855 / assay CHEMBL5232456",
+     "ref": "PMID:34591474",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "Lysine-specific histone demethylase 1A",
+   "pki_median": 5.2368,
+   "uniprot": [
+    "O60341"
+   ]
+  },
+  "MAOA": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [
+    "inhibitor"
+   ],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Irreversible inhibition",
+     "ref": "PMID:18426226",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [
+    "MAOA+MAOB"
+   ],
+   "gene_symbols": [
+    "MAOA"
+   ],
+   "ki_max_nM": 163.0,
+   "ki_min_nM": 46.77352234557817,
+   "ki_nM": 87.316002,
+   "measurements": [
+    {
+     "ki_nM": 163.0,
+     "record": "activity 18195384 / assay CHEMBL4042118",
+     "ref": "PMID:27754693",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 46.77352234557817,
+     "record": "GtoPdb ligand 7266 target 2489 pKi 7.329999923706055",
+     "ref": "PMID:18426226",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "Amine oxidase [flavin-containing] A",
+   "pki_median": 7.0589,
+   "uniprot": [
+    "P21397"
+   ]
+  },
+  "MAOB": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [
+    "inhibitor"
+   ],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Irreversible inhibition",
+     "ref": "PMID:18426226",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [
+    "MAOA+MAOB"
+   ],
+   "gene_symbols": [
+    "MAOB"
+   ],
+   "ki_max_nM": 124.0,
+   "ki_min_nM": 15.13560650178649,
+   "ki_nM": 94.0,
+   "measurements": [
+    {
+     "ki_nM": 94.0,
+     "record": "activity 15163789 / assay CHEMBL3404812",
+     "ref": "PMID:25600407",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 124.0,
+     "record": "activity 18195386 / assay CHEMBL4042120",
+     "ref": "PMID:27754693",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 15.13560650178649,
+     "record": "GtoPdb ligand 7266 target 2490 pKi 7.820000171661377",
+     "ref": "PMID:18426226",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 3,
+   "name": "Amine oxidase [flavin-containing] B",
+   "pki_median": 7.0269,
+   "uniprot": [
+    "P27338"
+   ]
+  },
+  "SLC6A2": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:9537821",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A2"
+   ],
+   "ki_max_nM": 49000.0,
+   "ki_min_nM": 49000.0,
+   "ki_nM": 49000.0,
+   "measurements": [
+    {
+     "ki_nM": 10000.0,
+     "record": "GtoPdb ligand 7266 target 926 pKi 5.0",
+     "ref": "PMID:9537821",
+     "relation": ">",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 10000.0,
+     "record": "PDSP Ki ID 45638 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:9537821",
+     "relation": ">",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 49000.0,
+     "record": "PDSP Ki ID 100396 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 2,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Norepinephrine transporter",
+   "pki_median": 4.3098,
+   "uniprot": []
+  },
+  "SLC6A3": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:9537821",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A3"
+   ],
+   "ki_max_nM": 8400.0,
+   "ki_min_nM": 8317.639172213712,
+   "ki_nM": 8358.718146,
+   "measurements": [
+    {
+     "ki_nM": 8317.639172213712,
+     "record": "GtoPdb ligand 7266 target 927 pKi 5.079999923706055",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 8400.0,
+     "record": "PDSP Ki ID 45639 (CLONED, hot ligand 3H-WIN 35,428)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "Dopamine Transporter",
+   "pki_median": 5.0779,
+   "uniprot": []
+  }
+ }
+}

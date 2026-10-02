@@ -1,0 +1,232 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL297302",
+ "chembl_id_queried": "CHEMBL297302",
+ "entity_note": null,
+ "inn": "benperidol",
+ "mechanism_targets": [
+  "DRD2"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:15846648": {
+   "citation": "ChEMBL drug mechanism 6756: Dopamine D2 receptor antagonist; refs PubMed 15846648; PubMed 18355689; PubMed 22535514; PubMed 6108081",
+   "doi": null,
+   "pmid": "15846648"
+  },
+  "PMID:27364609": {
+   "chembl_document": "CHEMBL3817845",
+   "citation": "Etukala JR, Zhu XY, Eyunni SV, Onyameh EK, Ofori E, Bricker BA, Kang HJ, Huang XP, Roth BL, Ablordeppey SY. (2016) Bioorg Med Chem 24:3671",
+   "doi": "10.1016/j.bmc.2016.06.011",
+   "pmid": "27364609"
+  },
+  "PMID:9577836": {
+   "citation": "Seeman P, Tallerico T., 1998",
+   "doi": null,
+   "pmid": "9577836"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 4,
+  "excluded_counts": {
+   "pdsp_species_not_human": 7
+  },
+  "gtopdb_ligand_id": "9215",
+  "pdsp_ligand_names_matched": [
+   "BENPERIDOL"
+  ],
+  "pdsp_ligand_names_tried": [
+   "benperidol"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "DRD2": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:9577836",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:15846648",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 0.027,
+   "ki_min_nM": 0.02691536695250797,
+   "ki_nM": 0.026979,
+   "measurements": [
+    {
+     "ki_nM": 0.027,
+     "record": "activity 16630085 / assay CHEMBL3820059",
+     "ref": "PMID:27364609",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.02691536695250797,
+     "record": "GtoPdb ligand 9215 target 215 pKi 10.569999694824219",
+     "ref": "PMID:9577836",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 0.027,
+     "record": "PDSP Ki ID 19722 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:9577836",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 2,
+   "name": "D(2) dopamine receptor",
+   "pki_median": 10.569,
+   "uniprot": [
+    "P14416"
+   ]
+  },
+  "DRD3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD3"
+   ],
+   "ki_max_nM": 0.29,
+   "ki_min_nM": 0.29,
+   "ki_nM": 0.29,
+   "measurements": [
+    {
+     "ki_nM": 0.29,
+     "record": "activity 16630087 / assay CHEMBL3820061",
+     "ref": "PMID:27364609",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "D(3) dopamine receptor",
+   "pki_median": 9.5376,
+   "uniprot": [
+    "P35462"
+   ]
+  },
+  "DRD4": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:9577836",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD4"
+   ],
+   "ki_max_nM": 0.06606929837429629,
+   "ki_min_nM": 0.066,
+   "ki_nM": 0.066017,
+   "measurements": [
+    {
+     "ki_nM": 0.066,
+     "record": "activity 16630086 / assay CHEMBL3820060",
+     "ref": "PMID:27364609",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.06606929837429629,
+     "record": "GtoPdb ligand 9215 target 217 pKi 10.180000305175781",
+     "ref": "PMID:9577836",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 0.066,
+     "record": "PDSP Ki ID 19837 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:9577836",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 2,
+   "name": "D(4) dopamine receptor",
+   "pki_median": 10.1803,
+   "uniprot": [
+    "P21917"
+   ]
+  },
+  "HTR2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 1.2,
+   "ki_min_nM": 1.2,
+   "ki_nM": 1.2,
+   "measurements": [
+    {
+     "ki_nM": 1.2,
+     "record": "activity 16630088 / assay CHEMBL3820062",
+     "ref": "PMID:27364609",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 2A",
+   "pki_median": 8.9208,
+   "uniprot": [
+    "P28223"
+   ]
+  }
+ }
+}

@@ -1,0 +1,481 @@
+{
+ "actions_without_ki": {
+  "MTNR1A+MTNR1B": [
+   {
+    "action": "agonist",
+    "label": "AGONIST",
+    "ref": "PMID:19300571",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL10878",
+ "chembl_id_queried": "CHEMBL10878",
+ "entity_note": null,
+ "inn": "agomelatine",
+ "mechanism_targets": [
+  "HTR2C",
+  "MTNR1A+MTNR1B"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_DOC:CHEMBL4002541": {
+   "chembl_document": "CHEMBL4002541",
+   "citation": "(2014) Medchemcomm 5:1303",
+   "doi": "10.1039/C4MD00149D",
+   "pmid": null
+  },
+  "CHEMBL_DOC:CHEMBL5727970": {
+   "chembl_document": "CHEMBL5727970",
+   "citation": "(2020) PATENT :",
+   "doi": null,
+   "pmid": null
+  },
+  "CHEMBL_DOC:CHEMBL5728639": {
+   "chembl_document": "CHEMBL5728639",
+   "citation": "(2021) PATENT :",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 198 target 287": {
+   "citation": "GtoPdb interaction, ligand 198 (agomelatine), target 287; primary PMIDs 12764576,9618428",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 198 target 288": {
+   "citation": "GtoPdb interaction, ligand 198 (agomelatine), target 288; primary PMIDs 12764576,9618428",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:12646022": {
+   "chembl_document": "CHEMBL1136735",
+   "citation": "Descamps-Fran\u00e7ois C, Yous S, Chavatte P, Audinot V, Bonnaud A, Boutin JA, Delagrange P, Bennejean C, Renard P, Lesieur D. (2003) J Med Chem 46:1127",
+   "doi": "10.1021/jm0255872",
+   "pmid": "12646022"
+  },
+  "PMID:12750432": {
+   "citation": "Millan MJ, et al., 2003",
+   "doi": null,
+   "pmid": "12750432"
+  },
+  "PMID:19300571": {
+   "citation": "ChEMBL drug mechanism 6445: Melatonin receptor agonist; refs DOI 10.1080/09291016.2013.797657; PubMed 19300571; PubMed 24724693",
+   "doi": null,
+   "pmid": "19300571"
+  },
+  "PMID:22301214": {
+   "chembl_document": "CHEMBL1944558",
+   "citation": "Ettaoussi M, Sabaouni A, Rami M, Boutin JA, Delagrange P, Renard P, Spedding M, Caignard DH, Berthelot P, Yous S. (2012) Eur J Med Chem 49:310",
+   "doi": "10.1016/j.ejmech.2012.01.027",
+   "pmid": "22301214"
+  },
+  "PMID:23265885": {
+   "chembl_document": "CHEMBL2311490",
+   "citation": "Morellato L, Lefas-Le Gall M, Langlois M, Caignard DH, Renard P, Delagrange P, Math\u00e9-Allainmat M. (2013) Bioorg Med Chem Lett 23:430",
+   "doi": "10.1016/j.bmcl.2012.11.069",
+   "pmid": "23265885"
+  },
+  "PMID:26820449": {
+   "chembl_document": "CHEMBL3758099",
+   "citation": "Landagaray E, Ettaoussi M, Duroux R, Boutin JA, Caignard DH, Delagrange P, Melnyk P, Berthelot P, Yous S. (2016) Eur J Med Chem 109:360",
+   "doi": "10.1016/j.ejmech.2015.12.047",
+   "pmid": "26820449"
+  },
+  "PMID:28131094": {
+   "chembl_document": "CHEMBL3992543",
+   "citation": "Landagaray E, Ettaoussi M, Rami M, Boutin JA, Caignard DH, Delagrange P, Melnyk P, Berthelot P, Yous S. (2017) Eur J Med Chem 127:621",
+   "doi": "10.1016/j.ejmech.2016.12.013",
+   "pmid": "28131094"
+  },
+  "PMID:37866336": {
+   "chembl_document": "CHEMBL5512600",
+   "citation": "Feng Y, Jiang X, Liu W, Lu H. (2023) Eur J Med Chem 262:115888",
+   "doi": "10.1016/j.ejmech.2023.115888",
+   "pmid": "37866336"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 28,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 3,
+   "chembl_potential_duplicate": 12,
+   "pdsp_species_not_human": 5
+  },
+  "gtopdb_ligand_id": "198",
+  "pdsp_ligand_names_matched": [
+   "Agomelatine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "agomelatine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "HTR2A": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:12750432",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 4466.8359215096,
+   "ki_min_nM": 3981.071705534969,
+   "ki_nM": 4298.66234,
+   "measurements": [
+    {
+     "ki_nM": 3981.071705534969,
+     "record": "GtoPdb ligand 198 target 6 pKi 5.4",
+     "ref": "PMID:12750432",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 4466.8359,
+     "record": "PDSP Ki ID 24450 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:12750432",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 4466.8359215096,
+     "record": "PDSP Ki ID 27193 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:12750432",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 1,
+   "name": "5-HT2A",
+   "pki_median": 5.3667,
+   "uniprot": []
+  },
+  "HTR2B": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:12750432",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2B"
+   ],
+   "ki_max_nM": 257.0396,
+   "ki_min_nM": 251.18864315095823,
+   "ki_nM": 255.074286,
+   "measurements": [
+    {
+     "ki_nM": 251.18864315095823,
+     "record": "GtoPdb ligand 198 target 7 pKi 6.6",
+     "ref": "PMID:12750432",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 257.03957827689,
+     "record": "PDSP Ki ID 27191 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:12750432",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 257.0396,
+     "record": "PDSP Ki ID 24448 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:12750432",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 1,
+   "name": "5-HT2B",
+   "pki_median": 6.5933,
+   "uniprot": []
+  },
+  "HTR2C": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:12750432",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:19300571",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2C"
+   ],
+   "ki_max_nM": 708.0,
+   "ki_min_nM": 630.0,
+   "ki_nM": 681.292174,
+   "measurements": [
+    {
+     "ki_nM": 708.0,
+     "record": "activity 8026533 / assay CHEMBL1947490",
+     "ref": "PMID:22301214",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 630.0,
+     "record": "activity 16461060 / assay CHEMBL3762923",
+     "ref": "PMID:26820449",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 630.9576215861531,
+     "record": "GtoPdb ligand 198 target 8 pKi 6.199999809265137",
+     "ref": "PMID:12750432",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 707.94578438414,
+     "record": "PDSP Ki ID 27189 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:12750432",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 707.9458,
+     "record": "PDSP Ki ID 24446 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:12750432",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 5,
+   "n_references": 3,
+   "name": "5-hydroxytryptamine receptor 2C",
+   "pki_median": 6.1667,
+   "uniprot": [
+    "P28335"
+   ]
+  },
+  "MTNR1A": {
+   "action_types": [
+    "agonist"
+   ],
+   "action_types_via_family": [
+    "agonist"
+   ],
+   "actions": [
+    {
+     "action": "agonist",
+     "label": "Agonist / Full agonist",
+     "ref": "GTOPDB:ligand 198 target 287",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [
+    "MTNR1A+MTNR1B"
+   ],
+   "gene_symbols": [
+    "MTNR1A"
+   ],
+   "ki_max_nM": 0.2,
+   "ki_min_nM": 0.039810752023765515,
+   "ki_nM": 0.1,
+   "measurements": [
+    {
+     "ki_nM": 0.1202,
+     "record": "activity 18001517 / assay CHEMBL4002648",
+     "ref": "CHEMBL_DOC:CHEMBL4002541",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.2,
+     "record": "activity 28117052 / assay CHEMBL5735773",
+     "ref": "CHEMBL_DOC:CHEMBL5727970",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.06,
+     "record": "activity 202831 / assay CHEMBL714104",
+     "ref": "PMID:12646022",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.1,
+     "record": "activity 12634737 / assay CHEMBL2318042",
+     "ref": "PMID:23265885",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.039810752023765515,
+     "record": "GtoPdb ligand 198 target 287 pKi 10.399999618530273",
+     "ref": "GTOPDB:ligand 198 target 287",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 0.1,
+     "record": "GtoPdb ligand 198 target 287 pKi 10.0",
+     "ref": "GTOPDB:ligand 198 target 287",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 6,
+   "n_references": 5,
+   "name": "Melatonin receptor type 1A",
+   "pki_median": 10.0,
+   "uniprot": [
+    "P48039"
+   ]
+  },
+  "MTNR1B": {
+   "action_types": [
+    "agonist"
+   ],
+   "action_types_via_family": [
+    "agonist"
+   ],
+   "actions": [
+    {
+     "action": "agonist",
+     "label": "Agonist / Full agonist",
+     "ref": "GTOPDB:ligand 198 target 288",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [
+    "MTNR1A+MTNR1B"
+   ],
+   "gene_symbols": [
+    "MTNR1B"
+   ],
+   "ki_max_nM": 0.3802,
+   "ki_min_nM": 0.03162277660168379,
+   "ki_nM": 0.158682,
+   "measurements": [
+    {
+     "ki_nM": 0.3802,
+     "record": "activity 18001526 / assay CHEMBL4002649",
+     "ref": "CHEMBL_DOC:CHEMBL4002541",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.042,
+     "record": "activity 28446206 / assay CHEMBL5737144",
+     "ref": "CHEMBL_DOC:CHEMBL5728639",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.27,
+     "record": "activity 202832 / assay CHEMBL710751",
+     "ref": "PMID:12646022",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.1,
+     "record": "activity 12634715 / assay CHEMBL2318043",
+     "ref": "PMID:23265885",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.21,
+     "record": "activity 16460985 / assay CHEMBL3762919",
+     "ref": "PMID:26820449",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.2,
+     "record": "activity 17957837 / assay CHEMBL3993987",
+     "ref": "PMID:28131094",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.1259,
+     "record": "activity 25871541 / assay CHEMBL5512911",
+     "ref": "PMID:37866336",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.03162277660168379,
+     "record": "GtoPdb ligand 198 target 288 pKi 10.5",
+     "ref": "GTOPDB:ligand 198 target 288",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 0.1258926517592568,
+     "record": "GtoPdb ligand 198 target 288 pKi 9.899999618530273",
+     "ref": "GTOPDB:ligand 198 target 288",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 9,
+   "n_references": 8,
+   "name": "Melatonin receptor type 1B",
+   "pki_median": 9.7995,
+   "uniprot": [
+    "P49286"
+   ]
+  }
+ }
+}

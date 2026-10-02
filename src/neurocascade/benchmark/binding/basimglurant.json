@@ -1,0 +1,109 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL3301626",
+ "chembl_id_queried": "CHEMBL3301626",
+ "entity_note": null,
+ "inn": "basimglurant",
+ "mechanism_targets": [
+  "GRM5"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_MECHANISM:4937": {
+   "citation": "ChEMBL drug mechanism 4937: Metabotropic glutamate receptor 5 modulator; refs Other http://www.roche.com/de/irp2q14e-annex.pdf; Other http://www.roche.com/research_and_development/who_we_are_how_we_work/pipeline.htm",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:25565255": {
+   "chembl_document": "CHEMBL3407448",
+   "citation": "Jaeschke G, Kolczewski S, Spooren W, Vieira E, Bitter-Stoll N, Boissin P, Borroni E, B\u00fcttelmann B, Ceccarelli S, Clemann N, David B, Funk C, Guba W, Harrison A, Hartung T, Honer M, Huwyler J, Kuratli M, Niederhauser U, P\u00e4hler A, Peters JU, Petersen A, Prinssen E, Ricci A, Rueher D, Rueher M, Schneider M, Spurr P, Stoll T, T\u00e4nnler D, Wichmann J, Porter RH, Wettstein JG, Lindemann L. (2015) J Med Chem 58:1358",
+   "doi": "10.1021/jm501642c",
+   "pmid": "25565255"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 2,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 1
+  },
+  "gtopdb_ligand_id": "9309",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "basimglurant"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "FAIL",
+ "targets": {
+  "GRM5": {
+   "action_types": [
+    "modulator",
+    "negative allosteric modulator"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "negative allosteric modulator",
+     "label": "Allosteric modulator / Negative",
+     "ref": "PMID:25565255",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "modulator",
+     "label": "MODULATOR",
+     "ref": "CHEMBL_MECHANISM:4937",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "GRM5"
+   ],
+   "ki_max_nM": 36.30780069327641,
+   "ki_min_nM": 36.0,
+   "ki_nM": 36.153573,
+   "measurements": [
+    {
+     "ki_nM": 36.0,
+     "record": "activity 15195085 / assay CHEMBL3412489",
+     "ref": "PMID:25565255",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 36.30780069327641,
+     "record": "GtoPdb ligand 9309 target 293 pKi 7.440000057220459",
+     "ref": "PMID:25565255",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "Metabotropic glutamate receptor 5",
+   "pki_median": 7.4418,
+   "uniprot": [
+    "P41594"
+   ]
+  }
+ }
+}

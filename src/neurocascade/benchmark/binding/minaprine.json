@@ -1,0 +1,125 @@
+{
+ "actions_without_ki": {
+  "ACHE": [
+   {
+    "action": "inhibitor",
+    "label": "INHIBITOR",
+    "ref": "PMID:10052979",
+    "source": "ChEMBL mechanism"
+   },
+   {
+    "action": "inhibitor",
+    "label": "INHIBITOR",
+    "ref": "PMID:10052979",
+    "source": "ChEMBL mechanism"
+   }
+  ],
+  "CHRM1": [
+   {
+    "action": "agonist",
+    "label": "AGONIST",
+    "ref": "PMID:10052979",
+    "source": "ChEMBL mechanism"
+   },
+   {
+    "action": "agonist",
+    "label": "AGONIST",
+    "ref": "PMID:10052979",
+    "source": "ChEMBL mechanism"
+   }
+  ],
+  "DRD1+DRD2": [
+   {
+    "action": "agonist",
+    "label": "AGONIST",
+    "ref": "PMID:10052979",
+    "source": "ChEMBL mechanism"
+   },
+   {
+    "action": "agonist",
+    "label": "AGONIST",
+    "ref": "PMID:10052979",
+    "source": "ChEMBL mechanism"
+   }
+  ],
+  "HTR2A+HTR2B+HTR2C": [
+   {
+    "action": "antagonist",
+    "label": "ANTAGONIST",
+    "ref": "PMID:10052979",
+    "source": "ChEMBL mechanism"
+   },
+   {
+    "action": "antagonist",
+    "label": "ANTAGONIST",
+    "ref": "PMID:10052979",
+    "source": "ChEMBL mechanism"
+   }
+  ],
+  "MAOA": [
+   {
+    "action": "inhibitor",
+    "label": "INHIBITOR",
+    "ref": "PMID:10052979",
+    "source": "ChEMBL mechanism"
+   },
+   {
+    "action": "inhibitor",
+    "label": "INHIBITOR",
+    "ref": "PMID:10052979",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL278819",
+ "chembl_id_queried": "CHEMBL278819",
+ "entity_note": null,
+ "inn": "minaprine",
+ "mechanism_targets": [
+  "ACHE",
+  "CHRM1",
+  "DRD1+DRD2",
+  "HTR2A+HTR2B+HTR2C",
+  "MAOA"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:10052979": {
+   "citation": "ChEMBL drug mechanism 6868: Acetylcholinesterase inhibitor; refs PubMed 10052979; PubMed 1361012; PubMed 2586634; PubMed 2975224; PubMed 3836113; PubMed 3954800; PubMed 6425901; PubMed 6890359; PubMed 8494598; PubMed 8904622",
+   "doi": null,
+   "pmid": "10052979"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 1,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 1
+  },
+  "gtopdb_ligand_id": null,
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "minaprine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "searched_and_empty",
+ "stratum": "N06A",
+ "targets": {}
+}

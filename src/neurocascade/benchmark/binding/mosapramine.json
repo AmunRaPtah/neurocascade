@@ -1,0 +1,77 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL2106650",
+ "chembl_id_queried": "CHEMBL2106650",
+ "entity_note": null,
+ "inn": "mosapramine",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:31404862": {
+   "chembl_document": "CHEMBL4414553",
+   "citation": "Vanda D, Zajdel P, Soural M. (2019) Eur J Med Chem 181:111569",
+   "doi": "10.1016/j.ejmech.2019.111569",
+   "pmid": "31404862"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 1,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": null,
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "mosapramine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "DRD4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD4"
+   ],
+   "ki_max_nM": 0.03,
+   "ki_min_nM": 0.03,
+   "ki_nM": 0.03,
+   "measurements": [
+    {
+     "ki_nM": 0.03,
+     "record": "activity 19306757 / assay CHEMBL4415158",
+     "ref": "PMID:31404862",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "D(4) dopamine receptor",
+   "pki_median": 10.5229,
+   "uniprot": [
+    "P21917"
+   ]
+  }
+ }
+}

@@ -1,0 +1,225 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL14370",
+ "chembl_id_queried": "CHEMBL14370",
+ "entity_note": null,
+ "inn": "reboxetine",
+ "mechanism_targets": [
+  "SLC6A2"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:11454918": {
+   "citation": "Millan MJ, et al., 2001",
+   "doi": null,
+   "pmid": "11454918"
+  },
+  "PMID:12431845": {
+   "citation": "Bymaster F.P., et. al., 2002",
+   "doi": null,
+   "pmid": "12431845"
+  },
+  "PMID:14647527": {
+   "citation": "ChEMBL drug mechanism 5901: Norepinephrine transporter inhibitor; refs PubMed 14647527; PubMed 14978512; PubMed 20940209",
+   "doi": null,
+   "pmid": "14647527"
+  },
+  "PMID:14971892": {
+   "chembl_document": "CHEMBL1149321",
+   "citation": "Plisson C, McConathy J, Martarello L, Malveaux EJ, Camp VM, Williams L, Votaw JR, Goodman MM. (2004) J Med Chem 47:1122",
+   "doi": "10.1021/jm030384e",
+   "pmid": "14971892"
+  },
+  "PMID:18313294": {
+   "chembl_document": "CHEMBL1144031",
+   "citation": "Fish PV, Ryckmans T, Stobie A, Wakenhut F. (2008) Bioorg Med Chem Lett 18:1795",
+   "doi": "10.1016/j.bmcl.2008.02.036",
+   "pmid": "18313294"
+  },
+  "PMID:18387300": {
+   "citation": "Fish PV et al., 2008",
+   "doi": null,
+   "pmid": "18387300"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 11,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 4,
+   "chembl_potential_duplicate": 4,
+   "pdsp_species_not_human": 13
+  },
+  "gtopdb_ligand_id": null,
+  "pdsp_ligand_names_matched": [
+   "Reboxetine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "reboxetine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "HTR2C": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2C"
+   ],
+   "ki_max_nM": 457.0,
+   "ki_min_nM": 457.0,
+   "ki_nM": 457.0,
+   "measurements": [
+    {
+     "ki_nM": 457.0,
+     "record": "PDSP Ki ID 16822 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:11454918",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT2C",
+   "pki_median": 6.3401,
+   "uniprot": []
+  },
+  "SLC6A2": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "PMID:14647527",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A2"
+   ],
+   "ki_max_nM": 15.8,
+   "ki_min_nM": 5.0,
+   "ki_nM": 7.416198,
+   "measurements": [
+    {
+     "ki_nM": 5.0,
+     "record": "activity 2119194 / assay CHEMBL950332",
+     "ref": "PMID:18313294",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 15.8,
+     "record": "PDSP Ki ID 16785 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:11454918",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 11.0,
+     "record": "PDSP Ki ID 23782 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:12431845",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 5.0,
+     "record": "PDSP Ki ID 53434 (UNDEFINED, hot ligand UNDEFINED)",
+     "ref": "PMID:18387300",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 4,
+   "n_references": 4,
+   "name": "Sodium-dependent noradrenaline transporter",
+   "pki_median": 8.1298,
+   "uniprot": [
+    "P23975"
+   ]
+  },
+  "SLC6A4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A4"
+   ],
+   "ki_max_nM": 1400.0,
+   "ki_min_nM": 107.0,
+   "ki_nM": 440.0,
+   "measurements": [
+    {
+     "ki_nM": 129.0,
+     "record": "activity 518017 / assay CHEMBL804588",
+     "ref": "PMID:14971892",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1400.0,
+     "record": "activity 2119234 / assay CHEMBL950333",
+     "ref": "PMID:18313294",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 107.0,
+     "record": "PDSP Ki ID 16775 (CLONED, hot ligand 3H-PAROXETINE)",
+     "ref": "PMID:11454918",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 440.0,
+     "record": "PDSP Ki ID 23790 (CLONED, hot ligand 3H-PAROXETINE)",
+     "ref": "PMID:12431845",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1400.0,
+     "record": "PDSP Ki ID 53403 (UNDEFINED, hot ligand UNDEFINED)",
+     "ref": "PMID:18387300",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 5,
+   "n_references": 5,
+   "name": "Sodium-dependent serotonin transporter",
+   "pki_median": 6.3565,
+   "uniprot": [
+    "P31645"
+   ]
+  }
+ }
+}

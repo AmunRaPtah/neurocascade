@@ -1,0 +1,135 @@
+{
+ "actions_without_ki": {
+  "GABRA1": [
+   {
+    "action": "positive allosteric modulator",
+    "label": "Allosteric modulator / Potentiation",
+    "ref": "GTOPDB:ligand 4108 target 404",
+    "source": "GtoPdb"
+   }
+  ],
+  "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ": [
+   {
+    "action": "positive allosteric modulator",
+    "label": "POSITIVE ALLOSTERIC MODULATOR",
+    "ref": "CHEMBL_MECHANISM:7366",
+    "source": "ChEMBL mechanism"
+   }
+  ],
+  "GABRA2": [
+   {
+    "action": "positive allosteric modulator",
+    "label": "Allosteric modulator / Potentiation",
+    "ref": "GTOPDB:ligand 4108 target 405",
+    "source": "GtoPdb"
+   }
+  ],
+  "GABRA3": [
+   {
+    "action": "positive allosteric modulator",
+    "label": "Allosteric modulator / Potentiation",
+    "ref": "GTOPDB:ligand 4108 target 406",
+    "source": "GtoPdb"
+   }
+  ],
+  "GABRA4": [
+   {
+    "action": "positive allosteric modulator",
+    "label": "Allosteric modulator / Potentiation",
+    "ref": "GTOPDB:ligand 4108 target 407",
+    "source": "GtoPdb"
+   }
+  ],
+  "GABRA5": [
+   {
+    "action": "positive allosteric modulator",
+    "label": "Allosteric modulator / Potentiation",
+    "ref": "GTOPDB:ligand 4108 target 408",
+    "source": "GtoPdb"
+   }
+  ],
+  "GABRA6": [
+   {
+    "action": "positive allosteric modulator",
+    "label": "Allosteric modulator / Potentiation",
+    "ref": "GTOPDB:ligand 4108 target 409",
+    "source": "GtoPdb"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL207538",
+ "chembl_id_queried": "CHEMBL207538",
+ "entity_note": null,
+ "inn": "brexanolone",
+ "mechanism_targets": [
+  "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_MECHANISM:7366": {
+   "citation": "ChEMBL drug mechanism 7366: GABA-A receptor; anion channel positive allosteric modulator; refs FDA label/2019/211371lbl.pdf",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 4108 target 404": {
+   "citation": "GtoPdb interaction, ligand 4108 (5&alpha;-pregnan-3&alpha;-ol-20-one), target 404; primary PMIDs none listed",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 4108 target 405": {
+   "citation": "GtoPdb interaction, ligand 4108 (5&alpha;-pregnan-3&alpha;-ol-20-one), target 405; primary PMIDs none listed",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 4108 target 406": {
+   "citation": "GtoPdb interaction, ligand 4108 (5&alpha;-pregnan-3&alpha;-ol-20-one), target 406; primary PMIDs none listed",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 4108 target 407": {
+   "citation": "GtoPdb interaction, ligand 4108 (5&alpha;-pregnan-3&alpha;-ol-20-one), target 407; primary PMIDs none listed",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 4108 target 408": {
+   "citation": "GtoPdb interaction, ligand 4108 (5&alpha;-pregnan-3&alpha;-ol-20-one), target 408; primary PMIDs none listed",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 4108 target 409": {
+   "citation": "GtoPdb interaction, ligand 4108 (5&alpha;-pregnan-3&alpha;-ol-20-one), target 409; primary PMIDs none listed",
+   "doi": null,
+   "pmid": null
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 0,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": "4108",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "brexanolone"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "searched_and_empty",
+ "stratum": "N06A",
+ "targets": {}
+}

@@ -16251,3 +16251,238 @@ prediction and earned no validated-claims row in the ledger. It is a
 precondition for Phase 28's coverage tasks, not a result. The list is useful
 only to the extent that those tasks fill it. The drugs with thin public data
 will show up as coverage gaps; they were not quietly dropped here.
+
+## Phase 28, part two: receptor binding panel per benchmark drug (P28.2)
+
+P28.2 gives every benchmark drug the first input in its preclinical package: a
+**human** receptor panel with a Ki per target and an action type where a
+source prints one. It makes no prediction and earns no validated row (ledger
+rule 1). Its result is a coverage table, now in the ledger:
+
+- 118 of 185 drugs have a panel;
+- 12.57 targets per covered drug, on average;
+- 67 drugs are searched and empty.
+
+### Where the files live
+
+The brief named `data/benchmark/binding/<drug>.json`. `data/` is read-only in
+this build, so the panels sit at `src/neurocascade/benchmark/binding/<inn>.json`
+beside P28.1's `drugs.json`, for the reason given under P28.1. Spaces in an INN
+become underscores in the filename. `coverage.json` sits beside the panels.
+They are loaded through `neurocascade.benchmark.load_binding_panel` and
+`load_binding_coverage`. `scripts/build_benchmark_binding.py` regenerates them:
+`fetch` caches the three sources outside the repo, and `build` runs offline.
+
+### Sources and what each one contributes
+
+- **PDSP Ki database.** Full CSV from `kiDownload/download.php`, 98,678 rows.
+  Its sha256 is in every file. Every row carries species and a reference, but
+  PDSP prints no efficacy.
+- **ChEMBL_37 REST API.** Every `Ki` activity on the drug's parent molecule,
+  with salt forms included through `parent_molecule_chembl_id`. The script
+  also pulls the assay, document and target records behind each activity, and
+  the curated `mechanism` table, which carries an action type and references.
+- **GtoPdb 2026.3.** Bulk `interactions.csv`, with `pKi` rows on human
+  targets. Every interaction row also gives its Type/Action pair as an action
+  type, including rows whose affinity is not a Ki.
+
+### Rule-12 check: the species of a ChEMBL Ki is not the target's species
+
+The load-bearing assumption was that a ChEMBL Ki filtered to
+`target_organism = Homo sapiens` is a human measurement. **It is not.** The
+first haloperidol row returned was a "human" sigma-1 Ki of 3.2 nM.
+
+- Its assay (CHEMBL802065) is [3H](+)-pentazocine binding in **guinea-pig
+  brain**.
+- ChEMBL maps that assay to the human target as a homologue, with
+  `confidence_score` 8.
+- Filtering on the target organism would have imported rodent and guinea-pig
+  tissue values wholesale. That is the rule-2 substitution P23.1's species
+  gate exists to stop.
+
+The panel therefore requires both:
+
+- the **assay** organism to be human (`assay_tax_id == 9606`);
+- a direct target assignment: confidence 9 for a single protein, 7 for a
+  protein complex.
+
+A test reproduces the guinea-pig case. PDSP rows must say `HUMAN`; the
+uncertain `? HUMAN` rows and `UNDEFINED` rows are refused. GtoPdb rows must
+have `Target Species == Human`.
+
+What the rule costs is visible in the data. The classical benzodiazepine-site
+literature was measured on rat or bovine brain. Lorazepam has 89 ChEMBL Ki rows. 81 are on non-human assays, and the
+other 8 are human DrugMatrix screens that printed only "inhibition < 50% @
+10 uM" at unrelated targets. That is most of why N05B has a panel for only 5 of 35 drugs.
+Translating a rat-brain benzodiazepine-site Ki to the human receptor is the
+kind of explicit, error-measured step that `roadmap-product.md` allows. It
+belongs to Phase 29, which can measure that step's error, not to a data task
+that would hide it inside a panel.
+
+### Drug identity: same entity only
+
+Each panel is for the benchmark record's own entity. It is never for a
+racemate, an enantiomer, a prodrug or a metabolite standing in for it (rule 2).
+
+- **ChEMBL**: the parent id from `drugs.json`, which ChEMBL keeps separate per
+  stereoisomer (citalopram CHEMBL549, escitalopram CHEMBL1508).
+- **GtoPdb**: matched by standard InChIKey, then ChEMBL id. GtoPdb's ligand 958
+  is (-)-sulpiride, so it reaches levosulpiride and not racemic sulpiride.
+- **PDSP**: matched by ligand name, because its CAS column is unreliable. In
+  many rows it holds NSC numbers or a salt's CAS. Exact INN matches are
+  accepted, plus a curated `PDSP_ALIASES` table of spelling variants,
+  salts and synonyms for the same stereochemical entity. Examples:
+  - "CHLORIMIPRAMINE" for clomipramine;
+  - "PROPERICIAZINE" for periciazine;
+  - "9-OH-risperidone" for paliperidone, which is racemic
+    9-hydroxyrisperidone;
+  - "cis-Clopenthixol" for zuclopenthixol;
+  - "Methadone,(S)(+)" for esmethadone.
+
+  Enantiomer rows for a racemic drug are deliberately absent: "(+)Mianserin",
+  "Fluoxetine-R-(-)", "Hydroxyzine, (R)". A test asserts that the alias sets
+  of racemate/single-isomer pairs never overlap. Two-site fit components
+  ("Sulpiride-high,(-)") are not taken as a Ki.
+- **Flupentixol** was left open by P28.1 and is settled here. Its ATC-mapped
+  ChEMBL record (CHEMBL6066864) has no structure and no activities. The
+  record's CAS is the cis(Z) isomer.
+  - Lundbeck's FLUANXOL product monograph (Canada) states that commercial
+    flupentixol dihydrochloride is about a 1:1 cis:trans mixture whose trans
+    isomer is pharmacologically inactive.
+  - The depot is pure cis(Z)-flupentixol decanoate.
+  - The panel is therefore the active isomer's: ChEMBL CHEMBL54661, GtoPdb 948,
+    PDSP "FLUPENTHIXOL, Alpha" / "cis-flupenthixol". The record's
+    `entity_note` says so.
+  - Phase 29 must halve oral dose to active-isomer dose. That is a fact about
+    the product, not an assumption made here.
+- **Clopenthixol** (the cis/trans mixture, CHEMBL3989892) is *not* given
+  zuclopenthixol's data. Zuclopenthixol is its own benchmark drug, and the
+  mixture's record has no structure-level stereo. Clopenthixol is searched and
+  empty.
+- **Prodrugs** are left empty rather than given the active moiety's numbers:
+  potassium clorazepate, which acts through nordazepam; pomaglumetad
+  methionil, through LY404039; and imipramine oxide. Whether a prodrug inherits
+  its active moiety's panel is a PK question, and it belongs to Phase 29 with
+  its own error measured. Nordazepam itself is empty too, so for the
+  nordazepam-precursor benzodiazepines the substitution would not even have
+  had data.
+
+### Targets
+
+Targets are keyed by human gene symbol. A heteromer is keyed by its sorted
+subunit symbols joined with `+`, e.g. `GABRA1+GABRB3+GABRG2` or
+`CHRNA4+CHRNB2`.
+
+- **ChEMBL**: symbols come from the target components.
+- **GtoPdb**: from `Target Gene Symbol`.
+- **PDSP**: free-text receptor names go through `PDSP_TARGETS`, by name, not
+  by its `Unigene` column, which is sometimes wrong. PDSP labels "Cholecystokinin
+  A" with CCKBR, for example.
+  - Generic names that do not identify one gene product are left unmapped and
+    counted, not guessed. Examples: "alpha1", "5-HT2", "Cholinergic,
+    muscarinic", "GABA A", "Sigma".
+  - Splice and editing variants map to their gene: D2L/D2S → DRD2, D4.2/D4.4
+    → DRD4, 5-HT2C-INI → HTR2C.
+
+### How a per-target Ki is summarised
+
+Every included measurement is stored with:
+
+- its value;
+- its relation: `=`, or `>` for censored values;
+- its source and source record (ChEMBL activity/assay id, PDSP Ki ID with
+  tissue and radioligand, or GtoPdb ligand/target);
+- a reference key that resolves in the file's `references` block. That block
+  holds a PMID wherever one exists, and the ChEMBL document id, the PDSP
+  reference string or the GtoPdb row otherwise.
+
+The summary `ki_nM` is a stated rule applied to those measurements, not a
+chosen number:
+
+1. Take the exact (`=`) values.
+2. Average pKi within each reference.
+3. Take the median across references.
+
+Grouping by reference first keeps one paper's table, which may reach ChEMBL,
+PDSP and GtoPdb all at once, from counting three times. ChEMBL's own
+`potential_duplicate` re-tabulations and rows carrying a
+`data_validity_comment` are dropped for the same reason. The median is used
+because the spread is real and wide, and one outlier should not move the
+summary. Haloperidol D2 spans 0.12-6,400 nM across 73 references; its median is
+2.0 nM. `ki_min_nM`, `ki_max_nM`, `n_references` and `n_censored` keep that
+spread visible.
+
+Censored values are kept but never enter the summary:
+
+- PDSP's 34,300 `>` rows, ChEMBL `>`/`>=` and GtoPdb `>` rows are stored as
+  censored measurements.
+- DrugMatrix "inhibition < 50% @ 10 uM" screens print no Ki. They are kept as
+  their printed statement under `screened_inactive_without_ki`, and no number
+  is made from them.
+
+A test recomputes every summary from the stored measurements.
+
+### Action type (the efficacy field)
+
+Ki databases print no efficacy; P8.1 recorded this as a property of the assay.
+Action types therefore come from two sources:
+
+- **GtoPdb**: the Type/Action pair. For example, "Allosteric modulator /
+  Positive" becomes `positive allosteric modulator`, and "Antagonist / Inverse
+  agonist" becomes `inverse agonist`.
+- **ChEMBL**: the curated mechanism table.
+
+Each action carries its own reference. Disagreements are kept, not arbitrated.
+Risperidone at 5-HT2A is `inverse agonist` in GtoPdb and `antagonist` in
+ChEMBL's mechanism table, and both are listed.
+
+An action recorded at family level (ChEMBL "D2-like dopamine receptor
+inverse agonist", "GABA-A receptor; anion channel positive allosteric modulator")
+says nothing subtype-specific. Haloperidol at D2, for instance, is `antagonist`
+in GtoPdb, and ChEMBL's only D2 record for it is that family-level inverse
+agonist row. It goes to `action_types_via_family` on the
+member targets, kept apart from the target's own `action_types`. Action types
+on targets with no Ki stay visible under `actions_without_ki`. For example,
+lorazepam and brexanolone have a GABA-A PAM action but no human Ki.
+
+Efficacy coverage is the thin field, at 3.14 action-typed targets per covered
+drug against 12.57 Ki targets. Most off-target Ki values have no functional
+assay behind them in these sources. Phase 29's occupancy step needs only Ki.
+Phase 30, if it weighs occupancy by efficacy, will have to treat "unknown
+action" as its own category rather than default it to antagonist.
+
+### Coverage, and what the gaps are
+
+The table is in the ledger. Some of the shape:
+
+- **N05A** is well covered: 57 of 67 drugs, 17 targets each.
+- **N06A** is reasonably covered: 47 of 66.
+- **N05B** has 5 of 35 drugs. The species rule above causes most of that gap.
+- **The FAIL stratum** is covered for 9 of 17, but thinly: 2.9 targets per
+  drug, mostly the intended target only.
+
+The 67 empties fall into three kinds, and each record's `searched` and
+`excluded_counts` block shows which:
+
+- **Species**: rat or bovine values exist but no human ones, e.g. lorazepam,
+  iproniazide, cloxazolam, fluanisone.
+- **Unit**: human pIC50 exists but no Ki (iclepertin, levomilnacipran,
+  mardepodect, pexacerfont), or there is no affinity at all for a functional
+  action (brexanolone, zuranolone).
+- **Absence**: the regional and older drugs, which have nothing in any source.
+  Examples: dimetacrine, pivagabine, mephenoxalone, oxaflozane, quinupramine,
+  thiopropazate.
+
+Fourteen of the 55 held-out drugs are empty.
+
+### What was deliberately not done
+
+- **No IC50 or Kd was converted to a Ki.** Cheng-Prusoff needs the radioligand
+  concentration and its Kd, which these rows do not carry. Pooling IC50 as if
+  it were Ki would put a different quantity in the panel under the Ki name.
+  Whether Phase 29 admits other affinity types is its decision, and it must
+  measure the effect on its error.
+- **No non-human Ki** is in a panel, for the reason above.
+- **No minimum-panel threshold.** A drug with one human Ki has a panel.
+  Whether one target suffices for a prediction is a Phase 29-30 question, and
+  answering it here would be deciding the score before it is run.

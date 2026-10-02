@@ -1,0 +1,88 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL251940",
+ "chembl_id_queried": "CHEMBL251940",
+ "entity_note": null,
+ "inn": "periciazine",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:7918347": {
+   "citation": "GtoPdb interaction, ligand 9216 (periciazine), target 214; primary PMIDs 7918347",
+   "doi": null,
+   "pmid": "7918347"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 0,
+  "excluded_counts": {
+   "pdsp_species_not_human": 6
+  },
+  "gtopdb_ligand_id": "9216",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "periciazine",
+   "propericiazine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "DRD1": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:7918347",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD1"
+   ],
+   "ki_max_nM": 10.0,
+   "ki_min_nM": 10.0,
+   "ki_nM": 10.0,
+   "measurements": [
+    {
+     "ki_nM": 10.0,
+     "record": "GtoPdb ligand 9216 target 214 pKi 8.0",
+     "ref": "PMID:7918347",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "D1 receptor",
+   "pki_median": 8.0,
+   "uniprot": [
+    "P21728"
+   ]
+  }
+ }
+}

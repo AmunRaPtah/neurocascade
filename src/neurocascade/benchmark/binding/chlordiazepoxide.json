@@ -1,0 +1,328 @@
+{
+ "actions_without_ki": {
+  "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ": [
+   {
+    "action": "positive allosteric modulator",
+    "label": "POSITIVE ALLOSTERIC MODULATOR",
+    "ref": "PMID:6135616",
+    "source": "ChEMBL mechanism"
+   },
+   {
+    "action": "positive allosteric modulator",
+    "label": "POSITIVE ALLOSTERIC MODULATOR",
+    "ref": "PMID:6135616",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL451",
+ "chembl_id_queried": "CHEMBL451",
+ "entity_note": null,
+ "inn": "chlordiazepoxide",
+ "mechanism_targets": [
+  "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:11960500": {
+   "chembl_document": "CHEMBL1136055",
+   "citation": "Collins I, Moyes C, Davey WB, Rowley M, Bromidge FA, Quirk K, Atack JR, McKernan RM, Thompson SA, Wafford K, Dawson GR, Pike A, Sohal B, Tsou NN, Ball RG, Castro JL. (2002) J Med Chem 45:1887",
+   "doi": "10.1021/jm0110789",
+   "pmid": "11960500"
+  },
+  "PMID:15084116": {
+   "chembl_document": "CHEMBL1149152",
+   "citation": "Sternfeld F, Carling RW, Jelley RA, Ladduwahetty T, Merchant KJ, Moore KW, Reeve AJ, Street LJ, O'Connor D, Sohal B, Atack JR, Cook S, Seabrook G, Wafford K, Tattersall FD, Collinson N, Dawson GR, Castro JL, MacLeod AM. (2004) J Med Chem 47:2176",
+   "doi": "10.1021/jm031076j",
+   "pmid": "15084116"
+  },
+  "PMID:15125950": {
+   "chembl_document": "CHEMBL1146760",
+   "citation": "Szekeres HJ, Atack JR, Chambers MS, Cook SM, Macaulay AJ, Pillai GV, MacLeod AM. (2004) Bioorg Med Chem Lett 14:2871",
+   "doi": "10.1016/j.bmcl.2004.03.054",
+   "pmid": "15125950"
+  },
+  "PMID:6135616": {
+   "citation": "ChEMBL drug mechanism 1590: GABA-A receptor; anion channel positive allosteric modulator; refs PubMed 6135616; Wikipedia Chlordiazepoxide",
+   "doi": null,
+   "pmid": "6135616"
+  }
+ },
+ "screened_inactive_without_ki": {
+  "CA2": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7690390 / assay CHEMBL1909123",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "CTSG": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7692537 / assay CHEMBL1909194",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "ELANE": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7692539 / assay CHEMBL1909195",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "MMP1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7692541 / assay CHEMBL1909196",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PDE5A": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7692521 / assay CHEMBL1909186",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTAFR": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7692523 / assay CHEMBL1909187",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTGS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7690404 / assay CHEMBL1909130",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "TBXAS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7692597 / assay CHEMBL1909116",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ]
+ },
+ "searched": {
+  "chembl_ki_rows_returned": 105,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 84,
+   "chembl_no_ki_value": 8,
+   "chembl_potential_duplicate": 5,
+   "pdsp_species_not_human": 1
+  },
+  "gtopdb_ligand_id": "3370",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "chlordiazepoxide"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05B",
+ "targets": {
+  "GABRA1+GABRB3+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA1",
+    "GABRB3",
+    "GABRG2"
+   ],
+   "ki_max_nM": 770.0,
+   "ki_min_nM": 605.0,
+   "ki_nM": 682.532051,
+   "measurements": [
+    {
+     "ki_nM": 770.0,
+     "record": "activity 260702 / assay CHEMBL677037",
+     "ref": "PMID:15084116",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 605.0,
+     "record": "activity 1126935 / assay CHEMBL677036",
+     "ref": "PMID:15125950",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "GABA-A receptor; alpha-1/beta-3/gamma-2",
+   "pki_median": 6.1659,
+   "uniprot": [
+    "P14867",
+    "P18507",
+    "P28472"
+   ]
+  },
+  "GABRA2+GABRB3+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA2",
+    "GABRB3",
+    "GABRG2"
+   ],
+   "ki_max_nM": 392.0,
+   "ki_min_nM": 392.0,
+   "ki_nM": 392.0,
+   "measurements": [
+    {
+     "ki_nM": 392.0,
+     "record": "activity 1126936 / assay CHEMBL682711",
+     "ref": "PMID:15125950",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "GABA-A receptor; alpha-2/beta-3/gamma-2",
+   "pki_median": 6.4067,
+   "uniprot": [
+    "P18507",
+    "P28472",
+    "P47869"
+   ]
+  },
+  "GABRA3+GABRB3+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA3",
+    "GABRB3",
+    "GABRG2"
+   ],
+   "ki_max_nM": 740.0,
+   "ki_min_nM": 275.0,
+   "ki_nM": 471.0,
+   "measurements": [
+    {
+     "ki_nM": 275.0,
+     "record": "activity 86665 / assay CHEMBL682252",
+     "ref": "PMID:11960500",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 740.0,
+     "record": "activity 260704 / assay CHEMBL680435",
+     "ref": "PMID:15084116",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 471.0,
+     "record": "activity 1126937 / assay CHEMBL680434",
+     "ref": "PMID:15125950",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 3,
+   "name": "GABA-A receptor; alpha-3/beta-3/gamma-2",
+   "pki_median": 6.327,
+   "uniprot": [
+    "P18507",
+    "P28472",
+    "P34903"
+   ]
+  },
+  "GABRA5+GABRB3+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA5",
+    "GABRB3",
+    "GABRG2"
+   ],
+   "ki_max_nM": 520.0,
+   "ki_min_nM": 368.0,
+   "ki_nM": 437.44714,
+   "measurements": [
+    {
+     "ki_nM": 520.0,
+     "record": "activity 260705 / assay CHEMBL682082",
+     "ref": "PMID:15084116",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 368.0,
+     "record": "activity 1126934 / assay CHEMBL680671",
+     "ref": "PMID:15125950",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "GABA-A receptor; alpha-5/beta-3/gamma-2",
+   "pki_median": 6.3591,
+   "uniprot": [
+    "P18507",
+    "P28472",
+    "P31644"
+   ]
+  }
+ }
+}

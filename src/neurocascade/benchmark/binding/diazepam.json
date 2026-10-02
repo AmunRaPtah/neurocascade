@@ -1,0 +1,844 @@
+{
+ "actions_without_ki": {
+  "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ": [
+   {
+    "action": "positive allosteric modulator",
+    "label": "POSITIVE ALLOSTERIC MODULATOR",
+    "ref": "PMID:15926867",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL12",
+ "chembl_id_queried": "CHEMBL12",
+ "entity_note": null,
+ "inn": "diazepam",
+ "mechanism_targets": [
+  "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:15743180": {
+   "chembl_document": "CHEMBL1142695",
+   "citation": "Russell MG, Carling RW, Atack JR, Bromidge FA, Cook SM, Hunt P, Isted C, Lucas M, McKernan RM, Mitchinson A, Moore KW, Narquizian R, Macaulay AJ, Thomas D, Thompson SA, Wafford KA, Castro JL. (2005) J Med Chem 48:1367",
+   "doi": "10.1021/jm040883v",
+   "pmid": "15743180"
+  },
+  "PMID:15926867": {
+   "citation": "ChEMBL drug mechanism 1592: GABA-A receptor; anion channel positive allosteric modulator; refs PubMed 15926867; PubMed 2886589; Wikipedia Benzodiazepine; Wikipedia Diazepam",
+   "doi": null,
+   "pmid": "15926867"
+  },
+  "PMID:16480260": {
+   "chembl_document": "CHEMBL1149444",
+   "citation": "Russell MG, Carling RW, Street LJ, Hallett DJ, Goodacre S, Mezzogori E, Reader M, Cook SM, Bromidge FA, Newman R, Smith AJ, Wafford KA, Marshall GR, Reynolds DS, Dias R, Ferris P, Stanley J, Lincoln R, Tye SJ, Sheppard WF, Sohal B, Pike A, Dominguez M, Atack JR, Castro JL. (2006) J Med Chem 49:1235",
+   "doi": "10.1021/jm051200u",
+   "pmid": "16480260"
+  },
+  "PMID:16610795": {
+   "chembl_document": "CHEMBL1146066",
+   "citation": "Lager E, Andersson P, Nilsson J, Pettersson I, Nielsen E\u00d8, Nielsen M, Sterner O, Liljefors T. (2006) J Med Chem 49:2526",
+   "doi": "10.1021/jm058057p",
+   "pmid": "16610795"
+  },
+  "PMID:2551039": {
+   "citation": "Pritchett DB, Luddens H, Seeburg PH, 1989",
+   "doi": null,
+   "pmid": "2551039"
+  },
+  "PMID:31738537": {
+   "chembl_document": "CHEMBL4402545",
+   "citation": "Maramai S, Benchekroun M, Ward SE, Atack JR. (2020) J Med Chem 63:3425",
+   "doi": "10.1021/acs.jmedchem.9b01312",
+   "pmid": "31738537"
+  },
+  "PMID:35218882": {
+   "chembl_document": "CHEMBL5143601",
+   "citation": "Golani LK, Yeunus Mian M, Ahmed T, Pandey KP, Mondal P, Sharmin D, Rezvanian S, Witkin JM, Cook JM. (2022) Bioorg Med Chem Lett 62:128637",
+   "doi": "10.1016/j.bmcl.2022.128637",
+   "pmid": "35218882"
+  },
+  "PMID:39577296": {
+   "chembl_document": "CHEMBL6078658",
+   "citation": "Paolino M, Saletti M, Venditti J, Castriconi F, Giuliani G, Maramai S, Toti A, Ghelardini C, Matucci R, Villalobos NA, Anzini M, Cappelli A. (2025) Bioorg Med Chem 117:118006",
+   "doi": "10.1016/j.bmc.2024.118006",
+   "pmid": "39577296"
+  },
+  "PMID:430248": {
+   "citation": "Clayton, Terry et. al. 2015",
+   "doi": null,
+   "pmid": "430248"
+  },
+  "PMID:8632757": {
+   "citation": "Hadingham K, et al., 1995",
+   "doi": null,
+   "pmid": "8632757"
+  }
+ },
+ "screened_inactive_without_ki": {
+  "CA2": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7702562 / assay CHEMBL1909123",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "CTSG": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7704741 / assay CHEMBL1909194",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "ELANE": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7704743 / assay CHEMBL1909195",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "MMP1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7704745 / assay CHEMBL1909196",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PDE5A": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7704725 / assay CHEMBL1909186",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTAFR": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7704727 / assay CHEMBL1909187",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTGS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7702576 / assay CHEMBL1909130",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "TBXAS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7706854 / assay CHEMBL1909116",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ]
+ },
+ "searched": {
+  "chembl_ki_rows_returned": 136,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 95,
+   "chembl_no_ki_value": 8,
+   "chembl_potential_duplicate": 19,
+   "pdsp_receptor_name_unmapped": 3,
+   "pdsp_species_not_human": 39
+  },
+  "gtopdb_ligand_id": "3364",
+  "pdsp_ligand_names_matched": [
+   "DIAZEPAM"
+  ],
+  "pdsp_ligand_names_tried": [
+   "diazepam"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05B",
+ "targets": {
+  "GABRA1": {
+   "action_types": [
+    "positive allosteric modulator"
+   ],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [
+    {
+     "action": "positive allosteric modulator",
+     "label": "Allosteric modulator / Positive",
+     "ref": "PMID:2551039",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA1"
+   ],
+   "ki_max_nM": 16.21810239813303,
+   "ki_min_nM": 16.0,
+   "ki_nM": 16.108682,
+   "measurements": [
+    {
+     "ki_nM": 16.0,
+     "record": "activity 19259362 / assay CHEMBL4403718",
+     "ref": "PMID:31738537",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 16.21810239813303,
+     "record": "GtoPdb ligand 3364 target 404 pKi 7.789999961853027",
+     "ref": "PMID:2551039",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "Gamma-aminobutyric acid receptor subunit alpha-1",
+   "pki_median": 7.7929,
+   "uniprot": [
+    "P14867"
+   ]
+  },
+  "GABRA1+GABRB1+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA1",
+    "GABRB1",
+    "GABRG2"
+   ],
+   "ki_max_nM": 16.3,
+   "ki_min_nM": 12.0,
+   "ki_nM": 13.985707,
+   "measurements": [
+    {
+     "ki_nM": 12.0,
+     "record": "activity 1701379 / assay CHEMBL861815",
+     "ref": "PMID:16610795",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 16.3,
+     "record": "PDSP Ki ID 9364 (CLONED, hot ligand FNZ)",
+     "ref": "PMID:2551039",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "GABA A receptor alpha-1/beta-1/gamma-2",
+   "pki_median": 7.8543,
+   "uniprot": [
+    "P14867",
+    "P18505",
+    "P18507"
+   ]
+  },
+  "GABRA1+GABRB2+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA1",
+    "GABRB2",
+    "GABRG2"
+   ],
+   "ki_max_nM": 14.0,
+   "ki_min_nM": 14.0,
+   "ki_nM": 14.0,
+   "measurements": [
+    {
+     "ki_nM": 14.0,
+     "record": "activity 24843214 / assay CHEMBL5146040",
+     "ref": "PMID:35218882",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "GABA-A receptor; alpha-1/beta-2/gamma-2",
+   "pki_median": 7.8539,
+   "uniprot": [
+    "P14867",
+    "P18507",
+    "P47870"
+   ]
+  },
+  "GABRA1+GABRB3+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA1",
+    "GABRB3",
+    "GABRG2"
+   ],
+   "ki_max_nM": 31.0,
+   "ki_min_nM": 13.0,
+   "ki_nM": 14.0,
+   "measurements": [
+    {
+     "ki_nM": 13.0,
+     "record": "activity 1412501 / assay CHEMBL829006",
+     "ref": "PMID:15743180",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 31.0,
+     "record": "activity 29082441 / assay CHEMBL6080337",
+     "ref": "PMID:39577296",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 13.0,
+     "record": "PDSP Ki ID 47638 (CLONED, hot ligand 3H-RO-15-1788)",
+     "ref": "PMID:16480260",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 14.0,
+     "record": "PDSP Ki ID 61144 (CLONED, hot ligand FNZ)",
+     "ref": "PMID:430248",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 14.0,
+     "record": "PDSP Ki ID 65423 (CLONED, hot ligand [3H] Flunitrazepam)",
+     "ref": "PMID:430248",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 16.8,
+     "record": "PDSP Ki ID 9283 (CLONED, hot ligand 3H-RO-15-1788)",
+     "ref": "PMID:8632757",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 6,
+   "n_references": 5,
+   "name": "GABA-A receptor; alpha-1/beta-3/gamma-2",
+   "pki_median": 7.8539,
+   "uniprot": [
+    "P14867",
+    "P18507",
+    "P28472"
+   ]
+  },
+  "GABRA2": {
+   "action_types": [
+    "positive allosteric modulator"
+   ],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [
+    {
+     "action": "positive allosteric modulator",
+     "label": "Allosteric modulator / Positive",
+     "ref": "PMID:2551039",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA2"
+   ],
+   "ki_max_nM": 17.0,
+   "ki_min_nM": 16.98243727045763,
+   "ki_nM": 16.991216,
+   "measurements": [
+    {
+     "ki_nM": 17.0,
+     "record": "activity 19259380 / assay CHEMBL4403717",
+     "ref": "PMID:31738537",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 16.98243727045763,
+     "record": "GtoPdb ligand 3364 target 405 pKi 7.769999980926514",
+     "ref": "PMID:2551039",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "Gamma-aminobutyric acid receptor subunit alpha-2",
+   "pki_median": 7.7698,
+   "uniprot": [
+    "P47869"
+   ]
+  },
+  "GABRA2+GABRB1+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA2",
+    "GABRB1",
+    "GABRG2"
+   ],
+   "ki_max_nM": 16.9,
+   "ki_min_nM": 16.9,
+   "ki_nM": 16.9,
+   "measurements": [
+    {
+     "ki_nM": 16.9,
+     "record": "PDSP Ki ID 9373 (CLONED, hot ligand FNZ)",
+     "ref": "PMID:2551039",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "GABA A Alpha2Beta1Gamma2",
+   "pki_median": 7.7721,
+   "uniprot": []
+  },
+  "GABRA2+GABRB2+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA2",
+    "GABRB2",
+    "GABRG2"
+   ],
+   "ki_max_nM": 20.0,
+   "ki_min_nM": 20.0,
+   "ki_nM": 20.0,
+   "measurements": [
+    {
+     "ki_nM": 20.0,
+     "record": "activity 24843235 / assay CHEMBL5146041",
+     "ref": "PMID:35218882",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "GABA A receptor alpha-2/beta-2/gamma-2",
+   "pki_median": 7.699,
+   "uniprot": [
+    "P18507",
+    "P47869",
+    "P47870"
+   ]
+  },
+  "GABRA2+GABRB3+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA2",
+    "GABRB3",
+    "GABRG2"
+   ],
+   "ki_max_nM": 33.0,
+   "ki_min_nM": 20.0,
+   "ki_nM": 22.0,
+   "measurements": [
+    {
+     "ki_nM": 33.0,
+     "record": "activity 1679890 / assay CHEMBL853070",
+     "ref": "PMID:16480260",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 22.0,
+     "record": "activity 29082452 / assay CHEMBL6080338",
+     "ref": "PMID:39577296",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 20.0,
+     "record": "PDSP Ki ID 61143 (CLONED, hot ligand FNZ)",
+     "ref": "PMID:430248",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 20.0,
+     "record": "PDSP Ki ID 65424 (CLONED, hot ligand [3H] Flunitrazepam)",
+     "ref": "PMID:430248",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 4,
+   "n_references": 3,
+   "name": "GABA-A receptor; alpha-2/beta-3/gamma-2",
+   "pki_median": 7.6576,
+   "uniprot": [
+    "P18507",
+    "P28472",
+    "P47869"
+   ]
+  },
+  "GABRA3": {
+   "action_types": [
+    "positive allosteric modulator"
+   ],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [
+    {
+     "action": "positive allosteric modulator",
+     "label": "Allosteric modulator / Positive",
+     "ref": "PMID:2551039",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA3"
+   ],
+   "ki_max_nM": 17.0,
+   "ki_min_nM": 16.98243727045763,
+   "ki_nM": 16.991216,
+   "measurements": [
+    {
+     "ki_nM": 17.0,
+     "record": "activity 19259408 / assay CHEMBL4403719",
+     "ref": "PMID:31738537",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 16.98243727045763,
+     "record": "GtoPdb ligand 3364 target 406 pKi 7.769999980926514",
+     "ref": "PMID:2551039",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "Gamma-aminobutyric acid receptor subunit alpha-3",
+   "pki_median": 7.7698,
+   "uniprot": [
+    "P34903"
+   ]
+  },
+  "GABRA3+GABRB1+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA3",
+    "GABRB1",
+    "GABRG2"
+   ],
+   "ki_max_nM": 17.0,
+   "ki_min_nM": 17.0,
+   "ki_nM": 17.0,
+   "measurements": [
+    {
+     "ki_nM": 17.0,
+     "record": "PDSP Ki ID 9382 (CLONED, hot ligand FNZ)",
+     "ref": "PMID:2551039",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "GABA A Alpha3Beta1Gamma2",
+   "pki_median": 7.7696,
+   "uniprot": []
+  },
+  "GABRA3+GABRB2+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA3",
+    "GABRB2",
+    "GABRG2"
+   ],
+   "ki_max_nM": 15.0,
+   "ki_min_nM": 14.0,
+   "ki_nM": 14.491377,
+   "measurements": [
+    {
+     "ki_nM": 14.0,
+     "record": "activity 1701383 / assay CHEMBL861816",
+     "ref": "PMID:16610795",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 15.0,
+     "record": "activity 24843256 / assay CHEMBL5146042",
+     "ref": "PMID:35218882",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "GABA A receptor alpha-3/beta-2/gamma-2",
+   "pki_median": 7.8389,
+   "uniprot": [
+    "P18507",
+    "P34903",
+    "P47870"
+   ]
+  },
+  "GABRA3+GABRB3+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA3",
+    "GABRB3",
+    "GABRG2"
+   ],
+   "ki_max_nM": 33.0,
+   "ki_min_nM": 15.0,
+   "ki_nM": 22.248595,
+   "measurements": [
+    {
+     "ki_nM": 33.0,
+     "record": "PDSP Ki ID 47649 (CLONED, hot ligand 3H-RO-15-1788)",
+     "ref": "PMID:16480260",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 15.0,
+     "record": "PDSP Ki ID 61142 (CLONED, hot ligand FNZ)",
+     "ref": "PMID:430248",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 15.0,
+     "record": "PDSP Ki ID 65425 (CLONED, hot ligand [3H] Flunitrazepam)",
+     "ref": "PMID:430248",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 2,
+   "name": "GABA A Alpha3Beta3Gamma2",
+   "pki_median": 7.6527,
+   "uniprot": []
+  },
+  "GABRA5": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA5"
+   ],
+   "ki_max_nM": 15.0,
+   "ki_min_nM": 15.0,
+   "ki_nM": 15.0,
+   "measurements": [
+    {
+     "ki_nM": 15.0,
+     "record": "activity 19259426 / assay CHEMBL4403720",
+     "ref": "PMID:31738537",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Gamma-aminobutyric acid receptor subunit alpha-5",
+   "pki_median": 7.8239,
+   "uniprot": [
+    "P31644"
+   ]
+  },
+  "GABRA5+GABRB2+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA5",
+    "GABRB2",
+    "GABRG2"
+   ],
+   "ki_max_nM": 11.0,
+   "ki_min_nM": 11.0,
+   "ki_nM": 11.0,
+   "measurements": [
+    {
+     "ki_nM": 11.0,
+     "record": "activity 24843277 / assay CHEMBL5146043",
+     "ref": "PMID:35218882",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Gamma-aminobutyric acid receptor subunit alpha-5/beta-2/gamma-2",
+   "pki_median": 7.9586,
+   "uniprot": [
+    "P18507",
+    "P31644",
+    "P47870"
+   ]
+  },
+  "GABRA5+GABRB3+GABRG2": {
+   "action_types": [],
+   "action_types_via_family": [
+    "positive allosteric modulator"
+   ],
+   "actions": [],
+   "families": [
+    "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+   ],
+   "gene_symbols": [
+    "GABRA5",
+    "GABRB3",
+    "GABRG2"
+   ],
+   "ki_max_nM": 11.0,
+   "ki_min_nM": 11.0,
+   "ki_nM": 11.0,
+   "measurements": [
+    {
+     "ki_nM": 11.0,
+     "record": "PDSP Ki ID 61141 (CLONED, hot ligand FNZ)",
+     "ref": "PMID:430248",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 11.0,
+     "record": "PDSP Ki ID 65426 (CLONED, hot ligand [3H] Flunitrazepam)",
+     "ref": "PMID:430248",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "GABA A Alpha5Beta3Gamma2",
+   "pki_median": 7.9586,
+   "uniprot": []
+  }
+ }
+}

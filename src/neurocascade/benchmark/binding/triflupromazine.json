@@ -1,0 +1,134 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL570",
+ "chembl_id_queried": "CHEMBL570",
+ "entity_note": null,
+ "inn": "triflupromazine",
+ "mechanism_targets": [
+  "DRD2"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PDSP_REF:WANDER ET AL., 1987": {
+   "citation": "WANDER ET AL., 1987",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:1678146": {
+   "citation": "ChEMBL drug mechanism 203: Dopamine D2 receptor antagonist; refs KEGG D00390; Other http://neurolex.org/wiki/Category:Triflupromazine; PubMed 1678146; PubMed 239403; PubMed 497523; Wikipedia Antipsychotic#Mechanism_of_action",
+   "doi": null,
+   "pmid": "1678146"
+  },
+  "PMID:6149136": {
+   "citation": "Richelson E, et al., 1984",
+   "doi": null,
+   "pmid": "6149136"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 1,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 1,
+   "pdsp_species_not_human": 9
+  },
+  "gtopdb_ligand_id": "4330",
+  "pdsp_ligand_names_matched": [
+   "Trifluopromazine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "trifluopromazine",
+   "triflupromazine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "DRD2": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:1678146",
+     "source": "ChEMBL mechanism"
+    },
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:1678146",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 2.8,
+   "ki_min_nM": 2.8,
+   "ki_nM": 2.8,
+   "measurements": [
+    {
+     "ki_nM": 2.8,
+     "record": "PDSP Ki ID 11741 (CAUDATE NUCLEUS, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:6149136",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "DOPAMINE D2",
+   "pki_median": 8.5528,
+   "uniprot": []
+  },
+  "HTR2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 4.0,
+   "ki_min_nM": 4.0,
+   "ki_nM": 4.0,
+   "measurements": [
+    {
+     "ki_nM": 4.0,
+     "record": "PDSP Ki ID 2574 (CORTEX, hot ligand 3H-KETANSERIN)",
+     "ref": "PDSP_REF:WANDER ET AL., 1987",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT2A",
+   "pki_median": 8.3979,
+   "uniprot": []
+  }
+ }
+}

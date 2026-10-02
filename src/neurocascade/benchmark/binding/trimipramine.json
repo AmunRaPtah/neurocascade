@@ -1,0 +1,428 @@
+{
+ "actions_without_ki": {
+  "ADRA1A+ADRA1B+ADRA1D": [
+   {
+    "action": "antagonist",
+    "label": "ANTAGONIST",
+    "ref": "PMID:16229049",
+    "source": "ChEMBL mechanism"
+   }
+  ],
+  "HTR2A": [
+   {
+    "action": "antagonist",
+    "label": "ANTAGONIST",
+    "ref": "PMID:16229049",
+    "source": "ChEMBL mechanism"
+   }
+  ],
+  "HTR2C": [
+   {
+    "action": "antagonist",
+    "label": "ANTAGONIST",
+    "ref": "PMID:16229049",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL644",
+ "chembl_id_queried": "CHEMBL644",
+ "entity_note": null,
+ "inn": "trimipramine",
+ "mechanism_targets": [
+  "ADRA1A+ADRA1B+ADRA1D",
+  "DRD2",
+  "HRH1",
+  "HTR2A",
+  "HTR2C",
+  "SLC6A2"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_MECHANISM:179": {
+   "citation": "ChEMBL drug mechanism 179: Histamine H1 receptor antagonist; refs ISBN 0443-059748 PP. 555; Wikipedia Trimipramine",
+   "doi": null,
+   "pmid": null
+  },
+  "CHEMBL_MECHANISM:215": {
+   "citation": "ChEMBL drug mechanism 215: Dopamine D2 receptor antagonist; refs ISBN 0443-059748 PP. 555; Wikipedia Trimipramine",
+   "doi": null,
+   "pmid": null
+  },
+  "CHEMBL_MECHANISM:921": {
+   "citation": "ChEMBL drug mechanism 921: Norepinephrine transporter inhibitor; refs ISBN 0443-059748 PP. 555; Wikipedia Trimipramine",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:Appl, Heidrun.  et. al, 2011": {
+   "citation": "Appl, Heidrun.  et. al, 2011",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:Gross, G.  et, al. 1991": {
+   "citation": "Gross, G.  et, al. 1991",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:16229049": {
+   "citation": "ChEMBL drug mechanism 611: Serotonin 2a (5-HT2a) receptor antagonist; refs ISBN 0443-059748 PP. 555; PubMed 16229049; Wikipedia Trimipramine",
+   "doi": null,
+   "pmid": "16229049"
+  },
+  "PMID:6086881": {
+   "citation": "Richelson, Elliott et. al, 1984",
+   "doi": null,
+   "pmid": "6086881"
+  },
+  "PMID:6146381": {
+   "citation": "Kanba S, et al., 1984",
+   "doi": null,
+   "pmid": "6146381"
+  },
+  "PMID:9537821": {
+   "citation": "Tatsumi M, et al., 1997",
+   "doi": null,
+   "pmid": "9537821"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 0,
+  "excluded_counts": {
+   "pdsp_receptor_name_unmapped": 3,
+   "pdsp_species_not_human": 12
+  },
+  "gtopdb_ligand_id": "7317",
+  "pdsp_ligand_names_matched": [
+   "D,L-Trimipramine",
+   "Trimipramine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "d,l-trimipramine",
+   "trimipramine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "ADRA2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA2A"
+   ],
+   "ki_max_nM": 1380.3842646029,
+   "ki_min_nM": 1380.3842646029,
+   "ki_nM": 1380.384265,
+   "measurements": [
+    {
+     "ki_nM": 1380.3842646029,
+     "record": "PDSP Ki ID 67735 (Platelets, hot ligand 3H-RAUWOLSCINE)",
+     "ref": "PDSP_REF:Gross, G.  et, al. 1991",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "adrenergic Alpha2A",
+   "pki_median": 5.86,
+   "uniprot": []
+  },
+  "DRD2": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "CHEMBL_MECHANISM:215",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 180.0,
+   "ki_min_nM": 180.0,
+   "ki_nM": 180.0,
+   "measurements": [
+    {
+     "ki_nM": 180.0,
+     "record": "PDSP Ki ID 62857 (Brain caudate nucleus, hot ligand 3H-SPIROPERIDOL)",
+     "ref": "PMID:6086881",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "D2",
+   "pki_median": 6.7447,
+   "uniprot": []
+  },
+  "HRH1": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "CHEMBL_MECHANISM:179",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HRH1"
+   ],
+   "ki_max_nM": 1.4791083881682,
+   "ki_min_nM": 0.27,
+   "ki_nM": 1.4,
+   "measurements": [
+    {
+     "ki_nM": 1.4791083881682,
+     "record": "PDSP Ki ID 64666 (CLONED, hot ligand 3H-PYRILAMINE)",
+     "ref": "PDSP_REF:Appl, Heidrun.  et. al, 2011",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.27,
+     "record": "PDSP Ki ID 62750 (Brain Frontal Cortex, hot ligand 3H-doxepin)",
+     "ref": "PMID:6086881",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.4,
+     "record": "PDSP Ki ID 12005 (CORTICAL MEMBRANES, hot ligand 3H-doxepin)",
+     "ref": "PMID:6146381",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 3,
+   "name": "HISTAMINE H1",
+   "pki_median": 8.8539,
+   "uniprot": []
+  },
+  "HRH2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HRH2"
+   ],
+   "ki_max_nM": 40.738027780411,
+   "ki_min_nM": 40.738027780411,
+   "ki_nM": 40.738028,
+   "measurements": [
+    {
+     "ki_nM": 40.738027780411,
+     "record": "PDSP Ki ID 64680 (CLONED, hot ligand 3H-TIOTIDINE)",
+     "ref": "PDSP_REF:Appl, Heidrun.  et. al, 2011",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "H2",
+   "pki_median": 7.39,
+   "uniprot": []
+  },
+  "HRH4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HRH4"
+   ],
+   "ki_max_nM": 43651.583224017,
+   "ki_min_nM": 43651.583224017,
+   "ki_nM": 43651.583224,
+   "measurements": [
+    {
+     "ki_nM": 43651.583224017,
+     "record": "PDSP Ki ID 64725 (CLONED, hot ligand 3H-Histamine)",
+     "ref": "PDSP_REF:Appl, Heidrun.  et. al, 2011",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "H4",
+   "pki_median": 4.36,
+   "uniprot": []
+  },
+  "SLC6A2": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:9537821",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "CHEMBL_MECHANISM:921",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A2"
+   ],
+   "ki_max_nM": 2454.708161038214,
+   "ki_min_nM": 2450.0,
+   "ki_nM": 2452.352951,
+   "measurements": [
+    {
+     "ki_nM": 2454.708161038214,
+     "record": "GtoPdb ligand 7317 target 926 pKi 5.610000133514404",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 2450.0,
+     "record": "PDSP Ki ID 45656 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "Norepinephrine transporter",
+   "pki_median": 5.6104,
+   "uniprot": []
+  },
+  "SLC6A3": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:9537821",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A3"
+   ],
+   "ki_max_nM": 3801.8932953144076,
+   "ki_min_nM": 3780.0,
+   "ki_nM": 3790.930843,
+   "measurements": [
+    {
+     "ki_nM": 3801.8932953144076,
+     "record": "GtoPdb ligand 7317 target 927 pKi 5.420000076293945",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 3780.0,
+     "record": "PDSP Ki ID 45657 (CLONED, hot ligand 3H-WIN 35,428)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "Dopamine Transporter",
+   "pki_median": 5.4213,
+   "uniprot": []
+  },
+  "SLC6A4": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:9537821",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A4"
+   ],
+   "ki_max_nM": 149.0,
+   "ki_min_nM": 147.91086480080835,
+   "ki_nM": 148.454434,
+   "measurements": [
+    {
+     "ki_nM": 147.91086480080835,
+     "record": "GtoPdb ligand 7317 target 928 pKi 6.829999923706055",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 149.0,
+     "record": "PDSP Ki ID 45655 (CLONED, hot ligand 3H-IMIPRAMINE)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "5-HT Transporter",
+   "pki_median": 6.8284,
+   "uniprot": []
+  }
+ }
+}

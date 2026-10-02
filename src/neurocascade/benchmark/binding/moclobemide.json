@@ -1,0 +1,321 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL86304",
+ "chembl_id_queried": "CHEMBL86304",
+ "entity_note": null,
+ "inn": "moclobemide",
+ "mechanism_targets": [
+  "MAOA"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_MECHANISM:7525": {
+   "citation": "ChEMBL drug mechanism 7525: Monoamine oxidase A inhibitor; refs Other https://bnf.nice.org.uk/drug/moclobemide.html",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:15974574": {
+   "chembl_document": "CHEMBL1144454",
+   "citation": "Di Santo R, Costi R, Roux A, Artico M, Befani O, Meninno T, Agostinelli E, Palmegiani P, Turini P, Cirilli R, Ferretti R, Gallinella B, La Torre F. (2005) J Med Chem 48:4220",
+   "doi": "10.1021/jm050172c",
+   "pmid": "15974574"
+  },
+  "PMID:21680183": {
+   "chembl_document": "CHEMBL1795245",
+   "citation": "Jagrat M, Behera J, Yabanoglu S, Ercan A, Ucar G, Sinha BN, Sankaran V, Basu A, Jayaprakash V. (2011) Bioorg Med Chem Lett 21:4296",
+   "doi": "10.1016/j.bmcl.2011.05.057",
+   "pmid": "21680183"
+  },
+  "PMID:24986657": {
+   "chembl_document": "CHEMBL3351327",
+   "citation": "Evranos-Aks\u00f6z B, Yabano\u011flu-\u00c7ift\u00e7i S, U\u00e7ar G, Yelek\u00e7i K, Ertan R. (2014) Bioorg Med Chem Lett 24:3278",
+   "doi": "10.1016/j.bmcl.2014.06.015",
+   "pmid": "24986657"
+  },
+  "PMID:26819666": {
+   "chembl_document": "CHEMBL3779800",
+   "citation": "Badavath VN, Baysal \u0130, Ucar G, Sinha BN, Jayaprakash V. (2016) ACS Med Chem Lett 7:56",
+   "doi": "10.1021/acsmedchemlett.5b00326",
+   "pmid": "26819666"
+  },
+  "PMID:30109004": {
+   "chembl_document": "CHEMBL4257534",
+   "citation": "Nath C, Badavath VN, Thakur A, Ucar G, Acevedo O, Mohd Siddique MU, Jayaprakash V. (2018) Medchemcomm 9:1164",
+   "doi": "10.1039/C8MD00196K",
+   "pmid": "30109004"
+  },
+  "PMID:32795767": {
+   "chembl_document": "CHEMBL5260848",
+   "citation": "Nehra B, Rulhania S, Jaswal S, Kumar B, Singh G, Monga V. (2020) Eur J Med Chem 205:112666",
+   "doi": "10.1016/j.ejmech.2020.112666",
+   "pmid": "32795767"
+  },
+  "PMID:33533632": {
+   "chembl_document": "CHEMBL4706681",
+   "citation": "Salgin-Goksen U,Telli G,Erikci A,Dedecengiz E,Tel BC,Kaynak FB,Yelekci K,Ucar G,Gokhan-Kelekci N (2021) J Med Chem 64:1989",
+   "doi": "10.1021/acs.jmedchem.0c01504",
+   "pmid": "33533632"
+  }
+ },
+ "screened_inactive_without_ki": {
+  "CA2": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7749871 / assay CHEMBL1909123",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "CTSG": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7752038 / assay CHEMBL1909194",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "ELANE": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7752040 / assay CHEMBL1909195",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "MMP1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7752042 / assay CHEMBL1909196",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PDE5A": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7752022 / assay CHEMBL1909186",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTAFR": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7752024 / assay CHEMBL1909187",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTGS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7749885 / assay CHEMBL1909130",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "TBXAS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7752098 / assay CHEMBL1909116",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ]
+ },
+ "searched": {
+  "chembl_ki_rows_returned": 105,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 81,
+   "chembl_no_ki_value": 8,
+   "chembl_potential_duplicate": 3,
+   "pdsp_species_not_human": 2
+  },
+  "gtopdb_ligand_id": "7428",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "moclobemide",
+   "moclobemide, mcl"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "MAOA": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:21680183",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "CHEMBL_MECHANISM:7525",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "MAOA"
+   ],
+   "ki_max_nM": 110.0,
+   "ki_min_nM": 0.5,
+   "ki_nM": 14.0,
+   "measurements": [
+    {
+     "ki_nM": 5.0,
+     "record": "activity 6259885 / assay CHEMBL1798961",
+     "ref": "PMID:21680183",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 14.0,
+     "record": "activity 15050674 / assay CHEMBL3379837",
+     "ref": "PMID:24986657",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 110.0,
+     "record": "activity 16513009 / assay CHEMBL3784057",
+     "ref": "PMID:26819666",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 102.0,
+     "record": "activity 18728744 / assay CHEMBL4259681",
+     "ref": "PMID:30109004",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.5,
+     "record": "activity 25111693 / assay CHEMBL5265228",
+     "ref": "PMID:32795767",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 5.011870135142811,
+     "record": "GtoPdb ligand 7428 target 2489 pKi 8.300000190734863",
+     "ref": "PMID:21680183",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 6,
+   "n_references": 5,
+   "name": "Amine oxidase [flavin-containing] A",
+   "pki_median": 7.8539,
+   "uniprot": [
+    "P21397"
+   ]
+  },
+  "MAOB": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:21680183",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "MAOB"
+   ],
+   "ki_max_nM": 100000.0,
+   "ki_min_nM": 1071.519822890399,
+   "ki_nM": 3074.540616,
+   "measurements": [
+    {
+     "ki_nM": 100000.0,
+     "record": "activity 1488569 / assay CHEMBL828820",
+     "ref": "PMID:15974574",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1080.0,
+     "record": "activity 6259909 / assay CHEMBL1798962",
+     "ref": "PMID:21680183",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1340.0,
+     "record": "activity 15050702 / assay CHEMBL3379838",
+     "ref": "PMID:24986657",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 2240.0,
+     "record": "activity 16513022 / assay CHEMBL3784058",
+     "ref": "PMID:26819666",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 4220.0,
+     "record": "activity 18728731 / assay CHEMBL4259682",
+     "ref": "PMID:30109004",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 7660.0,
+     "record": "activity 22811663 / assay CHEMBL4713918",
+     "ref": "PMID:33533632",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1071.519822890399,
+     "record": "GtoPdb ligand 7428 target 2490 pKi 5.96999979019165",
+     "ref": "PMID:21680183",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 7,
+   "n_references": 6,
+   "name": "Amine oxidase [flavin-containing] B",
+   "pki_median": 5.5122,
+   "uniprot": [
+    "P27338"
+   ]
+  }
+ }
+}
