@@ -2391,14 +2391,17 @@
       "deps": [
         "P28.1"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-02 03:46 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 20
+      },
+      "finished_at": "2026-10-02T02:00:29+00:00",
+      "result": "complete"
     },
     {
       "id": "P28.3",
