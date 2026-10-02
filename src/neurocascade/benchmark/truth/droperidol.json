@@ -1,0 +1,109 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AD08",
+    "ddd": [
+     {
+      "ddd": 2.5,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "droperidol"
+   }
+  ],
+  "label": []
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 0,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "akathisia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "sider": {
+    "flat_ids": [
+     "CID100003168"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 88,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "droperidol",
+ "label": null,
+ "label_transcription": null,
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 80,
+  "openfda_labels_returned": 2,
+  "openfda_labels_same_entity": 2,
+  "openfda_query": "openfda.generic_name:\"droperidol\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "N05A"
+}

@@ -1,0 +1,188 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AF01",
+    "ddd": [
+     {
+      "ddd": 15.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "isocarboxazid"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "10 mg twice daily printed; 2 x 10 = 20 mg/day",
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "depression",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Dosage should be started with one tablet (10 mg) of Marplan twice daily.",
+     "to a maximum recommended dosage of 60 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "drug_arm_percent": 7.0,
+     "source": "openFDA label table",
+     "table_caption": "Treatment-Emergent Adverse Events Incidence in Placebo-Controlled Clinical Trials with Marplan Doses of 40 to 80 mg/day",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 9.0,
+     "source": "openFDA label table",
+     "table_caption": "Treatment-Emergent Adverse Events Incidence in Placebo-Controlled Clinical Trials with Marplan Doses of 40 to 80 mg/day",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Treatment-Emergent Adverse Events Incidence in Placebo-Controlled Clinical Trials with Marplan Doses of 40 to 80 mg/day",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Treatment-Emergent Adverse Events Incidence in Placebo-Controlled Clinical Trials with Marplan Doses of 40 to 80 mg/day",
+     "term": "Sedation"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Treatment-Emergent Adverse Events Incidence in Placebo-Controlled Clinical Trials with Marplan Doses of 40 to 80 mg/day",
+     "term": "Impotence"
+    }
+   ],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 0,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": 9.0,
+   "eps": null,
+   "orthostasis": 4.0,
+   "sedation": 2.0,
+   "seizure": null,
+   "sexual_dysfunction": 2.0,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention"
+   ],
+   "eps": [
+    "akathisia"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 1,
+    "n_ar_tables_used": 1,
+    "n_rows_with_drug_arm_value": 26,
+    "set_id": "95fde749-44ad-4668-86c4-0ff17bca0074"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100003759"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 29,
+    "n_side_effect_rows": 79,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "isocarboxazid",
+ "label": {
+  "application_number": [
+   "NDA011961"
+  ],
+  "brand_name": [
+   "MARPLAN"
+  ],
+  "effective_time": "20260421",
+  "generic_name": [
+   "ISOCARBOXAZID"
+  ],
+  "id": "97745d9b-c2a6-45e3-9e1e-7fabec4681fb",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "95fde749-44ad-4668-86c4-0ff17bca0074",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "95fde749-44ad-4668-86c4-0ff17bca0074"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 17,
+  "openfda_labels_returned": 1,
+  "openfda_labels_same_entity": 1,
+  "openfda_query": "openfda.generic_name:\"isocarboxazid\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

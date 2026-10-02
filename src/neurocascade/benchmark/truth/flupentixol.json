@@ -1,0 +1,105 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AF01",
+    "ddd": [
+     {
+      "ddd": 6.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 4.0,
+      "note": "depot",
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "flupentixol"
+   }
+  ],
+  "label": []
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {}
+ },
+ "inn": "flupentixol",
+ "label": null,
+ "label_transcription": null,
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 3,
+  "openfda_labels_returned": 0,
+  "openfda_labels_same_entity": 0,
+  "openfda_query": "openfda.generic_name:\"flupentixol\"",
+  "pet_searched_empty": [
+   {
+    "drug": "flupentixol",
+    "note": "Only human finding (Farde 1992, PMID 1358126) reports D1 occupancy (36-44%) for flupenthixol, not D2 or 5-HT2A, and gives no mg dose. No usable D2/5-HT2A value with a dose.",
+    "queries": [
+     "(ABSTRACT:\"flupentixol\" OR TITLE:\"flupentixol\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"NMSP\")",
+     "(ABSTRACT:\"flupenthixol\" OR TITLE:\"flupenthixol\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\")"
+    ],
+    "target": "D2"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

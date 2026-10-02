@@ -1,0 +1,239 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AH01",
+    "ddd": [
+     {
+      "ddd": 9.1,
+      "note": "delivered dose",
+      "route": "Inhal.powder",
+      "unit": "mg"
+     },
+     {
+      "ddd": 0.1,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "loxapine"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "10 mg twice daily printed; 2 x 10 = 20 mg/day",
+    "high": 250,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initial dosage of 10 mg twice daily is recommended, although in severely disturbed patients initial dosage up to a total of 50 mg daily may be desirable.",
+     "Daily dosage higher than 250 mg is not recommended."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Oculogyration"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Oculogyric crisis"
+    }
+   ],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "very common",
+     "frequency_lower": 0.1,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": 1,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 1.0,
+   "eps": 0.1,
+   "orthostasis": null,
+   "sedation": 10.0,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "dystonia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "sedation"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "ce8c5a31-7600-4525-a0c7-b3adc9ec2977"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100003964"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 33,
+    "n_frequency_rows_placebo": 4,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 196,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "loxapine",
+ "label": {
+  "application_number": [
+   "ANDA076868"
+  ],
+  "brand_name": [
+   "Loxapine"
+  ],
+  "effective_time": "20260903",
+  "generic_name": [
+   "LOXAPINE"
+  ],
+  "id": "5a9a2335-6a8c-9b0d-e063-6294a90ae248",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "ce8c5a31-7600-4525-a0c7-b3adc9ec2977",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "ce8c5a31-7600-4525-a0c7-b3adc9ec2977"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": [
+    10,
+    100
+   ],
+   "drug": "loxapine",
+   "first_author": "Kapur",
+   "n_subjects": 10,
+   "occupancy_percent": [
+    43,
+    90
+   ],
+   "pmid": "9356559",
+   "quote": "Ten patients who were taking loxapine (10-100 mg/day) had their D2 and 5-HT2 receptors assessed by means of positron emission tomography with [11C]raclopride and [18F]setoperone, respectively.<h4>Results</h4>The D2 receptor occupancy ranged from 43% to 90%;",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1997
+  }
+ ],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 186,
+  "openfda_labels_returned": 15,
+  "openfda_labels_same_entity": 15,
+  "openfda_query": "openfda.generic_name:\"loxapine\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

@@ -1,0 +1,471 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AB03",
+    "ddd": [
+     {
+      "ddd": 20.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "fluoxetine"
+   }
+  ],
+  "label": [
+   {
+    "high": 80,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initiate PROZAC 20 mg/day orally in the morning.",
+     "The maximum fluoxetine dose should not exceed 80 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 80,
+    "high_basis": "maximum recommended dose",
+    "indication": "OCD",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initiate PROZAC 20 mg/day, orally in the morning.",
+     "however, doses of up to 80 mg/day have been well tolerated in open studies of OCD.",
+     "The maximum fluoxetine dose should not exceed 80 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "bulimia nervosa",
+    "kind": "dose",
+    "low": 60,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Administer PROZAC 60 mg/day in the morning."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 60,
+    "high_basis": "upper end of recommended range",
+    "indication": "panic disorder",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initiate treatment with PROZAC 10 mg/day.",
+     "patients were administered fluoxetine doses in the range of 10 to 60 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 50,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar depression (with olanzapine)",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "generally beginning with 5 mg of oral olanzapine and 20 mg of fluoxetine.",
+     "Make dosage adjustments, if indicated, according to efficacy and tolerability within dose ranges of fluoxetine 20 to 50 mg and oral olanzapine 5 to 12.5 mg."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "6.9%",
+     "frequency_lower": 0.069,
+     "frequency_upper": 0.069,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "12.1%",
+     "frequency_lower": 0.121,
+     "frequency_upper": 0.121,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Treatment-Emergent Adverse Reactions: Incidence in Major Depressive Disorder, OCD, Bulimia, and Panic Disorder Placebo-Controlled Clinical Trials",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 12.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Most Common Treatment-Emergent Adverse Reactions: Incidence in Major Depressive Disorder, OCD, Bulimia, and Panic Disorder Placebo-Controlled Clinical Trials",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Drowsiness"
+    },
+    {
+     "description": "17.1%",
+     "frequency_lower": 0.171,
+     "frequency_upper": 0.171,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 17.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Most Common Treatment-Emergent Adverse Reactions: Incidence in Major Depressive Disorder, OCD, Bulimia, and Panic Disorder Placebo-Controlled Clinical Trials",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Abnormal ejaculation"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Anorgasmia"
+    },
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "11%",
+     "frequency_lower": 0.11,
+     "frequency_upper": 0.11,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Sexual dysfunction"
+    },
+    {
+     "drug_arm_percent": 7.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Most Common Treatment-Emergent Adverse Reactions: Incidence in Major Depressive Disorder, OCD, Bulimia, and Panic Disorder Placebo-Controlled Clinical Trials",
+     "term": "Abnormal ejaculation"
+    },
+    {
+     "drug_arm_percent": 7.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Most Common Treatment-Emergent Adverse Reactions: Incidence in Major Depressive Disorder, OCD, Bulimia, and Panic Disorder Placebo-Controlled Clinical Trials",
+     "term": "Impotence"
+    },
+    {
+     "drug_arm_percent": 11.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Most Common Treatment-Emergent Adverse Reactions: Incidence in Major Depressive Disorder, OCD, Bulimia, and Panic Disorder Placebo-Controlled Clinical Trials",
+     "term": "Libido decreased"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 12.1,
+   "eps": 0.1,
+   "orthostasis": 0.1,
+   "sedation": 17.1,
+   "seizure": 0.1,
+   "sexual_dysfunction": 11.0,
+   "weight_gain": 1.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "oculogyric crisis",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 3,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 49,
+    "set_id": "c88f33ed-6dfb-4c5e-bc01-d8e36dd97299"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100003386"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 1237,
+    "n_frequency_rows_placebo": 417,
+    "n_frequency_rows_postmarketing": 51,
+    "n_side_effect_rows": 1014,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "fluoxetine",
+ "label": {
+  "application_number": [
+   "NDA018936"
+  ],
+  "brand_name": [
+   "Prozac"
+  ],
+  "effective_time": "20260108",
+  "generic_name": [
+   "FLUOXETINE HYDROCHLORIDE"
+  ],
+  "id": "e49a90e3-e7da-4377-8736-ebe9f53c3097",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "c88f33ed-6dfb-4c5e-bc01-d8e36dd97299",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "c88f33ed-6dfb-4c5e-bc01-d8e36dd97299"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL4396625",
+      "description": "Half life in human at 20 mg",
+      "ref": "CHEMBL4393729",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 24.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 24.0,
+      "min": 24.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 24.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL3591349",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL3588773",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 4.3
+     }
+    ],
+    "summary": [
+     {
+      "max": 4.3,
+      "min": 4.3,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 4.3
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "derivation": "4 to 6 days printed; 4 x 24 = 96 h, 6 x 24 = 144 h",
+    "high": 144,
+    "kind": "pk",
+    "low": 96,
+    "note": "elimination half-life after chronic administration (1-3 days after acute)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The relatively slow elimination of fluoxetine (elimination half-life of 1 to 3 days after acute administration and 4 to 6 days after chronic administration)"
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL3588773": {
+   "chembl_document_id": "CHEMBL3588773",
+   "journal": "J Med Chem",
+   "pmid": "25799158",
+   "title": "Volume of Distribution in Drug Design.",
+   "year": 2015
+  },
+  "CHEMBL4393729": {
+   "chembl_document_id": "CHEMBL4393729",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "31307886",
+   "title": "Sleep modulating agents.",
+   "year": 2019
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 390,
+  "openfda_labels_returned": 167,
+  "openfda_labels_same_entity": 165,
+  "openfda_query": "openfda.generic_name:\"fluoxetine\"",
+  "pet_searched_empty": [
+   {
+    "drug": "fluoxetine",
+    "note": "Meyer 2004 (15121647) reports 76-85% at minimum therapeutic dose but prints no numeric mg dose paired with a fluoxetine-specific occupancy; Kugaya 2004 (15450785) used fluoxetine 20 mg/day but prints no occupancy number. No contiguous dose+occupancy quote.",
+    "queries": [
+     "(ABSTRACT:fluoxetine OR TITLE:fluoxetine) AND occupancy AND (serotonin transporter OR DASB OR McN5652 OR beta-CIT)"
+    ],
+    "target": "SERT"
+   }
+  ]
+ },
+ "split": "heldout",
+ "stratum": "N06A"
+}

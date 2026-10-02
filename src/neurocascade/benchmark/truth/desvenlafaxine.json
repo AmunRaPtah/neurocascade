@@ -1,0 +1,376 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX23",
+    "ddd": [
+     {
+      "ddd": 50.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "desvenlafaxine"
+   }
+  ],
+  "label": [
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose for PRISTIQ is 50 mg once daily, with or without food."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "14%",
+     "frequency_lower": 0.14,
+     "frequency_upper": 0.14,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "25%",
+     "frequency_lower": 0.25,
+     "frequency_upper": 0.25,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "4%",
+     "frequency_lower": 0.04,
+     "frequency_upper": 0.04,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 14.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2: Common Adverse Reactions (≥ 2% in any Fixed-Dose Group and Twice the Rate of Placebo) in Pre-marketing Pooled MDD 8-Week Placebo-Controlled Studies",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 25.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2: Common Adverse Reactions (≥ 2% in any Fixed-Dose Group and Twice the Rate of Placebo) in Pre-marketing Pooled MDD 8-Week Placebo-Controlled Studies",
+     "term": "Dry mouth"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2: Common Adverse Reactions (≥ 2% in any Fixed-Dose Group and Twice the Rate of Placebo) in Pre-marketing Pooled MDD 8-Week Placebo-Controlled Studies",
+     "term": "Vision blurred"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "12%",
+     "frequency_lower": 0.12,
+     "frequency_upper": 0.12,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 12.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2: Common Adverse Reactions (≥ 2% in any Fixed-Dose Group and Twice the Rate of Placebo) in Pre-marketing Pooled MDD 8-Week Placebo-Controlled Studies",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "description": "8%",
+     "frequency_lower": 0.08,
+     "frequency_upper": 0.08,
+     "source": "SIDER 4.1",
+     "term": "Anorgasmia"
+    },
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation delayed"
+    },
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation failure"
+    },
+    {
+     "description": "11%",
+     "frequency_lower": 0.11,
+     "frequency_upper": 0.11,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "6%",
+     "frequency_lower": 0.06,
+     "frequency_upper": 0.06,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Orgasm abnormal"
+    },
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Sexual dysfunction"
+    },
+    {
+     "drug_arm_percent": 8.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Sexual Function Adverse Reactions (≥ 2% in Men or Women in any PRISTIQ Group) During the On-Therapy Period",
+     "term": "Anorgasmia"
+    },
+    {
+     "drug_arm_percent": 7.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Sexual Function Adverse Reactions (≥ 2% in Men or Women in any PRISTIQ Group) During the On-Therapy Period",
+     "term": "Ejaculation delayed"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Sexual Function Adverse Reactions (≥ 2% in Men or Women in any PRISTIQ Group) During the On-Therapy Period",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Sexual Function Adverse Reactions (≥ 2% in Men or Women in any PRISTIQ Group) During the On-Therapy Period",
+     "term": "Ejaculation failure"
+    },
+    {
+     "drug_arm_percent": 11.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Sexual Function Adverse Reactions (≥ 2% in Men or Women in any PRISTIQ Group) During the On-Therapy Period",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Sexual Function Adverse Reactions (≥ 2% in Men or Women in any PRISTIQ Group) During the On-Therapy Period",
+     "term": "Libido decreased"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Sexual Function Adverse Reactions (≥ 2% in Men or Women in any PRISTIQ Group) During the On-Therapy Period",
+     "term": "Orgasm abnormal"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Sexual Function Adverse Reactions (≥ 2% in Men or Women in any PRISTIQ Group) During the On-Therapy Period",
+     "term": "Sexual dysfunction"
+    }
+   ],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 25.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": 12.0,
+   "seizure": null,
+   "sexual_dysfunction": 11.0,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention"
+   ],
+   "eps": [
+    "akathisia",
+    "dystonia",
+    "extrapyramidal disorder"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 6,
+    "n_ar_tables_used": 5,
+    "n_rows_with_drug_arm_value": 48,
+    "set_id": "0f43610c-f290-46ea-d186-4f998ed99fce"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100125017"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 284,
+    "n_frequency_rows_placebo": 95,
+    "n_frequency_rows_postmarketing": 5,
+    "n_side_effect_rows": 210,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "desvenlafaxine",
+ "label": {
+  "application_number": [
+   "NDA021992"
+  ],
+  "brand_name": [
+   "Pristiq Extended-Release"
+  ],
+  "effective_time": "20260428",
+  "generic_name": [
+   "DESVENLAFAXINE SUCCINATE"
+  ],
+  "id": "b9acfefd-10c0-4942-9446-18bb456efb68",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "0f43610c-f290-46ea-d186-4f998ed99fce",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "0f43610c-f290-46ea-d186-4f998ed99fce"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL4396618",
+      "description": "Half life in human at 75 mg",
+      "ref": "CHEMBL4393729",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 11.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 11.0,
+      "min": 11.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 11.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "steady-state volume of distribution",
+    "quantity": "vss",
+    "quotes": [
+     "Steady-state volume of distribution of desvenlafaxine is 3.4 L/kg."
+    ],
+    "route": "unspecified",
+    "statistic": "unspecified",
+    "units": "L/kg",
+    "value": 3.4
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL4393729": {
+   "chembl_document_id": "CHEMBL4393729",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "31307886",
+   "title": "Sleep modulating agents.",
+   "year": 2019
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 189,
+  "openfda_labels_returned": 44,
+  "openfda_labels_same_entity": 44,
+  "openfda_query": "openfda.generic_name:\"desvenlafaxine\"",
+  "pet_searched_empty": [
+   {
+    "drug": "desvenlafaxine",
+    "note": "Frankle 2018 (29216407) studied ODV (desvenlafaxine) at 25/50/100/150 mg but only reports the dose for 50% SERT occupancy (14.4 mg), i.e. an ED50-type value, no per-dose group occupancy printed. Skip per ED50-only rule.",
+    "queries": [
+     "O-desmethylvenlafaxine / ODV AND occupancy AND DASB"
+    ],
+    "target": "SERT"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

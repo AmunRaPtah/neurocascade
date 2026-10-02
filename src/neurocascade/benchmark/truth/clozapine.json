@@ -1,0 +1,618 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AH02",
+    "ddd": [
+     {
+      "ddd": 0.3,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     },
+     {
+      "ddd": 0.3,
+      "note": null,
+      "route": "P",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "clozapine"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "low: 12.5 mg once daily printed; high: 450 mg twice daily printed; 2 x 450 = 900 mg/day",
+    "high": 900,
+    "high_basis": "maximum recommended dose",
+    "indication": "treatment-resistant schizophrenia",
+    "kind": "dose",
+    "low": 12.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting oral dosage of CLOZARIL is 12.5 mg once or twice daily.",
+     "The maximum recommended CLOZARIL oral dosage is 450 mg twice daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "25%",
+     "frequency_lower": 0.25,
+     "frequency_upper": 0.25,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "20%",
+     "frequency_lower": 0.2,
+     "frequency_upper": 0.2,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "drug_arm_percent": 25.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11. Incidence of Adverse Reactions in Patients Treated with CLOZARIL or Olanzapine in the InterSePT™ Study (≥10% in the CLOZARIL or olanzapine group)",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10. Adverse Reactions (≥2%) Reported in CLOZARIL-treated Patients (N=842) Across all CLOZARIL Studies (excluding the 2-year InterSePT™ Study)",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "4%",
+     "frequency_lower": 0.04,
+     "frequency_upper": 0.04,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Muscle rigidity"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10. Adverse Reactions (≥2%) Reported in CLOZARIL-treated Patients (N=842) Across all CLOZARIL Studies (excluding the 2-year InterSePT™ Study)",
+     "term": "Akathisia"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10. Adverse Reactions (≥2%) Reported in CLOZARIL-treated Patients (N=842) Across all CLOZARIL Studies (excluding the 2-year InterSePT™ Study)",
+     "term": "Hypokinesia/Akinesia"
+    }
+   ],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "39%",
+     "frequency_lower": 0.39,
+     "frequency_upper": 0.39,
+     "source": "SIDER 4.1",
+     "term": "Drowsiness"
+    },
+    {
+     "description": "46%",
+     "frequency_lower": 0.46,
+     "frequency_upper": 0.46,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 39.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10. Adverse Reactions (≥2%) Reported in CLOZARIL-treated Patients (N=842) Across all CLOZARIL Studies (excluding the 2-year InterSePT™ Study)",
+     "term": "Drowsiness/Sedation"
+    },
+    {
+     "drug_arm_percent": 21.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 9. Common Adverse Reactions (≥5%) in the 6-Week, Randomized, Chlorpromazine-controlled Trial in Treatment-Resistant Schizophrenia",
+     "term": "Sedation"
+    },
+    {
+     "drug_arm_percent": 46.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11. Incidence of Adverse Reactions in Patients Treated with CLOZARIL or Olanzapine in the InterSePT™ Study (≥10% in the CLOZARIL or olanzapine group)",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10. Adverse Reactions (≥2%) Reported in CLOZARIL-treated Patients (N=842) Across all CLOZARIL Studies (excluding the 2-year InterSePT™ Study)",
+     "term": "Seizures (convulsions)"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Abnormal ejaculation"
+    },
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "56%",
+     "frequency_lower": 0.56,
+     "frequency_upper": 0.56,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10. Adverse Reactions (≥2%) Reported in CLOZARIL-treated Patients (N=842) Across all CLOZARIL Studies (excluding the 2-year InterSePT™ Study)",
+     "term": "Weight Gain"
+    },
+    {
+     "drug_arm_percent": 31.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11. Incidence of Adverse Reactions in Patients Treated with CLOZARIL or Olanzapine in the InterSePT™ Study (≥10% in the CLOZARIL or olanzapine group)",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 25.0,
+   "eps": 4.0,
+   "orthostasis": null,
+   "sedation": 46.0,
+   "seizure": 3.0,
+   "sexual_dysfunction": 1.0,
+   "weight_gain": 56.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "vision blurred"
+   ],
+   "eps": [
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "parkinsonism",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "erectile dysfunction",
+    "retrograde ejaculation"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 6,
+    "n_ar_tables_used": 6,
+    "n_rows_with_drug_arm_value": 106,
+    "set_id": "90876802-0e3a-44c9-9ff7-1754dfbe736a"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100002818"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 221,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 189,
+    "n_side_effect_rows": 526,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "clozapine",
+ "label": {
+  "application_number": [
+   "NDA019758"
+  ],
+  "brand_name": [
+   "Clozaril"
+  ],
+  "effective_time": "20250606",
+  "generic_name": [
+   "CLOZAPINE"
+  ],
+  "id": "14601465-eda2-4063-b606-cb6cfcaaca3d",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "90876802-0e3a-44c9-9ff7-1754dfbe736a",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "90876802-0e3a-44c9-9ff7-1754dfbe736a"
+ },
+ "pet": [
+  {
+   "dose_derivation": "300 mg b.i.d. printed; 2 x 300 = 600 mg/day",
+   "dose_mg_per_day": 600,
+   "drug": "clozapine",
+   "first_author": "Farde",
+   "n_subjects": 1,
+   "occupancy_percent": 65,
+   "pmid": "2573104",
+   "quote": "In two patients treated with the atypical neuroleptic clozapine, 300 mg b.i.d. and 150 mg b.i.d., the D2-dopamine receptor occupancy was 65 and 40%, respectively.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1989
+  },
+  {
+   "dose_derivation": "150 mg b.i.d. printed; 2 x 150 = 300 mg/day",
+   "dose_mg_per_day": 300,
+   "drug": "clozapine",
+   "first_author": "Farde",
+   "n_subjects": 1,
+   "occupancy_percent": 40,
+   "pmid": "2573104",
+   "quote": "In two patients treated with the atypical neuroleptic clozapine, 300 mg b.i.d. and 150 mg b.i.d., the D2-dopamine receptor occupancy was 65 and 40%, respectively.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1989
+  },
+  {
+   "dose_mg_per_day": [
+    125,
+    175
+   ],
+   "drug": "clozapine",
+   "first_author": "Farde",
+   "n_subjects": null,
+   "occupancy_percent": 80,
+   "pmid": "7537284",
+   "quote": "The observation that low doses of clozapine (125 to 175 mg daily) induced more than 80% (5-hydroxytryptamine) 5-HT2 occupancy supports the view that 5-HT2 antagonism may be related to the atypical effects of clozapine.",
+   "regimen": "steady state",
+   "region": "cortex",
+   "route": "oral",
+   "statistic": "range",
+   "target": "5-HT2A",
+   "tracer": null,
+   "year": 1995
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 2.5
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 2.5
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 2.5
+     },
+     {
+      "assay_chembl_id": "CHEMBL3529432",
+      "description": "Systemic clearance in psychiatric patient",
+      "ref": "CHEMBL3526022",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 5.4
+     }
+    ],
+    "summary": [
+     {
+      "max": 2.5,
+      "min": 2.5,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 2.5
+     },
+     {
+      "max": 5.4,
+      "min": 2.5,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 2.5
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 10.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 10.0,
+      "min": 10.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 10.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL632931",
+      "description": "Volume of distribution in man (IV dose)",
+      "ref": "CHEMBL1135488",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 5.4
+     },
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 5.4
+     },
+     {
+      "assay_chembl_id": "CHEMBL1100462",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1153781",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 5.4
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.6
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.6
+     }
+    ],
+    "summary": [
+     {
+      "max": 5.4,
+      "min": 1.6,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 3.5
+     },
+     {
+      "max": 5.4,
+      "min": 1.6,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 5.4
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 66,
+    "kind": "pk",
+    "low": 4,
+    "note": "mean elimination half-life at steady state (100 mg twice daily); range 4-66 h",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half-life of clozapine after a single 75 mg dose was 8 hours (range: 4 to 12 hours), compared to a mean elimination half-life of 12 hours (range: 4 to 66 hours), after achieving steady state with 100 mg twice daily dosing."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 12
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1135488": {
+   "chembl_document_id": "CHEMBL1135488",
+   "journal": "J Med Chem",
+   "pmid": "12061889",
+   "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+   "year": 2002
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  },
+  "CHEMBL3526022": {
+   "chembl_document_id": "CHEMBL3526022",
+   "journal": "Drug Metab Dispos",
+   "pmid": "23454828",
+   "title": "Which metabolites circulate?",
+   "year": 2013
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 528,
+  "openfda_labels_returned": 16,
+  "openfda_labels_same_entity": 16,
+  "openfda_query": "openfda.generic_name:\"clozapine\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

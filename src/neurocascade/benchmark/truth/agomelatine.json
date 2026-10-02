@@ -1,0 +1,126 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX22",
+    "ddd": [
+     {
+      "ddd": 25.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "agomelatine"
+   }
+  ],
+  "label": []
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": null,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 0.1,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth"
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "sider": {
+    "flat_ids": [
+     "CID100082148"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 14,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 113,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "agomelatine",
+ "label": null,
+ "label_transcription": null,
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 25,
+  "openfda_labels_returned": 0,
+  "openfda_labels_same_entity": 0,
+  "openfda_query": "openfda.generic_name:\"agomelatine\"",
+  "pet_searched_empty": [
+   {
+    "drug": "agomelatine",
+    "note": "Agomelatine is an MT1/MT2 agonist and 5-HT2C antagonist; no human PET/SPECT receptor occupancy study (no 5-HT2A, SERT or D2 occupancy data) found.",
+    "queries": [
+     "agomelatine AND occupancy",
+     "agomelatine AND (PET OR receptor)"
+    ],
+    "target": "5-HT2A"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

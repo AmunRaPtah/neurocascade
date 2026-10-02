@@ -1,0 +1,328 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX18",
+    "ddd": [
+     {
+      "ddd": 8.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "reboxetine"
+   }
+  ],
+  "label": []
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "17.2%",
+     "frequency_lower": 0.1719,
+     "frequency_upper": 0.1719,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "31.9%",
+     "frequency_lower": 0.3195,
+     "frequency_upper": 0.3195,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "2.56%",
+     "frequency_lower": 0.0256,
+     "frequency_upper": 0.0256,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    }
+   ],
+   "eps": [
+    {
+     "description": "1.11%",
+     "frequency_lower": 0.0111,
+     "frequency_upper": 0.0111,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    }
+   ],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "3.67%",
+     "frequency_lower": 0.0367,
+     "frequency_upper": 0.0367,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "description": "2.22%",
+     "frequency_lower": 0.0222,
+     "frequency_upper": 0.0222,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "3.33%",
+     "frequency_lower": 0.0333,
+     "frequency_upper": 0.0333,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "1.25%",
+     "frequency_lower": 0.0125,
+     "frequency_upper": 0.0125,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    }
+   ],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": null,
+   "sedation": 0,
+   "seizure": 0,
+   "sexual_dysfunction": null,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": 31.95,
+   "eps": 1.11,
+   "orthostasis": null,
+   "sedation": 3.67,
+   "seizure": null,
+   "sexual_dysfunction": 3.33,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "anorgasmia",
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "sider": {
+    "flat_ids": [
+     "CID100065856"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 93,
+    "n_frequency_rows_placebo": 93,
+    "n_frequency_rows_postmarketing": 36,
+    "n_side_effect_rows": 332,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "reboxetine",
+ "label": null,
+ "label_transcription": null,
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 0.82
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 0.82
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 0.82
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.82,
+      "min": 0.82,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 0.82
+     },
+     {
+      "max": 0.82,
+      "min": 0.82,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 0.82
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 10.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 10.0,
+      "min": 10.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 10.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.65
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.65
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.65,
+      "min": 0.65,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.65
+     },
+     {
+      "max": 0.65,
+      "min": 0.65,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.65
+     }
+    ]
+   }
+  },
+  "label": []
+ },
+ "references": {
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 25,
+  "openfda_labels_returned": 0,
+  "openfda_labels_same_entity": 0,
+  "openfda_query": "openfda.generic_name:\"reboxetine\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "N06A"
+}

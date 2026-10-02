@@ -1,0 +1,384 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AH05",
+    "ddd": [
+     {
+      "ddd": 20.0,
+      "note": null,
+      "route": "SL",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "asenapine"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "5 mg twice daily = 10 mg/day; 10 mg twice daily = 20 mg/day",
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose of SAPHRIS is 5 mg given twice daily.",
+     "If tolerated, daily dosage can be increased to 10 mg twice daily after one week."
+    ],
+    "route": "sublingual",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "5 mg twice daily = 10 mg/day; 10 mg twice daily = 20 mg/day",
+    "high": 20,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting and treatment dose of SAPHRIS is 5 mg to 10 mg twice daily."
+    ],
+    "route": "sublingual",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "4.74%",
+     "frequency_lower": 0.04741,
+     "frequency_upper": 0.04741,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "drug_arm_percent": 7.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8: Adverse Reactions Reported in 2% or More of Adult Patients in Any SAPHRIS Dose Group and Which Occurred at Greater Incidence Than in the Placebo Group in 6-Week Schizophrenia Trials",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8: Adverse Reactions Reported in 2% or More of Adult Patients in Any SAPHRIS Dose Group and Which Occurred at Greater Incidence Than in the Placebo Group in 6-Week Schizophrenia Trials",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "12%",
+     "frequency_lower": 0.12,
+     "frequency_upper": 0.12,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "12%",
+     "frequency_lower": 0.12,
+     "frequency_upper": 0.12,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "12%",
+     "frequency_lower": 0.12,
+     "frequency_upper": 0.12,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal symptoms"
+    },
+    {
+     "description": "3.17%",
+     "frequency_lower": 0.0316556,
+     "frequency_upper": 0.0316556,
+     "source": "SIDER 4.1",
+     "term": "Parkinsonism"
+    },
+    {
+     "drug_arm_percent": 15.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Adverse Reactions Reported in 2% or More of Adult Patients in Any SAPHRIS Dose Group and Which Occurred at Greater Incidence Than in the Respective Placebo Group in 3-Week Bipolar Mania Fixed and Flexible Dose Trials",
+     "term": "Akathisia"
+    },
+    {
+     "drug_arm_percent": 11.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8: Adverse Reactions Reported in 2% or More of Adult Patients in Any SAPHRIS Dose Group and Which Occurred at Greater Incidence Than in the Placebo Group in 6-Week Schizophrenia Trials",
+     "term": "Akathisia*"
+    },
+    {
+     "drug_arm_percent": 12.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8: Adverse Reactions Reported in 2% or More of Adult Patients in Any SAPHRIS Dose Group and Which Occurred at Greater Incidence Than in the Placebo Group in 6-Week Schizophrenia Trials",
+     "term": "Extrapyramidal symptoms"
+    }
+   ],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "24%",
+     "frequency_lower": 0.24,
+     "frequency_upper": 0.24,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 26.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Adverse Reactions Reported in 2% or More of Adult Patients in Any SAPHRIS Dose Group and Which Occurred at Greater Incidence Than in the Respective Placebo Group in 3-Week Bipolar Mania Fixed and Flexible Dose Trials",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    {
+     "description": "18.6%",
+     "frequency_lower": 0.186128,
+     "frequency_upper": 0.186128,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8: Adverse Reactions Reported in 2% or More of Adult Patients in Any SAPHRIS Dose Group and Which Occurred at Greater Incidence Than in the Placebo Group in 6-Week Schizophrenia Trials",
+     "term": "Increased weight"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Adverse Reactions Reported in 2% or More of Adult Patients in Any SAPHRIS Dose Group and Which Occurred at Greater Incidence Than in the Respective Placebo Group in 3-Week Bipolar Mania Fixed and Flexible Dose Trials",
+     "term": "Weight Increase"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 7.0,
+   "eps": 15.0,
+   "orthostasis": null,
+   "sedation": 26.0,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": 18.6128
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "vision blurred"
+   ],
+   "eps": [
+    "bradykinesia",
+    "dyskinesia",
+    "dystonia",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "hypersomnia",
+    "sedation"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction",
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 4,
+    "n_ar_tables_used": 3,
+    "n_rows_with_drug_arm_value": 48,
+    "set_id": "5429f134-839f-4ffc-9944-55f51238def8"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100156326"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 219,
+    "n_frequency_rows_placebo": 124,
+    "n_frequency_rows_postmarketing": 18,
+    "n_side_effect_rows": 292,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "asenapine",
+ "label": {
+  "application_number": [
+   "NDA022117"
+  ],
+  "brand_name": [
+   "SAPHRIS"
+  ],
+  "effective_time": "20250131",
+  "generic_name": [
+   "ASENAPINE MALEATE"
+  ],
+  "id": "9827c4dd-ffac-4022-a021-d1b15a364ecd",
+  "indication_psychiatric": true,
+  "route": [
+   "SUBLINGUAL"
+  ],
+  "set_id": "5429f134-839f-4ffc-9944-55f51238def8",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "5429f134-839f-4ffc-9944-55f51238def8"
+ },
+ "pet": [
+  {
+   "dose_derivation": "100 micrograms printed (single dose); 0.1 mg",
+   "dose_mg_per_day": 0.1,
+   "drug": "asenapine",
+   "first_author": "Andrée",
+   "n_subjects": 3,
+   "note": "single sub-therapeutic dose of ORG 5222 (asenapine) in 3 healthy subjects",
+   "occupancy_percent": [
+    15,
+    30
+   ],
+   "pmid": "9226735",
+   "quote": "Central receptor occupancy was measured by positron emission tomography (PET) in three healthy subjects after sublingual administration of 100 micrograms ORG 5222. [11C]N-methylspiperone ([11C] NMSP) was the radioligand used to measure 5-HT2A receptor binding in the neocortex and [11C]raclopride to measure D2-dopamine receptor binding in the striatum. The 5-HT2A occupancy was 15-30% and the D2-dopamine receptor occupancy was 12-23%.",
+   "regimen": "single dose (sublingual, 100 micrograms, as ORG 5222)",
+   "region": "neocortex",
+   "route": "sublingual",
+   "statistic": "range",
+   "target": "5-HT2A",
+   "tracer": "[11C]NMSP",
+   "year": 1997
+  },
+  {
+   "dose_derivation": "100 micrograms printed (single dose); 0.1 mg",
+   "dose_mg_per_day": 0.1,
+   "drug": "asenapine",
+   "first_author": "Andrée",
+   "n_subjects": 3,
+   "note": "single sub-therapeutic dose of ORG 5222 (asenapine) in 3 healthy subjects",
+   "occupancy_percent": [
+    12,
+    23
+   ],
+   "pmid": "9226735",
+   "quote": "Central receptor occupancy was measured by positron emission tomography (PET) in three healthy subjects after sublingual administration of 100 micrograms ORG 5222. [11C]N-methylspiperone ([11C] NMSP) was the radioligand used to measure 5-HT2A receptor binding in the neocortex and [11C]raclopride to measure D2-dopamine receptor binding in the striatum. The 5-HT2A occupancy was 15-30% and the D2-dopamine receptor occupancy was 12-23%.",
+   "regimen": "single dose (sublingual, 100 micrograms, as ORG 5222)",
+   "region": "striatum",
+   "route": "sublingual",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1997
+  }
+ ],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Following an initial more rapid distribution phase, the terminal half-life of asenapine is approximately 24 hours."
+    ],
+    "route": "unspecified",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 24
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "clearance after IV administration",
+    "quantity": "cl",
+    "quotes": [
+     "Asenapine is a high clearance drug with a clearance after intravenous administration of 52 L/h."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "L/h",
+    "value": 52
+   },
+   {
+    "high": 25,
+    "kind": "pk",
+    "low": 20,
+    "note": "volume of distribution",
+    "quantity": "vd",
+    "quotes": [
+     "Asenapine is rapidly distributed and has a large volume of distribution (approximately 20 - 25 L/kg), indicating extensive extravascular distribution."
+    ],
+    "route": "unspecified",
+    "statistic": "range",
+    "units": "L/kg",
+    "value": null
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 1,
+  "openfda_labels_returned": 7,
+  "openfda_labels_same_entity": 7,
+  "openfda_query": "openfda.generic_name:\"asenapine\"",
+  "pet_searched_empty": [
+   {
+    "drug": "asenapine",
+    "note": "Only Andree 1997 (ORG 5222 = asenapine, single sublingual 100 microgram) included; no human therapeutic-dose PET abstract found.",
+    "queries": [
+     "(ABSTRACT:\"asenapine\" OR ABSTRACT:\"Org 5222\" OR ABSTRACT:\"ORG-5222\") AND (ABSTRACT:\"occupancy\" OR ABSTRACT:\"positron\" OR ABSTRACT:\"SPECT\")"
+    ],
+    "target": "D2/5-HT2A (therapeutic dose)"
+   }
+  ]
+ },
+ "split": "heldout",
+ "stratum": "N05A"
+}

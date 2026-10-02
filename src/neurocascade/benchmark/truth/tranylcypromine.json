@@ -1,0 +1,163 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AF04",
+    "ddd": [
+     {
+      "ddd": 10.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "tranylcypromine"
+   }
+  ],
+  "label": [
+   {
+    "high": 60,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 30,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dosage is 30 mg per day (in divided doses). If patients do not have an adequate response, increase the dosage in increments of 10 mg per day every 1 to 3 weeks to a maximum 30 mg twice daily (60 mg per day)."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "sedation",
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction",
+    "libido decreased"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "6a0b609b-0625-4c26-91a1-59ee3ece3ddf"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100005530"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 21,
+    "n_side_effect_rows": 182,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "tranylcypromine",
+ "label": {
+  "application_number": [
+   "NDA012342"
+  ],
+  "brand_name": [
+   "Tranylcypromine Sulfate"
+  ],
+  "effective_time": "20250725",
+  "generic_name": [
+   "TRANYLCYPROMINE SULFATE"
+  ],
+  "id": "e42c8b23-863e-4370-a3b1-b71526b12ee5",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "6a0b609b-0625-4c26-91a1-59ee3ece3ddf",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "6a0b609b-0625-4c26-91a1-59ee3ece3ddf"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 101,
+  "openfda_labels_returned": 6,
+  "openfda_labels_same_entity": 6,
+  "openfda_query": "openfda.generic_name:\"tranylcypromine\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "N06A"
+}

@@ -1,0 +1,419 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AB10",
+    "ddd": [
+     {
+      "ddd": 10.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "escitalopram"
+   }
+  ],
+  "label": [
+   {
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dosage of Lexapro in adults is 10 mg once daily.",
+     "Depending on clinical response and tolerability, dosage may be increased to the maximum recommended dosage of 20 mg once daily at an interval of no less than 1 week."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dosage of Lexapro in adults is 10 mg once daily. Depending on clinical response and tolerability, dosage may be increased to the maximum recommended dosage of 20 mg once daily at an interval of no less than 1 week."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "6%",
+     "frequency_lower": 0.06,
+     "frequency_upper": 0.06,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "9%",
+     "frequency_lower": 0.09,
+     "frequency_upper": 0.09,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 9.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dizziness postural"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Hypersomnia"
+    },
+    {
+     "description": "13%",
+     "frequency_lower": 0.13,
+     "frequency_upper": 0.13,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 13.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "description": "6%",
+     "frequency_lower": 0.06,
+     "frequency_upper": 0.06,
+     "source": "SIDER 4.1",
+     "term": "Anorgasmia"
+    },
+    {
+     "description": "10.4%",
+     "frequency_lower": 0.104,
+     "frequency_upper": 0.104,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation delayed"
+    },
+    {
+     "description": "14%",
+     "frequency_lower": 0.14,
+     "frequency_upper": 0.14,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "7.3%",
+     "frequency_lower": 0.073,
+     "frequency_upper": 0.073,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation failure"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Loss of libido"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Sexual dysfunction"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Anorgasmia"
+    },
+    {
+     "drug_arm_percent": 14.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Ejaculation Disorder"
+    },
+    {
+     "drug_arm_percent": 12.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Ejaculation Disorder (primarily ejaculatory delay)"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Impotence"
+    },
+    {
+     "drug_arm_percent": 7.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Libido Decreased"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 9.0,
+   "eps": null,
+   "orthostasis": 0.1,
+   "sedation": 13.0,
+   "seizure": null,
+   "sexual_dysfunction": 14.0,
+   "weight_gain": 1.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention"
+   ],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "parkinsonism",
+    "tardive dyskinesia",
+    "torticollis"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "orgasm abnormal"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 4,
+    "n_ar_tables_used": 3,
+    "n_rows_with_drug_arm_value": 49,
+    "set_id": "13bb8267-1cab-43e5-acae-55a4d957630a"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100002771"
+    ],
+    "match": "stereo_split",
+    "n_frequency_rows_drug": 1625,
+    "n_frequency_rows_placebo": 218,
+    "n_frequency_rows_postmarketing": 301,
+    "n_side_effect_rows": 1396,
+    "stereo_ids": [
+     "CID000146570"
+    ]
+   }
+  }
+ },
+ "inn": "escitalopram",
+ "label": {
+  "application_number": [
+   "NDA021323"
+  ],
+  "brand_name": [
+   "Lexapro"
+  ],
+  "effective_time": "20231001",
+  "generic_name": [
+   "ESCITALOPRAM"
+  ],
+  "id": "9ff46a66-0f97-4a78-9d18-ec576f63bae7",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "13bb8267-1cab-43e5-acae-55a4d957630a",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "13bb8267-1cab-43e5-acae-55a4d957630a"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 5,
+   "drug": "escitalopram",
+   "first_author": "Klein",
+   "n_subjects": 5,
+   "occupancy_percent": 60,
+   "pmid": "16955282",
+   "quote": "Single doses of 5, 10, or 20 mg escitalopram led to a mean SERT occupancy of 60+/-6, 64+/-6, and 75+/-5%, respectively.",
+   "regimen": "single dose",
+   "region": "midbrain",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "SERT",
+   "tracer": "[123I]ADAM",
+   "year": 2006
+  },
+  {
+   "dose_mg_per_day": 10,
+   "drug": "escitalopram",
+   "first_author": "Klein",
+   "n_subjects": 5,
+   "occupancy_percent": 64,
+   "pmid": "16955282",
+   "quote": "Single doses of 5, 10, or 20 mg escitalopram led to a mean SERT occupancy of 60+/-6, 64+/-6, and 75+/-5%, respectively.",
+   "regimen": "single dose",
+   "region": "midbrain",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "SERT",
+   "tracer": "[123I]ADAM",
+   "year": 2006
+  },
+  {
+   "dose_mg_per_day": 20,
+   "drug": "escitalopram",
+   "first_author": "Klein",
+   "n_subjects": 5,
+   "occupancy_percent": 75,
+   "pmid": "16955282",
+   "quote": "Single doses of 5, 10, or 20 mg escitalopram led to a mean SERT occupancy of 60+/-6, 64+/-6, and 75+/-5%, respectively.",
+   "regimen": "single dose",
+   "region": "midbrain",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "SERT",
+   "tracer": "[123I]ADAM",
+   "year": 2006
+  }
+ ],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": 32,
+    "kind": "pk",
+    "low": 27,
+    "note": "mean terminal half-life, printed as range",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Biotransformation of escitalopram is mainly hepatic, with a mean terminal half-life of about 27-32 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "oral clearance (~7% renal)",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "The oral clearance of escitalopram is 600 mL/min, with approximately 7% of that due to renal clearance."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "mL/min",
+    "value": 600
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 34,
+  "openfda_labels_returned": 113,
+  "openfda_labels_same_entity": 113,
+  "openfda_query": "openfda.generic_name:\"escitalopram\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "N06A"
+}

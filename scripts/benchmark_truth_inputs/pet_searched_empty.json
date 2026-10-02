@@ -1,0 +1,280 @@
+[
+ {
+  "drug": "chlorpromazine",
+  "target": "D2",
+  "queries": [
+   "(ABSTRACT:\"chlorpromazine\" OR TITLE:\"chlorpromazine\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\")",
+   "(TITLE:\"chlorpromazine\" OR ABSTRACT:\"chlorpromazine\") AND ABSTRACT:\"D2\" AND (ABSTRACT:\"positron\" OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\") AND (ABSTRACT:\"patients\" OR ABSTRACT:\"volunteers\")"
+  ],
+  "note": "Only rat/animal studies (Crocker 2001, Hemsley 1999) and pooled 'classical neuroleptics 65-85%' values (Farde 1988/1989). No human PET/SPECT study prints a chlorpromazine-specific occupancy with a stated dose."
+ },
+ {
+  "drug": "thioridazine",
+  "target": "D2",
+  "queries": [
+   "(ABSTRACT:\"thioridazine\" OR TITLE:\"thioridazine\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"NMSP\")",
+   "(TITLE:\"thioridazine\" OR ABSTRACT:\"thioridazine\") AND (ABSTRACT:\"positron\" OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"SCH23390\")"
+  ],
+  "note": "No human PET/SPECT receptor-occupancy study found with a drug-specific value at a stated dose; hits were an animal EPS study and an unrelated cardiomyopathy paper."
+ },
+ {
+  "drug": "pimozide",
+  "target": "D2",
+  "queries": [
+   "(ABSTRACT:\"pimozide\" OR TITLE:\"pimozide\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\")",
+   "(ABSTRACT:\"pimozide\" OR TITLE:\"pimozide\") AND ABSTRACT:\"occupancy\"",
+   "TITLE:\"pimozide\"",
+   "(TITLE:\"pimozide\" OR ABSTRACT:\"pimozide\") AND (ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"spiperone\" OR ABSTRACT:\"NMSP\")"
+  ],
+  "note": "No non-review human abstract found that prints a pimozide occupancy value with a stated dose."
+ },
+ {
+  "drug": "molindone",
+  "target": "D2",
+  "queries": [
+   "(ABSTRACT:\"molindone\" OR TITLE:\"molindone\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"NMSP\")",
+   "(ABSTRACT:\"molindone\" OR TITLE:\"molindone\") AND ABSTRACT:\"occupancy\""
+  ],
+  "note": "No PET/SPECT occupancy abstract found for molindone."
+ },
+ {
+  "drug": "flupentixol",
+  "target": "D2",
+  "queries": [
+   "(ABSTRACT:\"flupentixol\" OR TITLE:\"flupentixol\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"NMSP\")",
+   "(ABSTRACT:\"flupenthixol\" OR TITLE:\"flupenthixol\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\")"
+  ],
+  "note": "Only human finding (Farde 1992, PMID 1358126) reports D1 occupancy (36-44%) for flupenthixol, not D2 or 5-HT2A, and gives no mg dose. No usable D2/5-HT2A value with a dose."
+ },
+ {
+  "drug": "fluphenazine",
+  "target": "D2",
+  "queries": [
+   "(ABSTRACT:\"fluphenazine\" OR TITLE:\"fluphenazine\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"NMSP\")"
+  ],
+  "note": "Only human PET study (Nyberg 1998, PMID 11281952) used fluphenazine DECANOATE depot (100-250 mg/wk IM), D2 89-97%, 5-HT2 76-105%. Excluded by depot/LAI rule (no oral daily mg dose)."
+ },
+ {
+  "drug": "perphenazine",
+  "target": "D2",
+  "queries": [
+   "(ABSTRACT:\"perphenazine\" OR TITLE:\"perphenazine\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\")"
+  ],
+  "note": "Only human PET study (Talvik 2004, PMID 15007534) used perphenazine DECANOATE depot and reports dose as serum nmol/l (not mg); D2 66-82%. Excluded by depot/LAI rule and no mg dose."
+ },
+ {
+  "drug": "zuclopenthixol",
+  "target": "D2",
+  "queries": [
+   "(ABSTRACT:\"zuclopenthixol\" OR TITLE:\"zuclopenthixol\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"NMSP\")"
+  ],
+  "note": "Only human PET study (Nyberg 1995, PMID 8748043) used 12.5 mg zuclopenthixol acetate by intramuscular injection (D2 51-75% at 7h), not an oral daily dose. Excluded as injection data per oral-dose rule."
+ },
+ {
+  "drug": "ziprasidone",
+  "target": "D2",
+  "queries": [
+   "(TITLE:\"ziprasidone\" OR ABSTRACT:\"ziprasidone\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:raclopride OR ABSTRACT:setoperone)",
+   "(TITLE:\"ziprasidone\" ...) AND ABSTRACT:\"occupancy\" AND ABSTRACT:\"mg\""
+  ],
+  "note": "Candidate human PET studies found (Mamo 2004 PMID 15121646 D2 mean 56%/5-HT2 76% at 40-160 mg/day; Suzuki 2013 PMID 23417515 60 mg bid time-course 66/39/2% putamen; Vernaleken 2008 PMID 19011428 40 mg single dose) but in every abstract the oral dose and the occupancy value appear in separate, non-adjacent sentences (dose in Methods, pooled/time-course value in Results) so no <=2-sentence contiguous quote contains both dose and occupancy. Skipped per quote rule."
+ },
+ {
+  "drug": "paliperidone",
+  "target": "D2",
+  "queries": [
+   "(TITLE:\"paliperidone\" OR ABSTRACT:\"paliperidone\") AND ABSTRACT:\"occupancy\"",
+   "(TITLE:\"paliperidone\" OR ABSTRACT:\"paliperidone\" OR ABSTRACT:\"9-hydroxyrisperidone\") AND ABSTRACT:\"occupancy\" AND ABSTRACT:\"mg\""
+  ],
+  "note": "Main oral study Arakawa 2008 (PMID 18058087): doses 3/9/15 mg/day in Methods, striatal occupancy range 54.2-85.5% in Results (non-adjacent, >2 sentences apart); the only dose+occupancy sentence ('paliperidone ER at 6-9 mg provides an estimated level ... between 70-80%') is an estimated/modeled value, excluded by the no-interpolation rule. Skipped."
+ },
+ {
+  "drug": "olanzapine",
+  "target": "5-HT2A",
+  "queries": [
+   "(TITLE:\"olanzapine\" OR ABSTRACT:\"olanzapine\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:setoperone OR ABSTRACT:altanserin OR ABSTRACT:NMSP)"
+  ],
+  "note": "Human 5-HT2A values exist but none with a contiguous dose: Kapur 1998 (PMID 9659858) 'near saturation ... even at 5 mg/day' gives no %; Kessler 2005 (PMID 16123775) 85-93% has no dose in abstract; Nyberg 1997 (PMID 8981383) 74/86/92% is >2 sentences from the 10 mg dose. Skipped."
+ },
+ {
+  "drug": "quetiapine",
+  "target": "D2",
+  "queries": [
+   "(TITLE:\"quetiapine\" ...) AND ABSTRACT:\"occupancy\" AND (ABSTRACT:raclopride OR ABSTRACT:IBZM)"
+  ],
+  "note": "Kapur 2000 (PMID 10839333, Arch Gen Psychiatry transient-occupancy study) reports 0%-27% (12h) and transient 58%-64% D2 but the dose range (150-600 mg/d) is in Methods, non-contiguous with the occupancy sentences; Kessler 2006 (PMID 16738543) putamen 33.5% has no mg dose. These were skipped; usable quetiapine D2/5-HT2A points taken from Gefvert 2001 (PMID 11313155)."
+ },
+ {
+  "drug": "iloperidone",
+  "target": "D2/5-HT2A",
+  "queries": [
+   "(ABSTRACT:\"iloperidone\" OR TITLE:\"iloperidone\") AND ABSTRACT:\"occupancy\"",
+   "(ABSTRACT:\"iloperidone\" OR ABSTRACT:\"HP 873\" OR ABSTRACT:\"HP-873\") AND (ABSTRACT:\"occupancy\" OR ABSTRACT:\"PET\" OR ABSTRACT:\"positron\" OR ABSTRACT:\"SPECT\")"
+  ],
+  "note": "No human PET/SPECT occupancy study found in Europe PMC abstracts (only radiolabelling, reviews, meta-analyses)."
+ },
+ {
+  "drug": "pimavanserin",
+  "target": "5-HT2A",
+  "queries": [
+   "(ABSTRACT:\"pimavanserin\" OR TITLE:\"pimavanserin\") AND ABSTRACT:\"occupancy\"",
+   "(ABSTRACT:\"pimavanserin\" OR ABSTRACT:\"ACP-103\" OR ABSTRACT:\"ACP 103\") AND (ABSTRACT:\"occupancy\" OR ABSTRACT:\"PET\" OR ABSTRACT:\"positron\")"
+  ],
+  "note": "Nordstrom 2008 (PMID 17708779, ACP-103, [11C]NMSP, single 1-100 mg) gives no numeric occupancy in abstract (only near-maximal displacement at 10-20 mg); Burstein 2026 (PMID 42677352) gives 41-100% range vs plasma concentration with no dose. Nucci 2009 not found with abstract occupancy values."
+ },
+ {
+  "drug": "lurasidone",
+  "target": "5-HT2A",
+  "queries": [
+   "(ABSTRACT:\"lurasidone\") AND (ABSTRACT:\"occupancy\") AND (ABSTRACT:\"positron\" OR ABSTRACT:\"PET\")"
+  ],
+  "note": "No human 5-HT2A data (marmoset study excluded). Potkin 2014 (PMID 24073841) D2 fallypride only states '>65% can be achieved across 80-160 mg/day' (not a group value), so skipped."
+ },
+ {
+  "drug": "cariprazine",
+  "target": "5-HT2A/SERT",
+  "queries": [
+   "(ABSTRACT:\"cariprazine\") AND (ABSTRACT:\"occupancy\") AND (ABSTRACT:\"positron\" OR ABSTRACT:\"PET\")"
+  ],
+  "note": "Only human study is Girgis 2016 (D2/D3 PHNO). Seneca 2011 is monkey."
+ },
+ {
+  "drug": "brexpiprazole",
+  "target": "5-HT2A",
+  "queries": [
+   "(ABSTRACT:\"brexpiprazole\") AND (ABSTRACT:\"occupancy\") AND (ABSTRACT:\"positron\" OR ABSTRACT:\"PET\")"
+  ],
+  "note": "Girgis 2020 abstract states 'robust and dose-related' 5-HT2A occupancy without numeric value."
+ },
+ {
+  "drug": "aripiprazole",
+  "target": "SERT",
+  "queries": [
+   "ABSTRACT:\"aripiprazole\" AND (ABSTRACT:\"receptor occupancy\" OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"fallypride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"FLB457\" OR ABSTRACT:\"PHNO\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"MDL100907\")"
+  ],
+  "note": "No SERT data. Excluded: Shin 2018/Kim 2022 (no dose), Mizrahi 2009 (no dose), Freudenmann 2010 case report (no dose), Grunder 2008 (EC50 only)."
+ },
+ {
+  "drug": "asenapine",
+  "target": "D2/5-HT2A (therapeutic dose)",
+  "queries": [
+   "(ABSTRACT:\"asenapine\" OR ABSTRACT:\"Org 5222\" OR ABSTRACT:\"ORG-5222\") AND (ABSTRACT:\"occupancy\" OR ABSTRACT:\"positron\" OR ABSTRACT:\"SPECT\")"
+  ],
+  "note": "Only Andree 1997 (ORG 5222 = asenapine, single sublingual 100 microgram) included; no human therapeutic-dose PET abstract found."
+ },
+ {
+  "drug": "fluoxetine",
+  "target": "SERT",
+  "queries": [
+   "(ABSTRACT:fluoxetine OR TITLE:fluoxetine) AND occupancy AND (serotonin transporter OR DASB OR McN5652 OR beta-CIT)"
+  ],
+  "note": "Meyer 2004 (15121647) reports 76-85% at minimum therapeutic dose but prints no numeric mg dose paired with a fluoxetine-specific occupancy; Kugaya 2004 (15450785) used fluoxetine 20 mg/day but prints no occupancy number. No contiguous dose+occupancy quote."
+ },
+ {
+  "drug": "sertraline",
+  "target": "SERT",
+  "queries": [
+   "(ABSTRACT:sertraline OR TITLE:sertraline) AND occupancy AND (serotonin transporter OR DASB)"
+  ],
+  "note": "Voineskos 2007 (17497139) ~85% at 'high therapeutic dose' with no mg number; Arakawa 2016 (27082864) 50 mg value is pooled with escitalopram; Parsey 2006 (16213473) prints 25-100 mg dose and 106.8% max occupancy but in non-contiguous sentences; Zitterl 2009 (19717141) 175 mg but no occupancy number. No valid contiguous quote."
+ },
+ {
+  "drug": "desvenlafaxine",
+  "target": "SERT",
+  "queries": [
+   "O-desmethylvenlafaxine / ODV AND occupancy AND DASB"
+  ],
+  "note": "Frankle 2018 (29216407) studied ODV (desvenlafaxine) at 25/50/100/150 mg but only reports the dose for 50% SERT occupancy (14.4 mg), i.e. an ED50-type value, no per-dose group occupancy printed. Skip per ED50-only rule."
+ },
+ {
+  "drug": "levomilnacipran",
+  "target": "SERT",
+  "queries": [
+   "levomilnacipran AND occupancy",
+   "AUTH:Abanades AND occupancy"
+  ],
+  "note": "No human PET/SPECT SERT or NET occupancy study found. Abanades 2011 (20940733) is a duloxetine study, not levomilnacipran, and reports only OC50. Only preclinical/PK references available."
+ },
+ {
+  "drug": "vilazodone",
+  "target": "5-HT1A",
+  "queries": [
+   "vilazodone OR EMD 68843 AND occupancy"
+  ],
+  "note": "Rabiner 2000 (10962259) includes EMD 68843 (vilazodone) in a qualitative 5-HT1A [11C]WAY-100635 study but prints no vilazodone-specific dose or occupancy number ('none of the drugs achieved occupancies beyond 60%'). 5-HT1A is outside target set anyway. No SERT/5-HT2A data."
+ },
+ {
+  "drug": "imipramine",
+  "target": "SERT",
+  "queries": [
+   "(imipramine) AND occupancy AND (transporter OR PET OR SPECT)"
+  ],
+  "note": "No human PET/SPECT SERT occupancy study with a dose+occupancy value found."
+ },
+ {
+  "drug": "amitriptyline",
+  "target": "SERT",
+  "queries": [
+   "(amitriptyline) AND occupancy AND PET"
+  ],
+  "note": "No human PET/SPECT SERT occupancy study found. Lundberg 2012 (22243688) pooled TCAs (n=5) 28-86% without per-drug dose."
+ },
+ {
+  "drug": "nortriptyline",
+  "target": "SERT",
+  "queries": [
+   "nortriptyline AND occupancy AND (transporter OR PET)"
+  ],
+  "note": "Takano 2014 (24345533) reports only NET occupancy (50-70% at 75-200 mg/d) with [18F]FMeNER-D2; NET is outside target set. No SERT value."
+ },
+ {
+  "drug": "mirtazapine",
+  "target": "5-HT2A",
+  "queries": [
+   "mirtazapine AND occupancy AND (5-HT2 OR MDL100907 OR setoperone)"
+  ],
+  "note": "Hinz 2007 (16685260) gives single oral 30 mg mirtazapine and 60% 5-HT2A occupancy but dose and occupancy are many sentences apart (not a <=2-sentence contiguous span). Lundberg 2012: mirtazapine did not occupy SERT. Smith 2007 (17653532) measures [11C]mirtazapine self-binding, not a standard target."
+ },
+ {
+  "drug": "trazodone",
+  "target": "5-HT2A",
+  "queries": [
+   "trazodone AND occupancy AND (5-HT2 OR setoperone OR altanserin)"
+  ],
+  "note": "Only modeling/estimation papers (Settimo 2018 29332554, Oggianu 2022 35233913) that estimate occupancy from PK, not measured PET/SPECT. Skip."
+ },
+ {
+  "drug": "nefazodone",
+  "target": "5-HT2A",
+  "queries": [
+   "nefazodone AND occupancy",
+   "AUTH:Meyer JH AND setoperone"
+  ],
+  "note": "Meyer 1999 (10435395) single dose 200 mg nefazodone produced -39+/-17% change in 5-HT2A binding potential ([18F]setoperone PET), but the 200 mg dose and the -39% value are ~3 sentences apart (no contiguous <=2-sentence span) and the value is reported as BP change, not labeled occupancy. Skipped per quote rule."
+ },
+ {
+  "drug": "bupropion",
+  "target": "SERT",
+  "queries": [
+   "bupropion AND occupancy AND serotonin"
+  ],
+  "note": "Bupropion acts at DAT/NET (outside target set D2/DAT not needed; no clinically relevant SERT/5-HT2A). No human SERT/5-HT2A occupancy data point."
+ },
+ {
+  "drug": "buspirone",
+  "target": "5-HT1A",
+  "queries": [
+   "buspirone AND occupancy AND 5-HT1A"
+  ],
+  "note": "Rabiner 2000 (10962259): buspirone was the one drug showing no measurable 5-HT1A occupancy; no dose/occupancy value. 5-HT1A outside target set; no SERT/5-HT2A data."
+ },
+ {
+  "drug": "agomelatine",
+  "target": "5-HT2A",
+  "queries": [
+   "agomelatine AND occupancy",
+   "agomelatine AND (PET OR receptor)"
+  ],
+  "note": "Agomelatine is an MT1/MT2 agonist and 5-HT2C antagonist; no human PET/SPECT receptor occupancy study (no 5-HT2A, SERT or D2 occupancy data) found."
+ }
+]

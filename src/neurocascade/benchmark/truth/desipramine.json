@@ -1,0 +1,360 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AA01",
+    "ddd": [
+     {
+      "ddd": 0.1,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "desipramine"
+   }
+  ],
+  "label": [
+   {
+    "high": 300,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 100,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The usual adult dose is 100 mg to 200 mg per day.",
+     "Dosages above 300 mg/day are not recommended."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "extrapyramidal disorder"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction",
+    "libido decreased"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "70b562ea-9f21-4e4a-b3ed-0590b2892f6a"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100002995"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 193,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "desipramine",
+ "label": {
+  "application_number": [
+   "NDA014399"
+  ],
+  "brand_name": [
+   "Norpramin"
+  ],
+  "effective_time": "20250703",
+  "generic_name": [
+   "DESIPRAMINE HYDROCHLORIDE"
+  ],
+  "id": "3904bc92-b199-2543-e063-6294a90a81d8",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "70b562ea-9f21-4e4a-b3ed-0590b2892f6a",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "70b562ea-9f21-4e4a-b3ed-0590b2892f6a"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 11.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 11.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 11.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 11.0,
+      "min": 11.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 11.0
+     },
+     {
+      "max": 11.0,
+      "min": 11.0,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 11.0
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 22.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 22.0,
+      "min": 22.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 22.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL632931",
+      "description": "Volume of distribution in man (IV dose)",
+      "ref": "CHEMBL1135488",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 20.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 20.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 15.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 15.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 20.0,
+      "min": 15.0,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 17.5
+     },
+     {
+      "max": 20.0,
+      "min": 15.0,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 17.5
+     }
+    ]
+   }
+  },
+  "label": []
+ },
+ "references": {
+  "CHEMBL1135488": {
+   "chembl_document_id": "CHEMBL1135488",
+   "journal": "J Med Chem",
+   "pmid": "12061889",
+   "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+   "year": 2002
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 185,
+  "openfda_labels_returned": 9,
+  "openfda_labels_same_entity": 9,
+  "openfda_query": "openfda.generic_name:\"desipramine\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

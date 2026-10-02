@@ -1,0 +1,236 @@
+{
+ "dose": {
+  "ddd": [],
+  "label": [
+   {
+    "high": 60,
+    "high_basis": "upper end of recommended range",
+    "indication": "anxiety",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The usual daily dose is 30 mg. The dose should be adjusted gradually within the range of 15 to 60 mg daily in accordance with the response of the patient."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "7.5 mg three times a day printed; 3 x 7.5 = 22.5 mg/day",
+    "high": 90,
+    "high_basis": "maximum recommended dose",
+    "indication": "adjunct for partial seizures",
+    "kind": "dose",
+    "low": 22.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The maximum recommended initial dose in patients over 12 years old is 7.5 mg three times a day. Dosage should be increased by no more than 7.5 mg every week and should not exceed 90 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "dry mouth",
+    "vision blurred"
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    "sedation",
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "6e07efe5-29b6-6d1e-661a-f696c4b17f43"
+   }
+  }
+ },
+ "inn": "potassium clorazepate",
+ "label": {
+  "application_number": [
+   "ANDA215566"
+  ],
+  "brand_name": [
+   "Clorazepate Dipotassium"
+  ],
+  "effective_time": "20260910",
+  "generic_name": [
+   "CLORAZEPATE DIPOTASSIUM"
+  ],
+  "id": "93fc1c54-8f73-3dcb-033f-4cd9411875ff",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "6e07efe5-29b6-6d1e-661a-f696c4b17f43",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "6e07efe5-29b6-6d1e-661a-f696c4b17f43"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.1
+     }
+    ],
+    "summary": [
+     {
+      "max": 1.1,
+      "min": 1.1,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 1.1
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 2.4
+     }
+    ],
+    "summary": [
+     {
+      "max": 2.4,
+      "min": 2.4,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 2.4
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.2
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.2,
+      "min": 0.2,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.2
+     }
+    ]
+   }
+  },
+  "label": []
+ },
+ "references": {
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 22,
+  "openfda_labels_returned": 10,
+  "openfda_labels_same_entity": 10,
+  "openfda_query": "openfda.generic_name:\"clorazepate\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05B"
+}

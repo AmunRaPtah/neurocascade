@@ -1,0 +1,82 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AF05",
+    "ddd": [],
+    "index_last_updated": "2026-01-20",
+    "who_name": "iproniazide"
+   }
+  ],
+  "label": []
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {}
+ },
+ "inn": "iproniazide",
+ "label": null,
+ "label_transcription": null,
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 34,
+  "openfda_labels_returned": 0,
+  "openfda_labels_same_entity": 0,
+  "openfda_query": "openfda.generic_name:\"iproniazide\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

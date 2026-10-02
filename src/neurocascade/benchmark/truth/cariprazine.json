@@ -1,0 +1,347 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AX15",
+    "ddd": [
+     {
+      "ddd": 3.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "cariprazine"
+   }
+  ],
+  "label": [
+   {
+    "high": 6,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 1.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting dosage of VRAYLAR is 1.5 mg orally once daily.",
+     "The maximum recommended dosage is 6 mg orally once daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 6,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 1.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting dosage of VRAYLAR is 1.5 mg orally once daily.",
+     "The recommended dosage range is 3 mg to 6 mg orally once daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 3,
+    "high_basis": "maximum recommended dose",
+    "indication": "bipolar depression",
+    "kind": "dose",
+    "low": 1.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting dosage of VRAYLAR is 1.5 mg orally once daily.",
+     "Maximum recommended dosage is 3 mg orally once daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 3,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD (adjunctive)",
+    "kind": "dose",
+    "low": 1.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The starting dosage of VRAYLAR is 1.5 mg orally once daily.",
+     "Adjunctive therapy for treatment of MDD in Adults: Maximum recommended daily dosage is 3 mg"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "drug_arm_percent": 11.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 9. Adverse Reactions Occurring in ≥ 2% of VRAYLAR-treated Patients and > Placebo-treated Adult Patients in 3-Week Bipolar Mania Trials",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 12. Adverse Reactions Occurring in ≥ 2% of VRAYLAR-Treated Patients and > Placebo-Treated Adult Patients in a Flexible-dose 8-Week Placebo-Controlled Trial of Adjunctive Treatment of Major Depressive Disorder",
+     "term": "Dry mouth"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 9. Adverse Reactions Occurring in ≥ 2% of VRAYLAR-treated Patients and > Placebo-treated Adult Patients in 3-Week Bipolar Mania Trials",
+     "term": "Vision blurred"
+    }
+   ],
+   "eps": [
+    {
+     "drug_arm_percent": 23.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 12. Adverse Reactions Occurring in ≥ 2% of VRAYLAR-Treated Patients and > Placebo-Treated Adult Patients in a Flexible-dose 8-Week Placebo-Controlled Trial of Adjunctive Treatment of Major Depressive Disorder",
+     "term": "Akathisia"
+    },
+    {
+     "drug_arm_percent": 29.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 9. Adverse Reactions Occurring in ≥ 2% of VRAYLAR-treated Patients and > Placebo-treated Adult Patients in 3-Week Bipolar Mania Trials",
+     "term": "Extrapyramidal Symptoms"
+    }
+   ],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "drug_arm_percent": 11.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 12. Adverse Reactions Occurring in ≥ 2% of VRAYLAR-Treated Patients and > Placebo-Treated Adult Patients in a Flexible-dose 8-Week Placebo-Controlled Trial of Adjunctive Treatment of Major Depressive Disorder",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10. Adverse Reactions Occurring in ≥ 2% of VRAYLAR-treated Patients and > Placebo-treated Adult Patients in Two 6-Week and One 8-Week Bipolar Depression Trials",
+     "term": "Weight increase"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8. Adverse Reactions Occurring in ≥ 2% of VRAYLAR-treated Patients and > Placebo-treated Adult Patients in 6-Week Schizophrenia Trials",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 11.0,
+   "eps": 29.0,
+   "orthostasis": null,
+   "sedation": 11.0,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": 3.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "bradykinesia",
+    "dyskinesia",
+    "dystonia",
+    "hypokinesia",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "parkinsonism",
+    "tardive dyskinesia",
+    "torticollis"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "hypersomnia",
+    "sedation"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 7,
+    "n_ar_tables_used": 7,
+    "n_rows_with_drug_arm_value": 106,
+    "set_id": "4b5f7c65-aa2d-452a-b3db-bc85c06ff12f"
+   }
+  }
+ },
+ "inn": "cariprazine",
+ "label": {
+  "application_number": [
+   "NDA204370"
+  ],
+  "brand_name": [
+   "Vraylar"
+  ],
+  "effective_time": "20251218",
+  "generic_name": [
+   "CARIPRAZINE"
+  ],
+  "id": "ef3db4f6-9b04-4ffe-b72e-7ab3ceccb224",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "4b5f7c65-aa2d-452a-b3db-bc85c06ff12f",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "4b5f7c65-aa2d-452a-b3db-bc85c06ff12f"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 1,
+   "drug": "cariprazine",
+   "first_author": "Girgis",
+   "n_subjects": null,
+   "occupancy_percent": 45,
+   "pmid": "27525990",
+   "quote": "At the lowest cariprazine dose (1 mg/day), mean D3 and D2 receptor occupancies were 76 and 45 %, respectively,",
+   "regimen": "repeated daily dosing (up to 2 weeks)",
+   "region": "brain (D2-rich regions)",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]-(+)-PHNO",
+   "year": 2016
+  },
+  {
+   "dose_mg_per_day": 12,
+   "drug": "cariprazine",
+   "first_author": "Girgis",
+   "n_subjects": null,
+   "occupancy_percent": 100,
+   "pmid": "27525990",
+   "qualifier": "~",
+   "quote": "After 2 weeks of treatment, near complete (∼100 %) occupancies were observed for both receptors at a dose of 12 mg/day.",
+   "regimen": "steady state (2 weeks)",
+   "region": "brain (D2-rich regions)",
+   "route": "oral",
+   "statistic": "approximate",
+   "target": "D2",
+   "tracer": "[11C]-(+)-PHNO",
+   "year": 2016
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL4403794",
+      "description": "Half life in schizophrenic patient at 1.5 to 12.5 mg/day",
+      "ref": "CHEMBL4402546",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 48.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 48.0,
+      "min": 48.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 48.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "derivation": "2 to 4 days printed; 2 x 24 = 48 h, 4 x 24 = 96 h",
+    "high": 96,
+    "kind": "pk",
+    "low": 48,
+    "note": "half-life based on time to reach steady state (parent)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The half-lives based on time to reach steady state, estimated from the mean concentration-time curves, are 2 to 4 days for cariprazine, about 1 to 2 days for DCAR, and approximately 1 to 3 weeks for DDCAR."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL4402546": {
+   "chembl_document_id": "CHEMBL4402546",
+   "journal": "J Med Chem",
+   "pmid": "31789518",
+   "title": "Urea Derivatives in Modern Drug Discovery and Medicinal Chemistry.",
+   "year": 2020
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 16,
+  "openfda_labels_returned": 1,
+  "openfda_labels_same_entity": 1,
+  "openfda_query": "openfda.generic_name:\"cariprazine\"",
+  "pet_searched_empty": [
+   {
+    "drug": "cariprazine",
+    "note": "Only human study is Girgis 2016 (D2/D3 PHNO). Seneca 2011 is monkey.",
+    "queries": [
+     "(ABSTRACT:\"cariprazine\") AND (ABSTRACT:\"occupancy\") AND (ABSTRACT:\"positron\" OR ABSTRACT:\"PET\")"
+    ],
+    "target": "5-HT2A/SERT"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

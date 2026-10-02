@@ -1,0 +1,380 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AA09",
+    "ddd": [
+     {
+      "ddd": 75.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 75.0,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "amitriptyline"
+   }
+  ],
+  "label": [
+   {
+    "high": 150,
+    "high_basis": "upper end of recommended range",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "For outpatients, 75 mg of amitriptyline hydrochloride a day in divided doses is usually satisfactory. If necessary, this may be increased to a total of 150 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "sedation",
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction",
+    "libido decreased"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "61b29703-cfc2-45c7-ae24-7bf3b77e8587"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100002160"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 28,
+    "n_side_effect_rows": 223,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "amitriptyline",
+ "label": {
+  "application_number": [
+   "ANDA212654"
+  ],
+  "brand_name": [
+   "Amitriptyline Hydrochloride"
+  ],
+  "effective_time": "20260909",
+  "generic_name": [
+   "AMITRIPTYLINE HYDROCHLORIDE"
+  ],
+  "id": "5b0c4d85-612a-ab88-e063-6394a90a3ffa",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "61b29703-cfc2-45c7-ae24-7bf3b77e8587",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "61b29703-cfc2-45c7-ae24-7bf3b77e8587"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 6.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 6.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 6.1
+     }
+    ],
+    "summary": [
+     {
+      "max": 6.1,
+      "min": 6.1,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 6.1
+     },
+     {
+      "max": 6.1,
+      "min": 6.1,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 6.1
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 17.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 17.0,
+      "min": 17.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 17.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 8.3
+     },
+     {
+      "assay_chembl_id": "CHEMBL1100462",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1153781",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 8.3
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 8.7
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 8.7
+     }
+    ],
+    "summary": [
+     {
+      "max": 8.7,
+      "min": 8.7,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 8.7
+     },
+     {
+      "max": 8.7,
+      "min": 8.3,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 8.3
+     }
+    ]
+   }
+  },
+  "label": []
+ },
+ "references": {
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 140,
+  "openfda_labels_returned": 122,
+  "openfda_labels_same_entity": 120,
+  "openfda_query": "openfda.generic_name:\"amitriptyline\"",
+  "pet_searched_empty": [
+   {
+    "drug": "amitriptyline",
+    "note": "No human PET/SPECT SERT occupancy study found. Lundberg 2012 (22243688) pooled TCAs (n=5) 28-86% without per-drug dose.",
+    "queries": [
+     "(amitriptyline) AND occupancy AND PET"
+    ],
+    "target": "SERT"
+   }
+  ]
+ },
+ "split": "heldout",
+ "stratum": "N06A"
+}

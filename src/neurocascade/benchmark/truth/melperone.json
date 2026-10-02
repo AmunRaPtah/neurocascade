@@ -1,0 +1,208 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AD03",
+    "ddd": [
+     {
+      "ddd": 0.3,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     },
+     {
+      "ddd": 0.3,
+      "note": null,
+      "route": "P",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "melperone"
+   }
+  ],
+  "label": []
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {}
+ },
+ "inn": "melperone",
+ "label": null,
+ "label_transcription": null,
+ "pet": [
+  {
+   "dose_mg_per_day": [
+    250,
+    300
+   ],
+   "drug": "melperone",
+   "first_author": "Wiesel",
+   "n_subjects": 3,
+   "occupancy_percent": 70,
+   "pmid": "2573239",
+   "quote": "Treatment with melperone in daily doses of 250 and 300 mg for 3 to 6 weeks, resulted in a receptor occupancy above 70%.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1989
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 46.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 46.0,
+      "min": 46.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 46.0
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 3.9
+     }
+    ],
+    "summary": [
+     {
+      "max": 3.9,
+      "min": 3.9,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 3.9
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 14.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 14.0,
+      "min": 14.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 14.0
+     }
+    ]
+   }
+  },
+  "label": []
+ },
+ "references": {
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 8,
+  "openfda_labels_returned": 0,
+  "openfda_labels_same_entity": 0,
+  "openfda_query": "openfda.generic_name:\"melperone\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

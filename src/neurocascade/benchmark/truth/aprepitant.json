@@ -1,0 +1,303 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "A04AD12",
+    "ddd": [
+     {
+      "ddd": 165.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 150.0,
+      "note": "Refers to fosaprepitant",
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "aprepitant"
+   }
+  ],
+  "label": [
+   {
+    "high": 125,
+    "high_basis": "upper end of recommended range",
+    "indication": "prevention of chemotherapy-induced nausea and vomiting",
+    "kind": "dose",
+    "low": 80,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "EMEND capsules in adults and pediatric patients 12 years of age and older: is 125 mg on Day 1 and 80 mg on Days 2 and 3."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "18%",
+     "frequency_lower": 0.18,
+     "frequency_upper": 0.18,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 0,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 18.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "dry mouth"
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 3,
+    "n_ar_tables_used": 1,
+    "n_rows_with_drug_arm_value": 9,
+    "set_id": "696f9e80-9cae-403b-de9e-078343ce4713"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100151165"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 316,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 24,
+    "n_side_effect_rows": 827,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "aprepitant",
+ "label": {
+  "application_number": [
+   "NDA021549",
+   "NDA207865"
+  ],
+  "brand_name": [
+   "EMEND"
+  ],
+  "effective_time": "20240705",
+  "generic_name": [
+   "APREPITANT"
+  ],
+  "id": "428f7828-6d1c-438b-a17d-b4af0700c740",
+  "indication_psychiatric": false,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "696f9e80-9cae-403b-de9e-078343ce4713",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "696f9e80-9cae-403b-de9e-078343ce4713"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 1.0,
+      "min": 1.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 1.0
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 13.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 13.0,
+      "min": 13.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 13.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.94
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.94,
+      "min": 0.94,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.94
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 13,
+    "kind": "pk",
+    "low": 9,
+    "note": "apparent terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The apparent terminal half-life ranged from approximately 9 to 13 hours."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": 90,
+    "kind": "pk",
+    "low": 62,
+    "note": "apparent plasma clearance",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "The apparent plasma clearance of aprepitant ranged from approximately 62 to 90 mL/min."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "mL/min",
+    "value": null
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean apparent volume of distribution at steady state",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The mean apparent volume of distribution at steady state (Vd ss ) was approximately 70 L in humans."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 70
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 73,
+  "openfda_labels_returned": 8,
+  "openfda_labels_same_entity": 8,
+  "openfda_query": "openfda.generic_name:\"aprepitant\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "FAIL"
+}

@@ -1,0 +1,432 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05BA04",
+    "ddd": [
+     {
+      "ddd": 50.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "oxazepam"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "mild-to-moderate 10 mg 3 times daily = 30 mg/day; severe 30 mg 4 times daily = 120 mg/day",
+    "high": 120,
+    "high_basis": "upper end of recommended range",
+    "indication": "anxiety",
+    "kind": "dose",
+    "low": 30,
+    "low_basis": "lower end of recommended range",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "10 to 15 mg, 3 or 4 times daily Severe anxiety syndromes, agitation, or anxiety associated with depression. 15 to 30 mg, 3 or 4 times daily"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "vision blurred"
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    "sedation",
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "67f821fa-5663-4d69-82c9-5ee13a09f324"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100004616"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 76,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "oxazepam",
+ "label": {
+  "application_number": [
+   "ANDA218261"
+  ],
+  "brand_name": [
+   "OXAZEPAM"
+  ],
+  "effective_time": "20250711",
+  "generic_name": [
+   "OXAZEPAM"
+  ],
+  "id": "708e4237-a898-4d23-90b1-253c18301884",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "67f821fa-5663-4d69-82c9-5ee13a09f324",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "67f821fa-5663-4d69-82c9-5ee13a09f324"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL635503",
+      "description": "In vivo clearance in human.",
+      "ref": "CHEMBL1132496",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 1.1
+     }
+    ],
+    "summary": [
+     {
+      "max": 1.1,
+      "min": 1.1,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 1.1
+     },
+     {
+      "max": 1.1,
+      "min": 1.1,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 1.1
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 6.7
+     },
+     {
+      "assay_chembl_id": "CHEMBL3268959",
+      "description": "Washout half life in human",
+      "ref": "CHEMBL3259698",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 10.7
+     },
+     {
+      "assay_chembl_id": "CHEMBL4732947",
+      "description": "Half life in human",
+      "ref": "CHEMBL4732045",
+      "relation": ">",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 24.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 6.7,
+      "min": 6.7,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 6.7
+     },
+     {
+      "max": 10.7,
+      "min": 10.7,
+      "n_censored": 1,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 10.7
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.59
+     },
+     {
+      "assay_chembl_id": "CHEMBL1100462",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1153781",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.59
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.59
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.59
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.59,
+      "min": 0.59,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.59
+     },
+     {
+      "max": 0.59,
+      "min": 0.59,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.59
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 10.9,
+    "kind": "pk",
+    "low": 5.7,
+    "note": "mean elimination half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean elimination half-life for oxazepam was approximately 8.2 hours (range 5.7 to 10.9 hours)."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 8.2
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1132496": {
+   "chembl_document_id": "CHEMBL1132496",
+   "journal": "J Med Chem",
+   "pmid": "10602692",
+   "title": "Combining in vitro and in vivo pharmacokinetic data for prediction of hepatic drug clearance in humans by artificial neural networks and multivariate statistical techniques.",
+   "year": 1999
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  },
+  "CHEMBL3259698": {
+   "chembl_document_id": "CHEMBL3259698",
+   "journal": "J Med Chem",
+   "pmid": "24182233",
+   "title": "Reductions in log P improved protein binding and clearance predictions enabling the prospective design of cannabinoid receptor (CB1) antagonists with desired pharmacokinetic properties.",
+   "year": 2013
+  },
+  "CHEMBL4732045": {
+   "chembl_document_id": "CHEMBL4732045",
+   "journal": "J Med Chem",
+   "pmid": "32686940",
+   "title": "Amide Bond Bioisosteres: Strategies, Synthesis, and Successes.",
+   "year": 2020
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 133,
+  "openfda_labels_returned": 5,
+  "openfda_labels_same_entity": 5,
+  "openfda_query": "openfda.generic_name:\"oxazepam\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05B"
+}

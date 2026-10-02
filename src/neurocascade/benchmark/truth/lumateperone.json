@@ -1,0 +1,321 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AD10",
+    "ddd": [],
+    "index_last_updated": "2026-01-20",
+    "who_name": "lumateperone"
+   }
+  ],
+  "label": [
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 42,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended CAPLYTA dosage is 42 mg administered orally once daily with or without food."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "bipolar depression",
+    "kind": "dose",
+    "low": 42,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended CAPLYTA dosage is 42 mg administered orally once daily with or without food."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "MDD (adjunctive)",
+    "kind": "dose",
+    "low": 42,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended CAPLYTA dosage is 42 mg administered orally once daily with or without food."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Adverse Reactions Reported in ≥2% of CAPLYTA-Treated Patients and that Occurred at Greater Incidence than in the Placebo-Treated Patients in a 6-Week Adjunctive Therapy Bipolar Depression Trial",
+     "term": "Blurred vision"
+    },
+    {
+     "drug_arm_percent": 13.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 5: Adverse Reactions Reported in ≥2% of Patients Treated with CAPLYTA + Background ADT and at Greater Incidence than in Patients Treated with Placebo + Background ADT in Pooled 6-Week Adjunctive MDD Trials",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "drug_arm_percent": 24.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2: Adverse Reactions Reported in ≥2% of CAPLYTA-Treated Patients and Greater Incidence Than in Placebo-Treated Patients in 4- to 6-week Schizophrenia Trials",
+     "term": "Somnolence/Sedation"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 13.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": 24.0,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "akathisia",
+    "bradykinesia",
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "dizziness postural",
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "sedation"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 4,
+    "n_ar_tables_used": 4,
+    "n_rows_with_drug_arm_value": 38,
+    "set_id": "db730b06-6351-47fd-8183-e61e61bbead5"
+   }
+  }
+ },
+ "inn": "lumateperone",
+ "label": {
+  "application_number": [
+   "NDA209500"
+  ],
+  "brand_name": [
+   "CAPLYTA"
+  ],
+  "effective_time": "20250620",
+  "generic_name": [
+   "LUMATEPERONE"
+  ],
+  "id": "fa0963da-0db0-41f8-bb1a-153908a8bd77",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "db730b06-6351-47fd-8183-e61e61bbead5",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "db730b06-6351-47fd-8183-e61e61bbead5"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 10,
+   "drug": "lumateperone",
+   "first_author": "Davis",
+   "n_subjects": null,
+   "occupancy_percent": 80,
+   "pmid": "25843749",
+   "qualifier": ">",
+   "quote": "ITI-007 (10 mg) demonstrated high occupancy (>80 %) of cortical 5-HT2A receptors and low occupancy of striatal D2 receptors (~12 %).",
+   "regimen": "single dose",
+   "region": "cortex",
+   "route": "oral",
+   "statistic": "lower_bound",
+   "target": "5-HT2A",
+   "tracer": "[11C]MDL100907",
+   "year": 2015
+  },
+  {
+   "dose_mg_per_day": 10,
+   "drug": "lumateperone",
+   "first_author": "Davis",
+   "n_subjects": null,
+   "occupancy_percent": 12,
+   "pmid": "25843749",
+   "qualifier": "~",
+   "quote": "ITI-007 (10 mg) demonstrated high occupancy (>80 %) of cortical 5-HT2A receptors and low occupancy of striatal D2 receptors (~12 %).",
+   "regimen": "single dose",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2015
+  },
+  {
+   "dose_mg_per_day": 40,
+   "drug": "lumateperone",
+   "first_author": "Davis",
+   "n_subjects": null,
+   "occupancy_percent": 39,
+   "pmid": "25843749",
+   "qualifier": "peak, up to",
+   "quote": "ITI-007 (40 mg) resulted in peak occupancy up to 39 % of striatal D2 receptors and 33 % of striatal serotonin transporters.",
+   "regimen": "single dose",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "peak",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2015
+  },
+  {
+   "dose_mg_per_day": 40,
+   "drug": "lumateperone",
+   "first_author": "Davis",
+   "n_subjects": null,
+   "occupancy_percent": 33,
+   "pmid": "25843749",
+   "qualifier": "peak",
+   "quote": "ITI-007 (40 mg) resulted in peak occupancy up to 39 % of striatal D2 receptors and 33 % of striatal serotonin transporters.",
+   "regimen": "single dose",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "peak",
+   "target": "SERT",
+   "tracer": "[11C]DASB",
+   "year": 2015
+  },
+  {
+   "dose_mg_per_day": 60,
+   "drug": "lumateperone",
+   "first_author": "Vanover",
+   "n_subjects": 10,
+   "occupancy_percent": 39,
+   "pmid": "30449883",
+   "quote": "Mean peak dorsal striatal D<sub>2</sub>RO was 39% at 60 mg ITI-007 occurring 1 h post-dose.",
+   "regimen": "steady state (2 weeks), peak 1 h post-dose",
+   "region": "dorsal striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2019
+  }
+ ],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal half-life after IV administration",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The clearance of lumateperone is approximately 27.9 L/hour and the terminal half-life is about 18 hours after intravenous administration."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 18
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "clearance after IV administration",
+    "quantity": "cl",
+    "quotes": [
+     "The clearance of lumateperone is approximately 27.9 L/hour and the terminal half-life is about 18 hours after intravenous administration."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "L/h",
+    "value": 27.9
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "volume of distribution after IV administration",
+    "quantity": "vd",
+    "quotes": [
+     "The volume of distribution of lumateperone following intravenous administration is about 4.1 L/kg."
+    ],
+    "route": "iv",
+    "statistic": "approximate",
+    "units": "L/kg",
+    "value": 4.1
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 5,
+  "openfda_labels_returned": 1,
+  "openfda_labels_same_entity": 1,
+  "openfda_query": "openfda.generic_name:\"lumateperone\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

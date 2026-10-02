@@ -1,0 +1,525 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX11",
+    "ddd": [
+     {
+      "ddd": 30.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "mirtazapine"
+   }
+  ],
+  "label": [
+   {
+    "high": 45,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose of REMERON/REMERONSolTab is 15 mg once daily, administered orally, preferably in the evening prior to sleep.",
+     "If patients do not have an adequate response to the initial 15 mg dose, increase the dose up to a maximum of 45 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "13%",
+     "frequency_lower": 0.13,
+     "frequency_upper": 0.13,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "25%",
+     "frequency_lower": 0.25,
+     "frequency_upper": 0.25,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "drug_arm_percent": 13.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Adverse Reactions (≥1% and greater than placebo) in 6-Week U.S. Clinical Studies of Remeron in Patients with MDD",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 25.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 4: Adverse Reactions (≥1% and greater than placebo) in 6-Week U.S. Clinical Studies of Remeron in Patients with MDD",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    }
+   ],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "54%",
+     "frequency_lower": 0.54,
+     "frequency_upper": 0.54,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 54.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions (≥5% and twice placebo) in 6-Week U.S. Clinical Trials of REMERON in Patients with MDD",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Grand mal convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Abnormal ejaculation"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "12%",
+     "frequency_lower": 0.12,
+     "frequency_upper": 0.12,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    },
+    {
+     "drug_arm_percent": 12.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Adverse Reactions (≥5% and twice placebo) in 6-Week U.S. Clinical Trials of REMERON in Patients with MDD",
+     "term": "Weight Gain"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 25.0,
+   "eps": 1.0,
+   "orthostasis": null,
+   "sedation": 54.0,
+   "seizure": 0.0,
+   "sexual_dysfunction": 0.1,
+   "weight_gain": 12.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "dystonia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "libido decreased"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 3,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 22,
+    "set_id": "98ad1917-a094-44f5-a28f-a64a8cfcd887"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100004205"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 480,
+    "n_frequency_rows_placebo": 123,
+    "n_frequency_rows_postmarketing": 208,
+    "n_side_effect_rows": 642,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "mirtazapine",
+ "label": {
+  "application_number": [
+   "NDA020415",
+   "NDA021208"
+  ],
+  "brand_name": [
+   "REMERON",
+   "REMERONSOLTAB"
+  ],
+  "effective_time": "20250806",
+  "generic_name": [
+   "MIRTAZAPINE"
+  ],
+  "id": "8b121c7c-9bcd-4504-b789-3f551a0fe514",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "98ad1917-a094-44f5-a28f-a64a8cfcd887",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "98ad1917-a094-44f5-a28f-a64a8cfcd887"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 8.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 8.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 8.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL3539583",
+      "description": "Total clearance in iv dosed human",
+      "ref": "CHEMBL3526103",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 8.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 8.0,
+      "min": 8.0,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 8.0
+     },
+     {
+      "max": 8.0,
+      "min": 8.0,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 8.0
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 15.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL3535708",
+      "description": "Elimination half life iv dosed human",
+      "ref": "CHEMBL3526103",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 15.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 15.0,
+      "min": 15.0,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 15.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 4.8
+     },
+     {
+      "assay_chembl_id": "CHEMBL1100462",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1153781",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 4.8
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 4.2
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 4.2
+     }
+    ],
+    "summary": [
+     {
+      "max": 4.2,
+      "min": 4.2,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 4.2
+     },
+     {
+      "max": 4.8,
+      "min": 4.2,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 4.8
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 40,
+    "kind": "pk",
+    "low": 20,
+    "note": "elimination half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Mirtazapine has a half-life of about 20 to 40 hours following oral administration of REMERON or REMERONSolTab."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  },
+  "CHEMBL3526103": {
+   "chembl_document_id": "CHEMBL3526103",
+   "journal": "Drug Metab Dispos",
+   "pmid": "22048522",
+   "title": "Prediction of in vivo hepatic clearance and half-life of drug candidates in human using chimeric mice with humanized liver.",
+   "year": 2012
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 79,
+  "openfda_labels_returned": 92,
+  "openfda_labels_same_entity": 92,
+  "openfda_query": "openfda.generic_name:\"mirtazapine\"",
+  "pet_searched_empty": [
+   {
+    "drug": "mirtazapine",
+    "note": "Hinz 2007 (16685260) gives single oral 30 mg mirtazapine and 60% 5-HT2A occupancy but dose and occupancy are many sentences apart (not a <=2-sentence contiguous span). Lundberg 2012: mirtazapine did not occupy SERT. Smith 2007 (17653532) measures [11C]mirtazapine self-binding, not a standard target.",
+    "queries": [
+     "mirtazapine AND occupancy AND (5-HT2 OR MDL100907 OR setoperone)"
+    ],
+    "target": "5-HT2A"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

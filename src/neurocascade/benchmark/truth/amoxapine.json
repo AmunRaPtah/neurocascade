@@ -1,0 +1,216 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AA17",
+    "ddd": [
+     {
+      "ddd": 0.15,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "amoxapine"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "50 mg two or three times daily printed; 2 x 50 = 100 mg/day (low end)",
+    "high": 400,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 100,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Usual starting dosage is 50 mg two or three times daily.",
+     "If no response is seen at 300 mg, dosage may be increased, depending upon tolerance, up to 400 mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "12%",
+     "frequency_lower": 0.12,
+     "frequency_upper": 0.12,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "14%",
+     "frequency_lower": 0.14,
+     "frequency_upper": 0.14,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "14%",
+     "frequency_lower": 0.14,
+     "frequency_upper": 0.14,
+     "source": "SIDER 4.1",
+     "term": "Drowsiness"
+    },
+    {
+     "description": "14%",
+     "frequency_lower": 0.14,
+     "frequency_upper": 0.14,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": 1,
+   "eps": null,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 14.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": 14.0,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention"
+   ],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "sedation"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction",
+    "libido decreased"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "eed5e856-dd7b-4eaa-9dad-508f2bef9328"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100002170"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 8,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 50,
+    "n_side_effect_rows": 185,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "amoxapine",
+ "label": {
+  "application_number": [
+   "ANDA072879"
+  ],
+  "brand_name": [
+   "Amoxapine"
+  ],
+  "effective_time": "20241218",
+  "generic_name": [
+   "AMOXAPINE"
+  ],
+  "id": "298fbb0d-737b-b42f-e063-6394a90ac69b",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "eed5e856-dd7b-4eaa-9dad-508f2bef9328",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "eed5e856-dd7b-4eaa-9dad-508f2bef9328"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "derivation": "'eight hours' printed; 8 h",
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "serum half-life of parent",
+    "quantity": "t_half_h",
+    "quotes": [
+     "In man, amoxapine serum concentration declines with a half-life of eight hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 8
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 52,
+  "openfda_labels_returned": 2,
+  "openfda_labels_same_entity": 2,
+  "openfda_query": "openfda.generic_name:\"amoxapine\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "N06A"
+}

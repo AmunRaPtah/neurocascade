@@ -1,0 +1,237 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05BA09",
+    "ddd": [
+     {
+      "ddd": 20.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "clobazam"
+   }
+  ],
+  "label": [
+   {
+    "high": 40,
+    "high_basis": "maximum recommended dose",
+    "indication": "Lennox-Gastaut syndrome seizures (patients >30 kg)",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Patients >30 kg body weight: Initiate at 10 mg daily and titrate as tolerated up to 40 mg daily"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "10%",
+     "frequency_lower": 0.1,
+     "frequency_upper": 0.1,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "3.2%",
+     "frequency_lower": 0.032,
+     "frequency_upper": 0.032,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "drug_arm_percent": 10.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3. Adverse Reactions Reported for ≥5% of Patients and More Frequently than Placebo in Any Treatment Group",
+     "term": "Constipation"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "32%",
+     "frequency_lower": 0.32,
+     "frequency_upper": 0.32,
+     "source": "SIDER 4.1",
+     "term": "Drowsiness"
+    },
+    {
+     "description": "32%",
+     "frequency_lower": 0.32,
+     "frequency_upper": 0.32,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 9.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3. Adverse Reactions Reported for ≥5% of Patients and More Frequently than Placebo in Any Treatment Group",
+     "term": "Sedation"
+    },
+    {
+     "drug_arm_percent": 25.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3. Adverse Reactions Reported for ≥5% of Patients and More Frequently than Placebo in Any Treatment Group",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 32.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3. Adverse Reactions Reported for ≥5% of Patients and More Frequently than Placebo in Any Treatment Group",
+     "term": "Somnolence or Sedation"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 10.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": 32.0,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "libido decreased"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 1,
+    "n_ar_tables_used": 1,
+    "n_rows_with_drug_arm_value": 23,
+    "set_id": "de03bd69-2dca-459c-93b4-541fd3e9571c"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100002789"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 181,
+    "n_frequency_rows_placebo": 46,
+    "n_frequency_rows_postmarketing": 52,
+    "n_side_effect_rows": 194,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "clobazam",
+ "label": {
+  "application_number": [
+   "NDA202067",
+   "NDA203993"
+  ],
+  "brand_name": [
+   "Onfi"
+  ],
+  "effective_time": "20240312",
+  "generic_name": [
+   "CLOBAZAM"
+  ],
+  "id": "68dbe31c-2dbe-49ad-8b2e-2cf1b8521167",
+  "indication_psychiatric": false,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "de03bd69-2dca-459c-93b4-541fd3e9571c",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "de03bd69-2dca-459c-93b4-541fd3e9571c"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": 42,
+    "kind": "pk",
+    "low": 36,
+    "note": "estimated mean elimination half-life of parent clobazam, printed as range",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The estimated mean elimination half-lives (t 1/2 ) of clobazam and N-desmethylclobazam were 36-42 hours and 71-82 hours, respectively."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution at steady state",
+    "quantity": "v_over_f",
+    "quotes": [
+     "The apparent volume of distribution at steady state was approximately 100 L."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 100
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 12,
+  "openfda_labels_returned": 22,
+  "openfda_labels_same_entity": 22,
+  "openfda_query": "openfda.generic_name:\"clobazam\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "N05B"
+}

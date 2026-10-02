@@ -1,0 +1,179 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AC02",
+    "ddd": [
+     {
+      "ddd": 0.3,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "thioridazine"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "50 mg three times a day printed; 3 x 50 = 150 mg/day",
+    "high": 800,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 150,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The usual starting dose for adult schizophrenic patients is 50 mg to 100 mg three times a day, with a gradual increment to a maximum of 800 mg daily if necessary."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "opisthotonus",
+    "parkinsonism",
+    "tardive dyskinesia",
+    "torticollis"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "1fd16a99-e856-4a37-9dae-c443714fac14"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100005452"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 127,
+    "n_side_effect_rows": 174,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "thioridazine",
+ "label": {
+  "application_number": [
+   "ANDA088004"
+  ],
+  "brand_name": [
+   "Thioridazine Hydrochloride"
+  ],
+  "effective_time": "20260302",
+  "generic_name": [
+   "THIORIDAZINE HYDROCHLORIDE"
+  ],
+  "id": "4c13278f-8a01-f1b7-e063-6394a90ac5b7",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "1fd16a99-e856-4a37-9dae-c443714fac14",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "1fd16a99-e856-4a37-9dae-c443714fac14"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": []
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 100,
+  "openfda_labels_returned": 5,
+  "openfda_labels_same_entity": 5,
+  "openfda_query": "openfda.generic_name:\"thioridazine\"",
+  "pet_searched_empty": [
+   {
+    "drug": "thioridazine",
+    "note": "No human PET/SPECT receptor-occupancy study found with a drug-specific value at a stated dose; hits were an animal EPS study and an unrelated cardiomyopathy paper.",
+    "queries": [
+     "(ABSTRACT:\"thioridazine\" OR TITLE:\"thioridazine\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"NMSP\")",
+     "(TITLE:\"thioridazine\" OR ABSTRACT:\"thioridazine\") AND (ABSTRACT:\"positron\" OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"SCH23390\")"
+    ],
+    "target": "D2"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

@@ -1,0 +1,490 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX06",
+    "ddd": [
+     {
+      "ddd": 0.4,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "nefazodone"
+   }
+  ],
+  "label": [
+   {
+    "high": 600,
+    "high_basis": "upper end of recommended range",
+    "indication": "depression",
+    "kind": "dose",
+    "low": 200,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose for nefazodone hydrochloride tablets USP is 200 mg/day, administered in two divided doses (BID).",
+     "In the controlled clinical trials establishing the antidepressant efficacy of nefazodone, the effective dose range was generally 300 to 600 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "drug_arm_percent": 9.0,
+     "source": "openFDA label table",
+     "table_caption": "Treatment-Emergent Adverse Experience Incidence in 6 to 8 Week Placebo-Controlled Clinical Trials, Nefazodone 300 to 600 mg/day Dose Range",
+     "term": "Blurred vision"
+    },
+    {
+     "drug_arm_percent": 17.0,
+     "source": "openFDA label table",
+     "table_caption": "Dose Dependency of Adverse Events in Placebo-Controlled Trials",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 25.0,
+     "source": "openFDA label table",
+     "table_caption": "Treatment-Emergent Adverse Experience Incidence in 6 to 8 Week Placebo-Controlled Clinical Trials, Nefazodone 300 to 600 mg/day Dose Range",
+     "term": "Dry mouth"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Treatment-Emergent Adverse Experience Incidence in 6 to 8 Week Placebo-Controlled Clinical Trials, Nefazodone 300 to 600 mg/day Dose Range",
+     "term": "Urinary retention"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Treatment-Emergent Adverse Experience Incidence in 6 to 8 Week Placebo-Controlled Clinical Trials, Nefazodone 300 to 600 mg/day Dose Range",
+     "term": "Postural hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "drug_arm_percent": 28.0,
+     "source": "openFDA label table",
+     "table_caption": "Dose Dependency of Adverse Events in Placebo-Controlled Trials",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Anorgasmia"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "drug_arm_percent": 1.0,
+     "source": "openFDA label table",
+     "table_caption": "Treatment-Emergent Adverse Experience Incidence in 6 to 8 Week Placebo-Controlled Clinical Trials, Nefazodone 300 to 600 mg/day Dose Range",
+     "term": "Libido decreased"
+    }
+   ],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 25.0,
+   "eps": null,
+   "orthostasis": 4.0,
+   "sedation": 28.0,
+   "seizure": null,
+   "sexual_dysfunction": 1.0,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "akathisia"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "ejaculation disorder"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 2,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 57,
+    "set_id": "0bd4c34a-4f43-4c84-8b98-1d074cba97d5"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100004449"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 275,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 31,
+    "n_side_effect_rows": 461,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "nefazodone",
+ "label": {
+  "application_number": [
+   "ANDA076037"
+  ],
+  "brand_name": [
+   "Nefazodone Hydrochloride"
+  ],
+  "effective_time": "20250904",
+  "generic_name": [
+   "NEFAZODONE HYDROCHLORIDE"
+  ],
+  "id": "8962e4a7-1e27-4a03-ab51-34fc4f9c6847",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "0bd4c34a-4f43-4c84-8b98-1d074cba97d5",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "0bd4c34a-4f43-4c84-8b98-1d074cba97d5"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 7.5
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 7.5
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 7.5
+     },
+     {
+      "assay_chembl_id": "CHEMBL2185195",
+      "description": "Clearance in human",
+      "ref": "CHEMBL2176960",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 7.5
+     }
+    ],
+    "summary": [
+     {
+      "max": 7.5,
+      "min": 7.5,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 7.5
+     },
+     {
+      "max": 7.5,
+      "min": 7.5,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 7.5
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 1.2
+     },
+     {
+      "assay_chembl_id": "CHEMBL2185196",
+      "description": "Half life in human",
+      "ref": "CHEMBL2176960",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 1.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 1.2,
+      "min": 1.2,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 1.2
+     },
+     {
+      "max": 1.0,
+      "min": 1.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 1.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL632931",
+      "description": "Volume of distribution in man (IV dose)",
+      "ref": "CHEMBL1135488",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.51
+     },
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.51
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.51
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.51
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.51,
+      "min": 0.51,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.51
+     },
+     {
+      "max": 0.51,
+      "min": 0.51,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.51
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 4,
+    "kind": "pk",
+    "low": 2,
+    "note": "half-life of parent",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Peak plasma concentrations occur at about one hour and the half-life of nefazodone is 2 to 4 hours."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": 0.87,
+    "kind": "pk",
+    "low": 0.22,
+    "note": "volume of distribution",
+    "quantity": "vd",
+    "quotes": [
+     "In humans the volume of distribution of nefazodone ranges from 0.22 to 0.87 L/kg."
+    ],
+    "route": "unspecified",
+    "statistic": "range",
+    "units": "L/kg",
+    "value": null
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1135488": {
+   "chembl_document_id": "CHEMBL1135488",
+   "journal": "J Med Chem",
+   "pmid": "12061889",
+   "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+   "year": 2002
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  },
+  "CHEMBL2176960": {
+   "chembl_document_id": "CHEMBL2176960",
+   "journal": "J Med Chem",
+   "pmid": "22409598",
+   "title": "Mechanism-based inactivation (MBI) of cytochrome P450 enzymes: structure-activity relationships and discovery strategies to mitigate drug-drug interaction risks.",
+   "year": 2012
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 259,
+  "openfda_labels_returned": 2,
+  "openfda_labels_same_entity": 2,
+  "openfda_query": "openfda.generic_name:\"nefazodone\"",
+  "pet_searched_empty": [
+   {
+    "drug": "nefazodone",
+    "note": "Meyer 1999 (10435395) single dose 200 mg nefazodone produced -39+/-17% change in 5-HT2A binding potential ([18F]setoperone PET), but the 200 mg dose and the -39% value are ~3 sentences apart (no contiguous <=2-sentence span) and the value is reported as BP change, not labeled occupancy. Skipped per quote rule.",
+    "queries": [
+     "nefazodone AND occupancy",
+     "AUTH:Meyer JH AND setoperone"
+    ],
+    "target": "5-HT2A"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

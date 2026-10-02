@@ -1,0 +1,308 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX24",
+    "ddd": [],
+    "index_last_updated": "2026-01-20",
+    "who_name": "vilazodone"
+   }
+  ],
+  "label": [
+   {
+    "high": 40,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Start with an initial dosage of 10 mg once daily with food for 7 days, Then increase to 20 mg once daily with food. The dose may be increased up to 40 mg once daily with food after a minimum of 7 days between dosage increases."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "8%",
+     "frequency_lower": 0.08,
+     "frequency_upper": 0.08,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 8.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2: Common Adverse Reactions Occurring in ≥ 2% of VIIBRYD-treated Patients and Greater than the Rate of Placebo-Treated Patients",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2: Common Adverse Reactions Occurring in ≥ 2% of VIIBRYD-treated Patients and Greater than the Rate of Placebo-Treated Patients",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation delayed"
+    },
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "4%",
+     "frequency_lower": 0.04,
+     "frequency_upper": 0.04,
+     "source": "SIDER 4.1",
+     "term": "Orgasm abnormal"
+    },
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Sexual dysfunction"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Common Sexual Adverse Reactions Occurring in ≥ 2% of VIIBRYD-treated Patients and Greater than the Rate of Placebo-Treated Patients",
+     "term": "Abnormal Orgasm*"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Common Sexual Adverse Reactions Occurring in ≥ 2% of VIIBRYD-treated Patients and Greater than the Rate of Placebo-Treated Patients",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Common Sexual Adverse Reactions Occurring in ≥ 2% of VIIBRYD-treated Patients and Greater than the Rate of Placebo-Treated Patients",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3: Common Sexual Adverse Reactions Occurring in ≥ 2% of VIIBRYD-treated Patients and Greater than the Rate of Placebo-Treated Patients",
+     "term": "Libido decreased"
+    }
+   ],
+   "weight_gain": [
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 2: Common Adverse Reactions Occurring in ≥ 2% of VIIBRYD-treated Patients and Greater than the Rate of Placebo-Treated Patients",
+     "term": "Increased weight"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 8.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": 5.0,
+   "seizure": null,
+   "sexual_dysfunction": 5.0,
+   "weight_gain": 2.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "akathisia"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "sedation"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "anorgasmia"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 2,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 25,
+    "set_id": "4c55ccfb-c4cf-11df-851a-0800200c9a66"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID106918313"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 90,
+    "n_frequency_rows_placebo": 57,
+    "n_frequency_rows_postmarketing": 10,
+    "n_side_effect_rows": 118,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "vilazodone",
+ "label": {
+  "application_number": [
+   "NDA022567"
+  ],
+  "brand_name": [
+   "VIIBRYD"
+  ],
+  "effective_time": "20231001",
+  "generic_name": [
+   "VILAZODONE HYDROCHLORIDE"
+  ],
+  "id": "7502bf82-6281-4d90-8471-1450580c4f3c",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "4c55ccfb-c4cf-11df-851a-0800200c9a66",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "4c55ccfb-c4cf-11df-851a-0800200c9a66"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL5346606",
+      "description": "Terminal half life in human",
+      "ref": "CHEMBL5344475",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 25.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 25.0,
+      "min": 25.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 25.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Vilazodone concentrations peaked at a median of 4-5 hours (T max ) after VIIBRYD administration and declined with a terminal half-life of approximately 25 hours."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 25
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL5344475": {
+   "chembl_document_id": "CHEMBL5344475",
+   "journal": "RSC Med Chem",
+   "pmid": "38516587",
+   "title": "Indole-containing pharmaceuticals: targets, pharmacological activities, and SAR studies.",
+   "year": 2024
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 195,
+  "openfda_labels_returned": 12,
+  "openfda_labels_same_entity": 12,
+  "openfda_query": "openfda.generic_name:\"vilazodone\"",
+  "pet_searched_empty": [
+   {
+    "drug": "vilazodone",
+    "note": "Rabiner 2000 (10962259) includes EMD 68843 (vilazodone) in a qualitative 5-HT1A [11C]WAY-100635 study but prints no vilazodone-specific dose or occupancy number ('none of the drugs achieved occupancies beyond 60%'). 5-HT1A is outside target set anyway. No SERT/5-HT2A data.",
+    "queries": [
+     "vilazodone OR EMD 68843 AND occupancy"
+    ],
+    "target": "5-HT1A"
+   }
+  ]
+ },
+ "split": "heldout",
+ "stratum": "N06A"
+}

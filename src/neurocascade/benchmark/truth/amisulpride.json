@@ -1,0 +1,375 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AL05",
+    "ddd": [
+     {
+      "ddd": 0.4,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     },
+     {
+      "ddd": 7.5,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "amisulpride"
+   }
+  ],
+  "label": []
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "4%",
+     "frequency_lower": 0.04,
+     "frequency_upper": 0.04,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Acute dystonia"
+    },
+    {
+     "description": "very common",
+     "frequency_lower": 0.1,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "very common",
+     "frequency_lower": 0.1,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Dystonia"
+    },
+    {
+     "description": "33%",
+     "frequency_lower": 0.33,
+     "frequency_upper": 0.33,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "very common",
+     "frequency_lower": 0.1,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal symptoms"
+    },
+    {
+     "description": "very common",
+     "frequency_lower": 0.1,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    },
+    {
+     "description": "very common",
+     "frequency_lower": 0.1,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Muscle rigidity"
+    },
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Oculogyric crisis"
+    },
+    {
+     "description": "uncommon",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Tardive dyskinesia"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "4%",
+     "frequency_lower": 0.04,
+     "frequency_upper": 0.04,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    {
+     "description": "6%",
+     "frequency_lower": 0.06,
+     "frequency_upper": 0.06,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": 0,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 0,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 4.0,
+   "eps": 33.0,
+   "orthostasis": 1.0,
+   "sedation": 4.0,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": 6.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "sider": {
+    "flat_ids": [
+     "CID100002159"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 180,
+    "n_frequency_rows_placebo": 76,
+    "n_frequency_rows_postmarketing": 43,
+    "n_side_effect_rows": 165,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "amisulpride",
+ "label": null,
+ "label_transcription": null,
+ "pet": [
+  {
+   "dose_mg_per_day": [
+    630,
+    910
+   ],
+   "drug": "amisulpride",
+   "first_author": "Martinot",
+   "n_subjects": null,
+   "occupancy_percent": [
+    70,
+    80
+   ],
+   "pmid": "8935811",
+   "quote": "A range of 70-80% occupancy of the striatal D2 receptors, suggested as an optimal interval for therapeutic action on positive psychotic symptoms, was obtained with doses of amisulpride ranging between 630 and 910 mg per day, while an occupancy of 85%, suggested to be associated with pronounced extrapyramidal side-effects, was reached with 1,100 mg per day.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "76Br-bromolisuride",
+   "year": 1996
+  },
+  {
+   "dose_mg_per_day": 1100,
+   "drug": "amisulpride",
+   "first_author": "Martinot",
+   "n_subjects": null,
+   "occupancy_percent": 85,
+   "pmid": "8935811",
+   "quote": "A range of 70-80% occupancy of the striatal D2 receptors, suggested as an optimal interval for therapeutic action on positive psychotic symptoms, was obtained with doses of amisulpride ranging between 630 and 910 mg per day, while an occupancy of 85%, suggested to be associated with pronounced extrapyramidal side-effects, was reached with 1,100 mg per day.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "76Br-bromolisuride",
+   "year": 1996
+  },
+  {
+   "dose_mg_per_day": 406,
+   "drug": "amisulpride",
+   "first_author": "Bressan",
+   "n_subjects": 8,
+   "occupancy_percent": 56,
+   "pmid": "12900302",
+   "quote": "Eight amisulpride-treated patients (mean dose=406 mg/day) showed moderate levels of D(2)/D(3) receptor occupancy in the striatum (56%), and significantly higher levels were seen in the thalamus (78%) and temporal cortex (82%).",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[123I]epidepride",
+   "year": 2003
+  },
+  {
+   "dose_mg_per_day": 406,
+   "drug": "amisulpride",
+   "first_author": "Bressan",
+   "n_subjects": 8,
+   "occupancy_percent": 82,
+   "pmid": "12900302",
+   "quote": "Eight amisulpride-treated patients (mean dose=406 mg/day) showed moderate levels of D(2)/D(3) receptor occupancy in the striatum (56%), and significantly higher levels were seen in the thalamus (78%) and temporal cortex (82%).",
+   "regimen": "steady state",
+   "region": "temporal cortex",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[123I]epidepride",
+   "year": 2003
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 7.8
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 7.8
+     }
+    ],
+    "summary": [
+     {
+      "max": 7.8,
+      "min": 7.8,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 7.8
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 5.8
+     }
+    ],
+    "summary": [
+     {
+      "max": 5.8,
+      "min": 5.8,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 5.8
+     }
+    ]
+   }
+  },
+  "label": []
+ },
+ "references": {
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 175,
+  "openfda_labels_returned": 1,
+  "openfda_labels_same_entity": 1,
+  "openfda_query": "openfda.generic_name:\"amisulpride\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "N05A"
+}

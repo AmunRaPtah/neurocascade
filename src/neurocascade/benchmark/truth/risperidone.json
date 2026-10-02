@@ -1,0 +1,771 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AX08",
+    "ddd": [
+     {
+      "ddd": 5.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 2.7,
+      "note": "depot",
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "risperidone"
+   }
+  ],
+  "label": [
+   {
+    "high": 16,
+    "high_basis": "upper end of recommended range",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Initial dosing is 2 mg per day.",
+     "Efficacy has been demonstrated in a range of 4 mg to 16 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 6,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 2,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The initial dose range is 2 mg to 3 mg per day.",
+     "The effective dose range is 1 mg to 6 mg per day, as studied in the short-term, placebo-controlled trials."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "21%",
+     "frequency_lower": 0.21,
+     "frequency_upper": 0.21,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "15%",
+     "frequency_lower": 0.15,
+     "frequency_upper": 0.15,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 9.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8. Adverse Reactions in ≥2% of RISPERDAL-Treated Adult Patients (and greater than placebo) with Schizophrenia in Double-Blind, Placebo-Controlled Trials",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8. Adverse Reactions in ≥2% of RISPERDAL-Treated Adult Patients (and greater than placebo) with Schizophrenia in Double-Blind, Placebo-Controlled Trials",
+     "term": "Dry mouth"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8. Adverse Reactions in ≥2% of RISPERDAL-Treated Adult Patients (and greater than placebo) with Schizophrenia in Double-Blind, Placebo-Controlled Trials",
+     "term": "Vision blurred"
+    }
+   ],
+   "eps": [
+    {
+     "description": "16%",
+     "frequency_lower": 0.16,
+     "frequency_upper": 0.16,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Bradykinesia"
+    },
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "34%",
+     "frequency_lower": 0.34,
+     "frequency_upper": 0.34,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "34%",
+     "frequency_lower": 0.34,
+     "frequency_upper": 0.34,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal symptoms"
+    },
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    },
+    {
+     "description": "11%",
+     "frequency_lower": 0.11,
+     "frequency_upper": 0.11,
+     "source": "SIDER 4.1",
+     "term": "Muscle rigidity"
+    },
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Oculogyric crisis"
+    },
+    {
+     "description": "28%",
+     "frequency_lower": 0.28,
+     "frequency_upper": 0.28,
+     "source": "SIDER 4.1",
+     "term": "Parkinsonism"
+    },
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Tardive dyskinesia"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Torticollis"
+    },
+    {
+     "drug_arm_percent": 10.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8. Adverse Reactions in ≥2% of RISPERDAL-Treated Adult Patients (and greater than placebo) with Schizophrenia in Double-Blind, Placebo-Controlled Trials",
+     "term": "Akathisia"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10. Adverse Reactions in ≥2% of RISPERDAL-Treated Adult Patients (and greater than placebo) with Bipolar Mania in Double-Blind, Placebo-Controlled Monotherapy Trials",
+     "term": "Dystonia"
+    },
+    {
+     "drug_arm_percent": 25.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10. Adverse Reactions in ≥2% of RISPERDAL-Treated Adult Patients (and greater than placebo) with Bipolar Mania in Double-Blind, Placebo-Controlled Monotherapy Trials",
+     "term": "Parkinsonism"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Dizziness postural"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8. Adverse Reactions in ≥2% of RISPERDAL-Treated Adult Patients (and greater than placebo) with Schizophrenia in Double-Blind, Placebo-Controlled Trials",
+     "term": "Dizziness postural"
+    },
+    {
+     "drug_arm_percent": 2.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8. Adverse Reactions in ≥2% of RISPERDAL-Treated Adult Patients (and greater than placebo) with Schizophrenia in Double-Blind, Placebo-Controlled Trials",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "1.1%",
+     "frequency_lower": 0.011,
+     "frequency_upper": 0.011,
+     "source": "SIDER 4.1",
+     "term": "Hypersomnia"
+    },
+    {
+     "description": "67%",
+     "frequency_lower": 0.67,
+     "frequency_upper": 0.67,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 11.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10. Adverse Reactions in ≥2% of RISPERDAL-Treated Adult Patients (and greater than placebo) with Bipolar Mania in Double-Blind, Placebo-Controlled Monotherapy Trials",
+     "term": "Sedation"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation failure"
+    },
+    {
+     "description": "10%",
+     "frequency_lower": 0.1,
+     "frequency_upper": 0.1,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Sexual dysfunction"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "8%",
+     "frequency_lower": 0.08,
+     "frequency_upper": 0.08,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 21.0,
+   "eps": 34.0,
+   "orthostasis": 3.0,
+   "sedation": 67.0,
+   "seizure": 0.1,
+   "sexual_dysfunction": 10.0,
+   "weight_gain": 8.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "opisthotonus"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "anorgasmia",
+    "ejaculation delayed",
+    "ejaculation disorder",
+    "retrograde ejaculation"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 10,
+    "n_ar_tables_used": 5,
+    "n_rows_with_drug_arm_value": 70,
+    "set_id": "7e117c7e-02fc-4343-92a1-230061dfc5e0"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100005073"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 2383,
+    "n_frequency_rows_placebo": 997,
+    "n_frequency_rows_postmarketing": 225,
+    "n_side_effect_rows": 1270,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "risperidone",
+ "label": {
+  "application_number": [
+   "NDA020272",
+   "NDA020588",
+   "NDA021444"
+  ],
+  "brand_name": [
+   "RISPERDAL",
+   "RISPERDAL M-TAB"
+  ],
+  "effective_time": "20260528",
+  "generic_name": [
+   "RISPERIDONE"
+  ],
+  "id": "15ff9571-c82c-48d9-84d3-a7a6abaae93e",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "7e117c7e-02fc-4343-92a1-230061dfc5e0",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "7e117c7e-02fc-4343-92a1-230061dfc5e0"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 6,
+   "drug": "risperidone",
+   "first_author": "Nyberg",
+   "n_subjects": 7,
+   "occupancy_percent": 82,
+   "pmid": "10360125",
+   "quote": "At the 6-mg/day dose, mean D2 receptor occupancy was 82% (range = 79%-85%), 5-HT2A receptor occupancy was 95% (range = 86%-109%), and six patients had developed extrapyramidal side effects.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1999
+  },
+  {
+   "dose_mg_per_day": 6,
+   "drug": "risperidone",
+   "first_author": "Nyberg",
+   "n_subjects": 7,
+   "occupancy_percent": 95,
+   "pmid": "10360125",
+   "quote": "At the 6-mg/day dose, mean D2 receptor occupancy was 82% (range = 79%-85%), 5-HT2A receptor occupancy was 95% (range = 86%-109%), and six patients had developed extrapyramidal side effects.",
+   "regimen": "steady state",
+   "region": "cortex",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "5-HT2A",
+   "tracer": "[11C]N-methylspiperone",
+   "year": 1999
+  },
+  {
+   "dose_mg_per_day": 3,
+   "drug": "risperidone",
+   "first_author": "Nyberg",
+   "n_subjects": 7,
+   "occupancy_percent": 72,
+   "pmid": "10360125",
+   "quote": "After dose reduction to 3 mg/day, D2 receptor occupancy was 72% (range = 53%-78%), and 5-HT2A receptor occupancy was 83% (range = 65%-112%).",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1999
+  },
+  {
+   "dose_mg_per_day": 3,
+   "drug": "risperidone",
+   "first_author": "Nyberg",
+   "n_subjects": 7,
+   "occupancy_percent": 83,
+   "pmid": "10360125",
+   "quote": "After dose reduction to 3 mg/day, D2 receptor occupancy was 72% (range = 53%-78%), and 5-HT2A receptor occupancy was 83% (range = 65%-112%).",
+   "regimen": "steady state",
+   "region": "cortex",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "5-HT2A",
+   "tracer": "[11C]N-methylspiperone",
+   "year": 1999
+  },
+  {
+   "dose_mg_per_day": 2,
+   "drug": "risperidone",
+   "first_author": "Kapur",
+   "n_subjects": null,
+   "occupancy_percent": 66,
+   "pmid": "7543969",
+   "quote": "The mean level of receptor occupancy was 66% at 2 mg; 73% at 4 mg; and 79% at 6 mg.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1995
+  },
+  {
+   "dose_mg_per_day": 4,
+   "drug": "risperidone",
+   "first_author": "Kapur",
+   "n_subjects": null,
+   "occupancy_percent": 73,
+   "pmid": "7543969",
+   "quote": "The mean level of receptor occupancy was 66% at 2 mg; 73% at 4 mg; and 79% at 6 mg.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1995
+  },
+  {
+   "dose_mg_per_day": 6,
+   "drug": "risperidone",
+   "first_author": "Kapur",
+   "n_subjects": null,
+   "occupancy_percent": 79,
+   "pmid": "7543969",
+   "quote": "The mean level of receptor occupancy was 66% at 2 mg; 73% at 4 mg; and 79% at 6 mg.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1995
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 5.4
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 5.4
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 5.4
+     }
+    ],
+    "summary": [
+     {
+      "max": 5.4,
+      "min": 5.4,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 5.4
+     },
+     {
+      "max": 5.4,
+      "min": 5.4,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 5.4
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 3.2
+     }
+    ],
+    "summary": [
+     {
+      "max": 3.2,
+      "min": 3.2,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 3.2
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL632931",
+      "description": "Volume of distribution in man (IV dose)",
+      "ref": "CHEMBL1135488",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1100462",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1153781",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.1
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 1.1
+     }
+    ],
+    "summary": [
+     {
+      "max": 1.1,
+      "min": 1.1,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 1.1
+     },
+     {
+      "max": 1.1,
+      "min": 1.1,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 1.1
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent half-life of parent risperidone in CYP2D6 extensive metabolizers (20 h in poor metabolizers)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The apparent half-life of risperidone was 3 hours (CV=30%) in extensive metabolizers and 20 hours (CV=40%) in poor metabolizers."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 3
+   },
+   {
+    "high": 2,
+    "kind": "pk",
+    "low": 1,
+    "note": "volume of distribution",
+    "quantity": "vd",
+    "quotes": [
+     "The volume of distribution is 1–2 L/kg."
+    ],
+    "route": "unspecified",
+    "statistic": "range",
+    "units": "L/kg",
+    "value": null
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1135488": {
+   "chembl_document_id": "CHEMBL1135488",
+   "journal": "J Med Chem",
+   "pmid": "12061889",
+   "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+   "year": 2002
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 394,
+  "openfda_labels_returned": 71,
+  "openfda_labels_same_entity": 71,
+  "openfda_query": "openfda.generic_name:\"risperidone\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

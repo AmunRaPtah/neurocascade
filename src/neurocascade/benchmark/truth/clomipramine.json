@@ -1,0 +1,485 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AA04",
+    "ddd": [
+     {
+      "ddd": 0.1,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     },
+     {
+      "ddd": 0.1,
+      "note": null,
+      "route": "P",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "clomipramine"
+   }
+  ],
+  "label": [
+   {
+    "high": 250,
+    "high_basis": "maximum recommended dose",
+    "indication": "OCD",
+    "kind": "dose",
+    "low": 25,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Treatment with clomipramine hydrochloride capsules should be initiated at a dosage of 25 mg daily and gradually increased, as tolerated, to approximately 100 mg during the first 2 weeks.",
+     "Thereafter, the dosage may be increased gradually over the next several weeks, up to a maximum of 250 mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "47%",
+     "frequency_lower": 0.47,
+     "frequency_upper": 0.47,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "84%",
+     "frequency_lower": 0.84,
+     "frequency_upper": 0.84,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "7%",
+     "frequency_lower": 0.07,
+     "frequency_upper": 0.07,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "description": "very common",
+     "frequency_lower": 0.1,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 47.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 84.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Dry mouth"
+    },
+    {
+     "drug_arm_percent": 7.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Urinary retention"
+    }
+   ],
+   "eps": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Oculogyric crisis"
+    },
+    {
+     "description": "common",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Parkinsonism"
+    },
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Torticollis"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "6%",
+     "frequency_lower": 0.06,
+     "frequency_upper": 0.06,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Postural hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "very common",
+     "frequency_lower": 0.1,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Drowsiness"
+    },
+    {
+     "description": "54%",
+     "frequency_lower": 0.54,
+     "frequency_upper": 0.54,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 54.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "42%",
+     "frequency_lower": 0.42,
+     "frequency_upper": 0.42,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation failure"
+    },
+    {
+     "description": "20%",
+     "frequency_lower": 0.2,
+     "frequency_upper": 0.2,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "drug_arm_percent": 42.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Ejaculation failure"
+    },
+    {
+     "drug_arm_percent": 20.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Impotence"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "18%",
+     "frequency_lower": 0.18,
+     "frequency_upper": 0.18,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    },
+    {
+     "drug_arm_percent": 18.0,
+     "source": "openFDA label table",
+     "table_caption": "",
+     "term": "Weight increase"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 84.0,
+   "eps": 1.0,
+   "orthostasis": 6.0,
+   "sedation": 54.0,
+   "seizure": 0.1,
+   "sexual_dysfunction": 42.0,
+   "weight_gain": 18.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "akathisia",
+    "dystonia",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 1,
+    "n_ar_tables_used": 1,
+    "n_rows_with_drug_arm_value": 112,
+    "set_id": "d7cee3fa-d05c-4702-8f75-f446627bdb49"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100002801"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 956,
+    "n_frequency_rows_placebo": 191,
+    "n_frequency_rows_postmarketing": 4,
+    "n_side_effect_rows": 805,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "clomipramine",
+ "label": {
+  "application_number": [
+   "NDA019906"
+  ],
+  "brand_name": [
+   "CLOMIPRAMINE HYDROCHLORIDE"
+  ],
+  "effective_time": "20241126",
+  "generic_name": [
+   "CLOMIPRAMINE HYDROCHLORIDE"
+  ],
+  "id": "f7da2c91-cd58-46c3-b716-846a454cfb07",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "d7cee3fa-d05c-4702-8f75-f446627bdb49",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "d7cee3fa-d05c-4702-8f75-f446627bdb49"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 10,
+   "drug": "clomipramine",
+   "first_author": "Suhara",
+   "n_subjects": null,
+   "occupancy_percent": 80,
+   "pmid": "12695316",
+   "quote": "Even 10 mg of clomipramine hydrochloride showed approximately 80% occupancy, which was comparable with that of 50 mg of fluvoxamine maleate.",
+   "regimen": "single dose",
+   "region": "thalamus",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "SERT",
+   "tracer": "[11C](+)McN5652",
+   "year": 2003
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 8.2
+     }
+    ],
+    "summary": [
+     {
+      "max": 8.2,
+      "min": 8.2,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 8.2
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 26.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 26.0,
+      "min": 26.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 26.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 20.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 13.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 13.0,
+      "min": 13.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 13.0
+     },
+     {
+      "max": 20.0,
+      "min": 20.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 20.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 37,
+    "kind": "pk",
+    "low": 19,
+    "note": "half-life after a 150 mg dose (mean, range)",
+    "quantity": "t_half_h",
+    "quotes": [
+     "After a 150 mg dose, the half-life of CMI ranges from 19 hours to 37 hours (mean, 32 hr) and that of DMI ranges from 54 hours to 77 hours (mean, 69 hr)."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 32
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 100,
+  "openfda_labels_returned": 19,
+  "openfda_labels_same_entity": 19,
+  "openfda_query": "openfda.generic_name:\"clomipramine\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

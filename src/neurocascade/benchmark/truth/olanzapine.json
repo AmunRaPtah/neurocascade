@@ -1,0 +1,544 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AH03",
+    "ddd": [
+     {
+      "ddd": 10.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 10.0,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     },
+     {
+      "ddd": 10.0,
+      "note": "depot",
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "olanzapine"
+   }
+  ],
+  "label": [
+   {
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Oral olanzapine should be administered on a once-a-day schedule without regard to meals, generally beginning with 5 to 10 mg initially, with a target dose of 10 mg/day within several days.",
+     "Olanzapine is not indicated for use in doses above 20 mg/day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 20,
+    "high_basis": "upper end of recommended range",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 10,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Oral olanzapine should be administered on a once-a-day schedule without regard to meals, generally beginning with 10 or 15 mg.",
+     "Short-term (3-4 weeks) antimanic efficacy was demonstrated in a dose range of 5 mg to 20 mg/day in clinical trials."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "14.5%",
+     "frequency_lower": 0.145,
+     "frequency_upper": 0.145,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "22%",
+     "frequency_lower": 0.22,
+     "frequency_upper": 0.22,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "drug_arm_percent": 11.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10: Common Treatment-Emergent Adverse Reactions Associated with the Use of Oral Olanzapine in 3-Week and 4-Week Trials — Bipolar I Disorder (Manic or Mixed Episodes)",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 32.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 13: Common Treatment-Emergent Adverse Reactions Associated with the Use of Oral Olanzapine in 6-Week Adjunct to Lithium or Valproate Trials — Bipolar I Disorder (Manic or Mixed Episodes)",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "27%",
+     "frequency_lower": 0.27,
+     "frequency_upper": 0.27,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Cogwheel rigidity"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Hypokinesia"
+    },
+    {
+     "description": "20%",
+     "frequency_lower": 0.2,
+     "frequency_upper": 0.2,
+     "source": "SIDER 4.1",
+     "term": "Parkinsonism"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Tardive dyskinesia"
+    },
+    {
+     "drug_arm_percent": 27.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 16: Treatment-Emergent Extrapyramidal Symptoms Assessed by Rating Scales Incidence in a Fixed Dosage Range, Placebo-Controlled Clinical Trial of Oral Olanzapine in Schizophrenia — Acute Phase",
+     "term": "Akathisia"
+    },
+    {
+     "drug_arm_percent": 14.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 16: Treatment-Emergent Extrapyramidal Symptoms Assessed by Rating Scales Incidence in a Fixed Dosage Range, Placebo-Controlled Clinical Trial of Oral Olanzapine in Schizophrenia — Acute Phase",
+     "term": "Parkinsonism"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "very common",
+     "frequency_lower": 0.1,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 9: Common Treatment-Emergent Adverse Reactions Associated with the Use of Oral Olanzapine in 6-Week Trials — SCHIZOPHRENIA",
+     "term": "Postural hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "very common",
+     "frequency_lower": 0.1,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Hypersomnia"
+    },
+    {
+     "description": "39.1%",
+     "frequency_lower": 0.391,
+     "frequency_upper": 0.391,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 52.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 14: Treatment-Emergent Adverse Reactions: Incidence in Short-Term, Placebo-Controlled Clinical Trials of Oral Olanzapine as Adjunct to Lithium or Valproate",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Abnormal ejaculation"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "43.5%",
+     "frequency_lower": 0.435,
+     "frequency_upper": 0.435,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    },
+    {
+     "drug_arm_percent": 26.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 13: Common Treatment-Emergent Adverse Reactions Associated with the Use of Oral Olanzapine in 6-Week Adjunct to Lithium or Valproate Trials — Bipolar I Disorder (Manic or Mixed Episodes)",
+     "term": "Weight gain"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 32.0,
+   "eps": 27.0,
+   "orthostasis": 10.0,
+   "sedation": 52.0,
+   "seizure": 0.0,
+   "sexual_dysfunction": 0.1,
+   "weight_gain": 43.5
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "oculogyric crisis",
+    "opisthotonus",
+    "torticollis"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "sedation"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "anorgasmia",
+    "orgasm abnormal",
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 14,
+    "n_ar_tables_used": 11,
+    "n_rows_with_drug_arm_value": 117,
+    "set_id": "b418946a-1ab4-4d89-a012-d94fc361a3c4"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100004585"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 1208,
+    "n_frequency_rows_placebo": 361,
+    "n_frequency_rows_postmarketing": 80,
+    "n_side_effect_rows": 860,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "olanzapine",
+ "label": {
+  "application_number": [
+   "NDA020592",
+   "NDA021086",
+   "NDA021253"
+  ],
+  "brand_name": [
+   "ZYPREXA Intramuscular",
+   "ZYPREXA Zydis",
+   "Zyprexa"
+  ],
+  "effective_time": "20260211",
+  "generic_name": [
+   "OLANZAPINE"
+  ],
+  "id": "40d4ed67-c51d-40d0-8a32-ecfdbf069f9a",
+  "indication_psychiatric": true,
+  "route": [
+   "INTRAMUSCULAR",
+   "ORAL"
+  ],
+  "set_id": "b418946a-1ab4-4d89-a012-d94fc361a3c4",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "b418946a-1ab4-4d89-a012-d94fc361a3c4"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": [
+    5,
+    20
+   ],
+   "drug": "olanzapine",
+   "first_author": "Kapur",
+   "n_subjects": 12,
+   "occupancy_percent": [
+    43,
+    80
+   ],
+   "pmid": "9659858",
+   "quote": "Its D2 occupancy increased with dose: patients taking 5-20 mg/day showed 43%-80% D2 occupancy, while patients taking 30-40 mg/day showed 83%-88%.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1998
+  },
+  {
+   "dose_mg_per_day": [
+    30,
+    40
+   ],
+   "drug": "olanzapine",
+   "first_author": "Kapur",
+   "n_subjects": 3,
+   "occupancy_percent": [
+    83,
+    88
+   ],
+   "pmid": "9659858",
+   "quote": "Its D2 occupancy increased with dose: patients taking 5-20 mg/day showed 43%-80% D2 occupancy, while patients taking 30-40 mg/day showed 83%-88%.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1998
+  },
+  {
+   "dose_mg_per_day": 5,
+   "drug": "olanzapine",
+   "first_author": "Raedler",
+   "n_subjects": 10,
+   "occupancy_percent": 59.8,
+   "pmid": "10482380",
+   "quote": "The mean D2 occupancy at 5 mg was 59.8% (range 33-81%); the mean D2 occupancy at 20 mg was 82.8% (range 56-97%).",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[123I]IBZM",
+   "year": 1999
+  },
+  {
+   "dose_mg_per_day": 20,
+   "drug": "olanzapine",
+   "first_author": "Raedler",
+   "n_subjects": 10,
+   "occupancy_percent": 82.8,
+   "pmid": "10482380",
+   "quote": "The mean D2 occupancy at 5 mg was 59.8% (range 33-81%); the mean D2 occupancy at 20 mg was 82.8% (range 56-97%).",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[123I]IBZM",
+   "year": 1999
+  },
+  {
+   "dose_mg_per_day": 10,
+   "drug": "olanzapine",
+   "first_author": "Nyberg",
+   "n_subjects": 3,
+   "occupancy_percent": [
+    59,
+    63
+   ],
+   "pmid": "8981383",
+   "quote": "Positron emission tomography and the radioligands [11C]raclopride and [11C]NMSP were used to measure D2 and 5-HT2 receptor occupancy in three healthy subjects after 10 mg olanzapine orally. After seven hours D2 receptor occupancy was 63%, 62% and 59%, respectively.",
+   "regimen": "single dose",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 1997
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL6183036",
+      "description": "Half life in human at 15 mg/kg, po",
+      "ref": "CHEMBL6182828",
+      "relation": "=",
+      "route": "oral",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 21.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 21.0,
+      "min": 21.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "oral",
+      "species": "human",
+      "units": "hr",
+      "value": 21.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 54,
+    "kind": "pk",
+    "low": 21,
+    "note": "half-life; range is 5th to 95th percentile",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Its half-life ranges from 21 to 54 hours (5th to 95th percentile; mean of 30 hr),"
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 30
+   },
+   {
+    "high": 47,
+    "kind": "pk",
+    "low": 12,
+    "note": "apparent plasma clearance; range is 5th to 95th percentile",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "apparent plasma clearance ranges from 12 to 47 L/hr (5th to 95th percentile; mean of 25 L/hr)."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/h",
+    "value": 25
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "volume of distribution",
+    "quantity": "vd",
+    "quotes": [
+     "Olanzapine is extensively distributed throughout the body, with a volume of distribution of approximately 1000 L."
+    ],
+    "route": "unspecified",
+    "statistic": "approximate",
+    "units": "L",
+    "value": 1000
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL6182828": {
+   "chembl_document_id": "CHEMBL6182828",
+   "journal": "RSC Med Chem",
+   "pmid": "39601022",
+   "title": "Medicinal chemistry-based perspectives on thiophene and its derivatives: exploring structural insights to discover plausible druggable leads.",
+   "year": 2025
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 227,
+  "openfda_labels_returned": 101,
+  "openfda_labels_same_entity": 96,
+  "openfda_query": "openfda.generic_name:\"olanzapine\"",
+  "pet_searched_empty": [
+   {
+    "drug": "olanzapine",
+    "note": "Human 5-HT2A values exist but none with a contiguous dose: Kapur 1998 (PMID 9659858) 'near saturation ... even at 5 mg/day' gives no %; Kessler 2005 (PMID 16123775) 85-93% has no dose in abstract; Nyberg 1997 (PMID 8981383) 74/86/92% is >2 sentences from the 10 mg dose. Skipped.",
+    "queries": [
+     "(TITLE:\"olanzapine\" OR ABSTRACT:\"olanzapine\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:setoperone OR ABSTRACT:altanserin OR ABSTRACT:NMSP)"
+    ],
+    "target": "5-HT2A"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

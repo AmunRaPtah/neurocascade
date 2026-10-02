@@ -1,0 +1,175 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AX17",
+    "ddd": [],
+    "index_last_updated": "2026-01-20",
+    "who_name": "pimavanserin"
+   }
+  ],
+  "label": [
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "Parkinson's disease psychosis",
+    "kind": "dose",
+    "low": 34,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dose of NUPLAZID is 34 mg taken orally once daily, without titration."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 1 Adverse Reactions in Placebo-Controlled Studies of 6-Week Treatment Duration and Reported in ≥2% and >Placebo",
+     "term": "Constipation"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 0,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 0,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": 4.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 1,
+    "n_ar_tables_used": 1,
+    "n_rows_with_drug_arm_value": 6,
+    "set_id": "1e6bea44-57d6-4bac-9328-46e1ee59f83b"
+   }
+  }
+ },
+ "inn": "pimavanserin",
+ "label": {
+  "application_number": [
+   "NDA207318",
+   "NDA210793"
+  ],
+  "brand_name": [
+   "NUPLAZID"
+  ],
+  "effective_time": "20260618",
+  "generic_name": [
+   "PIMAVANSERIN TARTRATE"
+  ],
+  "id": "2199d74b-37ed-408c-97af-ef036899216b",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "1e6bea44-57d6-4bac-9328-46e1ee59f83b",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "1e6bea44-57d6-4bac-9328-46e1ee59f83b"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "plasma half-life of parent",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean plasma half-lives for pimavanserin and the active metabolite ( N -desmethylated metabolite) are approximately 57 hours and 200 hours, respectively."
+    ],
+    "route": "oral",
+    "statistic": "approximate",
+    "units": "h",
+    "value": 57
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution, single 34 mg dose",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Following administration of a single dose of NUPLAZID (34 mg), the mean (SD) apparent volume of distribution was 2173 (307) L."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L",
+    "value": 2173
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 46,
+  "openfda_labels_returned": 2,
+  "openfda_labels_same_entity": 2,
+  "openfda_query": "openfda.generic_name:\"pimavanserin\"",
+  "pet_searched_empty": [
+   {
+    "drug": "pimavanserin",
+    "note": "Nordstrom 2008 (PMID 17708779, ACP-103, [11C]NMSP, single 1-100 mg) gives no numeric occupancy in abstract (only near-maximal displacement at 10-20 mg); Burstein 2026 (PMID 42677352) gives 41-100% range vs plasma concentration with no dose. Nucci 2009 not found with abstract occupancy values.",
+    "queries": [
+     "(ABSTRACT:\"pimavanserin\" OR TITLE:\"pimavanserin\") AND ABSTRACT:\"occupancy\"",
+     "(ABSTRACT:\"pimavanserin\" OR ABSTRACT:\"ACP-103\" OR ABSTRACT:\"ACP 103\") AND (ABSTRACT:\"occupancy\" OR ABSTRACT:\"PET\" OR ABSTRACT:\"positron\")"
+    ],
+    "target": "5-HT2A"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

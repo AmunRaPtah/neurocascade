@@ -1,0 +1,219 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AB02",
+    "ddd": [
+     {
+      "ddd": 10.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     },
+     {
+      "ddd": 1.0,
+      "note": "depot",
+      "route": "P",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "fluphenazine"
+   }
+  ],
+  "label": [
+   {
+    "high": 40,
+    "high_basis": "maximum recommended dose",
+    "indication": "psychotic disorders",
+    "kind": "dose",
+    "low": 2.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "total daily dosage for adult psychotic patients may range initially from 2.5 mg to 10 mg and should be divided and given at 6 to 8 hour intervals.",
+     "Daily doses up to 40 mg may be necessary; controlled clinical studies have not been performed to demonstrate safety of prolonged administration of such doses."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "opisthotonus",
+    "parkinsonism",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "91b85b8d-4c10-4395-915e-272b81ef3b12"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100003372"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 163,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "fluphenazine",
+ "label": {
+  "application_number": [
+   "ANDA218283"
+  ],
+  "brand_name": [
+   "Fluphenazine Hydrochoride"
+  ],
+  "effective_time": "20260703",
+  "generic_name": [
+   "FLUPHENAZINE HYDROCHLORIDE"
+  ],
+  "id": "55b89c3d-bcb4-01ee-e063-6394a90a7f03",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "91b85b8d-4c10-4395-915e-272b81ef3b12",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "91b85b8d-4c10-4395-915e-272b81ef3b12"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1027771",
+      "description": "Volume of distribution at steady state in human at 2.5 mg, iv administered as bolus dose",
+      "ref": "CHEMBL1158480",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 2.9
+     }
+    ],
+    "summary": [
+     {
+      "max": 2.9,
+      "min": 2.9,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 2.9
+     }
+    ]
+   }
+  },
+  "label": []
+ },
+ "references": {
+  "CHEMBL1158480": {
+   "chembl_document_id": "CHEMBL1158480",
+   "journal": "J Med Chem",
+   "pmid": "19603833",
+   "title": "In silico prediction of volume of distribution in human using linear and nonlinear models on a 669 compound data set.",
+   "year": 2009
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 231,
+  "openfda_labels_returned": 45,
+  "openfda_labels_same_entity": 35,
+  "openfda_query": "openfda.generic_name:\"fluphenazine\"",
+  "pet_searched_empty": [
+   {
+    "drug": "fluphenazine",
+    "note": "Only human PET study (Nyberg 1998, PMID 11281952) used fluphenazine DECANOATE depot (100-250 mg/wk IM), D2 89-97%, 5-HT2 76-105%. Excluded by depot/LAI rule (no oral daily mg dose).",
+    "queries": [
+     "(ABSTRACT:\"fluphenazine\" OR TITLE:\"fluphenazine\") AND ABSTRACT:\"occupancy\" AND (ABSTRACT:PET OR ABSTRACT:SPECT OR ABSTRACT:\"raclopride\" OR ABSTRACT:\"IBZM\" OR ABSTRACT:\"setoperone\" OR ABSTRACT:\"NMSP\")"
+    ],
+    "target": "D2"
+   }
+  ]
+ },
+ "split": "heldout",
+ "stratum": "N05A"
+}

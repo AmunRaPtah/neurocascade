@@ -1,0 +1,460 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AE05",
+    "ddd": [
+     {
+      "ddd": 60.0,
+      "note": "as hydrochloride",
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "lurasidone"
+   }
+  ],
+  "label": [
+   {
+    "high": 160,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 40,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose of LATUDA is 40 mg once daily.",
+     "The maximum recommended dose is 160 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 120,
+    "high_basis": "maximum recommended dose",
+    "indication": "bipolar depression",
+    "kind": "dose",
+    "low": 20,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting dose of LATUDA is 20 mg given once daily as monotherapy or as adjunctive therapy with lithium or valproate.",
+     "The maximum recommended dose, as monotherapy or as adjunctive therapy with lithium or valproate, is 120 mg per day."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "5%",
+     "frequency_lower": 0.05,
+     "frequency_upper": 0.05,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "frequent",
+     "frequency_lower": 0.01,
+     "frequency_upper": 1.0,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 20: Adverse Reactions in 2% or More of LATUDA-Treated Patients and That Occurred at Greater Incidence than in the Placebo-Treated Patients in the Adult Short-term Monotherapy Bipolar Depression Study",
+     "term": "Dry Mouth"
+    }
+   ],
+   "eps": [
+    {
+     "description": "22%",
+     "frequency_lower": 0.22,
+     "frequency_upper": 0.22,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "22%",
+     "frequency_lower": 0.22,
+     "frequency_upper": 0.22,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "14%",
+     "frequency_lower": 0.14,
+     "frequency_upper": 0.14,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal symptoms"
+    },
+    {
+     "description": "17%",
+     "frequency_lower": 0.17,
+     "frequency_upper": 0.17,
+     "source": "SIDER 4.1",
+     "term": "Parkinsonism"
+    },
+    {
+     "drug_arm_percent": 22.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 19: Adverse Reactions in 2% or More of LATUDA-Treated Patients and That Occurred at Greater Incidence than in the Placebo-Treated Patients in Adult Short-term Schizophrenia Studies",
+     "term": "Akathisia"
+    },
+    {
+     "drug_arm_percent": 5.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 24: Incidence of EPS Compared to Placebo in Adult Schizophrenia Studies",
+     "term": "Dystonia*"
+    },
+    {
+     "drug_arm_percent": 22.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 19: Adverse Reactions in 2% or More of LATUDA-Treated Patients and That Occurred at Greater Incidence than in the Placebo-Treated Patients in Adult Short-term Schizophrenia Studies",
+     "term": "Extrapyramidal Disorder**"
+    },
+    {
+     "drug_arm_percent": 14.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 21: Adverse Reactions in 2% or More of LATUDA-Treated Patients and That Occurred at Greater Incidence than in the Placebo-Treated Patients in the Adult Short-term Adjunctive Therapy Bipolar Depression Studies",
+     "term": "Extrapyramidal Symptoms*"
+    },
+    {
+     "drug_arm_percent": 13.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 27: Incidence of EPS Compared to Placebo in the Adult Adjunctive Therapy Bipolar Depression Studies",
+     "term": "Parkinsonism**"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "26%",
+     "frequency_lower": 0.26,
+     "frequency_upper": 0.26,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 26.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 19: Adverse Reactions in 2% or More of LATUDA-Treated Patients and That Occurred at Greater Incidence than in the Placebo-Treated Patients in Adult Short-term Schizophrenia Studies",
+     "term": "Somnolence*"
+    },
+    {
+     "drug_arm_percent": 14.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 20: Adverse Reactions in 2% or More of LATUDA-Treated Patients and That Occurred at Greater Incidence than in the Placebo-Treated Patients in the Adult Short-term Monotherapy Bipolar Depression Study",
+     "term": "Somnolence**"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "rare",
+     "frequency_lower": 0.0,
+     "frequency_upper": 0.001,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 21: Adverse Reactions in 2% or More of LATUDA-Treated Patients and That Occurred at Greater Incidence than in the Placebo-Treated Patients in the Adult Short-term Adjunctive Therapy Bipolar Depression Studies",
+     "term": "Weight Increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 6.0,
+   "eps": 22.0,
+   "orthostasis": 0.1,
+   "sedation": 26.0,
+   "seizure": 0.0,
+   "sexual_dysfunction": 0.0,
+   "weight_gain": 3.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "bradykinesia",
+    "dyskinesia",
+    "hypokinesia",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "tardive dyskinesia",
+    "torticollis"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "hypersomnia",
+    "sedation"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    "libido decreased"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 15,
+    "n_ar_tables_used": 9,
+    "n_rows_with_drug_arm_value": 59,
+    "set_id": "afad3051-9df2-4c54-9684-e8262a133af8"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100213046"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 271,
+    "n_frequency_rows_placebo": 67,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 285,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "lurasidone",
+ "label": {
+  "application_number": [
+   "NDA200603"
+  ],
+  "brand_name": [
+   "Latuda"
+  ],
+  "effective_time": "20250131",
+  "generic_name": [
+   "LURASIDONE HYDROCHLORIDE"
+  ],
+  "id": "7383b0e0-01e8-4778-96f0-6f2e0c9586ae",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "afad3051-9df2-4c54-9684-e8262a133af8",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "afad3051-9df2-4c54-9684-e8262a133af8"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 10,
+   "drug": "lurasidone",
+   "first_author": "Wong",
+   "n_subjects": 4,
+   "occupancy_percent": [
+    41,
+    43
+   ],
+   "pmid": "23649882",
+   "quote": "The D₂ receptor occupancy levels were 41-43% for 10 mg, 51-55% for 20 mg, 63-67% for 40 mg, 77-84% for 60 mg, and 73-79% for 80 mg of lurasidone.",
+   "regimen": "single dose",
+   "region": "striatum (ventral striatum, putamen, caudate)",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 20,
+   "drug": "lurasidone",
+   "first_author": "Wong",
+   "n_subjects": 4,
+   "occupancy_percent": [
+    51,
+    55
+   ],
+   "pmid": "23649882",
+   "quote": "The D₂ receptor occupancy levels were 41-43% for 10 mg, 51-55% for 20 mg, 63-67% for 40 mg, 77-84% for 60 mg, and 73-79% for 80 mg of lurasidone.",
+   "regimen": "single dose",
+   "region": "striatum (ventral striatum, putamen, caudate)",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 40,
+   "drug": "lurasidone",
+   "first_author": "Wong",
+   "n_subjects": 4,
+   "occupancy_percent": [
+    63,
+    67
+   ],
+   "pmid": "23649882",
+   "quote": "The D₂ receptor occupancy levels were 41-43% for 10 mg, 51-55% for 20 mg, 63-67% for 40 mg, 77-84% for 60 mg, and 73-79% for 80 mg of lurasidone.",
+   "regimen": "single dose",
+   "region": "striatum (ventral striatum, putamen, caudate)",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 60,
+   "drug": "lurasidone",
+   "first_author": "Wong",
+   "n_subjects": 4,
+   "occupancy_percent": [
+    77,
+    84
+   ],
+   "pmid": "23649882",
+   "quote": "The D₂ receptor occupancy levels were 41-43% for 10 mg, 51-55% for 20 mg, 63-67% for 40 mg, 77-84% for 60 mg, and 73-79% for 80 mg of lurasidone.",
+   "regimen": "single dose",
+   "region": "striatum (ventral striatum, putamen, caudate)",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2013
+  },
+  {
+   "dose_mg_per_day": 80,
+   "drug": "lurasidone",
+   "first_author": "Wong",
+   "n_subjects": 4,
+   "occupancy_percent": [
+    73,
+    79
+   ],
+   "pmid": "23649882",
+   "quote": "The D₂ receptor occupancy levels were 41-43% for 10 mg, 51-55% for 20 mg, 63-67% for 40 mg, 77-84% for 60 mg, and 73-79% for 80 mg of lurasidone.",
+   "regimen": "single dose",
+   "region": "striatum (ventral striatum, putamen, caudate)",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2013
+  }
+ ],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "elimination half-life after 40 mg",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Following administration of 40 mg of LATUDA, the mean (%CV) elimination half-life was 18 ( 7 ) hours."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 18
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent clearance after 40 mg",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "Following administration of 40 mg of LATUDA, the mean (%CV) apparent clearance was 3902 (18.0) mL/min."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "mL/min",
+    "value": 3902
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution after 40 mg",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Following administration of 40 mg of LATUDA, the mean (%CV) apparent volume of distribution was 6173 (17.2) L."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L",
+    "value": 6173
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 2,
+  "openfda_labels_returned": 40,
+  "openfda_labels_same_entity": 40,
+  "openfda_query": "openfda.generic_name:\"lurasidone\"",
+  "pet_searched_empty": [
+   {
+    "drug": "lurasidone",
+    "note": "No human 5-HT2A data (marmoset study excluded). Potkin 2014 (PMID 24073841) D2 fallypride only states '>65% can be achieved across 80-160 mg/day' (not a group value), so skipped.",
+    "queries": [
+     "(ABSTRACT:\"lurasidone\") AND (ABSTRACT:\"occupancy\") AND (ABSTRACT:\"positron\" OR ABSTRACT:\"PET\")"
+    ],
+    "target": "5-HT2A"
+   }
+  ]
+ },
+ "split": "heldout",
+ "stratum": "N05A"
+}

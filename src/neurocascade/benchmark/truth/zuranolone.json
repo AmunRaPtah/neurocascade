@@ -1,0 +1,172 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N06AX31",
+    "ddd": [],
+    "index_last_updated": "2026-01-20",
+    "who_name": "zuranolone"
+   }
+  ],
+  "label": [
+   {
+    "high": null,
+    "high_basis": null,
+    "indication": "postpartum depression",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended dosage of ZURZUVAE is 50 mg taken orally once daily in the evening for 14 days."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3. Adverse Reactions that Occurred in ≥2% of Patients with PPD Treated with Another Zuranolone Capsule Formulation and Greater than in Patients Treated with Placebo (Study 2)",
+     "term": "Dry mouth"
+    }
+   ],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "drug_arm_percent": 19.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 3. Adverse Reactions that Occurred in ≥2% of Patients with PPD Treated with Another Zuranolone Capsule Formulation and Greater than in Patients Treated with Placebo (Study 2)",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 0,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 0,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 0
+  },
+  "max_percent": {
+   "anticholinergic": 4.0,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": 19.0,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [
+    "hypersomnia",
+    "sedation"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 2,
+    "n_ar_tables_used": 1,
+    "n_rows_with_drug_arm_value": 8,
+    "set_id": "f18e53b0-d0bb-422d-8de7-ab64b7292b29"
+   }
+  }
+ },
+ "inn": "zuranolone",
+ "label": {
+  "application_number": [
+   "NDA217369"
+  ],
+  "brand_name": [
+   "ZURZUVAE"
+  ],
+  "effective_time": "20260615",
+  "generic_name": [
+   "ZURANOLONE"
+  ],
+  "id": "4473196a-b991-4580-b3d4-dbe24f8fe414",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "f18e53b0-d0bb-422d-8de7-ab64b7292b29",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "f18e53b0-d0bb-422d-8de7-ab64b7292b29"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": 24.6,
+    "kind": "pk",
+    "low": 19.7,
+    "note": "terminal half-life in adults",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The terminal half-life of zuranolone is approximately 19.7 to 24.6 hours in an adult population."
+    ],
+    "route": "oral",
+    "statistic": "range",
+    "units": "h",
+    "value": null
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean apparent clearance",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "The mean apparent clearance (CL/F) of zuranolone is 33 L/h."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/h",
+    "value": 33
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 51,
+  "openfda_labels_returned": 1,
+  "openfda_labels_same_entity": 1,
+  "openfda_query": "openfda.generic_name:\"zuranolone\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N06A"
+}

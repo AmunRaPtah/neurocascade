@@ -1,0 +1,347 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AX16",
+    "ddd": [
+     {
+      "ddd": 3.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "brexpiprazole"
+   }
+  ],
+  "label": [
+   {
+    "high": 3,
+    "high_basis": "maximum recommended dose",
+    "indication": "MDD (adjunctive)",
+    "kind": "dose",
+    "low": 0.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting REXULTI dosage for the adjunctive treatment of MDD in adults is 0.5 mg or 1 mg orally once daily .",
+     "The maximum recommended daily dosage is 3 mg."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 4,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 1,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting REXULTI dosage for the treatment of schizophrenia in adults is 1 mg orally once daily on Days 1 to 4.",
+     "On Day 8, the dosage can be increased to the maximum recommended daily dosage of 4 mg based on clinical response and tolerability."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8 Adverse Reactions in ≥2% of REXULTI-Treated Patients and Greater than Placebo in Pooled 6-Week Placebo-Controlled, Fixed-Dose Adjunctive MDD Studies in Adults (Study 1 and Study 2)",
+     "term": "Constipation"
+    }
+   ],
+   "eps": [
+    {
+     "drug_arm_percent": 14.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8 Adverse Reactions in ≥2% of REXULTI-Treated Patients and Greater than Placebo in Pooled 6-Week Placebo-Controlled, Fixed-Dose Adjunctive MDD Studies in Adults (Study 1 and Study 2)",
+     "term": "Akathisia"
+    }
+   ],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 9 Adverse Reactions in ≥2% of REXULTI-Treated Patients and Greater than Placebo in Pooled 6-Week Placebo-Controlled, Fixed-Dose Schizophrenia Studies in Adult Patients (Study 3 and Study 4)",
+     "term": "Sedation"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8 Adverse Reactions in ≥2% of REXULTI-Treated Patients and Greater than Placebo in Pooled 6-Week Placebo-Controlled, Fixed-Dose Adjunctive MDD Studies in Adults (Study 1 and Study 2)",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": [
+    {
+     "drug_arm_percent": 8.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 8 Adverse Reactions in ≥2% of REXULTI-Treated Patients and Greater than Placebo in Pooled 6-Week Placebo-Controlled, Fixed-Dose Adjunctive MDD Studies in Adults (Study 1 and Study 2)",
+     "term": "Weight Increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 0,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 3.0,
+   "eps": 14.0,
+   "orthostasis": null,
+   "sedation": 6.0,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": 8.0
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "dry mouth",
+    "vision blurred"
+   ],
+   "eps": [
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "hypokinesia",
+    "muscle rigidity",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "hypersomnia"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 4,
+    "n_ar_tables_used": 3,
+    "n_rows_with_drug_arm_value": 29,
+    "set_id": "6991c065-0f6e-433a-8f4f-796e0ece327f"
+   }
+  }
+ },
+ "inn": "brexpiprazole",
+ "label": {
+  "application_number": [
+   "NDA205422"
+  ],
+  "brand_name": [
+   "Rexulti"
+  ],
+  "effective_time": "20260602",
+  "generic_name": [
+   "BREXPIPRAZOLE"
+  ],
+  "id": "5349e703-202b-6414-e063-6294a90a59aa",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "6991c065-0f6e-433a-8f4f-796e0ece327f",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "6991c065-0f6e-433a-8f4f-796e0ece327f"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 1,
+   "drug": "brexpiprazole",
+   "first_author": "Girgis",
+   "n_subjects": 4,
+   "occupancy_percent": 64,
+   "pmid": "31847007",
+   "quote": "Dose dependency was observed at D<sub>2</sub> receptors, with occupancies reaching 64 ± 8% (mean +/- SD) following 1 mg/day and 80 ± 12% following 4 mg/day.",
+   "regimen": "steady state (10 days)",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "D2",
+   "tracer": "[11C]-(+)-PHNO",
+   "year": 2020
+  },
+  {
+   "dose_mg_per_day": 4,
+   "drug": "brexpiprazole",
+   "first_author": "Girgis",
+   "n_subjects": 4,
+   "occupancy_percent": 80,
+   "pmid": "31847007",
+   "quote": "Dose dependency was observed at D<sub>2</sub> receptors, with occupancies reaching 64 ± 8% (mean +/- SD) following 1 mg/day and 80 ± 12% following 4 mg/day.",
+   "regimen": "steady state (10 days)",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean_sd",
+   "target": "D2",
+   "tracer": "[11C]-(+)-PHNO",
+   "year": 2020
+  },
+  {
+   "dose_mg_per_day": 4,
+   "drug": "brexpiprazole",
+   "first_author": "Girgis",
+   "n_subjects": 4,
+   "occupancy_percent": 5,
+   "pmid": "31847007",
+   "qualifier": "<",
+   "quote": "Negligible occupancy (<5%) was observed at 5-HT<sub>1A</sub> and SERT at 4 mg/day.",
+   "regimen": "steady state (10 days)",
+   "region": "brain",
+   "route": "oral",
+   "statistic": "upper_bound",
+   "target": "SERT",
+   "tracer": "[11C]DASB",
+   "year": 2020
+  },
+  {
+   "dose_mg_per_day": [
+    5,
+    6
+   ],
+   "drug": "brexpiprazole",
+   "first_author": "Wong",
+   "n_subjects": null,
+   "occupancy_percent": [
+    77,
+    88
+   ],
+   "pmid": "33196868",
+   "quote": "Mean D<sub>2</sub>/D<sub>3</sub> receptor occupancy in the putamen and caudate nucleus increased with brexpiprazole dose, leveled out at 77-88% with brexpiprazole 5 mg and 6 mg at 4 h post-dose, and remained at a similar level at 23.5 h post-dose (74-83%).",
+   "regimen": "single dose (4 h post-dose)",
+   "region": "putamen and caudate",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2021
+  },
+  {
+   "dose_mg_per_day": [
+    5,
+    6
+   ],
+   "drug": "brexpiprazole",
+   "first_author": "Wong",
+   "n_subjects": null,
+   "occupancy_percent": [
+    74,
+    83
+   ],
+   "pmid": "33196868",
+   "quote": "Mean D<sub>2</sub>/D<sub>3</sub> receptor occupancy in the putamen and caudate nucleus increased with brexpiprazole dose, leveled out at 77-88% with brexpiprazole 5 mg and 6 mg at 4 h post-dose, and remained at a similar level at 23.5 h post-dose (74-83%).",
+   "regimen": "single dose (23.5 h post-dose)",
+   "region": "putamen and caudate",
+   "route": "oral",
+   "statistic": "range",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2021
+  }
+ ],
+ "pk": {
+  "iv_compilations": {},
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "terminal elimination half-life after multiple once-daily doses",
+    "quantity": "t_half_h",
+    "quotes": [
+     "After multiple once-daily administrations of REXULTI, the terminal elimination half-lives of brexpiprazole and its major metabolite, DM-3411, were 91 hours and 86 hours, respectively."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 91
+   },
+   {
+    "derivation": "19.8 mL/h/kg printed; /1000 = 0.0198 L/h/kg",
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent oral clearance, once daily tablet",
+    "quantity": "cl_over_f",
+    "quotes": [
+     "Apparent oral clearance of a brexpiprazole oral tablet after once daily administration is 19.8 (±11.4) mL/h/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/h/kg",
+    "value": 0.0198
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "volume of distribution after IV",
+    "quantity": "vd",
+    "quotes": [
+     "The volume of distribution of brexpiprazole following intravenous administration is high (1.56 ± 0.42 L/kg), indicating extravascular distribution."
+    ],
+    "route": "iv",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 1.56
+   }
+  ]
+ },
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 4,
+  "openfda_labels_returned": 3,
+  "openfda_labels_same_entity": 3,
+  "openfda_query": "openfda.generic_name:\"brexpiprazole\"",
+  "pet_searched_empty": [
+   {
+    "drug": "brexpiprazole",
+    "note": "Girgis 2020 abstract states 'robust and dose-related' 5-HT2A occupancy without numeric value.",
+    "queries": [
+     "(ABSTRACT:\"brexpiprazole\") AND (ABSTRACT:\"occupancy\") AND (ABSTRACT:\"positron\" OR ABSTRACT:\"PET\")"
+    ],
+    "target": "5-HT2A"
+   }
+  ]
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

@@ -1,0 +1,525 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05BA12",
+    "ddd": [
+     {
+      "ddd": 1.0,
+      "note": null,
+      "route": "O",
+      "unit": "mg"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "alprazolam"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "0.25 mg three times daily printed; 3 x 0.25 = 0.75 mg/day",
+    "high": 4,
+    "high_basis": "maximum recommended dose",
+    "indication": "GAD",
+    "kind": "dose",
+    "low": 0.75,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting oral dosage of alprazolam for the acute treatment of patients with GAD is 0.25 mg to 0.5 mg administered three times daily.",
+     "The maximum recommended dosage is 4 mg daily (in divided doses)."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "0.5 mg three times daily printed; 3 x 0.5 = 1.5 mg/day",
+    "high": null,
+    "high_basis": null,
+    "indication": "panic disorder",
+    "kind": "dose",
+    "low": 1.5,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "The recommended starting oral dosage of alprazolam for the treatment of PD is 0.5 mg three times daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "26.2%",
+     "frequency_lower": 0.262,
+     "frequency_upper": 0.262,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "15%",
+     "frequency_lower": 0.15,
+     "frequency_upper": 0.15,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "21.4%",
+     "frequency_lower": 0.214,
+     "frequency_upper": 0.214,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    }
+   ],
+   "eps": [
+    {
+     "description": "4.3%",
+     "frequency_lower": 0.043,
+     "frequency_upper": 0.043,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "14.8%",
+     "frequency_lower": 0.148,
+     "frequency_upper": 0.148,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "4.2%",
+     "frequency_lower": 0.042,
+     "frequency_upper": 0.042,
+     "source": "SIDER 4.1",
+     "term": "Muscle rigidity"
+    }
+   ],
+   "orthostasis": [],
+   "sedation": [
+    {
+     "description": "76.8%",
+     "frequency_lower": 0.768,
+     "frequency_upper": 0.768,
+     "source": "SIDER 4.1",
+     "term": "Drowsiness"
+    },
+    {
+     "description": "1.3%",
+     "frequency_lower": 0.013,
+     "frequency_upper": 0.013,
+     "source": "SIDER 4.1",
+     "term": "Hypersomnia"
+    },
+    {
+     "description": "76.8%",
+     "frequency_lower": 0.768,
+     "frequency_upper": 0.768,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Convulsion"
+    }
+   ],
+   "sexual_dysfunction": [
+    {
+     "description": "14.4%",
+     "frequency_lower": 0.144,
+     "frequency_upper": 0.144,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    },
+    {
+     "description": "7.4%",
+     "frequency_lower": 0.074,
+     "frequency_upper": 0.074,
+     "source": "SIDER 4.1",
+     "term": "Sexual dysfunction"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "27.2%",
+     "frequency_lower": 0.272,
+     "frequency_upper": 0.272,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 0,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 26.2,
+   "eps": 14.8,
+   "orthostasis": null,
+   "sedation": 76.8,
+   "seizure": 0.1,
+   "sexual_dysfunction": 14.4,
+   "weight_gain": 27.2
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "urinary retention"
+   ],
+   "eps": [
+    "dystonia"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "sedation"
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 3,
+    "n_ar_tables_used": 2,
+    "n_rows_with_drug_arm_value": 8,
+    "set_id": "13930c94-d83a-414f-be35-b1fef35f738d"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100002118"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 729,
+    "n_frequency_rows_placebo": 401,
+    "n_frequency_rows_postmarketing": 35,
+    "n_side_effect_rows": 409,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "alprazolam",
+ "label": {
+  "application_number": [
+   "NDA018276"
+  ],
+  "brand_name": [
+   "Alprazolam"
+  ],
+  "effective_time": "20250115",
+  "generic_name": [
+   "ALPRAZOLAM"
+  ],
+  "id": "0deddc26-2764-4879-a0e4-a29fff246244",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "13930c94-d83a-414f-be35-b1fef35f738d",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "13930c94-d83a-414f-be35-b1fef35f738d"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1035433",
+      "description": "Total body clearance in human",
+      "ref": "CHEMBL1151930",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 0.74
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043581",
+      "description": "Total clearance in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 0.74
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 0.74
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.74,
+      "min": 0.74,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 0.74
+     },
+     {
+      "max": 0.74,
+      "min": 0.74,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "unspecified",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 0.74
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 12.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL4732947",
+      "description": "Half life in human",
+      "ref": "CHEMBL4732045",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 6.3
+     }
+    ],
+    "summary": [
+     {
+      "max": 12.0,
+      "min": 12.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 12.0
+     },
+     {
+      "max": 6.3,
+      "min": 6.3,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 6.3
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL632931",
+      "description": "Volume of distribution in man (IV dose)",
+      "ref": "CHEMBL1135488",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.72
+     },
+     {
+      "assay_chembl_id": "CHEMBL624569",
+      "description": "Observed volume of distribution",
+      "ref": "CHEMBL1148291",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.72
+     },
+     {
+      "assay_chembl_id": "CHEMBL1100462",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1153781",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.72
+     },
+     {
+      "assay_chembl_id": "CHEMBL1043588",
+      "description": "Volume of distribution at steady state in human",
+      "ref": "CHEMBL1156824",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.8
+     },
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 0.8
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.8,
+      "min": 0.72,
+      "n_censored": 0,
+      "n_documents": 2,
+      "n_measurements": 2,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.76
+     },
+     {
+      "max": 0.8,
+      "min": 0.72,
+      "n_censored": 0,
+      "n_documents": 3,
+      "n_measurements": 3,
+      "route": "unspecified",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 0.72
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": 26.9,
+    "kind": "pk",
+    "low": 6.3,
+    "note": "mean plasma elimination half-life in healthy adults; range 6.3-26.9 h",
+    "quantity": "t_half_h",
+    "quotes": [
+     "The mean plasma elimination half-life (T 1/2 ) of alprazolam is approximately 11.2 hours (range: 6.3 to 26.9 hours) in healthy adults."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 11.2
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL1135488": {
+   "chembl_document_id": "CHEMBL1135488",
+   "journal": "J Med Chem",
+   "pmid": "12061889",
+   "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+   "year": 2002
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1151930": {
+   "chembl_document_id": "CHEMBL1151930",
+   "journal": "J Med Chem",
+   "pmid": "19445515",
+   "title": "Physicochemical determinants of human renal clearance.",
+   "year": 2009
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  },
+  "CHEMBL4732045": {
+   "chembl_document_id": "CHEMBL4732045",
+   "journal": "J Med Chem",
+   "pmid": "32686940",
+   "title": "Amide Bond Bioisosteres: Strategies, Synthesis, and Successes.",
+   "year": 2020
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 99,
+  "openfda_labels_returned": 79,
+  "openfda_labels_same_entity": 79,
+  "openfda_query": "openfda.generic_name:\"alprazolam\"",
+  "pet_searched_empty": []
+ },
+ "split": "heldout",
+ "stratum": "N05B"
+}

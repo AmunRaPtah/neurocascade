@@ -1,0 +1,309 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AB04",
+    "ddd": [
+     {
+      "ddd": 0.1,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     },
+     {
+      "ddd": 50.0,
+      "note": null,
+      "route": "P",
+      "unit": "mg"
+     },
+     {
+      "ddd": 0.1,
+      "note": null,
+      "route": "R",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "prochlorperazine"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "5 mg 3 times daily = 15 mg/day; 40 mg/day printed",
+    "high": 40,
+    "high_basis": "maximum recommended dose",
+    "indication": "severe nausea and vomiting",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Oral Dosage-Tablets: Usually one 5mg or 10mg tablet 3 or 4 times daily. Daily dosages above 40 mg should be used only in resistant cases."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "5 mg 3 times daily printed; 3 x 5 = 15 mg/day; 20 mg/day printed",
+    "high": 20,
+    "high_basis": "maximum recommended dose",
+    "indication": "non-psychotic anxiety (GAD)",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "recommended dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Non-Psychotic Anxiety--Usual dosage is 5 mg 3 or 4 times daily. Do not administer in doses of more than 20mg per day or for longer than 12 weeks."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "5 mg 3 times daily printed; 3 x 5 = 15 mg/day; 150 mg daily printed",
+    "high": 150,
+    "high_basis": "upper end of recommended range",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 15,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "In relatively mild conditions , as seen in private psychiatric practice or in outpatient clinics, dosage is 5 or 10 mg 3 or 4 times daily.",
+     "In more severe disturbances, optimum dosage is usually 100 to 150mg daily."
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [],
+   "eps": [],
+   "orthostasis": [],
+   "sedation": [],
+   "seizure": [],
+   "sexual_dysfunction": [],
+   "weight_gain": []
+  },
+  "has_frequency_source": false,
+  "has_label_table": false,
+  "label": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": null,
+   "eps": null,
+   "orthostasis": null,
+   "sedation": null,
+   "seizure": null,
+   "sexual_dysfunction": null,
+   "weight_gain": null
+  },
+  "named_without_frequency": {
+   "anticholinergic": [
+    "constipation",
+    "dry mouth",
+    "urinary retention",
+    "vision blurred"
+   ],
+   "eps": [
+    "akathisia",
+    "dyskinesia",
+    "dystonia",
+    "extrapyramidal disorder",
+    "muscle rigidity",
+    "oculogyric crisis",
+    "opisthotonus",
+    "parkinsonism",
+    "tardive dyskinesia"
+   ],
+   "orthostasis": [
+    "orthostatic hypotension"
+   ],
+   "sedation": [
+    "sedation",
+    "somnolence"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "erectile dysfunction"
+   ],
+   "weight_gain": [
+    "weight increased"
+   ]
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 0,
+    "n_ar_tables_used": 0,
+    "n_rows_with_drug_arm_value": 0,
+    "set_id": "851dddc0-26da-48eb-b039-cd85384ce864"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100004917"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 0,
+    "n_frequency_rows_placebo": 0,
+    "n_frequency_rows_postmarketing": 0,
+    "n_side_effect_rows": 247,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "prochlorperazine",
+ "label": {
+  "application_number": [
+   "ANDA218515"
+  ],
+  "brand_name": [
+   "Prochlorperazine Maleate"
+  ],
+  "effective_time": "20260904",
+  "generic_name": [
+   "PROCHLORPERAZINE MALEATE"
+  ],
+  "id": "5aa9e4eb-8100-fc3f-e063-6394a90a502d",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "851dddc0-26da-48eb-b039-cd85384ce864",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "851dddc0-26da-48eb-b039-cd85384ce864"
+ },
+ "pet": [],
+ "pk": {
+  "iv_compilations": {
+   "cl_mL_min_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614671",
+      "description": "Clearance in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 16.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 16.0,
+      "min": 16.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "mL.min-1.kg-1",
+      "value": 16.0
+     }
+    ]
+   },
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614674",
+      "description": "Half life in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 9.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 9.0,
+      "min": 9.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "hr",
+      "value": 9.0
+     }
+    ]
+   },
+   "vss_L_kg": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL1614670",
+      "description": "Volume of distribution at steady state in human after iv administration",
+      "ref": "CHEMBL1614632",
+      "relation": "=",
+      "route": "iv",
+      "species": "human",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 22.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 22.0,
+      "min": 22.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "iv",
+      "species": "human",
+      "units": "L.kg-1",
+      "value": 22.0
+     }
+    ]
+   }
+  },
+  "label": []
+ },
+ "references": {
+  "CHEMBL1614632": {
+   "chembl_document_id": "CHEMBL1614632",
+   "journal": "Drug Metab Dispos",
+   "pmid": "18426954",
+   "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+   "year": 2008
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 71,
+  "openfda_labels_returned": 61,
+  "openfda_labels_same_entity": 61,
+  "openfda_query": "openfda.generic_name:\"prochlorperazine\"",
+  "pet_searched_empty": []
+ },
+ "split": "train",
+ "stratum": "N05A"
+}

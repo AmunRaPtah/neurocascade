@@ -1,0 +1,573 @@
+{
+ "dose": {
+  "ddd": [
+   {
+    "atc_code": "N05AH04",
+    "ddd": [
+     {
+      "ddd": 0.4,
+      "note": null,
+      "route": "O",
+      "unit": "g"
+     }
+    ],
+    "index_last_updated": "2026-01-20",
+    "who_name": "quetiapine"
+   }
+  ],
+  "label": [
+   {
+    "derivation": "25 mg twice daily printed; 2 x 25 = 50 mg/day",
+    "high": 750,
+    "high_basis": "maximum recommended dose",
+    "indication": "schizophrenia",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Schizophrenia - Adults (2.2) 25 mg twice daily 150-750 mg/day 750 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "derivation": "50 mg twice daily printed; 2 x 50 = 100 mg/day",
+    "high": 800,
+    "high_basis": "maximum recommended dose",
+    "indication": "bipolar mania",
+    "kind": "dose",
+    "low": 100,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Bipolar Mania - Adults Monotherapy or as an adjunct to lithium or divalproex (2.2) 50 mg twice daily 400-800 mg/day 800 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   },
+   {
+    "high": 300,
+    "high_basis": "maximum recommended dose",
+    "indication": "bipolar depression",
+    "kind": "dose",
+    "low": 50,
+    "low_basis": "starting dose",
+    "population": "adult",
+    "quantity": "daily_dose_mg",
+    "quotes": [
+     "Bipolar Depression - Adults (2.2) 50 mg once daily at bedtime 300 mg/day 300 mg/day"
+    ],
+    "route": "oral",
+    "units": "mg/day"
+   }
+  ]
+ },
+ "effects": {
+  "evidence": {
+   "anticholinergic": [
+    {
+     "description": "11%",
+     "frequency_lower": 0.11,
+     "frequency_upper": 0.11,
+     "source": "SIDER 4.1",
+     "term": "Constipation"
+    },
+    {
+     "description": "44%",
+     "frequency_lower": 0.44,
+     "frequency_upper": 0.44,
+     "source": "SIDER 4.1",
+     "term": "Dry mouth"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Urinary retention"
+    },
+    {
+     "description": "5.1%",
+     "frequency_lower": 0.051,
+     "frequency_upper": 0.051,
+     "source": "SIDER 4.1",
+     "term": "Vision blurred"
+    },
+    {
+     "drug_arm_percent": 10.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10: Adverse Reaction Incidence in 3-Week Placebo-Controlled Clinical Trials for the Treatment of Bipolar Mania (Adjunct Therapy)",
+     "term": "Constipation"
+    },
+    {
+     "drug_arm_percent": 44.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11: Adverse Reaction Incidence in 8-Week Placebo-Controlled Clinical Trials for the Treatment of Bipolar Depression",
+     "term": "Dry Mouth"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11: Adverse Reaction Incidence in 8-Week Placebo-Controlled Clinical Trials for the Treatment of Bipolar Depression",
+     "term": "Vision Blurred"
+    }
+   ],
+   "eps": [
+    {
+     "description": "7.8%",
+     "frequency_lower": 0.078,
+     "frequency_upper": 0.078,
+     "source": "SIDER 4.1",
+     "term": "Akathisia"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Dyskinesia"
+    },
+    {
+     "description": "8%",
+     "frequency_lower": 0.08,
+     "frequency_upper": 0.08,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal disorder"
+    },
+    {
+     "description": "8%",
+     "frequency_lower": 0.08,
+     "frequency_upper": 0.08,
+     "source": "SIDER 4.1",
+     "term": "Extrapyramidal symptoms"
+    },
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Muscle rigidity"
+    },
+    {
+     "description": "7.8%",
+     "frequency_lower": 0.078,
+     "frequency_upper": 0.078,
+     "source": "SIDER 4.1",
+     "term": "Parkinsonism"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Tardive dyskinesia"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11: Adverse Reaction Incidence in 8-Week Placebo-Controlled Clinical Trials for the Treatment of Bipolar Depression",
+     "term": "Akathisia"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11: Adverse Reaction Incidence in 8-Week Placebo-Controlled Clinical Trials for the Treatment of Bipolar Depression",
+     "term": "Extrapyramidal Disorder"
+    },
+    {
+     "drug_arm_percent": 3.8,
+     "source": "openFDA label table",
+     "table_caption": "Table 12: Adverse Reactions Associated with EPS in a Short-Term, Placebo-Controlled Multiple Fixed-Dose Phase III Schizophrenia Trial (6 weeks duration)",
+     "term": "Parkinsonism"
+    }
+   ],
+   "orthostasis": [
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Dizziness postural"
+    },
+    {
+     "description": "12.2%",
+     "frequency_lower": 0.122,
+     "frequency_upper": 0.122,
+     "source": "SIDER 4.1",
+     "term": "Orthostatic hypotension"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11: Adverse Reaction Incidence in 8-Week Placebo-Controlled Clinical Trials for the Treatment of Bipolar Depression",
+     "term": "Orthostatic Hypotension"
+    },
+    {
+     "drug_arm_percent": 7.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10: Adverse Reaction Incidence in 3-Week Placebo-Controlled Clinical Trials for the Treatment of Bipolar Mania (Adjunct Therapy)",
+     "term": "Postural Hypotension"
+    }
+   ],
+   "sedation": [
+    {
+     "description": "3%",
+     "frequency_lower": 0.03,
+     "frequency_upper": 0.03,
+     "source": "SIDER 4.1",
+     "term": "Hypersomnia"
+    },
+    {
+     "description": "57%",
+     "frequency_lower": 0.57,
+     "frequency_upper": 0.57,
+     "source": "SIDER 4.1",
+     "term": "Somnolence"
+    },
+    {
+     "drug_arm_percent": 3.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11: Adverse Reaction Incidence in 8-Week Placebo-Controlled Clinical Trials for the Treatment of Bipolar Depression",
+     "term": "Hypersomnia"
+    },
+    {
+     "drug_arm_percent": 57.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11: Adverse Reaction Incidence in 8-Week Placebo-Controlled Clinical Trials for the Treatment of Bipolar Depression",
+     "term": "Somnolence"
+    }
+   ],
+   "seizure": [],
+   "sexual_dysfunction": [
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Abnormal ejaculation"
+    },
+    {
+     "description": "infrequent",
+     "frequency_lower": 0.001,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Ejaculation disorder"
+    },
+    {
+     "description": "1%",
+     "frequency_lower": 0.01,
+     "frequency_upper": 0.01,
+     "source": "SIDER 4.1",
+     "term": "Erectile dysfunction"
+    },
+    {
+     "description": "2%",
+     "frequency_lower": 0.02,
+     "frequency_upper": 0.02,
+     "source": "SIDER 4.1",
+     "term": "Libido decreased"
+    }
+   ],
+   "weight_gain": [
+    {
+     "description": "13.4%",
+     "frequency_lower": 0.134,
+     "frequency_upper": 0.134,
+     "source": "SIDER 4.1",
+     "term": "Weight increased"
+    },
+    {
+     "drug_arm_percent": 6.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 10: Adverse Reaction Incidence in 3-Week Placebo-Controlled Clinical Trials for the Treatment of Bipolar Mania (Adjunct Therapy)",
+     "term": "Weight Gain"
+    },
+    {
+     "drug_arm_percent": 4.0,
+     "source": "openFDA label table",
+     "table_caption": "Table 11: Adverse Reaction Incidence in 8-Week Placebo-Controlled Clinical Trials for the Treatment of Bipolar Depression",
+     "term": "Weight increased"
+    }
+   ]
+  },
+  "has_frequency_source": true,
+  "has_label_table": true,
+  "label": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 0,
+   "sexual_dysfunction": 0,
+   "weight_gain": 1
+  },
+  "listed": {
+   "anticholinergic": 1,
+   "eps": 1,
+   "orthostasis": 1,
+   "sedation": 1,
+   "seizure": 1,
+   "sexual_dysfunction": 1,
+   "weight_gain": 1
+  },
+  "max_percent": {
+   "anticholinergic": 44.0,
+   "eps": 8.0,
+   "orthostasis": 12.2,
+   "sedation": 57.0,
+   "seizure": null,
+   "sexual_dysfunction": 2.0,
+   "weight_gain": 13.4
+  },
+  "named_without_frequency": {
+   "anticholinergic": [],
+   "eps": [
+    "dystonia",
+    "hypokinesia",
+    "oculogyric crisis"
+   ],
+   "orthostasis": [],
+   "sedation": [
+    "sedation"
+   ],
+   "seizure": [
+    "seizure"
+   ],
+   "sexual_dysfunction": [
+    "sexual dysfunction"
+   ],
+   "weight_gain": []
+  },
+  "sources": {
+   "label": {
+    "n_ar_tables": 8,
+    "n_ar_tables_used": 4,
+    "n_rows_with_drug_arm_value": 98,
+    "set_id": "8ae62aaf-f8c5-417f-baac-0098369ca322"
+   },
+   "sider": {
+    "flat_ids": [
+     "CID100005002"
+    ],
+    "match": "name",
+    "n_frequency_rows_drug": 1797,
+    "n_frequency_rows_placebo": 642,
+    "n_frequency_rows_postmarketing": 75,
+    "n_side_effect_rows": 777,
+    "stereo_ids": null
+   }
+  }
+ },
+ "inn": "quetiapine",
+ "label": {
+  "application_number": [
+   "NDA020639"
+  ],
+  "brand_name": [
+   "SEROQUEL"
+  ],
+  "effective_time": "20260410",
+  "generic_name": [
+   "QUETIAPINE"
+  ],
+  "id": "1fc7d584-a2f0-47f7-9506-5ecb2bfebb65",
+  "indication_psychiatric": true,
+  "route": [
+   "ORAL"
+  ],
+  "set_id": "8ae62aaf-f8c5-417f-baac-0098369ca322",
+  "source": "openFDA drug/label.json (Structured Product Label), retrieved 2026-10-02"
+ },
+ "label_transcription": {
+  "method": "hand transcription from the selected openFDA label, 2026-10-02; every quote is checked verbatim against the cached label and every value against its quote at build time",
+  "set_id": "8ae62aaf-f8c5-417f-baac-0098369ca322"
+ },
+ "pet": [
+  {
+   "dose_mg_per_day": 750,
+   "drug": "quetiapine",
+   "first_author": "Gefvert",
+   "n_subjects": null,
+   "occupancy_percent": 41,
+   "pmid": "11313155",
+   "quote": "Mean D(2) receptor occupancies of 41 and 30% were observed at quetiapine doses of 750 and 450 mg/day.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2001
+  },
+  {
+   "dose_mg_per_day": 450,
+   "drug": "quetiapine",
+   "first_author": "Gefvert",
+   "n_subjects": null,
+   "occupancy_percent": 30,
+   "pmid": "11313155",
+   "quote": "Mean D(2) receptor occupancies of 41 and 30% were observed at quetiapine doses of 750 and 450 mg/day.",
+   "regimen": "steady state",
+   "region": "striatum",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "D2",
+   "tracer": "[11C]raclopride",
+   "year": 2001
+  },
+  {
+   "dose_mg_per_day": 750,
+   "drug": "quetiapine",
+   "first_author": "Gefvert",
+   "n_subjects": null,
+   "occupancy_percent": 74,
+   "pmid": "11313155",
+   "quote": "Quetiapine induced a consistently higher degree of 5HT(2A) receptor occupancy, with mean occupancies of 74 and 57% at doses of 750 and 450 mg/day, respectively.",
+   "regimen": "steady state",
+   "region": "cortex",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "5-HT2A",
+   "tracer": "[11C]N-methylspiperone",
+   "year": 2001
+  },
+  {
+   "dose_mg_per_day": 450,
+   "drug": "quetiapine",
+   "first_author": "Gefvert",
+   "n_subjects": null,
+   "occupancy_percent": 57,
+   "pmid": "11313155",
+   "quote": "Quetiapine induced a consistently higher degree of 5HT(2A) receptor occupancy, with mean occupancies of 74 and 57% at doses of 750 and 450 mg/day, respectively.",
+   "regimen": "steady state",
+   "region": "cortex",
+   "route": "oral",
+   "statistic": "mean",
+   "target": "5-HT2A",
+   "tracer": "[11C]N-methylspiperone",
+   "year": 2001
+  }
+ ],
+ "pk": {
+  "iv_compilations": {
+   "t_half_h": {
+    "measurements": [
+     {
+      "assay_chembl_id": "CHEMBL4258138",
+      "description": "Terminal half life in po dosed human",
+      "ref": "CHEMBL4257461",
+      "relation": "=",
+      "route": "oral",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 6.0
+     },
+     {
+      "assay_chembl_id": "CHEMBL4396622",
+      "description": "Half life in human at 25 to 400 mg",
+      "ref": "CHEMBL4393729",
+      "relation": "=",
+      "route": "unspecified",
+      "species": "human",
+      "standard_type": "T1/2",
+      "units": "hr",
+      "value": 6.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 6.0,
+      "min": 6.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "oral",
+      "species": "human",
+      "units": "hr",
+      "value": 6.0
+     },
+     {
+      "max": 6.0,
+      "min": 6.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "route": "unspecified",
+      "species": "human",
+      "units": "hr",
+      "value": 6.0
+     }
+    ]
+   }
+  },
+  "label": [
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "mean terminal half-life",
+    "quantity": "t_half_h",
+    "quotes": [
+     "Elimination of quetiapine is mainly via hepatic metabolism with a mean terminal half-life of about 6 hours within the proposed clinical dose range."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "h",
+    "value": 6
+   },
+   {
+    "high": null,
+    "kind": "pk",
+    "low": null,
+    "note": "apparent volume of distribution (SD 4 L/kg)",
+    "quantity": "v_over_f",
+    "quotes": [
+     "Quetiapine is widely distributed throughout the body with an apparent volume of distribution of 10±4 L/kg."
+    ],
+    "route": "oral",
+    "statistic": "mean",
+    "units": "L/kg",
+    "value": 10
+   }
+  ]
+ },
+ "references": {
+  "CHEMBL4257461": {
+   "chembl_document_id": "CHEMBL4257461",
+   "journal": "Medchemcomm",
+   "pmid": "30108966",
+   "title": "Schizophrenia: synthetic strategies and recent advances in drug design.",
+   "year": 2018
+  },
+  "CHEMBL4393729": {
+   "chembl_document_id": "CHEMBL4393729",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "31307886",
+   "title": "Sleep modulating agents.",
+   "year": 2019
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 182,
+  "openfda_labels_returned": 148,
+  "openfda_labels_same_entity": 148,
+  "openfda_query": "openfda.generic_name:\"quetiapine\"",
+  "pet_searched_empty": [
+   {
+    "drug": "quetiapine",
+    "note": "Kapur 2000 (PMID 10839333, Arch Gen Psychiatry transient-occupancy study) reports 0%-27% (12h) and transient 58%-64% D2 but the dose range (150-600 mg/d) is in Methods, non-contiguous with the occupancy sentences; Kessler 2006 (PMID 16738543) putamen 33.5% has no mg dose. These were skipped; usable quetiapine D2/5-HT2A points taken from Gefvert 2001 (PMID 11313155).",
+    "queries": [
+     "(TITLE:\"quetiapine\" ...) AND ABSTRACT:\"occupancy\" AND (ABSTRACT:raclopride OR ABSTRACT:IBZM)"
+    ],
+    "target": "D2"
+   }
+  ]
+ },
+ "split": "heldout",
+ "stratum": "N05A"
+}
