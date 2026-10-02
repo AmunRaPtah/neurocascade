@@ -1,0 +1,205 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL896",
+ "chembl_id_queried": "CHEMBL896",
+ "entity_note": null,
+ "inn": "hydroxyzine",
+ "mechanism_targets": [
+  "HRH1"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:11809864": {
+   "citation": "Gillard M, et al., 2002",
+   "doi": null,
+   "pmid": "11809864"
+  },
+  "PMID:15627436": {
+   "citation": "ChEMBL drug mechanism 160: Histamine H1 receptor antagonist; refs ISBN 9780702034718 PP. 333; PubMed 15627436",
+   "doi": null,
+   "pmid": "15627436"
+  },
+  "PMID:15947036": {
+   "citation": "Lim HD, et al., 2005",
+   "doi": null,
+   "pmid": "15947036"
+  },
+  "PMID:29730027": {
+   "chembl_document": "CHEMBL4190389",
+   "citation": "Pa\u0144czyk K, Pytka K, Jakubczyk M, Rapacz A, Sa\u0142at K, Furga\u0142a A, Siwek A, G\u0142uch-Lutwin M, Grybo\u015b A, S\u0142oczy\u0144ska K, P\u0119kala E, \u017bmudzki P, Bucki A, Ko\u0142aczkowski M, \u017belaszczyk D, Marona H, Waszkielewicz AM. (2018) Bioorg Med Chem Lett 28:2039",
+   "doi": "10.1016/j.bmcl.2018.04.059",
+   "pmid": "29730027"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 5,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 2
+  },
+  "gtopdb_ligand_id": "7199",
+  "pdsp_ligand_names_matched": [
+   "Hydroxyzine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "hydroxyzine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05B",
+ "targets": {
+  "DRD2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 378.0,
+   "ki_min_nM": 378.0,
+   "ki_nM": 378.0,
+   "measurements": [
+    {
+     "ki_nM": 378.0,
+     "record": "activity 18530184 / assay CHEMBL4195122",
+     "ref": "PMID:29730027",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "D(2) dopamine receptor",
+   "pki_median": 6.4225,
+   "uniprot": [
+    "P14416"
+   ]
+  },
+  "HRH1": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:11809864",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:15627436",
+     "source": "ChEMBL mechanism"
+    },
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:15627436",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HRH1"
+   ],
+   "ki_max_nM": 2.0,
+   "ki_min_nM": 1.9952623149689,
+   "ki_nM": 1.995263,
+   "measurements": [
+    {
+     "ki_nM": 2.0,
+     "record": "activity 18530186 / assay CHEMBL4195120",
+     "ref": "PMID:29730027",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.995263191254866,
+     "record": "GtoPdb ligand 7199 target 262 pKi 8.699999809265137",
+     "ref": "PMID:11809864",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 1.9952623149689,
+     "record": "PDSP Ki ID 17384 (CLONED, hot ligand 3H-MEPYRAMINE)",
+     "ref": "PMID:11809864",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.9952623149689,
+     "record": "PDSP Ki ID 69047 (CLONED, hot ligand 3H-MEPYRAMINE)",
+     "ref": "PMID:15947036",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 10000.0,
+     "record": "PDSP Ki ID 69067 (CLONED, hot ligand 3H-Histamine)",
+     "ref": "PMID:15947036",
+     "relation": ">",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 1,
+   "n_measurements": 4,
+   "n_references": 3,
+   "name": "Histamine H1 receptor",
+   "pki_median": 8.7,
+   "uniprot": [
+    "P35367"
+   ]
+  },
+  "HTR2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 50.0,
+   "ki_min_nM": 50.0,
+   "ki_nM": 50.0,
+   "measurements": [
+    {
+     "ki_nM": 50.0,
+     "record": "activity 18530185 / assay CHEMBL4195121",
+     "ref": "PMID:29730027",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 2A",
+   "pki_median": 7.301,
+   "uniprot": [
+    "P28223"
+   ]
+  }
+ }
+}

@@ -1,0 +1,222 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL259209",
+ "chembl_id_queried": "CHEMBL259209",
+ "entity_note": null,
+ "inn": "milnacipran",
+ "mechanism_targets": [
+  "SLC6A2",
+  "SLC6A4"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_MECHANISM:412": {
+   "citation": "ChEMBL drug mechanism 412: Serotonin transporter inhibitor; refs DailyMed setid=16a4a314-f97e-4e91-95e9-576a3773d284#nlm34090-1",
+   "doi": null,
+   "pmid": null
+  },
+  "CHEMBL_MECHANISM:908": {
+   "citation": "ChEMBL drug mechanism 908: Norepinephrine transporter inhibitor; refs DailyMed setid=16a4a314-f97e-4e91-95e9-576a3773d284#nlm34090-1",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:14573386": {
+   "citation": "Koch S, et al., 2003",
+   "doi": null,
+   "pmid": "14573386"
+  },
+  "PMID:14744476": {
+   "citation": "Vaishnavi SN, et al., 2004",
+   "doi": null,
+   "pmid": "14744476"
+  },
+  "PMID:23347683": {
+   "chembl_document": "CHEMBL2331276",
+   "citation": "Van Orden LJ, Van Dyke PM, Saito DR, Church TJ, Chang R, Smith JA, Martin WJ, Jaw-Tsai S, Stangeland EL. (2013) Bioorg Med Chem Lett 23:1456",
+   "doi": "10.1016/j.bmcl.2012.12.061",
+   "pmid": "23347683"
+  },
+  "PMID:24900709": {
+   "chembl_document": "CHEMBL2384999",
+   "citation": "Dreyfus N, Myers JK, Badescu VO, de Frutos O, de la Puente ML, Ding C, Filla SA, Fynboe K, Gernert DL, Heinz BA, Hemrick-Luecke SK, Johnson KW, Johnson MP, L\u00f3pez P, Love PL, Martin LJ, Masquelin T, McCoy MJ, Mendiola J, Morrow D, Muhlhauser M, Pascual G, Perun TJ, Pfeifer LA, Phebus LA, Richards SJ, Rinc\u00f3n JA, Seest EP, Shah J, Shaojuan J, Simmons RM, Stephenson GA, Tromiczak EG, Thompson LK, Walter MW, Weber WW, Zarrinmayeh H, Thomas CE, Joshi E, Iyengar S, Johansson AM. (2013) ACS Med Chem Lett 4:560",
+   "doi": "10.1021/ml400049p",
+   "pmid": "24900709"
+  },
+  "PMID:27865645": {
+   "chembl_document": "CHEMBL3871287",
+   "citation": "Yoshinaga H, Masumoto S, Koyama K, Kinomura N, Matsumoto Y, Kato T, Baba S, Matsumoto K, Horisawa T, Oki H, Yabuuchi K, Kodo T. (2017) Bioorg Med Chem 25:293",
+   "doi": "10.1016/j.bmc.2016.10.034",
+   "pmid": "27865645"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 5,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": "7436",
+  "pdsp_ligand_names_matched": [
+   "Milnacipran"
+  ],
+  "pdsp_ligand_names_tried": [
+   "milnacipran"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "SLC6A2": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:23347683",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "CHEMBL_MECHANISM:908",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A2"
+   ],
+   "ki_max_nM": 200.0,
+   "ki_min_nM": 22.0,
+   "ki_nM": 85.0,
+   "measurements": [
+    {
+     "ki_nM": 85.0,
+     "record": "activity 13325660 / assay CHEMBL2389182",
+     "ref": "PMID:24900709",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 200.0,
+     "record": "PDSP Ki ID 41263 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:14573386",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 22.0,
+     "record": "PDSP Ki ID 45451 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:14744476",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 68.0,
+     "record": "PDSP Ki ID 45469 (CLONED, hot ligand 3H-NE Uptake)",
+     "ref": "PMID:14744476",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 4,
+   "n_references": 3,
+   "name": "Sodium-dependent noradrenaline transporter",
+   "pki_median": 7.0706,
+   "uniprot": [
+    "P23975"
+   ]
+  },
+  "SLC6A4": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:23347683",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "CHEMBL_MECHANISM:412",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A4"
+   ],
+   "ki_max_nM": 151.0,
+   "ki_min_nM": 6.5,
+   "ki_nM": 28.024714,
+   "measurements": [
+    {
+     "ki_nM": 6.5,
+     "record": "activity 13325669 / assay CHEMBL2389183",
+     "ref": "PMID:24900709",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 22.0,
+     "record": "activity 16817150 / assay CHEMBL3871875",
+     "ref": "PMID:27865645",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 123.0,
+     "record": "PDSP Ki ID 41257 (CLONED, hot ligand 3H-PAROXETINE)",
+     "ref": "PMID:14573386",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 8.44,
+     "record": "PDSP Ki ID 45445 (CLONED, hot ligand 3H-CITALOPRAM)",
+     "ref": "PMID:14744476",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 151.0,
+     "record": "PDSP Ki ID 45463 (CLONED, hot ligand 3H-5-HT Uptake)",
+     "ref": "PMID:14744476",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 5,
+   "n_references": 4,
+   "name": "Sodium-dependent serotonin transporter",
+   "pki_median": 7.5525,
+   "uniprot": [
+    "P31645"
+   ]
+  }
+ }
+}

@@ -1,0 +1,161 @@
+{
+ "actions_without_ki": {
+  "CASR": [
+   {
+    "action": "positive allosteric modulator",
+    "label": "Allosteric modulator / Positive",
+    "ref": "GTOPDB:ligand 717 target 54",
+    "source": "GtoPdb"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL54976",
+ "chembl_id_queried": "CHEMBL54976",
+ "entity_note": null,
+ "inn": "tryptophan",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "GTOPDB:ligand 717 target 54": {
+   "citation": "GtoPdb interaction, ligand 717 (L-tryptophan), target 54; primary PMIDs 10781086,15234970",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:16126914": {
+   "citation": "GtoPdb interaction, ligand 717 (L-tryptophan), target 1161; primary PMIDs 16126914",
+   "doi": null,
+   "pmid": "16126914"
+  },
+  "PMID:24826842": {
+   "citation": "GtoPdb interaction, ligand 717 (L-tryptophan), target 130; primary PMIDs 24826842",
+   "doi": null,
+   "pmid": "24826842"
+  },
+  "PMID:26349500": {
+   "citation": "GtoPdb interaction, ligand 717 (L-tryptophan), target 130; primary PMIDs 26349500",
+   "doi": null,
+   "pmid": "26349500"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 2,
+  "excluded_counts": {
+   "chembl_data_validity_flag": 2
+  },
+  "gtopdb_ligand_id": "717",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "tryptophan"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "GPR139": {
+   "action_types": [
+    "agonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "agonist",
+     "label": "Agonist / Agonist",
+     "ref": "PMID:24826842",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "agonist",
+     "label": "Agonist / Agonist",
+     "ref": "PMID:26349500",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "agonist",
+     "label": "Agonist / Agonist",
+     "ref": "PMID:26349500",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "GPR139"
+   ],
+   "ki_max_nM": 741310.0459583174,
+   "ki_min_nM": 741310.0459583174,
+   "ki_nM": 741310.045958,
+   "measurements": [
+    {
+     "ki_nM": 741310.0459583174,
+     "record": "GtoPdb ligand 717 target 130 pKi 3.130000114440918",
+     "ref": "PMID:26349500",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "GPR139",
+   "pki_median": 3.13,
+   "uniprot": [
+    "Q6DWJ6"
+   ]
+  },
+  "SLC36A1": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:16126914",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC36A1"
+   ],
+   "ki_max_nM": 5011872.336272725,
+   "ki_min_nM": 5011872.336272725,
+   "ki_nM": 5011872.336273,
+   "measurements": [
+    {
+     "ki_nM": 5011872.336272725,
+     "record": "GtoPdb ligand 717 target 1161 pKi 2.3",
+     "ref": "PMID:16126914",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Proton-coupled Amino acid Transporter 1",
+   "pki_median": 2.3,
+   "uniprot": [
+    "Q7Z2H8"
+   ]
+  }
+ }
+}

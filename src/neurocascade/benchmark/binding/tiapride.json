@@ -1,0 +1,239 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL84158",
+ "chembl_id_queried": "CHEMBL84158",
+ "entity_note": null,
+ "inn": "tiapride",
+ "mechanism_targets": [
+  "DRD2",
+  "DRD3"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:10468312": {
+   "citation": "ChEMBL drug mechanism 8173: Dopamine D3 receptor antagonist; refs Other https://mri.cts-mrp.eu/human/downloads/NL_H_0664_001_FinalPI_4of4.pdf; PubMed 10468312; PubMed 17076934",
+   "doi": null,
+   "pmid": "10468312"
+  },
+  "PMID:16135699": {
+   "citation": "Burstein ES, et al., 2005",
+   "doi": null,
+   "pmid": "16135699"
+  }
+ },
+ "screened_inactive_without_ki": {
+  "CA2": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7804245 / assay CHEMBL1909123",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "CTSG": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7806406 / assay CHEMBL1909194",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "ELANE": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7806408 / assay CHEMBL1909195",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "MMP1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7806410 / assay CHEMBL1909196",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PDE5A": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7806390 / assay CHEMBL1909186",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTAFR": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7806392 / assay CHEMBL1909187",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTGS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7804259 / assay CHEMBL1909130",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "TBXAS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7806466 / assay CHEMBL1909116",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ]
+ },
+ "searched": {
+  "chembl_ki_rows_returned": 89,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 81,
+   "chembl_no_ki_value": 8,
+   "pdsp_species_not_human": 1
+  },
+  "gtopdb_ligand_id": null,
+  "pdsp_ligand_names_matched": [
+   "Tiapride"
+  ],
+  "pdsp_ligand_names_tried": [
+   "tiapride"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "DRD2": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:10468312",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 226.0,
+   "ki_min_nM": 31.0,
+   "ki_nM": 83.701852,
+   "measurements": [
+    {
+     "ki_nM": 31.0,
+     "record": "PDSP Ki ID 39019 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 226.0,
+     "record": "PDSP Ki ID 39050 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "DOPAMINE D2",
+   "pki_median": 7.0773,
+   "uniprot": []
+  },
+  "DRD3": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:10468312",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD3"
+   ],
+   "ki_max_nM": 324.0,
+   "ki_min_nM": 95.0,
+   "ki_nM": 175.442298,
+   "measurements": [
+    {
+     "ki_nM": 95.0,
+     "record": "PDSP Ki ID 39120 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 324.0,
+     "record": "PDSP Ki ID 39091 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "DOPAMINE D3",
+   "pki_median": 6.7559,
+   "uniprot": []
+  },
+  "DRD4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD4"
+   ],
+   "ki_max_nM": 14.0,
+   "ki_min_nM": 14.0,
+   "ki_nM": 14.0,
+   "measurements": [
+    {
+     "ki_nM": 14.0,
+     "record": "PDSP Ki ID 39161 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "DOPAMINE D4",
+   "pki_median": 7.8539,
+   "uniprot": []
+  }
+ }
+}

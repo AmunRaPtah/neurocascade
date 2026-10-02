@@ -1,0 +1,319 @@
+{
+ "actions_without_ki": {
+  "SLC6A2": [
+   {
+    "action": "inhibitor",
+    "label": "INHIBITOR",
+    "ref": "PMID:1161046",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL1442422",
+ "chembl_id_queried": "CHEMBL1442422",
+ "entity_note": null,
+ "inn": "dibenzepin",
+ "mechanism_targets": [
+  "HRH1",
+  "SLC6A2"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PDSP_REF:Appl, Heidrun.  et. al, 2011": {
+   "citation": "Appl, Heidrun.  et. al, 2011",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:1161046": {
+   "citation": "ChEMBL drug mechanism 6695: Histamine H1 receptor antagonist; refs PubMed 1161046; PubMed 11819030; PubMed 17848146; PubMed 22033803; PubMed 2427823; PubMed 6148707; PubMed 6928",
+   "doi": null,
+   "pmid": "1161046"
+  },
+  "PMID:32798652": {
+   "chembl_document": "CHEMBL4665756",
+   "citation": "Bieszczad B,Siwek A,Wilczek M,Trzybi\u0144ski D,Wo\u017aniak K,Sata\u0142a G,Bojarski AJ,Mieczkowski A (2020) Bioorg Med Chem Lett 30:127493",
+   "doi": "10.1016/j.bmcl.2020.127493",
+   "pmid": "32798652"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 7,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": null,
+  "pdsp_ligand_names_matched": [
+   "Dibenzepine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "dibenzepin",
+   "dibenzepine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "DRD2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 30200.0,
+   "ki_min_nM": 30200.0,
+   "ki_nM": 30200.0,
+   "measurements": [
+    {
+     "ki_nM": 30200.0,
+     "record": "activity 22401793 / assay CHEMBL4669829",
+     "ref": "PMID:32798652",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "D(2) dopamine receptor",
+   "pki_median": 4.52,
+   "uniprot": [
+    "P14416"
+   ]
+  },
+  "HRH1": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:1161046",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HRH1"
+   ],
+   "ki_max_nM": 23.442288153199,
+   "ki_min_nM": 20.0,
+   "ki_nM": 21.652847,
+   "measurements": [
+    {
+     "ki_nM": 20.0,
+     "record": "activity 22401780 / assay CHEMBL4669828",
+     "ref": "PMID:32798652",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 23.442288153199,
+     "record": "PDSP Ki ID 64644 (CLONED, hot ligand 3H-PYRILAMINE)",
+     "ref": "PDSP_REF:Appl, Heidrun.  et. al, 2011",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "Histamine H1 receptor",
+   "pki_median": 7.6645,
+   "uniprot": [
+    "P35367"
+   ]
+  },
+  "HRH2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HRH2"
+   ],
+   "ki_max_nM": 1949.844599758,
+   "ki_min_nM": 1949.844599758,
+   "ki_nM": 1949.8446,
+   "measurements": [
+    {
+     "ki_nM": 1949.844599758,
+     "record": "PDSP Ki ID 64671 (CLONED, hot ligand 3H-TIOTIDINE)",
+     "ref": "PDSP_REF:Appl, Heidrun.  et. al, 2011",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "H2",
+   "pki_median": 5.71,
+   "uniprot": []
+  },
+  "HTR1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1A"
+   ],
+   "ki_max_nM": 2500.0,
+   "ki_min_nM": 2500.0,
+   "ki_nM": 2500.0,
+   "measurements": [
+    {
+     "ki_nM": 2500.0,
+     "record": "activity 22401755 / assay CHEMBL4669826",
+     "ref": "PMID:32798652",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 1A",
+   "pki_median": 5.6021,
+   "uniprot": [
+    "P08908"
+   ]
+  },
+  "HTR2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 7200.0,
+   "ki_min_nM": 7200.0,
+   "ki_nM": 7200.0,
+   "measurements": [
+    {
+     "ki_nM": 7200.0,
+     "record": "activity 22401749 / assay CHEMBL4669825",
+     "ref": "PMID:32798652",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 2A",
+   "pki_median": 5.1427,
+   "uniprot": [
+    "P28223"
+   ]
+  },
+  "HTR6": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR6"
+   ],
+   "ki_max_nM": 3300.0,
+   "ki_min_nM": 3300.0,
+   "ki_nM": 3300.0,
+   "measurements": [
+    {
+     "ki_nM": 3300.0,
+     "record": "activity 22401743 / assay CHEMBL4669824",
+     "ref": "PMID:32798652",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 6",
+   "pki_median": 5.4815,
+   "uniprot": [
+    "P50406"
+   ]
+  },
+  "HTR7": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR7"
+   ],
+   "ki_max_nM": 12300.0,
+   "ki_min_nM": 12300.0,
+   "ki_nM": 12300.0,
+   "measurements": [
+    {
+     "ki_nM": 12300.0,
+     "record": "activity 22401737 / assay CHEMBL4669823",
+     "ref": "PMID:32798652",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 7",
+   "pki_median": 4.9101,
+   "uniprot": [
+    "P34969"
+   ]
+  },
+  "SLC6A4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A4"
+   ],
+   "ki_max_nM": 10900.0,
+   "ki_min_nM": 10900.0,
+   "ki_nM": 10900.0,
+   "measurements": [
+    {
+     "ki_nM": 10900.0,
+     "record": "activity 22401762 / assay CHEMBL4669827",
+     "ref": "PMID:32798652",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Sodium-dependent serotonin transporter",
+   "pki_median": 4.9626,
+   "uniprot": [
+    "P31645"
+   ]
+  }
+ }
+}

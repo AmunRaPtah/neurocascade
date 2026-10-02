@@ -16,6 +16,7 @@ from pathlib import Path
 BENCHMARK_DIR = Path(__file__).resolve().parent
 DRUGS_PATH = BENCHMARK_DIR / "drugs.json"
 SPLIT_PATH = BENCHMARK_DIR / "split.json"
+BINDING_DIR = BENCHMARK_DIR / "binding"
 
 SPLIT_SHA256 = "54a08acfe76b21237bd3152653184796c875f064c66408c9449980f9df6628d9"
 
@@ -42,3 +43,20 @@ def load_split() -> dict:
         )
     split = json.loads(SPLIT_PATH.read_text())
     return {"train": list(split["train"]), "heldout": list(split["heldout"])}
+
+
+def binding_panel_path(inn: str) -> Path:
+    return BINDING_DIR / f"{inn.replace(' ', '_')}.json"
+
+
+def load_binding_panel(inn: str) -> dict:
+    """One drug's P28.2 binding panel. Raises ``KeyError`` for a non-benchmark INN."""
+    path = binding_panel_path(inn)
+    if not path.exists():
+        raise KeyError(f"{inn!r} is not a benchmark drug with a P28.2 binding record")
+    return json.loads(path.read_text())
+
+
+def load_binding_coverage() -> dict:
+    """The P28.2 coverage summary and per-drug coverage rows."""
+    return json.loads((BINDING_DIR / "coverage.json").read_text())

@@ -1,0 +1,151 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL1258006",
+ "chembl_id_queried": "CHEMBL1258006",
+ "entity_note": null,
+ "inn": "bradanicline",
+ "mechanism_targets": [
+  "CHRNA7"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:19482012": {
+   "citation": "GtoPdb interaction, ligand 3969 (bradanicline), target 468; primary PMIDs 19482012",
+   "doi": null,
+   "pmid": "19482012"
+  },
+  "PMID:20828128": {
+   "chembl_document": "CHEMBL1255197",
+   "citation": "de Kloe GE, Retra K, Geitmann M, K\u00e4llblad P, Nahar T, van Elk R, Smit AB, van Muijlwijk-Koezen JE, Leurs R, Irth H, Danielson UH, de Esch IJ. (2010) J Med Chem 53:7192",
+   "doi": "10.1021/jm100834y",
+   "pmid": "20828128"
+  },
+  "PMID:21919481": {
+   "chembl_document": "CHEMBL2151039",
+   "citation": "Mazurov AA, Speake JD, Yohannes D. (2011) J Med Chem 54:7943",
+   "doi": "10.1021/jm2007672",
+   "pmid": "21919481"
+  },
+  "PMID:23126648": {
+   "chembl_document": "CHEMBL2177097",
+   "citation": "Mazurov AA, Kombo DC, Hauser TA, Miao L, Dull G, Genus JF, Fedorov NB, Benson L, Sidach S, Xiao Y, Hammond PS, James JW, Miller CH, Yohannes D. (2012) J Med Chem 55:9793",
+   "doi": "10.1021/jm301048a",
+   "pmid": "23126648"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 5,
+  "excluded_counts": {
+   "chembl_potential_duplicate": 1
+  },
+  "gtopdb_ligand_id": "3969",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "bradanicline"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "FAIL",
+ "targets": {
+  "CHRNA4+CHRNB2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CHRNA4",
+    "CHRNB2"
+   ],
+   "ki_max_nM": 1700.0,
+   "ki_min_nM": 1700.0,
+   "ki_nM": 1700.0,
+   "measurements": [
+    {
+     "ki_nM": 1700.0,
+     "record": "activity 12160971 / assay CHEMBL2182411",
+     "ref": "PMID:23126648",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Neuronal acetylcholine receptor; alpha4/beta2",
+   "pki_median": 5.7696,
+   "uniprot": [
+    "P17787",
+    "P43681"
+   ]
+  },
+  "CHRNA7": {
+   "action_types": [
+    "agonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "agonist",
+     "label": "Agonist / Full agonist",
+     "ref": "PMID:19482012",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "agonist",
+     "label": "AGONIST",
+     "ref": "PMID:19482012",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "CHRNA7"
+   ],
+   "ki_max_nM": 2.754,
+   "ki_min_nM": 1.0,
+   "ki_nM": 1.659518,
+   "measurements": [
+    {
+     "ki_nM": 2.754,
+     "record": "activity 3507243 / assay CHEMBL1261017",
+     "ref": "PMID:20828128",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.0,
+     "record": "activity 12053313 / assay CHEMBL2157846",
+     "ref": "PMID:21919481",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "Neuronal acetylcholine receptor subunit alpha-7",
+   "pki_median": 8.78,
+   "uniprot": [
+    "P36544"
+   ]
+  }
+ }
+}

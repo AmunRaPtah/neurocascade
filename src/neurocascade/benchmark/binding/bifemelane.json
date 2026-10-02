@@ -1,0 +1,123 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL1192517",
+ "chembl_id_queried": "CHEMBL1192517",
+ "entity_note": null,
+ "inn": "bifemelane",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:3335842": {
+   "citation": "GtoPdb interaction, ligand 11742 (bifemelane), target 2489; primary PMIDs 3335842",
+   "doi": null,
+   "pmid": "3335842"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 0,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": "11742",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "bifemelane"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "MAOA": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:3335842",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "MAOA"
+   ],
+   "ki_max_nM": 4168.692736211187,
+   "ki_min_nM": 4168.692736211187,
+   "ki_nM": 4168.692736,
+   "measurements": [
+    {
+     "ki_nM": 4168.692736211187,
+     "record": "GtoPdb ligand 11742 target 2489 pKi 5.380000114440918",
+     "ref": "PMID:3335842",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Monoamine oxidase A",
+   "pki_median": 5.38,
+   "uniprot": [
+    "P21397"
+   ]
+  },
+  "MAOB": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:3335842",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "MAOB"
+   ],
+   "ki_max_nM": 45708.80290185208,
+   "ki_min_nM": 45708.80290185208,
+   "ki_nM": 45708.802902,
+   "measurements": [
+    {
+     "ki_nM": 45708.80290185208,
+     "record": "GtoPdb ligand 11742 target 2490 pKi 4.340000152587891",
+     "ref": "PMID:3335842",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Monoamine oxidase B",
+   "pki_median": 4.34,
+   "uniprot": [
+    "P27338"
+   ]
+  }
+ }
+}

@@ -1,0 +1,1701 @@
+{
+ "actions_without_ki": {
+  "LPAR1": [
+   {
+    "action": "antagonist",
+    "label": "Antagonist / Antagonist",
+    "ref": "PMID:32007501",
+    "source": "GtoPdb"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL6437",
+ "chembl_id_queried": "CHEMBL6437",
+ "entity_note": null,
+ "inn": "mianserin",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "GTOPDB:ligand 135 target 11": {
+   "citation": "GtoPdb interaction, ligand 135 (mianserin), target 11; primary PMIDs 8522988,9730917,9284367",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 135 target 6": {
+   "citation": "GtoPdb interaction, ligand 135 (mianserin), target 6; primary PMIDs 10611634,15322733,15107597",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 135 target 7": {
+   "citation": "GtoPdb interaction, ligand 135 (mianserin), target 7; primary PMIDs 15322733,9459568,10455251",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 135 target 8": {
+   "citation": "GtoPdb interaction, ligand 135 (mianserin), target 8; primary PMIDs 10611634,15322733,10217294",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:Appl, Heidrun.  et. al, 2011": {
+   "citation": "Appl, Heidrun.  et. al, 2011",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:ELLIOT & KENT, 1989": {
+   "citation": "ELLIOT & KENT, 1989",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:Ghoneim OM, et al., 2006": {
+   "citation": "Ghoneim OM, et al., 2006",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:HOYER ET AL., 1986": {
+   "citation": "HOYER ET AL., 1986",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:HOYER ET AL., 1987": {
+   "citation": "HOYER ET AL., 1987",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:PEROUTKA ET AL., 1989": {
+   "citation": "PEROUTKA ET AL., 1989",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:WAEBER ET AL., 1988": {
+   "citation": "WAEBER ET AL., 1988",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:0960894": {
+   "citation": "Panczyk K, et al., 2018",
+   "doi": null,
+   "pmid": "0960894"
+  },
+  "PMID:10455251": {
+   "citation": "Bonhaus, DW et. al., 1999",
+   "doi": null,
+   "pmid": "10455251"
+  },
+  "PMID:10611634": {
+   "citation": "Millan MJ, et al., 2000",
+   "doi": null,
+   "pmid": "10611634"
+  },
+  "PMID:10821800": {
+   "citation": "Glusa E, et al., 2000",
+   "doi": null,
+   "pmid": "10821800"
+  },
+  "PMID:11179435": {
+   "citation": "Nguyen T. et al., 2001",
+   "doi": null,
+   "pmid": "11179435"
+  },
+  "PMID:11459121": {
+   "citation": "GtoPdb interaction, ligand 135 (mianserin), target 22; primary PMIDs 11459121",
+   "doi": null,
+   "pmid": "11459121"
+  },
+  "PMID:11882920": {
+   "citation": "Cussac D, et al., 2002",
+   "doi": null,
+   "pmid": "11882920"
+  },
+  "PMID:12109911": {
+   "citation": "Wikstrom HV, et al., 2002",
+   "doi": null,
+   "pmid": "12109911"
+  },
+  "PMID:12825922": {
+   "chembl_document": "CHEMBL1145819",
+   "citation": "Glennon RA. (2003) J Med Chem 46:2795",
+   "doi": "10.1021/jm030030n",
+   "pmid": "12825922"
+  },
+  "PMID:14645659": {
+   "citation": "Hirst WD, et.al.,2003",
+   "doi": null,
+   "pmid": "14645659"
+  },
+  "PMID:15322733": {
+   "citation": "Knight AR, et al., 2004",
+   "doi": null,
+   "pmid": "15322733"
+  },
+  "PMID:15771415": {
+   "chembl_document": "CHEMBL1142715",
+   "citation": "Fern\u00e1ndez J, Alonso JM, Andr\u00e9s JI, Cid JM, D\u00edaz A, Iturrino L, Gil P, Megens A, Sipido VK, Trabanco AA. (2005) J Med Chem 48:1709",
+   "doi": "10.1021/jm049632c",
+   "pmid": "15771415"
+  },
+  "PMID:15947036": {
+   "citation": "Lim HD, et al., 2005",
+   "doi": null,
+   "pmid": "15947036"
+  },
+  "PMID:16712488": {
+   "citation": "Roth B. et al., 2006",
+   "doi": null,
+   "pmid": "16712488"
+  },
+  "PMID:2172775": {
+   "citation": "WEINSHANK RL, ET AL, 1990",
+   "doi": null,
+   "pmid": "2172775"
+  },
+  "PMID:23301527": {
+   "chembl_document": "CHEMBL2331121",
+   "citation": "Jensen AA, Plath N, Pedersen MH, Isberg V, Krall J, Wellendorph P, Stensb\u00f8l TB, Gloriam DE, Krogsgaard-Larsen P, Fr\u00f8lund B. (2013) J Med Chem 56:1211",
+   "doi": "10.1021/jm301656h",
+   "pmid": "23301527"
+  },
+  "PMID:2532362": {
+   "citation": "Grandy DK, et al., 1989",
+   "doi": null,
+   "pmid": "2532362"
+  },
+  "PMID:28575721": {
+   "chembl_document": "CHEMBL4118064",
+   "citation": "Ostrowska K, M\u0142odzikowska K, G\u0142uch-Lutwin M, Grybo\u015b A, Siwek A. (2017) Eur J Med Chem 137:108",
+   "doi": "10.1016/j.ejmech.2017.05.047",
+   "pmid": "28575721"
+  },
+  "PMID:29269256": {
+   "chembl_document": "CHEMBL4184192",
+   "citation": "Ostrowska K, Grzeszczuk D, G\u0142uch-Lutwin M, Grybo\u015b A, Siwek A, Le\u015bniak A, Sacharczuk M, Trzaskowski B. (2018) Bioorg Med Chem 26:527",
+   "doi": "10.1016/j.bmc.2017.12.016",
+   "pmid": "29269256"
+  },
+  "PMID:29730027": {
+   "chembl_document": "CHEMBL4190389",
+   "citation": "Pa\u0144czyk K, Pytka K, Jakubczyk M, Rapacz A, Sa\u0142at K, Furga\u0142a A, Siwek A, G\u0142uch-Lutwin M, Grybo\u015b A, S\u0142oczy\u0144ska K, P\u0119kala E, \u017bmudzki P, Bucki A, Ko\u0142aczkowski M, \u017belaszczyk D, Marona H, Waszkielewicz AM. (2018) Bioorg Med Chem Lett 28:2039",
+   "doi": "10.1016/j.bmcl.2018.04.059",
+   "pmid": "29730027"
+  },
+  "PMID:30108880": {
+   "chembl_document": "CHEMBL4261553",
+   "citation": "Ostrowska K, Grzeszczuk D, G\u0142uch-Lutwin M, Grybo\u015b A, Siwek A, Dobrzycki \u0141, Trzaskowski B. (2017) Medchemcomm 8:1690",
+   "doi": "10.1039/C7MD00281E",
+   "pmid": "30108880"
+  },
+  "PMID:30703658": {
+   "citation": "Slifirski G et al 2019",
+   "doi": null,
+   "pmid": "30703658"
+  },
+  "PMID:31325785": {
+   "chembl_document": "CHEMBL4364313",
+   "citation": "\u015alifirski G, Kr\u00f3l M, Kleps J, Podsadni P, Belka M, B\u0105czek T, Siwek A, Stachowicz K, Szewczyk B, Nowak G, Bojarski A, Kozio\u0142 AE, Tur\u0142o J, Herold F. (2019) Eur J Med Chem 180:383",
+   "doi": "10.1016/j.ejmech.2019.07.027",
+   "pmid": "31325785"
+  },
+  "PMID:32007501": {
+   "citation": "GtoPdb interaction, ligand 135 (mianserin), target 272; primary PMIDs 32007501",
+   "doi": null,
+   "pmid": "32007501"
+  },
+  "PMID:32105980": {
+   "chembl_document": "CHEMBL4680205",
+   "citation": "Bucki A,Marcinkowska M,\u015aniecikowska J,Zag\u00f3rska A,Jamrozik M,Paw\u0142owski M,G\u0142uch-Lutwin M,Siwek A,Jakubczyk M,Pytka K,Jastrz\u0119bska-Wi\u0119sek M,Partyka A,Weso\u0142owska A,Mierzejewski P,Ko\u0142aczkowski M (2020) Eur J Med Chem 191:112149",
+   "doi": "10.1016/j.ejmech.2020.112149",
+   "pmid": "32105980"
+  },
+  "PMID:37584406": {
+   "chembl_document": "CHEMBL5360673",
+   "citation": "Bender AM, Parr LC, Livingston WB, Lindsley CW, Merryman WD. (2023) J Med Chem 66:11027",
+   "doi": "10.1021/acs.jmedchem.3c01178",
+   "pmid": "37584406"
+  },
+  "PMID:38901106": {
+   "chembl_document": "CHEMBL5579837",
+   "citation": "Siwek A, Marcinkowska M, G\u0142uch-Lutwin M, Mordyl B, Wolak M, Jastrz\u0119bska-Wi\u0119sek M, Wilczy\u0144ska-Zawal N, Wyska E, Szafra\u0144ska K, Karcz T, Ostrowska O, Bucki A, Ko\u0142aczkowski M. (2024) Eur J Med Chem 275:116601",
+   "doi": "10.1016/j.ejmech.2024.116601",
+   "pmid": "38901106"
+  },
+  "PMID:6086881": {
+   "citation": "Richelson, Elliott et. al, 1984",
+   "doi": null,
+   "pmid": "6086881"
+  },
+  "PMID:6146381": {
+   "citation": "Kanba S, et al., 1984",
+   "doi": null,
+   "pmid": "6146381"
+  },
+  "PMID:7582481": {
+   "citation": "BONHAUS DW, ET AL., 1995",
+   "doi": null,
+   "pmid": "7582481"
+  },
+  "PMID:7984267": {
+   "citation": "BOESS FG, ET AL., 1994",
+   "doi": null,
+   "pmid": "7984267"
+  },
+  "PMID:8522988": {
+   "citation": "KOHEN R, ET AL., 1996",
+   "doi": null,
+   "pmid": "8522988"
+  },
+  "PMID:8632342": {
+   "citation": "WAINSCOTT DB, ET AL., 1996",
+   "doi": null,
+   "pmid": "8632342"
+  },
+  "PMID:9149537": {
+   "citation": "Eglen RM et al., 1997",
+   "doi": null,
+   "pmid": "9149537"
+  },
+  "PMID:9225287": {
+   "citation": "BONHAUS DW, ET AL., 1997",
+   "doi": null,
+   "pmid": "9225287"
+  },
+  "PMID:9298538": {
+   "citation": "JASPER JR,ET AL.,",
+   "doi": null,
+   "pmid": "9298538"
+  },
+  "PMID:9459568": {
+   "citation": "WAINSCOTT DB, ET AL., 1998",
+   "doi": null,
+   "pmid": "9459568"
+  },
+  "PMID:9537821": {
+   "citation": "Tatsumi M, et al., 1997",
+   "doi": null,
+   "pmid": "9537821"
+  },
+  "PMID:9686407": {
+   "citation": "TOLL L, et. al., 1998",
+   "doi": null,
+   "pmid": "9686407"
+  }
+ },
+ "screened_inactive_without_ki": {
+  "CA2": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7749849 / assay CHEMBL1909123",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "CTSG": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7752004 / assay CHEMBL1909194",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "ELANE": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7752006 / assay CHEMBL1909195",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "MMP1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7752008 / assay CHEMBL1909196",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PDE5A": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7751988 / assay CHEMBL1909186",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTAFR": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7751990 / assay CHEMBL1909187",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTGS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7751876 / assay CHEMBL1909130",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "TBXAS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7754060 / assay CHEMBL1909116",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ]
+ },
+ "searched": {
+  "chembl_ki_rows_returned": 131,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 90,
+   "chembl_no_ki_value": 15,
+   "chembl_potential_duplicate": 1,
+   "pdsp_receptor_name_unmapped": 3,
+   "pdsp_species_not_human": 154
+  },
+  "gtopdb_ligand_id": "135",
+  "pdsp_ligand_names_matched": [
+   "MIANSERIN",
+   "mianserine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "(+-)mianserin",
+   "mianserin",
+   "mianserine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "ADRA1A": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:11459121",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "ADRA1A"
+   ],
+   "ki_max_nM": 25.11886431509582,
+   "ki_min_nM": 25.11886431509582,
+   "ki_nM": 25.118864,
+   "measurements": [
+    {
+     "ki_nM": 25.11886431509582,
+     "record": "GtoPdb ligand 135 target 22 pKi 7.6",
+     "ref": "PMID:11459121",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "&alpha;1A-adrenoceptor",
+   "pki_median": 7.6,
+   "uniprot": [
+    "P35348"
+   ]
+  },
+  "ADRA1B": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:11459121",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "ADRA1B"
+   ],
+   "ki_max_nM": 39.81071705534969,
+   "ki_min_nM": 39.81071705534969,
+   "ki_nM": 39.810717,
+   "measurements": [
+    {
+     "ki_nM": 39.81071705534969,
+     "record": "GtoPdb ligand 135 target 23 pKi 7.4",
+     "ref": "PMID:11459121",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "&alpha;1B-adrenoceptor",
+   "pki_median": 7.4,
+   "uniprot": [
+    "P35368"
+   ]
+  },
+  "ADRA1D": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:11459121",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "ADRA1D"
+   ],
+   "ki_max_nM": 31.622776601683793,
+   "ki_min_nM": 31.622776601683793,
+   "ki_nM": 31.622777,
+   "measurements": [
+    {
+     "ki_nM": 31.622776601683793,
+     "record": "GtoPdb ligand 135 target 24 pKi 7.5",
+     "ref": "PMID:11459121",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "&alpha;1D-adrenoceptor",
+   "pki_median": 7.5,
+   "uniprot": [
+    "P25100"
+   ]
+  },
+  "ADRA2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA2A"
+   ],
+   "ki_max_nM": 4.8,
+   "ki_min_nM": 4.8,
+   "ki_nM": 4.8,
+   "measurements": [
+    {
+     "ki_nM": 4.8,
+     "record": "activity 1518473 / assay CHEMBL828756",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 4.8,
+     "record": "PDSP Ki ID 36671 (CLONED, hot ligand 3H-RAUWOLSCINE)",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "Alpha-2A adrenergic receptor",
+   "pki_median": 8.3188,
+   "uniprot": [
+    "P08913"
+   ]
+  },
+  "ADRA2B": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA2B"
+   ],
+   "ki_max_nM": 27.0,
+   "ki_min_nM": 27.0,
+   "ki_nM": 27.0,
+   "measurements": [
+    {
+     "ki_nM": 27.0,
+     "record": "PDSP Ki ID 5896 (CLONED, hot ligand 3H-RAUWOLSCINE)",
+     "ref": "PMID:2172775",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "adrenergic Alpha2B",
+   "pki_median": 7.5686,
+   "uniprot": []
+  },
+  "ADRA2C": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA2C"
+   ],
+   "ki_max_nM": 3.8,
+   "ki_min_nM": 3.8,
+   "ki_nM": 3.8,
+   "measurements": [
+    {
+     "ki_nM": 3.8,
+     "record": "activity 1518474 / assay CHEMBL828757",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 3.8,
+     "record": "PDSP Ki ID 36678 (CLONED, hot ligand 3H-RAUWOLSCINE)",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "Alpha-2C adrenergic receptor",
+   "pki_median": 8.4202,
+   "uniprot": [
+    "P18825"
+   ]
+  },
+  "DRD1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD1"
+   ],
+   "ki_max_nM": 1420.0,
+   "ki_min_nM": 426.0,
+   "ki_nM": 777.766032,
+   "measurements": [
+    {
+     "ki_nM": 1420.0,
+     "record": "PDSP Ki ID 36608 (CLONED, hot ligand 3H-SCH23390)",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 426.0,
+     "record": "PDSP Ki ID 3217 (CLONED, hot ligand 3H-MIANSERIN)",
+     "ref": "PMID:9686407",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "DOPAMINE D1",
+   "pki_median": 6.1092,
+   "uniprot": []
+  },
+  "DRD2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 2685.0,
+   "ki_min_nM": 1274.0,
+   "ki_nM": 2147.952513,
+   "measurements": [
+    {
+     "ki_nM": 2197.0,
+     "record": "activity 1518481 / assay CHEMBL829120",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 2197.0,
+     "record": "PDSP Ki ID 36615 (CLONED, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2685.0,
+     "record": "PDSP Ki ID 32884 (CLONED, hot ligand 3H-domperidone)",
+     "ref": "PMID:2532362",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2100.0,
+     "record": "PDSP Ki ID 62864 (Brain caudate nucleus, hot ligand 3H-SPIROPERIDOL)",
+     "ref": "PMID:6086881",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1274.0,
+     "record": "PDSP Ki ID 3276 (CLONED, hot ligand 3H-YM 09151-2)",
+     "ref": "PMID:9686407",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 5,
+   "n_references": 4,
+   "name": "D(2) dopamine receptor",
+   "pki_median": 5.668,
+   "uniprot": [
+    "P14416"
+   ]
+  },
+  "DRD3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD3"
+   ],
+   "ki_max_nM": 2841.0,
+   "ki_min_nM": 2841.0,
+   "ki_nM": 2841.0,
+   "measurements": [
+    {
+     "ki_nM": 2841.0,
+     "record": "activity 1518482 / assay CHEMBL827209",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 2841.0,
+     "record": "PDSP Ki ID 36622 (CLONED, hot ligand 125I-IODOSULPRIDE)",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "D(3) dopamine receptor",
+   "pki_median": 5.5465,
+   "uniprot": [
+    "P35462"
+   ]
+  },
+  "HRH1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HRH1"
+   ],
+   "ki_max_nM": 1.7,
+   "ki_min_nM": 0.3,
+   "ki_nM": 0.4,
+   "measurements": [
+    {
+     "ki_nM": 1.7,
+     "record": "activity 1518584 / assay CHEMBL829679",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.79432823472428,
+     "record": "PDSP Ki ID 64733 (CLONED, hot ligand 3H-PYRILAMINE)",
+     "ref": "PDSP_REF:Appl, Heidrun.  et. al, 2011",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.2022644346174,
+     "record": "PDSP Ki ID 64653 (CLONED, hot ligand 3H-PYRILAMINE)",
+     "ref": "PDSP_REF:Appl, Heidrun.  et. al, 2011",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.3,
+     "record": "PDSP Ki ID 47190 (CLONED, hot ligand 3H-MEPYRAMINE)",
+     "ref": "PDSP_REF:Ghoneim OM, et al., 2006",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.7,
+     "record": "PDSP Ki ID 36657 (CLONED, hot ligand 3H-PYRILAMINE)",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 10000.0,
+     "record": "PDSP Ki ID 69108 (CLONED, hot ligand 3H-Histamine)",
+     "ref": "PMID:15947036",
+     "relation": ">",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.4,
+     "record": "PDSP Ki ID 58976 (CLONED, hot ligand 3H-PYRILAMINE)",
+     "ref": "PMID:16712488",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.4,
+     "record": "PDSP Ki ID 62751 (Brain Frontal Cortex, hot ligand 3H-doxepin)",
+     "ref": "PMID:6086881",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.36,
+     "record": "PDSP Ki ID 12007 (CORTICAL MEMBRANES, hot ligand 3H-doxepin)",
+     "ref": "PMID:6146381",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 1,
+   "n_measurements": 8,
+   "n_references": 6,
+   "name": "Histamine H1 receptor",
+   "pki_median": 9.3979,
+   "uniprot": [
+    "P35367"
+   ]
+  },
+  "HRH2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HRH2"
+   ],
+   "ki_max_nM": 436.51583224017,
+   "ki_min_nM": 436.51583224017,
+   "ki_nM": 436.515832,
+   "measurements": [
+    {
+     "ki_nM": 436.51583224017,
+     "record": "PDSP Ki ID 64676 (CLONED, hot ligand 3H-TIOTIDINE)",
+     "ref": "PDSP_REF:Appl, Heidrun.  et. al, 2011",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "H2",
+   "pki_median": 6.36,
+   "uniprot": []
+  },
+  "HRH3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HRH3"
+   ],
+   "ki_max_nM": 95499.258602144,
+   "ki_min_nM": 95499.258602144,
+   "ki_nM": 95499.258602,
+   "measurements": [
+    {
+     "ki_nM": 95499.258602144,
+     "record": "PDSP Ki ID 64692 (CLONED, hot ligand 3H-Alpha-methylhistamine)",
+     "ref": "PDSP_REF:Appl, Heidrun.  et. al, 2011",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "H3",
+   "pki_median": 4.02,
+   "uniprot": []
+  },
+  "HRH4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HRH4"
+   ],
+   "ki_max_nM": 750.0,
+   "ki_min_nM": 750.0,
+   "ki_nM": 750.0,
+   "measurements": [
+    {
+     "ki_nM": 100000.0,
+     "record": "PDSP Ki ID 64754 (CLONED, hot ligand 3H-Histamine)",
+     "ref": "PDSP_REF:Appl, Heidrun.  et. al, 2011",
+     "relation": ">",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 750.0,
+     "record": "PDSP Ki ID 14428 (CLONED, hot ligand 3H-PYRILAMINE)",
+     "ref": "PMID:11179435",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 1,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "HISTAMINE H4",
+   "pki_median": 6.1249,
+   "uniprot": []
+  },
+  "HTR1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1A"
+   ],
+   "ki_max_nM": 2592.0,
+   "ki_min_nM": 398.1,
+   "ki_nM": 500.0,
+   "measurements": [
+    {
+     "ki_nM": 500.0,
+     "record": "PDSP Ki ID 32712 (CLONED, hot ligand 3H-5CT)",
+     "ref": "PMID:12109911",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 398.1,
+     "record": "PDSP Ki ID 15242 (CLONED, hot ligand 3H-8-OH-DPAT)",
+     "ref": "PMID:7984267",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 512.86,
+     "record": "PDSP Ki ID 15300 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:7984267",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2592.0,
+     "record": "PDSP Ki ID 3367 (CLONED, hot ligand 3H-8-OH-DPAT)",
+     "ref": "PMID:9686407",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 4,
+   "n_references": 3,
+   "name": "5-HT1A",
+   "pki_median": 6.301,
+   "uniprot": []
+  },
+  "HTR1D": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1D"
+   ],
+   "ki_max_nM": 398.0,
+   "ki_min_nM": 220.0,
+   "ki_nM": 295.90539,
+   "measurements": [
+    {
+     "ki_nM": 220.0,
+     "record": "PDSP Ki ID 2002 (CORTEX, hot ligand 3H-5HT)",
+     "ref": "PDSP_REF:PEROUTKA ET AL., 1989",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 398.0,
+     "record": "PDSP Ki ID 2006 (CAUDATE, hot ligand 3H-5HT)",
+     "ref": "PDSP_REF:WAEBER ET AL., 1988",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "5-HT1D",
+   "pki_median": 6.5288,
+   "uniprot": []
+  },
+  "HTR1F": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1F"
+   ],
+   "ki_max_nM": 12.58,
+   "ki_min_nM": 12.58,
+   "ki_nM": 12.58,
+   "measurements": [
+    {
+     "ki_nM": 12.58,
+     "record": "PDSP Ki ID 15913 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:7984267",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT1F",
+   "pki_median": 7.9003,
+   "uniprot": []
+  },
+  "HTR2A": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "GTOPDB:ligand 135 target 6",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 56.0,
+   "ki_min_nM": 0.2511884225153641,
+   "ki_nM": 3.2,
+   "measurements": [
+    {
+     "ki_nM": 4.3,
+     "record": "activity 1518483 / assay CHEMBL829614",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 8.1,
+     "record": "activity 12671440 / assay CHEMBL2343054",
+     "ref": "PMID:23301527",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 8.128,
+     "record": "activity 12668589 / assay CHEMBL2343054",
+     "ref": "PMID:23301527",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 26.92,
+     "record": "activity 12668554 / assay CHEMBL2343043",
+     "ref": "PMID:23301527",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 27.0,
+     "record": "activity 12671388 / assay CHEMBL2343043",
+     "ref": "PMID:23301527",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 2.2,
+     "record": "activity 18278517 / assay CHEMBL4119507",
+     "ref": "PMID:28575721",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 2.0,
+     "record": "activity 18488449 / assay CHEMBL4186929",
+     "ref": "PMID:29269256",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 3.2,
+     "record": "activity 18530155 / assay CHEMBL4195133",
+     "ref": "PMID:29730027",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.2,
+     "record": "activity 18746559 / assay CHEMBL4263062",
+     "ref": "PMID:30108880",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 2.8,
+     "record": "activity 19098489 / assay CHEMBL4367997",
+     "ref": "PMID:31325785",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.905,
+     "record": "activity 22472195 / assay CHEMBL4685400",
+     "ref": "PMID:32105980",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.2511884225153641,
+     "record": "GtoPdb ligand 135 target 6 pKi 9.600000381469727",
+     "ref": "GTOPDB:ligand 135 target 6",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 19.95263191254866,
+     "record": "GtoPdb ligand 135 target 6 pKi 7.699999809265137",
+     "ref": "GTOPDB:ligand 135 target 6",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 56.0,
+     "record": "PDSP Ki ID 3430 (FR. CORTEX, hot ligand 125I-LSD)",
+     "ref": "PDSP_REF:ELLIOT & KENT, 1989",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 24.0,
+     "record": "PDSP Ki ID 3428 (CORTEX, hot ligand 3H-KETANSERIN)",
+     "ref": "PDSP_REF:HOYER ET AL., 1987",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 3.2,
+     "record": "PDSP Ki ID 101345 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:0960894",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.58,
+     "record": "PDSP Ki ID 11879 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:10611634",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 18.1970085861,
+     "record": "PDSP Ki ID 39745 (CLONED, hot ligand 125I-DOI)",
+     "ref": "PMID:15322733",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 4.3,
+     "record": "PDSP Ki ID 36629 (CLONED, hot ligand 125I-R091150)",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2.8,
+     "record": "PDSP Ki ID 93929 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:30703658",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 3.98,
+     "record": "PDSP Ki ID 5352 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:7582481",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 6.3,
+     "record": "PDSP Ki ID 5361 (CORTEX, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:7582481",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 4.07,
+     "record": "PDSP Ki ID 5028 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:9225287",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 23,
+   "n_references": 17,
+   "name": "5-hydroxytryptamine receptor 2A",
+   "pki_median": 8.4949,
+   "uniprot": [
+    "P28223"
+   ]
+  },
+  "HTR2B": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "GTOPDB:ligand 135 target 7",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2B"
+   ],
+   "ki_max_nM": 19.952623149689,
+   "ki_min_nM": 1.5848924964027185,
+   "ki_nM": 7.931221,
+   "measurements": [
+    {
+     "ki_nM": 9.0,
+     "record": "activity 25629990 / assay CHEMBL5365371",
+     "ref": "PMID:37584406",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.5848924964027185,
+     "record": "GtoPdb ligand 135 target 7 pKi 8.800000190734863",
+     "ref": "GTOPDB:ligand 135 target 7",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 12.589251353447189,
+     "record": "GtoPdb ligand 135 target 7 pKi 7.900000095367432",
+     "ref": "GTOPDB:ligand 135 target 7",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 1.5848931924611,
+     "record": "PDSP Ki ID 32033 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:10455251",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 19.952623149689,
+     "record": "PDSP Ki ID 40264 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:10821800",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 5.4954087385762,
+     "record": "PDSP Ki ID 39839 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:11882920",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 12.022644346174,
+     "record": "PDSP Ki ID 39766 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:15322733",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 19.95,
+     "record": "PDSP Ki ID 5379 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:7582481",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 9.57,
+     "record": "PDSP Ki ID 5497 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:8632342",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 4.26,
+     "record": "PDSP Ki ID 5059 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:9225287",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 5.44,
+     "record": "PDSP Ki ID 4883 (CLONED, hot ligand 3H-RAUWOLSCINE)",
+     "ref": "PMID:9459568",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 8.98,
+     "record": "PDSP Ki ID 4866 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:9459568",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 12,
+   "n_references": 10,
+   "name": "5-hydroxytryptamine receptor 2B",
+   "pki_median": 8.1007,
+   "uniprot": [
+    "P41595"
+   ]
+  },
+  "HTR2C": {
+   "action_types": [
+    "inverse agonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inverse agonist",
+     "label": "Antagonist / Inverse agonist",
+     "ref": "GTOPDB:ligand 135 target 8",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2C"
+   ],
+   "ki_max_nM": 8.128,
+   "ki_min_nM": 0.63,
+   "ki_nM": 3.723,
+   "measurements": [
+    {
+     "ki_nM": 4.4,
+     "record": "activity 1518485 / assay CHEMBL829975",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.7,
+     "record": "activity 12671368 / assay CHEMBL2343042",
+     "ref": "PMID:23301527",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.738,
+     "record": "activity 12668537 / assay CHEMBL2343042",
+     "ref": "PMID:23301527",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 8.0,
+     "record": "activity 12671436 / assay CHEMBL2343053",
+     "ref": "PMID:23301527",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 8.128,
+     "record": "activity 12668585 / assay CHEMBL2343053",
+     "ref": "PMID:23301527",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.6309576215861531,
+     "record": "GtoPdb ligand 135 target 8 pKi 9.199999809265137",
+     "ref": "GTOPDB:ligand 135 target 8",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 5.011870135142811,
+     "record": "GtoPdb ligand 135 target 8 pKi 8.300000190734863",
+     "ref": "GTOPDB:ligand 135 target 8",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 6.61,
+     "record": "PDSP Ki ID 939 (Choroid Plexus, hot ligand 3H-MESULERGINE)",
+     "ref": "PDSP_REF:HOYER ET AL., 1986",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.63,
+     "record": "PDSP Ki ID 11882 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:10611634",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.5135612484362,
+     "record": "PDSP Ki ID 39827 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:11882920",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 5.4954087385762,
+     "record": "PDSP Ki ID 39787 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:15322733",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 4.4,
+     "record": "PDSP Ki ID 36643 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2.3,
+     "record": "PDSP Ki ID 58977 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:16712488",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 5.01,
+     "record": "PDSP Ki ID 5400 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:7582481",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 6.52,
+     "record": "PDSP Ki ID 5571 (CLONED, hot ligand 125I-DOI)",
+     "ref": "PMID:8632342",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.38,
+     "record": "PDSP Ki ID 5090 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:9225287",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 16,
+   "n_references": 11,
+   "name": "5-hydroxytryptamine receptor 2C",
+   "pki_median": 8.4291,
+   "uniprot": [
+    "P28335"
+   ]
+  },
+  "HTR6": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "GTOPDB:ligand 135 target 11",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR6"
+   ],
+   "ki_max_nM": 125.89254117941663,
+   "ki_min_nM": 42.0,
+   "ki_nM": 55.0,
+   "measurements": [
+    {
+     "ki_nM": 55.0,
+     "record": "activity 74763 / assay CHEMBL618118",
+     "ref": "PMID:12825922",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 42.0,
+     "record": "activity 26025191 / assay CHEMBL5581342",
+     "ref": "PMID:38901106",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 50.11872336272725,
+     "record": "GtoPdb ligand 135 target 11 pKi 7.3",
+     "ref": "GTOPDB:ligand 135 target 11",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 125.89254117941663,
+     "record": "GtoPdb ligand 135 target 11 pKi 6.9",
+     "ref": "GTOPDB:ligand 135 target 11",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 55.0,
+     "record": "PDSP Ki ID 68706 (CLONED, hot ligand 3H-LSD)",
+     "ref": "PMID:12825922",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 81.28305161641,
+     "record": "PDSP Ki ID 26944 (CLONED, hot ligand 3H-LSD)",
+     "ref": "PMID:14645659",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 55.0,
+     "record": "PDSP Ki ID 4346 (CLONED, hot ligand 3H-LSD)",
+     "ref": "PMID:8522988",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 7,
+   "n_references": 5,
+   "name": "5-hydroxytryptamine receptor 6",
+   "pki_median": 7.2596,
+   "uniprot": [
+    "P50406"
+   ]
+  },
+  "HTR7": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:9298538",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR7"
+   ],
+   "ki_max_nM": 8010.0,
+   "ki_min_nM": 25.11886431509582,
+   "ki_nM": 52.977811,
+   "measurements": [
+    {
+     "ki_nM": 56.0,
+     "record": "activity 1518484 / assay CHEMBL827208",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 25.11886431509582,
+     "record": "GtoPdb ligand 135 target 12 pKi 7.6",
+     "ref": "PMID:9298538",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 50.11872336272725,
+     "record": "GtoPdb ligand 135 target 12 pKi 7.3",
+     "ref": "PMID:9298538",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 8010.0,
+     "record": "PDSP Ki ID 68721 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:12825922",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 56.0,
+     "record": "PDSP Ki ID 36636 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 50.118723362727,
+     "record": "PDSP Ki ID 31409 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:9149537",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 47.86,
+     "record": "PDSP Ki ID 6544 (CLONED, hot ligand 3H-5CT)",
+     "ref": "PMID:9298538",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 7,
+   "n_references": 4,
+   "name": "5-hydroxytryptamine receptor 7",
+   "pki_median": 7.2759,
+   "uniprot": [
+    "P34969"
+   ]
+  },
+  "SLC6A2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A2"
+   ],
+   "ki_max_nM": 71.0,
+   "ki_min_nM": 71.0,
+   "ki_nM": 71.0,
+   "measurements": [
+    {
+     "ki_nM": 71.0,
+     "record": "PDSP Ki ID 45608 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Norepinephrine transporter",
+   "pki_median": 7.1487,
+   "uniprot": []
+  },
+  "SLC6A3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A3"
+   ],
+   "ki_max_nM": 9400.0,
+   "ki_min_nM": 9400.0,
+   "ki_nM": 9400.0,
+   "measurements": [
+    {
+     "ki_nM": 9400.0,
+     "record": "PDSP Ki ID 45609 (CLONED, hot ligand 3H-WIN 35,428)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Dopamine Transporter",
+   "pki_median": 5.0269,
+   "uniprot": []
+  },
+  "SLC6A4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A4"
+   ],
+   "ki_max_nM": 4000.0,
+   "ki_min_nM": 4000.0,
+   "ki_nM": 4000.0,
+   "measurements": [
+    {
+     "ki_nM": 4000.0,
+     "record": "PDSP Ki ID 45607 (CLONED, hot ligand 3H-IMIPRAMINE)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT Transporter",
+   "pki_median": 5.3979,
+   "uniprot": []
+  }
+ }
+}

@@ -1,0 +1,40 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL1200922",
+ "chembl_id_queried": "CHEMBL1200922",
+ "entity_note": null,
+ "inn": "mebutamate",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {},
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 0,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": null,
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "mebutamate"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "searched_and_empty",
+ "stratum": "N05B",
+ "targets": {}
+}

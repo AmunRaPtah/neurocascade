@@ -1,0 +1,189 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL2111101",
+ "chembl_id_queried": "CHEMBL2111101",
+ "entity_note": null,
+ "inn": "pimavanserin",
+ "mechanism_targets": [
+  "HTR2A"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "GTOPDB:ligand 8423 target 6": {
+   "citation": "GtoPdb interaction, ligand 8423 (pimavanserin), target 6; primary PMIDs 15102927,17519387",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:16469866": {
+   "citation": "ChEMBL drug mechanism 5389: Serotonin 2a (5-HT2a) receptor inverse agonist; refs Other http://www.acadia-pharm.com/pipeline/nuplazid-pdp/; PubMed 16469866; PubMed 7806373; Wikipedia Pimavanserin",
+   "doi": null,
+   "pmid": "16469866"
+  },
+  "PMID:35939391": {
+   "chembl_document": "CHEMBL5108009",
+   "citation": "Fu H, Rong J, Chen Z, Zhou J, Collier T, Liang SH. (2022) J Med Chem 65:10755",
+   "doi": "10.1021/acs.jmedchem.2c00633",
+   "pmid": "35939391"
+  },
+  "PMID:37378639": {
+   "chembl_document": "CHEMBL5331125",
+   "citation": "Albujuq NR, Meana JJ, Diez-Alarcia R, Muneta-Arrate I, Naqvi A, Althumayri K, Alsehli M. (2023) J Med Chem 66:9057",
+   "doi": "10.1021/acs.jmedchem.3c00662",
+   "pmid": "37378639"
+  },
+  "PMID:39137033": {
+   "chembl_document": "CHEMBL5550221",
+   "citation": "Oguma T, Jino K, Nakahara K, Asada H, Fuchino K, Nagatani K, Kouki K, Okamoto R, Takai N, Koda K, Fujita S, Sekiguchi Y, Yasuo K, Mayumi K, Abe A, Imono M, Horiguchi N, Iwata S, Kusakabe KI. (2024) J Med Chem 67:14478",
+   "doi": "10.1021/acs.jmedchem.4c01244",
+   "pmid": "39137033"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 8,
+  "excluded_counts": {
+   "chembl_potential_duplicate": 1
+  },
+  "gtopdb_ligand_id": "8423",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "pimavanserin"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "HTR2A": {
+   "action_types": [
+    "inverse agonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inverse agonist",
+     "label": "Antagonist / Inverse agonist",
+     "ref": "GTOPDB:ligand 8423 target 6",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inverse agonist",
+     "label": "INVERSE AGONIST",
+     "ref": "PMID:16469866",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 0.86,
+   "ki_min_nM": 0.0631,
+   "ki_nM": 0.455088,
+   "measurements": [
+    {
+     "ki_nM": 0.5,
+     "record": "activity 24710289 / assay CHEMBL5109990",
+     "ref": "PMID:35939391",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.0631,
+     "record": "activity 25511285 / assay CHEMBL5334705",
+     "ref": "PMID:37378639",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.1995,
+     "record": "activity 26005147 / assay CHEMBL5554824",
+     "ref": "PMID:39137033",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.86,
+     "record": "activity 26005177 / assay CHEMBL5554841",
+     "ref": "PMID:39137033",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.5011870135142811,
+     "record": "GtoPdb ligand 8423 target 6 pKi 9.300000190734863",
+     "ref": "GTOPDB:ligand 8423 target 6",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 5,
+   "n_references": 4,
+   "name": "5-hydroxytryptamine receptor 2A",
+   "pki_median": 9.3419,
+   "uniprot": [
+    "P28223"
+   ]
+  },
+  "HTR2C": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2C"
+   ],
+   "ki_max_nM": 10.0,
+   "ki_min_nM": 1.5,
+   "ki_nM": 3.368175,
+   "measurements": [
+    {
+     "ki_nM": 1.5,
+     "record": "activity 24710290 / assay CHEMBL5109991",
+     "ref": "PMID:35939391",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 5.72,
+     "record": "activity 26005185 / assay CHEMBL5554842",
+     "ref": "PMID:39137033",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 10.0,
+     "record": "activity 26005148 / assay CHEMBL5554825",
+     "ref": "PMID:39137033",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 2,
+   "name": "5-hydroxytryptamine receptor 2C",
+   "pki_median": 8.4726,
+   "uniprot": [
+    "P28335"
+   ]
+  }
+ }
+}

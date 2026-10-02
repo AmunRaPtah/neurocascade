@@ -1,0 +1,502 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL6066864",
+ "chembl_id_queried": "CHEMBL54661",
+ "entity_note": "ATC-mapped CHEMBL6066864 'FLUPENTIXOL' carries no structure and no activities. The benchmark record's CAS (53772-82-0) identifies the cis(Z) isomer (P28.1), which is ChEMBL CHEMBL54661 'Z-FLUPENTIXOL' and GtoPdb ligand 948. The Lundbeck FLUANXOL product monograph (Canada) states commercial flupentixol dihydrochloride is an approximately 1:1 cis:trans mixture whose trans isomer is pharmacologically inactive, and the depot is cis(Z)-flupentixol decanoate. The panel is therefore the active cis(Z) isomer's; Phase 29 must take the oral isomer ratio into account when converting dose to active-isomer exposure",
+ "inn": "flupentixol",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "GTOPDB:ligand 948 target 214": {
+   "citation": "GtoPdb interaction, ligand 948 (flupentixol), target 214; primary PMIDs 1826762,7525564",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:ELLIOT & KENT, 1989": {
+   "citation": "ELLIOT & KENT, 1989",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:Ghoneim OM, et al., 2006": {
+   "citation": "Ghoneim OM, et al., 2006",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:16135699": {
+   "citation": "Burstein ES, et al., 2005",
+   "doi": null,
+   "pmid": "16135699"
+  },
+  "PMID:1826762": {
+   "citation": "Sunahara RK, et al., 1991",
+   "doi": null,
+   "pmid": "1826762"
+  },
+  "PMID:1828505": {
+   "citation": "Joyce JN, et al., 1991",
+   "doi": null,
+   "pmid": "1828505"
+  },
+  "PMID:1831904": {
+   "citation": "Tiberi M, et al., 1991",
+   "doi": null,
+   "pmid": "1831904"
+  },
+  "PMID:8301582": {
+   "citation": "Freedman SB, et al., 1994",
+   "doi": null,
+   "pmid": "8301582"
+  },
+  "PMID:9021894": {
+   "citation": "Seeman P et al,1997b",
+   "doi": null,
+   "pmid": "9021894"
+  },
+  "PMID:9577836": {
+   "citation": "Seeman P, Tallerico T., 1998",
+   "doi": null,
+   "pmid": "9577836"
+  },
+  "PMID:9686407": {
+   "citation": "TOLL L, et. al., 1998",
+   "doi": null,
+   "pmid": "9686407"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 0,
+  "excluded_counts": {
+   "pdsp_species_not_human": 29
+  },
+  "gtopdb_ligand_id": "948",
+  "pdsp_ligand_names_matched": [
+   "FLUPENTHIXOL, Alpha"
+  ],
+  "pdsp_ligand_names_tried": [
+   "cis-flupenthixol",
+   "flupenthixol, alpha",
+   "flupentixol"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "DRD1": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "GTOPDB:ligand 948 target 214",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD1"
+   ],
+   "ki_max_nM": 100.0,
+   "ki_min_nM": 3.0,
+   "ki_nM": 4.0,
+   "measurements": [
+    {
+     "ki_nM": 3.9810752023765517,
+     "record": "GtoPdb ligand 948 target 214 pKi 8.399999618530273",
+     "ref": "GTOPDB:ligand 948 target 214",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 100.0,
+     "record": "GtoPdb ligand 948 target 214 pKi 7.0",
+     "ref": "GTOPDB:ligand 948 target 214",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 4.0,
+     "record": "PDSP Ki ID 16140 (CLONED, hot ligand 3H-SCH23390)",
+     "ref": "PMID:1826762",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 4.0,
+     "record": "PDSP Ki ID 16288 (CLONED, hot ligand 125I-SCH 23982)",
+     "ref": "PMID:1831904",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 3.0,
+     "record": "PDSP Ki ID 3199 (CLONED, hot ligand 3H-SCH23390)",
+     "ref": "PMID:9686407",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 5,
+   "n_references": 4,
+   "name": "DOPAMINE D1",
+   "pki_median": 8.3979,
+   "uniprot": []
+  },
+  "DRD2": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:8301582",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 2.5,
+   "ki_min_nM": 0.14,
+   "ki_nM": 1.106973,
+   "measurements": [
+    {
+     "ki_nM": 1.513562312005786,
+     "record": "GtoPdb ligand 948 target 215 pKi 8.819999694824219",
+     "ref": "PMID:8301582",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 0.2,
+     "record": "PDSP Ki ID 39009 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.5,
+     "record": "PDSP Ki ID 39040 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.6,
+     "record": "PDSP Ki ID 13634 (HIPPOCAMPUS, hot ligand 125I-Epidepride)",
+     "ref": "PMID:1828505",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.66,
+     "record": "PDSP Ki ID 13618 (Putamen, hot ligand 125I-Epidepride)",
+     "ref": "PMID:1828505",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.73,
+     "record": "PDSP Ki ID 13622 (N. Accumbens, hot ligand 125I-Epidepride)",
+     "ref": "PMID:1828505",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2.3,
+     "record": "PDSP Ki ID 13626 (FR. CORTEX, hot ligand 125I-Epidepride)",
+     "ref": "PMID:1828505",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2.5,
+     "record": "PDSP Ki ID 13630 (Temp. Cortex, hot ligand 125I-Epidepride)",
+     "ref": "PMID:1828505",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.5,
+     "record": "PDSP Ki ID 10803 (CLONED, hot ligand 125I-IODOSULPRIDE)",
+     "ref": "PMID:8301582",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.14,
+     "record": "PDSP Ki ID 19726 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:9021894",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.5,
+     "record": "PDSP Ki ID 3259 (CLONED, hot ligand 3H-YM 09151-2)",
+     "ref": "PMID:9686407",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 11,
+   "n_references": 5,
+   "name": "DOPAMINE D2",
+   "pki_median": 8.9559,
+   "uniprot": []
+  },
+  "DRD3": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:8301582",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD3"
+   ],
+   "ki_max_nM": 2.9,
+   "ki_min_nM": 0.3,
+   "ki_nM": 1.203609,
+   "measurements": [
+    {
+     "ki_nM": 1.096478099832217,
+     "record": "GtoPdb ligand 948 target 216 pKi 8.960000038146973",
+     "ref": "PMID:8301582",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 0.6,
+     "record": "PDSP Ki ID 39110 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2.9,
+     "record": "PDSP Ki ID 39081 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.1,
+     "record": "PDSP Ki ID 10818 (CLONED, hot ligand 125I-IODOSULPRIDE)",
+     "ref": "PMID:8301582",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.3,
+     "record": "PDSP Ki ID 19751 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:9577836",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.7,
+     "record": "PDSP Ki ID 3313 (CLONED, hot ligand 3H-YM 09151-2)",
+     "ref": "PMID:9686407",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 6,
+   "n_references": 4,
+   "name": "DOPAMINE D3",
+   "pki_median": 8.9195,
+   "uniprot": []
+  },
+  "DRD4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD4"
+   ],
+   "ki_max_nM": 131.0,
+   "ki_min_nM": 1.6,
+   "ki_nM": 14.477569,
+   "measurements": [
+    {
+     "ki_nM": 131.0,
+     "record": "PDSP Ki ID 39151 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.6,
+     "record": "PDSP Ki ID 19831 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:9577836",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "DOPAMINE D4",
+   "pki_median": 7.8393,
+   "uniprot": []
+  },
+  "DRD5": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:1826762",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD5"
+   ],
+   "ki_max_nM": 8.0,
+   "ki_min_nM": 7.943282347242821,
+   "ki_nM": 7.971591,
+   "measurements": [
+    {
+     "ki_nM": 7.943282347242821,
+     "record": "GtoPdb ligand 948 target 218 pKi 8.1",
+     "ref": "PMID:1826762",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 8.0,
+     "record": "PDSP Ki ID 16111 (CLONED, hot ligand 3H-SCH23390)",
+     "ref": "PMID:1826762",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "DOPAMINE D5",
+   "pki_median": 8.0985,
+   "uniprot": []
+  },
+  "HRH1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HRH1"
+   ],
+   "ki_max_nM": 0.86,
+   "ki_min_nM": 0.86,
+   "ki_nM": 0.86,
+   "measurements": [
+    {
+     "ki_nM": 0.86,
+     "record": "PDSP Ki ID 47179 (CLONED, hot ligand 3H-MEPYRAMINE)",
+     "ref": "PDSP_REF:Ghoneim OM, et al., 2006",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "HISTAMINE H1",
+   "pki_median": 9.0655,
+   "uniprot": []
+  },
+  "HTR1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1A"
+   ],
+   "ki_max_nM": 8028.0,
+   "ki_min_nM": 8028.0,
+   "ki_nM": 8028.0,
+   "measurements": [
+    {
+     "ki_nM": 8028.0,
+     "record": "PDSP Ki ID 3350 (CLONED, hot ligand 3H-8-OH-DPAT)",
+     "ref": "PMID:9686407",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT1A",
+   "pki_median": 5.0954,
+   "uniprot": []
+  },
+  "HTR2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 87.5,
+   "ki_min_nM": 87.5,
+   "ki_nM": 87.5,
+   "measurements": [
+    {
+     "ki_nM": 87.5,
+     "record": "PDSP Ki ID 1935 (FR. CORTEX, hot ligand 125I-LSD)",
+     "ref": "PDSP_REF:ELLIOT & KENT, 1989",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT2A",
+   "pki_median": 7.058,
+   "uniprot": []
+  }
+ }
+}

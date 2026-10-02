@@ -1,0 +1,588 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL1237021",
+ "chembl_id_queried": "CHEMBL1237021",
+ "entity_note": null,
+ "inn": "lurasidone",
+ "mechanism_targets": [
+  "DRD2",
+  "HTR2A"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_MECHANISM:2022": {
+   "citation": "ChEMBL drug mechanism 2022: Dopamine D2 receptor antagonist; refs DailyMed setid=88a244d1-eddb-499c-bee2-e1f49056e78f",
+   "doi": null,
+   "pmid": null
+  },
+  "CHEMBL_MECHANISM:589": {
+   "citation": "ChEMBL drug mechanism 589: Serotonin 2a (5-HT2a) receptor antagonist; refs DailyMed setid=88a244d1-eddb-499c-bee2-e1f49056e78f",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 7461 target 25": {
+   "citation": "GtoPdb interaction, ligand 7461 (lurasidone), target 25; primary PMIDs 20404009,35224877",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 7461 target 27": {
+   "citation": "GtoPdb interaction, ligand 7461 (lurasidone), target 27; primary PMIDs 20404009,35224877",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:Ishibashi, Tadashi.  et. al, 2010": {
+   "citation": "Ishibashi, Tadashi.  et. al, 2010",
+   "doi": null,
+   "pmid": null
+  },
+  "PDSP_REF:PDSP Certified Data": {
+   "citation": "PDSP Certified Data",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:20404009": {
+   "citation": "GtoPdb interaction, ligand 7461 (lurasidone), target 12; primary PMIDs 20404009",
+   "doi": null,
+   "pmid": "20404009"
+  },
+  "PMID:31586817": {
+   "chembl_document": "CHEMBL4311986",
+   "citation": "Wr\u00f3bel MZ, Chodkowski A, Herold F, Marciniak M, Dawidowski M, Siwek A, Starowicz G, Stachowicz K, Szewczyk B, Nowak G, Belka M, B\u0105czek T, Sata\u0142a G, Bojarski AJ, Tur\u0142o J. (2019) Eur J Med Chem 183:111736",
+   "doi": "10.1016/j.ejmech.2019.111736",
+   "pmid": "31586817"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 5,
+  "excluded_counts": {
+   "chembl_potential_duplicate": 1,
+   "pdsp_receptor_name_unmapped": 1
+  },
+  "gtopdb_ligand_id": "7461",
+  "pdsp_ligand_names_matched": [
+   "Lurasidone",
+   "Lurasidone HCl"
+  ],
+  "pdsp_ligand_names_tried": [
+   "lurasidone",
+   "lurasidone hcl"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "ADRA2A": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "GTOPDB:ligand 7461 target 25",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "ADRA2A"
+   ],
+   "ki_max_nM": 199.5263191254866,
+   "ki_min_nM": 39.81070831325058,
+   "ki_nM": 62.0,
+   "measurements": [
+    {
+     "ki_nM": 39.81070831325058,
+     "record": "GtoPdb ligand 7461 target 25 pKi 7.400000095367432",
+     "ref": "GTOPDB:ligand 7461 target 25",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 199.5263191254866,
+     "record": "GtoPdb ligand 7461 target 25 pKi 6.699999809265137",
+     "ref": "GTOPDB:ligand 7461 target 25",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 40.7,
+     "record": "PDSP Ki ID 64935 (CLONED, hot ligand 3H-RAUWOLSCINE)",
+     "ref": "PDSP_REF:Ishibashi, Tadashi.  et. al, 2010",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 62.0,
+     "record": "PDSP Ki ID 100220 (CLONED, hot ligand 3H-RAUWOLSCINE)",
+     "ref": "PDSP_REF:PDSP Certified Data",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 4,
+   "n_references": 3,
+   "name": "noradrenaline-alpha2A",
+   "pki_median": 7.2076,
+   "uniprot": []
+  },
+  "ADRA2C": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "GTOPDB:ligand 7461 target 27",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "ADRA2C"
+   ],
+   "ki_max_nM": 50.1187013514281,
+   "ki_min_nM": 10.0,
+   "ki_nM": 15.549335,
+   "measurements": [
+    {
+     "ki_nM": 10.0,
+     "record": "GtoPdb ligand 7461 target 27 pKi 8.0",
+     "ref": "GTOPDB:ligand 7461 target 27",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 50.1187013514281,
+     "record": "GtoPdb ligand 7461 target 27 pKi 7.300000190734863",
+     "ref": "GTOPDB:ligand 7461 target 27",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 10.8,
+     "record": "PDSP Ki ID 64936 (CLONED, hot ligand 3H-RAUWOLSCINE)",
+     "ref": "PDSP_REF:Ishibashi, Tadashi.  et. al, 2010",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 2,
+   "name": "noradrenaline-alpha2C",
+   "pki_median": 7.8083,
+   "uniprot": []
+  },
+  "DRD2": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "CHEMBL_MECHANISM:2022",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 1.7,
+   "ki_min_nM": 1.68,
+   "ki_nM": 1.68997,
+   "measurements": [
+    {
+     "ki_nM": 1.7,
+     "record": "activity 18891557 / assay CHEMBL4314365",
+     "ref": "PMID:31586817",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1.68,
+     "record": "PDSP Ki ID 64930 (CLONED, hot ligand 3H-N-Methylspiperone)",
+     "ref": "PDSP_REF:Ishibashi, Tadashi.  et. al, 2010",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "D(2) dopamine receptor",
+   "pki_median": 8.7721,
+   "uniprot": [
+    "P14416"
+   ]
+  },
+  "HTR1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1A"
+   ],
+   "ki_max_nM": 53.0,
+   "ki_min_nM": 6.7,
+   "ki_nM": 6.75,
+   "measurements": [
+    {
+     "ki_nM": 6.7,
+     "record": "activity 18891606 / assay CHEMBL4314362",
+     "ref": "PMID:31586817",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 6.75,
+     "record": "PDSP Ki ID 64931 (CLONED, hot ligand 3H-WAY100635)",
+     "ref": "PDSP_REF:Ishibashi, Tadashi.  et. al, 2010",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 53.0,
+     "record": "PDSP Ki ID 100177 (CLONED, hot ligand 3H-WAY100635)",
+     "ref": "PDSP_REF:PDSP Certified Data",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 3,
+   "name": "5-hydroxytryptamine receptor 1A",
+   "pki_median": 8.1707,
+   "uniprot": [
+    "P08908"
+   ]
+  },
+  "HTR1B": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1B"
+   ],
+   "ki_max_nM": 1675.0,
+   "ki_min_nM": 1675.0,
+   "ki_nM": 1675.0,
+   "measurements": [
+    {
+     "ki_nM": 1675.0,
+     "record": "PDSP Ki ID 100196 (CLONED, hot ligand 3H-5CT)",
+     "ref": "PDSP_REF:PDSP Certified Data",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT1B",
+   "pki_median": 5.776,
+   "uniprot": []
+  },
+  "HTR1D": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1D"
+   ],
+   "ki_max_nM": 50.0,
+   "ki_min_nM": 50.0,
+   "ki_nM": 50.0,
+   "measurements": [
+    {
+     "ki_nM": 50.0,
+     "record": "PDSP Ki ID 100210 (CLONED, hot ligand 3H-5CT)",
+     "ref": "PDSP_REF:PDSP Certified Data",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT1D",
+   "pki_median": 7.301,
+   "uniprot": []
+  },
+  "HTR2A": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "CHEMBL_MECHANISM:589",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 36.0,
+   "ki_min_nM": 2.0,
+   "ki_nM": 2.03,
+   "measurements": [
+    {
+     "ki_nM": 2.0,
+     "record": "activity 18891569 / assay CHEMBL4314364",
+     "ref": "PMID:31586817",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 2.03,
+     "record": "PDSP Ki ID 64932 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PDSP_REF:Ishibashi, Tadashi.  et. al, 2010",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 36.0,
+     "record": "PDSP Ki ID 100257 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PDSP_REF:PDSP Certified Data",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 3,
+   "name": "5-hydroxytryptamine receptor 2A",
+   "pki_median": 8.6925,
+   "uniprot": [
+    "P28223"
+   ]
+  },
+  "HTR2B": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2B"
+   ],
+   "ki_max_nM": 24.0,
+   "ki_min_nM": 24.0,
+   "ki_nM": 24.0,
+   "measurements": [
+    {
+     "ki_nM": 24.0,
+     "record": "PDSP Ki ID 100274 (CLONED, hot ligand 3H-LSD)",
+     "ref": "PDSP_REF:PDSP Certified Data",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT2B",
+   "pki_median": 7.6198,
+   "uniprot": []
+  },
+  "HTR2C": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2C"
+   ],
+   "ki_max_nM": 481.0,
+   "ki_min_nM": 481.0,
+   "ki_nM": 481.0,
+   "measurements": [
+    {
+     "ki_nM": 481.0,
+     "record": "PDSP Ki ID 100293 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PDSP_REF:PDSP Certified Data",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT2C",
+   "pki_median": 6.3179,
+   "uniprot": []
+  },
+  "HTR3A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR3A"
+   ],
+   "ki_max_nM": 5264.0,
+   "ki_min_nM": 5264.0,
+   "ki_nM": 5264.0,
+   "measurements": [
+    {
+     "ki_nM": 5264.0,
+     "record": "PDSP Ki ID 100306 (CLONED, hot ligand 3H-GR65630)",
+     "ref": "PDSP_REF:PDSP Certified Data",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT3",
+   "pki_median": 5.2787,
+   "uniprot": []
+  },
+  "HTR5A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR5A"
+   ],
+   "ki_max_nM": 1198.0,
+   "ki_min_nM": 1198.0,
+   "ki_nM": 1198.0,
+   "measurements": [
+    {
+     "ki_nM": 1198.0,
+     "record": "PDSP Ki ID 100319 (CLONED, hot ligand 3H-LSD)",
+     "ref": "PDSP_REF:PDSP Certified Data",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT5a",
+   "pki_median": 5.9215,
+   "uniprot": []
+  },
+  "HTR6": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR6"
+   ],
+   "ki_max_nM": 943.0,
+   "ki_min_nM": 943.0,
+   "ki_nM": 943.0,
+   "measurements": [
+    {
+     "ki_nM": 943.0,
+     "record": "PDSP Ki ID 100339 (CLONED, hot ligand 3H-LSD)",
+     "ref": "PDSP_REF:PDSP Certified Data",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT6",
+   "pki_median": 6.0255,
+   "uniprot": []
+  },
+  "HTR7": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:20404009",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR7"
+   ],
+   "ki_max_nM": 32.0,
+   "ki_min_nM": 0.4897783461428336,
+   "ki_nM": 0.497494,
+   "measurements": [
+    {
+     "ki_nM": 0.5,
+     "record": "activity 18891537 / assay CHEMBL4314367",
+     "ref": "PMID:31586817",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.4897783461428336,
+     "record": "GtoPdb ligand 7461 target 12 pKi 9.3100004196167",
+     "ref": "PMID:20404009",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 0.495,
+     "record": "PDSP Ki ID 64933 (CLONED, hot ligand 3H-LSD)",
+     "ref": "PDSP_REF:Ishibashi, Tadashi.  et. al, 2010",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 32.0,
+     "record": "PDSP Ki ID 100351 (CLONED, hot ligand 3H-LSD)",
+     "ref": "PDSP_REF:PDSP Certified Data",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 4,
+   "n_references": 4,
+   "name": "5-hydroxytryptamine receptor 7",
+   "pki_median": 9.3032,
+   "uniprot": [
+    "P34969"
+   ]
+  }
+ }
+}

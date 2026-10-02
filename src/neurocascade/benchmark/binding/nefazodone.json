@@ -1,0 +1,991 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL623",
+ "chembl_id_queried": "CHEMBL623",
+ "entity_note": null,
+ "inn": "nefazodone",
+ "mechanism_targets": [
+  "HTR2A",
+  "HTR2C",
+  "SLC6A2",
+  "SLC6A4"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_DOC:CHEMBL5442175": {
+   "chembl_document": "CHEMBL5442175",
+   "citation": "EUbOPEN (2024) DATASET :",
+   "doi": "10.6019/CHEMBL5442175",
+   "pmid": null
+  },
+  "CHEMBL_MECHANISM:413": {
+   "citation": "ChEMBL drug mechanism 413: Serotonin transporter inhibitor; refs DailyMed setid=b1d149db-ad43-4f3f-aef1-fb0395ba4191#nlm34090-1",
+   "doi": null,
+   "pmid": null
+  },
+  "CHEMBL_MECHANISM:593": {
+   "citation": "ChEMBL drug mechanism 593: Serotonin 2a (5-HT2a) receptor antagonist; refs DailyMed setid=b1d149db-ad43-4f3f-aef1-fb0395ba4191#nlm34090-1",
+   "doi": null,
+   "pmid": null
+  },
+  "CHEMBL_MECHANISM:619": {
+   "citation": "ChEMBL drug mechanism 619: Serotonin 2c (5-HT2c) receptor antagonist; refs DailyMed setid=b1d149db-ad43-4f3f-aef1-fb0395ba4191#nlm34090-1",
+   "doi": null,
+   "pmid": null
+  },
+  "CHEMBL_MECHANISM:911": {
+   "citation": "ChEMBL drug mechanism 911: Norepinephrine transporter inhibitor; refs DailyMed setid=b1d149db-ad43-4f3f-aef1-fb0395ba4191#nlm34090-1",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 7247 target 1337": {
+   "citation": "GtoPdb interaction, ligand 7247 (nefazodone), target 1337; primary PMIDs 22409598,10445380",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:16712488": {
+   "citation": "Roth B. et al., 2006",
+   "doi": null,
+   "pmid": "16712488"
+  },
+  "PMID:21823597": {
+   "citation": "GtoPdb interaction, ligand 7247 (nefazodone), target 6; primary PMIDs 21823597",
+   "doi": null,
+   "pmid": "21823597"
+  },
+  "PMID:7855217": {
+   "citation": "Cusack, B et al., 1993",
+   "doi": null,
+   "pmid": "7855217"
+  },
+  "PMID:9400006": {
+   "citation": "Owens MJ, et al, 1997",
+   "doi": null,
+   "pmid": "9400006"
+  },
+  "PMID:9537821": {
+   "citation": "Tatsumi M, et al., 1997",
+   "doi": null,
+   "pmid": "9537821"
+  },
+  "PMID:9871604": {
+   "citation": "GtoPdb interaction, ligand 7247 (nefazodone), target 926; primary PMIDs 9871604",
+   "doi": null,
+   "pmid": "9871604"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 26,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 3,
+   "pdsp_receptor_name_unmapped": 6,
+   "pdsp_species_not_human": 19
+  },
+  "gtopdb_ligand_id": "7247",
+  "pdsp_ligand_names_matched": [
+   "Nefazodone"
+  ],
+  "pdsp_ligand_names_tried": [
+   "nefazodone"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "ADRA1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA1A"
+   ],
+   "ki_max_nM": 137.29,
+   "ki_min_nM": 48.0,
+   "ki_nM": 81.178322,
+   "measurements": [
+    {
+     "ki_nM": 137.29,
+     "record": "activity 25741314 / assay CHEMBL5442203",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 48.0,
+     "record": "PDSP Ki ID 58996 (CLONED, hot ligand 3H-PRAZOSIN)",
+     "ref": "PMID:16712488",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "Alpha-1A adrenergic receptor",
+   "pki_median": 7.0906,
+   "uniprot": [
+    "P35348"
+   ]
+  },
+  "ADRA1B": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA1B"
+   ],
+   "ki_max_nM": 572.4,
+   "ki_min_nM": 572.4,
+   "ki_nM": 572.4,
+   "measurements": [
+    {
+     "ki_nM": 572.4,
+     "record": "activity 25741315 / assay CHEMBL5442193",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Alpha-1B adrenergic receptor",
+   "pki_median": 6.2423,
+   "uniprot": [
+    "P35368"
+   ]
+  },
+  "ADRA1D": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA1D"
+   ],
+   "ki_max_nM": 445.25,
+   "ki_min_nM": 445.25,
+   "ki_nM": 445.25,
+   "measurements": [
+    {
+     "ki_nM": 445.25,
+     "record": "activity 25741316 / assay CHEMBL5442201",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Alpha-1D adrenergic receptor",
+   "pki_median": 6.3514,
+   "uniprot": [
+    "P25100"
+   ]
+  },
+  "ADRA2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA2A"
+   ],
+   "ki_max_nM": 1370.88,
+   "ki_min_nM": 1370.88,
+   "ki_nM": 1370.88,
+   "measurements": [
+    {
+     "ki_nM": 1370.88,
+     "record": "activity 25741317 / assay CHEMBL5442194",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Alpha-2A adrenergic receptor",
+   "pki_median": 5.863,
+   "uniprot": [
+    "P08913"
+   ]
+  },
+  "ADRA2B": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA2B"
+   ],
+   "ki_max_nM": 192.4,
+   "ki_min_nM": 192.4,
+   "ki_nM": 192.4,
+   "measurements": [
+    {
+     "ki_nM": 192.4,
+     "record": "activity 25741318 / assay CHEMBL5442195",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Alpha-2B adrenergic receptor",
+   "pki_median": 6.7158,
+   "uniprot": [
+    "P18089"
+   ]
+  },
+  "ADRA2C": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "ADRA2C"
+   ],
+   "ki_max_nM": 358.92,
+   "ki_min_nM": 358.92,
+   "ki_nM": 358.92,
+   "measurements": [
+    {
+     "ki_nM": 358.92,
+     "record": "activity 25741319 / assay CHEMBL5442196",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Alpha-2C adrenergic receptor",
+   "pki_median": 6.445,
+   "uniprot": [
+    "P18825"
+   ]
+  },
+  "CYP3A4": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "GTOPDB:ligand 7247 target 1337",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "CYP3A4"
+   ],
+   "ki_max_nM": 1000.0,
+   "ki_min_nM": 1000.0,
+   "ki_nM": 1000.0,
+   "measurements": [
+    {
+     "ki_nM": 1000.0,
+     "record": "GtoPdb ligand 7247 target 1337 pKi 6.0",
+     "ref": "GTOPDB:ligand 7247 target 1337",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "CYP3A4",
+   "pki_median": 6.0,
+   "uniprot": [
+    "P08684"
+   ]
+  },
+  "DRD1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD1"
+   ],
+   "ki_max_nM": 711.62,
+   "ki_min_nM": 711.62,
+   "ki_nM": 711.62,
+   "measurements": [
+    {
+     "ki_nM": 711.62,
+     "record": "activity 25741320 / assay CHEMBL5442197",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "D(1A) dopamine receptor",
+   "pki_median": 6.1478,
+   "uniprot": [
+    "P21728"
+   ]
+  },
+  "DRD2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 910.0,
+   "ki_min_nM": 735.53,
+   "ki_nM": 818.127313,
+   "measurements": [
+    {
+     "ki_nM": 735.53,
+     "record": "activity 25741321 / assay CHEMBL5442215",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 910.0,
+     "record": "PDSP Ki ID 11660 (BRAIN, hot ligand 3H-SPIPERONE)",
+     "ref": "PMID:7855217",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "D(2) dopamine receptor",
+   "pki_median": 6.0872,
+   "uniprot": [
+    "P14416"
+   ]
+  },
+  "DRD3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD3"
+   ],
+   "ki_max_nM": 380.19,
+   "ki_min_nM": 380.19,
+   "ki_nM": 380.19,
+   "measurements": [
+    {
+     "ki_nM": 380.19,
+     "record": "activity 25741322 / assay CHEMBL5442198",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "D(3) dopamine receptor",
+   "pki_median": 6.42,
+   "uniprot": [
+    "P35462"
+   ]
+  },
+  "DRD4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD4"
+   ],
+   "ki_max_nM": 326.32,
+   "ki_min_nM": 326.32,
+   "ki_nM": 326.32,
+   "measurements": [
+    {
+     "ki_nM": 326.32,
+     "record": "activity 25741323 / assay CHEMBL5442186",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "D(4) dopamine receptor",
+   "pki_median": 6.4864,
+   "uniprot": [
+    "P21917"
+   ]
+  },
+  "HRH1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HRH1"
+   ],
+   "ki_max_nM": 370.0,
+   "ki_min_nM": 124.91,
+   "ki_nM": 214.980697,
+   "measurements": [
+    {
+     "ki_nM": 124.91,
+     "record": "activity 25741324 / assay CHEMBL5442204",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 370.0,
+     "record": "PDSP Ki ID 58997 (CLONED, hot ligand 3H-PYRILAMINE)",
+     "ref": "PMID:16712488",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 10000.0,
+     "record": "PDSP Ki ID 11546 (BRAIN, hot ligand 3H-PYRILAMINE)",
+     "ref": "PMID:7855217",
+     "relation": ">",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 1,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "Histamine H1 receptor",
+   "pki_median": 6.6676,
+   "uniprot": [
+    "P35367"
+   ]
+  },
+  "HTR1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1A"
+   ],
+   "ki_max_nM": 80.0,
+   "ki_min_nM": 80.0,
+   "ki_nM": 80.0,
+   "measurements": [
+    {
+     "ki_nM": 80.0,
+     "record": "PDSP Ki ID 11623 (BRAIN, hot ligand 3H-8-OH-DPAT)",
+     "ref": "PMID:7855217",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT1A",
+   "pki_median": 7.0969,
+   "uniprot": []
+  },
+  "HTR1B": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1B"
+   ],
+   "ki_max_nM": 262.12,
+   "ki_min_nM": 262.12,
+   "ki_nM": 262.12,
+   "measurements": [
+    {
+     "ki_nM": 262.12,
+     "record": "activity 25741325 / assay CHEMBL5442179",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 1B",
+   "pki_median": 6.5815,
+   "uniprot": [
+    "P28222"
+   ]
+  },
+  "HTR1D": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1D"
+   ],
+   "ki_max_nM": 121.68,
+   "ki_min_nM": 121.68,
+   "ki_nM": 121.68,
+   "measurements": [
+    {
+     "ki_nM": 121.68,
+     "record": "activity 25741326 / assay CHEMBL5442180",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 1D",
+   "pki_median": 6.9148,
+   "uniprot": [
+    "P28221"
+   ]
+  },
+  "HTR2A": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:21823597",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "CHEMBL_MECHANISM:593",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 15.62,
+   "ki_min_nM": 5.7544024060553705,
+   "ki_nM": 9.480705,
+   "measurements": [
+    {
+     "ki_nM": 15.62,
+     "record": "activity 25741327 / assay CHEMBL5442205",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 5.7544024060553705,
+     "record": "GtoPdb ligand 7247 target 6 pKi 8.239999771118164",
+     "ref": "PMID:21823597",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "5-hydroxytryptamine receptor 2A",
+   "pki_median": 8.0232,
+   "uniprot": [
+    "P28223"
+   ]
+  },
+  "HTR2C": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "CHEMBL_MECHANISM:619",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2C"
+   ],
+   "ki_max_nM": 253.05,
+   "ki_min_nM": 72.0,
+   "ki_nM": 134.979999,
+   "measurements": [
+    {
+     "ki_nM": 253.05,
+     "record": "activity 25741328 / assay CHEMBL5442202",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 72.0,
+     "record": "PDSP Ki ID 58995 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:16712488",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "5-hydroxytryptamine receptor 2C",
+   "pki_median": 6.8697,
+   "uniprot": [
+    "P28335"
+   ]
+  },
+  "HTR5A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR5A"
+   ],
+   "ki_max_nM": 1092.07,
+   "ki_min_nM": 1092.07,
+   "ki_nM": 1092.07,
+   "measurements": [
+    {
+     "ki_nM": 1092.07,
+     "record": "activity 25741329 / assay CHEMBL5442181",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 5A",
+   "pki_median": 5.9617,
+   "uniprot": [
+    "P47898"
+   ]
+  },
+  "HTR6": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR6"
+   ],
+   "ki_max_nM": 1114.68,
+   "ki_min_nM": 1114.68,
+   "ki_nM": 1114.68,
+   "measurements": [
+    {
+     "ki_nM": 1114.68,
+     "record": "activity 25741330 / assay CHEMBL5442206",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 6",
+   "pki_median": 5.9528,
+   "uniprot": [
+    "P50406"
+   ]
+  },
+  "HTR7": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR7"
+   ],
+   "ki_max_nM": 70.25,
+   "ki_min_nM": 70.25,
+   "ki_nM": 70.25,
+   "measurements": [
+    {
+     "ki_nM": 70.25,
+     "record": "activity 25741331 / assay CHEMBL5442182",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 7",
+   "pki_median": 7.1534,
+   "uniprot": [
+    "P34969"
+   ]
+  },
+  "SLC6A2": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:9871604",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "CHEMBL_MECHANISM:911",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A2"
+   ],
+   "ki_max_nM": 730.55,
+   "ki_min_nM": 360.0,
+   "ki_nM": 663.802682,
+   "measurements": [
+    {
+     "ki_nM": 730.55,
+     "record": "activity 25741332 / assay CHEMBL5442183",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 618.0,
+     "record": "PDSP Ki ID 9613 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:9400006",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 713.0,
+     "record": "PDSP Ki ID 9688 (CLONED, hot ligand 3H-Norepinephrine)",
+     "ref": "PMID:9400006",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 360.0,
+     "record": "PDSP Ki ID 45620 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 4,
+   "n_references": 3,
+   "name": "Sodium-dependent noradrenaline transporter",
+   "pki_median": 6.178,
+   "uniprot": [
+    "P23975"
+   ]
+  },
+  "SLC6A3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A3"
+   ],
+   "ki_max_nM": 360.0,
+   "ki_min_nM": 215.65,
+   "ki_nM": 278.628785,
+   "measurements": [
+    {
+     "ki_nM": 215.65,
+     "record": "activity 25741333 / assay CHEMBL5442184",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 360.0,
+     "record": "PDSP Ki ID 45621 (CLONED, hot ligand 3H-WIN 35,428)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "Sodium-dependent dopamine transporter",
+   "pki_median": 6.555,
+   "uniprot": [
+    "Q01959"
+   ]
+  },
+  "SLC6A4": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:9871604",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "CHEMBL_MECHANISM:413",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A4"
+   ],
+   "ki_max_nM": 549.0,
+   "ki_min_nM": 175.27,
+   "ki_nM": 200.0,
+   "measurements": [
+    {
+     "ki_nM": 175.27,
+     "record": "activity 25741334 / assay CHEMBL5442191",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 459.0,
+     "record": "PDSP Ki ID 9523 (CLONED, hot ligand 3H-CITALOPRAM)",
+     "ref": "PMID:9400006",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 549.0,
+     "record": "PDSP Ki ID 9650 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:9400006",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 200.0,
+     "record": "PDSP Ki ID 45619 (CLONED, hot ligand 3H-IMIPRAMINE)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 4,
+   "n_references": 3,
+   "name": "Sodium-dependent serotonin transporter",
+   "pki_median": 6.699,
+   "uniprot": [
+    "P31645"
+   ]
+  },
+  "TMEM97": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "TMEM97"
+   ],
+   "ki_max_nM": 221.95,
+   "ki_min_nM": 221.95,
+   "ki_nM": 221.95,
+   "measurements": [
+    {
+     "ki_nM": 221.95,
+     "record": "activity 25741335 / assay CHEMBL5442185",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Sigma intracellular receptor 2",
+   "pki_median": 6.6537,
+   "uniprot": [
+    "Q5BJF2"
+   ]
+  },
+  "TSPO": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "TSPO"
+   ],
+   "ki_max_nM": 1986.32,
+   "ki_min_nM": 1986.32,
+   "ki_nM": 1986.32,
+   "measurements": [
+    {
+     "ki_nM": 1986.32,
+     "record": "activity 25741336 / assay CHEMBL5442207",
+     "ref": "CHEMBL_DOC:CHEMBL5442175",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Translocator protein",
+   "pki_median": 5.702,
+   "uniprot": [
+    "P30536"
+   ]
+  }
+ }
+}

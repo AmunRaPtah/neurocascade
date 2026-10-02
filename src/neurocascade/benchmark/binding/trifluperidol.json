@@ -1,0 +1,230 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL15023",
+ "chembl_id_queried": "CHEMBL15023",
+ "entity_note": null,
+ "inn": "trifluperidol",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:16033255": {
+   "chembl_document": "CHEMBL1140325",
+   "citation": "Laggner C, Schieferer C, Fiechtner B, Poles G, Hoffmann RD, Glossmann H, Langer T, Moebius FF. (2005) J Med Chem 48:4754",
+   "doi": "10.1021/jm049073+",
+   "pmid": "16033255"
+  },
+  "PMID:16135699": {
+   "citation": "Burstein ES, et al., 2005",
+   "doi": null,
+   "pmid": "16135699"
+  },
+  "PMID:8487254": {
+   "chembl_document": "CHEMBL1126649",
+   "citation": "Strobl GR, von Kruedener S, St\u00f6ckigt J, Guengerich FP, Wolff T. (1993) J Med Chem 36:1136",
+   "doi": "10.1021/jm00061a004",
+   "pmid": "8487254"
+  },
+  "PMID:9577836": {
+   "citation": "Seeman P, Tallerico T., 1998",
+   "doi": null,
+   "pmid": "9577836"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 3,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 1,
+   "pdsp_species_not_human": 8
+  },
+  "gtopdb_ligand_id": null,
+  "pdsp_ligand_names_matched": [
+   "TRIFLUORPERIDOL"
+  ],
+  "pdsp_ligand_names_tried": [
+   "trifluorperidol",
+   "trifluperidol"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "CYP2D6": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CYP2D6"
+   ],
+   "ki_max_nM": 170.0,
+   "ki_min_nM": 170.0,
+   "ki_nM": 170.0,
+   "measurements": [
+    {
+     "ki_nM": 170.0,
+     "record": "activity 416613 / assay CHEMBL754768",
+     "ref": "PMID:8487254",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Cytochrome P450 2D6",
+   "pki_median": 6.7696,
+   "uniprot": [
+    "P10635"
+   ]
+  },
+  "DRD2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 0.4,
+   "ki_min_nM": 0.2,
+   "ki_nM": 0.282843,
+   "measurements": [
+    {
+     "ki_nM": 0.2,
+     "record": "PDSP Ki ID 39008 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.4,
+     "record": "PDSP Ki ID 39039 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "DOPAMINE D2",
+   "pki_median": 9.5485,
+   "uniprot": []
+  },
+  "DRD3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD3"
+   ],
+   "ki_max_nM": 4.2,
+   "ki_min_nM": 3.5,
+   "ki_nM": 3.834058,
+   "measurements": [
+    {
+     "ki_nM": 3.5,
+     "record": "PDSP Ki ID 39080 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 4.2,
+     "record": "PDSP Ki ID 39109 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "DOPAMINE D3",
+   "pki_median": 8.4163,
+   "uniprot": []
+  },
+  "DRD4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD4"
+   ],
+   "ki_max_nM": 326.0,
+   "ki_min_nM": 0.35,
+   "ki_nM": 10.68176,
+   "measurements": [
+    {
+     "ki_nM": 326.0,
+     "record": "PDSP Ki ID 39150 (CLONED, hot ligand R-SAT)",
+     "ref": "PMID:16135699",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.35,
+     "record": "PDSP Ki ID 19803 (CLONED, hot ligand UNDEFINED)",
+     "ref": "PMID:9577836",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 2,
+   "name": "DOPAMINE D4",
+   "pki_median": 7.9714,
+   "uniprot": []
+  },
+  "EBP": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "EBP"
+   ],
+   "ki_max_nM": 165.0,
+   "ki_min_nM": 165.0,
+   "ki_nM": 165.0,
+   "measurements": [
+    {
+     "ki_nM": 165.0,
+     "record": "activity 1483988 / assay CHEMBL829736",
+     "ref": "PMID:16033255",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "3-beta-hydroxysteroid-Delta(8),Delta(7)-isomerase",
+   "pki_median": 6.7825,
+   "uniprot": [
+    "Q15125"
+   ]
+  }
+ }
+}

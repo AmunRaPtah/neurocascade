@@ -1,0 +1,143 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL4297605",
+ "chembl_id_queried": "CHEMBL4297605",
+ "entity_note": null,
+ "inn": "roluperidone",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:36202063": {
+   "chembl_document": "CHEMBL5223132",
+   "citation": "Fallica AN, Ciaffaglione V, Modica MN, Pittal\u00e0 V, Salerno L, Amata E, Marrazzo A, Romeo G, Intagliata S. (2022) Bioorg Med Chem 73:117032",
+   "doi": "10.1016/j.bmc.2022.117032",
+   "pmid": "36202063"
+  },
+  "PMID:37607512": {
+   "chembl_document": "CHEMBL5321285",
+   "citation": "Christmann U, D\u00edaz JL, Pascual R, Bordas M, \u00c1lvarez I, Monroy X, Porras M, Yeste S, Reinoso RF, Merlos M, Vela JM, Almansa C. (2023) J Med Chem 66:12499",
+   "doi": "10.1021/acs.jmedchem.3c01060",
+   "pmid": "37607512"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 5,
+  "excluded_counts": {
+   "chembl_potential_duplicate": 1
+  },
+  "gtopdb_ligand_id": "13306",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "roluperidone"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "FAIL",
+ "targets": {
+  "HTR1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1A"
+   ],
+   "ki_max_nM": 7.53,
+   "ki_min_nM": 7.53,
+   "ki_nM": 7.53,
+   "measurements": [
+    {
+     "ki_nM": 7.53,
+     "record": "activity 24977812 / assay CHEMBL5225135",
+     "ref": "PMID:36202063",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 1A",
+   "pki_median": 8.1232,
+   "uniprot": [
+    "P08908"
+   ]
+  },
+  "HTR2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 7.5,
+   "ki_min_nM": 7.5,
+   "ki_nM": 7.5,
+   "measurements": [
+    {
+     "ki_nM": 7.5,
+     "record": "activity 25470399 / assay CHEMBL5324501",
+     "ref": "PMID:37607512",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-hydroxytryptamine receptor 2A",
+   "pki_median": 8.1249,
+   "uniprot": [
+    "P28223"
+   ]
+  },
+  "TMEM97": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "TMEM97"
+   ],
+   "ki_max_nM": 8.19,
+   "ki_min_nM": 8.19,
+   "ki_nM": 8.19,
+   "measurements": [
+    {
+     "ki_nM": 8.19,
+     "record": "activity 24977806 / assay CHEMBL5225134",
+     "ref": "PMID:36202063",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Sigma intracellular receptor 2",
+   "pki_median": 8.0867,
+   "uniprot": [
+    "Q5BJF2"
+   ]
+  }
+ }
+}

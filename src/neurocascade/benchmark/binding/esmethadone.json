@@ -1,0 +1,80 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL350719",
+ "chembl_id_queried": "CHEMBL350719",
+ "entity_note": null,
+ "inn": "esmethadone",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:39999356": {
+   "chembl_document": "CHEMBL6115009",
+   "citation": "Banzato M, Furlan A, Locatelli P, Sgrignani J, Ongaro A, Dolmella A, De Martin S, Comai S, Cavalli A, Inturrisi C, Bettini E, Manfredi PL, Mattarei A. (2025) J Med Chem 68:5455",
+   "doi": "10.1021/acs.jmedchem.4c02605",
+   "pmid": "39999356"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 1,
+  "excluded_counts": {
+   "pdsp_species_not_human": 5
+  },
+  "gtopdb_ligand_id": null,
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "esmethadone",
+   "methadone,(s)(+)"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "FAIL",
+ "targets": {
+  "OPRM1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "OPRM1"
+   ],
+   "ki_max_nM": 446.68,
+   "ki_min_nM": 446.68,
+   "ki_nM": 446.68,
+   "measurements": [
+    {
+     "ki_nM": 446.68,
+     "record": "activity 29198115 / assay CHEMBL6118026",
+     "ref": "PMID:39999356",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Mu-type opioid receptor",
+   "pki_median": 6.35,
+   "uniprot": [
+    "P35372"
+   ]
+  }
+ }
+}

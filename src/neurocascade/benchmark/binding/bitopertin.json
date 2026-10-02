@@ -1,0 +1,126 @@
+{
+ "actions_without_ki": {
+  "SLC6A5": [
+   {
+    "action": "inhibitor",
+    "label": "Inhibitor / Inhibition",
+    "ref": "PMID:20491477",
+    "source": "GtoPdb"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL1171829",
+ "chembl_id_queried": "CHEMBL1171829",
+ "entity_note": null,
+ "inn": "bitopertin",
+ "mechanism_targets": [
+  "SLC6A9"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:20491477": {
+   "citation": "GtoPdb interaction, ligand 7546 (bitopertin), target 935; primary PMIDs 20491477",
+   "doi": null,
+   "pmid": "20491477"
+  },
+  "PMID:22138164": {
+   "citation": "ChEMBL drug mechanism 5726: Glycine transporter 1 inhibitor; refs PubMed 22138164; PubMed 23132267",
+   "doi": null,
+   "pmid": "22138164"
+  },
+  "PMID:30080045": {
+   "chembl_document": "CHEMBL4145681",
+   "citation": "Amberg W, Lange UEW, Ochse M, Pohlki F, Behl B, Relo AL, Hornberger W, Hoft C, Mezler M, Sydor J, Wang Y, Zhao H, Brewer JT, Dietrich J, Li H, Akritopoulou-Zanze I, Lao Y, Hannick SM, Ku YY, Vasudevan A. (2018) J Med Chem 61:7503",
+   "doi": "10.1021/acs.jmedchem.8b00300",
+   "pmid": "30080045"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 1,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": "7546",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "bitopertin"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "FAIL",
+ "targets": {
+  "SLC6A9": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:30080045",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:20491477",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "PMID:22138164",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A9"
+   ],
+   "ki_max_nM": 47.0,
+   "ki_min_nM": 46.77352234557817,
+   "ki_nM": 46.886624,
+   "measurements": [
+    {
+     "ki_nM": 47.0,
+     "record": "activity 18409278 / assay CHEMBL4151684",
+     "ref": "PMID:30080045",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 46.77352234557817,
+     "record": "GtoPdb ligand 7546 target 935 pKi 7.329999923706055",
+     "ref": "PMID:30080045",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "Sodium- and chloride-dependent glycine transporter 1",
+   "pki_median": 7.329,
+   "uniprot": [
+    "P48067"
+   ]
+  }
+ }
+}

@@ -1,0 +1,620 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL637",
+ "chembl_id_queried": "CHEMBL637",
+ "entity_note": null,
+ "inn": "venlafaxine",
+ "mechanism_targets": [
+  "SLC6A2",
+  "SLC6A4"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_MECHANISM:405": {
+   "citation": "ChEMBL drug mechanism 405: Serotonin transporter inhibitor; refs DailyMed setid=f2f03495-12b6-457a-901f-958b9c844bfd#nlm34090-1",
+   "doi": null,
+   "pmid": null
+  },
+  "CHEMBL_MECHANISM:922": {
+   "citation": "ChEMBL drug mechanism 922: Norepinephrine transporter inhibitor; refs DailyMed setid=f2f03495-12b6-457a-901f-958b9c844bfd#nlm34090-1",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:11454918": {
+   "citation": "Millan MJ, et al., 2001",
+   "doi": null,
+   "pmid": "11454918"
+  },
+  "PMID:11750180": {
+   "citation": "Bymaster F.P., et. al., 2001",
+   "doi": null,
+   "pmid": "11750180"
+  },
+  "PMID:14573386": {
+   "citation": "Koch S, et al., 2003",
+   "doi": null,
+   "pmid": "14573386"
+  },
+  "PMID:14744476": {
+   "citation": "Vaishnavi SN, et al., 2004",
+   "doi": null,
+   "pmid": "14744476"
+  },
+  "PMID:16712488": {
+   "citation": "Roth B. et al., 2006",
+   "doi": null,
+   "pmid": "16712488"
+  },
+  "PMID:18557608": {
+   "chembl_document": "CHEMBL1155011",
+   "citation": "Mahaney PE, Gavrin LK, Trybulski EJ, Stack GP, Vu TA, Cohn ST, Ye F, Belardi JK, Santilli AA, Sabatucci JP, Leiter J, Johnston GH, Bray JA, Burroughs KD, Cosmi SA, Leventhal L, Koury EJ, Zhang Y, Mugford CA, Ho DM, Rosenzweig-Lipson SJ, Platt B, Smith VA, Deecher DC. (2008) J Med Chem 51:4038",
+   "doi": "10.1021/jm8002262",
+   "pmid": "18557608"
+  },
+  "PMID:20378347": {
+   "citation": "GtoPdb interaction, ligand 7321 (venlafaxine), target 926; primary PMIDs 20378347",
+   "doi": null,
+   "pmid": "20378347"
+  },
+  "PMID:23602445": {
+   "chembl_document": "CHEMBL2390840",
+   "citation": "Arunotayanun W, Dalley JW, Huang XP, Setola V, Treble R, Iversen L, Roth BL, Gibbons S. (2013) Bioorg Med Chem Lett 23:3411",
+   "doi": "10.1016/j.bmcl.2013.03.066",
+   "pmid": "23602445"
+  },
+  "PMID:24900709": {
+   "chembl_document": "CHEMBL2384999",
+   "citation": "Dreyfus N, Myers JK, Badescu VO, de Frutos O, de la Puente ML, Ding C, Filla SA, Fynboe K, Gernert DL, Heinz BA, Hemrick-Luecke SK, Johnson KW, Johnson MP, L\u00f3pez P, Love PL, Martin LJ, Masquelin T, McCoy MJ, Mendiola J, Morrow D, Muhlhauser M, Pascual G, Perun TJ, Pfeifer LA, Phebus LA, Richards SJ, Rinc\u00f3n JA, Seest EP, Shah J, Shaojuan J, Simmons RM, Stephenson GA, Tromiczak EG, Thompson LK, Walter MW, Weber WW, Zarrinmayeh H, Thomas CE, Joshi E, Iyengar S, Johansson AM. (2013) ACS Med Chem Lett 4:560",
+   "doi": "10.1021/ml400049p",
+   "pmid": "24900709"
+  },
+  "PMID:28731336": {
+   "chembl_document": "CHEMBL4219032",
+   "citation": "Subbaiah MAM. (2018) J Med Chem 61:2133",
+   "doi": "10.1021/acs.jmedchem.6b01827",
+   "pmid": "28731336"
+  },
+  "PMID:9400006": {
+   "citation": "Owens MJ, et al, 1997",
+   "doi": null,
+   "pmid": "9400006"
+  },
+  "PMID:9537821": {
+   "citation": "Tatsumi M, et al., 1997",
+   "doi": null,
+   "pmid": "9537821"
+  }
+ },
+ "screened_inactive_without_ki": {
+  "CA2": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7791060 / assay CHEMBL1909123",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "CTSG": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7791996 / assay CHEMBL1909194",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "ELANE": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7791998 / assay CHEMBL1909195",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "MMP1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7792000 / assay CHEMBL1909196",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PDE5A": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7791980 / assay CHEMBL1909186",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTAFR": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7791982 / assay CHEMBL1909187",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "PTGS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7791074 / assay CHEMBL1909130",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ],
+  "TBXAS1": [
+   {
+    "chembl_document": "CHEMBL1909046",
+    "record": "activity 7792853 / assay CHEMBL1909116",
+    "source": "ChEMBL",
+    "statement": "Inhibition < 50% @ 10 uM and thus dose-reponse curve not measured"
+   }
+  ]
+ },
+ "searched": {
+  "chembl_ki_rows_returned": 99,
+  "excluded_counts": {
+   "chembl_assay_organism_not_human": 81,
+   "chembl_no_ki_value": 8,
+   "pdsp_receptor_name_unmapped": 9,
+   "pdsp_species_not_human": 77
+  },
+  "gtopdb_ligand_id": "7321",
+  "pdsp_ligand_names_matched": [
+   "Venlafaxine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "venlafaxine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "HTR2A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 2230.0,
+   "ki_min_nM": 2230.0,
+   "ki_nM": 2230.0,
+   "measurements": [
+    {
+     "ki_nM": 10000.0,
+     "record": "PDSP Ki ID 16813 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:11454918",
+     "relation": ">",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2230.0,
+     "record": "PDSP Ki ID 17355 (CLONED, hot ligand 125I-DOI)",
+     "ref": "PMID:11750180",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 1,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT2A",
+   "pki_median": 5.6517,
+   "uniprot": []
+  },
+  "HTR2C": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR2C"
+   ],
+   "ki_max_nM": 2004.0,
+   "ki_min_nM": 2004.0,
+   "ki_nM": 2004.0,
+   "measurements": [
+    {
+     "ki_nM": 10000.0,
+     "record": "PDSP Ki ID 16819 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:11454918",
+     "relation": ">",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2004.0,
+     "record": "PDSP Ki ID 17357 (CLONED, hot ligand 125I-DOI)",
+     "ref": "PMID:11750180",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 10000.0,
+     "record": "PDSP Ki ID 59001 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:16712488",
+     "relation": ">",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 2,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT2C",
+   "pki_median": 5.6981,
+   "uniprot": []
+  },
+  "HTR6": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR6"
+   ],
+   "ki_max_nM": 2792.0,
+   "ki_min_nM": 2792.0,
+   "ki_nM": 2792.0,
+   "measurements": [
+    {
+     "ki_nM": 2792.0,
+     "record": "PDSP Ki ID 17359 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:11750180",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT6",
+   "pki_median": 5.5541,
+   "uniprot": []
+  },
+  "SLC6A2": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:20378347",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "CHEMBL_MECHANISM:922",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A2"
+   ],
+   "ki_max_nM": 6310.0,
+   "ki_min_nM": 210.0,
+   "ki_nM": 1651.181395,
+   "measurements": [
+    {
+     "ki_nM": 385.0,
+     "record": "activity 2454412 / assay CHEMBL1020015",
+     "ref": "PMID:18557608",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 1623.0,
+     "record": "activity 13336336 / assay CHEMBL2393682",
+     "ref": "PMID:23602445",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 553.0,
+     "record": "activity 13325662 / assay CHEMBL2389182",
+     "ref": "PMID:24900709",
+     "relation": ">",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 210.0,
+     "record": "activity 18566472 / assay CHEMBL4219695",
+     "ref": "PMID:28731336",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 6310.0,
+     "record": "PDSP Ki ID 16782 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:11454918",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2480.0,
+     "record": "PDSP Ki ID 17373 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:11750180",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2483.0,
+     "record": "PDSP Ki ID 41264 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:14573386",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1420.0,
+     "record": "PDSP Ki ID 45471 (CLONED, hot ligand 3H-NE Uptake)",
+     "ref": "PMID:14744476",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1920.0,
+     "record": "PDSP Ki ID 45453 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:14744476",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 385.0,
+     "record": "PDSP Ki ID 53520 (UNDEFINED, hot ligand UNDEFINED)",
+     "ref": "PMID:18557608",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1644.0,
+     "record": "PDSP Ki ID 9700 (CLONED, hot ligand 3H-Norepinephrine)",
+     "ref": "PMID:9400006",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 2269.0,
+     "record": "PDSP Ki ID 9625 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:9400006",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 1060.0,
+     "record": "PDSP Ki ID 45659 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 1,
+   "n_measurements": 12,
+   "n_references": 9,
+   "name": "Sodium-dependent noradrenaline transporter",
+   "pki_median": 5.7822,
+   "uniprot": [
+    "P23975"
+   ]
+  },
+  "SLC6A3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A3"
+   ],
+   "ki_max_nM": 9300.0,
+   "ki_min_nM": 3070.0,
+   "ki_nM": 6366.246932,
+   "measurements": [
+    {
+     "ki_nM": 3620.0,
+     "record": "activity 13336356 / assay CHEMBL2393683",
+     "ref": "PMID:23602445",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 890.0,
+     "record": "activity 13325653 / assay CHEMBL2389181",
+     "ref": "PMID:24900709",
+     "relation": ">",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 5300.0,
+     "record": "activity 18566477 / assay CHEMBL4219696",
+     "ref": "PMID:28731336",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 10000.0,
+     "record": "PDSP Ki ID 16793 (CLONED, hot ligand 3H-GBR 12935)",
+     "ref": "PMID:11454918",
+     "relation": ">",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 7647.0,
+     "record": "PDSP Ki ID 17374 (CLONED, hot ligand 3H-WIN 35,428 BINDING)",
+     "ref": "PMID:11750180",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 7647.0,
+     "record": "PDSP Ki ID 41270 (CLONED, hot ligand 3H-WIN 35,428)",
+     "ref": "PMID:14573386",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 3070.0,
+     "record": "PDSP Ki ID 45477 (CLONED, hot ligand 3H-dopamine)",
+     "ref": "PMID:14744476",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 6050.0,
+     "record": "PDSP Ki ID 45459 (CLONED, hot ligand 125I-RTI-55 Binding)",
+     "ref": "PMID:14744476",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 9300.0,
+     "record": "PDSP Ki ID 45660 (CLONED, hot ligand 3H-WIN 35,428)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 2,
+   "n_measurements": 7,
+   "n_references": 6,
+   "name": "Sodium-dependent dopamine transporter",
+   "pki_median": 5.1961,
+   "uniprot": [
+    "Q01959"
+   ]
+  },
+  "SLC6A4": {
+   "action_types": [
+    "inhibitor"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "inhibitor",
+     "label": "Inhibitor / Inhibition",
+     "ref": "PMID:20378347",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "inhibitor",
+     "label": "INHIBITOR",
+     "ref": "CHEMBL_MECHANISM:405",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A4"
+   ],
+   "ki_max_nM": 145.0,
+   "ki_min_nM": 7.5,
+   "ki_nM": 39.0,
+   "measurements": [
+    {
+     "ki_nM": 113.0,
+     "record": "activity 13336316 / assay CHEMBL2393681",
+     "ref": "PMID:23602445",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 11.0,
+     "record": "activity 13325671 / assay CHEMBL2389183",
+     "ref": "PMID:24900709",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 39.0,
+     "record": "activity 18566467 / assay CHEMBL4219694",
+     "ref": "PMID:28731336",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 75.9,
+     "record": "PDSP Ki ID 16772 (CLONED, hot ligand 3H-PAROXETINE)",
+     "ref": "PMID:11454918",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 82.0,
+     "record": "PDSP Ki ID 17369 (CLONED, hot ligand 3H-PAROXETINE)",
+     "ref": "PMID:11750180",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 82.0,
+     "record": "PDSP Ki ID 41258 (CLONED, hot ligand 3H-PAROXETINE)",
+     "ref": "PMID:14573386",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 7.8,
+     "record": "PDSP Ki ID 45447 (CLONED, hot ligand 3H-CITALOPRAM)",
+     "ref": "PMID:14744476",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 145.0,
+     "record": "PDSP Ki ID 45465 (CLONED, hot ligand 3H-5-HT Uptake)",
+     "ref": "PMID:14744476",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 7.5,
+     "record": "PDSP Ki ID 9534 (CLONED, hot ligand 3H-CITALOPRAM)",
+     "ref": "PMID:9400006",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 102.0,
+     "record": "PDSP Ki ID 9662 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:9400006",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 8.9,
+     "record": "PDSP Ki ID 45658 (CLONED, hot ligand 3H-IMIPRAMINE)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 11,
+   "n_references": 9,
+   "name": "Sodium-dependent serotonin transporter",
+   "pki_median": 7.4089,
+   "uniprot": [
+    "P31645"
+   ]
+  }
+ }
+}

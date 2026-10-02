@@ -1,0 +1,410 @@
+{
+ "actions_without_ki": {
+  "MAOA+MAOB": [
+   {
+    "action": "inhibitor",
+    "label": "INHIBITOR",
+    "ref": "CHEMBL_MECHANISM:1244",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL3989843",
+ "chembl_id_queried": "CHEMBL3989843",
+ "entity_note": null,
+ "inn": "tranylcypromine",
+ "mechanism_targets": [
+  "MAOA+MAOB"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_MECHANISM:1244": {
+   "citation": "ChEMBL drug mechanism 1244: Monoamine oxidase inhibitor; refs FDA label/2010/012342s063lbl.pdf; Wikipedia Monoamine_oxidase_inhibitor",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:21382717": {
+   "chembl_document": "CHEMBL1795241",
+   "citation": "Benelkebir H, Hodgkinson C, Duriez PJ, Hayden AL, Bulleid RA, Crabb SJ, Packham G, Ganesan A. (2011) Bioorg Med Chem 19:3709",
+   "doi": "10.1016/j.bmc.2011.02.017",
+   "pmid": "21382717"
+  },
+  "PMID:22696418": {
+   "chembl_document": "CHEMBL3526117",
+   "citation": "Stephens ES, Walsh AA, Scott EE. (2012) Drug Metab Dispos 40:1797",
+   "doi": "10.1124/dmd.112.045161",
+   "pmid": "22696418"
+  },
+  "PMID:25600407": {
+   "chembl_document": "CHEMBL3399931",
+   "citation": "Rojas RJ, Edmondson DE, Almos T, Scott R, Massari ME. (2015) Bioorg Med Chem 23:770",
+   "doi": "10.1016/j.bmc.2014.12.063",
+   "pmid": "25600407"
+  },
+  "PMID:32931269": {
+   "chembl_document": "CHEMBL4813911",
+   "citation": "Dai XJ, Liu Y, Xiong XP, Xue LP, Zheng YC, Liu HM. (2020) J Med Chem 63:14197",
+   "doi": "10.1021/acs.jmedchem.0c00919",
+   "pmid": "32931269"
+  },
+  "PMID:36537915": {
+   "chembl_document": "CHEMBL5316272",
+   "citation": "Song Y, Wang S, Yu B. (2023) J Med Chem 66:71",
+   "doi": "10.1021/acs.jmedchem.2c01324",
+   "pmid": "36537915"
+  },
+  "PMID:9537821": {
+   "citation": "Tatsumi M, et al., 1997",
+   "doi": null,
+   "pmid": "9537821"
+  },
+  "PMID:9686407": {
+   "citation": "TOLL L, et. al., 1998",
+   "doi": null,
+   "pmid": "9686407"
+  }
+ },
+ "screened_inactive_without_ki": {
+  "HDAC1+RCOR3": [
+   {
+    "chembl_document": "CHEMBL4219105",
+    "record": "activity 18573574 / assay CHEMBL4221523",
+    "source": "ChEMBL",
+    "statement": "Not Determined"
+   }
+  ]
+ },
+ "searched": {
+  "chembl_ki_rows_returned": 23,
+  "excluded_counts": {
+   "chembl_data_validity_flag": 10,
+   "chembl_no_ki_value": 1,
+   "chembl_potential_duplicate": 3,
+   "pdsp_species_not_human": 3
+  },
+  "gtopdb_ligand_id": null,
+  "pdsp_ligand_names_matched": [
+   "TRANYLCYPROMINE"
+  ],
+  "pdsp_ligand_names_tried": [
+   "tranylcypromine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N06A",
+ "targets": {
+  "CYP2A13": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CYP2A13"
+   ],
+   "ki_max_nM": 6500.0,
+   "ki_min_nM": 6500.0,
+   "ki_nM": 6500.0,
+   "measurements": [
+    {
+     "ki_nM": 6500.0,
+     "record": "activity 15468129 / assay CHEMBL3532208",
+     "ref": "PMID:22696418",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Cytochrome P450 2A13",
+   "pki_median": 5.1871,
+   "uniprot": [
+    "Q16696"
+   ]
+  },
+  "CYP2A6": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CYP2A6"
+   ],
+   "ki_max_nM": 130.0,
+   "ki_min_nM": 130.0,
+   "ki_nM": 130.0,
+   "measurements": [
+    {
+     "ki_nM": 130.0,
+     "record": "activity 15468123 / assay CHEMBL3532211",
+     "ref": "PMID:22696418",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Cytochrome P450 2A6",
+   "pki_median": 6.8861,
+   "uniprot": [
+    "P11509"
+   ]
+  },
+  "HTR1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR1A"
+   ],
+   "ki_max_nM": 5963.0,
+   "ki_min_nM": 5963.0,
+   "ki_nM": 5963.0,
+   "measurements": [
+    {
+     "ki_nM": 5963.0,
+     "record": "PDSP Ki ID 3386 (CLONED, hot ligand 3H-8-OH-DPAT)",
+     "ref": "PMID:9686407",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT1A",
+   "pki_median": 5.2245,
+   "uniprot": []
+  },
+  "KDM1A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "KDM1A"
+   ],
+   "ki_max_nM": 100000.0,
+   "ki_min_nM": 21000.0,
+   "ki_nM": 47867.398587,
+   "measurements": [
+    {
+     "ki_nM": 21000.0,
+     "record": "activity 6266937 / assay CHEMBL1799129",
+     "ref": "PMID:21382717",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 25000.0,
+     "record": "activity 6266939 / assay CHEMBL1799131",
+     "ref": "PMID:21382717",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 100000.0,
+     "record": "activity 25442531 / assay CHEMBL5316832",
+     "ref": "PMID:36537915",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 2,
+   "name": "Lysine-specific histone demethylase 1A",
+   "pki_median": 4.32,
+   "uniprot": [
+    "O60341"
+   ]
+  },
+  "MAOA": {
+   "action_types": [],
+   "action_types_via_family": [
+    "inhibitor"
+   ],
+   "actions": [],
+   "families": [
+    "MAOA+MAOB"
+   ],
+   "gene_symbols": [
+    "MAOA"
+   ],
+   "ki_max_nM": 5000.0,
+   "ki_min_nM": 5000.0,
+   "ki_nM": 5000.0,
+   "measurements": [
+    {
+     "ki_nM": 5000.0,
+     "record": "activity 25442525 / assay CHEMBL5316830",
+     "ref": "PMID:36537915",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Amine oxidase [flavin-containing] A",
+   "pki_median": 5.301,
+   "uniprot": [
+    "P21397"
+   ]
+  },
+  "MAOB": {
+   "action_types": [],
+   "action_types_via_family": [
+    "inhibitor"
+   ],
+   "actions": [],
+   "families": [
+    "MAOA+MAOB"
+   ],
+   "gene_symbols": [
+    "MAOB"
+   ],
+   "ki_max_nM": 89000.0,
+   "ki_min_nM": 26.0,
+   "ki_nM": 16000.0,
+   "measurements": [
+    {
+     "ki_nM": 26.0,
+     "record": "activity 15163788 / assay CHEMBL3404812",
+     "ref": "PMID:25600407",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 16000.0,
+     "record": "activity 23170850 / assay CHEMBL4814445",
+     "ref": "PMID:32931269",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 89000.0,
+     "record": "activity 25442516 / assay CHEMBL5316828",
+     "ref": "PMID:36537915",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 3,
+   "n_references": 3,
+   "name": "Amine oxidase [flavin-containing] B",
+   "pki_median": 4.7959,
+   "uniprot": [
+    "P27338"
+   ]
+  },
+  "SLC6A2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A2"
+   ],
+   "ki_max_nM": 5900.0,
+   "ki_min_nM": 5900.0,
+   "ki_nM": 5900.0,
+   "measurements": [
+    {
+     "ki_nM": 5900.0,
+     "record": "PDSP Ki ID 45650 (CLONED, hot ligand 3H-Nisoxetine)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Norepinephrine transporter",
+   "pki_median": 5.2291,
+   "uniprot": []
+  },
+  "SLC6A3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A3"
+   ],
+   "ki_max_nM": 5100.0,
+   "ki_min_nM": 5100.0,
+   "ki_nM": 5100.0,
+   "measurements": [
+    {
+     "ki_nM": 5100.0,
+     "record": "PDSP Ki ID 45651 (CLONED, hot ligand 3H-WIN 35,428)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Dopamine Transporter",
+   "pki_median": 5.2924,
+   "uniprot": []
+  },
+  "SLC6A4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "SLC6A4"
+   ],
+   "ki_max_nM": 39000.0,
+   "ki_min_nM": 39000.0,
+   "ki_nM": 39000.0,
+   "measurements": [
+    {
+     "ki_nM": 10000.0,
+     "record": "PDSP Ki ID 45649 (CLONED, hot ligand 3H-IMIPRAMINE)",
+     "ref": "PMID:9537821",
+     "relation": ">",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 39000.0,
+     "record": "PDSP Ki ID 100397 (CLONED, hot ligand 3H-IMIPRAMINE)",
+     "ref": "PMID:9537821",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 1,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT Transporter",
+   "pki_median": 4.4089,
+   "uniprot": []
+  }
+ }
+}

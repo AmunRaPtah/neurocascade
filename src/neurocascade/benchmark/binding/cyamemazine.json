@@ -1,0 +1,493 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL2104153",
+ "chembl_id_queried": "CHEMBL2104153",
+ "entity_note": null,
+ "inn": "cyamemazine",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:12527336": {
+   "citation": "Hameg A. et al., 2003",
+   "doi": null,
+   "pmid": "12527336"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 0,
+  "excluded_counts": {
+   "pdsp_species_not_human": 8
+  },
+  "gtopdb_ligand_id": "84",
+  "pdsp_ligand_names_matched": [
+   "Cyamemazine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "cyamemazine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "CHRM1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CHRM1"
+   ],
+   "ki_max_nM": 13.0,
+   "ki_min_nM": 13.0,
+   "ki_nM": 13.0,
+   "measurements": [
+    {
+     "ki_nM": 13.0,
+     "record": "PDSP Ki ID 23638 (CLONED, hot ligand 3H-PIRENZEPINE)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Cholinergic, muscarinic M1",
+   "pki_median": 7.8861,
+   "uniprot": []
+  },
+  "CHRM2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CHRM2"
+   ],
+   "ki_max_nM": 42.0,
+   "ki_min_nM": 42.0,
+   "ki_nM": 42.0,
+   "measurements": [
+    {
+     "ki_nM": 42.0,
+     "record": "PDSP Ki ID 23639 (CLONED, hot ligand 3H-Methoctramine)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Cholinergic, muscarinic M2",
+   "pki_median": 7.3768,
+   "uniprot": []
+  },
+  "CHRM3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CHRM3"
+   ],
+   "ki_max_nM": 32.0,
+   "ki_min_nM": 32.0,
+   "ki_nM": 32.0,
+   "measurements": [
+    {
+     "ki_nM": 32.0,
+     "record": "PDSP Ki ID 23640 (CLONED, hot ligand 3H-4-DAMP)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Cholinergic, muscarinic M3",
+   "pki_median": 7.4949,
+   "uniprot": []
+  },
+  "CHRM4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CHRM4"
+   ],
+   "ki_max_nM": 12.0,
+   "ki_min_nM": 12.0,
+   "ki_nM": 12.0,
+   "measurements": [
+    {
+     "ki_nM": 12.0,
+     "record": "PDSP Ki ID 23641 (CLONED, hot ligand 3H-4-DAMP)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Cholinergic, muscarinic M4",
+   "pki_median": 7.9208,
+   "uniprot": []
+  },
+  "CHRM5": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "CHRM5"
+   ],
+   "ki_max_nM": 35.0,
+   "ki_min_nM": 35.0,
+   "ki_nM": 35.0,
+   "measurements": [
+    {
+     "ki_nM": 35.0,
+     "record": "PDSP Ki ID 23642 (CLONED, hot ligand 3H-4-DAMP)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Cholinergic, muscarinic M5",
+   "pki_median": 7.4559,
+   "uniprot": []
+  },
+  "DRD1": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD1"
+   ],
+   "ki_max_nM": 3.8,
+   "ki_min_nM": 3.8,
+   "ki_nM": 3.8,
+   "measurements": [
+    {
+     "ki_nM": 3.8,
+     "record": "PDSP Ki ID 23623 (CLONED, hot ligand 3H-SCH23390)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "DOPAMINE D1",
+   "pki_median": 8.4202,
+   "uniprot": []
+  },
+  "DRD2": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 5.8,
+   "ki_min_nM": 5.8,
+   "ki_nM": 5.8,
+   "measurements": [
+    {
+     "ki_nM": 5.8,
+     "record": "PDSP Ki ID 23624 (CLONED, hot ligand 3H-Butaclamol(+))",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "DOPAMINE D2",
+   "pki_median": 8.2366,
+   "uniprot": []
+  },
+  "DRD3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD3"
+   ],
+   "ki_max_nM": 2.5,
+   "ki_min_nM": 2.5,
+   "ki_nM": 2.5,
+   "measurements": [
+    {
+     "ki_nM": 2.5,
+     "record": "PDSP Ki ID 23625 (CLONED, hot ligand 3H-Butaclamol(+))",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "DOPAMINE D3",
+   "pki_median": 8.6021,
+   "uniprot": []
+  },
+  "DRD4": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD4"
+   ],
+   "ki_max_nM": 5.3,
+   "ki_min_nM": 5.3,
+   "ki_nM": 5.3,
+   "measurements": [
+    {
+     "ki_nM": 5.3,
+     "record": "PDSP Ki ID 23626 (CLONED, hot ligand 3H-Clozapine)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "DOPAMINE D4.4",
+   "pki_median": 8.2757,
+   "uniprot": []
+  },
+  "HTR1A": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:12527336",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR1A"
+   ],
+   "ki_max_nM": 517.0,
+   "ki_min_nM": 501.18723362727246,
+   "ki_nM": 509.032219,
+   "measurements": [
+    {
+     "ki_nM": 501.18723362727246,
+     "record": "GtoPdb ligand 84 target 1 pKi 6.3",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 517.0,
+     "record": "PDSP Ki ID 23627 (CLONED, hot ligand 3H-8-OH-DPAT)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "5-HT1A",
+   "pki_median": 6.2933,
+   "uniprot": []
+  },
+  "HTR2A": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:12527336",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2A"
+   ],
+   "ki_max_nM": 1.584893192461111,
+   "ki_min_nM": 1.5,
+   "ki_nM": 1.541862,
+   "measurements": [
+    {
+     "ki_nM": 1.584893192461111,
+     "record": "GtoPdb ligand 84 target 6 pKi 8.8",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 1.5,
+     "record": "PDSP Ki ID 23628 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "5-HT2A",
+   "pki_median": 8.812,
+   "uniprot": []
+  },
+  "HTR2C": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:12527336",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR2C"
+   ],
+   "ki_max_nM": 12.589254117941662,
+   "ki_min_nM": 12.0,
+   "ki_nM": 12.291096,
+   "measurements": [
+    {
+     "ki_nM": 12.589254117941662,
+     "record": "GtoPdb ligand 84 target 8 pKi 7.9",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 12.0,
+     "record": "PDSP Ki ID 23629 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "5-HT2C",
+   "pki_median": 7.9104,
+   "uniprot": []
+  },
+  "HTR3A": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "HTR3A"
+   ],
+   "ki_max_nM": 2943.0,
+   "ki_min_nM": 2943.0,
+   "ki_nM": 2943.0,
+   "measurements": [
+    {
+     "ki_nM": 2943.0,
+     "record": "PDSP Ki ID 23631 (CLONED, hot ligand 3H-MDL-72222)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "5-HT3",
+   "pki_median": 5.5312,
+   "uniprot": []
+  },
+  "HTR7": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:12527336",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "HTR7"
+   ],
+   "ki_max_nM": 63.0957344480193,
+   "ki_min_nM": 22.0,
+   "ki_nM": 37.257297,
+   "measurements": [
+    {
+     "ki_nM": 63.0957344480193,
+     "record": "GtoPdb ligand 84 target 12 pKi 7.2",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 22.0,
+     "record": "PDSP Ki ID 23632 (CLONED, hot ligand 3H-5HT)",
+     "ref": "PMID:12527336",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "5-HT7",
+   "pki_median": 7.4288,
+   "uniprot": []
+  }
+ }
+}

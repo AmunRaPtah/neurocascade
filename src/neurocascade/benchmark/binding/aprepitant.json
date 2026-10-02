@@ -1,0 +1,162 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL1471",
+ "chembl_id_queried": "CHEMBL1471",
+ "entity_note": null,
+ "inn": "aprepitant",
+ "mechanism_targets": [
+  "TACR1"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "CHEMBL_MECHANISM:1371": {
+   "citation": "ChEMBL drug mechanism 1371: Neurokinin 1 receptor antagonist; refs DailyMed setid=696f9e80-9cae-403b-de9e-078343ce4713",
+   "doi": null,
+   "pmid": null
+  },
+  "GTOPDB:ligand 3490 target 360": {
+   "citation": "GtoPdb interaction, ligand 3490 (aprepitant), target 360; primary PMIDs 9804700,10737756",
+   "doi": null,
+   "pmid": null
+  },
+  "PMID:22574973": {
+   "chembl_document": "CHEMBL2203099",
+   "citation": "Bissantz C, Bohnert C, Hoffmann T, Marcuz A, Schnider P, Malherbe P. (2012) J Med Chem 55:5061",
+   "doi": "10.1021/jm2017072",
+   "pmid": "22574973"
+  },
+  "PMID:24374277": {
+   "chembl_document": "CHEMBL3102845",
+   "citation": "Hanessian S, Babonneau V, Boyer N, Mannoury la Cour C, Millan MJ, De Nanteuil G. (2014) Bioorg Med Chem Lett 24:510",
+   "doi": "10.1016/j.bmcl.2013.12.033",
+   "pmid": "24374277"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 5,
+  "excluded_counts": {
+   "chembl_no_ki_value": 1
+  },
+  "gtopdb_ligand_id": "3490",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "aprepitant"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "FAIL",
+ "targets": {
+  "TACR1": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "GTOPDB:ligand 3490 target 360",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "CHEMBL_MECHANISM:1371",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "TACR1"
+   ],
+   "ki_max_nM": 3.0,
+   "ki_min_nM": 0.07943,
+   "ki_nM": 0.089125,
+   "measurements": [
+    {
+     "ki_nM": 0.8,
+     "record": "activity 12183549 / assay CHEMBL2215525",
+     "ref": "PMID:22574973",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 3.0,
+     "record": "activity 12183560 / assay CHEMBL2215526",
+     "ref": "PMID:22574973",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.07943,
+     "record": "activity 13889610 / assay CHEMBL3108370",
+     "ref": "PMID:24374277",
+     "relation": "=",
+     "source": "ChEMBL"
+    },
+    {
+     "ki_nM": 0.08912505467113453,
+     "record": "GtoPdb ligand 3490 target 360 pKi 10.050000190734863",
+     "ref": "GTOPDB:ligand 3490 target 360",
+     "relation": "=",
+     "source": "GtoPdb"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 4,
+   "n_references": 3,
+   "name": "Substance-P receptor",
+   "pki_median": 10.05,
+   "uniprot": [
+    "P25103"
+   ]
+  },
+  "TACR3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "TACR3"
+   ],
+   "ki_max_nM": 454.1,
+   "ki_min_nM": 454.1,
+   "ki_nM": 454.1,
+   "measurements": [
+    {
+     "ki_nM": 454.1,
+     "record": "activity 12183538 / assay CHEMBL2215524",
+     "ref": "PMID:22574973",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Neuromedin-K receptor",
+   "pki_median": 6.3428,
+   "uniprot": [
+    "P29371"
+   ]
+  }
+ }
+}

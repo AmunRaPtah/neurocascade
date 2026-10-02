@@ -1,0 +1,141 @@
+{
+ "actions_without_ki": {
+  "OPRD1": [
+   {
+    "action": "antagonist",
+    "label": "Antagonist / Antagonist",
+    "ref": "PMID:30707578",
+    "source": "GtoPdb"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL4592045",
+ "chembl_id_queried": "CHEMBL4592045",
+ "entity_note": null,
+ "inn": "navacaprant",
+ "mechanism_targets": [
+  "OPRK1"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:30707578": {
+   "chembl_document": "CHEMBL4422661",
+   "citation": "Guerrero M, Urbano M, Kim EK, Gamo AM, Riley S, Abgaryan L, Leaf N, Van Orden LJ, Brown SJ, Xie JY, Porreca F, Cameron MD, Rosen H, Roberts E. (2019) J Med Chem 62:1761",
+   "doi": "10.1021/acs.jmedchem.8b01679",
+   "pmid": "30707578"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 2,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": "10452",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "navacaprant"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "FAIL",
+ "targets": {
+  "OPRK1": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:30707578",
+     "source": "GtoPdb"
+    },
+    {
+     "action": "antagonist",
+     "label": "ANTAGONIST",
+     "ref": "PMID:30707578",
+     "source": "ChEMBL mechanism"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "OPRK1"
+   ],
+   "ki_max_nM": 1.5,
+   "ki_min_nM": 1.5,
+   "ki_nM": 1.5,
+   "measurements": [
+    {
+     "ki_nM": 1.5,
+     "record": "activity 19368491 / assay CHEMBL4424354",
+     "ref": "PMID:30707578",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Kappa-type opioid receptor",
+   "pki_median": 8.8239,
+   "uniprot": [
+    "P41145"
+   ]
+  },
+  "OPRM1": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:30707578",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "OPRM1"
+   ],
+   "ki_max_nM": 450.0,
+   "ki_min_nM": 450.0,
+   "ki_nM": 450.0,
+   "measurements": [
+    {
+     "ki_nM": 450.0,
+     "record": "activity 19368492 / assay CHEMBL4424355",
+     "ref": "PMID:30707578",
+     "relation": "=",
+     "source": "ChEMBL"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "Mu-type opioid receptor",
+   "pki_median": 6.3468,
+   "uniprot": [
+    "P35372"
+   ]
+  }
+ }
+}

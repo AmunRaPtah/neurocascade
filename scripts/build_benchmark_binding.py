@@ -1,0 +1,693 @@
+"""Build the Phase 28 receptor binding panels (Ki + efficacy) per benchmark drug (P28.2).
+
+Two stages, run separately:
+
+``python scripts/build_benchmark_binding.py fetch [--cache DIR]``
+    Network. Downloads the three sources into a cache directory (default
+    ``<tmp>/neurocascade_p28_2``, outside the repository; never committed):
+
+    * PDSP Ki database, full CSV, ``https://pdsp.unc.edu/databases/kiDownload/download.php``;
+    * IUPHAR/BPS Guide to Pharmacology bulk ``interactions.csv`` and
+      ``ligands.csv`` from ``https://www.guidetopharmacology.org/DATA/``;
+    * ChEMBL REST API: every ``Ki`` activity on a human-organism target for
+      each drug's parent molecule (salts included through
+      ``parent_molecule_chembl_id``), the assay, document and target records
+      those activities point at, and the drug's curated ``mechanism`` rows.
+
+``python scripts/build_benchmark_binding.py build [--cache DIR]``
+    Offline. Writes ``src/neurocascade/benchmark/binding/<inn>.json`` for
+    every benchmark drug and ``coverage.json`` beside them.
+
+Every inclusion rule (human assay organism, ChEMBL confidence score, PDSP name
+aliases, censored values, how a per-target Ki is summarised) and the reasoning
+behind it is in docs/architecture.md, section "P28.2".
+"""
+
+from __future__ import annotations
+
+import csv
+import hashlib
+import io
+import json
+import math
+import re
+import ssl
+import statistics
+import sys
+import tempfile
+import time
+import urllib.parse
+import urllib.request
+from collections import defaultdict
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+BENCH_DIR = ROOT / "src" / "neurocascade" / "benchmark"
+OUT_DIR = BENCH_DIR / "binding"
+DEFAULT_CACHE = Path(tempfile.gettempdir()) / "neurocascade_p28_2"
+
+CHEMBL = "https://www.ebi.ac.uk/chembl/api/data/"
+PDSP_URL = "https://pdsp.unc.edu/databases/kiDownload/download.php"
+GTOPDB_URL = "https://www.guidetopharmacology.org/DATA/"
+
+# Retrieval dates, recorded in every output file. Set to the date the fetch
+# stage was run for the committed panels.
+RETRIEVED = "2026-10-02"
+CHEMBL_RELEASE = "ChEMBL_37 (2026-05-01)"
+
+# The ChEMBL molecule queried when it is not drugs.json's chembl_id, with why.
+CHEMBL_QUERY_OVERRIDE = {
+    "flupentixol": (
+        "CHEMBL54661",
+        "ATC-mapped CHEMBL6066864 'FLUPENTIXOL' carries no structure and no "
+        "activities. The benchmark record's CAS (53772-82-0) identifies the "
+        "cis(Z) isomer (P28.1), which is ChEMBL CHEMBL54661 'Z-FLUPENTIXOL' and "
+        "GtoPdb ligand 948. The Lundbeck FLUANXOL product monograph (Canada) "
+        "states commercial flupentixol dihydrochloride is an approximately 1:1 "
+        "cis:trans mixture whose trans isomer is pharmacologically inactive, "
+        "and the depot is cis(Z)-flupentixol decanoate. The panel is therefore "
+        "the active cis(Z) isomer's; Phase 29 must take the oral isomer ratio "
+        "into account when converting dose to active-isomer exposure",
+    ),
+}
+
+# PDSP ligand names accepted for a drug besides its exact INN
+# (case-insensitive). Each is a spelling variant, a salt, or a synonym for the
+# same stereochemical entity. Names for a different stereoisomer of the drug
+# (e.g. "(+)Mianserin" for racemic mianserin) are deliberately absent.
+PDSP_ALIASES = {
+    "chlorpromazine": ["CPZ"],
+    "chlorprothixene": ["Chlorprothixene (cis)"],  # marketed substance is cis(Z)
+    "clomipramine": ["CHLORIMIPRAMINE", "CLOMIPRIMINE"],
+    "desvenlafaxine": ["O-Desmethylvenlafaxine"],
+    "dibenzepin": ["Dibenzepine"],
+    "doxepin": ["Doxepine"],
+    "duloxetine": ["s-Duloxetine"],  # marketed duloxetine is the (S) enantiomer
+    "escitalopram": ["1, (S)-citalopram"],
+    "esketamine": ["(S)-(+)-ketamine"],
+    "esmethadone": ["Methadone,(S)(+)"],
+    "flupentixol": ["FLUPENTHIXOL, Alpha", "cis-flupenthixol"],  # alpha = cis(Z)
+    "iproniazide": ["Iproniazid"],
+    "levosulpiride": ["SULPIRIDE,(-)", "Sulpiride-S", "Sulpiride-l"],
+    "lurasidone": ["Lurasidone HCl"],
+    "melperone": ["Melperone HCl"],
+    "mianserin": ["(+-)Mianserin", "mianserine"],
+    "mirtazapine": ["mirtazepine"],
+    "moclobemide": ["moclobemide, MCL"],
+    "nortriptyline": ["NORTRYPTYLINE"],
+    "paliperidone": ["9-OH-risperidone"],  # paliperidone is racemic 9-hydroxyrisperidone
+    "periciazine": ["PROPERICIAZINE"],
+    "sulpiride": ["Sulpirid"],
+    "toloxatone": ["toloxatone, TOL"],
+    "trifluoperazine": ["Trifluperazine"],
+    "trifluperidol": ["TRIFLUORPERIDOL"],
+    "triflupromazine": ["Trifluopromazine"],
+    "trimipramine": ["D,L-Trimipramine"],
+    "zimeldine": ["ZIMELIDINE", "Zimelidine (Z-isomer)"],  # zimeldine is the (Z) isomer
+    "zuclopenthixol": ["cis-Clopenthixol"],  # zuclopenthixol is cis(Z)-clopenthixol
+}
+
+# PDSP receptor names -> human gene symbols. Only names that identify one gene
+# product (or one defined subunit combination) are mapped; generic names
+# ("alpha1", "5-HT2", "Cholinergic, muscarinic", "GABA A", "Sigma") are not,
+# and rows carrying them are counted as unmapped rather than guessed.
+PDSP_TARGETS = {
+    "5-HT Transporter": "SLC6A4", "SERT": "SLC6A4", "Serotonin Transporter (SERT)": "SLC6A4",
+    "5-HT1A": "HTR1A", "Serotonin 5-HT1A": "HTR1A", "h5-HT1A": "HTR1A",
+    "5-HT1B": "HTR1B", "5-HT1D": "HTR1D", "5-HT1E": "HTR1E", "5-HT1F": "HTR1F",
+    "5-HT2A": "HTR2A", "Serotonin 5-HT2A": "HTR2A", "h5-HT2A": "HTR2A",
+    "5-HT2B": "HTR2B", "Serotonin 5-HT2B": "HTR2B", "h5-HT2B": "HTR2B",
+    "5-HT2C": "HTR2C", "Serotonin 5-HT2C": "HTR2C", "5-HT2C-INI": "HTR2C", "5-HT2c VGI": "HTR2C",
+    "5-HT3": "HTR3A", "5-HT4L": "HTR4", "5-HT5a": "HTR5A", "5-HT6": "HTR6",
+    "5-HT7": "HTR7", "Serotonin 5-HT7": "HTR7", "5-HT7L": "HTR7", "5-HT7S": "HTR7", "5-HT7b": "HTR7",
+    "ADENOSINE A1": "ADORA1", "ADENOSINE A2a": "ADORA2A", "ADENOSINE A3": "ADORA3",
+    "Alpha1D": "ADRA1D", "adrenergic Alpha1D": "ADRA1D",
+    "adrenergic Alpha1A": "ADRA1A", "alpha1A": "ADRA1A",
+    "adrenergic Alpha1B": "ADRA1B", "alpha1B": "ADRA1B", "halpha1B-adrenergic": "ADRA1B",
+    "Alpha2A": "ADRA2A", "adrenergic Alpha2A": "ADRA2A", "noradrenaline-alpha2A": "ADRA2A",
+    "Alpha2B": "ADRA2B", "adrenergic Alpha2B": "ADRA2B",
+    "Alpha2C": "ADRA2C", "adrenergic Alpha2C": "ADRA2C", "halpha2C-adrenergic": "ADRA2C",
+    "noradrenaline-alpha2C": "ADRA2C",
+    "adrenergic Beta1": "ADRB1", "beta1": "ADRB1",
+    "adrenergic Beta2": "ADRB2", "beta2": "ADRB2",
+    "adrenergic Beta3": "ADRB3", "beta3": "ADRB3",
+    "CANNABINOID CB1": "CNR1", "CANNABINOID CB2": "CNR2",
+    "Cholecystokinin A": "CCKAR", "Cholecystokinin B": "CCKBR",
+    "Cholinergic, muscarinic M1": "CHRM1", "Muscarinic M1": "CHRM1", "hM1": "CHRM1",
+    "Cholinergic, muscarinic M2": "CHRM2", "Cholinergic, muscarinic M3": "CHRM3",
+    "Cholinergic, muscarinic M4": "CHRM4", "Cholinergic, muscarinic M5": "CHRM5",
+    "Cholinergic, Nicotinic Alpha2Beta2": "CHRNA2+CHRNB2",
+    "Cholinergic, Nicotinic Alpha2Beta4": "CHRNA2+CHRNB4",
+    "Cholinergic, Nicotinic Alpha3Beta2": "CHRNA3+CHRNB2",
+    "Cholinergic, Nicotinic Alpha3Beta4": "CHRNA3+CHRNB4",
+    "Cholinergic, Nicotinic Alpha4Beta2": "CHRNA4+CHRNB2",
+    "Cholinergic, Nicotinic Alpha4Beta4": "CHRNA4+CHRNB4",
+    "Cholinergic, Nicotinic Alpha7": "CHRNA7",
+    "D1": "DRD1", "DOPAMINE D1": "DRD1", "Dopamine D1A": "DRD1",
+    "D2": "DRD2", "DOPAMINE D2": "DRD2", "D2L": "DRD2", "D2S": "DRD2", "hD2L": "DRD2",
+    "DOPAMINE D2 Long": "DRD2", "DOPAMINE D2 Short": "DRD2", "Dopamine D2A": "DRD2",
+    "D3": "DRD3", "DOPAMINE D3": "DRD3", "hD3": "DRD3",
+    "D4": "DRD4", "DOPAMINE D4": "DRD4", "DOPAMINE D4.2": "DRD4", "DOPAMINE D4.4": "DRD4",
+    "D5": "DRD5", "DOPAMINE D5": "DRD5",
+    "DAT": "SLC6A3", "Dopamine Transporter": "SLC6A3",
+    "Norepinephrine transporter": "SLC6A2", "NRI": "SLC6A2",
+    "GABA A Alpha1Beta1Gamma2": "GABRA1+GABRB1+GABRG2",
+    "GABA A Alpha1Beta3Gamma2": "GABRA1+GABRB3+GABRG2", "GABAA alpha1beta3gamma2": "GABRA1+GABRB3+GABRG2",
+    "alpha1beta3gamma2": "GABRA1+GABRB3+GABRG2",
+    "GABA A Alpha2Beta1Gamma2": "GABRA2+GABRB1+GABRG2",
+    "GABA A Alpha2Beta3Gamma2": "GABRA2+GABRB3+GABRG2", "GABAA alpha2beta3gamma2": "GABRA2+GABRB3+GABRG2",
+    "alpha2beta3gamma2": "GABRA2+GABRB3+GABRG2",
+    "GABA A Alpha3Beta1Gamma2": "GABRA3+GABRB1+GABRG2",
+    "GABA A Alpha3Beta3Gamma2": "GABRA3+GABRB3+GABRG2", "GABAA alpha3beta3gamma2": "GABRA3+GABRB3+GABRG2",
+    "alpha3beta3gamma2": "GABRA3+GABRB3+GABRG2",
+    "GABA A Alpha5Beta3Gamma2": "GABRA5+GABRB3+GABRG2", "GABAA alpha5beta3gamma2": "GABRA5+GABRB3+GABRG2",
+    "alpha5beta3gamma2": "GABRA5+GABRB3+GABRG2",
+    "GABA A Alpha6Beta3Gamma2": "GABRA6+GABRB3+GABRG2", "GABAA alpha6beta3gamma2": "GABRA6+GABRB3+GABRG2",
+    "H1": "HRH1", "HISTAMINE H1": "HRH1", "hH1": "HRH1",
+    "H2": "HRH2", "HISTAMINE H2": "HRH2", "H3": "HRH3", "HISTAMINE H3": "HRH3",
+    "H4": "HRH4", "HISTAMINE H4": "HRH4",
+    "HERG": "KCNH2", "IKr": "KCNH2",
+    "KOR": "OPRK1", "OPIATE Kappa": "OPRK1", "OPIATE Delta": "OPRD1", "OPIATE Mu": "OPRM1",
+    "NPY-Y1": "NPY1R", "Neurokinin NK1": "TACR1", "Neurokinin NK2": "TACR2", "Neurokinin NK3": "TACR3",
+    "Neurotensin 1": "NTSR1", "Nociceptin receptor": "OPRL1",
+    "PAF Platelet activating factor": "PTAFR", "PKC alpha": "PRKCA", "PKC gamma": "PRKCG",
+    "Prostaglandin E3": "PTGER3", "Prostaglandin E4": "PTGER4",
+    "Sigma 1": "SIGMAR1", "Sigma 2": "TMEM97",
+    "Thromboxane A2": "TBXA2R",
+    "VASOPRESSIN V1A": "AVPR1A", "VASOPRESSIN V1B": "AVPR1B", "Vasopressin V3": "AVPR1B",
+    "VASOPRESSIN V2": "AVPR2",
+}
+
+# Action vocabulary: source label -> normalised action type.
+ACTION_NORMALISE = {
+    "antagonist": "antagonist", "inverse agonist": "inverse agonist",
+    "agonist": "agonist", "full agonist": "agonist", "partial agonist": "partial agonist",
+    "inhibitor": "inhibitor", "inhibition": "inhibitor", "irreversible inhibition": "inhibitor",
+    "irreversible inhibitor": "inhibitor", "blocker": "blocker", "pore blocker": "blocker",
+    "channel blocker": "blocker", "negative allosteric modulator": "negative allosteric modulator",
+    "negative": "negative allosteric modulator",
+    "positive allosteric modulator": "positive allosteric modulator",
+    "positive": "positive allosteric modulator", "potentiation": "positive allosteric modulator",
+    "allosteric antagonist": "negative allosteric modulator",
+    "modulator": "modulator", "releasing agent": "releasing agent", "opener": "opener",
+    "biased agonist": "agonist", "activation": "agonist", "neutral": "neutral antagonist",
+    "competitive": "antagonist", "non-competitive": "antagonist", "activator": "activator",
+    "gating inhibitor": "gating inhibitor", "slows inactivation": "gating inhibitor",
+    "voltage-dependent inhibition": "blocker", "feedback inhibition": "inhibitor",
+    "subunit-specific": None, "antibody": None, "fusion protein": None, "binding": None, "none": None, "unknown": None, "mixed": None,
+    "": None,
+}
+
+
+# ---------------------------------------------------------------- fetching
+
+
+def _ctx():
+    # pdsp.unc.edu does not present a chain this image's CA bundle verifies
+    # (the same failure P8.1 recorded on 2026-08-14). The payload is public
+    # reference data and is sha256-recorded in every output file.
+    return ssl._create_unverified_context()
+
+
+def _download(url: str, timeout: int = 600) -> bytes:
+    req = urllib.request.Request(url, headers={"User-Agent": "neurocascade-P28.2"})
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout, context=_ctx()) as r:
+                return r.read()
+        except Exception:  # noqa: BLE001 - retry any transport error
+            if attempt == 4:
+                raise
+            time.sleep(5 * (attempt + 1))
+    raise AssertionError("unreachable")
+
+
+def _chembl_all(cache: Path, path: str, params: dict, key: str) -> list[dict]:
+    """Every page of a ChEMBL list endpoint, cached by request."""
+    q = urllib.parse.urlencode(sorted(params.items()))
+    fn = cache / "chembl" / (hashlib.sha1(f"{path}?{q}".encode()).hexdigest() + ".json")
+    if fn.exists():
+        return json.loads(fn.read_text())
+    out: list[dict] = []
+    url = f"{CHEMBL}{path}.json?{q}&limit=1000"
+    while url:
+        page = json.loads(_download(url, timeout=300))
+        out.extend(page[key])
+        nxt = page["page_meta"]["next"]
+        url = f"https://www.ebi.ac.uk{nxt}" if nxt else None
+    fn.parent.mkdir(parents=True, exist_ok=True)
+    fn.write_text(json.dumps(out))
+    return out
+
+
+def _chembl_by_ids(cache: Path, path: str, idfield: str, ids, key: str) -> dict:
+    ids = sorted(set(ids))
+    out = {}
+    for i in range(0, len(ids), 50):
+        chunk = ids[i : i + 50]
+        for rec in _chembl_all(cache, path, {f"{idfield}__in": ",".join(chunk)}, key):
+            out[rec[idfield]] = rec
+    return out
+
+
+def chembl_query_id(drug: dict) -> str:
+    return CHEMBL_QUERY_OVERRIDE.get(drug["inn"], (drug["chembl_id"], None))[0]
+
+
+def fetch(cache: Path) -> None:
+    cache.mkdir(parents=True, exist_ok=True)
+    for name, url in (
+        ("pdsp.csv", PDSP_URL),
+        ("gtopdb_interactions.csv", GTOPDB_URL + "interactions.csv"),
+        ("gtopdb_ligands.csv", GTOPDB_URL + "ligands.csv"),
+    ):
+        if not (cache / name).exists():
+            (cache / name).write_bytes(_download(url))
+            print("downloaded", name, file=sys.stderr)
+    drugs = json.loads((BENCH_DIR / "drugs.json").read_text())["drugs"]
+    acts_all: dict[str, list] = {}
+    for d in drugs:
+        cid = chembl_query_id(d)
+        acts_all[d["inn"]] = _chembl_all(
+            cache, "activity",
+            {"parent_molecule_chembl_id": cid, "standard_type": "Ki",
+             "target_organism": "Homo sapiens"},
+            "activities",
+        )
+        _chembl_all(cache, "mechanism", {"parent_molecule_chembl_id": cid}, "mechanisms")
+        print(d["inn"], cid, len(acts_all[d["inn"]]), file=sys.stderr)
+    acts = [a for v in acts_all.values() for a in v]
+    _chembl_by_ids(cache, "assay", "assay_chembl_id", [a["assay_chembl_id"] for a in acts], "assays")
+    _chembl_by_ids(cache, "document", "document_chembl_id",
+                   [a["document_chembl_id"] for a in acts], "documents")
+    tids = {a["target_chembl_id"] for a in acts}
+    for d in drugs:
+        for m in _chembl_all(cache, "mechanism", {"parent_molecule_chembl_id": chembl_query_id(d)},
+                             "mechanisms"):
+            if m.get("target_chembl_id"):
+                tids.add(m["target_chembl_id"])
+    _chembl_by_ids(cache, "target", "target_chembl_id", tids, "targets")
+
+
+# ---------------------------------------------------------------- building
+
+
+def _read_gtopdb(path: Path) -> list[dict]:
+    lines = path.read_text(encoding="utf-8").splitlines()
+    version = lines[0].strip('"').lstrip("# ")
+    rows = list(csv.DictReader(io.StringIO("\n".join(lines[1:]))))
+    for r in rows:
+        r["_version"] = version
+    return rows
+
+
+def _sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _target_key(t: dict) -> tuple[str, list[str], list[str]] | None:
+    """Gene-symbol key, gene symbols and UniProt accessions for a ChEMBL target."""
+    genes, accs = [], []
+    for c in t.get("target_components") or []:
+        accs.append(c.get("accession"))
+        syms = [s["component_synonym"] for s in c.get("target_component_synonyms") or []
+                if s["syn_type"] == "GENE_SYMBOL"]
+        if not syms:
+            return None
+        genes.append(syms[0].upper())
+    if not genes:
+        return None
+    genes_sorted = sorted(set(genes))
+    return "+".join(genes_sorted), genes_sorted, sorted(a for a in set(accs) if a)
+
+
+def _norm_action(label: str | None) -> str | None:
+    if label is None:
+        return None
+    return ACTION_NORMALISE.get(label.strip().lower(), label.strip().lower())
+
+
+def _gtopdb_action(type_: str, action: str) -> str | None:
+    """GtoPdb prints a ligand 'Type' and an 'Action'. The Action is the more
+    specific of the two except where it is empty or a bare 'Binding'/'None';
+    'Positive'/'Negative' only mean allosteric modulation under the
+    'Allosteric modulator' type."""
+    t, a = type_.strip().lower(), action.strip().lower()
+    if t == "allosteric modulator" and a in ("positive", "potentiation", "activation"):
+        return "positive allosteric modulator"
+    if t == "allosteric modulator" and a in ("negative", "inhibition"):
+        return "negative allosteric modulator"
+    if a in ("", "none", "binding", "unknown", "mixed"):
+        a = t
+    if a == "positive":
+        return "activator"
+    return _norm_action(a)
+
+
+def _pmid_from_link(link: str) -> str | None:
+    m = re.search(r"(\d{6,9})", link or "")
+    return m.group(1) if m else None
+
+
+def build(cache: Path) -> None:
+    drugs = json.loads((BENCH_DIR / "drugs.json").read_text())["drugs"]
+    pdsp_path = cache / "pdsp.csv"
+    pdsp = list(csv.DictReader(io.StringIO(pdsp_path.read_bytes().decode("latin-1"))))
+    gi_path, gl_path = cache / "gtopdb_interactions.csv", cache / "gtopdb_ligands.csv"
+    g_inter, g_lig = _read_gtopdb(gi_path), _read_gtopdb(gl_path)
+    gtopdb_version = g_inter[0]["_version"]
+    lig_by_ik = {r["InChIKey"]: r for r in g_lig if r["InChIKey"]}
+    lig_by_chembl = {r["ChEMBL ID"]: r for r in g_lig if r["ChEMBL ID"]}
+    inter_by_lig = defaultdict(list)
+    for r in g_inter:
+        inter_by_lig[r["Ligand ID"]].append(r)
+    pdsp_by_name = defaultdict(list)
+    for r in pdsp:
+        pdsp_by_name[r[" Ligand Name"].strip().lower()].append(r)
+
+    acts_cache = {}
+    for d in drugs:
+        acts_cache[d["inn"]] = _chembl_all(
+            cache, "activity",
+            {"parent_molecule_chembl_id": chembl_query_id(d), "standard_type": "Ki",
+             "target_organism": "Homo sapiens"}, "activities")
+    all_acts = [a for v in acts_cache.values() for a in v]
+    assays = _chembl_by_ids(cache, "assay", "assay_chembl_id",
+                            [a["assay_chembl_id"] for a in all_acts], "assays")
+    docs = _chembl_by_ids(cache, "document", "document_chembl_id",
+                          [a["document_chembl_id"] for a in all_acts], "documents")
+    mechs = {d["inn"]: _chembl_all(cache, "mechanism",
+                                   {"parent_molecule_chembl_id": chembl_query_id(d)}, "mechanisms")
+             for d in drugs}
+    tids = {a["target_chembl_id"] for a in all_acts}
+    tids |= {m["target_chembl_id"] for v in mechs.values() for m in v if m.get("target_chembl_id")}
+    targets = _chembl_by_ids(cache, "target", "target_chembl_id", tids, "targets")
+
+    provenance = {
+        "retrieved": RETRIEVED,
+        "pdsp": {"url": PDSP_URL, "sha256": _sha(pdsp_path), "rows": len(pdsp)},
+        "gtopdb": {"url": GTOPDB_URL + "interactions.csv", "version": gtopdb_version,
+                   "sha256": _sha(gi_path)},
+        "chembl": {"api": CHEMBL, "release": CHEMBL_RELEASE},
+    }
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    coverage_rows = []
+    for d in drugs:
+        panel = _build_one(d, acts_cache[d["inn"]], assays, docs, targets, mechs[d["inn"]],
+                           pdsp_by_name, lig_by_ik, lig_by_chembl, inter_by_lig)
+        panel["provenance"] = provenance
+        fn = OUT_DIR / f"{d['inn'].replace(' ', '_')}.json"
+        fn.write_text(json.dumps(panel, indent=1, sort_keys=True) + "\n")
+        coverage_rows.append({
+            "inn": d["inn"], "stratum": d["stratum"], "status": panel["status"],
+            "n_targets_with_ki": len(panel["targets"]),
+            "n_targets_with_action": sum(1 for t in panel["targets"].values() if t["action_types"]),
+            "n_targets_with_family_action_only": sum(
+                1 for t in panel["targets"].values()
+                if not t["action_types"] and t["action_types_via_family"]),
+            "n_ki_measurements": sum(t["n_measurements"] for t in panel["targets"].values()),
+            "n_mechanism_targets": len(panel["mechanism_targets"]),
+            # a family-level mechanism target counts as covered when the
+            # panel has a Ki at one of its members
+            "n_mechanism_targets_with_ki": sum(
+                1 for k in panel["mechanism_targets"]
+                if any(set(t.split("+")) <= set(k.split("+")) for t in panel["targets"])),
+        })
+    _write_coverage(coverage_rows, provenance)
+
+
+def _build_one(d, acts, assays, docs, targets, mechs, pdsp_by_name, lig_by_ik,
+               lig_by_chembl, inter_by_lig) -> dict:
+    inn = d["inn"]
+    refs: dict[str, dict] = {}
+    meas: dict[str, list] = defaultdict(list)  # target key -> measurements
+    tinfo: dict[str, dict] = {}
+    excluded = defaultdict(int)
+    inactive: dict[str, list] = defaultdict(list)
+
+    def add_ref(key, rec):
+        refs.setdefault(key, rec)
+
+    # --- ChEMBL
+    for a in acts:
+        assay = assays.get(a["assay_chembl_id"]) or {}
+        t = targets.get(a["target_chembl_id"]) or {}
+        if a.get("data_validity_comment"):
+            excluded["chembl_data_validity_flag"] += 1
+            continue
+        if a.get("potential_duplicate"):
+            excluded["chembl_potential_duplicate"] += 1
+            continue
+        if str(assay.get("assay_tax_id")) != "9606":
+            excluded["chembl_assay_organism_not_human"] += 1
+            continue
+        ttype = t.get("target_type")
+        conf = assay.get("confidence_score")
+        if not ((ttype == "SINGLE PROTEIN" and conf == 9)
+                or (ttype in ("PROTEIN COMPLEX", "PROTEIN COMPLEX GROUP") and conf == 7)):
+            excluded["chembl_target_not_direct_single_protein_or_complex"] += 1
+            continue
+        tk = _target_key(t)
+        if tk is None:
+            excluded["chembl_target_without_gene_symbol"] += 1
+            continue
+        if a.get("standard_value") in (None, ""):
+            # DrugMatrix screens print no Ki when inhibition at 10 uM was
+            # under 50%; the printed statement is kept, no number is made up.
+            if a.get("activity_comment") or a.get("standard_text_value"):
+                inactive[tk[0]].append({
+                    "statement": a.get("activity_comment") or a.get("standard_text_value"),
+                    "source": "ChEMBL", "chembl_document": a["document_chembl_id"],
+                    "record": f"activity {a['activity_id']} / assay {a['assay_chembl_id']}"})
+            excluded["chembl_no_ki_value"] += 1
+            continue
+        if a.get("standard_units") != "nM":
+            excluded["chembl_not_nM"] += 1
+            continue
+        rel = a.get("standard_relation")
+        if rel not in ("=", ">", ">="):
+            excluded["chembl_relation_" + str(rel)] += 1
+            continue
+        value = float(a["standard_value"])
+        if value <= 0:
+            excluded["chembl_nonpositive"] += 1
+            continue
+        doc = docs.get(a["document_chembl_id"]) or {}
+        pmid = doc.get("pubmed_id")
+        rkey = f"PMID:{pmid}" if pmid else f"CHEMBL_DOC:{a['document_chembl_id']}"
+        add_ref(rkey, {"pmid": str(pmid) if pmid else None, "doi": doc.get("doi"),
+                       "citation": f"{doc.get('authors') or ''} ({doc.get('year')}) "
+                                   f"{doc.get('journal') or doc.get('doc_type') or ''} "
+                                   f"{doc.get('volume') or ''}:{doc.get('first_page') or ''}".strip(),
+                       "chembl_document": a["document_chembl_id"]})
+        key, genes, accs = tk
+        tinfo.setdefault(key, {"gene_symbols": genes, "uniprot": accs,
+                               "name": t.get("pref_name")})
+        meas[key].append({"ki_nM": value, "relation": "=" if rel == "=" else ">",
+                          "source": "ChEMBL", "ref": rkey,
+                          "record": f"activity {a['activity_id']} / assay {a['assay_chembl_id']}"})
+
+    # --- PDSP
+    names = {inn.lower()} | {n.lower() for n in PDSP_ALIASES.get(inn, [])}
+    pdsp_names_used = set()
+    for n in sorted(names):
+        for r in pdsp_by_name.get(n, []):
+            species = r["species"].strip()
+            if species != "HUMAN":
+                excluded["pdsp_species_not_human"] += 1
+                continue
+            gene = PDSP_TARGETS.get(r["Name"].strip())
+            if gene is None:
+                excluded["pdsp_receptor_name_unmapped"] += 1
+                continue
+            note = r["ki Note"].strip()
+            if note not in ("", ">"):
+                excluded["pdsp_relation_" + note] += 1
+                continue
+            try:
+                value = float(r["ki Val"])
+            except ValueError:
+                excluded["pdsp_value_unparseable"] += 1
+                continue
+            if value <= 0:
+                excluded["pdsp_nonpositive"] += 1
+                continue
+            pmid = _pmid_from_link(r["Link"])
+            rkey = f"PMID:{pmid}" if pmid else f"PDSP_REF:{r['Reference'].strip()}"
+            add_ref(rkey, {"pmid": pmid, "doi": None, "citation": r["Reference"].strip()})
+            genes = gene.split("+")
+            tinfo.setdefault(gene, {"gene_symbols": genes, "uniprot": [], "name": r["Name"].strip()})
+            pdsp_names_used.add(r[" Ligand Name"].strip())
+            meas[gene].append({"ki_nM": value, "relation": "=" if note == "" else ">",
+                               "source": "PDSP", "ref": rkey,
+                               "record": f"PDSP Ki ID {r['Number']} ({r['source'].strip()}, "
+                                         f"hot ligand {r['Hotligand'].strip()})"})
+
+    # --- GtoPdb
+    lig = lig_by_ik.get(d.get("standard_inchikey") or "") or lig_by_chembl.get(chembl_query_id(d))
+    actions: dict[str, list] = defaultdict(list)
+    if lig is not None:
+        for r in inter_by_lig[lig["Ligand ID"]]:
+            if r["Target Species"] != "Human" or not r["Target Gene Symbol"]:
+                continue
+            genes = sorted({g.strip().upper() for g in r["Target Gene Symbol"].split("|") if g.strip()})
+            key = "+".join(genes)
+            pmids = [p for p in r["PubMed ID"].split("|") if p.strip()]
+            rkey = (f"PMID:{pmids[0]}" if len(pmids) == 1
+                    else f"GTOPDB:ligand {lig['Ligand ID']} target {r['Target ID']}")
+            add_ref(rkey, {"pmid": pmids[0] if len(pmids) == 1 else None, "doi": None,
+                           "citation": (f"GtoPdb interaction, ligand {lig['Ligand ID']} "
+                                        f"({lig['Name']}), target {r['Target ID']}; primary "
+                                        f"PMIDs {','.join(pmids) or 'none listed'}")})
+            act = _gtopdb_action(r["Type"], r["Action"])
+            if act:
+                actions[key].append({"action": act, "source": "GtoPdb",
+                                     "label": f"{r['Type']} / {r['Action']}", "ref": rkey})
+            if r["Affinity Units"] != "pKi":
+                continue
+            tinfo.setdefault(key, {"gene_symbols": genes,
+                                   "uniprot": sorted(u for u in r["Target UniProt ID"].split("|") if u),
+                                   "name": re.sub(r"<[^>]+>", "", r["Target"])})
+            rel = r["Original Affinity Relation"].strip()
+            if rel in ("<", "<="):
+                excluded["gtopdb_relation_lt"] += 1
+                continue
+            vals = ([r["Affinity Median"]] if r["Affinity Median"]
+                    else [v for v in (r["Affinity High"], r["Affinity Low"]) if v])
+            for v in vals:
+                meas[key].append({"ki_nM": 10 ** (9 - float(v)),
+                                  "relation": ">" if rel in (">", ">=") else "=",
+                                  "source": "GtoPdb", "ref": rkey,
+                                  "record": f"GtoPdb ligand {lig['Ligand ID']} target "
+                                            f"{r['Target ID']} pKi {v}"})
+
+    # --- ChEMBL mechanism (curated action type)
+    for m in mechs:
+        t = targets.get(m.get("target_chembl_id")) or {}
+        if t.get("organism") != "Homo sapiens":
+            continue
+        tk = _target_key(t)
+        act = _norm_action(m.get("action_type"))
+        if tk is None or not act:
+            continue
+        pm = [r["ref_id"] for r in m.get("mechanism_refs") or [] if r["ref_type"] == "PubMed"]
+        rkey = f"PMID:{pm[0]}" if pm else f"CHEMBL_MECHANISM:{m['mec_id']}"
+        add_ref(rkey, {"pmid": pm[0] if pm else None, "doi": None,
+                       "citation": (f"ChEMBL drug mechanism {m['mec_id']}: "
+                                    f"{m.get('mechanism_of_action')}; refs "
+                                    + "; ".join(f"{r['ref_type']} {r['ref_id']}"
+                                                for r in m.get("mechanism_refs") or []))})
+        actions[tk[0]].append({"action": act, "source": "ChEMBL mechanism",
+                               "label": m.get("action_type"), "ref": rkey})
+
+    # --- summarise per target
+    out_targets = {}
+    for key, ms in meas.items():
+        exact = [m for m in ms if m["relation"] == "="]
+        if not exact:
+            continue
+        by_doc = defaultdict(list)
+        for m in exact:
+            by_doc[m["ref"]].append(-math.log10(m["ki_nM"] * 1e-9))
+        doc_pki = [statistics.fmean(v) for v in by_doc.values()]
+        pki = statistics.median(doc_pki)
+        vals = [m["ki_nM"] for m in exact]
+        out_targets[key] = {
+            **tinfo[key],
+            "ki_nM": round(10 ** (9 - pki), 6),
+            "pki_median": round(pki, 4),
+            "ki_min_nM": min(vals),
+            "ki_max_nM": max(vals),
+            "n_measurements": len(exact),
+            "n_references": len(by_doc),
+            "n_censored": len(ms) - len(exact),
+            "action_types": sorted({a["action"] for a in actions.get(key, [])}),
+            "actions": actions.get(key, []),
+            # A record made on a receptor family or on a complex this target
+            # belongs to (ChEMBL "D2-like dopamine receptor antagonist", a
+            # GtoPdb GABA-A family entry) says nothing subtype-specific, so it
+            # is kept apart from the target's own action types.
+            "action_types_via_family": sorted({
+                a["action"] for fam, v in actions.items()
+                if fam != key and set(key.split("+")) < set(fam.split("+")) for a in v}),
+            "families": sorted(fam for fam in actions
+                               if fam != key and set(key.split("+")) < set(fam.split("+"))),
+            "measurements": sorted(ms, key=lambda m: (m["source"], m["ref"], m["ki_nM"])),
+        }
+    # actions on targets that have no exact Ki stay visible, outside the panel
+    actions_without_ki = {k: v for k, v in actions.items() if k not in out_targets}
+    used_refs = {m["ref"] for t in out_targets.values() for m in t["measurements"]}
+    used_refs |= {a["ref"] for t in out_targets.values() for a in t["actions"]}
+    used_refs |= {a["ref"] for v in actions_without_ki.values() for a in v}
+    status = "panel" if out_targets else "searched_and_empty"
+    override = CHEMBL_QUERY_OVERRIDE.get(inn)
+    return {
+        "inn": inn,
+        "stratum": d["stratum"],
+        "chembl_id": d["chembl_id"],
+        "chembl_id_queried": chembl_query_id(d),
+        "entity_note": override[1] if override else None,
+        "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+        "status": status,
+        # ChEMBL-curated mechanism-of-action targets: the targets the drug is
+        # used for, which the panel either covers or visibly does not.
+        "mechanism_targets": sorted({k for k, v in actions.items()
+                                     if any(a["source"] == "ChEMBL mechanism" for a in v)}),
+        "searched": {
+            "chembl_ki_rows_returned": len(acts),
+            "pdsp_ligand_names_tried": sorted(names),
+            "pdsp_ligand_names_matched": sorted(pdsp_names_used),
+            "gtopdb_ligand_id": lig["Ligand ID"] if lig else None,
+            "excluded_counts": dict(sorted(excluded.items())),
+        },
+        "targets": dict(sorted(out_targets.items())),
+        "actions_without_ki": dict(sorted(actions_without_ki.items())),
+        "screened_inactive_without_ki": {k: sorted(v, key=lambda x: x["record"])
+                                         for k, v in sorted(inactive.items())
+                                         if k not in out_targets},
+        "references": {k: refs[k] for k in sorted(used_refs)},
+    }
+
+
+def _write_coverage(rows: list[dict], provenance: dict) -> None:
+    covered = [r for r in rows if r["status"] == "panel"]
+    n_t = [r["n_targets_with_ki"] for r in covered]
+    summary = {
+        "n_drugs": len(rows),
+        "n_with_panel": len(covered),
+        "n_searched_and_empty": len(rows) - len(covered),
+        "mean_targets_per_covered_drug": round(statistics.fmean(n_t), 2) if n_t else 0.0,
+        "median_targets_per_covered_drug": statistics.median(n_t) if n_t else 0,
+        "n_with_any_action_type": sum(1 for r in covered if r["n_targets_with_action"]),
+        "n_with_mechanism_target": sum(1 for r in rows if r["n_mechanism_targets"]),
+        "n_with_ki_at_a_mechanism_target": sum(1 for r in rows if r["n_mechanism_targets_with_ki"]),
+        "mean_action_typed_targets_per_covered_drug":
+            round(statistics.fmean([r["n_targets_with_action"] for r in covered]), 2) if covered else 0.0,
+        "searched_and_empty": sorted(r["inn"] for r in rows if r["status"] != "panel"),
+        "by_stratum": {},
+    }
+    for s in sorted({r["stratum"] for r in rows}):
+        rs = [r for r in rows if r["stratum"] == s]
+        cs = [r for r in rs if r["status"] == "panel"]
+        summary["by_stratum"][s] = {
+            "n": len(rs), "with_panel": len(cs),
+            "mean_targets_per_covered_drug":
+                round(statistics.fmean([r["n_targets_with_ki"] for r in cs]), 2) if cs else 0.0,
+        }
+    (OUT_DIR / "coverage.json").write_text(json.dumps(
+        {"summary": summary, "drugs": rows, "provenance": provenance},
+        indent=1, sort_keys=True) + "\n")
+
+
+def main(argv: list[str]) -> None:
+    if not argv or argv[0] not in ("fetch", "build"):
+        raise SystemExit(__doc__)
+    cache = DEFAULT_CACHE
+    if "--cache" in argv:
+        cache = Path(argv[argv.index("--cache") + 1])
+    (fetch if argv[0] == "fetch" else build)(cache)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

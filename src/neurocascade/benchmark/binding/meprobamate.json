@@ -1,0 +1,57 @@
+{
+ "actions_without_ki": {
+  "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ": [
+   {
+    "action": "agonist",
+    "label": "AGONIST",
+    "ref": "PMID:9067327",
+    "source": "ChEMBL mechanism"
+   }
+  ]
+ },
+ "chembl_id": "CHEMBL979",
+ "chembl_id_queried": "CHEMBL979",
+ "entity_note": null,
+ "inn": "meprobamate",
+ "mechanism_targets": [
+  "GABRA1+GABRA2+GABRA3+GABRA4+GABRA5+GABRA6+GABRB1+GABRB2+GABRB3+GABRD+GABRE+GABRG1+GABRG2+GABRG3+GABRP+GABRQ"
+ ],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:9067327": {
+   "citation": "ChEMBL drug mechanism 1595: GABA-A receptor; anion channel agonist; refs PubMed 9067327; Wikipedia Meprobamate",
+   "doi": null,
+   "pmid": "9067327"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 0,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": "7225",
+  "pdsp_ligand_names_matched": [],
+  "pdsp_ligand_names_tried": [
+   "meprobamate"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "searched_and_empty",
+ "stratum": "N05B",
+ "targets": {}
+}

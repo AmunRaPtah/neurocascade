@@ -1,0 +1,119 @@
+{
+ "actions_without_ki": {},
+ "chembl_id": "CHEMBL398880",
+ "chembl_id_queried": "CHEMBL398880",
+ "entity_note": null,
+ "inn": "pipotiazine",
+ "mechanism_targets": [],
+ "provenance": {
+  "chembl": {
+   "api": "https://www.ebi.ac.uk/chembl/api/data/",
+   "release": "ChEMBL_37 (2026-05-01)"
+  },
+  "gtopdb": {
+   "sha256": "f574b999ee99c1ecced83876db6a35d8d1b1d607392fc13fb2025e0f1029de64",
+   "url": "https://www.guidetopharmacology.org/DATA/interactions.csv",
+   "version": "GtoPdb Version: 2026.3 - published: 2026-09-16"
+  },
+  "pdsp": {
+   "rows": 98678,
+   "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
+  },
+  "retrieved": "2026-10-02"
+ },
+ "references": {
+  "PMID:1586393": {
+   "citation": "Sokoloff P, et al., 1992",
+   "doi": null,
+   "pmid": "1586393"
+  }
+ },
+ "screened_inactive_without_ki": {},
+ "searched": {
+  "chembl_ki_rows_returned": 0,
+  "excluded_counts": {},
+  "gtopdb_ligand_id": "7557",
+  "pdsp_ligand_names_matched": [
+   "Pipotiazine"
+  ],
+  "pdsp_ligand_names_tried": [
+   "pipotiazine"
+  ]
+ },
+ "species": "Homo sapiens (assay organism and target; non-human rows excluded)",
+ "status": "panel",
+ "stratum": "N05A",
+ "targets": {
+  "DRD2": {
+   "action_types": [
+    "antagonist"
+   ],
+   "action_types_via_family": [],
+   "actions": [
+    {
+     "action": "antagonist",
+     "label": "Antagonist / Antagonist",
+     "ref": "PMID:1586393",
+     "source": "GtoPdb"
+    }
+   ],
+   "families": [],
+   "gene_symbols": [
+    "DRD2"
+   ],
+   "ki_max_nM": 0.2,
+   "ki_min_nM": 0.1995263191254866,
+   "ki_nM": 0.199763,
+   "measurements": [
+    {
+     "ki_nM": 0.1995263191254866,
+     "record": "GtoPdb ligand 7557 target 215 pKi 9.699999809265137",
+     "ref": "PMID:1586393",
+     "relation": "=",
+     "source": "GtoPdb"
+    },
+    {
+     "ki_nM": 0.2,
+     "record": "PDSP Ki ID 11693 (CLONED, hot ligand 125I-IODOSULPRIDE)",
+     "ref": "PMID:1586393",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 2,
+   "n_references": 1,
+   "name": "DOPAMINE D2",
+   "pki_median": 9.6995,
+   "uniprot": []
+  },
+  "DRD3": {
+   "action_types": [],
+   "action_types_via_family": [],
+   "actions": [],
+   "families": [],
+   "gene_symbols": [
+    "DRD3"
+   ],
+   "ki_max_nM": 0.28,
+   "ki_min_nM": 0.28,
+   "ki_nM": 0.28,
+   "measurements": [
+    {
+     "ki_nM": 0.28,
+     "record": "PDSP Ki ID 11715 (CLONED, hot ligand 125I-IODOSULPRIDE)",
+     "ref": "PMID:1586393",
+     "relation": "=",
+     "source": "PDSP"
+    }
+   ],
+   "n_censored": 0,
+   "n_measurements": 1,
+   "n_references": 1,
+   "name": "DOPAMINE D3",
+   "pki_median": 9.5528,
+   "uniprot": []
+  }
+ }
+}
