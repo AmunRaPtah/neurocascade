@@ -17021,3 +17021,58 @@ CL/F), assuming F=1 or borrowing a value from another drug would violate rules
 1 and 2. P29.2 adds no oral-exposure container or score until a same-entity,
 route-matched truth is obtained; the searched-and-empty result is recorded in
 the ledger.
+
+## Phase 29, part three: target-engagement dose, scored held out (P29.3)
+
+P29.3 was stopped at the load-bearing assumption check. The requested
+prediction is not determined by P29.2's output alone. For a competitive target,
+the intended steady-state mean-dose calculation is
+
+```
+Cbrain,u = Kp,uu * fu,p * Cplasma,total
+Ctarget,u = Ki * p / (1 - p)
+Dtarget/kg/day = Ctarget,u / (Kp,uu * fu,p) * CL/kg * 1.44 / F
+```
+
+where `p` is the target occupancy. Converting this per-kg result to the
+clinical `mg/day` label scale additionally requires a source-defined human
+reference weight. The benchmark has no route-matched oral absolute F, oral
+CL/F, or oral AUC in any of its 55 held-out truth records. P29.2 deliberately
+returns per-kg CL because its preclinical records contain no animal body
+weights; multiplying it by an unreferenced 70 kg would undo that refusal.
+Setting `F=1` or borrowing F from another drug would violate the sourcing and
+entity rules. A label dose range also does not define a unique pointwise
+clinical dose without a predeclared interval scoring rule.
+
+The second load-bearing check is the endpoint itself. The 70% striatal D2
+threshold is admitted only for N05A antipsychotics, supported by the published
+65–70% efficacy discussion (Kapur and Seeman 2001, PMID 11729039) and the
+70–80% therapeutic window review (Kapur et al. 2009, PMID 21143431). No
+equivalent class-level human target-engagement threshold was found for N05B,
+N06A, or FAIL, so the threshold is not transferred to those strata.
+
+The repository census and the full refusal table are in
+`docs/p29-3-dose-engagement.md`. It covers all 55 held-out drugs and records
+the binding-target, rat Kp,uu, P29.2 CL, human plasma-fu, PET, and oral-exposure
+layers separately. The closest row is ziprasidone: D2 Ki, rat Kp,uu, human fu,
+and a P29.2 CL prediction exist, but the benchmark still has no same-entity
+oral F/CL/F and no source-defined reference weight for a clinical mg/day
+comparison. Diazepam has the P29.2 CL, rat Kp,uu, and human fu layers but no
+N05B threshold. No row therefore reaches a defensible prediction.
+
+The external-source check did not change that result. de Greef et al. (2011,
+PMID 21184291; PMC3032087) and the FDA GEODON label (NDA 020825) provide
+ziprasidone oral-PK fields, but not a complete benchmark-wide input set or a
+reference-weighted held-out comparison. Fridén et al. (2009, PMID 19764786)
+supports the P29.1 rat-to-human Kp,uu method but has human CSF overlap for only
+four benchmark drugs and no human ziprasidone Kp,uu. Lako et al. (2013, PMID
+23948784) and Suzuki et al. (2013, PMID 23417515) provide PET dose/occupancy
+observations; using those dose/occupancy relations as the prediction would
+collapse the requested PET comparison into its input. They remain future
+anchors, not substitutes for the missing oral bridge.
+
+P29.3 consequently produces no score: clinical-dose fold-error **n=0** and
+PET-anchored-dose fold-error **n=0**, both searched-and-empty. This is a
+deliberate negative result, not a registry or gate. The task can be reopened
+when the missing same-entity oral exposure and reference-weight records exist
+and the non-N05A endpoint thresholds have been pre-specified.
