@@ -1,0 +1,368 @@
+{
+ "chembl_query_id": "CHEMBL1621",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": false,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3537180",
+     "description": "Fraction unbound in Beagle dog brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.126
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534761",
+     "description": "Unbound fraction in Beagle dog brain treated with risperidone at 0.1 mg/kg, sc by LC-MS/MS analysis",
+     "ref": "CHEMBL3526130",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.0903
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537179",
+     "description": "Fraction unbound in Hartley guinea pig brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "guinea_pig",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.101
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537182",
+     "description": "Fraction unbound in human occipital cortex at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.116
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537181",
+     "description": "Fraction unbound in cynomolgus monkey brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.1
+    },
+    {
+     "assay_chembl_id": "CHEMBL3532576",
+     "description": "Unbound fraction in cynomolgus monkey brain treated with risperidone at 0.1 mg/kg, sc by LC-MS/MS analysis",
+     "ref": "CHEMBL3526130",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.105
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537178",
+     "description": "Fraction unbound in CD-1 mouse brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.129
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537177",
+     "description": "Fraction unbound in Sprague-Dawley rat brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.078
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537176",
+     "description": "Fraction unbound in Wistar Han rat brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.092
+    },
+    {
+     "assay_chembl_id": "CHEMBL4823489",
+     "description": "Unbound brain concentration in P-gp knock out Sprague-Dawley rat at 5 mg/ml/kg, po measured upto 4 hrs by LC-MS analysis",
+     "ref": "CHEMBL4823245",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.176
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.126,
+     "min": 0.0903,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "dog",
+     "units": null,
+     "value": 0.10815
+    },
+    {
+     "max": 0.101,
+     "min": 0.101,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "guinea_pig",
+     "units": null,
+     "value": 0.101
+    },
+    {
+     "max": 0.116,
+     "min": 0.116,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.116
+    },
+    {
+     "max": 0.105,
+     "min": 0.1,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "monkey",
+     "units": null,
+     "value": 0.1025
+    },
+    {
+     "max": 0.129,
+     "min": 0.129,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": 0.129
+    },
+    {
+     "max": 0.176,
+     "min": 0.078,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 3,
+     "species": "rat",
+     "units": null,
+     "value": 0.130356
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3542125",
+     "description": "Ratio of drug level in brain to plasma in Beagle dog treated with risperidone at 0.1 mg/kg, sc by LC-MS/MS analysis",
+     "ref": "CHEMBL3526130",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 0.61
+    },
+    {
+     "assay_chembl_id": "CHEMBL3542126",
+     "description": "Ratio of drug level in brain to plasma in cynomolgus monkey treated with risperidone at 0.1 mg/kg, sc by LC-MS/MS analysis",
+     "ref": "CHEMBL3526130",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 0.33
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534416",
+     "description": "Ratio of drug level in brain to plasma in Sprague-Dawley rat treated with risperidone at 1 mg/kg, sc by LC-MS/MS analysis",
+     "ref": "CHEMBL3526130",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 0.07
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.61,
+     "min": 0.61,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": null,
+     "value": 0.61
+    },
+    {
+     "max": 0.33,
+     "min": 0.33,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": null,
+     "value": 0.33
+    },
+    {
+     "max": 0.07,
+     "min": 0.07,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.07
+    }
+   ]
+  },
+  "kp_uu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4823491",
+     "description": "Unbound brain-to-plasma concentration ratio in P-gp knock out Sprague-Dawley rat",
+     "ref": "CHEMBL4823245",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 0.443
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.443,
+     "min": 0.443,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.443
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3534760",
+     "description": "Unbound fraction in Beagle dog plasma treated with risperidone at 0.1 mg/kg, sc by LC-MS/MS analysis",
+     "ref": "CHEMBL3526130",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.203
+    },
+    {
+     "assay_chembl_id": "CHEMBL3532575",
+     "description": "Unbound fraction in cynomolgus monkey plasma treated with risperidone at 0.1 mg/kg, sc by LC-MS/MS analysis",
+     "ref": "CHEMBL3526130",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.185
+    },
+    {
+     "assay_chembl_id": "CHEMBL4823488",
+     "description": "Unbound plasma concentration in P-gp knock out Sprague-Dawley rat at 5 mg/ml/kg, po measured upto 4 hrs by LC-MS analysis",
+     "ref": "CHEMBL4823245",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.047
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.203,
+     "min": 0.203,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": null,
+     "value": 0.203
+    },
+    {
+     "max": 0.185,
+     "min": 0.185,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": null,
+     "value": 0.185
+    },
+    {
+     "max": 0.047,
+     "min": 0.047,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.047
+    }
+   ]
+  }
+ },
+ "inn": "paliperidone",
+ "references": {
+  "CHEMBL3525956": {
+   "chembl_document_id": "CHEMBL3525956",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21474681",
+   "title": "Species independence in brain tissue binding using brain homogenates.",
+   "year": 2011
+  },
+  "CHEMBL3526130": {
+   "chembl_document_id": "CHEMBL3526130",
+   "journal": "Drug Metab Dispos",
+   "pmid": "22899853",
+   "title": "An evaluation of using rat-derived single-dose neuropharmacokinetic parameters to project accurately large animal unbound brain drug concentrations.",
+   "year": 2012
+  },
+  "CHEMBL4823245": {
+   "chembl_document_id": "CHEMBL4823245",
+   "journal": "J Med Chem",
+   "pmid": "33619967",
+   "title": "Development of an <i>In Silico</i> Prediction Model for P-glycoprotein Efflux Potential in Brain Capillary Endothelial Cells toward the Prediction of Brain Penetration.",
+   "year": 2021
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 214
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

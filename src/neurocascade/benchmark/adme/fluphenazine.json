@@ -1,0 +1,169 @@
+{
+ "chembl_query_id": "CHEMBL726",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 1,
+  "human_invivo_vss": 1
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3540989",
+     "description": "Intrinsic clearance in cryopreserved human hepatocytes cells assessed per 10'6 cells by LC-MS/MS method",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3526137",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 121.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3540988",
+     "description": "Intrinsic clearance in cryopreserved human HepaRG cells assessed per 10'6 cells by LC-MS/MS method",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3526137",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 71.6
+    },
+    {
+     "assay_chembl_id": "CHEMBL3540990",
+     "description": "Intrinsic clearance in human using well stirred liver model by LC-MS/MS method",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526137",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 1581.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 1581.0,
+     "min": 1581.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.kg-1",
+     "value": 1581.0
+    },
+    {
+     "matrix": "hepatocytes",
+     "max": 121.0,
+     "min": 71.6,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 93.078462
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3301365",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 98.81,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.0119
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301366",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole rat plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 98.81,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.0119
+    },
+    {
+     "assay_chembl_id": "CHEMBL3540986",
+     "description": "Fraction unbound in blood (not specified)",
+     "ref": "CHEMBL3526137",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.012
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.0119,
+     "min": 0.0119,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.0119
+    },
+    {
+     "max": 0.0119,
+     "min": 0.0119,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.0119
+    },
+    {
+     "max": 0.012,
+     "min": 0.012,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "unspecified",
+     "units": null,
+     "value": 0.012
+    }
+   ]
+  }
+ },
+ "inn": "fluphenazine",
+ "references": {
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL3526137": {
+   "chembl_document_id": "CHEMBL3526137",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21998403",
+   "title": "Comparison of cryopreserved HepaRG cells with cryopreserved human hepatocytes for prediction of clearance for 26 drugs.",
+   "year": 2012
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 231
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

@@ -1,0 +1,61 @@
+{
+ "chembl_query_id": "CHEMBL297302",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 1,
+  "human_invivo_vss": 1
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": false,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL2027633",
+     "description": "Clearance in human liver microsomes at 1 uM",
+     "matrix": "microsomes",
+     "ref": "CHEMBL2021815",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 42.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 42.0,
+     "min": 42.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 42.0
+    }
+   ]
+  }
+ },
+ "inn": "benperidol",
+ "references": {
+  "CHEMBL2021815": {
+   "chembl_document_id": "CHEMBL2021815",
+   "journal": "ACS Med Chem Lett",
+   "pmid": "21841964",
+   "title": "Metabolism of 4-Aminopiperidine Drugs by Cytochrome P450s: Molecular and Quantum Mechanical Insights into Drug Design.",
+   "year": 2011
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 14
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

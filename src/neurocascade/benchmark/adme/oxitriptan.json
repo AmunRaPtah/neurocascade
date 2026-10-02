@@ -1,0 +1,21 @@
+{
+ "chembl_query_id": "CHEMBL350221",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": false,
+  "plasma_fu": false,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {},
+ "inn": "oxitriptan",
+ "references": {},
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 2
+ },
+ "status": "searched_and_empty",
+ "stratum": "N06A"
+}

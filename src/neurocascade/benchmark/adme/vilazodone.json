@@ -1,0 +1,341 @@
+{
+ "chembl_query_id": "CHEMBL439849",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": false,
+  "rodent_in_vivo_cl": true,
+  "rodent_in_vivo_vss": true
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4409669",
+     "description": "Clearance in human liver microsomes at 1 uM in presence of NADPH generating system measured for 10 to 90 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4406867",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 26000.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL5217323",
+     "description": "Metabolic stability in human liver microsomes assessed as clearance",
+     "matrix": "microsomes",
+     "ref": "CHEMBL5214965",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 51.59
+    },
+    {
+     "assay_chembl_id": "CHEMBL5047403",
+     "description": "Metabolic stability in CD-1 mouse liver microsomes assessed as intrinsic clearance measured upto 45 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL5046241",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 30.1
+    },
+    {
+     "assay_chembl_id": "CHEMBL5165164",
+     "description": "Metabolic stability in mouse liver microsomes assessed as clearance at 100 uM in presence of NADPH and measured for 5 to 60 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL5154874",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 49.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL5217325",
+     "description": "Metabolic stability in mouse liver microsomes assessed as clearance",
+     "matrix": "microsomes",
+     "ref": "CHEMBL5214965",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 60.6
+    },
+    {
+     "assay_chembl_id": "CHEMBL4409667",
+     "description": "Clearance in rat liver microsomes at 1 uM in presence of NADPH generating system measured for 10 to 90 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4406867",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 48590.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL4840618",
+     "description": "Metabolic stability in rat liver microsomes assessed as clearance incubated for 60 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4840307",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 77.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL5047401",
+     "description": "Metabolic stability in Sprague-Dawley rat liver microsomes assessed as intrinsic clearance measured upto 45 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL5046241",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 31.6
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 26000.0,
+     "min": 51.59,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 13025.795
+    },
+    {
+     "matrix": "microsomes",
+     "max": 60.6,
+     "min": 30.1,
+     "n_censored": 0,
+     "n_documents": 3,
+     "n_measurements": 3,
+     "species": "mouse",
+     "units": "mL.min-1.g-1",
+     "value": 49.3
+    },
+    {
+     "matrix": "microsomes",
+     "max": 48590.0,
+     "min": 31.6,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": "mL.min-1.g-1",
+     "value": 24310.8
+    },
+    {
+     "matrix": "microsomes",
+     "max": 77.3,
+     "min": 77.3,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 77.3
+    }
+   ]
+  },
+  "invivo_cl_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL5318168",
+     "description": "Clearance in Beagle dog at 1 mg/kg, iv measured upto 24 hrs by LC-MS/MS analysis",
+     "ref": "CHEMBL5316302",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 346.67
+    },
+    {
+     "assay_chembl_id": "CHEMBL5318167",
+     "description": "Clearance in Sprague-Dawley rat at 1 mg/kg, iv measured upto 24 hrs by LC-MS/MS analysis",
+     "ref": "CHEMBL5316302",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 40.17
+    }
+   ],
+   "summary": [
+    {
+     "max": 346.67,
+     "min": 346.67,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "mL.min-1.kg-1",
+     "value": 346.67
+    },
+    {
+     "max": 40.17,
+     "min": 40.17,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 40.17
+    }
+   ]
+  },
+  "invivo_vss_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL5318153",
+     "description": "Volume of distribution at steady state in Beagle dog at 1 mg/kg, iv measured upto 24 hrs by LC-MS/MS analysis",
+     "ref": "CHEMBL5316302",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Vdss",
+     "units": "L.kg-1",
+     "value": 2.14
+    },
+    {
+     "assay_chembl_id": "CHEMBL5318154",
+     "description": "Volume of distribution at steady state in Sprague-Dawley rat at 1 mg/kg, iv measured upto 24 hrs by LC-MS/MS analysis",
+     "ref": "CHEMBL5316302",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Vdss",
+     "units": "L.kg-1",
+     "value": 3.74
+    }
+   ],
+   "summary": [
+    {
+     "max": 2.14,
+     "min": 2.14,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "L.kg-1",
+     "value": 2.14
+    },
+    {
+     "max": 3.74,
+     "min": 3.74,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "L.kg-1",
+     "value": 3.74
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL5318177",
+     "description": "Ratio of drug concentration in brain to plasma in Sprague-Dawley rat at 10 mg/kg, ip measured at 15 min by LC-MS/MS analysis",
+     "ref": "CHEMBL5316302",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 0.56
+    },
+    {
+     "assay_chembl_id": "CHEMBL5318178",
+     "description": "Ratio of drug concentration in brain to plasma in Sprague-Dawley rat at 10 mg/kg, ip measured at 60 min by LC-MS/MS analysis",
+     "ref": "CHEMBL5316302",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 0.46
+    },
+    {
+     "assay_chembl_id": "CHEMBL5318179",
+     "description": "Ratio of drug concentration in brain to plasma in Sprague-Dawley rat at 10 mg/kg, ip measured at 120 min by LC-MS/MS analysis",
+     "ref": "CHEMBL5316302",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 0.53
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.56,
+     "min": 0.46,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 3,
+     "species": "rat",
+     "units": null,
+     "value": 0.514921
+    }
+   ]
+  }
+ },
+ "inn": "vilazodone",
+ "references": {
+  "CHEMBL4406867": {
+   "chembl_document_id": "CHEMBL4406867",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "31627993",
+   "title": "Synthesis and antidepressant effect of novel aralkyl piperazine and piperidine derivatives targeting SSRI/5-HT1A/5-HT7.",
+   "year": 2019
+  },
+  "CHEMBL4840307": {
+   "chembl_document_id": "CHEMBL4840307",
+   "journal": "Eur J Med Chem",
+   "pmid": "34182358",
+   "title": "Synthesis and biological evaluation of 1-(4-(piperazin-1-yl)phenyl)pyridin-2(1H)-one derivatives as potential SSRIs.",
+   "year": 2021
+  },
+  "CHEMBL5046241": {
+   "chembl_document_id": "CHEMBL5046241",
+   "journal": "Eur J Med Chem",
+   "pmid": "34922191",
+   "title": "The novel therapeutic strategy of vilazodone-donepezil chimeras as potent triple-target ligands for the potential treatment of Alzheimer's disease with comorbid depression.",
+   "year": 2022
+  },
+  "CHEMBL5154874": {
+   "chembl_document_id": "CHEMBL5154874",
+   "journal": "Eur J Med Chem",
+   "pmid": "35430560",
+   "title": "Discovery of novel dual RAGE/SERT inhibitors for the potential treatment of the comorbidity of Alzheimer's disease and depression.",
+   "year": 2022
+  },
+  "CHEMBL5214965": {
+   "chembl_document_id": "CHEMBL5214965",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "36202190",
+   "title": "Synthesis and antidepressant activity of novel 1-(1-benzoylpiperidin-4-yl) methanamine derivatives selectively targeting SSRI/5-HT<sub>1A</sub>.",
+   "year": 2022
+  },
+  "CHEMBL5316302": {
+   "chembl_document_id": "CHEMBL5316302",
+   "journal": "J Med Chem",
+   "pmid": "36598095",
+   "title": "Deciphering Nonbioavailable Substructures Improves the Bioavailability of Antidepressants by Serotonin Transporter.",
+   "year": 2023
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 195
+ },
+ "status": "data",
+ "stratum": "N06A"
+}

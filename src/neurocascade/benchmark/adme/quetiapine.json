@@ -1,0 +1,115 @@
+{
+ "chembl_query_id": "CHEMBL716",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": false,
+  "plasma_fu": false,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1023025",
+     "description": "Fraction unbound in rat brain",
+     "ref": "CHEMBL1152804",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.025
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.025,
+     "min": 0.025,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.025
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4376339",
+     "description": "Brain to plasma partition coefficient, Kp of the compound in rat",
+     "ref": "CHEMBL4373730",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 8.5
+    }
+   ],
+   "summary": [
+    {
+     "max": 8.5,
+     "min": 8.5,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 8.5
+    }
+   ]
+  },
+  "kp_uu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4376342",
+     "description": "Unbound brain-to-plasma concentration ratio in rat",
+     "ref": "CHEMBL4373730",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 0.9
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.9,
+     "min": 0.9,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.9
+    }
+   ]
+  }
+ },
+ "inn": "quetiapine",
+ "references": {
+  "CHEMBL1152804": {
+   "chembl_document_id": "CHEMBL1152804",
+   "journal": "J Med Chem",
+   "pmid": "19256501",
+   "title": "Relationship between brain tissue partitioning and microemulsion retention factors of CNS drugs.",
+   "year": 2009
+  },
+  "CHEMBL4373730": {
+   "chembl_document_id": "CHEMBL4373730",
+   "journal": "Eur J Med Chem",
+   "pmid": "31514017",
+   "title": "Practical approaches to evaluating and optimizing brain exposure in early drug discovery.",
+   "year": 2019
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 182
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

@@ -1,0 +1,193 @@
+{
+ "chembl_query_id": "CHEMBL259209",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL931357",
+     "description": "Metabolic stability in human liver microsomes assessed as systemic clearance",
+     "matrix": "microsomes",
+     "ref": "CHEMBL1143093",
+     "relation": "<",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 2.6
+    },
+    {
+     "assay_chembl_id": "CHEMBL948481",
+     "description": "Metabolic stability in human liver microsomes assessed as systemic clearance at 1 uM after 15 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL1152288",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 3.1
+    },
+    {
+     "assay_chembl_id": "CHEMBL931358",
+     "description": "Metabolic stability in rat liver microsomes assessed as systemic clearance",
+     "matrix": "microsomes",
+     "ref": "CHEMBL1143093",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 18.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL948482",
+     "description": "Metabolic stability in rat liver microsomes assessed as systemic clearance at 1 uM after 15 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL1152288",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 24.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 3.1,
+     "min": 3.1,
+     "n_censored": 1,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "mL.min-1.kg-1",
+     "value": 3.1
+    },
+    {
+     "matrix": "microsomes",
+     "max": 24.0,
+     "min": 18.0,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 21.0
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL952388",
+     "description": "Protein binding in human plasma",
+     "ppb_percent": 13.0,
+     "ref": "CHEMBL1152288",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.87
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537690",
+     "description": "Unbound fraction in plasma (unknown origin) under normal atmospheric condition at pH 7.72 after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3526113",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.828
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537689",
+     "description": "Unbound fraction in plasma (unknown origin) at pH 7.63 after 6 hrs by equilibrium dialysis method in presence of 5% CO2",
+     "ref": "CHEMBL3526113",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.777
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537688",
+     "description": "Unbound fraction in plasma (unknown origin) at pH 7.4 after 6 hrs by equilibrium dialysis method in presence of 5% CO2",
+     "ref": "CHEMBL3526113",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.837
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537687",
+     "description": "Unbound fraction in plasma (unknown origin) under normal atmospheric condition at pH 7.22 after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3526113",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.809
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.87,
+     "min": 0.87,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.87
+    },
+    {
+     "max": 0.837,
+     "min": 0.777,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 4,
+     "species": "unspecified",
+     "units": null,
+     "value": 0.812421
+    }
+   ]
+  }
+ },
+ "inn": "milnacipran",
+ "references": {
+  "CHEMBL1143093": {
+   "chembl_document_id": "CHEMBL1143093",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "18468895",
+   "title": "Studies on a series of milnacipran analogs containing a heteroaromatic group as potent norepinephrine and serotonin transporter inhibitors.",
+   "year": 2008
+  },
+  "CHEMBL1152288": {
+   "chembl_document_id": "CHEMBL1152288",
+   "journal": "J Med Chem",
+   "pmid": "18954038",
+   "title": "Characterization of thien-2-yl 1S,2R-milnacipran analogues as potent norepinephrine/serotonin transporter inhibitors for the treatment of neuropathic pain.",
+   "year": 2008
+  },
+  "CHEMBL3526113": {
+   "chembl_document_id": "CHEMBL3526113",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21098647",
+   "title": "Control and measurement of plasma pH in equilibrium dialysis: influence on drug plasma protein binding.",
+   "year": 2011
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 246
+ },
+ "status": "data",
+ "stratum": "N06A"
+}

@@ -1,0 +1,135 @@
+{
+ "chembl_query_id": "CHEMBL1287935",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": false,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": true,
+  "rodent_in_vivo_vss": true
+ },
+ "fields": {
+  "invivo_cl_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1292651",
+     "description": "Clearance in rat at 5 mg/kg, iv after 72 hrs",
+     "ref": "CHEMBL1287801",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 14.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 14.0,
+     "min": 14.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 14.0
+    }
+   ]
+  },
+  "invivo_vss_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1292652",
+     "description": "Volume of distribution in rat at 5 mg/kg, iv after 72 hrs",
+     "ref": "CHEMBL1287801",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Vd",
+     "units": "L.kg-1",
+     "value": 7.5
+    }
+   ],
+   "summary": [
+    {
+     "max": 7.5,
+     "min": 7.5,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "L.kg-1",
+     "value": 7.5
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1292650",
+     "description": "Ratio of drug uptake in brain to plasma in rat at 10 mg/kg, po",
+     "ref": "CHEMBL1287801",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 1.6
+    }
+   ],
+   "summary": [
+    {
+     "max": 1.6,
+     "min": 1.6,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 1.6
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1292653",
+     "description": "Plasma protein binding in rat at 5 mg/kg, iv after 72 hrs",
+     "ppb_percent": 94.0,
+     "ref": "CHEMBL1287801",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.06
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.06,
+     "min": 0.06,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.06
+    }
+   ]
+  }
+ },
+ "inn": "verucerfont",
+ "references": {
+  "CHEMBL1287801": {
+   "chembl_document_id": "CHEMBL1287801",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "21074436",
+   "title": "Discovery of NBI-77860/GSK561679, a potent corticotropin-releasing factor (CRF1) receptor antagonist with improved pharmacokinetic properties.",
+   "year": 2010
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 7
+ },
+ "status": "data",
+ "stratum": "FAIL"
+}

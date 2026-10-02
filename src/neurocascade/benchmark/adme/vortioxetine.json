@@ -1,0 +1,212 @@
+{
+ "chembl_query_id": "CHEMBL2104993",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": true,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4409669",
+     "description": "Clearance in human liver microsomes at 1 uM in presence of NADPH generating system measured for 10 to 90 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4406867",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 6470.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL4410702",
+     "description": "Clearance in human liver microsomes at 1 uM in presence of NADPH generating system measured for 10 to 90 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4406900",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 6.5
+    },
+    {
+     "assay_chembl_id": "CHEMBL4182008",
+     "description": "Clearance in rat liver microsomes at 1 uM measured after 90 mins in presence of NADPH regenerating system by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4177692",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 153.2
+    },
+    {
+     "assay_chembl_id": "CHEMBL4254549",
+     "description": "Clearance in rat liver microsomes at 1 uM in presence of NADPH by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4251632",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 153.2
+    },
+    {
+     "assay_chembl_id": "CHEMBL4409667",
+     "description": "Clearance in rat liver microsomes at 1 uM in presence of NADPH generating system measured for 10 to 90 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4406867",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 153200.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL4410700",
+     "description": "Clearance in rat liver microsomes at 1 uM in presence of NADPH generating system measured for 10 to 90 mins by LC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4406900",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 153.2
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 6470.0,
+     "min": 6.5,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 3238.25
+    },
+    {
+     "matrix": "microsomes",
+     "max": 153200.0,
+     "min": 153.2,
+     "n_censored": 0,
+     "n_documents": 4,
+     "n_measurements": 4,
+     "species": "rat",
+     "units": "mL.min-1.g-1",
+     "value": 153.2
+    }
+   ]
+  },
+  "invivo_cl_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL2215824",
+     "description": "Hepatic clearance in rat at 1 mg/kg, iv",
+     "ref": "CHEMBL2203036",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 118.33
+    }
+   ],
+   "summary": [
+    {
+     "max": 118.33,
+     "min": 118.33,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 118.33
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3268782",
+     "description": "Plasma protein binding in pig plasma at 5 MBq after 2.5 hrs by equilibrium dialysis chamber method",
+     "ppb_percent": 98.0,
+     "ref": "CHEMBL3259526",
+     "relation": "=",
+     "species": "pig",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.02
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.02,
+     "min": 0.02,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "pig",
+     "units": null,
+     "value": 0.02
+    }
+   ]
+  }
+ },
+ "inn": "vortioxetine",
+ "references": {
+  "CHEMBL2203036": {
+   "chembl_document_id": "CHEMBL2203036",
+   "journal": "J Med Chem",
+   "pmid": "21486038",
+   "title": "Discovery of 1-[2-(2,4-dimethylphenylsulfanyl)phenyl]piperazine (Lu AA21004): a novel multimodal compound for the treatment of major depressive disorder.",
+   "year": 2011
+  },
+  "CHEMBL3259526": {
+   "chembl_document_id": "CHEMBL3259526",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "24786133",
+   "title": "(11)C-labeling and preliminary evaluation of vortioxetine as a PET radioligand.",
+   "year": 2014
+  },
+  "CHEMBL4177692": {
+   "chembl_document_id": "CHEMBL4177692",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "29138029",
+   "title": "Synthesis and antidepressant activity of a series of arylalkanol and aralkyl piperazine derivatives targeting SSRI/5-HT1A/5-HT7.",
+   "year": 2017
+  },
+  "CHEMBL4251632": {
+   "chembl_document_id": "CHEMBL4251632",
+   "journal": "Eur J Med Chem",
+   "pmid": "29291438",
+   "title": "Synthesis and antidepressant-like activity of novel aralkyl piperazine derivatives targeting SSRI/5-HT1A/5-HT7.",
+   "year": 2018
+  },
+  "CHEMBL4406867": {
+   "chembl_document_id": "CHEMBL4406867",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "31627993",
+   "title": "Synthesis and antidepressant effect of novel aralkyl piperazine and piperidine derivatives targeting SSRI/5-HT1A/5-HT7.",
+   "year": 2019
+  },
+  "CHEMBL4406900": {
+   "chembl_document_id": "CHEMBL4406900",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "31699607",
+   "title": "Synthesis and antidepressant-like activity of novel alkoxy-piperidine derivatives targeting SSRI/5-HT1A/5-HT7.",
+   "year": 2019
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 73
+ },
+ "status": "data",
+ "stratum": "N06A"
+}

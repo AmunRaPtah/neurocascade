@@ -1,0 +1,57 @@
+{
+ "chembl_query_id": "CHEMBL3306803",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": false,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3243880",
+     "description": "Plasma protein binding in human",
+     "ppb_percent": 97.4,
+     "ref": "CHEMBL3232708",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.026
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.026,
+     "min": 0.026,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.026
+    }
+   ]
+  }
+ },
+ "inn": "lumateperone",
+ "references": {
+  "CHEMBL3232708": {
+   "chembl_document_id": "CHEMBL3232708",
+   "journal": "J Med Chem",
+   "pmid": "24559051",
+   "title": "Discovery of a tetracyclic quinoxaline derivative as a potent and orally active multifunctional drug candidate for the treatment of neuropsychiatric and neurological disorders.",
+   "year": 2014
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 5
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

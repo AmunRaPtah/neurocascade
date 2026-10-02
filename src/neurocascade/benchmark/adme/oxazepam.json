@@ -1,0 +1,326 @@
+{
+ "chembl_query_id": "CHEMBL568",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 5,
+  "human_invivo_vss": 4,
+  "nonpositive_value": 1
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": true,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1001484",
+     "description": "Hepatic clearance in human hepatocytes in absence of fetal calf serum",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL1137707",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 1.1
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301372",
+     "description": "ASTRAZENECA: Intrinsic clearance measured in human hepatocytes following incubation at 37C. Experimental range <3 to >150 microL/min/1E6 cells. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736.",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 8.51
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "hepatocytes",
+     "max": 1.1,
+     "min": 1.1,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.kg-1",
+     "value": 1.1
+    },
+    {
+     "matrix": "hepatocytes",
+     "max": 8.51,
+     "min": 8.51,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 8.51
+    }
+   ]
+  },
+  "invivo_cl_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL634460",
+     "description": "In vivo clearance in dog.",
+     "ref": "CHEMBL1132496",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 33.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL635505",
+     "description": "In vivo clearance in rat.",
+     "ref": "CHEMBL1132496",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 29.1
+    }
+   ],
+   "summary": [
+    {
+     "max": 33.0,
+     "min": 33.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "mL.min-1.kg-1",
+     "value": 33.0
+    },
+    {
+     "max": 29.1,
+     "min": 29.1,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 29.1
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL618310",
+     "description": "Unbound fraction (plasma)",
+     "ref": "CHEMBL1148291",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.04
+    },
+    {
+     "assay_chembl_id": "CHEMBL1100461",
+     "description": "Fraction unbound in human plasma",
+     "ref": "CHEMBL1153781",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "logFu",
+     "units": null,
+     "value": 0.04
+    },
+    {
+     "assay_chembl_id": "CHEMBL1043580",
+     "description": "Fraction unbound in human plasma",
+     "ref": "CHEMBL1156824",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.04
+    },
+    {
+     "assay_chembl_id": "CHEMBL3256580",
+     "description": "Binding affinity to human serum albumin at 10 uM after 12 to 20 hrs by scintillation spectrometry",
+     "ref": "CHEMBL3244425",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.105
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301365",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 96.17,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.0383
+    },
+    {
+     "assay_chembl_id": "CHEMBL4155556",
+     "description": "Binding affinity to human serum albumin after 4 hrs by LC-MS method",
+     "ppb_percent": 94.1,
+     "ref": "CHEMBL4152289",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.059
+    },
+    {
+     "assay_chembl_id": "CHEMBL4155571",
+     "description": "Binding affinity to human serum albumin assessed as fraction unbound after 4 hrs by LC-MS method",
+     "ref": "CHEMBL4152289",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.059
+    },
+    {
+     "assay_chembl_id": "CHEMBL4325787",
+     "description": "Protein binding in immobilized human serum albumin by HPLC analysis",
+     "ppb_percent": 79.9,
+     "ref": "CHEMBL4321884",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.201
+    },
+    {
+     "assay_chembl_id": "CHEMBL3256578",
+     "description": "Fraction unbound in 22% albino mouse serum at 10 uM by equilibrium dialysis method in presence of diisopropyl fluorophosphate",
+     "ref": "CHEMBL3244425",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.31
+    },
+    {
+     "assay_chembl_id": "CHEMBL4325785",
+     "description": "Protein binding in plasma (unknown origin)",
+     "ppb_percent": 98.4,
+     "ref": "CHEMBL4321884",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.016
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.201,
+     "min": 0.0383,
+     "n_censored": 0,
+     "n_documents": 7,
+     "n_measurements": 8,
+     "species": "human",
+     "units": null,
+     "value": 0.04
+    },
+    {
+     "max": 0.31,
+     "min": 0.31,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": 0.31
+    },
+    {
+     "max": 0.016,
+     "min": 0.016,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "unspecified",
+     "units": null,
+     "value": 0.016
+    }
+   ]
+  }
+ },
+ "inn": "oxazepam",
+ "references": {
+  "CHEMBL1132496": {
+   "chembl_document_id": "CHEMBL1132496",
+   "journal": "J Med Chem",
+   "pmid": "10602692",
+   "title": "Combining in vitro and in vivo pharmacokinetic data for prediction of hepatic drug clearance in humans by artificial neural networks and multivariate statistical techniques.",
+   "year": 1999
+  },
+  "CHEMBL1137707": {
+   "chembl_document_id": "CHEMBL1137707",
+   "journal": "Eur J Med Chem",
+   "pmid": "18768239",
+   "title": "First-principle, structure-based prediction of hepatic metabolic clearance values in human.",
+   "year": 2009
+  },
+  "CHEMBL1148291": {
+   "chembl_document_id": "CHEMBL1148291",
+   "journal": "J Med Chem",
+   "pmid": "14971904",
+   "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+   "year": 2004
+  },
+  "CHEMBL1153781": {
+   "chembl_document_id": "CHEMBL1153781",
+   "journal": "Eur J Med Chem",
+   "pmid": "19586686",
+   "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+   "year": 2009
+  },
+  "CHEMBL1156824": {
+   "chembl_document_id": "CHEMBL1156824",
+   "journal": "J Med Chem",
+   "pmid": "20070106",
+   "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+   "year": 2010
+  },
+  "CHEMBL3244425": {
+   "chembl_document_id": "CHEMBL3244425",
+   "journal": "J Med Chem",
+   "pmid": "536989",
+   "title": "Oxazepam esters. 2. Correlation of hydrophobicity with serum binding, brain penetration, and excretion.",
+   "year": 1979
+  },
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL4152289": {
+   "chembl_document_id": "CHEMBL4152289",
+   "journal": "Eur J Med Chem",
+   "pmid": "29885575",
+   "title": "Novel 8-nitroquinolin-2(1H)-ones as NTR-bioactivated antikinetoplastid molecules: Synthesis, electrochemical and SAR study.",
+   "year": 2018
+  },
+  "CHEMBL4321884": {
+   "chembl_document_id": "CHEMBL4321884",
+   "journal": "J Med Chem",
+   "pmid": "31995375",
+   "title": "Human Serum Albumin Binding in a Vial: A Novel UV-pH Titration Method To Assist Drug Design.",
+   "year": 2020
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 133
+ },
+ "status": "data",
+ "stratum": "N05B"
+}

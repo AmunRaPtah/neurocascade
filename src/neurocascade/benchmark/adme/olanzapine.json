@@ -1,0 +1,181 @@
+{
+ "chembl_query_id": "CHEMBL715",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_vss": 1
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1023025",
+     "description": "Fraction unbound in rat brain",
+     "ref": "CHEMBL1152804",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.034
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.034,
+     "min": 0.034,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.034
+    }
+   ]
+  },
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3534905",
+     "description": "Intrinsic clearance for reactive metabolites formation per mg of protein in human liver microsomes based on [3H]GSH adduct formation rate at 100 uM by [3H]GSH trapping assay",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526118",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 0.000113
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534906",
+     "description": "Intrinsic clearance for reactive metabolites formation per mg of protein based on cytochrome P450 (unknown origin) inactivation rate by TDI assay",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526118",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 6e-06
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534907",
+     "description": "Intrinsic clearance for reactive metabolites formation assessed as summation of [3H]GSH adduct formation rate-based reactive metabolites formation and cytochrome P450 (unknown origin) inactivation rate-based reactive metabolites formation",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526118",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL/min",
+     "value": 0.119
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 0.000113,
+     "min": 6e-06,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 2.6e-05
+    },
+    {
+     "matrix": "microsomes",
+     "max": 0.119,
+     "min": 0.119,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "uL/min",
+     "value": 0.119
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3301365",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 89.27,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.1073
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301366",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole rat plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 87.62,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.1238
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.1073,
+     "min": 0.1073,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.1073
+    },
+    {
+     "max": 0.1238,
+     "min": 0.1238,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.1238
+    }
+   ]
+  }
+ },
+ "inn": "olanzapine",
+ "references": {
+  "CHEMBL1152804": {
+   "chembl_document_id": "CHEMBL1152804",
+   "journal": "J Med Chem",
+   "pmid": "19256501",
+   "title": "Relationship between brain tissue partitioning and microemulsion retention factors of CNS drugs.",
+   "year": 2009
+  },
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL3526118": {
+   "chembl_document_id": "CHEMBL3526118",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21467212",
+   "title": "Combination of GSH trapping and time-dependent inhibition assays as a predictive method of drugs generating highly reactive metabolites.",
+   "year": 2011
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 227
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

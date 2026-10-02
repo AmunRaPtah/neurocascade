@@ -1,0 +1,254 @@
+{
+ "chembl_query_id": "CHEMBL1118",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": false,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3536595",
+     "description": "Percentage unbound in Crl:NMRI(Han) mouse brain at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.45
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531910",
+     "description": "Percentage unbound in Sprague-Dawley rat brain at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.35
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.45,
+     "min": 0.45,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": 0.45
+    },
+    {
+     "max": 0.35,
+     "min": 0.35,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.35
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3531556",
+     "description": "Total brain to plasma partition coefficient of the compound in mdr1a-deficient mouse treated with venlafaxine at 12 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 5.7
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534407",
+     "description": "Total brain to plasma partition coefficient of the compound in wild type Crl:CF1 mouse expressing Abcb1a mutant treated with venlafaxine at 12 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 1.8
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528411",
+     "description": "Total brain to plasma partition coefficient of the compound in mdr1a-deficient rat treated with venlafaxine at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 3.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528204",
+     "description": "Total brain to plasma partition coefficient of the compound in wild type Sprague-Dawley rat expressing Abcb1a treated with venlafaxine at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 1.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 5.7,
+     "min": 1.8,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "mouse",
+     "units": null,
+     "value": 3.203123
+    },
+    {
+     "max": 3.3,
+     "min": 1.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": null,
+     "value": 1.81659
+    }
+   ]
+  },
+  "kp_uu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3537532",
+     "description": "Unbound brain to plasma partition coefficient of the compound in mdr1a-deficient mouse treated with venlafaxine at 12 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 2.4
+    },
+    {
+     "assay_chembl_id": "CHEMBL3536598",
+     "description": "Unbound brain to plasma partition coefficient of the compound in wild type Crl:CF1 mouse expressing Abcb1a mutant treated with venlafaxine at 12 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 0.8
+    },
+    {
+     "assay_chembl_id": "CHEMBL3536591",
+     "description": "Unbound brain to plasma partition coefficient of the compound in mdr1a-deficient Sprague-Dawley rat treated with venlafaxine at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 1.2
+    },
+    {
+     "assay_chembl_id": "CHEMBL3536586",
+     "description": "Unbound brain to plasma partition coefficient of the compound in wild type Sprague-Dawley rat expressing Abcb1a treated with venlafaxine at 9 mg/kg/day administered through continuous minipump treatment for 3 days",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 0.38
+    }
+   ],
+   "summary": [
+    {
+     "max": 2.4,
+     "min": 0.8,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "mouse",
+     "units": null,
+     "value": 1.385641
+    },
+    {
+     "max": 1.2,
+     "min": 0.38,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": null,
+     "value": 0.675278
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3528198",
+     "description": "Percentage unbound in Crl:NMRI(Han) mouse plasma at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": ">",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.99
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531909",
+     "description": "Percentage unbound in Sprague-Dawley rat plasma at 1 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525946",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.89
+    }
+   ],
+   "summary": [
+    {
+     "max": null,
+     "min": null,
+     "n_censored": 1,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": null
+    },
+    {
+     "max": 0.89,
+     "min": 0.89,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.89
+    }
+   ]
+  }
+ },
+ "inn": "desvenlafaxine",
+ "references": {
+  "CHEMBL3525946": {
+   "chembl_document_id": "CHEMBL3525946",
+   "journal": "Drug Metab Dispos",
+   "pmid": "22112383",
+   "title": "Species comparison of in vivo P-glycoprotein-mediated brain efflux using mdr1a-deficient rats and mice.",
+   "year": 2012
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 189
+ },
+ "status": "data",
+ "stratum": "N06A"
+}

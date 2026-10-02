@@ -1,0 +1,575 @@
+{
+ "chembl_query_id": "CHEMBL894",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": true
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3537180",
+     "description": "Fraction unbound in Beagle dog brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.213
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537179",
+     "description": "Fraction unbound in Hartley guinea pig brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "guinea_pig",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.177
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537182",
+     "description": "Fraction unbound in human occipital cortex at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.195
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537181",
+     "description": "Fraction unbound in cynomolgus monkey brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.167
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537178",
+     "description": "Fraction unbound in CD-1 mouse brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.133
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534720",
+     "description": "Percentage unbound in solid supported porcine brain membrane vesicles at 5 uM by TRANSIL assay",
+     "ref": "CHEMBL3526149",
+     "relation": "=",
+     "species": "pig",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.17
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534723",
+     "description": "Percentage unbound in solid supported porcine brain membrane vesicles at 5 uM using four compound cocktail after 5 hrs by TRANSIL assay",
+     "ref": "CHEMBL3526149",
+     "relation": "=",
+     "species": "pig",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.14
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537288",
+     "description": "Fraction unbound in Sprague-Dawley rat brain homogenates at 5 uM by equilibrium dialysis analysis",
+     "ref": "CHEMBL3525927",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.17
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537177",
+     "description": "Fraction unbound in Sprague-Dawley rat brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.171
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537176",
+     "description": "Fraction unbound in Wistar Han rat brain homogenates at 1 uM after 6 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3525956",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.132
+    },
+    {
+     "assay_chembl_id": "CHEMBL3534719",
+     "description": "Fraction unbound in Wistar rat brain homogenate at 5 uM after 5 hrs by equilibrium dialysis method",
+     "ref": "CHEMBL3526149",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.17
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.213,
+     "min": 0.213,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": null,
+     "value": 0.213
+    },
+    {
+     "max": 0.177,
+     "min": 0.177,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "guinea_pig",
+     "units": null,
+     "value": 0.177
+    },
+    {
+     "max": 0.195,
+     "min": 0.195,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.195
+    },
+    {
+     "max": 0.167,
+     "min": 0.167,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "monkey",
+     "units": null,
+     "value": 0.167
+    },
+    {
+     "max": 0.133,
+     "min": 0.133,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": 0.133
+    },
+    {
+     "max": 0.17,
+     "min": 0.14,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "pig",
+     "units": null,
+     "value": 0.154272
+    },
+    {
+     "max": 0.171,
+     "min": 0.132,
+     "n_censored": 0,
+     "n_documents": 3,
+     "n_measurements": 4,
+     "species": "rat",
+     "units": null,
+     "value": 0.17
+    }
+   ]
+  },
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3301372",
+     "description": "ASTRAZENECA: Intrinsic clearance measured in human hepatocytes following incubation at 37C. Experimental range <3 to >150 microL/min/1E6 cells. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736.",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 16.98
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301370",
+     "description": "ASTRAZENECA: Intrinsic clearance measured in human liver microsomes following incubation at 37C. Experimental range <3 to >150 microL/min/mg. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736.",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 12.02
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531926",
+     "description": "Drug metabolism in human liver microsomes harboring CYP2B6*6/*6 genotype assessed as intrinsic clearance for CYP2B6 variant-mediated 4-hydroxybupropion metabolite formation measured per mg protein after 15 mins by LC/MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526074",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 0.0006
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531925",
+     "description": "Drug metabolism in human liver microsomes harboring CYP2B6*1/*6 genotype assessed as intrinsic clearance for CYP2B6 variant-mediated 4-hydroxybupropion metabolite formation measured per mg protein after 15 mins by LC/MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526074",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 0.0218
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531924",
+     "description": "Drug metabolism in human liver microsomes harboring CYP2B6*1/*1 genotype assessed as intrinsic clearance for CYP2B6 variant-mediated 4-hydroxybupropion metabolite formation measured per mg protein after 15 mins by LC/MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526074",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 0.0188
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531153",
+     "description": "Drug metabolism in microsomes expressing CYP2B6.6 (unknown origin) assessed as intrinsic clearance for enzyme-mediated 4-hydroxybupropion metabolite formation measured per pmol of P450 after 15 mins by HPLC/UV system in presence of Cyt b5 coexpression",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526074",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL/min",
+     "value": 0.11
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531150",
+     "description": "Drug metabolism in microsomes expressing CYP2B6.1 (unknown origin) assessed as intrinsic clearance for enzyme-mediated 4-hydroxybupropion metabolite formation measured per pmol of P450 after 15 mins by HPLC/UV system in presence of Cyt b5 coexpression",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526074",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL/min",
+     "value": 0.17
+    },
+    {
+     "assay_chembl_id": "CHEMBL3531141",
+     "description": "Drug metabolism in microsomes expressing CYP2B6.6 (unknown origin) assessed as intrinsic clearance for enzyme-mediated 4-hydroxybupropion metabolite formation measured per pmol of P450 after 15 mins by HPLC/UV system in absence of Cyt b5 coexpression",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526074",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL/min",
+     "value": 0.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528874",
+     "description": "Drug metabolism in microsomes expressing CYP2B6.1 (unknown origin) assessed as intrinsic clearance for enzyme-mediated 4-hydroxybupropion metabolite formation measured per pmol of P450 after 15 mins by HPLC/UV system in absence of Cyt b5 coexpression",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3526074",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "uL/min",
+     "value": 0.21
+    },
+    {
+     "assay_chembl_id": "CHEMBL5216995",
+     "description": "Drug metabolism assessed as CYP2B6 (unknown origin)-mediated metabolite formation by measuring intrinsic clearance",
+     "matrix": "microsomes",
+     "ref": "CHEMBL5214950",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "nL/pmol/min",
+     "value": 89.02
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301371",
+     "description": "ASTRAZENECA: Intrinsic clearance measured in rat hepatocytes following incubation at 37C. Experimental range <3 to >150 microL/min/1E6 cells. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736",
+     "matrix": "hepatocytes",
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 72.44
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 12.02,
+     "min": 0.0006,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 4,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 6.013133
+    },
+    {
+     "matrix": "microsomes",
+     "max": 89.02,
+     "min": 89.02,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "nL/pmol/min",
+     "value": 89.02
+    },
+    {
+     "matrix": "hepatocytes",
+     "max": 16.98,
+     "min": 16.98,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 16.98
+    },
+    {
+     "matrix": "microsomes",
+     "max": 0.3,
+     "min": 0.11,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 4,
+     "species": "human",
+     "units": "uL/min",
+     "value": 0.185266
+    },
+    {
+     "matrix": "hepatocytes",
+     "max": 72.44,
+     "min": 72.44,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "uL.min-1.(10^6cells)-1",
+     "value": 72.44
+    }
+   ]
+  },
+  "invivo_vss_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3537289",
+     "description": "Unbound volume of distribution in Sprague-Dawley rat brain slices at 100 nM after 5 hrs",
+     "ref": "CHEMBL3525927",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Vd",
+     "units": "L.kg-1",
+     "value": 16.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 16.0,
+     "min": 16.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "L.kg-1",
+     "value": 16.0
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1798465",
+     "description": "Ratio of total drug level in brain to plasma in Sprague-Dawley rat administered in casettes of 2/3 drugs at 4 hr constant rate intravenous infusions using flow rate of 1 (ml/kg)/hr corresponding to dosage rate of 2 (umol/kg)/hr by LC-MS/MS method",
+     "ref": "CHEMBL1795238",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 9.78
+    },
+    {
+     "assay_chembl_id": "CHEMBL3537290",
+     "description": "Unbound drug partitioning coefficient, Kp of the compound assessed as ratio of unbound concentration in Sprague-Dawley rat brain to unbound concentration in plasma",
+     "ref": "CHEMBL3525927",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Kp",
+     "units": null,
+     "value": 2.66
+    }
+   ],
+   "summary": [
+    {
+     "max": 9.78,
+     "min": 2.66,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": null,
+     "value": 6.22
+    }
+   ]
+  },
+  "kp_uu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1798466",
+     "description": "Unbound brain to plasma concentration ratio in Sprague-Dawley rat administered in casettes of 2/3 drugs at 4 hr constant rate intravenous infusions using flow rate of 1 (ml/kg)/hr corresponding to dosage rate of 2 (umol/kg)/hr",
+     "ref": "CHEMBL1795238",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "K(p,uu,brain)",
+     "units": null,
+     "value": 2.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 2.0,
+     "min": 2.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 2.0
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3301365",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 45.98,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.5402
+    },
+    {
+     "assay_chembl_id": "CHEMBL1798464",
+     "description": "Fraction unbound in Sprague-Dawley rat plasma administered in casettes of 2/3 drugs at 4 hr constant rate intravenous infusions using flow rate of 1 (ml/kg)/hr corresponding to dosage rate of 2 (umol/kg)/hr by LC-MS/MS method",
+     "ref": "CHEMBL1795238",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.31
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.5402,
+     "min": 0.5402,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.5402
+    },
+    {
+     "max": 0.31,
+     "min": 0.31,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.31
+    }
+   ]
+  }
+ },
+ "inn": "bupropion",
+ "references": {
+  "CHEMBL1795238": {
+   "chembl_document_id": "CHEMBL1795238",
+   "journal": "J Med Chem",
+   "pmid": "19764786",
+   "title": "Structure-brain exposure relationships in rat and human using a novel data set of unbound drug concentrations in brain interstitial and cerebrospinal fluids.",
+   "year": 2009
+  },
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL3525927": {
+   "chembl_document_id": "CHEMBL3525927",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21149540",
+   "title": "Measurement of unbound drug exposure in brain: modeling of pH partitioning explains diverging results between the brain slice and brain homogenate methods.",
+   "year": 2011
+  },
+  "CHEMBL3525956": {
+   "chembl_document_id": "CHEMBL3525956",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21474681",
+   "title": "Species independence in brain tissue binding using brain homogenates.",
+   "year": 2011
+  },
+  "CHEMBL3526074": {
+   "chembl_document_id": "CHEMBL3526074",
+   "journal": "Drug Metab Dispos",
+   "pmid": "22232427",
+   "title": "Effects of the CYP2B6*6 allele on catalytic properties and inhibition of CYP2B6 in vitro: implication for the mechanism of reduced efavirenz metabolism and other CYP2B6 substrates in vivo.",
+   "year": 2012
+  },
+  "CHEMBL3526149": {
+   "chembl_document_id": "CHEMBL3526149",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21071520",
+   "title": "Brain tissue binding of drugs: evaluation and validation of solid supported porcine brain membrane vesicles (TRANSIL) as a novel high-throughput method.",
+   "year": 2011
+  },
+  "CHEMBL5214950": {
+   "chembl_document_id": "CHEMBL5214950",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "36174836",
+   "title": "Selective deuteration of bupropion slows epimerization and reduces metabolism.",
+   "year": 2022
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 364
+ },
+ "status": "data",
+ "stratum": "N06A"
+}

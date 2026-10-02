@@ -1,0 +1,139 @@
+{
+ "chembl_query_id": "CHEMBL1423",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL2027633",
+     "description": "Clearance in human liver microsomes at 1 uM",
+     "matrix": "microsomes",
+     "ref": "CHEMBL2021815",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 57.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 57.0,
+     "min": 57.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "mL.min-1.g-1",
+     "value": 57.0
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3591954",
+     "description": "Fraction unbound (%) in dog plasma at pH 7.4 after 18 hrs by equilibrium dialysis",
+     "ref": "CHEMBL3588839",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.0004
+    },
+    {
+     "assay_chembl_id": "CHEMBL3591953",
+     "description": "Fraction unbound (%) in human plasma at pH 7.4 after 18 hrs by equilibrium dialysis",
+     "ref": "CHEMBL3588839",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.0016
+    },
+    {
+     "assay_chembl_id": "CHEMBL3301366",
+     "description": "ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole rat plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",
+     "ppb_percent": 99.7,
+     "ref": "CHEMBL3301361",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "PPB",
+     "units": null,
+     "value": 0.003
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.0004,
+     "min": 0.0004,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": null,
+     "value": 0.0004
+    },
+    {
+     "max": 0.0016,
+     "min": 0.0016,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": null,
+     "value": 0.0016
+    },
+    {
+     "max": 0.003,
+     "min": 0.003,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.003
+    }
+   ]
+  }
+ },
+ "inn": "pimozide",
+ "references": {
+  "CHEMBL2021815": {
+   "chembl_document_id": "CHEMBL2021815",
+   "journal": "ACS Med Chem Lett",
+   "pmid": "21841964",
+   "title": "Metabolism of 4-Aminopiperidine Drugs by Cytochrome P450s: Molecular and Quantum Mechanical Insights into Drug Design.",
+   "year": 2011
+  },
+  "CHEMBL3301361": {
+   "chembl_document_id": "CHEMBL3301361",
+   "journal": null,
+   "pmid": null,
+   "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+   "year": null
+  },
+  "CHEMBL3588839": {
+   "chembl_document_id": "CHEMBL3588839",
+   "journal": "Medchemcomm",
+   "pmid": null,
+   "title": "Species differences in drug plasma protein binding",
+   "year": 2014
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 277
+ },
+ "status": "data",
+ "stratum": "N05A"
+}

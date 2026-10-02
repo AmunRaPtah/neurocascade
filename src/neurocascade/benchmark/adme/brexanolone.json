@@ -1,0 +1,254 @@
+{
+ "chembl_query_id": "CHEMBL207538",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": false,
+  "rodent_in_vivo_cl": true,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3427973",
+     "description": "Clearance in human liver microsomes at 10 uM after 60 mins by HPLC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3425450",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 8.333
+    },
+    {
+     "assay_chembl_id": "CHEMBL4040860",
+     "description": "Clearance in human hepatic microsomes at 10 uM preincubated for 5 mins followed by NADPH addition measured over 60 mins by HPLC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4038335",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 8.333
+    },
+    {
+     "assay_chembl_id": "CHEMBL3427975",
+     "description": "Clearance in mouse liver microsomes at 10 uM after 60 mins by HPLC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3425450",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 67.5
+    },
+    {
+     "assay_chembl_id": "CHEMBL4040862",
+     "description": "Clearance in mouse hepatic microsomes at 10 uM preincubated for 5 mins followed by NADPH addition measured over 60 mins by HPLC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4038335",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 66.67
+    },
+    {
+     "assay_chembl_id": "CHEMBL3427974",
+     "description": "Clearance in rat liver microsomes at 10 uM after 60 mins by HPLC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3425450",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 55.67
+    },
+    {
+     "assay_chembl_id": "CHEMBL4040861",
+     "description": "Clearance in rat hepatic microsomes at 10 uM preincubated for 5 mins followed by NADPH addition measured over 60 mins by HPLC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL4038335",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 55.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 8.333,
+     "min": 8.333,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "mL.min-1.kg-1",
+     "value": 8.333
+    },
+    {
+     "matrix": "microsomes",
+     "max": 67.5,
+     "min": 66.67,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "mouse",
+     "units": "mL.min-1.kg-1",
+     "value": 67.085
+    },
+    {
+     "matrix": "microsomes",
+     "max": 55.67,
+     "min": 55.0,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 55.335
+    }
+   ]
+  },
+  "invivo_cl_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4040864",
+     "description": "Clearance in CD1 mouse at 5 mg/kg, iv or 20 mg/kg, po measured up to 8 hrs post dose by LC/MS-MS analysis",
+     "ref": "CHEMBL4038335",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 200.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3427976",
+     "description": "Clearance in Sprague-Dawley rat at 5 mg/kg, iv and 20 mg/kg, po by LC-MS/MS analysis",
+     "ref": "CHEMBL3425450",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 80.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL4040863",
+     "description": "Clearance in Sprague-Dawley rat at 5 mg/kg, iv or 20 mg/kg, po measured up to 8 hrs post dose by LC/MS-MS analysis",
+     "ref": "CHEMBL4038335",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 80.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 200.0,
+     "min": 200.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": "mL.min-1.kg-1",
+     "value": 200.0
+    },
+    {
+     "max": 80.0,
+     "min": 80.0,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 80.0
+    }
+   ]
+  },
+  "kp_total": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4040868",
+     "description": "Ratio of drug level in CD1 mouse brain to plasma at 5 mg/kg, iv measured at 30 mins post dose by LC/MS-MS analysis",
+     "ref": "CHEMBL4038335",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 1.9
+    },
+    {
+     "assay_chembl_id": "CHEMBL3427978",
+     "description": "Ratio of drug level in brain to plasma in Sprague-Dawley rat at 5 mg/kg, iv after 30 mins by LC-MS/MS analysis",
+     "ref": "CHEMBL3425450",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 1.8
+    },
+    {
+     "assay_chembl_id": "CHEMBL4040867",
+     "description": "Ratio of drug level in Sprague-Dawley rat brain to plasma at 5 mg/kg, iv measured at 30 mins post dose by LC/MS-MS analysis",
+     "ref": "CHEMBL4038335",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "BPR",
+     "units": null,
+     "value": 1.8
+    }
+   ],
+   "summary": [
+    {
+     "max": 1.9,
+     "min": 1.9,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": 1.9
+    },
+    {
+     "max": 1.8,
+     "min": 1.8,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": null,
+     "value": 1.8
+    }
+   ]
+  }
+ },
+ "inn": "brexanolone",
+ "references": {
+  "CHEMBL3425450": {
+   "chembl_document_id": "CHEMBL3425450",
+   "journal": "J Med Chem",
+   "pmid": "25799373",
+   "title": "Neuroactive Steroids. 1. Positive Allosteric Modulators of the (\u03b3-Aminobutyric Acid)A Receptor: Structure-Activity Relationships of Heterocyclic Substitution at C-21.",
+   "year": 2015
+  },
+  "CHEMBL4038335": {
+   "chembl_document_id": "CHEMBL4038335",
+   "journal": "J Med Chem",
+   "pmid": "28753313",
+   "title": "Neuroactive Steroids. 2. 3\u03b1-Hydroxy-3\u03b2-methyl-21-(4-cyano-1H-pyrazol-1'-yl)-19-nor-5\u03b2-pregnan-20-one (SAGE-217): A Clinical Next Generation Neuroactive Steroid Positive Allosteric Modulator of the (\u03b3-Aminobutyric Acid)A Receptor.",
+   "year": 2017
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 21
+ },
+ "status": "data",
+ "stratum": "N06A"
+}

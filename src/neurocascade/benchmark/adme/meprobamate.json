@@ -1,0 +1,59 @@
+{
+ "chembl_query_id": "CHEMBL979",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {
+  "human_invivo_cl": 1,
+  "human_invivo_vss": 1
+ },
+ "field_coverage": {
+  "brain_fu_or_kp_uu": true,
+  "clint": false,
+  "plasma_fu": false,
+  "rodent_in_vivo_cl": false,
+  "rodent_in_vivo_vss": false
+ },
+ "fields": {
+  "brain_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3363668",
+     "description": "Fraction unbound in mouse brain",
+     "ref": "CHEMBL3351754",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.76
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.76,
+     "min": 0.76,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": null,
+     "value": 0.76
+    }
+   ]
+  }
+ },
+ "inn": "meprobamate",
+ "references": {
+  "CHEMBL3351754": {
+   "chembl_document_id": "CHEMBL3351754",
+   "journal": "J Med Chem",
+   "pmid": "25099658",
+   "title": "Rational use of plasma protein and tissue binding data in drug design.",
+   "year": 2014
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 26
+ },
+ "status": "data",
+ "stratum": "N05B"
+}

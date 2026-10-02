@@ -1,0 +1,177 @@
+{
+ "chembl_query_id": "CHEMBL1508",
+ "chembl_release": "ChEMBL_37 (2026-05-01)",
+ "excluded": {},
+ "field_coverage": {
+  "brain_fu_or_kp_uu": false,
+  "clint": true,
+  "plasma_fu": true,
+  "rodent_in_vivo_cl": true,
+  "rodent_in_vivo_vss": true
+ },
+ "fields": {
+  "clint": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3536260",
+     "description": "Efflux clearance in Wistar rat brain extracellular fluid at 1.6 mg/kg, sc by HPLC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3525901",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 0.16
+    },
+    {
+     "assay_chembl_id": "CHEMBL3536257",
+     "description": "Uptake clearance in Wistar rat brain extracellular fluid at 1.6 mg/kg, sc by HPLC-MS/MS analysis",
+     "matrix": "microsomes",
+     "ref": "CHEMBL3525901",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.g-1",
+     "value": 0.19
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "microsomes",
+     "max": 0.19,
+     "min": 0.16,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": "mL.min-1.g-1",
+     "value": 0.174356
+    }
+   ]
+  },
+  "invivo_cl_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3536253",
+     "description": "Distributional clearance in Wistar rat extracellular fluid at 1.6 mg/kg, sc by HPLC-MS/MS analysis",
+     "ref": "CHEMBL3525901",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 117.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3536246",
+     "description": "Systemic clearance in Wistar rat extracellular fluid at 1.6 mg/kg, sc by HPLC-MS/MS analysis",
+     "ref": "CHEMBL3525901",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "CL",
+     "units": "mL.min-1.kg-1",
+     "value": 277.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 277.0,
+     "min": 117.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": "mL.min-1.kg-1",
+     "value": 180.024998
+    }
+   ]
+  },
+  "invivo_vss_preclinical": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3536254",
+     "description": "Unbound volume of distribution in Wistar rat brain at 1.6 mg/kg, sc by HPLC-MS/MS analysis",
+     "ref": "CHEMBL3525901",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Vd",
+     "units": "L.kg-1",
+     "value": 18.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3536252",
+     "description": "Peripheral volume of distribution in Wistar rat extracellular fluid at 1.6 mg/kg, sc by HPLC-MS/MS analysis",
+     "ref": "CHEMBL3525901",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Vd",
+     "units": "L.kg-1",
+     "value": 17.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3532955",
+     "description": "Central volume of distribution in Wistar rat extracellular fluid at 1.6 mg/kg, sc by HPLC-MS/MS analysis",
+     "ref": "CHEMBL3525901",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Vd",
+     "units": "L.kg-1",
+     "value": 4.1
+    }
+   ],
+   "summary": [
+    {
+     "max": 18.0,
+     "min": 4.1,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 3,
+     "species": "rat",
+     "units": "L.kg-1",
+     "value": 10.785371
+    }
+   ]
+  },
+  "plasma_fu": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3533408",
+     "description": "Fraction unbound in Wistar rat plasma at 1.6 mg/kg, sc by HPLC-MS/MS analysis",
+     "ref": "CHEMBL3525901",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "Fu",
+     "units": null,
+     "value": 0.5
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.5,
+     "min": 0.5,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": null,
+     "value": 0.5
+    }
+   ]
+  }
+ },
+ "inn": "escitalopram",
+ "references": {
+  "CHEMBL3525901": {
+   "chembl_document_id": "CHEMBL3525901",
+   "journal": "Drug Metab Dispos",
+   "pmid": "22736307",
+   "title": "Microdialysis evaluation of clozapine and N-desmethylclozapine pharmacokinetics in rat brain.",
+   "year": 2012
+  }
+ },
+ "retrieved": "2026-10-02",
+ "searched": {
+  "chembl_adme_rows_returned": 34
+ },
+ "status": "data",
+ "stratum": "N06A"
+}
