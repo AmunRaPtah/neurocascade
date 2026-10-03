@@ -1,0 +1,81 @@
+{
+ "source": "Primary literature and first-party regulatory labels searched 2026-10-03; values are same-entity human oral or oral-mucosal observations, never fit inputs.",
+ "drugs": [
+  {
+   "inn": "amisulpride",
+   "split": "heldout",
+   "status": "data",
+   "observations": [
+    {"quantity": "auc_0_inf_over_dose", "value": 25.216, "units": "ng*h/mL/mg", "dose_mg": 200, "route": "oral", "population": "healthy Chinese volunteers", "citation": {"pmid": "28793958", "location": "abstract; reference formulation AUC0-inf 5043.2 ng*h/mL after 200 mg"}, "quote": "AUC0-∞ ... 5,043.2 ng×h×mL−1 ... A single oral dose of amisulpride (200 mg)"}
+   ],
+   "notes": "This is AUC/dose, not absolute F; the paper reports relative bioavailability between two oral formulations."
+  },
+  {
+   "inn": "asenapine",
+   "split": "heldout",
+   "status": "data",
+   "observations": [
+    {"quantity": "absolute_bioavailability", "value": 0.35, "units": "fraction", "dose_mg": 5, "route": "sublingual", "population": "human", "citation": {"nda": "022117", "location": "Physician Labeling, p. 30, pharmacokinetics"}, "quote": "The absolute bioavailability of sublingual asenapine at 5 mg is 35%."},
+    {"quantity": "absolute_bioavailability", "value": null, "upper": 0.02, "units": "fraction", "dose_mg": 5, "route": "swallowed oral", "population": "human", "citation": {"nda": "022117", "location": "Physician Labeling, p. 30, pharmacokinetics"}, "quote": "The absolute bioavailability of asenapine when swallowed is low (<2% with an oral tablet formulation).", "relation": "<"}
+   ],
+   "notes": "The PET regimen is sublingual; the swallowed value is retained as a route distinction, not silently substituted."
+  },
+  {
+   "inn": "escitalopram",
+   "split": "heldout",
+   "status": "data",
+   "observations": [
+    {"quantity": "cl_over_f", "value": 600, "units": "mL/min", "dose_mg": null, "route": "oral", "population": "human", "citation": {"nda": "021323", "location": "selected Lexapro label, Clinical Pharmacology"}, "quote": "The oral clearance of escitalopram is 600 mL/min, with approximately 7% of that due to renal clearance."}
+   ],
+   "notes": "The same value is already transcribed in the frozen P28.4 record; this row makes its oral-exposure role explicit without changing the frozen truth."
+  },
+  {
+   "inn": "lurasidone",
+   "split": "heldout",
+   "status": "data",
+   "observations": [
+    {"quantity": "cl_over_f", "value": 3902, "units": "mL/min", "dose_mg": 40, "route": "oral", "population": "human", "citation": {"nda": "200603", "location": "LATUDA label, section 12.3"}, "quote": "Following administration of 40 mg of LATUDA, the mean (%CV) apparent clearance was 3902 (18.0) mL/min."},
+    {"quantity": "absolute_bioavailability", "value": null, "lower": 0.09, "upper": 0.19, "units": "fraction", "dose_mg": null, "route": "oral", "population": "human", "citation": {"nda": "200603", "location": "LATUDA label, section 12.3"}, "quote": "It is estimated that 9-19% of an administered dose is absorbed.", "relation": "range"}
+   ],
+   "notes": "The label calls the 9-19% quantity absorbed, not a measured absolute F; it is stored as a range and not collapsed to its midpoint."
+  },
+  {
+   "inn": "milnacipran",
+   "split": "heldout",
+   "status": "data",
+   "observations": [
+    {"quantity": "absolute_bioavailability", "value": null, "lower": 0.85, "upper": 0.90, "units": "fraction", "dose_mg": null, "route": "oral", "population": "human", "citation": {"nda": "022256", "location": "Savella label, section 12.3"}, "quote": "Milnacipran is well absorbed after oral administration with an absolute bioavailability of approximately 85% to 90%.", "relation": "range"}
+   ],
+   "notes": "The range is preserved because the label does not print a single study-level point estimate."
+  },
+  {
+   "inn": "paroxetine",
+   "split": "heldout",
+   "status": "data",
+   "observations": [
+    {"quantity": "absolute_bioavailability", "value": 0.50, "units": "fraction", "dose_mg": null, "route": "oral", "population": "human", "citation": {"nda": "021299", "location": "BioPharm review, section 2"}, "quote": "By substantial first pass metabolism the absolute bioavailability is reduced to approximately 50 %."},
+    {"quantity": "cl_over_f", "value": 33.1, "units": "L/h", "dose_mg": 20, "route": "oral", "population": "healthy volunteers, steady state", "citation": {"pmid": "18483540", "location": "full text, PK results"}, "quote": "The geometric mean ... C_L/F of paroxetine ... given alone ... was 33.1 liters/h"}
+   ],
+   "notes": "Paroxetine is nonlinear with dose and CYP2D6 phenotype; this is a cited regimen-specific value, not a drug-wide constant."
+  },
+  {
+   "inn": "quetiapine",
+   "split": "heldout",
+   "status": "data",
+   "observations": [
+    {"quantity": "auc_over_dose", "value": 27.1, "units": "h*nmol/L/mg", "dose_mg": 300, "route": "oral", "population": "healthy subjects, quetiapine IR", "citation": {"pmid": "21477416", "location": "Table 1; AUC 8130 h*nmol/L after 300 mg/day"}, "quote": "Quetiapine IR ... AUC 8130 (2700) ... C_av,PET,peak 1460 (510)"}
+   ],
+   "notes": "The paper does not report absolute F; this AUC/dose is therefore the admissible oral-exposure truth."
+  },
+  {
+   "inn": "venlafaxine",
+   "split": "heldout",
+   "status": "data",
+   "observations": [
+    {"quantity": "absolute_bioavailability", "value": 0.45, "units": "fraction", "dose_mg": 150, "route": "oral", "population": "human", "citation": {"nda": "020699", "location": "Effexor XR label, section 12.3"}, "quote": "The absolute bioavailability of venlafaxine is about 45%."},
+    {"quantity": "cl_over_f", "value": 1.3, "units": "L/h/kg", "dose_mg": 150, "route": "oral", "population": "human, steady state; parent", "citation": {"nda": "020699", "location": "Effexor XR label, section 12.3"}, "quote": "Mean±SD steady-state plasma clearance of venlafaxine ... is 1.3±0.6 L/h/kg"}
+   ],
+   "notes": "ODV is active and has a separate apparent clearance; the parent and ODV observations are not pooled."
+  }
+ ]
+}

@@ -1,0 +1,40 @@
+{
+ "source": "Primary PET/SPECT papers and FDA review searched 2026-10-03. Only values printed as dose/plasma/occupancy observations are marked measured; model thresholds and figure-only concentrations remain searched-and-empty.",
+ "drugs": [
+  {"inn": "amisulpride", "split": "heldout", "status": "data", "pairs": [
+   {"dose_mg_per_day": 228.6, "plasma_concentration": 134.2, "plasma_units": "ng/mL", "occupancy_percent": 67.1, "target": "D2", "region": "striatum", "route": "oral", "statistic": "group_mean", "citation": {"pmid": "15937316", "location": "abstract; low-dose group"}},
+   {"dose_mg_per_day": 666.7, "plasma_concentration": 257.7, "plasma_units": "ng/mL", "occupancy_percent": 79.1, "target": "D2", "region": "striatum", "route": "oral", "statistic": "group_mean", "citation": {"pmid": "15937316", "location": "abstract; high-dose group"}}
+  ]},
+  {"inn": "asenapine", "split": "heldout", "status": "data", "pairs": [
+   {"dose_mg_per_day": 9.6, "plasma_concentration": 3.2, "plasma_units": "ng/mL", "occupancy_percent": 80.0, "target": "D2", "region": "putamen", "route": "sublingual", "statistic": "target_concentration_model", "citation": {"nda": "022117", "location": "Medical review, p. 24"}, "quote": "A target occupancy of 80% occurs at a concentration of 3.2 ng/mL"}
+  ], "notes": "This is a regulatory-review exposure/occupancy model point, not a raw subject pair; it is retained and labelled accordingly."},
+  {"inn": "paroxetine", "split": "heldout", "status": "data", "pairs": [
+   {"dose_mg_per_day": 20, "plasma_concentration": 28.0, "plasma_units": "ng/mL", "plasma_relation": ">=", "occupancy_percent": 85.0, "target": "SERT", "region": "striatum", "route": "oral", "statistic": "plateau_summary", "citation": {"pmid": "11691690", "location": "abstract"}, "quote": "occupancy around 85% occurred for serum paroxetine levels greater than 28 microg/liter"}
+  ], "notes": "The concentration is a plateau boundary, not a point estimate; the relation is preserved as an inequality."},
+  {"inn": "quetiapine", "split": "heldout", "status": "data", "pairs": [
+   {"dose_mg_per_day": 300, "plasma_concentration": 1460.0, "plasma_units": "nmol/L", "occupancy_percent": 50.0, "target": "D2", "region": "striatum", "route": "oral IR", "statistic": "group_mean", "citation": {"pmid": "21477416", "location": "Table 1 and Figure 3; C_av,PET,peak 1460 nmol/L, Figure 3 peak mean 50%"}},
+   {"dose_mg_per_day": 300, "plasma_concentration": 20.3, "plasma_units": "nmol/L", "occupancy_percent": 7.0, "target": "D2", "region": "striatum", "route": "oral IR", "statistic": "group_mean", "citation": {"pmid": "21477416", "location": "Table 1 and Figure 3; C_av,PET,trough 20.3 nmol/L, Figure 3 trough mean 7%"}},
+   {"dose_mg_per_day": 300, "plasma_concentration": 719.0, "plasma_units": "nmol/L", "occupancy_percent": 32.0, "target": "D2", "region": "striatum", "route": "oral XR", "statistic": "group_mean", "citation": {"pmid": "21477416", "location": "Table 1 and Figure 3; C_av,PET,peak 719 nmol/L, Figure 3 peak mean 32%"}},
+   {"dose_mg_per_day": 300, "plasma_concentration": 69.9, "plasma_units": "nmol/L", "occupancy_percent": 8.0, "target": "D2", "region": "striatum", "route": "oral XR", "statistic": "group_mean", "citation": {"pmid": "21477416", "location": "Table 1 and Figure 3; C_av,PET,trough 69.9 nmol/L, Figure 3 trough mean 8%"}}
+  ]},
+  {"inn": "venlafaxine", "split": "heldout", "status": "data", "pairs": [
+   {"dose_mg_per_day": 37.5, "plasma_concentration": 135, "plasma_units": "ng/mL", "occupancy_percent": 10, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}},
+   {"dose_mg_per_day": 37.5, "plasma_concentration": 131, "plasma_units": "ng/mL", "occupancy_percent": 18, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}},
+   {"dose_mg_per_day": 37.5, "plasma_concentration": 112, "plasma_units": "ng/mL", "occupancy_percent": 23, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}},
+   {"dose_mg_per_day": 75, "plasma_concentration": 155, "plasma_units": "ng/mL", "occupancy_percent": 8, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}},
+   {"dose_mg_per_day": 75, "plasma_concentration": 122, "plasma_units": "ng/mL", "occupancy_percent": 8, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}},
+   {"dose_mg_per_day": 75, "plasma_concentration": 108, "plasma_units": "ng/mL", "occupancy_percent": 36, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}},
+   {"dose_mg_per_day": 150, "plasma_concentration": 430, "plasma_units": "ng/mL", "occupancy_percent": 54, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}},
+   {"dose_mg_per_day": 150, "plasma_concentration": 334, "plasma_units": "ng/mL", "occupancy_percent": 61, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}},
+   {"dose_mg_per_day": 187.5, "plasma_concentration": 344, "plasma_units": "ng/mL", "occupancy_percent": 32, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}},
+   {"dose_mg_per_day": 225, "plasma_concentration": 947, "plasma_units": "ng/mL", "occupancy_percent": 42, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}},
+   {"dose_mg_per_day": 225, "plasma_concentration": 880, "plasma_units": "ng/mL", "occupancy_percent": 51, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}},
+   {"dose_mg_per_day": 300, "plasma_concentration": 816, "plasma_units": "ng/mL", "occupancy_percent": 38, "target": "NET", "region": "thalamus", "route": "oral ER", "statistic": "subject", "citation": {"pmid": "30649319", "location": "Table 1"}}
+  ]}
+ ],
+ "searched_and_empty": {
+  "escitalopram": "Kim 2017 (PMID 27557550) prints EC50/model coefficients in the abstract but no paired dose-plasma-occupancy observations; the paper is closed.",
+  "lurasidone": "Wong 2013 (PMID 23649882) prints dose/occupancy ranges and states that C_PET was measured, but no numerical plasma values are printed in the reachable abstract; the PMDA submission exposes figure-only points.",
+  "milnacipran": "Nogami 2013 (PMID 23067569) prints dose/occupancy means and model EC50 values, but no raw paired plasma concentrations in the reachable abstract; the article is not open access."
+ }
+}
