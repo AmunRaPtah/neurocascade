@@ -2564,7 +2564,13 @@
         "P29.3"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "conductor": {
+        "sessions": 1,
+        "history": [
+          "2026-10-03 03:34 COMPLETE, PR opened"
+        ]
+      }
     },
     {
       "id": "P30.1",
