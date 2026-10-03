@@ -17076,3 +17076,53 @@ PET-anchored-dose fold-error **n=0**, both searched-and-empty. This is a
 deliberate negative result, not a registry or gate. The task can be reopened
 when the missing same-entity oral exposure and reference-weight records exist
 and the non-N05A endpoint thresholds have been pre-specified.
+
+## Phase 29, part four: panel occupancy-time at clinical dose (P29.4)
+
+P29.4 was stopped at the same load-bearing assumption that P29.3 exposed, but
+with the panel/PET denominator checked explicitly. The frozen benchmark has
+exactly eight held-out drugs with PET dose/occupancy observations:
+amisulpride, asenapine, escitalopram, lurasidone, milnacipran, paroxetine,
+quetiapine and venlafaxine. All eight have a P28.2 human Ki panel. Thus the
+observation side is large enough for the brief's ``>=8 drugs`` condition.
+
+The prediction side is not. P29.2 predicts human IV CL and Vss per kilogram;
+it does not provide oral F, oral AUC, oral CL/F or a source-defined reference
+weight. The benchmark therefore cannot turn a clinical mg/day dose into the
+plasma concentration-time curve required by occupancy. The equation
+``AUC_po = F * dose / CL`` still has an unmeasured F, and the per-kg P29.2
+clearance cannot be multiplied by an invented 70 kg. The held-out P29.2 CL
+error (n=5, GMFE 6.774746573244732) is an IV translation result, not a licence
+to attach a band to an unidentified oral curve.
+
+The target-exposure assumption was checked separately. Among these eight,
+P28.3 contains a usable rat Kp,uu for quetiapine and venlafaxine only. The
+tagged P29.1 transfer method can carry those two values as translated inputs,
+but it does not create values for the other six. P23.2's earlier comparison
+also remains binding: applying an in-vitro Ki as if it were an in-vivo PET
+constant is a weaker quantity, and the measured haloperidol discrepancy
+reaches 0.368 occupancy units. No Ki-to-PET correction was fitted here.
+
+Venlafaxine is the closest apparent case because it has a P29.2 CL prediction
+and rat Kp,uu. It still fails the same-entity check: its human SERT exposure
+includes active O-desmethylvenlafaxine, while the benchmark panel is the
+parent's panel. Klamerus et al. 1992 (PMID 1487561) is the primary human
+parent/metabolite PK source. Dropping the metabolite would make the apparent
+success a parent-only substitution.
+
+The full census, external search trail and reopening conditions are in
+`docs/p29-4-occupancy-time.md`. The external pass searched primary or
+first-party sources for oral population PK and Kp,uu for all eight drugs,
+including Søgaard et al. 2005 (PMID 16291715), Bartlett & van der Voort
+Maarschalk 2012 (PMID 22936407), Zhang et al. 2023 (PMID 37731733), Zhou et
+al. 2015 (PMID 25975812), Li et al. 2022 (PMID 36172189), Li et al. 2012
+(PMID 22653299), Fridén et al. 2009 (PMID 19764786), and Loryan et al. 2022
+(PMCID PMC9246790). The candidates either supplied direct human PK rather than
+a preclinical translation, lacked brain exposure, used a different route, or
+left the active metabolite unresolved. None closes the requested chain.
+
+The result is deliberately **searched-and-empty, n=0 predictions**: no
+occupancy registry, panel container, or always-failing gate was added. A
+future run may report receptor-wise MAE and signed bias only after the
+preclinical oral exposure path is complete and frozen before comparison with
+the already recorded PET observations.
