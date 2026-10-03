@@ -122,16 +122,27 @@ def now() -> float:
 
 def parse_claim(text: str) -> tuple[str, str]:
     """Last TASK_RESULT / REVIEW line: (kind, rest). kind in complete, split,
-    blocked, blocked-on-data, done, approve, reject, or ""."""
+    empty, blocked, blocked-on-data, done, approve, reject, or ""."""
     kind, rest = "", ""
     for line in (text or "").splitlines():
         s = line.strip().lstrip("*`").rstrip("*`")
-        m = re.match(r"^(TASK_RESULT|REVIEW):\s*(BLOCKED_ON_DATA|BLOCKED|COMPLETE|SPLIT|DONE|"
+        m = re.match(r"^(TASK_RESULT|REVIEW):\s*(BLOCKED_ON_DATA|BLOCKED|COMPLETE|EMPTY|SPLIT|DONE|"
                      r"APPROVE|REJECT)\b[\s:-]*(.*)$", s)
         if m:
             kind = m.group(2).lower().replace("_", "-")
             rest = m.group(3).strip().lstrip("*` ").rstrip("*` ")
     return kind, rest
+
+
+EMPTY_MARK = "Backlog-Result: searched-and-empty: "
+
+
+def empty_result(body: str) -> str | None:
+    """The missing-data note of an EMPTY PR body, or None for a real result."""
+    for line in body.splitlines():
+        if line.startswith(EMPTY_MARK):
+            return line[len(EMPTY_MARK):].strip()
+    return None
 
 
 def split_ids(rest: str, parent: str) -> list[str]:
@@ -474,9 +485,12 @@ Prefer A for literature and judgement, B for self-contained code whose every
 input you can pin in the brief. Doing everything yourself is fine when the
 split would not save work.
 
-If the honest outcome is that the data do not exist, commit the
-searched-and-empty record and ledger row and end with COMPLETE: a documented
-negative closes a task here. Use `TASK_RESULT: BLOCKED_ON_DATA <what>` only when
+COMPLETE means the acceptance criteria are met. If the honest outcome is that
+the data do not exist (the scored deliverable has n=0, or too few drugs to meet
+the acceptance count), commit the searched-and-empty record and ledger row and
+end with `TASK_RESULT: EMPTY <exactly which data are missing>`. The record
+merges, but the task stays blocked-on-data and its dependents wait, so never
+call an n=0 result COMPLETE. Use `TASK_RESULT: BLOCKED_ON_DATA <what>` only when
 you cannot even establish that, and `TASK_RESULT: BLOCKED <why>` for an
 engineering dead end. The last line of your reply must be the TASK_RESULT line.
 """.strip()
@@ -823,13 +837,20 @@ def step_merge(st: dict, prs: list[dict], dry: bool) -> bool:
         gh("pr", "merge", str(pr["number"]), "--merge", "--delete-branch")
         tid = pr["headRefName"].split("/", 1)[-1]
         if pr["headRefName"].startswith("architect/") and "Backlog-Task: " + tid in (pr.get("body") or ""):
+            empty = empty_result(pr.get("body") or "")
+
             def done(ts, tid=tid, n=pr["number"]):
                 t = ts[tid]
-                t.update(status="done", finished_at=time.strftime("%Y-%m-%dT%H:%M:%S+00:00", time.gmtime()),
-                         result="complete")
+                if empty is not None:
+                    # A merged searched-and-empty record is not a delivered result.
+                    t.update(status="blocked-on-data", result=f"searched-and-empty: {empty}"[:400])
+                else:
+                    t.update(status="done", finished_at=time.strftime("%Y-%m-%dT%H:%M:%S+00:00", time.gmtime()),
+                             result="complete")
                 cond(t)["pr"] = n
-            update_backlog(f"{tid} done via PR #{pr['number']}", done)
-            alert(st, f"done-{tid}", f"{tid} done (PR #{pr['number']} merged)")
+            verb = "blocked-on-data (empty)" if empty is not None else "done"
+            update_backlog(f"{tid} {verb} via PR #{pr['number']}", done)
+            alert(st, f"done-{tid}", f"{tid} {verb} (PR #{pr['number']} merged)")
         progress(st, f"merged PR #{pr['number']}")
         return True
     return False
@@ -1066,7 +1087,7 @@ def step_advance(st: dict, base: str, dry: bool) -> bool:
 
     host, claim = res["host"], res["claim"]
     outcome, reason = claim or "no verdict", None
-    if claim == "complete":
+    if claim in ("complete", "empty"):
         reason = (check_arch_patch(res["patch"])
                   or ("COMPLETE but nothing substantive changed"
                       if not runner.substantive_paths(o.patch_paths(res["patch"])) else None)
@@ -1079,10 +1100,12 @@ def step_advance(st: dict, base: str, dry: bool) -> bool:
             commit_push(host, f"{tid}: {t['title']}\n\nArchitect session ({res['model']}), "
                         f"{res['turns']} turns.", branch, force=True)
             gh("pr", "create", "--base", "main", "--head", branch, "--title", f"[{tid}] {t['title']}",
-               "--body", f"Backlog-Task: {tid}\n\n{res['final'][-3500:]}\n\n"
+               "--body", f"Backlog-Task: {tid}\n"
+               + (f"{EMPTY_MARK}{res['rest'][:300]}\n" if claim == "empty" else "")
+               + f"\n{res['final'][-3500:]}\n\n"
                "🤖 Generated with [Claude Code](https://claude.com/claude-code)",
                "--label", L_ARCH, "--label", L_APPROVED)
-            outcome = "COMPLETE, PR opened"
+            outcome = f"{claim.upper()}, PR opened"
     elif claim == "split":
         subs = split_ids(res["rest"], tid)
         reason = check_split_patch(res["patch"], subs) or o.apply_patch(host, base, res["patch"])

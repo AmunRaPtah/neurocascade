@@ -16,6 +16,7 @@ def test_claim_last_line_wins_and_markdown_tolerated():
     text = "TASK_RESULT: SPLIT P9.1a\nthinking...\n**TASK_RESULT: COMPLETE** all done"
     assert c.parse_claim(text) == ("complete", "all done")
     assert c.parse_claim("TASK_RESULT: BLOCKED_ON_DATA no PK for X")[0] == "blocked-on-data"
+    assert c.parse_claim("TASK_RESULT: EMPTY no oral F") == ("empty", "no oral F")
     assert c.parse_claim("REVIEW: REJECT wrong units") == ("reject", "wrong units")
     assert c.parse_claim("I think it's COMPLETE") == ("", "")
 
@@ -115,3 +116,9 @@ def test_gemini_backoff_and_infra_detection(tmp_path):
 def test_split_rejects_oversized_spec():
     big = "diff --git a/tasks/specs/P9.1a.md b/tasks/specs/P9.1a.md\n" + "+x\n" * (c.MAX_SPEC_LINES + 1)
     assert "too big" in c.check_split_patch(big + diff("tests/t.py"), ["P9.1a"])
+
+
+def test_empty_result_marker_round_trips():
+    body = f"Backlog-Task: P1.1\n{c.EMPTY_MARK}no PET pairs\n\nlog"
+    assert c.empty_result(body) == "no PET pairs"
+    assert c.empty_result("Backlog-Task: P1.1\n\nResult: searched-and-empty") is None
