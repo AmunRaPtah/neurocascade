@@ -2563,14 +2563,17 @@
       "deps": [
         "P29.3"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-03 03:34 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 26
+      },
+      "finished_at": "2026-10-03T02:00:39+00:00",
+      "result": "complete"
     },
     {
       "id": "P30.1",
