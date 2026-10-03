@@ -2536,15 +2536,17 @@
       "deps": [
         "P29.2"
       ],
-      "status": "pending",
+      "status": "blocked-on-data",
       "attempts": 0,
       "note": "Added 2026-10-03 after P29.3/P29.4 merged as n=0. If a source cannot be found for a drug, record it as searched-and-empty for that drug and keep going; end EMPTY only if the acceptance counts cannot be met.",
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-03 10:18 EMPTY, PR opened"
-        ]
-      }
+        ],
+        "pr": 27
+      },
+      "result": "searched-and-empty: preclinical oral/clearance inputs are missing for 94 train drugs (36/130, 27.7% < 60%); PET dose-plasma pairs are missing for escitalopram, lurasidone, and milnacipran (5/8 < 6); numeric preclinical oral/clearance inputs are missing for held-out amisulpride, paroxetine, and quetiapine."
     },
     {
       "id": "P29.3",
