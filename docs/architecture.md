@@ -17126,3 +17126,49 @@ occupancy registry, panel container, or always-failing gate was added. A
 future run may report receptor-wise MAE and signed bias only after the
 preclinical oral exposure path is complete and frozen before comparison with
 the already recorded PET observations.
+
+## Phase 29, part five: oral exposure and PET plasma-pair evidence (P29.5)
+
+P29.5 checked the load-bearing data assumption before extending P29.2/P29.3
+into an oral exposure prediction. The source search found same-entity human
+oral exposure records for all eight held-out PET drugs, but it did not find
+enough numerical PET dose/plasma pairs or enough train-side preclinical
+oral/clearance inputs to meet the brief. The task therefore adds evidence
+records and an explicit negative coverage result, not an oral fitter.
+
+The oral truth layer has 8/8 records: AUC/dose for amisulpride and quetiapine,
+CL/F for escitalopram, lurasidone, paroxetine and venlafaxine, and F or an
+explicit source-defined range for asenapine, lurasidone, milnacipran,
+paroxetine and venlafaxine. The values remain route- and qualifier-specific.
+In particular, sublingual and swallowed asenapine are not merged, lurasidone's
+9--19% label value remains an absorbed-fraction range, and no unreferenced
+body weight or F midpoint is introduced.
+
+Only five PET drugs have defensible dose/plasma records: amisulpride,
+asenapine, paroxetine, quetiapine and venlafaxine. Asenapine is explicitly a
+regulatory target-concentration model point, paroxetine is a plateau boundary,
+and venlafaxine is a NET/active-moiety PET series, so these qualifiers are
+machine-readable rather than silently treated as homogeneous parent-SERT
+measurements. Escitalopram, lurasidone and milnacipran remain
+searched-and-empty because the reachable sources print model or
+dose/occupancy summaries without numerical paired plasma values.
+
+The preclinical input census is 36/130 train drugs (27.7%) and 5/8 of the
+held-out PET drugs. Asenapine's rat F range and lurasidone's rat oral F,
+clearance, Vss and binding were added with their regulatory/primary citations;
+amisulpride, paroxetine and quetiapine have explicit searched-and-empty rows.
+Existing P28.3 ADME fields are counted only when a cited record already
+contains CLint, in-vivo clearance/Vss, or an explicit oral-absorption field.
+Fraction-unbound and brain-exposure fields alone are not oral inputs.
+
+The records live in
+`src/neurocascade/benchmark/p29_5/{oral_exposure,pet_plasma_pairs,preclinical_oral_inputs}.json`,
+with the coverage loader in `p29_5.py` and tests in
+`tests/test_p29_5_data.py`. P29.5 loaders are evidence readers only: no
+fitting module imports them, and the held-out truth records remain outside the
+fit path. The full source trail and per-drug search outcomes are in
+`docs/p29-5-oral-exposure-pet-data.md`.
+
+The acceptance result is deliberately incomplete: oral truth is 8/8, but PET
+pairs are 5/8 (required >=6) and train preclinical coverage is 36/130
+(required >=60%). No prediction or calibration is reported from these records.
