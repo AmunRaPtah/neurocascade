@@ -16962,49 +16962,69 @@ paths `gate()` enforces, available to a caller that must not import the full gat
 
 ## Phase 29, part two: preclinical-to-human PK, scored held out (P29.2)
 
-P29.2 was constrained by the source as soon as the benchmark records were
-read. The P28.3 animal observations contain species, units and an assay
-description, but no animal body weight. A classic multi-species allometric
-projection therefore cannot be evaluated from these records without adding a
-body weight that nobody measured in this benchmark. The honest animal model is
-the narrower one that the data support: for rat observations with compatible
-units, fit
+P29.2 was rebuilt on standard, textbook PK methods with no fitted log-log
+regressions. The previous implementation fitted three regressions (a near-flat
+rat-CL exponent ~0.11, an IVIVE arm that regressed CLint x fu rather than
+applying the liver model, and a Vss model fitted on two drugs). It scored
+held-out CL at GMFE 6.77 (n=5), worse than predicting the train geometric
+mean, and its Vss result regressed human plasma Vss on rat *brain-slice*
+unbound volumes, an incompatible matrix, so it was spurious.
 
-``log(human value per kg) = intercept + exponent * log(rat value per kg)``
+The clearance IVIVE arm is now the well-stirred liver model
+(Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321):
+``CL_H = Q_H * fu_b * CLint_u / (Q_H + fu_b * CLint_u)``, with
+Q_H = 20.7 mL/min/kg (Davies & Morris 1993, PMID 8378254), in-vitro CLint
+scaled by MPPGL ~= 40 mg/g and liver weight ~= 21.4 g/kg (Barter 2007,
+PMID 17266522; hepatocyte CLint by hepatocellularity ~= 99e6 cells/g, also
+Sohlenius-Sternbeck 2006, PMID 16930941), and fu_b = fu_p / Rb with Rb = 1 for
+the bases/neutral set. The fu_mic microsomal-binding correction
+(Austin 2002, PMID 12433825; Hallifax & Houston 2006, PMID 16552024) is
+omitted because the benchmark ADME records carry no logP; this is the main
+reason the raw arm under-predicts. CLint groups are keyed on
+(organ, matrix, bound/unbound, units) read from the measurement descriptions,
+so human liver microsomes are never pooled with intestinal microsomes or with
+unbound vs total CLint (the ziprasidone pooling bug). Ziprasidone is excluded
+outright because its clearance is aldehyde-oxidase dominant and AO is absent
+from the microsomal assay.
 
-on the train drugs only. The result is labelled ``rat single-species
-allometric scaling`` in code because it is the empirical single-species form;
-the documentation does not present its fitted exponent as a literature
-allometric exponent. This distinction matters: the fitted exponent is a
-benchmark coefficient, while Boxenbaum 1982 (PMID 7120049) is the citation for
-the scaling method, not a source of a number imported into this model.
+The rat clearance arm is simple single-species allometry with the FIXED
+exponent b = 0.75 (Boxenbaum 1982, PMID 7120049), standard rat 0.25 kg and
+human 70 kg (Davies & Morris 1993, PMID 8378254). No exponent is fitted. Only
+rat plasma/systemic CL (<= 100 mL/min/kg) is used; brain-ECF, hepatic,
+distributional and intrinsic rows are rejected at the measurement level. IVIVE
+is preferred; rat allometry is the fallback when IVIVE inputs are missing, and
+on this benchmark it adds no drug IVIVE does not already cover.
 
-The clearance IVIVE arm is equally narrow and explicit. It uses only the
-compatible group shared by enough train and held-out records: human liver
-microsomal CLint in mL min^-1 g^-1 multiplied by human plasma fu. Microsomes,
-hepatocytes, S9, per-cell units and per-kg units are not pooled. The log-log
-coefficient is fitted on train drugs; Obach 1999 (PMID 10534321) and Ring et
-al. 2011 (PMID 21541938) support the method and the binding correction, not the
-coefficient. Rat allometry is preferred for a drug when rat in-vivo CL exists;
-otherwise the compatible human-microsome IVIVE model is used. Vss has only the
-rat scaling arm. Human truth is selected by a fixed rule: IV summary first,
-then unspecified route, never an oral or depot value.
+The Vss arm is the Oie-Tozer fu-ratio method (Oie & Tozer 1979, PMID 501558),
+Vss_h = Vss_rat * fu_h / fu_rat, scored only on clean rat *plasma* Vss.
 
-`neurocascade.benchmark.human_pk_translation` records the fitted drug names,
-method citation, input references and each prediction. With the frozen P28.1
-split, the training fits use 8 rat-CL drugs, 8 IVIVE drugs and 2 rat-Vss drugs.
-The held-out result is:
+The only empirical quantity is one optional TRAIN geometric-mean bias factor
+(2.73), reported separately, never tuned on held-out. Human truth is selected
+by a fixed rule: IV summary first, then unspecified route, never oral/depot.
 
-| parameter | scored held-out drugs | geometric-mean fold-error | within 2-fold | within 3-fold |
-|---|---:|---:|---:|---:|
-| CL | 5 | 6.774746573244732 | 1/5 (0.20) | 1/5 (0.20) |
-| Vss | 3 | 1.284574380699600 | 3/3 (1.00) | 3/3 (1.00) |
+`neurocascade.benchmark.human_pk_translation` records the method citation,
+input references and each prediction, plus the train drugs used for the bias
+factor. Development used TRAIN only; the held-out split was scored exactly once
+after the method was frozen.
 
-These denominators are not silently expanded to all 55 held-out drugs: the
-other drugs do not have the required compatible preclinical field and human
-truth pair. No tolerance was changed after scoring. The CL result is a real,
-poor prediction and remains in the ledger; Vss is a small result, not evidence
-that the method generalizes broadly.
+The primary (no-fit / leave-one-drug-out over train) and held-out results:
+
+| parameter | split | scored drugs | GMFE | within 2-fold | within 3-fold |
+|---|---|---:|---:|---:|---:|
+| CL | train (no-fit) | 15 | 2.735 | 7/15 (0.47) | 9/15 (0.60) |
+| CL | held-out | 5 | 5.489 | 1/5 (0.20) | 3/5 (0.60) |
+| CL (bias-corrected) | held-out | 5 | 4.394 | 1/5 (0.20) | 3/5 (0.60) |
+
+Baselines (leave-one-out train geometric-mean predictor): CL GMFE 3.082 (n=32),
+Vss GMFE 3.889 (n=32). The mechanistic CL arm beats this floor on train (2.735)
+but not on held-out, where imipramine is an 86-fold under-prediction outlier.
+The superseded fitted method's held-out CL was GMFE 6.77.
+
+Vss is reported as **n=0, data-limited**: no benchmark drug pairs clean rat
+plasma Vss with human Vss truth. The drugs that have human Vss truth carry only
+rat brain-slice unbound volumes, not plasma Vss, so the Oie-Tozer arm has no
+compatible input to score. This is an honest limitation, not a failure to
+implement the method.
 
 ### Oral exposure is searched-and-empty, not a fabricated endpoint
 

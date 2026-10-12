@@ -30,5 +30,5 @@ def test_p29_4_does_not_claim_a_score_without_a_prediction_curve():
     text = DOC.read_text()
     assert "complete\nprediction denominator is zero" in text
     assert "No MAE or bias is reported per receptor" in text
-    assert "P29.2 held-out CL error (n=5; GMFE 6.774746573244732)" in text
+    assert "P29.2 held-out CL error (n=5; GMFE 5.4894847524800685)" in text
     assert "using its dose-response\nrelation" in text

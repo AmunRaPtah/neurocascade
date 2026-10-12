@@ -41,7 +41,7 @@ The benchmark has no same-entity, route-matched `F`, `CL/F`, oral AUC, or
 reference weight for this eight-drug PET subset. Setting `F = 1`, multiplying
 by an unreferenced 70 kg, borrowing another drug's F, or selecting a point
 from a label dose range would each create a number forbidden by rules 1–2.
-The P29.2 held-out CL error (n=5; GMFE 6.774746573244732) is therefore not an
+The P29.2 held-out CL error (n=5; GMFE 5.4894847524800685) is therefore not an
 oral exposure band. It cannot be attached to a curve that has not been
 identified.
 
