@@ -2570,6 +2570,24 @@
       "attempts": 0
     },
     {
+      "id": "P29.7",
+      "phase": "Phase 29: preclinical-to-human translation",
+      "title": "Repair nonexistent PMIDs in binding data",
+      "brief": "A PubMed esummary sweep of all 1,905 benchmark references found 19 PMIDs that do not exist, all in binding data (e.g. 93617739 'Seeman 2001', 096808960); they look like PDSP Ki-database record IDs stored in the pmid field. For each, find the real primary paper (verify title/authors via PubMed) or move the ID to a 'pdsp_id' field and record the source as the PDSP Ki database. Compilation references that are genuine but do not name the drug in the abstract get a 'pmid_note' explaining the scope.",
+      "acceptance": [
+        "zero PMIDs in benchmark data return 'cannot get document summary' from PubMed esummary",
+        "every replaced citation verified by title against PubMed; PDSP IDs moved to pdsp_id, not deleted",
+        "affected binding values unchanged unless the real source reports a different value, which is listed"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
       "id": "P29.3",
       "phase": "Phase 29: preclinical-to-human translation",
       "title": "Predicted human target-engagement dose, scored held-out",
