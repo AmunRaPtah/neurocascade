@@ -2556,7 +2556,10 @@
       "brief": "Chain predicted human PK (P29.2) with the binding panel and a Kp,uu translation to predict the oral dose reaching the class's target-engagement occupancy (e.g. ~70% D2 for antipsychotics), and score it against the clinical dose on the held-out split. Report fold-error vs clinical dose and vs any available PET-anchored dose.",
       "acceptance": [
         "held-out dose fold-error against clinical dose in the ledger",
-        "per-drug table with the missing-layer reason where a drug could not be run"
+        "per-drug table with the missing-layer reason where a drug could not be run",
+        "headline fold-error reported next to its training base: the number of train drugs with preclinical oral/clearance inputs (45/130 per P29.5) and that this is below the original 60% target",
+        "per-drug held-out table lists every held-out drug dropped for missing preclinical inputs, with the missing field named",
+        "an applicability statement: the oral-exposure chain is trained on marketed drugs with public regulatory dossiers, so the result is not claimed for investigational or legacy compounds; any held-out investigational/legacy drugs are scored and reported as a separate stratum"
       ],
       "validation": {
         "kind": "ledger-row",
