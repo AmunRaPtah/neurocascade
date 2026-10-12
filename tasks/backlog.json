@@ -2617,10 +2617,13 @@
       "id": "P30.1",
       "phase": "Phase 30: occupancy-to-effects",
       "title": "Occupancy profile to clinical-effect probabilities",
-      "brief": "Train a transparent model mapping a drug's panel occupancy/activation profile (at clinical dose) to the binary clinical-effect vector, on the train split. Keep it interpretable (per-effect regularised logistic or similar) so each effect's receptor drivers are inspectable. No held-out drug enters the fit.",
+      "brief": "Train a transparent model mapping a drug's panel occupancy/activation profile (at clinical dose) to the binary clinical-effect vector, on the train split. Keep it interpretable (per-effect regularised logistic or similar) so each effect's receptor drivers are inspectable. No held-out drug enters the fit. This is the product's flagship layer (decided 2026-10-12 audit): PK is a commodity, the interpretable occupancy-to-CNS-liability map is the differentiator. Labels must be placebo-subtracted: an effect is positive when drug incidence exceeds placebo incidence by the stated margin in the label/trial table; where no placebo arm is published, record that and use the absolute rule as a flagged fallback, never silently.",
       "acceptance": [
         "model trained on train split only; per-effect receptor coefficients reported",
-        "a test guards the train/held-out boundary"
+        "a test guards the train/held-out boundary",
+        "labels are placebo-subtracted where a placebo arm exists; the per-drug label table records drug %, placebo %, source and which rule applied",
+        "primary internal estimate is leave-one-drug-out over every train drug with labels, reported per effect with n positive / n negative",
+        "per-effect positive and negative counts on the held-out split are reported; any effect with fewer than 5 of either class (currently seizure and anticholinergic) is marked underpowered and excluded from headline metrics"
       ],
       "validation": {
         "kind": "ledger-row",
@@ -2637,10 +2640,13 @@
       "id": "P30.2",
       "phase": "Phase 30: occupancy-to-effects",
       "title": "Score effects held-out against baselines",
-      "brief": "Score P30.1 on the held-out drugs: per-effect AUROC and calibration with bootstrap CIs, against two baselines (single strongest-target Ki, and nearest-neighbour by binding fingerprint). Report where the occupancy model beats the baselines and where it does not. Report either way.",
+      "brief": "Score P30.1 on the held-out drugs: per-effect AUROC and calibration with bootstrap CIs, against two baselines (single strongest-target Ki, and nearest-neighbour by binding fingerprint). Report where the occupancy model beats the baselines and where it does not. Report either way. Headline metrics are AUROC and AUPRC (with the prevalence baseline beside AUPRC) on the effects that are adequately powered; leave-one-drug-out over all labelled drugs is reported beside the held-out numbers. Held-out scoring runs once, on the host, after the model is frozen.",
       "acceptance": [
         "held-out per-effect AUROC with bootstrap CI vs both baselines in the ledger",
-        "a failure-analysis section naming the effects the model cannot predict"
+        "a failure-analysis section naming the effects the model cannot predict",
+        "AUPRC with bootstrap CI and the prevalence baseline per effect",
+        "LODO-over-all-drugs results reported beside held-out results",
+        "underpowered effects (fewer than 5 positives or negatives held-out) reported separately and excluded from the headline"
       ],
       "validation": {
         "kind": "ledger-row",
@@ -2648,6 +2654,26 @@
       },
       "deps": [
         "P30.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P30.3",
+      "phase": "Phase 30: occupancy-to-effects",
+      "title": "Calibrated uncertainty for every human prediction",
+      "brief": "Attach an uncertainty to each prediction the product returns (human CL/Vss, target-engagement dose, occupancy, per-effect probability). Use split-conformal or an equivalent distribution-free method fitted on train/LODO residuals only, and check empirical coverage. A prediction without a calibrated interval is not shippable to a discovery team.",
+      "acceptance": [
+        "nominal 80% and 95% intervals with empirical LODO coverage per quantity in the ledger",
+        "held-out coverage reported once, on the host, after the intervals are frozen",
+        "predict_compound returns the interval beside every point estimate"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P30.2"
       ],
       "status": "pending",
       "attempts": 0
@@ -2668,8 +2694,9 @@
       "deps": [
         "P30.2"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "optional",
+      "attempts": 0,
+      "note": "Optional since 2026-10-12: lowest ROI on the product path; run only after P30.2 and P32 if the occupancy model shows a specific mechanism gap."
     },
     {
       "id": "P32.1",
@@ -2715,7 +2742,7 @@
       "id": "P32.3",
       "phase": "Phase 32: the product surface",
       "title": "Blind demo on held-out compounds and web UI",
-      "brief": "Run predict_compound blind on 5 held-out benchmark drugs and tabulate predicted vs actual human outcome. Ship a wg0-only web UI (like the owner's other internal tools) to upload a package and view the report. This is the usefulness demonstration.",
+      "brief": "Run predict_compound blind on 5 held-out benchmark drugs and tabulate predicted vs actual human outcome. Ship a wg0-only web UI (like the owner's other internal tools) to upload a package and view the report. This is the usefulness demonstration. Note: the P28.1 held-out drugs were used during P19-P25 development, so this demo is retrospective; P32.4 is the clean test.",
       "acceptance": [
         "a committed blind-demo table: 5 held-out drugs, predicted vs actual dose/occupancy/effects",
         "web UI reachable on wg0 serving predict_compound",
@@ -2727,6 +2754,27 @@
       },
       "deps": [
         "P32.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P32.4",
+      "phase": "Phase 32: the product surface",
+      "title": "Prospective blind test on recently disclosed CNS compounds",
+      "brief": "The P28.1 held-out set was seen during earlier phases, so it cannot certify the product. Pick at least 6 CNS compounds whose human data were disclosed after the model freeze (recent approvals and published phase 1/2 readouts, e.g. xanomeline-trospium, zuranolone, gepirone, and compounds with recent human PET or phase 1 PK papers), build their preclinical packages from preclinical sources only, and run predict_compound. Commit the predictions (with a SHA-256 of the prediction file recorded in the ledger) BEFORE any human truth for them is added to the repo. Then add the human truth and score.",
+      "acceptance": [
+        "prediction file committed and hashed in the ledger before any human truth record for those compounds exists in git history (checkable with git log)",
+        "per-compound predicted vs observed dose, occupancy and effects with fold-errors and the mean-baseline beside them",
+        "compounds whose preclinical package could not be built are listed with the missing field, not silently dropped"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P32.1",
+        "P30.3"
       ],
       "status": "pending",
       "attempts": 0

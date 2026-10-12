@@ -73,7 +73,7 @@ def test_preclinical_supplement_does_not_promote_heldout_truth_into_fitting():
     assert "load_preclinical_oral_inputs(" not in fitting_text
 
 
-def test_p29_5_meets_the_pre_registered_coverage_after_sourcing():
+def test_p29_5_meets_the_post_hoc_coverage_bar_after_sourcing():
     # P29.5 pre-registration (docs/p29-5-oral-exposure-pet-data.md, committed
     # before any fit reads these inputs): the train preclinical-input bar was
     # revised from an aspirational 60% to the documented public-availability
@@ -81,7 +81,8 @@ def test_p29_5_meets_the_pre_registered_coverage_after_sourcing():
     # PK is simply unpublished for most pre-2000 and investigational compounds.
     # The PET and oral-exposure bars (>=6/8 and >=8 held-out) are unchanged and
     # are met. Every count below is the honest sourced total, not a floor.
-    PREREGISTERED_TRAIN_FRACTION = 0.34
+    # Post-hoc bar, lowered from 60% on 2026-10-11 once coverage was known.
+    POSTHOC_TRAIN_FRACTION = 0.34
     data = load_preclinical_oral_inputs()
     train_data = [r for r in data["drugs"]
                   if r["split"] == "train" and r["status"] == "data"]
@@ -90,6 +91,6 @@ def test_p29_5_meets_the_pre_registered_coverage_after_sourcing():
     assert data["coverage"]["train"] == len(train_data)
     assert data["coverage"]["train"] == 45
     assert data["coverage"]["heldout_pet"] == 5
-    assert data["coverage"]["train"] >= PREREGISTERED_TRAIN_FRACTION * len(load_split()["train"])
+    assert data["coverage"]["train"] >= POSTHOC_TRAIN_FRACTION * len(load_split()["train"])
     assert len(measured_or_summary) == 8
     assert len(measured_or_summary) >= 6

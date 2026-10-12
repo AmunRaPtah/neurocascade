@@ -14,11 +14,21 @@ inputs: held-out truth is comparison-only.
 | Evidence layer | Coverage | Drugs with records | Status |
 |---|---:|---|---|
 | Human oral exposure truth | 8/8 PET drugs | amisulpride, asenapine, escitalopram, lurasidone, milnacipran, paroxetine, quetiapine, venlafaxine | meets >=8 held-out |
-| PET dose/plasma pair | 8/8 PET drugs | amisulpride, asenapine, escitalopram, lurasidone, milnacipran, paroxetine, quetiapine, venlafaxine | meets >=6/8 |
+| PET dose/plasma pair, measured | 4/8 PET drugs | amisulpride, escitalopram, quetiapine (group means), venlafaxine (subjects; plasma is total active moiety, venlafaxine + O-desmethylvenlafaxine) | below >=6/8 if only measured pairs count |
+| PET dose/plasma value, model-derived or bound | 4/8 PET drugs | asenapine (review exposure model), lurasidone (modeled threshold, plus metabolite), milnacipran (model ED50), paroxetine (plateau bound, ">=") | usable as constraints, not as observed pairs; each record carries `evidence_class` |
 | Preclinical oral/clearance input, held-out PET drugs | 5/8 | asenapine, escitalopram, lurasidone, milnacipran, venlafaxine | amisulpride, paroxetine, quetiapine are searched-and-empty |
-| Preclinical oral/clearance input, train split | 45/130 (34.6%) | inherited P28.3 CLint/CL/Vss fields plus nine 2026-10-11 rows (brexpiprazole, cariprazine, lumateperone, iloperidone, paliperidone, roluperidone, desvenlafaxine, esketamine, esmethadone) | meets revised >=34% bar |
+| Preclinical oral/clearance input, train split | 45/130 (34.6%) | inherited P28.3 CLint/CL/Vss fields plus nine 2026-10-11 rows (brexpiprazole, cariprazine, lumateperone, iloperidone, paliperidone, roluperidone, desvenlafaxine, esketamine, esmethadone) | meets the post-hoc >=34% bar (original target 60%) |
 
-## Pre-registered threshold revision
+## Post-hoc threshold revision
+
+*Correction, 2026-10-12.* This section was first titled "Pre-registered
+threshold revision". That was wrong. The 60% bar was the pre-registered
+target; the 34% bar was chosen on 2026-10-11 by the project owner after the
+search had reached 45/130, and it reached `main` through a backup commit
+(185005e) with no review. It is a post-hoc revision to the achieved
+coverage, and results built on it should be read that way. Only roughly a dozen
+of the 45 rows are also usable by P29.2's clearance methods (compatible
+species, matrix and units); P29.3 reports that number.
 
 The P29.2 acceptance set a 60% train-coverage target for preclinical
 oral/clearance inputs. After searching every train drug's primary nonclinical
@@ -32,10 +42,10 @@ nonclinical PK at all.
 
 The threshold is therefore revised to the documented public-availability
 ceiling: **>=34% of the 130 train drugs (>=45), fixed before any fit reads
-these inputs.** The achieved coverage is 45/130 (34.6%). This revision is
+these inputs** (but after the coverage was known; see the correction above). The achieved coverage is 45/130 (34.6%). This revision is
 recorded here and encoded in `tests/test_p29_5_data.py`
-(`test_p29_5_meets_the_pre_registered_coverage_after_sourcing`,
-`PREREGISTERED_TRAIN_FRACTION = 0.34`). The frozen P28.1 train/held-out split
+(`test_p29_5_meets_the_post_hoc_coverage_bar_after_sourcing`,
+`POSTHOC_TRAIN_FRACTION = 0.34`). The frozen P28.1 train/held-out split
 is untouched; no held-out truth field is promoted to a fitting input.
 
 The eight oral records preserve the quantity actually printed by the source:
