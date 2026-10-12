@@ -60,6 +60,10 @@ def hide_heldout(tree: Path, wip: str = "") -> tuple[str, bool]:
     since every earlier commit still holds the full files. Then apply an
     earlier session's unfinished patch, if any. Returns the new base commit to
     diff the session's work against, and whether the wip patch applied."""
+    # This deletes .git, so it must only ever see a session copy (session_tree
+    # names them <task>-tree), never the real repo or a host clone.
+    if not tree.name.endswith("-tree"):
+        raise ValueError(f"hide_heldout refuses non-session tree {tree}")
     names = set(heldout(tree))
     for inn in names:
         (tree / truth_file(inn)).unlink(missing_ok=True)

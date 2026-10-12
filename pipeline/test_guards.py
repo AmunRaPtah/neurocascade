@@ -24,6 +24,7 @@ def git(tree, *args):
 
 @pytest.fixture
 def repo(tmp_path):
+    tmp_path = tmp_path / "t-tree"
     write(tmp_path, g.SPLIT, {"heldout": ["haloperidol", "valproic acid"], "train": ["diazepam"]})
     for inn in ("haloperidol", "valproic acid", "diazepam"):
         write(tmp_path, g.truth_file(inn), {"inn": inn, "cmax": 1})
@@ -59,6 +60,13 @@ def test_hide_heldout_strips_truth_and_history(repo):
     assert git(repo, "rev-list", "--count", "HEAD") == "1" and git(repo, "rev-parse", "HEAD") == base
     assert "haloperidol.json" not in git(repo, "log", "--all", "--name-only", "--format=")
     assert git(repo, "status", "--porcelain") == ""
+
+
+def test_hide_heldout_refuses_anything_but_a_session_tree(tmp_path):
+    (tmp_path / "neurocascade" / ".git").mkdir(parents=True)
+    with pytest.raises(ValueError):
+        g.hide_heldout(tmp_path / "neurocascade")
+    assert (tmp_path / "neurocascade" / ".git").exists()
 
 
 def test_hide_heldout_applies_wip_against_hidden_base(repo):
