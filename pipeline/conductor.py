@@ -46,6 +46,7 @@ import subprocess
 import sys
 import threading
 import time
+import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -64,7 +65,13 @@ TOKEN_FILE = Path("/root/.claude-anthropic/oauth-token.pinned")
 #: Architect backend: "claude" (default) or "codex[:profile]". Written to this
 #: file (or NC_ARCH_BACKEND) to hand the architect role to Codex while the
 #: Claude weekly pace gate holds (2026-10-02). Delete the file to go back.
+#: "deepseek[:model]" runs the same Claude Code session against DeepSeek's
+#: Anthropic-compatible API (2026-10-12, both Codex accounts down).
 ARCH_BACKEND_FILE = HOME / "ARCH_BACKEND"
+DEEPSEEK_URL = "https://api.deepseek.com/anthropic"
+DEEPSEEK_MODEL = "deepseek-v4-pro"
+DEEPSEEK_MIN_BALANCE = 0.10
+DEEPSEEK_BACKOFF = HOME / "deepseek_backoff_until"
 CODEX_VENDOR = Path("/root/.nvm/versions/node/v24.18.0/lib/node_modules/@openai/codex/"
                     "node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl")
 CODEX_PROFILES = Path("/root/.codex-profiles")
@@ -403,10 +410,12 @@ def ensure_labels() -> None:
 
 
 def arch_backend() -> tuple[str, str]:
-    """("claude", "") or ("codex", profile)."""
+    """("claude", ""), ("codex", profile) or ("deepseek", model)."""
     raw = os.environ.get("NC_ARCH_BACKEND") or (
         ARCH_BACKEND_FILE.read_text().strip() if ARCH_BACKEND_FILE.exists() else "claude")
     kind, _, prof = raw.partition(":")
+    if kind == "deepseek":
+        return "deepseek", prof or DEEPSEEK_MODEL
     if kind != "codex":
         return "claude", ""
     if not prof:
@@ -419,12 +428,38 @@ def arch_ok() -> tuple[bool, str]:
     kind, prof = arch_backend()
     if kind == "claude":
         return claude_ok()
+    if kind == "deepseek":
+        return deepseek_ok(prof)
     until = float(CODEX_BACKOFF.read_text()) if CODEX_BACKOFF.exists() else 0
     if now() < until:
         return False, f"codex/{prof} backing off until {time.strftime('%H:%M', time.localtime(until))}"
     if not (CODEX_PROFILES / prof / "auth.json").exists():
         return False, f"codex profile {prof} has no auth.json"
     return True, f"codex architect ({prof}, {CODEX_MODEL})"
+
+
+def deepseek_key() -> str:
+    r = subprocess.run(["bw-get", "DeepSeek"], capture_output=True, text=True, timeout=60)
+    return r.stdout.strip()
+
+
+def deepseek_ok(model: str) -> tuple[bool, str]:
+    until = float(DEEPSEEK_BACKOFF.read_text()) if DEEPSEEK_BACKOFF.exists() else 0
+    if now() < until:
+        return False, f"deepseek backing off until {time.strftime('%H:%M', time.localtime(until))}"
+    key = deepseek_key()
+    if not key:
+        return False, "deepseek: no key from vault (bw-get DeepSeek)"
+    try:
+        req = urllib.request.Request("https://api.deepseek.com/user/balance",
+                                     headers={"Authorization": f"Bearer {key}"})
+        info = json.loads(urllib.request.urlopen(req, timeout=20).read())
+        bal = sum(float(b["total_balance"]) for b in info["balance_infos"] if b["currency"] == "USD")
+    except Exception as e:
+        return False, f"deepseek balance check failed: {e!r}"[:200]
+    if bal < DEEPSEEK_MIN_BALANCE:
+        return False, f"deepseek balance ${bal:.2f} < ${DEEPSEEK_MIN_BALANCE:.2f}, top up"
+    return True, f"deepseek architect ({model}, ${bal:.2f} left)"
 
 
 # ------------------------------------------------------------- architect session
@@ -592,18 +627,28 @@ SESSION_ENV = {"CLAUDE_CODE_DISABLE_BACKGROUND_TASKS": "1",
 
 def _session(cname: str, tree: Path, home: Path, claude_args: list[str],
              log_path: Path, deadline: float) -> int:
+    kind, ds_model = arch_backend()
+    if kind == "deepseek":
+        # Same Claude Code harness, model served by DeepSeek. Every model alias
+        # (incl. the small/fast one WebFetch uses) maps to the one DeepSeek model.
+        auth = {"ANTHROPIC_BASE_URL": DEEPSEEK_URL, "ANTHROPIC_AUTH_TOKEN": deepseek_key(),
+                **{k: ds_model for k in ("ANTHROPIC_MODEL", "ANTHROPIC_SMALL_FAST_MODEL",
+                                         "ANTHROPIC_DEFAULT_OPUS_MODEL",
+                                         "ANTHROPIC_DEFAULT_SONNET_MODEL",
+                                         "ANTHROPIC_DEFAULT_HAIKU_MODEL")}}
+    else:
+        auth = {"CLAUDE_CODE_OAUTH_TOKEN": TOKEN_FILE.read_text().strip()}
     args = ["docker", "run", "--rm", "--name", cname, "--network", "bridge",
             "--memory", "3g", "--memory-swap", "3g", "--cpus", "4", "--pids-limit", "1024",
             "--cap-drop", "ALL", "--security-opt", "no-new-privileges",
-            "--user", str(o.WORKER_UID), "-e", "CLAUDE_CODE_OAUTH_TOKEN",
+            "--user", str(o.WORKER_UID), *[x for k in auth for x in ("-e", k)],
             *[x for k in SESSION_ENV for x in ("-e", k)],
             "-v", f"{tree}:/work", "-v", f"{o.DATA}:/work/data:ro",
             "-v", f"{home}:/home/worker/.claude", o.IMAGE,
             "claude", *claude_args, "--permission-mode", "bypassPermissions",
             "--max-turns", str(ARCH_MAX_TURNS), "--output-format", "stream-json", "--verbose"]
     # The token goes by environment inheritance, never on a command line.
-    env = {**os.environ, **SESSION_ENV,
-           "CLAUDE_CODE_OAUTH_TOKEN": TOKEN_FILE.read_text().strip()}
+    env = {**os.environ, **SESSION_ENV, **auth}
     o.sh(["docker", "rm", "-f", cname])
     # Wall-clock kill even when the session is silent inside a long command.
     killer = threading.Timer(max(60.0, deadline - now()), lambda: o.sh(["docker", "kill", cname]))
@@ -751,6 +796,8 @@ def run_architect(name: str, base: str, prompt: str, model: str, adir: Path,
     kind, prof = arch_backend()
     if kind == "codex":
         return run_codex_architect(name, base, prompt, model, adir, prof, wip)
+    if kind == "deepseek":
+        model = prof
     adir.mkdir(parents=True, exist_ok=True)
     host = host_clone(name, base)
     if wip and o.sh(["git", "-C", str(host), "apply", "-"], input=wip).returncode == 0:
@@ -792,6 +839,9 @@ def run_architect(name: str, base: str, prompt: str, model: str, adir: Path,
     if res["api_error"] or (not res["final"] and res["turns"] is None):
         # Quota hit, auth, or the session never started: not the task's fault.
         res["infra"] = True
+        if kind == "deepseek":
+            DEEPSEEK_BACKOFF.write_text(str(now() + CODEX_BACKOFF_S))
+            log(f"deepseek: infra failure ({res['api_error']}), backing off {CODEX_BACKOFF_S // 3600}h")
     return res
 
 
