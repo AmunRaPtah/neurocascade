@@ -82,7 +82,7 @@ def test_heldout_metrics_have_fixed_fold_definitions():
 def test_heldout_cl_is_the_pinned_mechanistic_result():
     report = score_heldout()
     assert report["cl"].n == 5
-    assert report["cl"].geometric_mean_fold_error == pytest.approx(5.4894847524800685)
+    assert report["cl"].geometric_mean_fold_error == pytest.approx(3.420223149363284)
     assert report["cl"].within_2_fold == pytest.approx(0.2)
     assert report["cl"].within_3_fold == pytest.approx(0.6)
 
@@ -90,7 +90,7 @@ def test_heldout_cl_is_the_pinned_mechanistic_result():
 def test_train_cl_is_the_pinned_no_fit_result():
     report = score_train()
     assert report["cl"].n == 15
-    assert report["cl"].geometric_mean_fold_error == pytest.approx(2.735002751441745)
+    assert report["cl"].geometric_mean_fold_error == pytest.approx(2.854830092083889)
     assert report["cl"].within_2_fold == pytest.approx(0.4666666666666667)
     assert report["cl"].within_3_fold == pytest.approx(0.6)
 
@@ -107,10 +107,10 @@ def test_train_geomean_baselines_are_pinned():
 
 def test_optional_bias_factor_is_train_only_and_reported_separately():
     model = fit_translation_models()
-    assert model.cl_bias_train == pytest.approx(0.3666606918054146)
-    assert model.cl_bias_correction == pytest.approx(2.7273171691136615)
+    assert model.cl_bias_train == pytest.approx(0.3512706425906185)
+    assert model.cl_bias_correction == pytest.approx(2.8468077850884637)
     corrected = score_heldout(corrected=True)
-    assert corrected["cl"].geometric_mean_fold_error == pytest.approx(4.394491381439778)
+    assert corrected["cl"].geometric_mean_fold_error == pytest.approx(2.7329221252413696)
 
 
 def test_vss_arm_has_no_compatible_data():
@@ -162,7 +162,7 @@ def test_microsome_and_hepatocyte_unit_conversions():
 def test_clint_grouping_separates_organ_and_bound_unbound():
     # Liver vs intestinal microsomes, and total vs unbound CLint, must not be
     # pooled.  Here liver-total must be chosen and the intestinal/unbound rows
-    # dropped, so the geomean equals only the liver-total values.
+    # dropped, so the result is the median of the two liver-total references.
     rec = {"fields": {"clint": {"measurements": [
         {"species": "human", "relation": "=", "value": 10.0,
          "units": translation.MICROSOME_CLINT_UNITS, "matrix": "microsomes",
@@ -179,7 +179,21 @@ def test_clint_grouping_separates_organ_and_bound_unbound():
     ]}}}
     feat = translation._liver_clint(rec)
     assert feat.detail == "microsomes/total"
-    assert feat.value == pytest.approx(math.sqrt(10.0 * 40.0))
+    assert feat.value == pytest.approx(25.0)
+
+
+def test_clint_drops_a_unit_suspect_reference():
+    # imipramine's ChEMBL rows include one paper at ~0.045 next to 7.8-79.5:
+    # mL/min/mg stored under the uL/min/mg-equivalent unit, 1000-fold low.
+    rows = [("a", 13.49), ("b", 0.0511), ("b", 0.0396), ("c", 79.5), ("d", 7.8)]
+    rec = {"fields": {"clint": {"measurements": [
+        {"species": "human", "relation": "=", "value": v,
+         "units": translation.MICROSOME_CLINT_UNITS, "matrix": "microsomes",
+         "description": "human liver microsomes", "ref": ref}
+        for ref, v in rows]}}}
+    feat = translation._liver_clint(rec)
+    assert feat.references == ("a", "c", "d")
+    assert feat.value == pytest.approx(13.49)
 
 
 def test_ao_cleared_drug_is_excluded_from_ivive():

@@ -16999,25 +16999,41 @@ The Vss arm is the Oie-Tozer fu-ratio method (Oie & Tozer 1979, PMID 501558),
 Vss_h = Vss_rat * fu_h / fu_rat, scored only on clean rat *plasma* Vss.
 
 The only empirical quantity is one optional TRAIN geometric-mean bias factor
-(2.73), reported separately, never tuned on held-out. Human truth is selected
+(2.85), reported separately, never tuned on held-out. Human truth is selected
 by a fixed rule: IV summary first, then unspecified route, never oral/depot.
 
 `neurocascade.benchmark.human_pk_translation` records the method citation,
 input references and each prediction, plus the train drugs used for the bias
 factor. Development used TRAIN only; the held-out split was scored exactly once
-after the method was frozen.
+after the method was frozen, then a second time after the CLint aggregation
+fix described below (declared; both results are kept).
 
 The primary (no-fit / leave-one-drug-out over train) and held-out results:
 
 | parameter | split | scored drugs | GMFE | within 2-fold | within 3-fold |
 |---|---|---:|---:|---:|---:|
-| CL | train (no-fit) | 15 | 2.735 | 7/15 (0.47) | 9/15 (0.60) |
-| CL | held-out | 5 | 5.489 | 1/5 (0.20) | 3/5 (0.60) |
-| CL (bias-corrected) | held-out | 5 | 4.394 | 1/5 (0.20) | 3/5 (0.60) |
+| CL | train (no-fit) | 15 | 2.855 | 7/15 (0.47) | 9/15 (0.60) |
+| CL | held-out | 5 | 3.420 | 1/5 (0.20) | 3/5 (0.60) |
+| CL (bias-corrected) | held-out | 5 | 2.733 | 2/5 (0.40) | 3/5 (0.60) |
+| CL, train-mean baseline | same 15 train drugs | 15 | 2.751 | | |
+| CL, train-mean baseline | held-out | 5 | 4.983 | 0/5 | 1/5 |
 
 Baselines (leave-one-out train geometric-mean predictor): CL GMFE 3.082 (n=32),
-Vss GMFE 3.889 (n=32). The mechanistic CL arm beats this floor on train (2.735)
-but not on held-out, where imipramine is an 86-fold under-prediction outlier.
+Vss GMFE 3.889 (n=32). On the same 15 train drugs the mechanistic CL arm is
+level with the train-mean floor (2.855 vs 2.751); on the 5 held-out drugs it is
+better (3.42 vs 4.98), which n=5 cannot establish. The error is a systematic
+under-prediction of lipophilic bases (haloperidol 18-fold, desipramine 8.7,
+chlorpromazine 7.5), the signature of the omitted microsomal binding (fu_mic).
+
+CLint aggregation fix (2026-10-12, after the first held-out score). The first
+held-out score was GMFE 5.489 with imipramine 86-fold low. Its CLint was a
+geometric mean over rows that included one ChEMBL document (CHEMBL3526124) at
+0.04-0.05, mL/min/mg stored under the uL/min/mg-equivalent unit. CLint is now
+reduced per reference, references more than 30-fold from the others' median are
+dropped as unit-suspect, and the median is taken. The fix applies to every drug;
+it moved train from 2.735 to 2.855 (worse) and held-out from 5.489 to 3.420.
+Because a held-out result prompted it, the 3.420 is a second look, logged in
+the conductor's held-out evaluation log.
 The superseded fitted method's held-out CL was GMFE 6.77.
 
 Vss is reported as **n=0, data-limited**: no benchmark drug pairs clean rat

@@ -78,7 +78,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import math
-from statistics import geometric_mean
+from statistics import geometric_mean, median
 from typing import Iterable
 
 from . import load_adme_record, load_split, load_truth_record
@@ -124,6 +124,8 @@ NON_MICROSOMAL_CLEARANCE = {
 }
 
 # measurement-description tokens that mark an incompatible in-vitro CLint row
+# a CLint reference this many fold from the other references' median is unit-suspect
+CLINT_REF_OUTLIER_FOLD = 30.0
 _CLINT_REJECT = (
     "reactive metabolite", "reactive metabolites", "gsh", "inactivation",
     "well stirred", "well-stirred", "tdi", "cytochrome p450 (unknown",
@@ -213,14 +215,17 @@ def _liver_clint(record: dict) -> _Feature | None:
 
     Groups are built from the measurement level, not the lossy per-matrix
     summary, so liver and intestinal microsomes and total vs unbound CLint are
-    never pooled.  Returns the geometric mean of the preferred group
-    (microsomes before hepatocytes, total before unbound).
+    never pooled.  Within the preferred group (microsomes before hepatocytes,
+    total before unbound) each reference is reduced to its geometric mean, a
+    reference more than CLINT_REF_OUTLIER_FOLD from the median of the others
+    is dropped as unit-suspect (ChEMBL stores some mL/min/mg rows under the
+    uL/min/mg-equivalent unit, 1000-fold low), and the median across the
+    remaining references is returned.
     """
     blob = record.get("fields", {}).get("clint")
     if not blob:
         return None
-    groups: dict[tuple, list[float]] = {}
-    refs: dict[tuple, set] = {}
+    groups: dict[tuple, dict[str, list[float]]] = {}
     for m in blob.get("measurements", []):
         if m.get("species") != "human" or m.get("relation") != "=" or m.get("value") is None:
             continue
@@ -237,13 +242,18 @@ def _liver_clint(record: dict) -> _Feature | None:
             continue  # per-kg CL rows, S9, nL/pmol/min etc. are not CLint inputs
         bound = "unbound" if "unbound" in desc else "total"
         key = ("liver", matrix, bound, units)
-        groups.setdefault(key, []).append(float(m["value"]))
-        refs.setdefault(key, set()).add(m.get("ref"))
+        groups.setdefault(key, {}).setdefault(m.get("ref"), []).append(float(m["value"]))
     if not groups:
         return None
     key = sorted(groups, key=lambda k: (0 if k[1] == "microsomes" else 1,
                                         0 if k[2] == "total" else 1))[0]
-    return _Feature(geometric_mean(groups[key]), tuple(sorted(refs[key])),
+    per_ref = {ref: geometric_mean(v) for ref, v in groups[key].items()}
+    kept = {
+        ref: v for ref, v in per_ref.items()
+        if len(per_ref) < 3 or max(v, mid := median(x for r, x in per_ref.items() if r != ref))
+        / min(v, mid) <= CLINT_REF_OUTLIER_FOLD
+    } or per_ref  # references disagree with each other too much to single one out
+    return _Feature(median(kept.values()), tuple(sorted(kept)),
                     detail=f"{key[1]}/{key[2]}")
 
 

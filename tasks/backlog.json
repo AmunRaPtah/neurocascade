@@ -2550,6 +2550,26 @@
       "result": "done: PET dose/plasma pairs 8/8 (escitalopram Lundberg 2007 PMID 17201996 group-mean; milnacipran Nogami 2013 PMID 23067569 model_ed50; lurasidone Potkin 2014 PMID 24073841 modeled_threshold, plasma_relation '>'); oral-exposure truth 8/8; preclinical oral/clearance inputs 45/130 (34.6%) after adding brexpiprazole, cariprazine, lumateperone, iloperidone, paliperidone, roluperidone, desvenlafaxine, esketamine, esmethadone, each with verbatim quote + citation. The 60% train bar is unreachable from public data (nonclinical PK unpublished for most pre-2000/investigational drugs), so it was pre-registered down to the documented 34% availability ceiling BEFORE any fit, recorded in docs/p29-5-oral-exposure-pet-data.md and encoded in tests/test_p29_5_data.py. Frozen P28.1 split untouched; split-isolation test still passes. viloxazine held (soft/unconfirmed, excluded)."
     },
     {
+      "id": "P29.6",
+      "phase": "Phase 29: preclinical-to-human translation",
+      "title": "Microsomal binding (fu_mic) and blood:plasma ratio for the P29.2 CL arm",
+      "brief": "The rebuilt P29.2 well-stirred CL arm is level with the train-mean floor on train (GMFE 2.855 vs 2.751) and its error is a systematic under-prediction of lipophilic bases (haloperidol 18-fold, desipramine 8.7, chlorpromazine 7.5), the signature of the omitted fu_mic correction. Add a sourced logP (and pKa / ionisation class) per drug from ChEMBL compound properties or a cited calculator, compute fu_mic with the Austin 2002 or Hallifax-Houston 2006 equation at the incubation protein concentration recorded per assay (or a declared default), use measured Rb where public and the acid/base default otherwise, and rescore. Develop on train only; the host scores held-out.",
+      "acceptance": [
+        "logP/pKa source per drug recorded; fu_mic equation and incubation protein concentration cited (PMIDs verified)",
+        "train LOO CL GMFE reported beside the train-mean baseline on the same drugs, and the per-drug error for lipophilic bases before vs after",
+        "V17 ledger row updated with the new numbers, stating whether the arm now beats the mean baseline on train"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P29.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
       "id": "P29.3",
       "phase": "Phase 29: preclinical-to-human translation",
       "title": "Predicted human target-engagement dose, scored held-out",
@@ -2568,7 +2588,8 @@
       "deps": [
         "P29.2",
         "P28.2",
-        "P29.5"
+        "P29.5",
+        "P29.6"
       ],
       "status": "pending",
       "attempts": 0,
