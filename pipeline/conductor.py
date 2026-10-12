@@ -1239,8 +1239,12 @@ def tick(dry: bool) -> None:
         (step_merge(st, prs, dry) or step_review(st, prs, dry) or step_work(st, dry)
          or step_takeover(st, dry) or step_advance(st, base, dry))
         limit_wait = any(w in (st.get("waiting") or "") for w in ("window", "week", "modal"))
-        if not limit_wait and now() - st.get("last_progress", now()) > STALL_H * 3600:
-            alert(st, "stall", f"no progress for {STALL_H}h; last: {st.get('last_progress_what')}; "
+        stalled_h = (now() - st.get("last_progress", now())) / 3600
+        # The elapsed day is part of the text, so the deduped alert repeats
+        # daily instead of firing once (2026-10-12: one alert, then 179h quiet).
+        # Quota waits are exempt only for the first 3 days.
+        if stalled_h > STALL_H and (not limit_wait or stalled_h > 72):
+            alert(st, "stall", f"no progress for {stalled_h / 24:.0f}d; last: {st.get('last_progress_what')}; "
                   f"now: {st.get('waiting') or st.get('waiting_on') or 'idle'}")
     except Exception as e:
         log(f"tick error: {e!r}")
@@ -1267,7 +1271,8 @@ def status() -> None:
     if st.get("last_progress"):
         print(f"last progress {(now() - st['last_progress']) / 3600:.1f}h ago; "
               f"last tick {(now() - st.get('last_tick', 0)) / 60:.0f}m ago")
-    print("paused" if PAUSE.exists() else "running")
+    stalled = now() - st.get("last_progress", now()) > STALL_H * 3600
+    print("paused" if PAUSE.exists() else "STALLED" if stalled else "running")
 
 
 def main() -> None:

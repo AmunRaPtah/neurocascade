@@ -2557,7 +2557,7 @@
       "acceptance": [
         "held-out dose fold-error against clinical dose in the ledger",
         "per-drug table with the missing-layer reason where a drug could not be run",
-        "headline fold-error reported next to its training base: the number of train drugs with preclinical oral/clearance inputs (45/130 per P29.5) and that this is below the original 60% target",
+        "headline fold-error reported next to its training base: the number of train drugs each method can actually use (compatible species/matrix/units), not the 45/130 raw P29.5 count, and that P29.5's 34% bar was a post-hoc revision from 60%",
         "per-drug held-out table lists every held-out drug dropped for missing preclinical inputs, with the missing field named",
         "an applicability statement: the oral-exposure chain is trained on marketed drugs with public regulatory dossiers, so the result is not claimed for investigational or legacy compounds; any held-out investigational/legacy drugs are scored and reported as a separate stratum"
       ],

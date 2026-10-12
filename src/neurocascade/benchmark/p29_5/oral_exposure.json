@@ -53,8 +53,7 @@
    "split": "heldout",
    "status": "data",
    "observations": [
-    {"quantity": "absolute_bioavailability", "value": 0.50, "units": "fraction", "dose_mg": null, "route": "oral", "population": "human", "citation": {"nda": "021299", "location": "BioPharm review, section 2"}, "quote": "By substantial first pass metabolism the absolute bioavailability is reduced to approximately 50 %."},
-    {"quantity": "cl_over_f", "value": 33.1, "units": "L/h", "dose_mg": 20, "route": "oral", "population": "healthy volunteers, steady state", "citation": {"pmid": "18483540", "location": "full text, PK results"}, "quote": "The geometric mean ... C_L/F of paroxetine ... given alone ... was 33.1 liters/h"}
+    {"quantity": "absolute_bioavailability", "value": 0.50, "units": "fraction", "dose_mg": null, "route": "oral", "population": "human", "citation": {"nda": "021299", "location": "BioPharm review, section 2"}, "quote": "By substantial first pass metabolism the absolute bioavailability is reduced to approximately 50 %."}
    ],
    "notes": "Paroxetine is nonlinear with dose and CYP2D6 phenotype; this is a cited regimen-specific value, not a drug-wide constant."
   },
