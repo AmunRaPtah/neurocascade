@@ -50,6 +50,7 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import guards as g  # noqa: E402
 import orchestrate as o  # noqa: E402
 
 _spec = importlib.util.spec_from_file_location(
@@ -85,6 +86,13 @@ ARCH_TIMEOUT_S = int(os.environ.get("NC_ARCH_TIMEOUT_S", 2 * 3600))
 ARCH_MAX_TURNS = int(os.environ.get("NC_ARCH_MAX_TURNS", 250))
 MAX_TASK_SESSIONS = int(os.environ.get("NC_MAX_TASK_SESSIONS", 6))
 MAX_TAKEOVERS = 2
+#: Independent acceptance review: a task whose PR is rejected this often is
+#: marked blocked and alerted rather than retried.
+MAX_REVIEW_REJECTS = int(os.environ.get("NC_MAX_REVIEW_REJECTS", 3))
+#: One line per host gate run on an architect patch: the gate is the only
+#: place held-out truth is read, so this counts held-out evaluations per task.
+HELDOUT_LOG = HOME / "heldout-evals.jsonl"
+PUBMED_CACHE = HOME / "pubmed-cache.json"
 #: Five-hour window: keep this much for the user.
 MIN_SESSION_LEFT = float(os.environ.get("NC_MIN_SESSION_LEFT", 35))
 #: Weekly window: used% may not exceed FLOOR + SPAN * (fraction of week elapsed).
@@ -112,7 +120,7 @@ L_ARCH, L_APPROVED, L_HUMAN = "architect-pr", "approved", "needs-human"
 #: What an architect patch may touch. The pipeline, CI, the backlog (host-owned
 #: state), the image's dependency pins and data/ stay out of its reach.
 ARCH_FORBIDDEN = (".github/", "pipeline/", "tasks/backlog.json", "data/",
-                  "requirements.txt", "scripts/autonomous_runner.py")
+                  "requirements.txt", "scripts/autonomous_runner.py", g.SPLIT)
 ARCH_ALLOWED = ("src/", "tests/", "docs/", "tasks/specs/", "scripts/", "examples/",
                 "results/", "README.md")
 
@@ -150,6 +158,29 @@ def empty_result(body: str) -> str | None:
         if line.startswith(EMPTY_MARK):
             return line[len(EMPTY_MARK):].strip()
     return None
+
+
+def review_verdict(text: str, n_bullets: int, checks=("thresholds", "heldout", "tests", "citations")
+                   ) -> tuple[str | None, str]:
+    """Acceptance review outcome: ("approve" | "reject" | None, findings).
+    APPROVE counts only with a PASS line for every acceptance bullet and every
+    check; any FAIL line makes it a rejection whatever the last line says.
+    None (no verdict, or an APPROVE missing lines) is a failed review session,
+    not a rejection of the author's work."""
+    claim, rest = parse_claim(text)
+    got: dict[str, tuple[str, str]] = {}
+    for line in (text or "").splitlines():
+        s = line.strip().lstrip("-*` ").replace("*", "").replace("`", "")
+        m = re.match(r"^(ACCEPTANCE\s+\d+|CHECK\s+\w+)\s*:\s*(PASS|FAIL)\b[\s:-]*(.*)$", s, re.I)
+        if m:
+            got[re.sub(r"\s+", " ", m.group(1).lower())] = (m.group(2).upper(), m.group(3).strip())
+    want = [f"acceptance {k}" for k in range(1, n_bullets + 1)] + [f"check {c}" for c in checks]
+    fails = [f"{k.upper()}: FAIL {why}"[:700] for k, (v, why) in got.items() if v == "FAIL"]
+    if claim == "reject" or fails:
+        return "reject", "\n".join(fails + ([f"REVIEW: REJECT {rest}"[:700]] if claim == "reject" else []))
+    if claim == "approve" and all(got.get(k, ("",))[0] == "PASS" for k in want):
+        return "approve", rest
+    return None, f"no complete verdict (claim={claim or 'none'}, missing {[k for k in want if k not in got]})"
 
 
 def split_ids(rest: str, parent: str) -> list[str]:
@@ -261,10 +292,15 @@ def batches_had_infra(batch_dirs: list[Path]) -> bool:
     return False
 
 
+#: Statuses that need no more work. "optional" tasks (2026-10-12, P31.1) are
+#: never started and never hold up completion or the stuck alert.
+FINISHED = ("done", "optional")
+
+
 def next_task(tasks: list[dict]) -> dict | None:
     done = {t["id"] for t in tasks if t["status"] == "done"}
     for t in tasks:
-        if t["status"] in ("done", "blocked", "blocked-on-data"):
+        if t["status"] in ("done", "optional", "blocked", "blocked-on-data"):
             continue
         if (t.get("conductor") or {}).get("gave_up"):
             continue
@@ -411,8 +447,29 @@ def ensure_labels() -> None:
 
 def arch_backend() -> tuple[str, str]:
     """("claude", ""), ("codex", profile) or ("deepseek", model)."""
-    raw = os.environ.get("NC_ARCH_BACKEND") or (
-        ARCH_BACKEND_FILE.read_text().strip() if ARCH_BACKEND_FILE.exists() else "claude")
+    return parse_backend(os.environ.get("NC_ARCH_BACKEND") or (
+        ARCH_BACKEND_FILE.read_text().strip() if ARCH_BACKEND_FILE.exists() else "claude"))
+
+
+def review_backend() -> tuple[str, str, str]:
+    """(kind, profile, model) of the acceptance reviewer, never the author's
+    own model. A different vendor is the stronger check and is used whenever
+    the architect is not Claude. A Claude architect gets the other Claude
+    model by default; NC_ACCEPT_REVIEWER (claude:<model>, codex:<profile>,
+    deepseek:<model>) overrides, e.g. codex for a cross-vendor check."""
+    raw = os.environ.get("NC_ACCEPT_REVIEWER", "")
+    if raw:
+        kind, _, x = raw.partition(":")
+        if kind == "claude":
+            return "claude", "", x or "opus"
+        kind, prof = parse_backend(raw)
+        return kind, prof, prof if kind == "deepseek" else CODEX_MODEL
+    if arch_backend()[0] != "claude":
+        return "claude", "", "opus"
+    return "claude", "", "sonnet" if ARCH_MODEL == "opus" else "opus"
+
+
+def parse_backend(raw: str) -> tuple[str, str]:
     kind, _, prof = raw.partition(":")
     if kind == "deepseek":
         return "deepseek", prof or DEEPSEEK_MODEL
@@ -425,7 +482,10 @@ def arch_backend() -> tuple[str, str]:
 
 
 def arch_ok() -> tuple[bool, str]:
-    kind, prof = arch_backend()
+    return backend_ok(*arch_backend())
+
+
+def backend_ok(kind: str, prof: str) -> tuple[bool, str]:
     if kind == "claude":
         return claude_ok()
     if kind == "deepseek":
@@ -474,6 +534,20 @@ Environment for this session, overriding rules 7 and 8 above:
 - Never modify .github/, pipeline/, tasks/backlog.json, data/, requirements.txt
   or scripts/autonomous_runner.py; the patch is rejected if you do. The host
   owns task state: do not mark anything done yourself.
+- The held-out split is frozen. Never modify src/neurocascade/benchmark/split.json,
+  a held-out drug's truth file, truth/effect_labels.json or the p29_5 truth
+  files; the patch is rejected if you do. Held-out drugs' truth is absent
+  from /work (and git history here starts at one commit), so held-out tests
+  fail in /work: that is expected. The host scores held-out drugs with the
+  full data when it gates your patch, and logs every such run.
+- Every PMID your patch adds to benchmark JSON is checked against PubMed by
+  the host: it must exist and its title, abstract or MeSH terms must name
+  the record's drug; otherwise add a "pmid_note" to the record saying why.
+- A patch that adds a row to docs/validation-ledger.md must also add
+  results/<task id>.json holding {"n_scored": <int>}, the number of drugs
+  actually scored. The host reads n from it: n_scored 0 is EMPTY, not COMPLETE.
+- An independent reviewer checks your PR against the acceptance criteria
+  before it can merge.
 - The host gates your patch with `python -m pytest -q -m "not slow"` in a
   network-less container. Run it yourself before finishing.
 - Delete scratch files before finishing. Leave no debug output behind.
@@ -523,7 +597,9 @@ split would not save work.
 COMPLETE means the acceptance criteria are met. If the honest outcome is that
 the data do not exist (the scored deliverable has n=0, or too few drugs to meet
 the acceptance count), commit the searched-and-empty record and ledger row and
-end with `TASK_RESULT: EMPTY <exactly which data are missing>`. The record
+end with `TASK_RESULT: EMPTY <exactly which data are missing>`. The host also
+turns any ledger-row patch whose results/<task id>.json says n_scored 0 into
+EMPTY, whatever the final line says. The record
 merges, but the task stays blocked-on-data and its dependents wait, so never
 call an n=0 result COMPLETE. Use `TASK_RESULT: BLOCKED_ON_DATA <what>` only when
 you cannot even establish that, and `TASK_RESULT: BLOCKED <why>` for an
@@ -599,6 +675,67 @@ End with exactly one line: `REVIEW: APPROVE <one sentence>` or
 `REVIEW: REJECT <reason the worker's approach cannot be salvaged>`.
 """
 
+ACCEPT_PROMPT = """{rules}
+
+# Independent acceptance review of PR #{number}: [{id}] {title}
+
+Another model wrote this PR. You did not, and you owe it nothing: your job is
+to find the reasons it should not merge. Approve only what the evidence in
+/work shows.
+
+/work is the PR branch, READ-ONLY (write scratch files under /tmp). data/ is
+read-only reference data. Held-out drugs' truth is absent from /work, so
+held-out tests fail here; the host scored them with the full data.
+You have internet for literature but no GitHub access.
+
+## Task brief
+
+{brief}
+
+## Acceptance criteria
+
+{acceptance}
+
+## Host checks
+
+{host}
+
+## The patch (against main)
+
+```diff
+{diff}
+```
+
+Check every acceptance criterion against the code, data and test output in
+/work, not against the PR's own description of itself. Also check:
+  thresholds: no acceptance threshold, criterion text, bar or pass rule was
+    changed, loosened or redefined anywhere (docs, tests, constants).
+  heldout: held-out drugs (split.json) were not used to fit, tune or choose
+    anything, and any held-out evaluation follows the frozen-split rules.
+  tests: tests check behaviour against independent values, not merely pin
+    whatever numbers the author's code produced.
+  citations: cited PMIDs and sources look real and actually support the
+    values they are attached to (spot-check with PubMed).
+
+Report one line per item, each with its evidence (file:line, command output):
+  ACCEPTANCE <k>: PASS|FAIL <evidence>     (k = 1..{n}, in the order above)
+  CHECK thresholds: PASS|FAIL <evidence>
+  CHECK heldout: PASS|FAIL <evidence>
+  CHECK tests: PASS|FAIL <evidence>
+  CHECK citations: PASS|FAIL <evidence>
+Then end with exactly one line: `REVIEW: APPROVE <one sentence>` (only if
+every line above is PASS) or `REVIEW: REJECT <the failures, briefly>`.
+"""
+
+REVIEW_NOTE = """
+## Independent review of your last PR (rejected {n}x so far)
+
+{findings}
+
+Fix what it found. Do not argue with the reviewer in the PR text; change the
+work so the evidence shows the criterion is met.
+"""
+
 
 def rules() -> str:
     return runner.PROJECT_RULES.format(repo="/work", venv="(none, see below)")
@@ -626,8 +763,9 @@ SESSION_ENV = {"CLAUDE_CODE_DISABLE_BACKGROUND_TASKS": "1",
 
 
 def _session(cname: str, tree: Path, home: Path, claude_args: list[str],
-             log_path: Path, deadline: float) -> int:
-    kind, ds_model = arch_backend()
+             log_path: Path, deadline: float, backend: tuple[str, str] | None = None,
+             ro: bool = False) -> int:
+    kind, ds_model = backend or arch_backend()
     if kind == "deepseek":
         # Same Claude Code harness, model served by DeepSeek. Every model alias
         # (incl. the small/fast one WebFetch uses) maps to the one DeepSeek model.
@@ -643,7 +781,8 @@ def _session(cname: str, tree: Path, home: Path, claude_args: list[str],
             "--cap-drop", "ALL", "--security-opt", "no-new-privileges",
             "--user", str(o.WORKER_UID), *[x for k in auth for x in ("-e", k)],
             *[x for k in SESSION_ENV for x in ("-e", k)],
-            "-v", f"{tree}:/work", "-v", f"{o.DATA}:/work/data:ro",
+            *(["-e", "PYTHONDONTWRITEBYTECODE=1"] if ro else []),
+            "-v", f"{tree}:/work" + (":ro" if ro else ""), "-v", f"{o.DATA}:/work/data:ro",
             "-v", f"{home}:/home/worker/.claude", o.IMAGE,
             "claude", *claude_args, "--permission-mode", "bypassPermissions",
             "--max-turns", str(ARCH_MAX_TURNS), "--output-format", "stream-json", "--verbose"]
@@ -698,7 +837,8 @@ def parse_codex_log(text: str) -> dict:
 
 
 def _codex_session(cname: str, tree: Path, home: Path, prof: str, prompt: str,
-                   resume: str | None, effort: str, log_path: Path, deadline: float) -> int:
+                   resume: str | None, effort: str, log_path: Path, deadline: float,
+                   ro: bool = False) -> int:
     """One `codex exec` run in the sandbox image. The profile's auth.json is
     copied into a throwaway CODEX_HOME and copied back if Codex refreshed it,
     since a refresh rotates the token and would otherwise log the profile out."""
@@ -717,7 +857,8 @@ def _codex_session(cname: str, tree: Path, home: Path, prof: str, prompt: str,
             "--user", str(o.WORKER_UID), "-w", "/work",
             "-e", "HOME=/tmp", "-e", "CODEX_HOME=/cx",
             "-e", "PATH=/opt/codex/bin:/opt/codex/codex-path:/usr/local/bin:/usr/bin:/bin",
-            "-v", f"{tree}:/work", "-v", f"{o.DATA}:/work/data:ro",
+            *(["-e", "PYTHONDONTWRITEBYTECODE=1"] if ro else []),
+            "-v", f"{tree}:/work" + (":ro" if ro else ""), "-v", f"{o.DATA}:/work/data:ro",
             "-v", f"{CODEX_VENDOR}:/opt/codex:ro", "-v", f"{home}:/cx", o.IMAGE, *cmd]
     o.sh(["docker", "rm", "-f", cname])
     killer = threading.Timer(max(60.0, deadline - now()), lambda: o.sh(["docker", "kill", cname]))
@@ -741,39 +882,48 @@ def _codex_session(cname: str, tree: Path, home: Path, prof: str, prompt: str,
     return rc
 
 
+def session_tree(name: str, host: Path, wip: str = "") -> tuple[Path, str, bool]:
+    """The /work tree a session sees: a copy of the host clone with held-out
+    truth removed and a fresh one-commit history (guards.hide_heldout), plus
+    any unfinished patch. Returns (tree, base to diff against, wip applied)."""
+    tree = o.WORK / "arch" / f"{name}-tree"
+    o.disposable_copy(host, tree)
+    base, applied = g.hide_heldout(tree, wip)
+    o.sh(["chown", "-R", f"{o.WORKER_UID}:{o.WORKER_UID}", str(tree)], check=True)
+    return tree, base, applied
+
+
 def run_codex_architect(name: str, base: str, prompt: str, model: str, adir: Path,
-                        prof: str, wip: str = "") -> dict:
+                        prof: str, wip: str = "", readonly: bool = False) -> dict:
     """run_architect with Codex in place of Claude Code; same contract."""
     adir.mkdir(parents=True, exist_ok=True)
     host = host_clone(name, base)
-    if wip and o.sh(["git", "-C", str(host), "apply", "-"], input=wip).returncode == 0:
+    tree, tbase, applied = session_tree(name, host, wip)
+    if applied:
         prompt += WIP_NOTE
     (adir / "prompt.txt").write_text(prompt)
-    tree = o.WORK / "arch" / f"{name}-tree"
-    o.disposable_copy(host, tree)
-    o.sh(["git", "-C", str(host), "reset", "-q", "--hard"])
-    o.sh(["git", "-C", str(host), "clean", "-qfd"])
     home = adir / "codex-home"
     home.mkdir(exist_ok=True)
     effort = "medium" if model == REVIEW_MODEL else "high"
     cname = f"nca-{re.sub(r'[^a-zA-Z0-9]', '-', name)}"
     t0 = now()
     deadline = t0 + ARCH_TIMEOUT_S
-    _codex_session(cname, tree, home, prof, prompt, None, effort, adir / "agent.jsonl", deadline)
+    _codex_session(cname, tree, home, prof, prompt, None, effort, adir / "agent.jsonl", deadline,
+                   readonly)
     res = parse_codex_log((adir / "agent.jsonl").read_text(errors="replace"))
     rc = 0 if res["subtype"] else 1
     if (res["thread"] and not res["api_error"] and not parse_claim(res["final"])[0]
             and deadline - now() > 600):
         log(f"{name}: no verdict line, resuming codex session once")
         _codex_session(cname, tree, home, prof, NUDGE, res["thread"], effort,
-                       adir / "agent-resume.jsonl", deadline)
+                       adir / "agent-resume.jsonl", deadline, readonly)
         more = parse_codex_log((adir / "agent-resume.jsonl").read_text(errors="replace"))
         res.update(api_error=more["api_error"],
                    final=(res["final"] + "\n\n" + more["final"]).strip(),
                    turns=(res["turns"] or 0) + (more["turns"] or 0))
     res.update(rc=rc, model=f"codex/{CODEX_MODEL}", secs=round(now() - t0))
     (adir / "final.txt").write_text(res["final"])
-    res["patch"] = o.extract_patch(tree, base, adir)
+    res["patch"] = "" if readonly else o.extract_patch(tree, tbase, adir)
     shutil.rmtree(tree, ignore_errors=True)
     shutil.rmtree(home, ignore_errors=True)
     res["host"] = host
@@ -789,24 +939,25 @@ def run_codex_architect(name: str, base: str, prompt: str, model: str, adir: Pat
 
 
 def run_architect(name: str, base: str, prompt: str, model: str, adir: Path,
-                  wip: str = "") -> dict:
+                  wip: str = "", backend: tuple[str, str] | None = None,
+                  readonly: bool = False) -> dict:
     """One headless Claude session in the sandbox image on a clone at `base`,
     optionally with an earlier session's unfinished patch already applied.
-    A session that stops without its verdict line is resumed once."""
-    kind, prof = arch_backend()
+    A session that stops without its verdict line is resumed once. `backend`
+    defaults to the architect's; `readonly` mounts /work read-only and
+    returns no patch (the acceptance reviewer). The host clone stays at
+    `base` with full data; the session's patch is against its hidden tree."""
+    kind, prof = backend or arch_backend()
     if kind == "codex":
-        return run_codex_architect(name, base, prompt, model, adir, prof, wip)
+        return run_codex_architect(name, base, prompt, model, adir, prof, wip, readonly)
     if kind == "deepseek":
         model = prof
     adir.mkdir(parents=True, exist_ok=True)
     host = host_clone(name, base)
-    if wip and o.sh(["git", "-C", str(host), "apply", "-"], input=wip).returncode == 0:
+    tree, tbase, applied = session_tree(name, host, wip)
+    if applied:
         prompt += WIP_NOTE
     (adir / "prompt.txt").write_text(prompt)
-    tree = o.WORK / "arch" / f"{name}-tree"
-    o.disposable_copy(host, tree)
-    o.sh(["git", "-C", str(host), "reset", "-q", "--hard"])
-    o.sh(["git", "-C", str(host), "clean", "-qfd"])
     home = adir / "claude-home"
     home.mkdir(exist_ok=True)
     o.sh(["chown", "-R", f"{o.WORKER_UID}:{o.WORKER_UID}", str(home)])
@@ -814,7 +965,7 @@ def run_architect(name: str, base: str, prompt: str, model: str, adir: Path,
     t0 = now()
     deadline = t0 + ARCH_TIMEOUT_S
     rc = _session(cname, tree, home, ["-p", prompt, "--model", model],
-                  adir / "agent.jsonl", deadline)
+                  adir / "agent.jsonl", deadline, (kind, prof), readonly)
     text = (adir / "agent.jsonl").read_text(errors="replace")
     res = {"rc": rc, "model": model, **o.parse_agent_log(text)}
     sid = re.search(r'"session_id":\s*"([0-9a-f-]{36})"', text)
@@ -822,14 +973,14 @@ def run_architect(name: str, base: str, prompt: str, model: str, adir: Path,
             and deadline - now() > 600):
         log(f"{name}: no verdict line, resuming session once")
         rc = _session(cname, tree, home, ["-p", NUDGE, "--resume", sid.group(1), "--model", model],
-                      adir / "agent-resume.jsonl", deadline)
+                      adir / "agent-resume.jsonl", deadline, (kind, prof), readonly)
         more = o.parse_agent_log((adir / "agent-resume.jsonl").read_text(errors="replace"))
         res.update(rc=rc, api_error=more["api_error"],
                    final=(res["final"] + "\n\n" + more["final"]).strip(),
                    turns=(res["turns"] or 0) + (more["turns"] or 0))
     res["secs"] = round(now() - t0)
     (adir / "final.txt").write_text(res["final"])
-    res["patch"] = o.extract_patch(tree, base, adir)
+    res["patch"] = "" if readonly else o.extract_patch(tree, tbase, adir)
     shutil.rmtree(tree, ignore_errors=True)
     shutil.rmtree(home, ignore_errors=True)
     res["host"] = host
@@ -850,7 +1001,40 @@ def gate(host: Path, adir: Path, tests: list[str] = ()) -> tuple[bool, str]:
     if tests:
         script = f"python -m pytest -q -p no:cacheprovider {' '.join(tests)} && "
     script += "python -m pytest -q -p no:cacheprovider -m 'not slow'"
-    return o.sandbox_pytest(host, script, f"nca-gate-{adir.name}", adir / "pytest.txt")
+    passed, tail = o.sandbox_pytest(host, script, f"nca-gate-{adir.name}", adir / "pytest.txt")
+    # The host tree has full held-out truth, so every gate run is a look at
+    # held-out results. Append-only log, counted per task by `status`.
+    with HELDOUT_LOG.open("a") as f:
+        f.write(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "task": adir.parent.name,
+                            "run": adir.name, "passed": passed,
+                            "tree": git("write-tree", cwd=host, check=False)}) + "\n")
+    return passed, tail
+
+
+def host_checks(host: Path, base: str, patch: str, tid: str) -> tuple[str | None, list[str], int | None]:
+    """guards.py checks on a patch applied to `host`: the PMIDs it adds to
+    benchmark data, and n_scored when it adds a ledger row. Returns (rejection
+    reason or None, notes for the PR body and the reviewer, n_scored)."""
+    paths = o.patch_paths(patch)
+    bench = [p for p in paths if p.startswith(g.BENCH) and p.endswith(".json")]
+    old = {p: git("show", f"{base}:{p}", cwd=host, check=False) for p in bench}
+    new = {p: (host / p).read_text() for p in bench if (host / p).exists()}
+    notes = []
+    try:
+        bad = g.check_refs(g.new_refs(paths, old, new), PUBMED_CACHE)
+    except g.CitationsUnavailable as e:
+        bad = []
+        notes.append(f"Citations UNVERIFIED: PubMed unreachable ({e}). Check them by hand.")
+    if bad:
+        return "citation check failed:\n" + "\n".join(bad[:25]), notes, None
+    if bench and not notes:
+        notes.append("Citations: every new PMID exists and names its drug (or carries a pmid_note).")
+    n, err = g.host_n(host, tid, patch)
+    if err:
+        return err, notes, None
+    if n is not None:
+        notes.append(f"Host-read n_scored = {n} (results/{tid}.json).")
+    return None, notes, n
 
 
 def rundir(tid: str, mode: str) -> Path:
@@ -906,6 +1090,122 @@ def step_merge(st: dict, prs: list[dict], dry: bool) -> bool:
     return False
 
 
+def accept_target(pr: dict, head: str) -> dict:
+    """What an architect PR is reviewed against: its backlog task, or for a
+    takeover the worker spec it implements."""
+    tid = pr["headRefName"].split("/", 1)[-1]
+    if "Backlog-Task: " + tid in (pr.get("body") or ""):
+        t = {x["id"]: x for x in backlog_at(head)["tasks"]}[tid]
+        return {"id": tid, "task": True, "title": t["title"], "brief": t["brief"],
+                "acceptance": t.get("acceptance") or ["The brief is fully delivered."]}
+    spec_text = git("show", f"{head}:tasks/specs/{tid}.md", check=False)
+    spec = o.parse_spec(spec_text) if spec_text else {"title": pr["title"], "tests": []}
+    return {"id": tid, "task": False, "title": spec["title"], "brief": spec_text or "(no spec)",
+            "acceptance": ["The spec's brief is implemented as written, every value as cited.",
+                           f"The spec tests ({', '.join(spec['tests']) or 'none'}) pass and "
+                           "check the spec's values, not the implementation's output."]}
+
+
+def step_accept(st: dict, prs: list[dict], dry: bool) -> bool:
+    """Independent acceptance review of architect PRs. A fresh session on a
+    different model (review_backend), never a resume of the author's, reads
+    the PR read-only and must PASS every acceptance bullet with evidence. Only
+    its APPROVE adds the label step_merge merges on."""
+    for pr in prs:
+        lab = labels(pr)
+        if L_ARCH not in lab or lab & {L_APPROVED, L_HUMAN}:
+            continue
+        ci = ci_state(pr)
+        if ci == "pending":
+            continue
+        num = str(pr["number"])
+        if ci == "failure":
+            verdict, findings, rest = "reject", "CI failed on the PR branch.", "CI failed"
+            log(f"PR #{num}: CI failed, rejecting")
+            if dry:
+                return True
+            git("fetch", "-q", "origin", pr["headRefName"])
+            tgt = accept_target(pr, git("rev-parse", f"origin/{pr['headRefName']}"))
+        else:
+            kind, prof, model = review_backend()
+            ok, why = backend_ok(kind, prof)
+            if not ok:
+                st["waiting"] = f"acceptance review PR #{num}: {why}"
+                return True
+            log(f"PR #{num}: acceptance review ({kind} {prof or model})")
+            if dry:
+                return True
+            git("fetch", "-q", "origin", pr["headRefName"])
+            head = git("rev-parse", f"origin/{pr['headRefName']}")
+            tgt = accept_target(pr, head)
+            body = pr.get("body") or ""
+            host = "\n".join(x for x in body.splitlines() if x.startswith("- ")
+                             and ("Citations" in x or "n_scored" in x)) or "(none reported)"
+            adir = rundir(tgt["id"], f"accept-{num}")
+            res = run_architect(f"accept-{tgt['id']}", head, ACCEPT_PROMPT.format(
+                rules=rules(), number=num, id=tgt["id"], title=tgt["title"], brief=tgt["brief"],
+                acceptance="\n".join(f"{k}. {a}" for k, a in enumerate(tgt["acceptance"], 1)),
+                n=len(tgt["acceptance"]), host=host,
+                diff=git("diff", f"origin/main...{head}")[:60000]),
+                model, adir, backend=(kind, prof), readonly=True)
+            if res.get("infra"):
+                st["waiting"] = f"acceptance review session failed to run: {res['final'][:120]}"
+                return True
+            verdict, findings = review_verdict(res["final"], len(tgt["acceptance"]))
+            rest = res["rest"]
+            if verdict is None:
+                # The reviewer failed, not the author: retry, then a human.
+                tries = st.setdefault("accept_tries", {}).get(num, 0) + 1
+                st["accept_tries"][num] = tries
+                log(f"PR #{num}: acceptance review gave {findings}")
+                if tries >= 3:
+                    gh("pr", "edit", num, "--add-label", L_HUMAN)
+                    alert(st, f"accept-{num}", f"PR #{num}: acceptance reviewer gave no verdict 3x; needs-human")
+                progress(st, f"acceptance review of PR #{num} inconclusive")
+                return True
+        st.setdefault("accept_tries", {}).pop(num, None)
+        tid = tgt["id"]
+        if verdict == "approve":
+            gh("pr", "edit", num, "--add-label", L_APPROVED)
+            gh("pr", "comment", num, "--body", f"Independent acceptance review: APPROVE. {rest[:500]}")
+            st.setdefault("review", {}).pop(tid, None)
+            progress(st, f"accepted PR #{num}")
+            return True
+        gh("pr", "close", num, "--comment", f"Independent acceptance review: REJECT.\n\n{findings[:3000]}")
+        if not tgt["task"]:
+            issue = find_issue(tid)
+            if issue:
+                # Back in the takeover queue (capped by MAX_TAKEOVERS), findings
+                # in the comments that step_takeover feeds the next session.
+                gh("issue", "edit", str(issue), "--add-label", o.LABEL_FAILED)
+                gh("issue", "comment", str(issue), "--body", f"Architect takeover PR #{num} rejected "
+                   f"by the acceptance review:\n\n{findings[:1500]}")
+            if st.get("takeovers", {}).get(tid, 0) >= MAX_TAKEOVERS:
+                alert(st, f"takeover-{tid}", f"{tid}: takeover PR #{num} rejected in acceptance "
+                      f"review, no takeovers left; needs a look")
+            progress(st, f"rejected takeover PR #{num}")
+            return True
+        rv = st.setdefault("review", {}).setdefault(tid, {"rejects": 0, "findings": ""})
+        rv.update(rejects=rv["rejects"] + 1, findings=findings)
+        n = rv["rejects"]
+
+        def rec(ts):
+            x = cond(ts[tid])
+            x["review_rejections"] = n
+            x.setdefault("history", []).append(
+                time.strftime("%Y-%m-%d %H:%M") + f" PR #{num} rejected by acceptance review: {findings[:400]}")
+            if n >= MAX_REVIEW_REJECTS:
+                ts[tid]["status"] = "blocked"
+                ts[tid]["result"] = f"acceptance review rejected {n} PRs; last: {findings[:300]}"
+        update_backlog(f"{tid}: PR #{num} rejected in acceptance review", rec)
+        if n >= MAX_REVIEW_REJECTS:
+            alert(st, f"accept-{tid}", f"{tid}: acceptance review rejected {n} PRs, task blocked; "
+                  f"last findings: {findings[:300]}")
+        progress(st, f"rejected PR #{num} ({tid}, {n}/{MAX_REVIEW_REJECTS})")
+        return True
+    return False
+
+
 def step_review(st: dict, prs: list[dict], dry: bool) -> bool:
     for pr in prs:
         lab = labels(pr)
@@ -937,7 +1237,8 @@ def step_review(st: dict, prs: list[dict], dry: bool) -> bool:
         if res["claim"] == "approve":
             host = res["host"]
             if res["patch"].strip():
-                reason = (check_arch_patch(res["patch"], spec.get("protected", []))
+                reason = (check_arch_patch(res["patch"], [*spec.get("protected", []),
+                                                          *g.frozen_paths(host)])
                           or o.apply_patch(host, head, res["patch"]))
                 if not reason:
                     passed, tail = gate(host, adir, spec.get("tests", []))
@@ -1063,7 +1364,11 @@ def step_takeover(st: dict, dry: bool) -> bool:
     st["takeovers"][sid] = st["takeovers"].get(sid, 0) + 1
     host = res["host"]
     reason = None if res["claim"] == "done" else f"architect ended {res['claim'] or 'without a verdict'}: {res['rest'][:300]}"
-    reason = reason or check_arch_patch(res["patch"]) or o.apply_patch(host, base, res["patch"])
+    reason = (reason or check_arch_patch(res["patch"], g.frozen_paths(host))
+              or o.apply_patch(host, base, res["patch"]))
+    notes = []
+    if not reason:
+        reason, notes, _ = host_checks(host, base, res["patch"], sid)
     if not reason:
         passed, tail = gate(host, adir, spec["tests"])
         reason = None if passed else f"gate failed:\n{tail[-1500:]}"
@@ -1076,9 +1381,10 @@ def step_takeover(st: dict, dry: bool) -> bool:
     branch = f"architect/{sid}"
     commit_push(host, f"{sid}: {spec['title']}\n\nArchitect takeover of the worker spec.\n\nCloses #{issue['number']}", branch, force=True)
     gh("pr", "create", "--base", "main", "--head", branch, "--title", f"[{sid}] {spec['title']}",
-       "--body", f"Closes #{issue['number']}\n\nArchitect takeover ({res['model']}).\n\n{res['final'][-2500:]}\n\n"
+       "--body", f"Closes #{issue['number']}\n\nArchitect takeover ({res['model']}).\n\n"
+       + "".join(f"- {x}\n" for x in notes) + f"\n{res['final'][-2500:]}\n\n"
        "🤖 Generated with [Claude Code](https://claude.com/claude-code)",
-       "--label", L_ARCH, "--label", L_APPROVED)
+       "--label", L_ARCH)
     for lab in (o.LABEL_FAILED, L_HUMAN, o.LABEL_READY):
         o.sh(["gh", "issue", "edit", str(issue["number"]), "--remove-label", lab], cwd=o.REPO)
     progress(st, f"takeover PR for {sid}")
@@ -1087,13 +1393,13 @@ def step_takeover(st: dict, dry: bool) -> bool:
 
 def step_advance(st: dict, base: str, dry: bool) -> bool:
     tasks = backlog_at(base)["tasks"]
-    if all(t["status"] == "done" for t in tasks):
+    if all(t["status"] in FINISHED for t in tasks):
         alert(st, "complete", "every backlog task is done; the product roadmap is complete")
         st["complete"] = True
         return True
     t = next_task(tasks)
     if t is None:
-        stuck = [x["id"] for x in tasks if x["status"] != "done"][:5]
+        stuck = [x["id"] for x in tasks if x["status"] not in FINISHED][:5]
         alert(st, "stuck", f"no runnable task; unfinished: {', '.join(stuck)} (blocked or given up)")
         return False
     c = t.get("conductor") or {}
@@ -1117,6 +1423,9 @@ def step_advance(st: dict, base: str, dry: bool) -> bool:
     if c.get("subtasks"):
         note += ("\n## Subtasks already merged into main\n\n" + ", ".join(c["subtasks"])
                  + "\nTheir specs are in tasks/specs/. Build on them.\n")
+    rv = st.setdefault("review", {}).get(tid)
+    if rv:
+        note += REVIEW_NOTE.format(n=rv["rejects"], findings=rv["findings"][-3000:])
     adir = rundir(tid, "task")
     wip_path = Path(st.setdefault("wip", {}).get(tid, "/nonexistent"))
     wip = wip_path.read_text(errors="replace") if wip_path.is_file() else ""
@@ -1138,10 +1447,17 @@ def step_advance(st: dict, base: str, dry: bool) -> bool:
     host, claim = res["host"], res["claim"]
     outcome, reason = claim or "no verdict", None
     if claim in ("complete", "empty"):
-        reason = (check_arch_patch(res["patch"])
+        reason = (check_arch_patch(res["patch"], g.frozen_paths(host))
                   or ("COMPLETE but nothing substantive changed"
                       if not runner.substantive_paths(o.patch_paths(res["patch"])) else None)
                   or o.apply_patch(host, base, res["patch"]))
+        notes = []
+        if not reason:
+            reason, notes, n = host_checks(host, base, res["patch"], tid)
+            if n == 0 and claim == "complete":
+                # n is the host's reading of the results file, not the session's word.
+                claim, res["rest"] = "empty", f"host: results/{tid}.json has n_scored 0. {res['rest']}"
+                outcome = "empty (host n_scored 0)"
         if not reason:
             passed, tail = gate(host, adir)
             reason = None if passed else f"gate failed:\n{tail[-1200:]}"
@@ -1152,9 +1468,10 @@ def step_advance(st: dict, base: str, dry: bool) -> bool:
             gh("pr", "create", "--base", "main", "--head", branch, "--title", f"[{tid}] {t['title']}",
                "--body", f"Backlog-Task: {tid}\n"
                + (f"{EMPTY_MARK}{res['rest'][:300]}\n" if claim == "empty" else "")
-               + f"\n{res['final'][-3500:]}\n\n"
+               + "".join(f"\n- {x}" for x in notes)
+               + f"\n\n{res['final'][-3500:]}\n\n"
                "🤖 Generated with [Claude Code](https://claude.com/claude-code)",
-               "--label", L_ARCH, "--label", L_APPROVED)
+               "--label", L_ARCH)
             outcome = f"{claim.upper()}, PR opened"
     elif claim == "split":
         subs = split_ids(res["rest"], tid)
@@ -1236,7 +1553,8 @@ def tick(dry: bool) -> None:
             return
         base = sync()
         prs = open_prs()
-        (step_merge(st, prs, dry) or step_review(st, prs, dry) or step_work(st, dry)
+        (step_merge(st, prs, dry) or step_accept(st, prs, dry) or step_review(st, prs, dry)
+         or step_work(st, dry)
          or step_takeover(st, dry) or step_advance(st, base, dry))
         limit_wait = any(w in (st.get("waiting") or "") for w in ("window", "week", "modal"))
         stalled_h = (now() - st.get("last_progress", now())) / 3600
@@ -1255,6 +1573,19 @@ def tick(dry: bool) -> None:
         save_state(st)
 
 
+def heldout_runs() -> dict[str, int]:
+    """Host gate runs (each a look at held-out results) per task."""
+    runs: dict[str, int] = {}
+    lines = HELDOUT_LOG.read_text().splitlines() if HELDOUT_LOG.exists() else []
+    for line in lines:
+        try:
+            tid = json.loads(line)["task"]
+        except (ValueError, KeyError, TypeError):
+            continue
+        runs[tid] = runs.get(tid, 0) + 1
+    return runs
+
+
 def status() -> None:
     st = load_state()
     base = sync()
@@ -1271,6 +1602,11 @@ def status() -> None:
     if st.get("last_progress"):
         print(f"last progress {(now() - st['last_progress']) / 3600:.1f}h ago; "
               f"last tick {(now() - st.get('last_tick', 0)) / 60:.0f}m ago")
+    runs = heldout_runs()
+    if runs:
+        print("held-out gate runs: " + ", ".join(f"{k} {v}" for k, v in sorted(runs.items())))
+    for tid, rv in sorted((st.get("review") or {}).items()):
+        print(f"acceptance review: {tid} rejected {rv['rejects']}/{MAX_REVIEW_REJECTS}")
     stalled = now() - st.get("last_progress", now()) > STALL_H * 3600
     print("paused" if PAUSE.exists() else "STALLED" if stalled else "running")
 

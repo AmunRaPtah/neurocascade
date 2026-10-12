@@ -122,3 +122,144 @@ def test_empty_result_marker_round_trips():
     body = f"Backlog-Task: P1.1\n{c.EMPTY_MARK}no PET pairs\n\nlog"
     assert c.empty_result(body) == "no PET pairs"
     assert c.empty_result("Backlog-Task: P1.1\n\nResult: searched-and-empty") is None
+
+
+def test_optional_tasks_are_skipped_and_count_as_finished():
+    tasks = [{"id": "A", "status": "done", "deps": []},
+             {"id": "B", "status": "optional", "deps": ["A"]},
+             {"id": "C", "status": "pending", "deps": ["A"]}]
+    assert c.next_task(tasks)["id"] == "C"
+    tasks[2]["status"] = "done"
+    assert c.next_task(tasks) is None
+    assert all(t["status"] in c.FINISHED for t in tasks)
+
+
+def test_advance_complete_and_stuck_ignore_optional(monkeypatch):
+    sent = []
+    monkeypatch.setattr(c, "alert", lambda st, k, text: sent.append((k, text)))
+    tasks = [{"id": "A", "status": "done", "deps": []}, {"id": "B", "status": "optional", "deps": []}]
+    monkeypatch.setattr(c, "backlog_at", lambda sha: {"tasks": tasks})
+    st = {}
+    assert c.step_advance(st, "base", dry=True) and st["complete"] and sent[0][0] == "complete"
+    tasks.append({"id": "C", "status": "blocked", "deps": []})
+    sent.clear()
+    assert not c.step_advance({}, "base", dry=True)
+    assert sent == [("stuck", "no runnable task; unfinished: C (blocked or given up)")]
+
+
+def test_arch_patch_rejects_split_and_heldout_truth_but_not_new_data():
+    frozen = [c.g.SPLIT, c.g.truth_file("haloperidol")]
+    assert "host-owned" in c.check_arch_patch(diff(c.g.SPLIT))     # always forbidden
+    assert "host-owned" in c.check_arch_patch(diff("src/x.py", c.g.truth_file("haloperidol")), frozen)
+    assert c.check_arch_patch(diff(c.g.truth_file("diazepam"), c.g.BENCH + "adme/new.json"), frozen) is None
+
+
+ACC = "\n".join(["ACCEPTANCE 1: PASS tests/test_x.py:12 asserts 0.42",
+                 "- **ACCEPTANCE 2**: PASS ledger row at docs/validation-ledger.md:88",
+                 "CHECK thresholds: PASS no bar changed", "CHECK heldout: PASS split untouched",
+                 "CHECK tests: PASS values from PMID 123", "CHECK citations: PASS spot-checked 3"])
+
+
+def test_review_verdict_needs_evidence_for_every_bullet():
+    assert c.review_verdict(ACC + "\nREVIEW: APPROVE all met", 2) == ("approve", "all met")
+    # An APPROVE with a FAIL line is a rejection, with the failing line as findings.
+    v, f = c.review_verdict(ACC.replace("CHECK tests: PASS", "CHECK tests: FAIL pins output;")
+                            + "\nREVIEW: APPROVE", 2)
+    assert v == "reject" and "CHECK TESTS: FAIL pins output" in f
+    v, f = c.review_verdict(ACC + "\nREVIEW: REJECT n=0 really", 2)
+    assert v == "reject" and "n=0 really" in f
+    # Missing bullet or no verdict: the review failed, not the author.
+    assert c.review_verdict(ACC + "\nREVIEW: APPROVE", 3)[0] is None
+    assert c.review_verdict(ACC, 2)[0] is None
+
+
+def test_review_backend_never_the_authors_model(monkeypatch):
+    monkeypatch.delenv("NC_ACCEPT_REVIEWER", raising=False)
+    for arch in ("deepseek:deepseek-v4-pro", "codex:work"):
+        monkeypatch.setenv("NC_ARCH_BACKEND", arch)
+        assert c.review_backend() == ("claude", "", "opus")
+    monkeypatch.setenv("NC_ARCH_BACKEND", "claude")
+    monkeypatch.setattr(c, "ARCH_MODEL", "opus")
+    assert c.review_backend() == ("claude", "", "sonnet")
+    monkeypatch.setattr(c, "ARCH_MODEL", "sonnet")
+    assert c.review_backend() == ("claude", "", "opus")
+    monkeypatch.setenv("NC_ACCEPT_REVIEWER", "codex:work")
+    assert c.review_backend() == ("codex", "work", c.CODEX_MODEL)
+
+
+def accept_env(monkeypatch, tmp_path, final, ci="SUCCESS"):
+    """step_accept with GitHub, git, the backlog and the session mocked."""
+    calls = {"gh": [], "run": [], "alerts": []}
+    tasks = {"P9.9": {"id": "P9.9", "status": "pending", "title": "T", "brief": "B",
+                      "acceptance": ["a", "b"]}}
+    monkeypatch.setattr(c, "HOME", tmp_path)
+    monkeypatch.setattr(c, "gh", lambda *a: calls["gh"].append(a) or "")
+    monkeypatch.setattr(c, "git", lambda *a, **k: "sha" if a[0] == "rev-parse" else "")
+    monkeypatch.setattr(c, "backlog_at", lambda sha: {"tasks": list(tasks.values())})
+    monkeypatch.setattr(c, "update_backlog", lambda msg, fn: fn(tasks))
+    monkeypatch.setattr(c, "alert", lambda st, k, t: calls["alerts"].append(k))
+    monkeypatch.setattr(c, "backend_ok", lambda k, p: (True, "ok"))
+    monkeypatch.setattr(c, "review_backend", lambda: ("claude", "", "sonnet"))
+
+    def run(name, base, prompt, model, adir, wip="", backend=None, readonly=False):
+        calls["run"].append(dict(name=name, model=model, backend=backend, readonly=readonly, prompt=prompt))
+        return {"final": final, "claim": c.parse_claim(final)[0], "rest": c.parse_claim(final)[1]}
+    monkeypatch.setattr(c, "run_architect", run)
+    pr = {"number": 7, "title": "[P9.9] T", "headRefName": "architect/P9.9",
+          "labels": [{"name": c.L_ARCH}], "body": "Backlog-Task: P9.9\n- Host-read n_scored = 4",
+          "statusCheckRollup": [{"conclusion": ci}]}
+    return calls, tasks, pr
+
+
+def test_step_accept_approve_labels_pr(monkeypatch, tmp_path):
+    calls, tasks, pr = accept_env(monkeypatch, tmp_path, ACC + "\nREVIEW: APPROVE ok")
+    st = {"review": {"P9.9": {"rejects": 1, "findings": "x"}}}
+    assert c.step_accept(st, [pr], dry=False)
+    r = calls["run"][0]
+    assert r["readonly"] and r["backend"] == ("claude", "") and r["model"] == "sonnet"
+    assert "1. a\n2. b" in r["prompt"] and "n_scored = 4" in r["prompt"]
+    assert ("pr", "edit", "7", "--add-label", c.L_APPROVED) in calls["gh"]
+    assert "P9.9" not in st["review"]
+    # Approved PRs are left to step_merge.
+    pr["labels"].append({"name": c.L_APPROVED})
+    assert not c.step_accept(st, [pr], dry=False)
+
+
+def test_step_accept_reject_feeds_back_and_blocks(monkeypatch, tmp_path):
+    bad = ACC.replace("**ACCEPTANCE 2**: PASS", "**ACCEPTANCE 2**: FAIL no ledger row;") + "\nREVIEW: REJECT"
+    calls, tasks, pr = accept_env(monkeypatch, tmp_path, bad)
+    st = {}
+    for k in range(1, c.MAX_REVIEW_REJECTS + 1):
+        assert c.step_accept(st, [pr], dry=False)
+        assert st["review"]["P9.9"]["rejects"] == k and "no ledger row" in st["review"]["P9.9"]["findings"]
+    assert calls["gh"][0][:3] == ("pr", "close", "7")
+    assert c.L_APPROVED not in str(calls["gh"])
+    assert tasks["P9.9"]["status"] == "blocked" and calls["alerts"] == ["accept-P9.9"]
+    assert tasks["P9.9"]["conductor"]["review_rejections"] == c.MAX_REVIEW_REJECTS
+    # The next architect prompt carries the findings.
+    assert "no ledger row" in c.REVIEW_NOTE.format(n=3, findings=st["review"]["P9.9"]["findings"])
+
+
+def test_step_accept_no_verdict_is_not_a_rejection(monkeypatch, tmp_path):
+    calls, tasks, pr = accept_env(monkeypatch, tmp_path, "I ran out of turns")
+    st = {}
+    for _ in range(3):
+        c.step_accept(st, [pr], dry=False)
+    assert "review" not in st and tasks["P9.9"]["status"] == "pending"
+    assert ("pr", "edit", "7", "--add-label", c.L_HUMAN) in calls["gh"]
+    assert not any(a[:2] == ("pr", "close") for a in calls["gh"])
+
+
+def test_step_accept_ci_failure_rejects_without_a_session(monkeypatch, tmp_path):
+    calls, tasks, pr = accept_env(monkeypatch, tmp_path, "", ci="FAILURE")
+    st = {}
+    assert c.step_accept(st, [pr], dry=False)
+    assert not calls["run"] and st["review"]["P9.9"]["rejects"] == 1
+
+
+def test_heldout_runs_counted_per_task(monkeypatch, tmp_path):
+    log = tmp_path / "heldout-evals.jsonl"
+    monkeypatch.setattr(c, "HELDOUT_LOG", log)
+    assert c.heldout_runs() == {}
+    log.write_text('{"task": "P1"}\n{"task": "P1"}\n{"task": "P2"}\nbroken\n')
+    assert c.heldout_runs() == {"P1": 2, "P2": 1}

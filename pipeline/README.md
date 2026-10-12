@@ -150,26 +150,46 @@ Run records: `/root/nc-pipeline-runs/<ID>/<timestamp>/attempt-N/`
 1. **Merge** PRs labelled `approved` once CI is green. A merged `architect/<T>`
    PR whose body says `Backlog-Task: <T>` marks backlog task T done. An
    approved PR whose CI fails loses `approved` and is reviewed again.
-2. **Review** each `worker-pr` PR once CI has finished: a Sonnet architect
+2. **Accept** each `architect-pr` PR once CI has finished. Architect PRs are
+   never self-approved: a fresh, read-only reviewer session (never a resume of
+   the author's) gets the task title, brief, acceptance list, the patch and
+   the host's check notes. It must report `ACCEPTANCE <k>: PASS|FAIL` with
+   evidence for every bullet and `CHECK thresholds|heldout|tests|citations`,
+   then `REVIEW: APPROVE|REJECT`. Only an APPROVE with every line PASS adds
+   `approved`. A REJECT (or red CI) closes the PR and hands the findings to
+   the next architect session on the task; after `NC_MAX_REVIEW_REJECTS` (3)
+   the task is blocked and an alert sent. A reviewer that gives no complete
+   verdict is not a rejection: it is retried, then the PR goes `needs-human`.
+   Reviewer model: Claude Opus when the architect is DeepSeek or Codex, the
+   other Claude model (Sonnet vs Opus) when it is Claude. A different vendor
+   is the better check; `NC_ACCEPT_REVIEWER=codex:<profile>` gives one.
+3. **Review** each `worker-pr` PR once CI has finished: a Sonnet architect
    session checks it against the spec. It either approves, after the host
    pushes any small cleanup through the gate, or rejects: the PR is closed and
    the issue goes to `worker-failed`.
-3. **Work**: runs `orchestrate.py run` on `worker-ready` issues while the Modal
+4. **Work**: runs `orchestrate.py run` on `worker-ready` issues while the Modal
    month has headroom, and on free-tier Gemini once it has not (below).
-4. **Takeover**: `worker-failed` and `needs-human` issues are handled by an Opus
+5. **Takeover**: `worker-failed` and `needs-human` issues are handled by an Opus
    architect session, and so are ready issues while Modal is out of budget.
    The session works on the spec branch, and the result is gated and PR'd as
-   `architect-pr` + `approved`. At most 2 tries per issue.
-5. **Advance**: the next backlog task whose deps are done gets an Opus
+   `architect-pr`, for step 2. At most 2 tries per issue.
+6. **Advance**: the next backlog task whose deps are done gets an Opus
    architect session. It ends with one of:
-   - `TASK_RESULT: COMPLETE`: patch, full `not slow` gate, PR.
+   - `TASK_RESULT: COMPLETE`: patch, host checks, full `not slow` gate, PR.
+   - `TASK_RESULT: EMPTY <what>`: the searched-and-empty record merges but
+     the task goes `blocked-on-data`. A patch that adds a row to
+     `docs/validation-ledger.md` must ship `results/<T>.json` with
+     `{"n_scored": <int>}`; the host reads n from that file, and n_scored 0
+     turns a COMPLETE into EMPTY whatever the session said.
    - `TASK_RESULT: SPLIT <ids>`: specs + failing tests only. The host
      publishes one `spec/<sub>` branch and one `worker-ready` issue per
      subtask, and the task comes back once they have merged.
    - `BLOCKED_ON_DATA` / `BLOCKED`.
 
    Each session is recorded in the task's `conductor.history`. After 6
-   sessions the task is given up and an alert is sent.
+   sessions the task is given up and an alert is sent. Tasks with status
+   `optional` are neither run nor waited for: they count as finished for the
+   backlog-complete check and the stuck alert.
 
 **Architect sessions** run headless Claude Code in the same `nc-worker` image
 as uid 20001, on a throwaway clone. They have internet for literature. They
@@ -179,6 +199,28 @@ is checked against a path policy: no `.github/ pipeline/ tasks/backlog.json
 data/ requirements.txt scripts/autonomous_runner.py`. The host then applies it
 to its own clone, gates it in a `--network none` container, and does every
 push and GitHub write itself.
+
+**Held-out data** (`pipeline/guards.py`). Architect and reviewer sessions get
+a tree with the held-out drugs' truth removed (`truth/<inn>.json`, their rows
+in `truth/effect_labels.json` and the `p29_5/` truth files) and a fresh
+one-commit git history, since every older commit still holds the full files.
+Their adme/binding inputs and `coverage.json` booleans stay. The patch is
+diffed against that hidden base and applied to the host's full clone, so the
+host gate scores held-out drugs with the real data; held-out tests are
+expected to fail inside the session. A patch may never touch `split.json`, a
+held-out truth file or those aggregates; new truth files for train drugs are
+fine. Every host gate run appends a line to
+`/root/nc-pipeline-runs/conductor/heldout-evals.jsonl` (task, run, passed,
+tree hash); `status` prints the count per task. The reviewer is hidden too:
+its findings go back to the architect, so what it sees can leak.
+
+**Citations.** Every PMID a patch adds to benchmark JSON is looked up in
+PubMed (esummary + efetch, batched, cached in `conductor/pubmed-cache.json`,
+30 s timeout). A PMID that does not exist fails the patch; so does one whose
+title, abstract and MeSH terms never name the record's drug, unless the
+record carries a `"pmid_note"` saying why. PubMed unreachable is not a
+failure: the PR body says the citations are unverified and the reviewer is
+told to check them.
 
 **Limits, and resuming after them.** Every tick re-reads the live readings, so
 nothing has to wake it:
@@ -207,6 +249,7 @@ task.
 - a task done
 - a task blocked or given up
 - a failed takeover
+- a task blocked after repeated acceptance-review rejections
 - tick errors
 - no progress for 36 h while not waiting on a limit
 - the backlog complete
