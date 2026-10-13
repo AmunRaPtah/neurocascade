@@ -82,7 +82,8 @@ def hide_heldout(tree: Path, wip: str = "") -> tuple[str, bool]:
     # The tree is already owned by the worker uid; the host runs git as root.
     git = ["git", "-C", str(tree), "-c", "safe.directory=*", "-c", "user.name=conductor",
            "-c", "user.email=conductor@localhost", "-c", "core.hooksPath=/dev/null"]
-    for args in (["init", "-q"], ["add", "-A", "--", ".", ":!data"],
+    # data/ is gitignored; naming it in a pathspec makes `git add` exit 1.
+    for args in (["init", "-q"], ["add", "-A"],
                  ["commit", "-q", "-m", "base, held-out truth removed (conductor)"]):
         subprocess.run(git + args, check=True, capture_output=True)
     base = subprocess.run(git + ["rev-parse", "HEAD"], check=True, capture_output=True,
