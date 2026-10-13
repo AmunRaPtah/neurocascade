@@ -1,6 +1,14 @@
 # P29.5: oral exposure, preclinical oral inputs, and PET plasma pairs
 
-## Result: closed against a pre-registered, data-availability-limited threshold
+## Result: blocked-on-data (reopened 2026-10-13)
+
+> **Correction (2026-10-13 audit).** The 34% train-input threshold below was set
+> after the data search, not pre-registered, and only 4/8 PET pairs are measured
+> (asenapine, lurasidone, milnacipran are model-derived; paroxetine is a bound)
+> against the >=6/8 bar. P29.5 does not meet its acceptance and is
+> `blocked-on-data`; the record of what was found stands as written below.
+
+### Original closing note (superseded)
 
 P29.5 searched the named primary and first-party sources before adding any
 record. The oral-exposure truth gap is closed for all eight held-out PET
@@ -97,7 +105,7 @@ The complete records are in
 module. The frozen P28.1 split is unchanged.
 
 With PET pairs at 8/8, oral-exposure truth at 8/8, and train preclinical
-inputs at 45/130 against the pre-registered 34% ceiling, P29.5 meets its
-(revised) acceptance and unblocks P29.3/P29.4. Every value above is a sourced
+inputs at 45/130 against the pre-registered 34% ceiling, P29.5 was
+claimed to meet its (revised) acceptance; see the correction above. Every value above is a sourced
 record with a verbatim quote and citation; nothing is inferred, estimated, or
 back-filled.

@@ -2516,7 +2516,7 @@
         "pr": 24
       },
       "finished_at": "2026-10-02T22:00:41+00:00",
-      "result": "complete"
+      "result": "partial (2026-10-13 audit): CL scored, held-out n=5 on a declared second look, train level with the mean baseline (2.855 vs 2.751); Vss n=0 and oral exposure unscored, so acceptance bullet 1 is not met. Remaining scoring moved to P29.8. Status kept done only so P29.6 (which extends the CL arm) can run. Prior: complete"
     },
     {
       "id": "P29.5",
@@ -2525,8 +2525,8 @@
       "brief": "P29.3 and P29.4 were searched-and-empty (ledger rows for P29.3/P29.4, docs/p29-3-dose-engagement.md, docs/p29-4-occupancy-time.md) because the frozen Phase 28 data lack: (1) preclinical oral bioavailability inputs (rat/dog oral F, or human-microsome/hepatocyte CLint plus permeability/Fa inputs) for train AND held-out drugs, so oral exposure can be predicted from preclinical data; (2) human same-entity, route-matched oral F, CL/F or AUC/dose as held-out truth; (3) PET dose/plasma-concentration pairs for the eight held-out PET drugs (amisulpride, asenapine, escitalopram, lurasidone, milnacipran, paroxetine, quetiapine, venlafaxine), including active metabolites where PET reflects them (e.g. O-desmethylvenlafaxine Ki); (4) a cited reference body weight for per-kg to mg/day conversion (ICRP Publication 89 reference adult) and a pre-specified per-target occupancy threshold where the literature defines one. Use the candidate sources the P29.3/P29.4 records already name first (Søgaard 2005 PMID 16291715, Zhang 2023 PMID 37731733, de Greef 2011 PMID 21184291, Fridén 2009 PMID 19764786, Lako 2013, Suzuki 2013, Klamerus 1992, FDA labels/NDA reviews). Record every value with PMID/NDA + table/page in the benchmark truth/adme records. The P28.1 split stays frozen: held-out drugs get truth only, never anything used to fit. Preclinical inputs (1) are allowed for held-out drugs because they are model inputs, not outcomes.",
       "acceptance": [
         "oral exposure truth (F, CL/F or AUC/dose) recorded with citation for >=8 held-out drugs, including >=5 of the eight PET drugs",
-        "preclinical oral-absorption/clearance inputs recorded for >=34% of train drugs (pre-registered data-availability ceiling, revised from 60% before any fit; see docs/p29-5-oral-exposure-pet-data.md) and every held-out drug that has (2)",
-        "PET dose/plasma pairs recorded for >=6 of the eight held-out PET drugs",
+        "preclinical oral-absorption/clearance inputs recorded for >=60% of train drugs and every held-out drug that has (2). The 34% figure in docs/p29-5-oral-exposure-pet-data.md was set AFTER the data search (post-hoc, see 133c869), so it does not count as meeting this bar",
+        "PET dose/plasma pairs MEASURED in subjects (not model-derived, not a bound) for >=6 of the eight held-out PET drugs",
         "ledger row listing per-drug coverage; a test asserts no held-out truth field is read by any fitting code"
       ],
       "validation": {
@@ -2534,9 +2534,10 @@
         "evidence": "docs/validation-ledger.md P29.5 coverage row; docs/p29-5-oral-exposure-pet-data.md; tests/test_p29_5_data.py (4 passing: coverage counts, split isolation, qualifier visibility)"
       },
       "deps": [
-        "P29.2"
+        "P29.2",
+        "P29.7"
       ],
-      "status": "done",
+      "status": "blocked-on-data",
       "attempts": 0,
       "note": "Added 2026-10-03 after P29.3/P29.4 merged as n=0. If a source cannot be found for a drug, record it as searched-and-empty for that drug and keep going; end EMPTY only if the acceptance counts cannot be met.",
       "conductor": {
@@ -2547,7 +2548,7 @@
         ],
         "pr": 27
       },
-      "result": "done: PET dose/plasma pairs 8/8 (escitalopram Lundberg 2007 PMID 17201996 group-mean; milnacipran Nogami 2013 PMID 23067569 model_ed50; lurasidone Potkin 2014 PMID 24073841 modeled_threshold, plasma_relation '>'); oral-exposure truth 8/8; preclinical oral/clearance inputs 45/130 (34.6%) after adding brexpiprazole, cariprazine, lumateperone, iloperidone, paliperidone, roluperidone, desvenlafaxine, esketamine, esmethadone, each with verbatim quote + citation. The 60% train bar is unreachable from public data (nonclinical PK unpublished for most pre-2000/investigational drugs), so it was pre-registered down to the documented 34% availability ceiling BEFORE any fit, recorded in docs/p29-5-oral-exposure-pet-data.md and encoded in tests/test_p29_5_data.py. Frozen P28.1 split untouched; split-isolation test still passes. viloxazine held (soft/unconfirmed, excluded)."
+      "result": "blocked-on-data (reopened 2026-10-13 audit): set to done by the git-backup-sweep snapshot 185005e, ungated, on a post-hoc 34% bar. Measured PET pairs 4/8 (amisulpride, escitalopram, quetiapine, venlafaxine); asenapine, lurasidone, milnacipran are model-derived and paroxetine a bound. Train preclinical inputs 45/130 (34.6%) vs 60%. Oral-exposure truth 8/8 is met."
     },
     {
       "id": "P29.6",
@@ -2557,7 +2558,8 @@
       "acceptance": [
         "logP/pKa source per drug recorded; fu_mic equation and incubation protein concentration cited (PMIDs verified)",
         "train LOO CL GMFE reported beside the train-mean baseline on the same drugs, and the per-drug error for lipophilic bases before vs after",
-        "V17 ledger row updated with the new numbers, stating whether the arm now beats the mean baseline on train"
+        "V17 ledger row updated with the new numbers, stating whether the arm now beats the mean baseline on train",
+        "train LOO CL GMFE below the train-mean baseline on the same drugs; if it is not, finish BLOCKED with the per-drug analysis, so P29.3 does not build on a CL arm no better than the mean"
       ],
       "validation": {
         "kind": "ledger-row",
@@ -2588,6 +2590,27 @@
       "attempts": 0
     },
     {
+      "id": "P29.8",
+      "phase": "Phase 29: preclinical-to-human translation",
+      "title": "Finish P29.2 scoring: held-out Vss and oral exposure",
+      "brief": "P29.2 was closed with CL only: Vss had n=0 scoreable drugs and oral exposure was not scored. Score the P29.2 Vss arm and an oral-exposure (F or CL/F) prediction against held-out truth, using P29.5's oral-exposure truth and P29.6's CL arm. Develop on train only; the host scores held-out. If the Vss truth cannot be found for >=5 held-out drugs, finish as searched-and-empty, listing what was searched.",
+      "acceptance": [
+        "held-out Vss fold-error with n and within-2x/3x fractions, beside the train-mean baseline on the same drugs",
+        "held-out oral exposure (F or CL/F) fold-error with n, beside the train-mean baseline",
+        "V17 ledger row updated; P29.2's acceptance bullet 1 is then met or the gap is stated"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P29.5",
+        "P29.6"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
       "id": "P29.3",
       "phase": "Phase 29: preclinical-to-human translation",
       "title": "Predicted human target-engagement dose, scored held-out",
@@ -2604,10 +2627,11 @@
         "evidence": ""
       },
       "deps": [
-        "P29.2",
         "P28.2",
+        "P29.2",
         "P29.5",
-        "P29.6"
+        "P29.6",
+        "P29.7"
       ],
       "status": "pending",
       "attempts": 0,
