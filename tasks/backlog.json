@@ -2680,13 +2680,15 @@
       "id": "P30.1",
       "phase": "Phase 30: occupancy-to-effects",
       "title": "Occupancy profile to clinical-effect probabilities",
-      "brief": "Train a transparent model mapping a drug's panel occupancy/activation profile (at clinical dose) to the binary clinical-effect vector, on the train split. Keep it interpretable (per-effect regularised logistic or similar) so each effect's receptor drivers are inspectable. No held-out drug enters the fit. This is the product's flagship layer (decided 2026-10-12 audit): PK is a commodity, the interpretable occupancy-to-CNS-liability map is the differentiator. Labels must be placebo-subtracted: an effect is positive when drug incidence exceeds placebo incidence by the stated margin in the label/trial table; where no placebo arm is published, record that and use the absolute rule as a flagged fallback, never silently.",
+      "brief": "Train a transparent model mapping a drug's panel occupancy/activation profile (at clinical dose) to the binary clinical-effect vector, on the train split. Keep it interpretable (per-effect regularised logistic or similar) so each effect's receptor drivers are inspectable. No held-out drug enters the fit. This is the product's flagship layer (decided 2026-10-12 audit): PK is a commodity, the interpretable occupancy-to-CNS-liability map is the differentiator. Labels must be placebo-subtracted: an effect is positive when drug incidence exceeds placebo incidence by the stated margin in the label/trial table; where no placebo arm is published, record that and use the absolute rule as a flagged fallback, never silently. Exposure input (re-pointed 2026-10-13 so the flagship is not blocked behind P29.3/P29.4/P29.5): compute clinical-dose occupancy from OBSERVED human exposure, i.e. the P28.4 clinical dose with observed human CL/F (or a published steady-state Cmax/Cavg), unbound fraction where recorded, the human Ki panel and the P29.1 Kp,uu where available. Do not use P29.2/P29.4 predicted PK. Keep exposure a pluggable input (one function taking a drug and returning unbound concentration), so predicted PK can be swapped in once P29.4 beats its baselines. Observed CL is recorded for only ~42/130 train drugs (dose for all 130), so exposure is tiered and the tier recorded per drug: (1) observed human exposure; (2) fallback dose-proportional proxy, unbound Css from the clinical dose with the train-median CL/F, i.e. occupancy ranked by dose/Ki. Pre-registered before any fit: the headline uses all labelled drugs with their tier, and a sensitivity analysis restricted to tier-1 drugs is reported beside it. Never impute silently. Results are therefore an upper bound on what the product achieves from preclinical PK; say so in the ledger row.",
       "acceptance": [
+        "occupancy computed from observed human exposure (tier 1) or the pre-registered dose/Ki proxy (tier 2), never predicted PK; the per-drug tier and exposure source are recorded, and a tier-1-only sensitivity analysis is reported beside the headline",
         "model trained on train split only; per-effect receptor coefficients reported",
         "a test guards the train/held-out boundary",
         "labels are placebo-subtracted where a placebo arm exists; the per-drug label table records drug %, placebo %, source and which rule applied",
         "primary internal estimate is leave-one-drug-out over every train drug with labels, reported per effect with n positive / n negative",
-        "per-effect positive and negative counts on the held-out split are reported; any effect with fewer than 5 of either class (currently seizure and anticholinergic) is marked underpowered and excluded from headline metrics"
+        "per-effect positive and negative counts on the held-out split are reported; any effect with fewer than 5 of either class (currently seizure and anticholinergic) is marked underpowered and excluded from headline metrics",
+        "the ledger row states that results use observed human exposure and are an upper bound on the preclinical-PK product"
       ],
       "validation": {
         "kind": "ledger-row",
@@ -2694,7 +2696,8 @@
       },
       "deps": [
         "P28.4",
-        "P29.4"
+        "P29.1",
+        "P29.7"
       ],
       "status": "pending",
       "attempts": 0
@@ -2725,7 +2728,7 @@
       "id": "P30.3",
       "phase": "Phase 30: occupancy-to-effects",
       "title": "Calibrated uncertainty for every human prediction",
-      "brief": "Attach an uncertainty to each prediction the product returns (human CL/Vss, target-engagement dose, occupancy, per-effect probability). Use split-conformal or an equivalent distribution-free method fitted on train/LODO residuals only, and check empirical coverage. A prediction without a calibrated interval is not shippable to a discovery team.",
+      "brief": "Attach an uncertainty to each prediction the product returns (human CL/Vss, target-engagement dose, occupancy, per-effect probability). Use split-conformal or an equivalent distribution-free method fitted on train/LODO residuals only, and check empirical coverage. A prediction without a calibrated interval is not shippable to a discovery team. Quantities whose upstream task is not yet done (e.g. P29.3 dose while P29.5 is blocked-on-data) are listed as pending in predict_compound, never filled with an unscored estimate.",
       "acceptance": [
         "nominal 80% and 95% intervals with empirical LODO coverage per quantity in the ledger",
         "held-out coverage reported once, on the host, after the intervals are frozen",
