@@ -28,10 +28,10 @@
    "doi": null,
    "pmid": null
   },
-  "PMID:4119213": {
-   "citation": "Gassaway, MM.  et. al. 2014",
-   "doi": null,
-   "pmid": "4119213"
+  "PMID:25026323": {
+   "citation": "Gassaway MM, et al. The atypical antidepressant and neurorestorative agent tianeptine is a \u03bc-opioid receptor agonist. Transl Psychiatry 2014;4:e411",
+   "doi": "10.1038/tp.2014.30",
+   "pmid": "25026323"
   }
  },
  "screened_inactive_without_ki": {},
@@ -74,8 +74,9 @@
     },
     {
      "ki_nM": 383.0,
+     "pdsp_id": "4119213",
      "record": "PDSP Ki ID 62221 (CLONED, hot ligand 3H-DAMGO)",
-     "ref": "PMID:4119213",
+     "ref": "PMID:25026323",
      "relation": "=",
      "source": "PDSP"
     }

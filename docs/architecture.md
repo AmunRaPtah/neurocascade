@@ -17208,3 +17208,118 @@ fit path. The full source trail and per-drug search outcomes are in
 The acceptance result is deliberately incomplete: oral truth is 8/8, but PET
 pairs are 5/8 (required >=6) and train preclinical coverage is 36/130
 (required >=60%). No prediction or calibration is reported from these records.
+
+## Phase 29, part seven: PDSP link ids stored as PMIDs, repaired (P29.7)
+
+**What was wrong.** A PubMed esummary sweep of every PMID in the benchmark
+JSON (708 distinct ids after the repair) found that all the bad ones came from
+one line of the P28.2 builder: `_pmid_from_link` took the first 6-9 digit run
+in PDSP's `Link` column as a PMID. That column is a URL, and 7,220 of the 98,678
+PDSP rows (7.3%) link somewhere other than PubMed through a URL that still
+contains a 6-9 digit run. The digits it read were a
+ScienceDirect alert id (`_alid=93617739`), zero-padded PII fragments
+(`S0014299901011888` -> `001429990`, `S0960894X...` -> `0960894`,
+`S0968089606001817` -> `096808960`, `S0223523418300023` -> `022352341`), PMC
+ids (`PMC4119213`, `PMC5313063`), a Prous article number (`908643`), a Hindawi
+article number (`430248`), a Nature `tpj` file name (`6500342`) and a T&F DOI
+fragment (`13543784`). Two of these are absent from PubMed. They account
+for the brief's count of 19: `93617739` appears in 18 drug files and
+`096808960` in one, so the brief counted 19 file occurrences of two ids. The
+brief's framing was also wrong, because these are not PDSP record ids (rule 11).
+The rest are worse:
+three of the four zero-padded ones exist once PubMed strips the zeros (as
+unrelated papers), and six are
+real PMIDs of unrelated papers (cerebral palsy 1958, influenza in endometrium
+1973, zinc deficiency 1979, and others), so an existence check alone passes
+them. The sweep therefore checked the first author too. Every PDSP-derived
+PMID's PubMed author list was compared with the PDSP `Reference` string, and the
+only mismatches left after diacritics were these eleven. A single fake id can
+also merge several papers: `0960894` is the shared ISSN prefix of 17 different
+Bioorg Med Chem Lett papers, and three of them reach benchmark drugs.
+
+**How each was resolved.** Every one of the 684 affected measurements was traced
+through its own `PDSP Ki ID` back to the PDSP CSV row (the same file, sha256
+`45c9a18a...`, recorded in the panels' provenance), not through the broken ref
+key. Each distinct link was resolved link -> DOI (Crossref `alternative-id` for
+a PII, NCBI idconv for a PMC id, the DOI itself where the link carries one) ->
+PMID (PubMed esearch on `<doi>[doi]`). The PubMed esummary title, first author
+and year were then read back against the PDSP citation. All 12 PubMed papers
+matched. The Prous one is self-confirming: its DOI is
+`10.1358/mf.2005.27.5.908643`. The thirteenth, Seeman P. 2001 "Antipsychotic
+drugs, dopamine receptors, and schizophrenia", Clin Neurosci Res 1:53-60 (doi
+10.1016/S1566-2772(00)00007-4), is not in PubMed: esearch on its DOI and on its
+exact title both return nothing, because the journal was not indexed. The link
+gives only an Elsevier `_udi` and a cover date (2001-01-31). Crossref's issue
+date (2001-01, issue 1-2) and sole author match it, and the PDSP rows (D2/D3/D4
+under raclopride, spiperone and nemonapride) fit that review. It is cited as
+`PDSP_REF:Seeman, Philip  2001` with `pmid: null`, its DOI, `source: "PDSP Ki
+database"` and `pdsp_id: "93617739"`.
+
+**Where the old number went.** The task asked for PDSP ids to be moved to a
+`pdsp_id` field rather than deleted. Every re-attributed measurement carries
+`pdsp_id` holding the exact string P28.2 had stored as its PMID. It goes on the
+measurement, not only the reference, because one fake id could stand for
+several papers. Strictly these are publisher or link identifiers taken from
+PDSP's Link column, not PDSP's own row number. That row number is already in
+each measurement's `record` (`PDSP Ki ID n`). The field name follows the brief;
+this paragraph records what the number actually is.
+
+**Builder fix.** `_pmid_from_link` now accepts digits only from a PubMed or
+Entrez URL (`list_uids=`, `/pubmed/`, `/pubmed/?term=`,
+`pubmed.ncbi.nlm.nih.gov/`). Over the 4,059 PDSP rows the panels use, it returns
+exactly the old answer for every row except the 684 broken ones. The
+non-PubMed links that benchmark drugs use are resolved by hand in
+`PDSP_LINK_SOURCES`, so a rebuild reproduces the repaired files. A non-PubMed
+link not in that table falls back to the builder's existing `PDSP_REF:` key and
+is never guessed. The committed panels were repaired in place with the same
+table and the same summary rule, because a full rebuild needs a fresh ChEMBL
+pull that would drift from the 2026-10-02 snapshot.
+
+**What changed in the values.** No measured Ki changed: every one of the 684
+equals its PDSP CSV value. Two were also checked against the real paper's
+abstract: tianeptine MOR 383 nM (Gassaway 2014, "383 +/- 183 nM") and
+escitalopram SERT 1.77 nM (Yarravarapu 2018, "(S)-citalopram hSERT Ki = 1.77
+nM"). Summary Ki values did change, for one reason. The summary is the median
+over references of each reference's mean pKi. Three of the real papers were
+already in the same drug's file under their true PMID from ChEMBL: Zajdel 2018
+(aripiprazole, clozapine, haloperidol, olanzapine, risperidone, ziprasidone),
+Pańczyk 2018 (haloperidol, mianserin) and Yarravarapu 2018 (escitalopram).
+Each had been counted as two references, once under the real PMID and once
+under the fake one. Now it counts once. That changed the reference count of 21 drug-target
+summaries and moved the Ki of 16:
+
+| Drug | Target | Ki nM before -> after | n_references |
+|---|---|---|---|
+| aripiprazole | HTR1A | 6.451 -> 5.944 | 18 -> 17 |
+| aripiprazole | HTR2A | 10.78 -> 9.600 | 24 -> 23 |
+| aripiprazole | HTR7 | 22.51 -> 19.49 | 14 -> 13 |
+| escitalopram (held out) | SLC6A4 | 1.770 -> 1.713 | 7 -> 6 |
+| haloperidol | HTR1A | 1931 -> 1950 | 20 -> 19 |
+| haloperidol | HTR6 | 5742 -> 6000 | 10 -> 9 |
+| haloperidol | HTR7 | 408.0 -> 403.0 | 13 -> 12 |
+| mianserin | HTR2A | 3.200 -> 2.993 | 17 -> 16 |
+| olanzapine | HTR7 | 207.5 -> 208.9 | 12 -> 11 |
+| risperidone | DRD2 | 2.910 -> 2.947 | 31 -> 30 |
+| risperidone | HTR1A | 363.1 -> 354.8 | 20 -> 19 |
+| risperidone | HTR6 | 1329 -> 1397 | 15 -> 14 |
+| risperidone | HTR7 | 3.162 -> 3.688 | 13 -> 12 |
+| ziprasidone (held out) | DRD2 | 3.601 -> 3.795 | 19 -> 18 |
+| ziprasidone (held out) | HTR1A | 2.512 -> 3.162 | 13 -> 12 |
+| ziprasidone (held out) | HTR6 | 60.90 -> 61.99 | 9 -> 8 |
+
+Five more lost one duplicate reference with the median unchanged: clozapine
+HTR2A, haloperidol DRD2 (anchor 2.0 nM kept) and HTR2A, olanzapine DRD2,
+ziprasidone HTR2A. The largest shift is ziprasidone HTR1A, 1.26-fold. The
+coverage counts (1,483 summaries, 5,619 measurements) are unchanged.
+
+**pmid_note.** Six of the new PMIDs do not name the drug in their PubMed title,
+abstract or MeSH terms for some of the files that cite them: 38 drug-reference
+pairs, mostly Silvestre & Prous 2005, a compilation of 25 antipsychotics'
+pKi values whose abstract names only the class. Each has a `pmid_note` saying
+what the paper is, why the drug is absent from the abstract, and which source
+database attributes the value to it. Song & Poon 2017's note also states that
+PDSP's attribution of mirtazapine's receptor profile to that paper was not
+checked against the full text.
+
+Tests: `tests/test_binding_pmid_repair.py`. The live PubMed check is
+`scripts/verify_pmids.py` (network, not in the gate).

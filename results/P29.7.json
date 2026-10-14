@@ -1,0 +1,12 @@
+{
+  "task": "P29.7",
+  "n_scored": 32,
+  "what_n_counts": "benchmark drugs whose PDSP-derived binding citations were re-attributed and verified by title against PubMed esummary (2026-10-14); a data repair, not a model prediction",
+  "bad_ids_repaired": 11,
+  "measurements_reattributed": 684,
+  "replacement_pmids_verified": 12,
+  "not_in_pubmed_cited_via_pdsp": 1,
+  "ki_values_changed": 0,
+  "summary_ki_changed": 16,
+  "pmids_missing_from_pubmed_after_repair": 0
+}

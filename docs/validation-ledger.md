@@ -185,6 +185,17 @@ Sources: PDSP Ki database full CSV (98,678 rows), ChEMBL_37 REST API, GtoPdb
   against 12.57 with a Ki.
 - 86 of 118 covered drugs have a Ki at one of their ChEMBL-curated mechanism
   targets. 28 covered drugs have no curated mechanism row in ChEMBL.
+- **Citation repair (P29.7, 2026-10-14).** 684 PDSP measurements in 32 drugs
+  were cited under eleven publisher or link identifiers that P28.2 had stored as
+  PMIDs. Two of these do not exist in PubMed; the others resolve to unrelated
+  papers. All 684 now cite their real paper, verified by title in PubMed: 12
+  PMIDs, plus Seeman 2001, which PubMed does not index and which is cited via
+  the PDSP Ki database with `pdsp_id`. No Ki value changed. 16 summary Ki values moved
+  by at most 1.26-fold (5 more lost a duplicate reference with the median
+  unchanged) because three papers had been counted twice; the
+  per-target table is in docs/architecture.md under P29.7. This is a data
+  repair, not a validated claim, so it earns no row in the first table
+  (rule 1).
 
 **Searched and empty (67 drugs)**: no human Ki with a printed value in any of
 the three sources.

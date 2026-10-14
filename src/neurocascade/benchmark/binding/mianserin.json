@@ -87,11 +87,6 @@
    "doi": null,
    "pmid": null
   },
-  "PMID:0960894": {
-   "citation": "Panczyk K, et al., 2018",
-   "doi": null,
-   "pmid": "0960894"
-  },
   "PMID:10455251": {
    "citation": "Bonhaus, DW et. al., 1999",
    "doi": null,
@@ -191,7 +186,8 @@
    "chembl_document": "CHEMBL4190389",
    "citation": "Pa\u0144czyk K, Pytka K, Jakubczyk M, Rapacz A, Sa\u0142at K, Furga\u0142a A, Siwek A, G\u0142uch-Lutwin M, Grybo\u015b A, S\u0142oczy\u0144ska K, P\u0119kala E, \u017bmudzki P, Bucki A, Ko\u0142aczkowski M, \u017belaszczyk D, Marona H, Waszkielewicz AM. (2018) Bioorg Med Chem Lett 28:2039",
    "doi": "10.1016/j.bmcl.2018.04.059",
-   "pmid": "29730027"
+   "pmid": "29730027",
+   "pmid_note": "Medicinal-chemistry SAR paper on eleven phenoxyalkyl-piperazines; marketed drugs appear only as reference compounds in its binding tables, so the abstract does not name this drug. The INN does not appear in the PubMed title, abstract or MeSH terms (checked 2026-10-14); ChEMBL and PDSP attribute this drug's values to this paper (P29.7)."
   },
   "PMID:30108880": {
    "chembl_document": "CHEMBL4261553",
@@ -1025,7 +1021,7 @@
    ],
    "ki_max_nM": 56.0,
    "ki_min_nM": 0.2511884225153641,
-   "ki_nM": 3.2,
+   "ki_nM": 2.993326,
    "measurements": [
     {
      "ki_nM": 4.3,
@@ -1133,13 +1129,6 @@
      "source": "PDSP"
     },
     {
-     "ki_nM": 3.2,
-     "record": "PDSP Ki ID 101345 (CLONED, hot ligand 3H-KETANSERIN)",
-     "ref": "PMID:0960894",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
      "ki_nM": 1.58,
      "record": "PDSP Ki ID 11879 (CLONED, hot ligand 3H-KETANSERIN)",
      "ref": "PMID:10611634",
@@ -1157,6 +1146,14 @@
      "ki_nM": 4.3,
      "record": "PDSP Ki ID 36629 (CLONED, hot ligand 125I-R091150)",
      "ref": "PMID:15771415",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 3.2,
+     "pdsp_id": "0960894",
+     "record": "PDSP Ki ID 101345 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:29730027",
      "relation": "=",
      "source": "PDSP"
     },
@@ -1191,9 +1188,9 @@
    ],
    "n_censored": 0,
    "n_measurements": 23,
-   "n_references": 17,
+   "n_references": 16,
    "name": "5-hydroxytryptamine receptor 2A",
-   "pki_median": 8.4949,
+   "pki_median": 8.5238,
    "uniprot": [
     "P28223"
    ]

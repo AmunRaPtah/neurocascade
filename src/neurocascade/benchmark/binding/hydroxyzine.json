@@ -44,7 +44,8 @@
    "chembl_document": "CHEMBL4190389",
    "citation": "Pa\u0144czyk K, Pytka K, Jakubczyk M, Rapacz A, Sa\u0142at K, Furga\u0142a A, Siwek A, G\u0142uch-Lutwin M, Grybo\u015b A, S\u0142oczy\u0144ska K, P\u0119kala E, \u017bmudzki P, Bucki A, Ko\u0142aczkowski M, \u017belaszczyk D, Marona H, Waszkielewicz AM. (2018) Bioorg Med Chem Lett 28:2039",
    "doi": "10.1016/j.bmcl.2018.04.059",
-   "pmid": "29730027"
+   "pmid": "29730027",
+   "pmid_note": "Medicinal-chemistry SAR paper on eleven phenoxyalkyl-piperazines; marketed drugs appear only as reference compounds in its binding tables, so the abstract does not name this drug. The INN does not appear in the PubMed title, abstract or MeSH terms (checked 2026-10-14); ChEMBL attributes this drug's values to this paper (P29.7)."
   }
  },
  "screened_inactive_without_ki": {},

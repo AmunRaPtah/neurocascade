@@ -344,9 +344,103 @@ def _gtopdb_action(type_: str, action: str) -> str | None:
     return _norm_action(a)
 
 
+# PDSP's ``Link`` column is a URL, not a PMID field. Only a PubMed / Entrez
+# link carries a PMID. Reading any 6-9 digit run out of the URL (the P28.2
+# rule) took a ScienceDirect alert id, PII fragments, PMC ids and publisher
+# article numbers for PMIDs, and put 11 nonexistent or wrong PMIDs into the
+# panels (P29.7, docs/architecture.md).
+_PUBMED_LINK = re.compile(
+    r"(?:ncbi\.nlm\.nih\.gov(?::80)?/(?:entrez/\S*?list_uids=|pubmed/(?:\?term=)?)"
+    r"|pubmed\.ncbi\.nlm\.nih\.gov/)(\d+)", re.I)
+
+# Each non-PubMed PDSP link the benchmark drugs use, resolved by hand to the
+# paper it points at: link -> DOI (Crossref for a PII, NCBI idconv for a PMC
+# id) -> PMID (PubMed esearch on the DOI), with title and first author read
+# back from PubMed esummary on 2026-10-14. Matched on a substring of the link.
+# ``pdsp_id`` is the number the P28.2 rule stored as a PMID, kept for tracing.
+PDSP_LINK_SOURCES = {
+    "pii/S0014299901011888": {
+        "pmid": "11513838", "doi": "10.1016/S0014-2999(01)01188-8", "pdsp_id": "001429990",
+        "citation": "Schmidt AW, et al. Ziprasidone: a novel antipsychotic agent with a "
+                    "unique human receptor binding profile. Eur J Pharmacol "
+                    "2001;425:197-201"},
+    "pii/S0223523418300023": {
+        "pmid": "29407591", "doi": "10.1016/j.ejmech.2018.01.002", "pdsp_id": "022352341",
+        "citation": "Zajdel P, et al. Novel multi-target azinesulfonamides of cyclic amine "
+                    "derivatives as potential antipsychotics with pro-social and "
+                    "pro-cognitive effects. Eur J Med Chem 2018;145:790-804"},
+    "S0960894X06003465": {
+        "pmid": "16621538", "doi": "10.1016/j.bmcl.2006.03.057", "pdsp_id": "0960894",
+        "citation": "Ablordeppey SY, et al. Evaluation of the eutomer of "
+                    "4-{3-(4-chlorophenyl)-3-hydroxypyrrolidin-1-yl}-1-(4-fluorophenyl)"
+                    "butan-1-one, {(+)-SYA 09}, a pyrrolidine analog of haloperidol. "
+                    "Bioorg Med Chem Lett 2006;16:3219-23"},
+    "pii/S0960894X18307716": {
+        "pmid": "30266542", "doi": "10.1016/j.bmcl.2018.09.029", "pdsp_id": "0960894",
+        "citation": "Yarravarapu N, et al. Clickable photoaffinity ligands for the human "
+                    "serotonin transporter based on the selective serotonin reuptake "
+                    "inhibitor (S)-citalopram. Bioorg Med Chem Lett 2018;28:3431-3435"},
+    "pii/S0960894X18303718": {
+        "pmid": "29730027", "doi": "10.1016/j.bmcl.2018.04.059", "pdsp_id": "0960894",
+        "citation": "Pańczyk K, et al. Synthesis and activity of di- or trisubstituted "
+                    "N-(phenoxyalkyl)- or N-{2-[2-(phenoxy)ethoxy]ethyl}piperazine "
+                    "derivatives on the central nervous system. Bioorg Med Chem Lett "
+                    "2018;28:2039-2049"},
+    "pii/S0968089606001817": {
+        "pmid": "16517171", "doi": "10.1016/j.bmc.2006.02.029", "pdsp_id": "096808960",
+        "citation": "Van der Mey M, et al. Synthesis and biodistribution of [11C]R107474, "
+                    "a new radiolabeled alpha2-adrenoceptor antagonist. Bioorg Med Chem "
+                    "2006;14:4526-34"},
+    "hindawi.com/journals/ijmc/2015/430248": {
+        "pmid": "26682068", "doi": "10.1155/2015/430248", "pdsp_id": "430248",
+        "citation": "Clayton T, et al. A Review of the Updated Pharmacophore for the Alpha 5 "
+                    "GABA(A) Benzodiazepine Receptor Model. Int J Med Chem 2015;2015:430248"},
+    "p_RefId=908643": {
+        "pmid": "16082416", "doi": "10.1358/mf.2005.27.5.908643", "pdsp_id": "908643",
+        "citation": "Silvestre JS, Prous J. Research on adverse drug events. I. Muscarinic "
+                    "M3 receptor binding affinity could predict the risk of antipsychotics "
+                    "to induce type 2 diabetes. Methods Find Exp Clin Pharmacol "
+                    "2005;27:289-304"},
+    "10.1517/13543784.12.4.655": {
+        "pmid": "12665420", "doi": "10.1517/13543784.12.4.655", "pdsp_id": "13543784",
+        "citation": "Keck PE Jr, McElroy SL. Aripiprazole: a partial dopamine D2 receptor "
+                    "agonist antipsychotic. Expert Opin Investig Drugs 2003;12:655-62"},
+    "tpj/journal/v6/n1/pdf/6500342a": {
+        "pmid": "16314884", "doi": "10.1038/sj.tpj.6500342", "pdsp_id": "6500342",
+        "citation": "Davies MA, et al. Pharmacologic analysis of non-synonymous coding "
+                    "h5-HT2A SNPs reveals alterations in atypical antipsychotic and agonist "
+                    "efficacies. Pharmacogenomics J 2006;6:42-51"},
+    "PMC5313063": {
+        "pmid": "28239660", "doi": "10.1172/jci.insight.91456", "pdsp_id": "5313063",
+        "citation": "Song G, Poon CS. α2-Adrenergic blockade rescues hypoglossal motor "
+                    "defense against obstructive sleep apnea. JCI Insight 2017;2:e91456"},
+    "PMC4119213": {
+        "pmid": "25026323", "doi": "10.1038/tp.2014.30", "pdsp_id": "4119213",
+        "citation": "Gassaway MM, et al. The atypical antidepressant and neurorestorative "
+                    "agent tianeptine is a μ-opioid receptor agonist. Transl Psychiatry "
+                    "2014;4:e411"},
+    # Not in PubMed: Clinical Neuroscience Research is not indexed there
+    # (esearch on the DOI and on the exact title both return nothing). The
+    # link is a ScienceDirect ArticleURL whose _alid (93617739) is an alert id;
+    # its cover date 2001-01-31 and author match this Crossref record.
+    "_udi=B6W84-42KD8D9-7": {
+        "pmid": None, "doi": "10.1016/S1566-2772(00)00007-4", "pdsp_id": "93617739",
+        "citation": "Seeman P. Antipsychotic drugs, dopamine receptors, and schizophrenia. "
+                    "Clin Neurosci Res 2001;1:53-60 (not indexed in PubMed; cited via the "
+                    "PDSP Ki database)"},
+}
+
+
 def _pmid_from_link(link: str) -> str | None:
-    m = re.search(r"(\d{6,9})", link or "")
+    m = _PUBMED_LINK.search(link or "")
     return m.group(1) if m else None
+
+
+def _pdsp_link_source(link: str) -> dict | None:
+    for fragment, rec in PDSP_LINK_SOURCES.items():
+        if fragment in (link or ""):
+            return rec
+    return None
 
 
 def build(cache: Path) -> None:
@@ -514,15 +608,24 @@ def _build_one(d, acts, assays, docs, targets, mechs, pdsp_by_name, lig_by_ik,
                 excluded["pdsp_nonpositive"] += 1
                 continue
             pmid = _pmid_from_link(r["Link"])
+            linked = None if pmid else _pdsp_link_source(r["Link"])
+            if linked:
+                pmid = linked["pmid"]
             rkey = f"PMID:{pmid}" if pmid else f"PDSP_REF:{r['Reference'].strip()}"
-            add_ref(rkey, {"pmid": pmid, "doi": None, "citation": r["Reference"].strip()})
+            if linked:
+                add_ref(rkey, {"pmid": pmid, "doi": linked["doi"], "citation": linked["citation"],
+                               **({} if pmid else {"pdsp_id": linked["pdsp_id"],
+                                                   "source": "PDSP Ki database"})})
+            else:
+                add_ref(rkey, {"pmid": pmid, "doi": None, "citation": r["Reference"].strip()})
             genes = gene.split("+")
             tinfo.setdefault(gene, {"gene_symbols": genes, "uniprot": [], "name": r["Name"].strip()})
             pdsp_names_used.add(r[" Ligand Name"].strip())
             meas[gene].append({"ki_nM": value, "relation": "=" if note == "" else ">",
                                "source": "PDSP", "ref": rkey,
                                "record": f"PDSP Ki ID {r['Number']} ({r['source'].strip()}, "
-                                         f"hot ligand {r['Hotligand'].strip()})"})
+                                         f"hot ligand {r['Hotligand'].strip()})",
+                               **({"pdsp_id": linked["pdsp_id"]} if linked else {})})
 
     # --- GtoPdb
     lig = lig_by_ik.get(d.get("standard_inchikey") or "") or lig_by_chembl.get(chembl_query_id(d))
