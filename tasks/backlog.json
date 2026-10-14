@@ -2599,7 +2599,13 @@
       },
       "deps": [],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "conductor": {
+        "sessions": 1,
+        "history": [
+          "2026-10-14 13:54 COMPLETE, PR opened"
+        ]
+      }
     },
     {
       "id": "P29.8",
