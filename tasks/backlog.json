@@ -2603,8 +2603,10 @@
       "conductor": {
         "sessions": 1,
         "history": [
-          "2026-10-14 13:54 COMPLETE, PR opened"
-        ]
+          "2026-10-14 13:54 COMPLETE, PR opened",
+          "2026-10-15 11:02 PR #28 rejected by acceptance review: CHECK CITATIONS: FAIL . I checked, for each of the 12 new PMIDs, every drug file that cites it, against the real PubMed title/abstract. Two of the new PMIDs are reused for multiple drugs where the paper does not name that drug and no pmid_note was added, violating the host check and the brief's own stated rule (\"references that... do not name the drug in the abstract get a pmid_note\"):\nREVIEW: REJ"
+        ],
+        "review_rejections": 1
       }
     },
     {
