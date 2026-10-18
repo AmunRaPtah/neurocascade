@@ -17433,9 +17433,17 @@ claim.
 
 The conductor's checkout removes all 55 frozen held-out effect records, so
 there `heldout_evaluation()` returns `searched-and-empty` with every drug named
-and no drug counted as a negative. On a host with the full tree the same
-function scores the 39 held-out drugs that have both a label and a unique exact
-oral clinical dose. Sixteen are reported as input gaps, not truth gaps:
+and no drug counted as a negative. `n_scored` counts only drugs with at least
+one known binary label, so the number is a scored-drug count, not a
+drugs-with-a-profile count. On a host with the full tree the same
+function scores the held-out drugs that have both a known label and a unique
+exact oral clinical dose. The denominator is easy to overstate: of the 55
+held-out drugs, **39 have a unique exact oral clinical dose, 18 carry at least
+one known binary effect label, and 17 have both** — that 17 is the held-out
+scoring set. Thirty-seven drugs have a P28.4 record whose every effect label is
+unknown (no incidence resolves the threshold), so they are reported under
+`unlabelled` and are not counted as scored. Sixteen have no unique exact oral
+clinical dose and are reported as input gaps, not truth gaps:
 amineptine, asenapine, bifemelane, bitopertin, bradanicline, chlorproethazine,
 droperidol, fluanisone, gedocarnil, mosapramine, navacaprant, oxitriptan,
 pinazepam, pipotiazine, tofisopam, verucerfont (no unique exact oral clinical
@@ -17465,3 +17473,74 @@ regularised logistic models are used specifically to expose a compact set of
 non-zero, comprehensible predictors in clinical prediction (Liu et al. 2016,
 PMID 26921029). The paper is methodological support for the model family, not
 a source for any neurocascade parameter.
+
+## Phase 30, part two: effect baselines and uncertainty (P30.2)
+
+P30.2 is implemented in `neurocascade.benchmark.effect_scoring`. It compares the
+frozen P30.1 train-only occupancy model with two baselines on the *same* eligible
+rows, and reports AUROC and AUPRC with a prevalence baseline and a drug-level
+percentile bootstrap (2,000 replicates, seed `20261018`, Efron 1979,
+doi:10.1214/aos/1176344552 — illustrative analysis settings, not biological
+parameters).
+
+On a host holding the frozen truth the held-out split, as in P30.1, is small:
+**17 of the 55 held-out drugs are scorable** (39 have a unique exact oral
+clinical dose, 18 carry at least one known binary label, 17 have both; the other
+37 have all-unknown labels and are never counted as negatives). The comparison
+additionally requires both baselines to be computable for a drug, so per-effect
+n falls between 9 and 13:
+
+| effect | n | +/– | occupancy model AUROC (95% CI) | strongest-Ki AUROC (95% CI) | nearest-neighbour AUROC (95% CI) | AUPRC (model / prevalence) |
+|---|---:|---:|---|---|---|---|
+| EPS | 11 | 4 / 7 | 1.00 [1.00, 1.00] | 0.61 [0.20, 1.00] | 0.62 [0.50, 1.00] | 1.00 / 0.36 |
+| sedation | 13 | 9 / 4 | 0.61 [0.20, 1.00] | 0.78 [0.47, 1.00] | 0.39 [0.25, 0.50] | 0.81 / 0.69 |
+| weight gain | 12 | 3 / 9 | 0.74 [0.43, 1.00] | 0.33 [0.05, 0.69] | 0.61 [0.36, 0.95] | 0.44 / 0.25 |
+| anticholinergic | 13 | 12 / 1 | 0.42 [0.17, 0.73] | 0.67 [0.36, 0.92] | 0.42 [0.29, 0.50] | 0.94 / 0.92 |
+| orthostasis | 12 | 3 / 9 | 0.30 [0.00, 0.82] | 0.52 [0.10, 1.00] | 0.67 [0.50, 1.00] | 0.26 / 0.25 |
+| sexual dysfunction | 9 | 5 / 4 | 0.85 [0.44, 1.00] | 0.50 [0.00, 1.00] | 0.90 [0.70, 1.00] | 0.88 / 0.56 |
+| seizure | 11 | 0 / 11 | not estimable | not estimable | not estimable | — |
+
+**Every held-out effect is underpowered** (fewer than five positives or
+negatives), so P30.2's headline fields are empty by its own pre-declared rule,
+and it makes no clinical claim. Read as descriptives: the occupancy model beats
+*both* baselines only for weight gain (0.74 against 0.33 and 0.61) and draws or
+loses to at least one for every other effect; the perfect EPS row is four
+positives and seven negatives, and its `[1.00, 1.00]` interval is what a
+degenerate bootstrap looks like, not a strong result. Nearest-neighbour is the
+best of the three on sexual dysfunction (0.90) and orthostasis (0.67); the
+strongest-Ki baseline is best on sedation (0.78) and anticholinergic (0.67).
+That pattern — a different winner per effect on 9–13 drugs — is what a set of
+noise-sized estimates looks like.
+
+The all-available LODO diagnostic (52 drugs, leave-one-drug-out on frozen
+inputs, not held-out evidence) is more sober still:
+
+| effect | n | +/– | occupancy model | strongest-Ki | nearest-neighbour |
+|---|---:|---:|---|---|---|
+| EPS | 37 | 14 / 23 | 0.68 | 0.63 | 0.56 |
+| sedation | 42 | 34 / 8 | 0.39 | 0.73 | 0.35 |
+| weight gain | 36 | 14 / 22 | 0.47 | 0.54 | 0.78 |
+| anticholinergic | 39 | 36 / 3 | 0.06 | 0.35 | 0.44 |
+| orthostasis | 39 | 6 / 33 | 0.36 | 0.59 | 0.64 |
+| sexual dysfunction | 34 | 12 / 22 | 0.80 | 0.48 | 0.57 |
+| seizure | 38 | 0 / 38 | not estimable | not estimable | not estimable |
+
+(AUROC; AUPRC is in `results/P30.2.json`.) The occupancy model beats both
+baselines only for sexual dysfunction. The failure analysis this task's own
+acceptance asks for is therefore: **the occupancy model cannot be shown to
+predict any effect better than a one-feature or nearest-neighbour baseline**;
+seizure cannot be separated by the committed label rule at all (no positives);
+anticholinergic and orthostasis are near-saturated and underpowered; sedation
+and weight gain are predicted better by a baseline than by the model.
+
+Why this is expected rather than surprising: with 35 fitted train drugs and 57
+target features, the frozen P30.1 model is at or below chance on its own train
+drugs (train LOO 0.497–0.565), so there is no transportable signal for P30.2 to
+find. The result that must not be over-read is the EPS held-out 1.00: four
+positives, a degenerate bootstrap interval, and a 0.68 LODO estimate beside it.
+
+Two data gaps are now explicit and separate from the model. First, paired
+placebo incidences are absent from the repository for every drug, so the label
+rule is still the flagged absolute fallback and no label is placebo-subtracted.
+Second, 37 of the 55 held-out drugs have all-unknown effect labels in P28.4,
+which caps the held-out scorable set at 17 regardless of the model.

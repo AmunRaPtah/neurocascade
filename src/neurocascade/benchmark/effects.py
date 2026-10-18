@@ -523,6 +523,7 @@ def heldout_evaluation(*, regularization_strength: float = ILLUSTRATIVE_L2_STREN
     rows: list[tuple[str, OccupancyProfile, dict[str, int | None]]] = []
     missing_truth: list[str] = []
     missing_input: list[str] = []
+    unlabelled: list[str] = []
     for drug in heldout:
         try:
             labels = {row.effect: row.label for row in effect_labels(drug)}
@@ -534,6 +535,14 @@ def heldout_evaluation(*, regularization_strength: float = ILLUSTRATIVE_L2_STREN
         except (KeyError, ValueError):
             missing_input.append(drug)
             continue
+        # A record can exist and still have no known binary label for any
+        # effect (P28.4 records SIDER/label evidence without always resolving an
+        # incidence threshold). Such a drug cannot be scored and must not be
+        # counted as one: 39 held-out drugs have a dose, 18 carry a known
+        # label, and 17 have both.
+        if not any(label in (0, 1) for label in labels.values()):
+            unlabelled.append(drug)
+            continue
         rows.append((drug, profile, labels))
     if not rows:
         return {
@@ -542,6 +551,7 @@ def heldout_evaluation(*, regularization_strength: float = ILLUSTRATIVE_L2_STREN
             "n_heldout": len(heldout),
             "missing_truth": missing_truth,
             "missing_input": missing_input,
+            "unlabelled": unlabelled,
         }
     result = {}
     for effect, model in models.items():
@@ -563,6 +573,7 @@ def heldout_evaluation(*, regularization_strength: float = ILLUSTRATIVE_L2_STREN
         "n_heldout": len(heldout),
         "missing_truth": missing_truth,
         "missing_input": missing_input,
+        "unlabelled": unlabelled,
         "effects": result,
     }
 

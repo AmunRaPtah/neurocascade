@@ -19,4 +19,5 @@ logs/
 #                     genes (P4.1). Manifest: expression/sources.py.
 #                     Verify: python scripts/fetch_expression.py --verify-only
 data/
+/data
 tasks/backlog.json.tmp

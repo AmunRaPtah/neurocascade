@@ -93,5 +93,9 @@ def test_heldout_truth_is_never_read_as_a_negative():
         assert result["status"] == "scored"
         assert result["n_scored"] > 0
         assert missing_truth == []
-        assert result["n_scored"] + len(missing_input) == len(heldout)
-        assert result["n_heldout"] == len(heldout)
+        unlabelled = result["unlabelled"]
+        assert not set(unlabelled) & (set(missing_truth) | set(missing_input))
+        assert (result["n_scored"] + len(missing_input) + len(unlabelled)
+                == len(heldout))
+        for drug in unlabelled:
+            assert all(row.label not in (0, 1) for row in effect_labels(drug))
