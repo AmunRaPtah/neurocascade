@@ -98,16 +98,6 @@
    "doi": null,
    "pmid": null
   },
-  "PMID:001429990": {
-   "citation": "Schmidt, AW. et, al. 2001",
-   "doi": null,
-   "pmid": "001429990"
-  },
-  "PMID:022352341": {
-   "citation": "Zajdel, Pawel et. al, 2018",
-   "doi": null,
-   "pmid": "022352341"
-  },
   "PMID:10991983": {
    "citation": "Herrick-Davis K, et al., 2000",
    "doi": null,
@@ -123,6 +113,14 @@
    "citation": "Rowley M, Bristow LJ, Hutson PH. (2001) J Med Chem 44:477",
    "doi": "10.1021/jm0002432",
    "pmid": "11170639"
+  },
+  "PMID:11513838": {
+   "citation": "Schmidt AW, Lebel LA, Howard HR Jr, Zorn SH (2001) Eur J Pharmacol 425:197-201",
+   "doi": "10.1016/s0014-2999(01)01188-8",
+   "pdsp_id": "001429990",
+   "pdsp_link": "https://www.sciencedirect.com/science/article/pii/S0014299901011888?via%3Dihub",
+   "pdsp_reference": "Schmidt, AW. et, al. 2001",
+   "pmid": "11513838"
   },
   "PMID:12176106": {
    "citation": "Kongsamut, S, et. al., 2002",
@@ -144,10 +142,27 @@
    "doi": null,
    "pmid": "15821958"
   },
+  "PMID:16082416": {
+   "citation": "Silvestre JS, Prous J (2005) Methods Find Exp Clin Pharmacol 27:289-304",
+   "doi": "10.1358/mf.2005.27.5.908643",
+   "pdsp_id": "908643",
+   "pdsp_link": "https://journals.prous.com/journals/servlet/xmlxsl/pk_journals.xml_summaryn_pr?p_JournalId=6&p_RefId=908643",
+   "pdsp_reference": "Silvestre, JS. et, al. 2005",
+   "pmid": "16082416",
+   "pmid_note": "Compilation, not a primary measurement: pKi of 25 typical and atypical antipsychotics at 21 human receptors, taken from Prous Science Integrity, regressed against type 2 diabetes risk. The PDSP Ki database attributes this drug's Ki rows to this paper; ziprasidone is not named in its PubMed title or abstract."
+  },
   "PMID:16135699": {
    "citation": "Burstein ES, et al., 2005",
    "doi": null,
    "pmid": "16135699"
+  },
+  "PMID:16314884": {
+   "citation": "Davies MA, Setola V, Strachan RT, Sheffler DJ, Salay E, Hufeisen SJ, Roth BL (2006) Pharmacogenomics J 6:42-51",
+   "doi": "10.1038/sj.tpj.6500342",
+   "pdsp_id": "6500342",
+   "pdsp_link": "http://www.nature.com/tpj/journal/v6/n1/pdf/6500342a.pdf",
+   "pdsp_reference": "Davies M, et al. 2005",
+   "pmid": "16314884"
   },
   "PMID:17880057": {
    "chembl_document": "CHEMBL1148822",
@@ -189,7 +204,11 @@
    "chembl_document": "CHEMBL4229332",
    "citation": "Zajdel P, Kos T, Marciniec K, Sata\u0142a G, Canale V, Kami\u0144ski K, Ho\u0142uj M, Lenda T, Koralewski R, Bednarski M, Nowi\u0144ski L, W\u00f3jcikowski J, Daniel WA, Nikiforuk A, Nalepa I, Chmielarz P, Ku\u015bmierczyk J, Bojarski AJ, Popik P. (2018) Eur J Med Chem 145:790",
    "doi": "10.1016/j.ejmech.2018.01.002",
-   "pmid": "29407591"
+   "pdsp_id": "022352341",
+   "pdsp_link": "https://www.sciencedirect.com/science/article/pii/S0223523418300023?via%3Dihub#!",
+   "pdsp_reference": "Zajdel, Pawel et. al, 2018",
+   "pmid": "29407591",
+   "pmid_note": "Medicinal-chemistry series of novel azinesulfonamides of cyclic amines as potential antipsychotics. The PDSP Ki database attributes this drug's Ki rows to this paper; ziprasidone is not named in its PubMed title or abstract."
   },
   "PMID:31229883": {
    "chembl_document": "CHEMBL4351001",
@@ -203,20 +222,10 @@
    "doi": "10.1016/j.bmcl.2020.127681",
    "pmid": "33189775"
   },
-  "PMID:6500342": {
-   "citation": "Davies M, et al. 2005",
-   "doi": null,
-   "pmid": "6500342"
-  },
   "PMID:8935801": {
    "citation": "Schotte A, et al.,  1996",
    "doi": null,
    "pmid": "8935801"
-  },
-  "PMID:908643": {
-   "citation": "Silvestre, JS. et, al. 2005",
-   "doi": null,
-   "pmid": "908643"
   },
   "PMID:9223553": {
    "citation": "Newman-Tancredi A, et al., 1997",
@@ -560,7 +569,7 @@
     {
      "ki_nM": 5128.6138399136,
      "record": "PDSP Ki ID 63662 (CLONED, hot ligand 3H-QNB)",
-     "ref": "PMID:001429990",
+     "ref": "PMID:11513838",
      "relation": "=",
      "source": "PDSP"
     },
@@ -572,16 +581,16 @@
      "source": "PDSP"
     },
     {
-     "ki_nM": 5100.0,
-     "record": "PDSP Ki ID 53688 (UNDEFINED, hot ligand UNDEFINED)",
-     "ref": "PMID:18595716",
+     "ki_nM": 1071.5193052376,
+     "record": "PDSP Ki ID 64410 (CLONED, hot ligand 3H-QNB)",
+     "ref": "PMID:16082416",
      "relation": "=",
      "source": "PDSP"
     },
     {
-     "ki_nM": 1071.5193052376,
-     "record": "PDSP Ki ID 64410 (CLONED, hot ligand 3H-QNB)",
-     "ref": "PMID:908643",
+     "ki_nM": 5100.0,
+     "record": "PDSP Ki ID 53688 (UNDEFINED, hot ligand UNDEFINED)",
+     "ref": "PMID:18595716",
      "relation": "=",
      "source": "PDSP"
     }
@@ -624,7 +633,7 @@
     {
      "ki_nM": 2511.8864315096,
      "record": "PDSP Ki ID 64431 (CLONED, hot ligand 3H-QNB)",
-     "ref": "PMID:908643",
+     "ref": "PMID:16082416",
      "relation": "=",
      "source": "PDSP"
     }
@@ -781,7 +790,14 @@
     {
      "ki_nM": 131.82567385564,
      "record": "PDSP Ki ID 63650 (CLONED, hot ligand 3H-SCH233930)",
-     "ref": "PMID:001429990",
+     "ref": "PMID:11513838",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 3.1622776601684,
+     "record": "PDSP Ki ID 64503 (CLONED, hot ligand 3H-SCH233930)",
+     "ref": "PMID:16082416",
      "relation": "=",
      "source": "PDSP"
     },
@@ -789,13 +805,6 @@
      "ki_nM": 130.0,
      "record": "PDSP Ki ID 53694 (UNDEFINED, hot ligand UNDEFINED)",
      "ref": "PMID:18595716",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
-     "ki_nM": 3.1622776601684,
-     "record": "PDSP Ki ID 64503 (CLONED, hot ligand 3H-SCH233930)",
-     "ref": "PMID:908643",
      "relation": "=",
      "source": "PDSP"
     }
@@ -840,7 +849,7 @@
    ],
    "ki_max_nM": 12.59,
    "ki_min_nM": 0.8,
-   "ki_nM": 3.600633,
+   "ki_nM": 3.795067,
    "measurements": [
     {
      "ki_nM": 12.59,
@@ -920,23 +929,16 @@
      "source": "PDSP"
     },
     {
-     "ki_nM": 3.1622776601684,
-     "record": "PDSP Ki ID 63651 (CLONED, hot ligand 3H-N-Methylspiperone)",
-     "ref": "PMID:001429990",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
-     "ki_nM": 0.8,
-     "record": "PDSP Ki ID 68009 (CLONED, hot ligand 3H-RACLOPRIDE)",
-     "ref": "PMID:022352341",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
      "ki_nM": 2.6,
      "record": "PDSP Ki ID 17091 (BRAIN, hot ligand 3H-SPIPERONE)",
      "ref": "PMID:11132243",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 3.1622776601684,
+     "record": "PDSP Ki ID 63651 (CLONED, hot ligand 3H-N-Methylspiperone)",
+     "ref": "PMID:11513838",
      "relation": "=",
      "source": "PDSP"
     },
@@ -951,6 +953,13 @@
      "ki_nM": 9.7,
      "record": "PDSP Ki ID 28509 (CLONED, hot ligand 3H-NMSP)",
      "ref": "PMID:12629531",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 7.9432823472428,
+     "record": "PDSP Ki ID 64128 (CLONED, hot ligand 3H-N-Methylspiperone)",
+     "ref": "PMID:16082416",
      "relation": "=",
      "source": "PDSP"
     },
@@ -983,6 +992,13 @@
      "source": "PDSP"
     },
     {
+     "ki_nM": 0.8,
+     "record": "PDSP Ki ID 68009 (CLONED, hot ligand 3H-RACLOPRIDE)",
+     "ref": "PMID:29407591",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
      "ki_nM": 4.2,
      "record": "PDSP Ki ID 11393 (CLONED, hot ligand 3H-SPIPERONE)",
      "ref": "PMID:8935801",
@@ -993,13 +1009,6 @@
      "ki_nM": 4.6,
      "record": "PDSP Ki ID 11381 (CLONED, hot ligand 3H-SPIPERONE)",
      "ref": "PMID:8935801",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
-     "ki_nM": 7.9432823472428,
-     "record": "PDSP Ki ID 64128 (CLONED, hot ligand 3H-N-Methylspiperone)",
-     "ref": "PMID:908643",
      "relation": "=",
      "source": "PDSP"
     },
@@ -1020,9 +1029,9 @@
    ],
    "n_censored": 0,
    "n_measurements": 25,
-   "n_references": 19,
+   "n_references": 18,
    "name": "D(2) dopamine receptor",
-   "pki_median": 8.4436,
+   "pki_median": 8.4208,
    "uniprot": [
     "P14416"
    ]
@@ -1056,7 +1065,7 @@
     {
      "ki_nM": 7.2443596007499,
      "record": "PDSP Ki ID 63652 (CLONED, hot ligand 3H-N-Methylspiperone)",
-     "ref": "PMID:001429990",
+     "ref": "PMID:11513838",
      "relation": "=",
      "source": "PDSP"
     },
@@ -1155,7 +1164,14 @@
     {
      "ki_nM": 32.359365692963,
      "record": "PDSP Ki ID 63653 (CLONED, hot ligand 3H-N-Methylspiperone)",
-     "ref": "PMID:001429990",
+     "ref": "PMID:11513838",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 20.89296130854,
+     "record": "PDSP Ki ID 64177 (CLONED, hot ligand 3H-N-Methylspiperone)",
+     "ref": "PMID:16082416",
      "relation": "=",
      "source": "PDSP"
     },
@@ -1177,13 +1193,6 @@
      "ki_nM": 39.0,
      "record": "PDSP Ki ID 11417 (CLONED, hot ligand 3H-SPIPERONE)",
      "ref": "PMID:8935801",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
-     "ki_nM": 20.89296130854,
-     "record": "PDSP Ki ID 64177 (CLONED, hot ligand 3H-N-Methylspiperone)",
-     "ref": "PMID:908643",
      "relation": "=",
      "source": "PDSP"
     },
@@ -1323,13 +1332,6 @@
      "source": "PDSP"
     },
     {
-     "ki_nM": 46.77351412872,
-     "record": "PDSP Ki ID 63661 (CLONED, hot ligand 3H-PYRILAMINE)",
-     "ref": "PMID:001429990",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
      "ki_nM": 4.6,
      "record": "PDSP Ki ID 17105 (BRAIN, hot ligand 3H-PYRILAMINE)",
      "ref": "PMID:11132243",
@@ -1337,9 +1339,23 @@
      "source": "PDSP"
     },
     {
+     "ki_nM": 46.77351412872,
+     "record": "PDSP Ki ID 63661 (CLONED, hot ligand 3H-PYRILAMINE)",
+     "ref": "PMID:11513838",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
      "ki_nM": 43.0,
      "record": "PDSP Ki ID 28526 (CLONED, hot ligand 3H-PYRILAMINE)",
      "ref": "PMID:12629531",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 22.908676527678,
+     "record": "PDSP Ki ID 64388 (CLONED, hot ligand 3H-PYRILAMINE)",
+     "ref": "PMID:16082416",
      "relation": "=",
      "source": "PDSP"
     },
@@ -1354,13 +1370,6 @@
      "ki_nM": 15.0,
      "record": "PDSP Ki ID 11488 (CLONED, hot ligand 3H-PYRILAMINE)",
      "ref": "PMID:8935801",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
-     "ki_nM": 22.908676527678,
-     "record": "PDSP Ki ID 64388 (CLONED, hot ligand 3H-PYRILAMINE)",
-     "ref": "PMID:908643",
      "relation": "=",
      "source": "PDSP"
     }
@@ -1420,7 +1429,7 @@
    ],
    "ki_max_nM": 76.0,
    "ki_min_nM": 1.2589254117941662,
-   "ki_nM": 2.511886,
+   "ki_nM": 3.162278,
    "measurements": [
     {
      "ki_nM": 1.585,
@@ -1486,20 +1495,6 @@
      "source": "PDSP"
     },
     {
-     "ki_nM": 2.5118864315096,
-     "record": "PDSP Ki ID 63654 (CLONED, hot ligand 3H-WAY100635)",
-     "ref": "PMID:001429990",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
-     "ki_nM": 2.0,
-     "record": "PDSP Ki ID 68005 (CLONED, hot ligand 3H-8-OH-DPAT)",
-     "ref": "PMID:022352341",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
      "ki_nM": 1.9,
      "record": "PDSP Ki ID 17132 (BRAIN, hot ligand 3H-8-OH-DPAT)",
      "ref": "PMID:11132243",
@@ -1507,9 +1502,23 @@
      "source": "PDSP"
     },
     {
+     "ki_nM": 2.5118864315096,
+     "record": "PDSP Ki ID 63654 (CLONED, hot ligand 3H-WAY100635)",
+     "ref": "PMID:11513838",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
      "ki_nM": 76.0,
      "record": "PDSP Ki ID 28628 (CLONED, hot ligand 3H-8-OH-DPAT)",
      "ref": "PMID:12629531",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 21.877616239496,
+     "record": "PDSP Ki ID 64243 (CLONED, hot ligand 3H-WAY100635)",
+     "ref": "PMID:16082416",
      "relation": "=",
      "source": "PDSP"
     },
@@ -1528,25 +1537,25 @@
      "source": "PDSP"
     },
     {
-     "ki_nM": 12.0,
-     "record": "PDSP Ki ID 11314 (CLONED, hot ligand 3H-8-OH-DPAT)",
-     "ref": "PMID:8935801",
+     "ki_nM": 2.0,
+     "record": "PDSP Ki ID 68005 (CLONED, hot ligand 3H-8-OH-DPAT)",
+     "ref": "PMID:29407591",
      "relation": "=",
      "source": "PDSP"
     },
     {
-     "ki_nM": 21.877616239496,
-     "record": "PDSP Ki ID 64243 (CLONED, hot ligand 3H-WAY100635)",
-     "ref": "PMID:908643",
+     "ki_nM": 12.0,
+     "record": "PDSP Ki ID 11314 (CLONED, hot ligand 3H-8-OH-DPAT)",
+     "ref": "PMID:8935801",
      "relation": "=",
      "source": "PDSP"
     }
    ],
    "n_censored": 0,
    "n_measurements": 17,
-   "n_references": 13,
+   "n_references": 12,
    "name": "5-hydroxytryptamine receptor 1A",
-   "pki_median": 8.6,
+   "pki_median": 8.5,
    "uniprot": [
     "P08908"
    ]
@@ -1826,23 +1835,16 @@
      "source": "PDSP"
     },
     {
-     "ki_nM": 0.38904514499428,
-     "record": "PDSP Ki ID 63655 (CLONED, hot ligand 3H-KETANSERIN)",
-     "ref": "PMID:001429990",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
-     "ki_nM": 1.7,
-     "record": "PDSP Ki ID 68006 (CLONED, hot ligand 3H-KETANSERIN)",
-     "ref": "PMID:022352341",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
      "ki_nM": 0.12,
      "record": "PDSP Ki ID 17160 (BRAIN, hot ligand 3H-KETANSERIN)",
      "ref": "PMID:11132243",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.38904514499428,
+     "record": "PDSP Ki ID 63655 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:11513838",
      "relation": "=",
      "source": "PDSP"
     },
@@ -1861,6 +1863,20 @@
      "source": "PDSP"
     },
     {
+     "ki_nM": 0.87096358995608,
+     "record": "PDSP Ki ID 64268 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:16082416",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.85113803820238,
+     "record": "PDSP Ki ID 59099 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:16314884",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
      "ki_nM": 0.0799999982118607,
      "record": "PDSP Ki ID 52774 (UNDEFINED, hot ligand UNDEFINED)",
      "ref": "PMID:18160289",
@@ -1875,9 +1891,9 @@
      "source": "PDSP"
     },
     {
-     "ki_nM": 0.85113803820238,
-     "record": "PDSP Ki ID 59099 (CLONED, hot ligand 3H-KETANSERIN)",
-     "ref": "PMID:6500342",
+     "ki_nM": 1.7,
+     "record": "PDSP Ki ID 68006 (CLONED, hot ligand 3H-KETANSERIN)",
+     "ref": "PMID:29407591",
      "relation": "=",
      "source": "PDSP"
     },
@@ -1887,18 +1903,11 @@
      "ref": "PMID:8935801",
      "relation": "=",
      "source": "PDSP"
-    },
-    {
-     "ki_nM": 0.87096358995608,
-     "record": "PDSP Ki ID 64268 (CLONED, hot ligand 3H-KETANSERIN)",
-     "ref": "PMID:908643",
-     "relation": "=",
-     "source": "PDSP"
     }
    ],
    "n_censored": 0,
    "n_measurements": 20,
-   "n_references": 17,
+   "n_references": 16,
    "name": "5-hydroxytryptamine receptor 2A",
    "pki_median": 9.4089,
    "uniprot": [
@@ -2032,13 +2041,6 @@
      "source": "PDSP"
     },
     {
-     "ki_nM": 0.72443596007499,
-     "record": "PDSP Ki ID 63656 (CLONED, hot ligand 3H-MESULERGINE)",
-     "ref": "PMID:001429990",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
      "ki_nM": 4.1,
      "record": "PDSP Ki ID 13931 (CLONED, hot ligand 3H-MESULERGINE)",
      "ref": "PMID:10991983",
@@ -2049,6 +2051,13 @@
      "ki_nM": 0.9,
      "record": "PDSP Ki ID 17174 (BRAIN, hot ligand 3H-5HT)",
      "ref": "PMID:11132243",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 0.72443596007499,
+     "record": "PDSP Ki ID 63656 (CLONED, hot ligand 3H-MESULERGINE)",
+     "ref": "PMID:11513838",
      "relation": "=",
      "source": "PDSP"
     },
@@ -2105,7 +2114,7 @@
     {
      "ki_nM": 2818.3829312645,
      "record": "PDSP Ki ID 64316 (CLONED, hot ligand 3H-LY278584)",
-     "ref": "PMID:908643",
+     "ref": "PMID:16082416",
      "relation": "=",
      "source": "PDSP"
     }
@@ -2161,7 +2170,7 @@
    ],
    "ki_max_nM": 76.0,
    "ki_min_nM": 20.0,
-   "ki_nM": 60.9,
+   "ki_nM": 61.990241,
    "measurements": [
     {
      "ki_nM": 63.1,
@@ -2208,14 +2217,7 @@
     {
      "ki_nM": 75.857757502918,
      "record": "PDSP Ki ID 63657 (CLONED, hot ligand 3H-LSD)",
-     "ref": "PMID:001429990",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
-     "ki_nM": 20.0,
-     "record": "PDSP Ki ID 68007 (CLONED, hot ligand 3H-LSD)",
-     "ref": "PMID:022352341",
+     "ref": "PMID:11513838",
      "relation": "=",
      "source": "PDSP"
     },
@@ -2227,6 +2229,13 @@
      "source": "PDSP"
     },
     {
+     "ki_nM": 60.255958607436,
+     "record": "PDSP Ki ID 64339 (CLONED, hot ligand 3H-LSD)",
+     "ref": "PMID:16082416",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
      "ki_nM": 76.0,
      "record": "PDSP Ki ID 53681 (UNDEFINED, hot ligand UNDEFINED)",
      "ref": "PMID:18595716",
@@ -2234,18 +2243,18 @@
      "source": "PDSP"
     },
     {
-     "ki_nM": 60.255958607436,
-     "record": "PDSP Ki ID 64339 (CLONED, hot ligand 3H-LSD)",
-     "ref": "PMID:908643",
+     "ki_nM": 20.0,
+     "record": "PDSP Ki ID 68007 (CLONED, hot ligand 3H-LSD)",
+     "ref": "PMID:29407591",
      "relation": "=",
      "source": "PDSP"
     }
    ],
    "n_censored": 0,
    "n_measurements": 11,
-   "n_references": 9,
+   "n_references": 8,
    "name": "5-hydroxytryptamine receptor 6",
-   "pki_median": 7.2154,
+   "pki_median": 7.2077,
    "uniprot": [
     "P50406"
    ]
@@ -2316,14 +2325,7 @@
     {
      "ki_nM": 9.3325430079699,
      "record": "PDSP Ki ID 63658 (CLONED, hot ligand 3H-LSD)",
-     "ref": "PMID:001429990",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
-     "ki_nM": 5.0,
-     "record": "PDSP Ki ID 68008 (CLONED, hot ligand 3H-5-CT)",
-     "ref": "PMID:022352341",
+     "ref": "PMID:11513838",
      "relation": "=",
      "source": "PDSP"
     },
@@ -2337,7 +2339,14 @@
     {
      "ki_nM": 6.606934480076,
      "record": "PDSP Ki ID 64363 (CLONED, hot ligand 3H-LSD)",
-     "ref": "PMID:908643",
+     "ref": "PMID:16082416",
+     "relation": "=",
+     "source": "PDSP"
+    },
+    {
+     "ki_nM": 5.0,
+     "record": "PDSP Ki ID 68008 (CLONED, hot ligand 3H-5-CT)",
+     "ref": "PMID:29407591",
      "relation": "=",
      "source": "PDSP"
     }
@@ -2427,7 +2436,7 @@
     {
      "ki_nM": 75.857757502918,
      "record": "PDSP Ki ID 64478 (CLONED, hot ligand 3H-WIN35428)",
-     "ref": "PMID:908643",
+     "ref": "PMID:16082416",
      "relation": "=",
      "source": "PDSP"
     }

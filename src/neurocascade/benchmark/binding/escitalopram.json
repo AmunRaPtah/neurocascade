@@ -30,11 +30,6 @@
    "doi": null,
    "pmid": null
   },
-  "PMID:0960894": {
-   "citation": "Yarravarapu N, et. al., 2018",
-   "doi": null,
-   "pmid": "0960894"
-  },
   "PMID:12232544": {
    "citation": "Owens JM et al., 2002",
    "doi": null,
@@ -78,7 +73,11 @@
    "chembl_document": "CHEMBL4265966",
    "citation": "Yarravarapu N, Geffert L, Surratt CK, Cascio M, Lapinsky DJ. (2018) Bioorg Med Chem Lett 28:3431",
    "doi": "10.1016/j.bmcl.2018.09.029",
-   "pmid": "30266542"
+   "pdsp_id": "0960894",
+   "pdsp_link": "https://www.sciencedirect.com/science/article/pii/S0960894X18307716?via%3Dihub",
+   "pdsp_reference": "Yarravarapu N, et. al., 2018",
+   "pmid": "30266542",
+   "pmid_note": "Photoaffinity ligands derived from escitalopram, which the abstract names as (S)-citalopram and measures at hSERT (Ki 1.77 nM). The PDSP Ki database attributes this drug's Ki rows to this paper; escitalopram is not named in its PubMed title or abstract."
   },
   "PMID:38901106": {
    "chembl_document": "CHEMBL5579837",
@@ -328,7 +327,7 @@
    ],
    "ki_max_nM": 7879.0,
    "ki_min_nM": 1.0,
-   "ki_nM": 1.77,
+   "ki_nM": 1.713246,
    "measurements": [
     {
      "ki_nM": 1.0,
@@ -373,13 +372,6 @@
      "source": "ChEMBL"
     },
     {
-     "ki_nM": 1.77,
-     "record": "PDSP Ki ID 100983 (CLONED, hot ligand 125I-RTI-55)",
-     "ref": "PMID:0960894",
-     "relation": "=",
-     "source": "PDSP"
-    },
-    {
      "ki_nM": 1.1,
      "record": "PDSP Ki ID 23687 (CLONED, hot ligand 3H-CITALOPRAM)",
      "ref": "PMID:12232544",
@@ -392,13 +384,20 @@
      "ref": "PMID:12232544",
      "relation": "=",
      "source": "PDSP"
+    },
+    {
+     "ki_nM": 1.77,
+     "record": "PDSP Ki ID 100983 (CLONED, hot ligand 125I-RTI-55)",
+     "ref": "PMID:30266542",
+     "relation": "=",
+     "source": "PDSP"
     }
    ],
    "n_censored": 0,
    "n_measurements": 9,
-   "n_references": 7,
+   "n_references": 6,
    "name": "Sodium-dependent serotonin transporter",
-   "pki_median": 8.752,
+   "pki_median": 8.7662,
    "uniprot": [
     "P31645"
    ]

@@ -44,7 +44,8 @@
    "chembl_document": "CHEMBL4190389",
    "citation": "Pa\u0144czyk K, Pytka K, Jakubczyk M, Rapacz A, Sa\u0142at K, Furga\u0142a A, Siwek A, G\u0142uch-Lutwin M, Grybo\u015b A, S\u0142oczy\u0144ska K, P\u0119kala E, \u017bmudzki P, Bucki A, Ko\u0142aczkowski M, \u017belaszczyk D, Marona H, Waszkielewicz AM. (2018) Bioorg Med Chem Lett 28:2039",
    "doi": "10.1016/j.bmcl.2018.04.059",
-   "pmid": "29730027"
+   "pmid": "29730027",
+   "pmid_note": "Medicinal-chemistry series of N-(phenoxyalkyl)piperazines with 5-HT1A, 5-HT2A, 5-HT6, 5-HT7, D2 and alpha1 affinities. The source database attributes this drug's rows to this paper; hydroxyzine is not named in its PubMed title or abstract."
   }
  },
  "screened_inactive_without_ki": {},
