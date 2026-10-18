@@ -551,6 +551,15 @@ Environment for this session, overriding rules 7 and 8 above:
   from /work (and git history here starts at one commit), so held-out tests
   fail in /work: that is expected. The host scores held-out drugs with the
   full data when it gates your patch, and logs every such run.
+- **The absence of held-out truth in /work is never, by itself, a reason to
+  return `TASK_RESULT: EMPTY`.** Implement the scoring path so that it reports
+  `searched-and-empty` with every held-out drug named when truth is absent and
+  scores normally when it is present, write the `results/<task id>.json` the
+  host reads, and return COMPLETE; the host runs the same function with the
+  full data. `EMPTY` is for data that does not exist anywhere — not for data
+  this sandbox is deliberately built without. P30.1 (2026-10-18) and P30.2
+  (2026-10-19) were both parked on exactly this misreading, and each cost a
+  full session plus a gate run.
 - Every PMID your patch adds to benchmark JSON is checked against PubMed by
   the host: it must exist and its title, abstract or MeSH terms must name
   the record's drug; otherwise add a "pmid_note" to the record saying why.
