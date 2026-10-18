@@ -2724,14 +2724,17 @@
         "P29.1",
         "P29.7"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-18 21:16 empty; rejected: gate failed:\nn.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_m"
-        ]
-      }
+        ],
+        "pr": 30
+      },
+      "finished_at": "2026-10-18T21:06:25+00:00",
+      "result": "complete"
     },
     {
       "id": "P30.2",
