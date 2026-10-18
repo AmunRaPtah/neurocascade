@@ -560,6 +560,14 @@ Environment for this session, overriding rules 7 and 8 above:
   this sandbox is deliberately built without. P30.1 (2026-10-18) and P30.2
   (2026-10-19) were both parked on exactly this misreading, and each cost a
   full session plus a gate run.
+- **What the host actually does with `results/<task id>.json`:** it reads
+  `n_scored` and nothing else; it does not run your scoring function. So when a
+  task's headline needs held-out truth, also report the largest honest
+  available-data number there (e.g. leave-one-drug-out over train+held-out
+  drugs whose truth is present) with `n_scored > 0`, record the held-out split
+  as host-pending inside the same file or the PR body, and return COMPLETE. A
+  `{"n_scored": 0}` file downgrades a COMPLETE to EMPTY no matter how good the
+  code is.
 - Every PMID your patch adds to benchmark JSON is checked against PubMed by
   the host: it must exist and its title, abstract or MeSH terms must name
   the record's drug; otherwise add a "pmid_note" to the record saying why.
