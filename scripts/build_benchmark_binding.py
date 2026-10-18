@@ -18,6 +18,11 @@ Two stages, run separately:
     Offline. Writes ``src/neurocascade/benchmark/binding/<inn>.json`` for
     every benchmark drug and ``coverage.json`` beside them.
 
+``python scripts/build_benchmark_binding.py relink [--cache DIR]``
+    Offline, needs only the cached PDSP CSV. Re-derives every committed PDSP
+    measurement's reference with the current Link rules and recomputes the
+    summaries it touches (P29.7).
+
 Every inclusion rule (human assay organism, ChEMBL confidence score, PDSP name
 aliases, censored values, how a per-target Ki is summarised) and the reasoning
 behind it is in docs/architecture.md, section "P28.2".
@@ -176,6 +181,114 @@ PDSP_TARGETS = {
     "Thromboxane A2": "TBXA2R",
     "VASOPRESSIN V1A": "AVPR1A", "VASOPRESSIN V1B": "AVPR1B", "Vasopressin V3": "AVPR1B",
     "VASOPRESSIN V2": "AVPR2",
+}
+
+# PDSP rows whose Link is not a PubMed URL, resolved to the paper the Link
+# points at (P29.7). Keyed by PDSP's Reference string. The pre-P29.7 builder
+# took the first 6-9 digit run of any Link as a PMID; those digits, kept here
+# as `pdsp_id`, are publisher ids, not PDSP record ids and not PMIDs: two did
+# not exist in PubMed and the rest resolved to unrelated papers. Each paper
+# below was matched on its DOI or publisher pii and then verified by title and
+# authors against PubMed esummary on 2026-10-15. `named` lists the benchmark
+# drugs its PubMed title or abstract names; any other drug citing it gets a
+# pmid_note built from `scope`.
+PDSP_PAPERS = {
+    "Schmidt, AW. et, al. 2001": {
+        "pmid": "11513838", "doi": "10.1016/s0014-2999(01)01188-8", "pdsp_id": "001429990",
+        "citation": "Schmidt AW, Lebel LA, Howard HR Jr, Zorn SH (2001) Eur J Pharmacol 425:197-201",
+        "named": ["ziprasidone"],
+        "scope": "Ziprasidone human receptor-binding profile; MeSH lists clozapine, haloperidol, "
+                 "olanzapine, quetiapine and risperidone as substances, the abstract does not.",
+    },
+    "Zajdel, Pawel et. al, 2018": {
+        "pmid": "29407591", "doi": "10.1016/j.ejmech.2018.01.002", "pdsp_id": "022352341",
+        "citation": "Zajdel P, Kos T, Marciniec K, et al. (2018) Eur J Med Chem 145:790-804",
+        "named": [],
+        "scope": "Medicinal-chemistry series of novel azinesulfonamides of cyclic amines as "
+                 "potential antipsychotics.",
+    },
+    "Ablordeppey S, et al., 2006": {
+        "pmid": "16621538", "doi": "10.1016/j.bmcl.2006.03.057", "pdsp_id": "0960894",
+        "citation": "Ablordeppey SY, Lyles-Eggleston M, Bricker B, Zhang W, Zhu X, Goodman C, "
+                    "Roth BL (2006) Bioorg Med Chem Lett 16:3219-23",
+        "named": ["haloperidol"],
+        "scope": "Binding of (+)-SYA 09, a pyrrolidine analog of haloperidol; MeSH lists clozapine "
+                 "as a substance, the abstract does not.",
+    },
+    "Panczyk K, et al., 2018": {
+        "pmid": "29730027", "doi": "10.1016/j.bmcl.2018.04.059", "pdsp_id": "0960894",
+        "citation": "Pańczyk K, Pytka K, Jakubczyk M, et al. (2018) Bioorg Med Chem Lett 28:2039-2049",
+        "named": [],
+        "scope": "Medicinal-chemistry series of N-(phenoxyalkyl)piperazines with 5-HT1A, 5-HT2A, "
+                 "5-HT6, 5-HT7, D2 and alpha1 affinities.",
+    },
+    "Yarravarapu N, et. al., 2018": {
+        "pmid": "30266542", "doi": "10.1016/j.bmcl.2018.09.029", "pdsp_id": "0960894",
+        "citation": "Yarravarapu N, Geffert L, Surratt CK, Cascio M, Lapinsky DJ (2018) "
+                    "Bioorg Med Chem Lett 28:3431-3435",
+        "named": [],
+        "scope": "Photoaffinity ligands derived from escitalopram, which the abstract names "
+                 "as (S)-citalopram and measures at hSERT (Ki 1.77 nM).",
+    },
+    "Van der Mey. et, al. 2006": {
+        "pmid": "16517171", "doi": "10.1016/j.bmc.2006.02.029", "pdsp_id": "096808960",
+        "citation": "Van der Mey M, Windhorst AD, Klok RP, et al. (2006) Bioorg Med Chem 14:4526-34",
+        "named": ["mirtazapine"],
+        "scope": "Alpha2-adrenoceptor PET ligand [11C]R107474; reports mirtazapine's "
+                 "receptor binding profile.",
+    },
+    "Keck, Paul e. et. al, 2003": {
+        "pmid": "12665420", "doi": "10.1517/13543784.12.4.655", "pdsp_id": "13543784",
+        "citation": "Keck PE Jr, McElroy SL (2003) Expert Opin Investig Drugs 12:655-62",
+        "named": ["aripiprazole"],
+        "scope": "Review of aripiprazole pharmacology (secondary source).",
+    },
+    "Gassaway, MM.  et. al. 2014": {
+        "pmid": "25026323", "doi": "10.1038/tp.2014.30", "pdsp_id": "4119213",
+        "citation": "Gassaway MM, Rives ML, Kruegel AC, Javitch JA, Sames D (2014) "
+                    "Transl Psychiatry 4:e411",
+        "named": ["tianeptine"],
+        "scope": "Tianeptine as a mu-opioid receptor agonist.",
+    },
+    "Clayton, Terry et. al. 2015": {
+        "pmid": "26682068", "doi": "10.1155/2015/430248", "pdsp_id": "430248",
+        "citation": "Clayton T, Poe MM, Rallapalli S, et al. (2015) Int J Med Chem 2015:430248",
+        "named": [],
+        "scope": "Review of the alpha5 GABA-A benzodiazepine-site pharmacophore. Its full text "
+                 "(PMC4657098) tabulates alprazolam and diazepam Ki at recombinant "
+                 "alpha(x)beta3gamma2 receptors, matching the PDSP rows.",
+    },
+    "Song, Gang et., al.  2017": {
+        "pmid": "28239660", "doi": "10.1172/jci.insight.91456", "pdsp_id": "5313063",
+        "citation": "Song G, Poon CS (2017) JCI Insight 2:e91456",
+        "named": [],
+        "scope": "Alpha2-adrenergic blockade (yohimbine) in obstructive sleep apnea.",
+    },
+    "Davies M, et al. 2005": {
+        "pmid": "16314884", "doi": "10.1038/sj.tpj.6500342", "pdsp_id": "6500342",
+        "citation": "Davies MA, Setola V, Strachan RT, Sheffler DJ, Salay E, Hufeisen SJ, "
+                    "Roth BL (2006) Pharmacogenomics J 6:42-51",
+        "named": ["aripiprazole", "clozapine", "olanzapine", "quetiapine", "risperidone",
+                  "ziprasidone"],
+        "scope": "Atypical antipsychotics at non-synonymous h5-HT2A SNP variants.",
+    },
+    "Silvestre, JS. et, al. 2005": {
+        "pmid": "16082416", "doi": "10.1358/mf.2005.27.5.908643", "pdsp_id": "908643",
+        "citation": "Silvestre JS, Prous J (2005) Methods Find Exp Clin Pharmacol 27:289-304",
+        "named": [],
+        "scope": "Compilation, not a primary measurement: pKi of 25 typical and atypical "
+                 "antipsychotics at 21 human receptors, taken from Prous Science Integrity, "
+                 "regressed against type 2 diabetes risk.",
+    },
+    "Seeman, Philip  2001": {
+        "pmid": None, "doi": "10.1016/S1566-2772(00)00007-4", "pdsp_id": "93617739",
+        "citation": "Seeman P (2001) Antipsychotic drugs, dopamine receptors, and "
+                    "schizophrenia. Clin Neurosci Res 1:53-60",
+        "named": [],
+        "scope": "Not indexed in PubMed: esearch on the DOI and on the title returned nothing "
+                 "(2026-10-15); paper identified from the ScienceDirect link's cover date and "
+                 "Crossref. pdsp_id is the link's ScienceDirect _alid, not a PMID.",
+    },
 }
 
 # Action vocabulary: source label -> normalised action type.
@@ -345,8 +458,54 @@ def _gtopdb_action(type_: str, action: str) -> str | None:
 
 
 def _pmid_from_link(link: str) -> str | None:
-    m = re.search(r"(\d{6,9})", link or "")
+    """The PMID in a PDSP Link, which is only a PMID when the link is PubMed's.
+
+    Any other URL's digits are a publisher's id (an Elsevier pii's ISSN
+    prefix, a PMC id, a Prous RefId, a Hindawi article number) and are not
+    taken (P29.7).
+    """
+    link = link or ""
+    if "ncbi.nlm.nih.gov" not in link or "/pmc/" in link:
+        return None
+    m = re.search(r"(\d{6,9})", link)
     return m.group(1) if m else None
+
+
+def _pdsp_ref(reference: str, link: str, inn: str) -> tuple[str, dict]:
+    """Reference key and record for one PDSP row (P29.7)."""
+    reference = reference.strip()
+    pmid = _pmid_from_link(link)
+    if pmid:
+        return f"PMID:{pmid}", {"pmid": pmid, "doi": None, "citation": reference}
+    paper = PDSP_PAPERS.get(reference)
+    if paper is None:
+        return f"PDSP_REF:{reference}", {"pmid": None, "doi": None, "citation": reference}
+    rec = {"pmid": paper["pmid"], "doi": paper["doi"], "citation": paper["citation"],
+           "pdsp_reference": reference, "pdsp_id": paper["pdsp_id"], "pdsp_link": link.strip()}
+    if paper["pmid"] and inn not in paper["named"]:
+        rec["pmid_note"] = (f"{paper['scope']} The PDSP Ki database attributes this drug's "
+                            f"Ki rows to this paper; {inn} is not named in its PubMed "
+                            f"title or abstract.")
+    if not paper["pmid"]:
+        rec["pmid_note"] = paper["scope"]
+    key = f"PMID:{paper['pmid']}" if paper["pmid"] else f"PDSP_REF:{reference}"
+    return key, rec
+
+
+def _note_unnamed_papers(refs: dict[str, dict], inn: str) -> None:
+    """Note a PDSP_PAPERS paper cited for a drug its abstract does not name.
+
+    `_pdsp_ref` notes the PDSP rows; this covers the same paper reaching a
+    drug through another source (ChEMBL cites Panczyk 2018 for hydroxyzine),
+    so every citation of these twelve PMIDs is either named or noted (P29.7).
+    """
+    by_pmid = {p["pmid"]: p for p in PDSP_PAPERS.values() if p["pmid"]}
+    for rec in refs.values():
+        paper = by_pmid.get(rec.get("pmid"))
+        if paper and inn not in paper["named"] and not rec.get("pmid_note"):
+            rec["pmid_note"] = (f"{paper['scope']} The source database attributes this "
+                                f"drug's rows to this paper; {inn} is not named in its "
+                                f"PubMed title or abstract.")
 
 
 def build(cache: Path) -> None:
@@ -427,7 +586,10 @@ def _build_one(d, acts, assays, docs, targets, mechs, pdsp_by_name, lig_by_ik,
     inactive: dict[str, list] = defaultdict(list)
 
     def add_ref(key, rec):
-        refs.setdefault(key, rec)
+        # The first source to cite a paper sets its record; a later one only
+        # adds fields it lacks (a PDSP row's pdsp_id and pmid_note, P29.7).
+        for k, v in rec.items():
+            refs.setdefault(key, {}).setdefault(k, v)
 
     # --- ChEMBL
     for a in acts:
@@ -513,9 +675,8 @@ def _build_one(d, acts, assays, docs, targets, mechs, pdsp_by_name, lig_by_ik,
             if value <= 0:
                 excluded["pdsp_nonpositive"] += 1
                 continue
-            pmid = _pmid_from_link(r["Link"])
-            rkey = f"PMID:{pmid}" if pmid else f"PDSP_REF:{r['Reference'].strip()}"
-            add_ref(rkey, {"pmid": pmid, "doi": None, "citation": r["Reference"].strip()})
+            rkey, rec = _pdsp_ref(r["Reference"], r["Link"], inn)
+            add_ref(rkey, rec)
             genes = gene.split("+")
             tinfo.setdefault(gene, {"gene_symbols": genes, "uniprot": [], "name": r["Name"].strip()})
             pdsp_names_used.add(r[" Ligand Name"].strip())
@@ -584,24 +745,11 @@ def _build_one(d, acts, assays, docs, targets, mechs, pdsp_by_name, lig_by_ik,
     # --- summarise per target
     out_targets = {}
     for key, ms in meas.items():
-        exact = [m for m in ms if m["relation"] == "="]
-        if not exact:
+        if not any(m["relation"] == "=" for m in ms):
             continue
-        by_doc = defaultdict(list)
-        for m in exact:
-            by_doc[m["ref"]].append(-math.log10(m["ki_nM"] * 1e-9))
-        doc_pki = [statistics.fmean(v) for v in by_doc.values()]
-        pki = statistics.median(doc_pki)
-        vals = [m["ki_nM"] for m in exact]
         out_targets[key] = {
             **tinfo[key],
-            "ki_nM": round(10 ** (9 - pki), 6),
-            "pki_median": round(pki, 4),
-            "ki_min_nM": min(vals),
-            "ki_max_nM": max(vals),
-            "n_measurements": len(exact),
-            "n_references": len(by_doc),
-            "n_censored": len(ms) - len(exact),
+            **_summarise(ms),
             "action_types": sorted({a["action"] for a in actions.get(key, [])}),
             "actions": actions.get(key, []),
             # A record made on a receptor family or on a complex this target
@@ -613,10 +761,11 @@ def _build_one(d, acts, assays, docs, targets, mechs, pdsp_by_name, lig_by_ik,
                 if fam != key and set(key.split("+")) < set(fam.split("+")) for a in v}),
             "families": sorted(fam for fam in actions
                                if fam != key and set(key.split("+")) < set(fam.split("+"))),
-            "measurements": sorted(ms, key=lambda m: (m["source"], m["ref"], m["ki_nM"])),
+            "measurements": _sorted_measurements(ms),
         }
     # actions on targets that have no exact Ki stay visible, outside the panel
     actions_without_ki = {k: v for k, v in actions.items() if k not in out_targets}
+    _note_unnamed_papers(refs, inn)
     used_refs = {m["ref"] for t in out_targets.values() for m in t["measurements"]}
     used_refs |= {a["ref"] for t in out_targets.values() for a in t["actions"]}
     used_refs |= {a["ref"] for v in actions_without_ki.values() for a in v}
@@ -650,6 +799,72 @@ def _build_one(d, acts, assays, docs, targets, mechs, pdsp_by_name, lig_by_ik,
     }
 
 
+def _summarise(ms: list[dict]) -> dict:
+    """The per-target summary fields: the median over references of each
+    reference's mean exact pKi, plus the spread (architecture.md, P28.2)."""
+    exact = [m for m in ms if m["relation"] == "="]
+    by_doc = defaultdict(list)
+    for m in exact:
+        by_doc[m["ref"]].append(-math.log10(m["ki_nM"] * 1e-9))
+    pki = statistics.median(statistics.fmean(v) for v in by_doc.values())
+    vals = [m["ki_nM"] for m in exact]
+    return {
+        "ki_nM": round(10 ** (9 - pki), 6),
+        "pki_median": round(pki, 4),
+        "ki_min_nM": min(vals),
+        "ki_max_nM": max(vals),
+        "n_measurements": len(exact),
+        "n_references": len(by_doc),
+        "n_censored": len(ms) - len(exact),
+    }
+
+
+def _sorted_measurements(ms: list[dict]) -> list[dict]:
+    return sorted(ms, key=lambda m: (m["source"], m["ref"], m["ki_nM"]))
+
+
+def relink_pdsp(panel: dict, pdsp_by_number: dict[str, dict]) -> dict:
+    """Re-derive every PDSP measurement's reference from its PDSP row (P29.7).
+
+    Offline repair of committed panels with the current `_pdsp_ref` rules,
+    needing only the PDSP CSV. Measurement values are not touched; a target's
+    summary is recomputed only when its measurements' references changed,
+    since re-keying can merge one paper's PDSP rows with its ChEMBL rows.
+    """
+    inn, refs = panel["inn"], panel["references"]
+    for t in panel["targets"].values():
+        changed = False
+        for m in t["measurements"]:
+            if m["source"] != "PDSP":
+                continue
+            number = re.match(r"PDSP Ki ID (\d+) ", m["record"]).group(1)
+            row = pdsp_by_number[number]
+            key, rec = _pdsp_ref(row["Reference"], row["Link"], inn)
+            for k, v in rec.items():
+                refs.setdefault(key, {}).setdefault(k, v)
+            if key != m["ref"]:
+                m["ref"], changed = key, True
+        if changed:
+            t.update(_summarise(t["measurements"]))
+            t["measurements"] = _sorted_measurements(t["measurements"])
+    used = {m["ref"] for t in panel["targets"].values() for m in t["measurements"]}
+    used |= {a["ref"] for t in panel["targets"].values() for a in t["actions"]}
+    used |= {a["ref"] for v in panel["actions_without_ki"].values() for a in v}
+    _note_unnamed_papers(panel["references"], inn)
+    panel["references"] = {k: refs[k] for k in sorted(used)}
+    return panel
+
+
+def relink(cache: Path) -> None:
+    pdsp = csv.DictReader(io.StringIO((cache / "pdsp.csv").read_bytes().decode("latin-1")))
+    by_number = {r["Number"]: r for r in pdsp}
+    for path in sorted(OUT_DIR.glob("*.json")):
+        if path.name == "coverage.json":
+            continue
+        panel = json.loads(path.read_text())
+        path.write_text(json.dumps(relink_pdsp(panel, by_number), indent=1, sort_keys=True) + "\n")
+
+
 def _write_coverage(rows: list[dict], provenance: dict) -> None:
     covered = [r for r in rows if r["status"] == "panel"]
     n_t = [r["n_targets_with_ki"] for r in covered]
@@ -681,12 +896,13 @@ def _write_coverage(rows: list[dict], provenance: dict) -> None:
 
 
 def main(argv: list[str]) -> None:
-    if not argv or argv[0] not in ("fetch", "build"):
+    stages = {"fetch": fetch, "build": build, "relink": relink}
+    if not argv or argv[0] not in stages:
         raise SystemExit(__doc__)
     cache = DEFAULT_CACHE
     if "--cache" in argv:
         cache = Path(argv[argv.index("--cache") + 1])
-    (fetch if argv[0] == "fetch" else build)(cache)
+    stages[argv[0]](cache)
 
 
 if __name__ == "__main__":

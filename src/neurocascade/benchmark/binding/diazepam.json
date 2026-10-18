@@ -62,6 +62,15 @@
    "doi": null,
    "pmid": "2551039"
   },
+  "PMID:26682068": {
+   "citation": "Clayton T, Poe MM, Rallapalli S, et al. (2015) Int J Med Chem 2015:430248",
+   "doi": "10.1155/2015/430248",
+   "pdsp_id": "430248",
+   "pdsp_link": "http://www.hindawi.com/journals/ijmc/2015/430248/",
+   "pdsp_reference": "Clayton, Terry et. al. 2015",
+   "pmid": "26682068",
+   "pmid_note": "Review of the alpha5 GABA-A benzodiazepine-site pharmacophore. Its full text (PMC4657098) tabulates alprazolam and diazepam Ki at recombinant alpha(x)beta3gamma2 receptors, matching the PDSP rows. The PDSP Ki database attributes this drug's Ki rows to this paper; diazepam is not named in its PubMed title or abstract."
+  },
   "PMID:31738537": {
    "chembl_document": "CHEMBL4402545",
    "citation": "Maramai S, Benchekroun M, Ward SE, Atack JR. (2020) J Med Chem 63:3425",
@@ -79,11 +88,6 @@
    "citation": "Paolino M, Saletti M, Venditti J, Castriconi F, Giuliani G, Maramai S, Toti A, Ghelardini C, Matucci R, Villalobos NA, Anzini M, Cappelli A. (2025) Bioorg Med Chem 117:118006",
    "doi": "10.1016/j.bmc.2024.118006",
    "pmid": "39577296"
-  },
-  "PMID:430248": {
-   "citation": "Clayton, Terry et. al. 2015",
-   "doi": null,
-   "pmid": "430248"
   },
   "PMID:8632757": {
    "citation": "Hadingham K, et al., 1995",
@@ -350,14 +354,14 @@
     {
      "ki_nM": 14.0,
      "record": "PDSP Ki ID 61144 (CLONED, hot ligand FNZ)",
-     "ref": "PMID:430248",
+     "ref": "PMID:26682068",
      "relation": "=",
      "source": "PDSP"
     },
     {
      "ki_nM": 14.0,
      "record": "PDSP Ki ID 65423 (CLONED, hot ligand [3H] Flunitrazepam)",
-     "ref": "PMID:430248",
+     "ref": "PMID:26682068",
      "relation": "=",
      "source": "PDSP"
     },
@@ -534,14 +538,14 @@
     {
      "ki_nM": 20.0,
      "record": "PDSP Ki ID 61143 (CLONED, hot ligand FNZ)",
-     "ref": "PMID:430248",
+     "ref": "PMID:26682068",
      "relation": "=",
      "source": "PDSP"
     },
     {
      "ki_nM": 20.0,
      "record": "PDSP Ki ID 65424 (CLONED, hot ligand [3H] Flunitrazepam)",
-     "ref": "PMID:430248",
+     "ref": "PMID:26682068",
      "relation": "=",
      "source": "PDSP"
     }
@@ -711,14 +715,14 @@
     {
      "ki_nM": 15.0,
      "record": "PDSP Ki ID 61142 (CLONED, hot ligand FNZ)",
-     "ref": "PMID:430248",
+     "ref": "PMID:26682068",
      "relation": "=",
      "source": "PDSP"
     },
     {
      "ki_nM": 15.0,
      "record": "PDSP Ki ID 65425 (CLONED, hot ligand [3H] Flunitrazepam)",
-     "ref": "PMID:430248",
+     "ref": "PMID:26682068",
      "relation": "=",
      "source": "PDSP"
     }
@@ -821,14 +825,14 @@
     {
      "ki_nM": 11.0,
      "record": "PDSP Ki ID 61141 (CLONED, hot ligand FNZ)",
-     "ref": "PMID:430248",
+     "ref": "PMID:26682068",
      "relation": "=",
      "source": "PDSP"
     },
     {
      "ki_nM": 11.0,
      "record": "PDSP Ki ID 65426 (CLONED, hot ligand [3H] Flunitrazepam)",
-     "ref": "PMID:430248",
+     "ref": "PMID:26682068",
      "relation": "=",
      "source": "PDSP"
     }
