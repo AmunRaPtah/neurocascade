@@ -100,9 +100,11 @@ WEEK_FLOOR, WEEK_SPAN = 20.0, 55.0
 # P22.2a's 1108-line spec overflowed the worker's 64k context on 2026-09-25.
 MAX_SPEC_LINES = 200
 MODAL_HEADROOM = 1.5            # $ a batch may still cost
-# Worker backends in order (2026-10-01): Antigravity (agy, Google-account quota,
-# per model), then Gemini by API key. Modal is no longer used by the conductor;
-# `orchestrate.py run` without --llm still drives it by hand.
+# Worker backends in order (2026-10-18): Modal GLM (orchestrate's default burst
+# model) while the month is under the cap, then Antigravity (agy, Google-account
+# quota, per model), then Gemini by API key. NC_MODAL_WORKER=0 drops Modal.
+MODAL_WORKER = os.environ.get("NC_MODAL_WORKER", "1") != "0"
+MODAL_TASKS = 4
 AGY_TASKS = 4
 AGY_BACKOFF_S = 2 * 3600
 # Second worker backend, used while agy is out of quota: free-tier Gemini
@@ -400,6 +402,15 @@ def gh(*args) -> str:
     if p.returncode != 0:
         raise RuntimeError(f"gh {' '.join(args[:3])}: {p.stderr[-300:]}")
     return p.stdout.strip()
+
+
+def pr_label(num, add: str = "", remove: str = "") -> None:
+    """Label a PR through the REST issues API. `gh pr edit` on gh 2.45 also
+    queries classic projectCards, which GitHub now rejects (2026-10-15)."""
+    if add:
+        gh("api", "-X", "POST", f"repos/{{owner}}/{{repo}}/issues/{num}/labels", "-f", f"labels[]={add}")
+    if remove:
+        gh("api", "-X", "DELETE", f"repos/{{owner}}/{{repo}}/issues/{num}/labels/{remove}")
 
 
 def open_prs() -> list[dict]:
@@ -1059,7 +1070,7 @@ def step_merge(st: dict, prs: list[dict], dry: bool) -> bool:
         if state == "failure":
             log(f"PR #{pr['number']}: approved but CI failed; back to review")
             if not dry:
-                gh("pr", "edit", str(pr["number"]), "--remove-label", L_APPROVED)
+                pr_label(str(pr["number"]), remove=L_APPROVED)
                 gh("pr", "comment", str(pr["number"]), "--body",
                    "CI failed after approval; the conductor will review again.")
             return True
@@ -1159,14 +1170,14 @@ def step_accept(st: dict, prs: list[dict], dry: bool) -> bool:
                 st["accept_tries"][num] = tries
                 log(f"PR #{num}: acceptance review gave {findings}")
                 if tries >= 3:
-                    gh("pr", "edit", num, "--add-label", L_HUMAN)
+                    pr_label(num, add=L_HUMAN)
                     alert(st, f"accept-{num}", f"PR #{num}: acceptance reviewer gave no verdict 3x; needs-human")
                 progress(st, f"acceptance review of PR #{num} inconclusive")
                 return True
         st.setdefault("accept_tries", {}).pop(num, None)
         tid = tgt["id"]
         if verdict == "approve":
-            gh("pr", "edit", num, "--add-label", L_APPROVED)
+            pr_label(num, add=L_APPROVED)
             gh("pr", "comment", num, "--body", f"Independent acceptance review: APPROVE. {rest[:500]}")
             st.setdefault("review", {}).pop(tid, None)
             progress(st, f"accepted PR #{num}")
@@ -1246,11 +1257,11 @@ def step_review(st: dict, prs: list[dict], dry: bool) -> bool:
                 if reason:
                     gh("pr", "comment", str(pr["number"]), "--body",
                        f"Architect cleanup rejected by the host: {reason[:1500]}")
-                    gh("pr", "edit", str(pr["number"]), "--add-label", L_HUMAN)
+                    pr_label(str(pr["number"]), add=L_HUMAN)
                     alert(st, f"review-{pr['number']}", f"PR #{pr['number']} cleanup failed; labelled needs-human")
                     return True
                 commit_push(host, f"{sid}: architect review cleanup", pr["headRefName"])
-            gh("pr", "edit", str(pr["number"]), "--add-label", L_APPROVED)
+            pr_label(str(pr["number"]), add=L_APPROVED)
             gh("pr", "comment", str(pr["number"]), "--body",
                f"Architect review: APPROVE. {res['rest'][:500]}")
             progress(st, f"approved PR #{pr['number']}")
@@ -1281,7 +1292,10 @@ def step_work(st: dict, dry: bool) -> bool:
     if not ready:
         return False
     until = st.get("agy_waiting_until", 0)
-    if time.time() >= until:
+    mok, mwhy = modal_ok() if MODAL_WORKER else (False, "modal worker off")
+    if mok and time.time() >= st.get("modal_waiting_until", 0):
+        llm, why = "", mwhy
+    elif time.time() >= until:
         llm, why = o.AGY, "antigravity"
     else:
         why = f"agy backing off until {time.strftime('%H:%M', time.localtime(until))}"
@@ -1296,18 +1310,20 @@ def step_work(st: dict, dry: bool) -> bool:
     if o.mem_available_mb() < o.MIN_FREE_MB:
         st["waiting"] = "host memory low"
         return True
-    log(f"work: {len(ready)} ready issue(s) to {llm} ({why})")
+    log(f"work: {len(ready)} ready issue(s) to {llm or 'modal'} ({why})")
     if dry:
         return True
-    cmd = [sys.executable, str(Path(__file__).parent / "orchestrate.py"), "run",
-           "--max-tasks", str(AGY_TASKS if llm == o.AGY else GEMINI_TASKS), "--llm", llm]
+    cmd = [sys.executable, str(Path(__file__).parent / "orchestrate.py"), "run", "--max-tasks",
+           str(MODAL_TASKS if not llm else AGY_TASKS if llm == o.AGY else GEMINI_TASKS)]
+    if llm:
+        cmd += ["--llm", llm]
     started = time.time()
     p = o.sh(cmd, capture_output=False, text=True, timeout=6 * 3600)
     new = [d for d in (o.RUNS / "_batches").glob("*") if d.stat().st_mtime >= started - 5]
     if not new:
         # Nothing was runnable (spec failed to load or baseline). Not progress:
         # counting it would hide a stuck queue from the stall alert.
-        log(f"worker batch ({llm}) ran nothing, rc={p.returncode}")
+        log(f"worker batch ({llm or 'modal'}) ran nothing, rc={p.returncode}")
         stuck = st.setdefault("work_stuck", 0) + 1
         st["work_stuck"] = stuck
         if stuck == 3:
@@ -1315,8 +1331,14 @@ def step_work(st: dict, dry: bool) -> bool:
                       "for 3 ticks; see conductor/cron.log")
         return False
     st.pop("work_stuck", None)
-    progress(st, f"worker batch ({llm}) rc={p.returncode}")
-    if llm == o.AGY:
+    progress(st, f"worker batch ({llm or 'modal'}) rc={p.returncode}")
+    if not llm:
+        if batches_had_infra(new) or p.returncode != 0:
+            st["modal_waiting_until"] = time.time() + MODAL_BACKOFF_S
+            log(f"work: modal batch failed, backing off {MODAL_BACKOFF_S // 3600}h")
+        else:
+            st.pop("modal_waiting_until", None)
+    elif llm == o.AGY:
         if batches_had_infra(new):
             # agy out of quota or broken: Gemini covers until the backoff ends.
             st["agy_waiting_until"] = time.time() + AGY_BACKOFF_S
@@ -1593,9 +1615,14 @@ def status() -> None:
     done = sum(t["status"] == "done" for t in tasks)
     print(f"backlog {done}/{len(tasks)} done; next: {(next_task(tasks) or {}).get('id')}")
     until = st.get("agy_waiting_until", 0)
-    print(f"architect: {arch_ok()[1]}\nclaude: {claude_ok()[1]}\nagy: " + (f"backing off until {time.strftime('%H:%M', time.localtime(until))}"
-          if time.time() < until else "ready (worker 1)"))
-    print(f"gemini: {gemini_ok(load_state())[1]} (worker 2)")
+    mu = st.get("modal_waiting_until", 0)
+    print(f"architect: {arch_ok()[1]}\nclaude: {claude_ok()[1]}")
+    print("modal: " + ("off (NC_MODAL_WORKER=0)" if not MODAL_WORKER else
+          f"backing off until {time.strftime('%H:%M', time.localtime(mu))}" if time.time() < mu
+          else modal_ok()[1]) + " (worker 1)")
+    print("agy: " + (f"backing off until {time.strftime('%H:%M', time.localtime(until))}"
+          if time.time() < until else "ready") + " (worker 2)")
+    print(f"gemini: {gemini_ok(load_state())[1]} (worker 3)")
     for k in ("waiting", "waiting_on", "last_progress_what", "last_error"):
         if st.get(k):
             print(f"{k}: {st[k]}")

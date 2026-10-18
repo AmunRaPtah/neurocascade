@@ -218,7 +218,7 @@ def test_step_accept_approve_labels_pr(monkeypatch, tmp_path):
     r = calls["run"][0]
     assert r["readonly"] and r["backend"] == ("claude", "") and r["model"] == "sonnet"
     assert "1. a\n2. b" in r["prompt"] and "n_scored = 4" in r["prompt"]
-    assert ("pr", "edit", "7", "--add-label", c.L_APPROVED) in calls["gh"]
+    assert ("api", "-X", "POST", "repos/{owner}/{repo}/issues/7/labels", "-f", f"labels[]={c.L_APPROVED}") in calls["gh"]
     assert "P9.9" not in st["review"]
     # Approved PRs are left to step_merge.
     pr["labels"].append({"name": c.L_APPROVED})
@@ -246,7 +246,7 @@ def test_step_accept_no_verdict_is_not_a_rejection(monkeypatch, tmp_path):
     for _ in range(3):
         c.step_accept(st, [pr], dry=False)
     assert "review" not in st and tasks["P9.9"]["status"] == "pending"
-    assert ("pr", "edit", "7", "--add-label", c.L_HUMAN) in calls["gh"]
+    assert ("api", "-X", "POST", "repos/{owner}/{repo}/issues/7/labels", "-f", f"labels[]={c.L_HUMAN}") in calls["gh"]
     assert not any(a[:2] == ("pr", "close") for a in calls["gh"])
 
 
