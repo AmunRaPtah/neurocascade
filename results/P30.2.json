@@ -1,769 +1,1595 @@
 {
  "task": "P30.2",
+ "status": "scored",
  "n_scored": 17,
  "n_heldout": 55,
- "status": "scored_all_effects_underpowered",
- "scored_unit": "held-out drugs with a known binary effect label, a unique exact oral clinical dose, and both baselines computable (17 of 55; 39 have a dose, 18 a label, 37 all-unknown labels)",
- "missing_truth": 0,
- "missing_input": 38,
+ "scored_unit": "held-out drugs with P30.1 truth and a unique exact oral dose",
+ "fit_split": "train",
+ "methods": {
+  "occupancy_model": "frozen P30.1 train-only L2 logistic model",
+  "strongest_target_ki": "negative log10 of the smallest reported human Ki",
+  "nearest_neighbor": "1-nearest binding fingerprint on shared log10(Ki) targets"
+ },
  "bootstrap": {
   "kind": "drug-level percentile bootstrap",
   "replicates": 2000,
   "seed": 20261018,
-  "citation": "Efron 1979, doi:10.1214/aos/1176344552"
+  "citation": "Efron 1979, doi:10.1214/aos/1176344552",
+  "status": "illustrative analysis settings, not biological parameters"
  },
  "heldout": {
-  "eps": {
-   "occupancy_model": {
-    "n_scored": 11,
-    "n_positive": 4,
-    "n_negative": 7,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 1.0,
-    "auroc_ci": [
-     1.0,
-     1.0
-    ],
-    "auprc": 1.0,
-    "auprc_ci": [
-     1.0,
-     1.0
-    ],
-    "prevalence_baseline": 0.3636
+  "status": "scored",
+  "n_scored": 17,
+  "n_heldout": 55,
+  "missing_truth": [],
+  "missing_input": [
+   "amineptine",
+   "amitriptyline",
+   "asenapine",
+   "benzoctamine",
+   "bifemelane",
+   "bitopertin",
+   "bradanicline",
+   "butaperazine",
+   "chlorproethazine",
+   "dosulepin",
+   "droperidol",
+   "fabomotizole",
+   "fluanisone",
+   "fluphenazine",
+   "gedocarnil",
+   "levosulpiride",
+   "lofepramine",
+   "mephenoxalone",
+   "moclobemide",
+   "moperone",
+   "mosapramine",
+   "navacaprant",
+   "nialamide",
+   "nomifensine",
+   "nordazepam",
+   "nortriptyline",
+   "oxitriptan",
+   "penfluridol",
+   "perazine",
+   "periciazine",
+   "pinazepam",
+   "pipotiazine",
+   "tofisopam",
+   "tranylcypromine",
+   "trifluoperazine",
+   "triflupromazine",
+   "verucerfont",
+   "zuclopenthixol"
+  ],
+  "effects": {
+   "eps": {
+    "effect": "eps",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 11,
+      "n_positive": 4,
+      "n_negative": 7,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 1.0,
+      "auroc_ci": [
+       1.0,
+       1.0
+      ],
+      "auprc": 1.0,
+      "auprc_ci": [
+       0.9999999999999999,
+       1.0
+      ],
+      "prevalence_baseline": 0.36363636363636365,
+      "brier": 0.1005189405464197,
+      "brier_ci": [
+       0.05119454569746726,
+       0.1805578771783882
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 11,
+      "n_positive": 4,
+      "n_negative": 7,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.6071428571428571,
+      "auroc_ci": [
+       0.2,
+       1.0
+      ],
+      "auprc": 0.5099206349206349,
+      "auprc_ci": [
+       0.1736111111111111,
+       0.9906249999999984
+      ],
+      "prevalence_baseline": 0.36363636363636365,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 11,
+      "n_positive": 4,
+      "n_negative": 7,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.625,
+      "auroc_ci": [
+       0.5,
+       1.0
+      ],
+      "auprc": 0.5810435606060605,
+      "auprc_ci": [
+       0.09090909090909093,
+       0.9203145154165563
+      ],
+      "prevalence_baseline": 0.36363636363636365,
+      "brier": 0.2727272727272727,
+      "brier_ci": [
+       0.0,
+       0.5454545454545454
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": 0.3928571428571429,
+      "auprc_delta_model_minus_baseline": 0.4900793650793651,
+      "model_beats_auroc": true,
+      "model_beats_auprc": true
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": 0.375,
+      "auprc_delta_model_minus_baseline": 0.41895643939393945,
+      "model_beats_auroc": true,
+      "model_beats_auprc": true
+     }
+    }
    },
-   "strongest_target_ki": {
-    "n_scored": 11,
-    "n_positive": 4,
-    "n_negative": 7,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.6071,
-    "auroc_ci": [
-     0.2,
-     1.0
-    ],
-    "auprc": 0.5099,
-    "auprc_ci": [
-     0.1736111111111111,
-     0.9906249999999983
-    ],
-    "prevalence_baseline": 0.3636
+   "sedation": {
+    "effect": "sedation",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 13,
+      "n_positive": 9,
+      "n_negative": 4,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.6111111111111112,
+      "auroc_ci": [
+       0.2,
+       1.0
+      ],
+      "auprc": 0.8093745760412426,
+      "auprc_ci": [
+       0.5459186507936509,
+       1.0
+      ],
+      "prevalence_baseline": 0.6923076923076923,
+      "brier": 0.23350398503562625,
+      "brier_ci": [
+       0.06973851966092494,
+       0.4172487898021201
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 13,
+      "n_positive": 9,
+      "n_negative": 4,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.7777777777777778,
+      "auroc_ci": [
+       0.4722222222222222,
+       1.0
+      ],
+      "auprc": 0.9216200466200466,
+      "auprc_ci": [
+       0.7457440996503497,
+       1.0
+      ],
+      "prevalence_baseline": 0.6923076923076923,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 13,
+      "n_positive": 9,
+      "n_negative": 4,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.3888888888888889,
+      "auroc_ci": [
+       0.25,
+       0.5
+      ],
+      "auprc": 0.6459466459466461,
+      "auprc_ci": [
+       0.38461538461538464,
+       0.9108877233877233
+      ],
+      "prevalence_baseline": 0.6923076923076923,
+      "brier": 0.46153846153846156,
+      "brier_ci": [
+       0.23076923076923078,
+       0.7692307692307693
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": -0.16666666666666663,
+      "auprc_delta_model_minus_baseline": -0.11224547057880396,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": 0.22222222222222227,
+      "auprc_delta_model_minus_baseline": 0.16342793009459655,
+      "model_beats_auroc": true,
+      "model_beats_auprc": true
+     }
+    }
    },
-   "nearest_neighbor": {
-    "n_scored": 11,
-    "n_positive": 4,
-    "n_negative": 7,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.625,
-    "auroc_ci": [
-     0.5,
-     1.0
-    ],
-    "auprc": 0.6981,
-    "auprc_ci": [
-     0.1625,
-     1.0
-    ],
-    "prevalence_baseline": 0.3636
+   "weight_gain": {
+    "effect": "weight_gain",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 12,
+      "n_positive": 3,
+      "n_negative": 9,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.7407407407407407,
+      "auroc_ci": [
+       0.43214285714285716,
+       1.0
+      ],
+      "auprc": 0.4444444444444444,
+      "auprc_ci": [
+       0.19642857142857142,
+       1.0
+      ],
+      "prevalence_baseline": 0.25,
+      "brier": 0.24243556131712984,
+      "brier_ci": [
+       0.1302013054362147,
+       0.3736350533121216
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 12,
+      "n_positive": 3,
+      "n_negative": 9,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.3333333333333333,
+      "auroc_ci": [
+       0.05,
+       0.6868303571428571
+      ],
+      "auprc": 0.23888888888888887,
+      "auprc_ci": [
+       0.1,
+       0.4910714285714286
+      ],
+      "prevalence_baseline": 0.25,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 12,
+      "n_positive": 3,
+      "n_negative": 9,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.6111111111111112,
+      "auroc_ci": [
+       0.36363636363636365,
+       0.9545454545454546
+      ],
+      "auprc": 0.3641284271284271,
+      "auprc_ci": [
+       0.06793578643578643,
+       0.9142392676767678
+      ],
+      "prevalence_baseline": 0.25,
+      "brier": 0.25,
+      "brier_ci": [
+       0.0,
+       0.5
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": 0.4074074074074074,
+      "auprc_delta_model_minus_baseline": 0.20555555555555555,
+      "model_beats_auroc": true,
+      "model_beats_auprc": true
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": 0.12962962962962954,
+      "auprc_delta_model_minus_baseline": 0.08031601731601734,
+      "model_beats_auroc": true,
+      "model_beats_auprc": true
+     }
+    }
+   },
+   "anticholinergic": {
+    "effect": "anticholinergic",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 13,
+      "n_positive": 12,
+      "n_negative": 1,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.4166666666666667,
+      "auroc_ci": [
+       0.16666666666666666,
+       0.7272727272727273
+      ],
+      "auprc": 0.9391555204055202,
+      "auprc_ci": [
+       0.7809598734598735,
+       1.0000000000000002
+      ],
+      "prevalence_baseline": 0.9230769230769231,
+      "brier": 0.07226177631751612,
+      "brier_ci": [
+       0.008381098933950101,
+       0.19699492377057964
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 13,
+      "n_positive": 12,
+      "n_negative": 1,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.6666666666666666,
+      "auroc_ci": [
+       0.36363636363636365,
+       0.9166666666666666
+      ],
+      "auprc": 0.9707362082362081,
+      "auprc_ci": [
+       0.8932224341315249,
+       1.0000000000000002
+      ],
+      "prevalence_baseline": 0.9230769230769231,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 13,
+      "n_positive": 12,
+      "n_negative": 1,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.4166666666666667,
+      "auroc_ci": [
+       0.2916666666666667,
+       0.5
+      ],
+      "auprc": 0.9108877233877233,
+      "auprc_ci": [
+       0.7146503496503497,
+       1.0
+      ],
+      "prevalence_baseline": 0.9230769230769231,
+      "brier": 0.23076923076923078,
+      "brier_ci": [
+       0.0,
+       0.46153846153846156
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": -0.24999999999999994,
+      "auprc_delta_model_minus_baseline": -0.031580687830687904,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": 0.0,
+      "auprc_delta_model_minus_baseline": 0.028267797017796914,
+      "model_beats_auroc": false,
+      "model_beats_auprc": true
+     }
+    }
+   },
+   "orthostasis": {
+    "effect": "orthostasis",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 12,
+      "n_positive": 3,
+      "n_negative": 9,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.2962962962962963,
+      "auroc_ci": [
+       0.0,
+       0.8181818181818182
+      ],
+      "auprc": 0.26111111111111107,
+      "auprc_ci": [
+       0.08333333333333333,
+       0.7257575757575757
+      ],
+      "prevalence_baseline": 0.25,
+      "brier": 0.22083300743534692,
+      "brier_ci": [
+       0.00961277852610821,
+       0.4373342512637723
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 12,
+      "n_positive": 3,
+      "n_negative": 9,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.5185185185185185,
+      "auroc_ci": [
+       0.1,
+       1.0
+      ],
+      "auprc": 0.36190476190476184,
+      "auprc_ci": [
+       0.1111111111111111,
+       1.0
+      ],
+      "prevalence_baseline": 0.25,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 12,
+      "n_positive": 3,
+      "n_negative": 9,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.6666666666666666,
+      "auroc_ci": [
+       0.5,
+       1.0
+      ],
+      "auprc": 0.5588368931344139,
+      "auprc_ci": [
+       0.08333333333333333,
+       1.0
+      ],
+      "prevalence_baseline": 0.25,
+      "brier": 0.16666666666666666,
+      "brier_ci": [
+       0.0,
+       0.4166666666666667
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": -0.2222222222222222,
+      "auprc_delta_model_minus_baseline": -0.10079365079365077,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": -0.37037037037037035,
+      "auprc_delta_model_minus_baseline": -0.2977257820233028,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     }
+    }
+   },
+   "sexual_dysfunction": {
+    "effect": "sexual_dysfunction",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 9,
+      "n_positive": 5,
+      "n_negative": 4,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.85,
+      "auroc_ci": [
+       0.4444444444444444,
+       1.0
+      ],
+      "auprc": 0.8766666666666667,
+      "auprc_ci": [
+       0.5249999999999999,
+       1.0
+      ],
+      "prevalence_baseline": 0.5555555555555556,
+      "brier": 0.24675620997199538,
+      "brier_ci": [
+       0.12469420449560775,
+       0.37691744156225504
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 9,
+      "n_positive": 5,
+      "n_negative": 4,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.5,
+      "auroc_ci": [
+       0.0,
+       1.0
+      ],
+      "auprc": 0.6644444444444445,
+      "auprc_ci": [
+       0.26654761904761903,
+       0.9999999999999999
+      ],
+      "prevalence_baseline": 0.5555555555555556,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 9,
+      "n_positive": 5,
+      "n_negative": 4,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.9,
+      "auroc_ci": [
+       0.7,
+       1.0
+      ],
+      "auprc": 0.93544126984127,
+      "auprc_ci": [
+       0.6625217013888889,
+       1.0
+      ],
+      "prevalence_baseline": 0.5555555555555556,
+      "brier": 0.1111111111111111,
+      "brier_ci": [
+       0.0,
+       0.3333333333333333
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": 0.35,
+      "auprc_delta_model_minus_baseline": 0.2122222222222222,
+      "model_beats_auroc": true,
+      "model_beats_auprc": true
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": -0.050000000000000044,
+      "auprc_delta_model_minus_baseline": -0.05877460317460326,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     }
+    }
+   },
+   "seizure": {
+    "effect": "seizure",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 11,
+      "n_positive": 0,
+      "n_negative": 11,
+      "underpowered": true,
+      "headline": false,
+      "auroc": null,
+      "auroc_ci": null,
+      "auprc": null,
+      "auprc_ci": null,
+      "prevalence_baseline": 0.0,
+      "brier": 0.0002441406250000001,
+      "brier_ci": [
+       0.0002441406250000001,
+       0.0002441406250000001
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 11,
+      "n_positive": 0,
+      "n_negative": 11,
+      "underpowered": true,
+      "headline": false,
+      "auroc": null,
+      "auroc_ci": null,
+      "auprc": null,
+      "auprc_ci": null,
+      "prevalence_baseline": 0.0,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 11,
+      "n_positive": 0,
+      "n_negative": 11,
+      "underpowered": true,
+      "headline": false,
+      "auroc": null,
+      "auroc_ci": null,
+      "auprc": null,
+      "auprc_ci": null,
+      "prevalence_baseline": 0.0,
+      "brier": 0.0,
+      "brier_ci": [
+       0.0,
+       0.0
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": null,
+      "auprc_delta_model_minus_baseline": null,
+      "model_beats_auroc": null,
+      "model_beats_auprc": null
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": null,
+      "auprc_delta_model_minus_baseline": null,
+      "model_beats_auroc": null,
+      "model_beats_auprc": null
+     }
+    }
    }
   },
-  "sedation": {
-   "occupancy_model": {
-    "n_scored": 13,
-    "n_positive": 9,
-    "n_negative": 4,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.6111,
-    "auroc_ci": [
-     0.2,
-     1.0
-    ],
-    "auprc": 0.8094,
-    "auprc_ci": [
-     0.5459186507936508,
-     1.0
-    ],
-    "prevalence_baseline": 0.6923
-   },
-   "strongest_target_ki": {
-    "n_scored": 13,
-    "n_positive": 9,
-    "n_negative": 4,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.7778,
-    "auroc_ci": [
-     0.4722222222222222,
-     1.0
-    ],
-    "auprc": 0.9216,
-    "auprc_ci": [
-     0.7457440996503497,
-     1.0
-    ],
-    "prevalence_baseline": 0.6923
-   },
-   "nearest_neighbor": {
-    "n_scored": 13,
-    "n_positive": 9,
-    "n_negative": 4,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.3889,
-    "auroc_ci": [
-     0.25,
-     0.5
-    ],
-    "auprc": 0.6176,
-    "auprc_ci": [
-     0.40136301198801194,
-     0.9650601292646741
-    ],
-    "prevalence_baseline": 0.6923
-   }
-  },
-  "weight_gain": {
-   "occupancy_model": {
-    "n_scored": 12,
-    "n_positive": 3,
-    "n_negative": 9,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.7407,
-    "auroc_ci": [
-     0.43214285714285716,
-     1.0
-    ],
-    "auprc": 0.4444,
-    "auprc_ci": [
-     0.19642857142857142,
-     1.0
-    ],
-    "prevalence_baseline": 0.25
-   },
-   "strongest_target_ki": {
-    "n_scored": 12,
-    "n_positive": 3,
-    "n_negative": 9,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.3333,
-    "auroc_ci": [
-     0.05,
-     0.6868303571428571
-    ],
-    "auprc": 0.2389,
-    "auprc_ci": [
-     0.1,
-     0.4910714285714286
-    ],
-    "prevalence_baseline": 0.25
-   },
-   "nearest_neighbor": {
-    "n_scored": 12,
-    "n_positive": 3,
-    "n_negative": 9,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.6111,
-    "auroc_ci": [
-     0.36363636363636365,
-     0.9545454545454546
-    ],
-    "auprc": 0.6806,
-    "auprc_ci": [
-     0.1077777777777778,
-     1.0
-    ],
-    "prevalence_baseline": 0.25
-   }
-  },
-  "anticholinergic": {
-   "occupancy_model": {
-    "n_scored": 13,
-    "n_positive": 12,
-    "n_negative": 1,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.4167,
-    "auroc_ci": [
-     0.16666666666666666,
-     0.7272727272727273
-    ],
-    "auprc": 0.9392,
-    "auprc_ci": [
-     0.7809598734598735,
-     1.0
-    ],
-    "prevalence_baseline": 0.9231
-   },
-   "strongest_target_ki": {
-    "n_scored": 13,
-    "n_positive": 12,
-    "n_negative": 1,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.6667,
-    "auroc_ci": [
-     0.36363636363636365,
-     0.9166666666666666
-    ],
-    "auprc": 0.9707,
-    "auprc_ci": [
-     0.8932224341315251,
-     1.0
-    ],
-    "prevalence_baseline": 0.9231
-   },
-   "nearest_neighbor": {
-    "n_scored": 13,
-    "n_positive": 12,
-    "n_negative": 1,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.4167,
-    "auroc_ci": [
-     0.2916666666666667,
-     0.5
-    ],
-    "auprc": 0.8183,
-    "auprc_ci": [
-     0.6945211354302262,
-     1.0
-    ],
-    "prevalence_baseline": 0.9231
-   }
-  },
-  "orthostasis": {
-   "occupancy_model": {
-    "n_scored": 12,
-    "n_positive": 3,
-    "n_negative": 9,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.2963,
-    "auroc_ci": [
-     0.0,
-     0.8181818181818182
-    ],
-    "auprc": 0.2611,
-    "auprc_ci": [
-     0.08333333333333333,
-     0.7257575757575757
-    ],
-    "prevalence_baseline": 0.25
-   },
-   "strongest_target_ki": {
-    "n_scored": 12,
-    "n_positive": 3,
-    "n_negative": 9,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.5185,
-    "auroc_ci": [
-     0.1,
-     1.0
-    ],
-    "auprc": 0.3619,
-    "auprc_ci": [
-     0.1111111111111111,
-     1.0
-    ],
-    "prevalence_baseline": 0.25
-   },
-   "nearest_neighbor": {
-    "n_scored": 12,
-    "n_positive": 3,
-    "n_negative": 9,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.6667,
-    "auroc_ci": [
-     0.5,
-     1.0
-    ],
-    "auprc": 0.4907,
-    "auprc_ci": [
-     0.11840277777777786,
-     1.0
-    ],
-    "prevalence_baseline": 0.25
-   }
-  },
-  "sexual_dysfunction": {
-   "occupancy_model": {
-    "n_scored": 9,
-    "n_positive": 5,
-    "n_negative": 4,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.85,
-    "auroc_ci": [
-     0.4444444444444444,
-     1.0
-    ],
-    "auprc": 0.8767,
-    "auprc_ci": [
-     0.5249999999999999,
-     1.0
-    ],
-    "prevalence_baseline": 0.5556
-   },
-   "strongest_target_ki": {
-    "n_scored": 9,
-    "n_positive": 5,
-    "n_negative": 4,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.5,
-    "auroc_ci": [
-     0.0,
-     1.0
-    ],
-    "auprc": 0.6644,
-    "auprc_ci": [
-     0.26654761904761903,
-     1.0
-    ],
-    "prevalence_baseline": 0.5556
-   },
-   "nearest_neighbor": {
-    "n_scored": 9,
-    "n_positive": 5,
-    "n_negative": 4,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.9,
-    "auroc_ci": [
-     0.7,
-     1.0
-    ],
-    "auprc": 0.925,
-    "auprc_ci": [
-     0.7046180555555556,
-     1.0
-    ],
-    "prevalence_baseline": 0.5556
-   }
-  },
-  "seizure": {
-   "occupancy_model": {
-    "n_scored": 11,
-    "n_positive": 0,
-    "n_negative": 11,
-    "underpowered": true,
-    "headline": false,
-    "auroc": null,
-    "auroc_ci": null,
-    "auprc": null,
-    "auprc_ci": null,
-    "prevalence_baseline": 0.0
-   },
-   "strongest_target_ki": {
-    "n_scored": 11,
-    "n_positive": 0,
-    "n_negative": 11,
-    "underpowered": true,
-    "headline": false,
-    "auroc": null,
-    "auroc_ci": null,
-    "auprc": null,
-    "auprc_ci": null,
-    "prevalence_baseline": 0.0
-   },
-   "nearest_neighbor": {
-    "n_scored": 11,
-    "n_positive": 0,
-    "n_negative": 11,
-    "underpowered": true,
-    "headline": false,
-    "auroc": null,
-    "auroc_ci": null,
-    "auprc": null,
-    "auprc_ci": null,
-    "prevalence_baseline": 0.0
-   }
+  "failure_analysis": {
+   "underpowered_excluded_from_headline": [
+    "eps",
+    "sedation",
+    "weight_gain",
+    "anticholinergic",
+    "orthostasis",
+    "sexual_dysfunction",
+    "seizure"
+   ],
+   "effects_not_estimable": [
+    "seizure"
+   ],
+   "occupancy_model_beats_both_baselines_auroc": [
+    "eps",
+    "weight_gain"
+   ],
+   "occupancy_model_beats_both_baselines_auprc": [
+    "eps",
+    "weight_gain"
+   ],
+   "occupancy_model_does_not_beat_both_baselines_auroc": [
+    "sedation",
+    "anticholinergic",
+    "orthostasis",
+    "sexual_dysfunction",
+    "seizure"
+   ],
+   "occupancy_model_does_not_beat_both_baselines_auprc": [
+    "sedation",
+    "anticholinergic",
+    "orthostasis",
+    "sexual_dysfunction",
+    "seizure"
+   ]
   }
  },
  "lodo_all_available_drugs": {
-  "eps": {
-   "occupancy_model": {
-    "n_scored": 37,
-    "n_positive": 14,
-    "n_negative": 23,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.677,
-    "auroc_ci": [
-     0.47952915376676986,
-     0.8529626762985895
-    ],
-    "auprc": 0.5473,
-    "auprc_ci": [
-     0.3164524212385518,
-     0.8328986743759892
-    ],
-    "prevalence_baseline": 0.3784
+  "n_drugs": 52,
+  "effects": {
+   "eps": {
+    "effect": "eps",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 37,
+      "n_positive": 14,
+      "n_negative": 23,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.6770186335403726,
+      "auroc_ci": [
+       0.47952915376676986,
+       0.8529626762985895
+      ],
+      "auprc": 0.5473197093829557,
+      "auprc_ci": [
+       0.3164524212385518,
+       0.8328986743759893
+      ],
+      "prevalence_baseline": 0.3783783783783784,
+      "brier": 0.23708917221761105,
+      "brier_ci": [
+       0.16271239883271268,
+       0.32186358154004785
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 37,
+      "n_positive": 14,
+      "n_negative": 23,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.6304347826086957,
+      "auroc_ci": [
+       0.4323529411764706,
+       0.8129109925162554
+      ],
+      "auprc": 0.5347871616652404,
+      "auprc_ci": [
+       0.3000391485396455,
+       0.7835017153988313
+      ],
+      "prevalence_baseline": 0.3783783783783784,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 37,
+      "n_positive": 14,
+      "n_negative": 23,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.5559006211180124,
+      "auroc_ci": [
+       0.4175424208144797,
+       0.7067307692307693
+      ],
+      "auprc": 0.43452883210015536,
+      "auprc_ci": [
+       0.23090424269587864,
+       0.6672384543421854
+      ],
+      "prevalence_baseline": 0.3783783783783784,
+      "brier": 0.3783783783783784,
+      "brier_ci": [
+       0.21621621621621623,
+       0.5405405405405406
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": 0.04658385093167694,
+      "auprc_delta_model_minus_baseline": 0.012532547717715281,
+      "model_beats_auroc": true,
+      "model_beats_auprc": true
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": 0.1211180124223602,
+      "auprc_delta_model_minus_baseline": 0.11279087728280035,
+      "model_beats_auroc": true,
+      "model_beats_auprc": true
+     }
+    },
+    "n_lodo_drugs": 37
    },
-   "strongest_target_ki": {
-    "n_scored": 37,
-    "n_positive": 14,
-    "n_negative": 23,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.6304,
-    "auroc_ci": [
-     0.4323529411764706,
-     0.8129109925162554
-    ],
-    "auprc": 0.5348,
-    "auprc_ci": [
-     0.3000391485396455,
-     0.7835017153988314
-    ],
-    "prevalence_baseline": 0.3784
+   "sedation": {
+    "effect": "sedation",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 42,
+      "n_positive": 34,
+      "n_negative": 8,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.39338235294117646,
+      "auroc_ci": [
+       0.2039351851851852,
+       0.5882679738562091
+      ],
+      "auprc": 0.807439718429401,
+      "auprc_ci": [
+       0.658286969793668,
+       0.9309988073109137
+      ],
+      "prevalence_baseline": 0.8095238095238095,
+      "brier": 0.16169408200887866,
+      "brier_ci": [
+       0.09406325673234132,
+       0.24177213886336169
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 42,
+      "n_positive": 34,
+      "n_negative": 8,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.7316176470588235,
+      "auroc_ci": [
+       0.5124218749999999,
+       0.8973185685685685
+      ],
+      "auprc": 0.9218135789109722,
+      "auprc_ci": [
+       0.8199168180081217,
+       0.986235095922916
+      ],
+      "prevalence_baseline": 0.8095238095238095,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 42,
+      "n_positive": 34,
+      "n_negative": 8,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.35294117647058826,
+      "auroc_ci": [
+       0.27419354838709675,
+       0.4259531590413943
+      ],
+      "auprc": 0.7604123267736898,
+      "auprc_ci": [
+       0.613587277732633,
+       0.9052495634055422
+      ],
+      "prevalence_baseline": 0.8095238095238095,
+      "brier": 0.42857142857142855,
+      "brier_ci": [
+       0.2857142857142857,
+       0.5714285714285714
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": -0.338235294117647,
+      "auprc_delta_model_minus_baseline": -0.11437386048157117,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": 0.0404411764705882,
+      "auprc_delta_model_minus_baseline": 0.04702739165571124,
+      "model_beats_auroc": true,
+      "model_beats_auprc": true
+     }
+    },
+    "n_lodo_drugs": 42
    },
-   "nearest_neighbor": {
-    "n_scored": 37,
-    "n_positive": 14,
-    "n_negative": 23,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.5559,
-    "auroc_ci": [
-     0.4175424208144797,
-     0.7067307692307693
-    ],
-    "auprc": 0.5305,
-    "auprc_ci": [
-     0.25693760866786247,
-     0.735476479858152
-    ],
-    "prevalence_baseline": 0.3784
+   "weight_gain": {
+    "effect": "weight_gain",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 36,
+      "n_positive": 14,
+      "n_negative": 22,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.474025974025974,
+      "auroc_ci": [
+       0.2743041039576366,
+       0.6800278637770897
+      ],
+      "auprc": 0.4420831020831021,
+      "auprc_ci": [
+       0.2354476008897254,
+       0.6654227434153093
+      ],
+      "prevalence_baseline": 0.3888888888888889,
+      "brier": 0.28226218341356674,
+      "brier_ci": [
+       0.20794148977576613,
+       0.35726504110923274
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 36,
+      "n_positive": 14,
+      "n_negative": 22,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.5357142857142857,
+      "auroc_ci": [
+       0.3343885281385281,
+       0.7325411841149714
+      ],
+      "auprc": 0.44636938903942724,
+      "auprc_ci": [
+       0.260631669021292,
+       0.7210068038047359
+      ],
+      "prevalence_baseline": 0.3888888888888889,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 36,
+      "n_positive": 14,
+      "n_negative": 22,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.775974025974026,
+      "auroc_ci": [
+       0.625,
+       0.9074494949494948
+      ],
+      "auprc": 0.709571691588849,
+      "auprc_ci": [
+       0.45524191996205987,
+       0.9071599855682596
+      ],
+      "prevalence_baseline": 0.3888888888888889,
+      "brier": 0.19444444444444445,
+      "brier_ci": [
+       0.08333333333333333,
+       0.3333333333333333
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": -0.06168831168831168,
+      "auprc_delta_model_minus_baseline": -0.004286286956325158,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": -0.30194805194805197,
+      "auprc_delta_model_minus_baseline": -0.26748858950574694,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     }
+    },
+    "n_lodo_drugs": 36
+   },
+   "anticholinergic": {
+    "effect": "anticholinergic",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 39,
+      "n_positive": 36,
+      "n_negative": 3,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.05555555555555555,
+      "auroc_ci": [
+       0.0,
+       0.1388888888888889
+      ],
+      "auprc": 0.8358158578664131,
+      "auprc_ci": [
+       0.6720830838297499,
+       1.0000000000000002
+      ],
+      "prevalence_baseline": 0.9230769230769231,
+      "brier": 0.07763770369643541,
+      "brier_ci": [
+       0.011512422514221642,
+       0.1655779631453699
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 39,
+      "n_positive": 36,
+      "n_negative": 3,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.35185185185185186,
+      "auroc_ci": [
+       0.08108108108108109,
+       0.7368421052631579
+      ],
+      "auprc": 0.910302972264509,
+      "auprc_ci": [
+       0.777399137468233,
+       1.0000000000000002
+      ],
+      "prevalence_baseline": 0.9230769230769231,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 39,
+      "n_positive": 36,
+      "n_negative": 3,
+      "underpowered": true,
+      "headline": false,
+      "auroc": 0.4444444444444444,
+      "auroc_ci": [
+       0.3888888888888889,
+       0.4864864864864865
+      ],
+      "auprc": 0.9149127221495643,
+      "auprc_ci": [
+       0.8122034268197186,
+       1.0
+      ],
+      "prevalence_baseline": 0.9230769230769231,
+      "brier": 0.1794871794871795,
+      "brier_ci": [
+       0.07692307692307693,
+       0.3076923076923077
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": -0.2962962962962963,
+      "auprc_delta_model_minus_baseline": -0.07448711439809585,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": -0.38888888888888884,
+      "auprc_delta_model_minus_baseline": -0.07909686428315121,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     }
+    },
+    "n_lodo_drugs": 39
+   },
+   "orthostasis": {
+    "effect": "orthostasis",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 39,
+      "n_positive": 6,
+      "n_negative": 33,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.35858585858585856,
+      "auroc_ci": [
+       0.02142857142857143,
+       0.7263594470046084
+      ],
+      "auprc": 0.17236293552083023,
+      "auprc_ci": [
+       0.05261283550757235,
+       0.4752225852225851
+      ],
+      "prevalence_baseline": 0.15384615384615385,
+      "brier": 0.17645484597022143,
+      "brier_ci": [
+       0.07934860481818036,
+       0.2825679002794323
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 39,
+      "n_positive": 6,
+      "n_negative": 33,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.5909090909090909,
+      "auroc_ci": [
+       0.3107944638186574,
+       0.8648648648648649
+      ],
+      "auprc": 0.24256670649143766,
+      "auprc_ci": [
+       0.09083164642375169,
+       0.5426711132989035
+      ],
+      "prevalence_baseline": 0.15384615384615385,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 39,
+      "n_positive": 6,
+      "n_negative": 33,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.6363636363636364,
+      "auroc_ci": [
+       0.45454545454545453,
+       0.8607142857142858
+      ],
+      "auprc": 0.30663473420547716,
+      "auprc_ci": [
+       0.06445508859817428,
+       0.6984140092504662
+      ],
+      "prevalence_baseline": 0.15384615384615385,
+      "brier": 0.15384615384615385,
+      "brier_ci": [
+       0.05128205128205128,
+       0.2564102564102564
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": -0.23232323232323238,
+      "auprc_delta_model_minus_baseline": -0.07020377097060743,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": -0.2777777777777778,
+      "auprc_delta_model_minus_baseline": -0.13427179868464692,
+      "model_beats_auroc": false,
+      "model_beats_auprc": false
+     }
+    },
+    "n_lodo_drugs": 39
+   },
+   "sexual_dysfunction": {
+    "effect": "sexual_dysfunction",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 34,
+      "n_positive": 12,
+      "n_negative": 22,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.7954545454545454,
+      "auroc_ci": [
+       0.6262651384083046,
+       0.9413988095238095
+      ],
+      "auprc": 0.649237098685628,
+      "auprc_ci": [
+       0.3958306174660579,
+       0.9150135896300668
+      ],
+      "prevalence_baseline": 0.35294117647058826,
+      "brier": 0.1992840759009036,
+      "brier_ci": [
+       0.1388725186473816,
+       0.2715545548920195
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 34,
+      "n_positive": 12,
+      "n_negative": 22,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.48484848484848486,
+      "auroc_ci": [
+       0.26480872388481086,
+       0.6888988095238094
+      ],
+      "auprc": 0.37107130364364704,
+      "auprc_ci": [
+       0.20382746722780656,
+       0.6414718471643434
+      ],
+      "prevalence_baseline": 0.35294117647058826,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 34,
+      "n_positive": 12,
+      "n_negative": 22,
+      "underpowered": false,
+      "headline": true,
+      "auroc": 0.5681818181818182,
+      "auroc_ci": [
+       0.3971837944664032,
+       0.746490079365079
+      ],
+      "auprc": 0.4032848591604541,
+      "auprc_ci": [
+       0.20958462025809832,
+       0.643551795408799
+      ],
+      "prevalence_baseline": 0.35294117647058826,
+      "brier": 0.4117647058823529,
+      "brier_ci": [
+       0.23529411764705882,
+       0.5588235294117647
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": 0.31060606060606055,
+      "auprc_delta_model_minus_baseline": 0.2781657950419809,
+      "model_beats_auroc": true,
+      "model_beats_auprc": true
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": 0.22727272727272718,
+      "auprc_delta_model_minus_baseline": 0.24595223952517387,
+      "model_beats_auroc": true,
+      "model_beats_auprc": true
+     }
+    },
+    "n_lodo_drugs": 34
+   },
+   "seizure": {
+    "effect": "seizure",
+    "methods": {
+     "occupancy_model": {
+      "n_scored": 38,
+      "n_positive": 0,
+      "n_negative": 38,
+      "underpowered": true,
+      "headline": false,
+      "auroc": null,
+      "auroc_ci": null,
+      "auprc": null,
+      "auprc_ci": null,
+      "prevalence_baseline": 0.0,
+      "brier": 0.0001234567901234568,
+      "brier_ci": [
+       0.0001234567901234568,
+       0.0001234567901234568
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261018,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "strongest_target_ki": {
+      "n_scored": 38,
+      "n_positive": 0,
+      "n_negative": 38,
+      "underpowered": true,
+      "headline": false,
+      "auroc": null,
+      "auroc_ci": null,
+      "auprc": null,
+      "auprc_ci": null,
+      "prevalence_baseline": 0.0,
+      "brier": null,
+      "brier_ci": null,
+      "brier_note": "not computed: this baseline scores -log10(Ki), which is not a probability",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261028,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     },
+     "nearest_neighbor": {
+      "n_scored": 38,
+      "n_positive": 0,
+      "n_negative": 38,
+      "underpowered": true,
+      "headline": false,
+      "auroc": null,
+      "auroc_ci": null,
+      "auprc": null,
+      "auprc_ci": null,
+      "prevalence_baseline": 0.0,
+      "brier": 0.0,
+      "brier_ci": [
+       0.0,
+       0.0
+      ],
+      "brier_note": "Brier score of this method's own probability; lower is better",
+      "bootstrap": {
+       "kind": "drug-level percentile bootstrap",
+       "replicates": 2000,
+       "seed": 20261038,
+       "status": "illustrative analysis settings, not biological parameters"
+      }
+     }
+    },
+    "comparisons": {
+     "strongest_target_ki": {
+      "auroc_delta_model_minus_baseline": null,
+      "auprc_delta_model_minus_baseline": null,
+      "model_beats_auroc": null,
+      "model_beats_auprc": null
+     },
+     "nearest_neighbor": {
+      "auroc_delta_model_minus_baseline": null,
+      "auprc_delta_model_minus_baseline": null,
+      "model_beats_auroc": null,
+      "model_beats_auprc": null
+     }
+    },
+    "n_lodo_drugs": 38
    }
   },
-  "sedation": {
-   "occupancy_model": {
-    "n_scored": 42,
-    "n_positive": 34,
-    "n_negative": 8,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.3934,
-    "auroc_ci": [
-     0.2039351851851852,
-     0.5882679738562091
-    ],
-    "auprc": 0.8074,
-    "auprc_ci": [
-     0.658286969793668,
-     0.9309988073109134
-    ],
-    "prevalence_baseline": 0.8095
-   },
-   "strongest_target_ki": {
-    "n_scored": 42,
-    "n_positive": 34,
-    "n_negative": 8,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.7316,
-    "auroc_ci": [
-     0.5124218749999999,
-     0.8973185685685685
-    ],
-    "auprc": 0.9218,
-    "auprc_ci": [
-     0.8199168180081218,
-     0.9862350959229158
-    ],
-    "prevalence_baseline": 0.8095
-   },
-   "nearest_neighbor": {
-    "n_scored": 42,
-    "n_positive": 34,
-    "n_negative": 8,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.3529,
-    "auroc_ci": [
-     0.27419354838709675,
-     0.4259531590413943
-    ],
-    "auprc": 0.8063,
-    "auprc_ci": [
-     0.6008660088568559,
-     0.9299645506130602
-    ],
-    "prevalence_baseline": 0.8095
-   }
-  },
-  "weight_gain": {
-   "occupancy_model": {
-    "n_scored": 36,
-    "n_positive": 14,
-    "n_negative": 22,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.474,
-    "auroc_ci": [
-     0.2743041039576366,
-     0.6800278637770897
-    ],
-    "auprc": 0.4421,
-    "auprc_ci": [
-     0.23544760088972538,
-     0.6654227434153094
-    ],
-    "prevalence_baseline": 0.3889
-   },
-   "strongest_target_ki": {
-    "n_scored": 36,
-    "n_positive": 14,
-    "n_negative": 22,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.5357,
-    "auroc_ci": [
-     0.3343885281385281,
-     0.7325411841149714
-    ],
-    "auprc": 0.4464,
-    "auprc_ci": [
-     0.260631669021292,
-     0.7210068038047361
-    ],
-    "prevalence_baseline": 0.3889
-   },
-   "nearest_neighbor": {
-    "n_scored": 36,
-    "n_positive": 14,
-    "n_negative": 22,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.776,
-    "auroc_ci": [
-     0.625,
-     0.9074494949494948
-    ],
-    "auprc": 0.7714,
-    "auprc_ci": [
-     0.46916122888549355,
-     0.9294141067266066
-    ],
-    "prevalence_baseline": 0.3889
-   }
-  },
-  "anticholinergic": {
-   "occupancy_model": {
-    "n_scored": 39,
-    "n_positive": 36,
-    "n_negative": 3,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.0556,
-    "auroc_ci": [
-     0.0,
-     0.1388888888888889
-    ],
-    "auprc": 0.8358,
-    "auprc_ci": [
-     0.6720830838297499,
-     1.0
-    ],
-    "prevalence_baseline": 0.9231
-   },
-   "strongest_target_ki": {
-    "n_scored": 39,
-    "n_positive": 36,
-    "n_negative": 3,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.3519,
-    "auroc_ci": [
-     0.08108108108108109,
-     0.7368421052631579
-    ],
-    "auprc": 0.9103,
-    "auprc_ci": [
-     0.7773991374682331,
-     1.0
-    ],
-    "prevalence_baseline": 0.9231
-   },
-   "nearest_neighbor": {
-    "n_scored": 39,
-    "n_positive": 36,
-    "n_negative": 3,
-    "underpowered": true,
-    "headline": false,
-    "auroc": 0.4444,
-    "auroc_ci": [
-     0.3888888888888889,
-     0.4864864864864865
-    ],
-    "auprc": 0.8815,
-    "auprc_ci": [
-     0.789941020370417,
-     1.0
-    ],
-    "prevalence_baseline": 0.9231
-   }
-  },
-  "orthostasis": {
-   "occupancy_model": {
-    "n_scored": 39,
-    "n_positive": 6,
-    "n_negative": 33,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.3586,
-    "auroc_ci": [
-     0.02142857142857143,
-     0.7263594470046084
-    ],
-    "auprc": 0.1724,
-    "auprc_ci": [
-     0.05261283550757235,
-     0.47522258522258504
-    ],
-    "prevalence_baseline": 0.1538
-   },
-   "strongest_target_ki": {
-    "n_scored": 39,
-    "n_positive": 6,
-    "n_negative": 33,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.5909,
-    "auroc_ci": [
-     0.3107944638186574,
-     0.8648648648648649
-    ],
-    "auprc": 0.2426,
-    "auprc_ci": [
-     0.0908316464237517,
-     0.5426711132989035
-    ],
-    "prevalence_baseline": 0.1538
-   },
-   "nearest_neighbor": {
-    "n_scored": 39,
-    "n_positive": 6,
-    "n_negative": 33,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.6364,
-    "auroc_ci": [
-     0.45454545454545453,
-     0.8607142857142858
-    ],
-    "auprc": 0.3585,
-    "auprc_ci": [
-     0.08558063193540522,
-     0.7669404186795488
-    ],
-    "prevalence_baseline": 0.1538
-   }
-  },
-  "sexual_dysfunction": {
-   "occupancy_model": {
-    "n_scored": 34,
-    "n_positive": 12,
-    "n_negative": 22,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.7955,
-    "auroc_ci": [
-     0.6262651384083046,
-     0.9413988095238095
-    ],
-    "auprc": 0.6492,
-    "auprc_ci": [
-     0.3958306174660579,
-     0.9150135896300671
-    ],
-    "prevalence_baseline": 0.3529
-   },
-   "strongest_target_ki": {
-    "n_scored": 34,
-    "n_positive": 12,
-    "n_negative": 22,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.4848,
-    "auroc_ci": [
-     0.26480872388481086,
-     0.6888988095238094
-    ],
-    "auprc": 0.3711,
-    "auprc_ci": [
-     0.20382746722780656,
-     0.6414718471643435
-    ],
-    "prevalence_baseline": 0.3529
-   },
-   "nearest_neighbor": {
-    "n_scored": 34,
-    "n_positive": 12,
-    "n_negative": 22,
-    "underpowered": false,
-    "headline": true,
-    "auroc": 0.5682,
-    "auroc_ci": [
-     0.3971837944664032,
-     0.746490079365079
-    ],
-    "auprc": 0.4082,
-    "auprc_ci": [
-     0.24298103442584512,
-     0.724764784750359
-    ],
-    "prevalence_baseline": 0.3529
-   }
-  },
-  "seizure": {
-   "occupancy_model": {
-    "n_scored": 38,
-    "n_positive": 0,
-    "n_negative": 38,
-    "underpowered": true,
-    "headline": false,
-    "auroc": null,
-    "auroc_ci": null,
-    "auprc": null,
-    "auprc_ci": null,
-    "prevalence_baseline": 0.0
-   },
-   "strongest_target_ki": {
-    "n_scored": 38,
-    "n_positive": 0,
-    "n_negative": 38,
-    "underpowered": true,
-    "headline": false,
-    "auroc": null,
-    "auroc_ci": null,
-    "auprc": null,
-    "auprc_ci": null,
-    "prevalence_baseline": 0.0
-   },
-   "nearest_neighbor": {
-    "n_scored": 38,
-    "n_positive": 0,
-    "n_negative": 38,
-    "underpowered": true,
-    "headline": false,
-    "auroc": null,
-    "auroc_ci": null,
-    "auprc": null,
-    "auprc_ci": null,
-    "prevalence_baseline": 0.0
-   }
+  "failure_analysis": {
+   "underpowered_excluded_from_headline": [
+    "anticholinergic",
+    "seizure"
+   ],
+   "effects_not_estimable": [
+    "seizure"
+   ],
+   "occupancy_model_beats_both_baselines_auroc": [
+    "eps",
+    "sexual_dysfunction"
+   ],
+   "occupancy_model_beats_both_baselines_auprc": [
+    "eps",
+    "sexual_dysfunction"
+   ],
+   "occupancy_model_does_not_beat_both_baselines_auroc": [
+    "sedation",
+    "weight_gain",
+    "anticholinergic",
+    "orthostasis",
+    "seizure"
+   ],
+   "occupancy_model_does_not_beat_both_baselines_auprc": [
+    "sedation",
+    "weight_gain",
+    "anticholinergic",
+    "orthostasis",
+    "seizure"
+   ]
   }
- },
- "headline_metric": "none: every held-out effect has fewer than five positives or negatives, so by the pre-declared rule P30.2 reports no headline AUROC/AUPRC",
- "conclusion": "the occupancy model is not shown to beat strongest-Ki or nearest-neighbour baselines on any held-out effect; LODO over 52 drugs beats both only for sexual dysfunction; seizure is not estimable (no positives); placebo pairs and 37 all-unknown-label held-out drugs remain data gaps"
+ }
 }

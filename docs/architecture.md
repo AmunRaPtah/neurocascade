@@ -17476,71 +17476,79 @@ a source for any neurocascade parameter.
 
 ## Phase 30, part two: effect baselines and uncertainty (P30.2)
 
-P30.2 is implemented in `neurocascade.benchmark.effect_scoring`. It compares the
-frozen P30.1 train-only occupancy model with two baselines on the *same* eligible
-rows, and reports AUROC and AUPRC with a prevalence baseline and a drug-level
-percentile bootstrap (2,000 replicates, seed `20261018`, Efron 1979,
-doi:10.1214/aos/1176344552 — illustrative analysis settings, not biological
-parameters).
+P30.2 is implemented in `neurocascade.benchmark.effect_scoring` and its artifact
+is generated, never hand-written: `python scripts/score_p30_2.py` writes
+`results/P30.2.json` from `score_p30_2()` on a checkout that holds the frozen
+truth. It compares the frozen P30.1 train-only occupancy model with two
+baselines on the *same* eligible rows, reporting AUROC, AUPRC with a prevalence
+baseline, and calibration (Brier score) with a drug-level percentile bootstrap
+(2,000 replicates, seed `20261018`, Efron 1979, doi:10.1214/aos/1176344552 —
+illustrative analysis settings, not biological parameters).
+
+* `strongest_target_ki`: negative log10 of the smallest reported human Ki. Its
+  score is not a probability, so its Brier score is reported as null with a
+  reason rather than as a number that would only measure the score's scale.
+* `nearest_neighbor`: 1-nearest binding fingerprint over shared log10(Ki)
+  targets, returning that neighbour's binary label. Because its scores tie
+  heavily, AUPRC resolves ties by averaging over every ordering inside a tied
+  block; the first version broke ties by row index, so its AUPRC and CI
+  depended on drug order (found in acceptance review of PR #31 and fixed here,
+  with a permutation test).
 
 On a host holding the frozen truth the held-out split, as in P30.1, is small:
 **17 of the 55 held-out drugs are scorable** (39 have a unique exact oral
-clinical dose, 18 carry at least one known binary label, 17 have both; the other
-37 have all-unknown labels and are never counted as negatives). The comparison
-additionally requires both baselines to be computable for a drug, so per-effect
-n falls between 9 and 13:
+clinical dose, 18 carry at least one known binary label, 17 have both; 37 have
+all-unknown labels and are never counted as negatives). The comparison also
+requires both baselines for a drug, so per-effect n is 9–13:
 
-| effect | n | +/– | occupancy model AUROC (95% CI) | strongest-Ki AUROC (95% CI) | nearest-neighbour AUROC (95% CI) | AUPRC (model / prevalence) |
-|---|---:|---:|---|---|---|---|
-| EPS | 11 | 4 / 7 | 1.00 [1.00, 1.00] | 0.61 [0.20, 1.00] | 0.62 [0.50, 1.00] | 1.00 / 0.36 |
-| sedation | 13 | 9 / 4 | 0.61 [0.20, 1.00] | 0.78 [0.47, 1.00] | 0.39 [0.25, 0.50] | 0.81 / 0.69 |
-| weight gain | 12 | 3 / 9 | 0.74 [0.43, 1.00] | 0.33 [0.05, 0.69] | 0.61 [0.36, 0.95] | 0.44 / 0.25 |
-| anticholinergic | 13 | 12 / 1 | 0.42 [0.17, 0.73] | 0.67 [0.36, 0.92] | 0.42 [0.29, 0.50] | 0.94 / 0.92 |
-| orthostasis | 12 | 3 / 9 | 0.30 [0.00, 0.82] | 0.52 [0.10, 1.00] | 0.67 [0.50, 1.00] | 0.26 / 0.25 |
-| sexual dysfunction | 9 | 5 / 4 | 0.85 [0.44, 1.00] | 0.50 [0.00, 1.00] | 0.90 [0.70, 1.00] | 0.88 / 0.56 |
-| seizure | 11 | 0 / 11 | not estimable | not estimable | not estimable | — |
+| effect | n | +/– | model AUROC (95% CI) | strongest-Ki AUROC | 1-NN AUROC | model AUPRC (95% CI) | prevalence | model Brier (95% CI) |
+|---|---:|---:|---|---|---|---|---:|---|
+| EPS | 11 | 4 / 7 | 1.00 [1.00, 1.00] | 0.61 | 0.62 | 1.00 [1.00, 1.00] | 0.36 | 0.10 [0.05, 0.18] |
+| sedation | 13 | 9 / 4 | 0.61 [0.20, 1.00] | 0.78 | 0.39 | 0.81 [0.55, 1.00] | 0.69 | 0.23 [0.07, 0.42] |
+| weight gain | 12 | 3 / 9 | 0.74 [0.43, 1.00] | 0.33 | 0.61 | 0.44 [0.20, 1.00] | 0.25 | 0.24 [0.13, 0.37] |
+| anticholinergic | 13 | 12 / 1 | 0.42 [0.17, 0.73] | 0.67 | 0.42 | 0.94 [0.78, 1.00] | 0.92 | 0.07 [0.01, 0.20] |
+| orthostasis | 12 | 3 / 9 | 0.30 [0.00, 0.82] | 0.52 | 0.67 | 0.26 [0.08, 0.73] | 0.25 | 0.22 [0.01, 0.44] |
+| sexual dysfunction | 9 | 5 / 4 | 0.85 [0.44, 1.00] | 0.50 | 0.90 | 0.88 [0.52, 1.00] | 0.56 | 0.25 [0.12, 0.38] |
+| seizure | 11 | 0 / 11 | not estimable | not estimable | not estimable | — | — | 0.00 [0.00, 0.00] (all-negative) |
 
 **Every held-out effect is underpowered** (fewer than five positives or
-negatives), so P30.2's headline fields are empty by its own pre-declared rule,
-and it makes no clinical claim. Read as descriptives: the occupancy model beats
-*both* baselines only for weight gain (0.74 against 0.33 and 0.61) and draws or
-loses to at least one for every other effect; the perfect EPS row is four
-positives and seven negatives, and its `[1.00, 1.00]` interval is what a
-degenerate bootstrap looks like, not a strong result. Nearest-neighbour is the
-best of the three on sexual dysfunction (0.90) and orthostasis (0.67); the
-strongest-Ki baseline is best on sedation (0.78) and anticholinergic (0.67).
-That pattern — a different winner per effect on 9–13 drugs — is what a set of
-noise-sized estimates looks like.
+negatives), so the headline fields are empty by the pre-declared rule and no
+clinical claim is made. Read as descriptives, the occupancy model beats *both*
+baselines on both AUROC and AUPRC only for EPS and weight gain. The perfect EPS
+row is four positives and seven negatives, and its `[1.00, 1.00]` interval is
+what a degenerate bootstrap looks like, not evidence. The strongest-Ki baseline
+wins sedation and anticholinergic on AUROC; nearest-neighbour wins orthostasis
+and sexual dysfunction. A different winner per effect on 9–13 drugs is what a
+set of noise-sized estimates looks like.
 
-The all-available LODO diagnostic (52 drugs, leave-one-drug-out on frozen
-inputs, not held-out evidence) is more sober still:
+The all-available LODO diagnostic (52 drugs, leave-one-drug-out over frozen
+inputs, not held-out evidence) is harsher:
 
-| effect | n | +/– | occupancy model | strongest-Ki | nearest-neighbour |
-|---|---:|---:|---|---|---|
-| EPS | 37 | 14 / 23 | 0.68 | 0.63 | 0.56 |
-| sedation | 42 | 34 / 8 | 0.39 | 0.73 | 0.35 |
-| weight gain | 36 | 14 / 22 | 0.47 | 0.54 | 0.78 |
-| anticholinergic | 39 | 36 / 3 | 0.06 | 0.35 | 0.44 |
-| orthostasis | 39 | 6 / 33 | 0.36 | 0.59 | 0.64 |
-| sexual dysfunction | 34 | 12 / 22 | 0.80 | 0.48 | 0.57 |
-| seizure | 38 | 0 / 38 | not estimable | not estimable | not estimable |
+| effect | n | model AUROC / AUPRC / Brier | strongest-Ki AUROC / AUPRC | 1-NN AUROC / AUPRC |
+|---|---:|---|---|---|
+| EPS | 37 | 0.68 / 0.55 / 0.24 | 0.63 / 0.53 | 0.56 / 0.43 |
+| sedation | 42 | 0.39 / 0.81 / 0.16 | 0.73 / 0.92 | 0.35 / 0.76 |
+| weight gain | 36 | 0.47 / 0.44 / 0.28 | 0.54 / 0.45 | 0.78 / 0.71 |
+| anticholinergic | 39 | 0.06 / 0.84 / 0.08 | 0.35 / 0.91 | 0.44 / 0.91 |
+| orthostasis | 39 | 0.36 / 0.17 / 0.18 | 0.59 / 0.24 | 0.64 / 0.31 |
+| sexual dysfunction | 34 | 0.80 / 0.65 / 0.20 | 0.48 / 0.37 | 0.57 / 0.40 |
+| seizure | 38 | not estimable / 0.00 | not estimable | not estimable |
 
-(AUROC; AUPRC is in `results/P30.2.json`.) The occupancy model beats both
-baselines only for sexual dysfunction. The failure analysis this task's own
-acceptance asks for is therefore: **the occupancy model cannot be shown to
-predict any effect better than a one-feature or nearest-neighbour baseline**;
-seizure cannot be separated by the committed label rule at all (no positives);
-anticholinergic and orthostasis are near-saturated and underpowered; sedation
-and weight gain are predicted better by a baseline than by the model.
+The occupancy model beats both baselines only for sexual dysfunction here and
+for EPS and weight gain on held-out, so **the failure analysis this task's
+acceptance asks for is explicit: the occupancy map cannot be shown to predict
+any effect better than a one-feature or nearest-neighbour baseline.** Seizure
+cannot be separated by the committed label rule at all (no positive in 38 or 39
+drugs).
 
-Why this is expected rather than surprising: with 35 fitted train drugs and 57
-target features, the frozen P30.1 model is at or below chance on its own train
-drugs (train LOO 0.497–0.565), so there is no transportable signal for P30.2 to
-find. The result that must not be over-read is the EPS held-out 1.00: four
-positives, a degenerate bootstrap interval, and a 0.68 LODO estimate beside it.
+Why this is expected: with 35 fitted train drugs and 57 target features, the
+frozen P30.1 model is already at or below chance on its own train drugs (train
+LOO 0.497–0.565), so there was no transportable signal for P30.2 to recover.
+The result that must not be over-read is EPS held-out 1.00 — four positives, a
+degenerate interval, and a 0.68 LODO estimate beside it.
 
-Two data gaps are now explicit and separate from the model. First, paired
-placebo incidences are absent from the repository for every drug, so the label
-rule is still the flagged absolute fallback and no label is placebo-subtracted.
-Second, 37 of the 55 held-out drugs have all-unknown effect labels in P28.4,
-which caps the held-out scorable set at 17 regardless of the model.
+Two data gaps are now explicit and separate from the model. First, no paired
+placebo incidence exists anywhere in the repository, so the label rule remains
+the flagged absolute fallback and no label is placebo-subtracted. Second, 37 of
+the 55 held-out drugs have all-unknown P28.4 effect labels, which caps the
+held-out scorable set at 17 regardless of the model.

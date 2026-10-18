@@ -49,18 +49,45 @@ class BaselineScore:
 
 
 def _auprc(labels: list[int], scores: list[float]) -> float | None:
-    """Average precision, with scores ordered from high to low."""
+    """Tie-aware average precision over scores ordered high to low.
+
+    Tied scores are averaged over every ordering of the tied block, so the
+    value depends on the multiset of (score, label) pairs and never on the
+    order the drugs arrive in. The first version broke ties by input index
+    (`key=(-score, i)`), which made the nearest-neighbour baseline's 0/1 scores
+    order-dependent: the acceptance review of PR #31 found
+    `_auprc([1,0,0],[1,1,0]) = 1.0` against `_auprc([0,1,0],[1,1,0]) = 0.5`,
+    where both are 0.5 by the tie-correct definition.
+    """
     positives = sum(label == 1 for label in labels)
     if not positives:
         return None
-    order = sorted(range(len(scores)), key=lambda i: (-scores[i], i))
-    found = 0
+    pairs = sorted(zip(scores, labels), key=lambda pair: -pair[0])
     total = 0.0
-    for rank, index in enumerate(order, start=1):
-        if labels[index] == 1:
-            found += 1
-            total += found / rank
-    return total / positives
+    seen_tp = seen_n = 0
+    index = 0
+    while index < len(pairs):
+        end = index + 1
+        while end < len(pairs) and pairs[end][0] == pairs[index][0]:
+            end += 1
+        group_tp = sum(1 for k in range(index, end) if pairs[k][1] == 1)
+        group_n = end - index
+        if group_tp:
+            precision_sum = 0.0
+            for step in range(1, group_n + 1):
+                precision_sum += (seen_tp + group_tp * step / group_n) / (seen_n + step)
+            total += (precision_sum / group_n) * (group_tp / positives)
+        seen_tp += group_tp
+        seen_n += group_n
+        index = end
+    return total
+
+
+def _brier(labels: list[int], scores: list[float]) -> float | None:
+    """Brier score: the brief's calibration metric, lower is better."""
+    if not labels:
+        return None
+    return sum((score - label) ** 2 for label, score in zip(labels, scores)) / len(labels)
 
 
 def _bootstrap_interval(
@@ -97,8 +124,16 @@ def metric_summary(
     *,
     seed: int = BOOTSTRAP_SEED,
     replicates: int = BOOTSTRAP_REPLICATES,
+    brier_eligible: bool = True,
 ) -> dict:
-    """Return AUROC, AUPRC, prevalence and drug-level bootstrap CIs."""
+    """Return AUROC, AUPRC, calibration, prevalence and bootstrap CIs.
+
+    ``brier_eligible`` is False for a method whose score is not a probability.
+    The strongest-Ki baseline scores ``-log10(Ki)``, which is unbounded and
+    routinely above 1; a Brier score of that is a scale artefact, not a
+    calibration measurement, so it is reported as null with a reason rather
+    than printed as if it meant something.
+    """
     labels = [int(value) for value in labels]
     scores = [float(value) for value in scores]
     positive = sum(value == 1 for value in labels)
@@ -121,6 +156,16 @@ def metric_summary(
         ) if auprc is not None else None,
         "prevalence_baseline": (
             positive / len(labels) if labels else None
+        ),
+        "brier": _brier(labels, scores) if brier_eligible else None,
+        "brier_ci": (
+            _bootstrap_interval(labels, scores, _brier, seed=seed + 2, replicates=replicates)
+            if labels and brier_eligible else None
+        ),
+        "brier_note": (
+            "Brier score of this method's own probability; lower is better"
+            if brier_eligible
+            else "not computed: this baseline scores -log10(Ki), which is not a probability"
         ),
         "bootstrap": {
             "kind": "drug-level percentile bootstrap",
@@ -217,6 +262,7 @@ def _comparison(
             [score for _, score in values],
             seed=seed + index * 10,
             replicates=replicates,
+            brier_eligible=method != "strongest_target_ki",
         )
         for index, (method, values) in enumerate(predictions.items())
     }
@@ -330,22 +376,43 @@ def _fixed_train_heldout(
 def _failure_analysis(section: Mapping[str, dict]) -> dict:
     excluded = []
     cannot_predict = []
-    does_not_beat_both = []
+    does_not_beat_both_auroc = []
+    does_not_beat_both_auprc = []
+    beats_both_auroc_list = []
+    beats_both_auprc_list = []
     for effect, result in section.get("effects", {}).items():
         model = result["methods"]["occupancy_model"]
         if model["underpowered"]:
             excluded.append(effect)
         if model["auroc"] is None:
             cannot_predict.append(effect)
-        if not any(
+        beats_both_auroc = all(
             result["comparisons"][baseline]["model_beats_auroc"] is True
             for baseline in BASELINES
-        ):
-            does_not_beat_both.append(effect)
+        )
+        beats_both_auprc = all(
+            result["comparisons"][baseline]["model_beats_auprc"] is True
+            for baseline in BASELINES
+        )
+        if not beats_both_auroc:
+            does_not_beat_both_auroc.append(effect)
+        if not beats_both_auprc:
+            does_not_beat_both_auprc.append(effect)
+        if beats_both_auroc:
+            beats_both_auroc_list.append(effect)
+        if beats_both_auprc:
+            beats_both_auprc_list.append(effect)
     return {
         "underpowered_excluded_from_headline": excluded,
         "effects_not_estimable": cannot_predict,
-        "occupancy_model_does_not_beat_both_baselines": does_not_beat_both,
+        # "beats both" means the model's point estimate is above BOTH baselines
+        # on that metric, not merely above one of them (the first version used
+        # `any`, so an effect where the model beat only one baseline was
+        # reported as beating both).
+        "occupancy_model_beats_both_baselines_auroc": beats_both_auroc_list,
+        "occupancy_model_beats_both_baselines_auprc": beats_both_auprc_list,
+        "occupancy_model_does_not_beat_both_baselines_auroc": does_not_beat_both_auroc,
+        "occupancy_model_does_not_beat_both_baselines_auprc": does_not_beat_both_auprc,
     }
 
 
