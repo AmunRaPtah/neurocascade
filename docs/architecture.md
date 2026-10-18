@@ -17328,3 +17328,140 @@ stays 2.0 nM.
   ChEMBL/GtoPdb citation is a larger task than this brief's and is not done.
 - No validation-ledger row. This task makes no prediction and scores no drug.
   It repairs the provenance of inputs that later rows score against.
+
+## Phase 30, part one: occupancy profile to clinical-effect probabilities (P30.1)
+
+P30.1 is implemented in `neurocascade.benchmark.effects`. The first design
+decision was made against the data, not the brief: P28.4's committed truth has
+130 training records but the conductor checkout intentionally removes all 55
+held-out truth records. The held-out evaluator therefore returns an explicit
+`searched-and-empty` result and never interprets a missing record as a
+negative. The host can run the same function when it supplies the frozen
+held-out truth.
+
+### Exposure is a pluggable, two-tier input
+
+`clinical_exposure(drug)` is the one exposure seam. It uses a source-printed
+WHO oral DDD when one exists. If a drug has no DDD, a single printed label dose
+is used; for a printed range, the lower endpoint is retained and labelled as a
+lower-bound exposure. No range midpoint is invented.
+
+- **Tier 1** uses an observed human oral CL/F in P28.4, where the label prints
+  an absolute L/h value. The dose/CL/F result is retained as an exposure index.
+  Per-kg CL/F is refused because the benchmark has no source-defined weight.
+  The current train data have two usable absolute CL/F records: olanzapine and
+  zuranolone.
+- **Tier 2** uses the pre-registered dose-proportional fallback, with the
+  training median of the observed absolute CL/F values. It is explicitly a
+  dose/Ki ranking proxy, not P29.2 predicted PK. The current train fit has 33
+  tier-2 and 2 tier-1 exposure records among drugs with usable binding, dose
+  and effect truth.
+- P29.1's drug-specific Kp,uu is multiplied in only where a repository record
+  exists. A missing Kp,uu or human unbound fraction is not filled from another
+  drug. Because P28.1 does not carry molecular weights and P28.4 does not carry
+  human fu for this task, the feature is named an `occupancy index`, not a
+  molar brain occupancy. This is the load-bearing limitation to resolve before
+  calling the model a clinical occupancy predictor.
+
+### Labels are auditable and placebo subtraction is not hidden
+
+`effect_labels(drug)` emits one row per effect with drug percentage, a
+placebo percentage, source, evidence terms, and the rule applied. P28.4 stores
+drug-arm percentages and SIDER frequency bounds, but not a paired placebo
+percentage for those rows. A table caption saying “greater than placebo” is not
+itself a placebo number. Therefore `placebo_percent` remains `null` and the
+row is marked `absolute-fallback-unpaired-placebo-percentage-not-printed` (or
+`absolute-fallback-no-placebo-arm-published` where no placebo is present). This
+is a flagged fallback, not silent placebo subtraction. A future label source
+with paired arms can replace the adapter without changing the model.
+
+### Model, split, and result
+
+The model is one additive L2-regularised logistic regression per effect. The
+intercept and one coefficient per human Ki-panel target are returned by
+`EffectModel.coefficient_table()`, so receptor drivers remain inspectable. The
+coefficients are per one standard deviation of the train-split occupancy
+index: every fit standardises its own rows (the leave-one-out fold's training
+drugs, never the left-out drug) before applying the penalty. The L2 strength is
+`1.0`, explicitly an illustrative analysis hyperparameter, not a literature or
+biological constant. It is fixed before fitting and is reported in `report()`.
+
+**Why standardisation is load-bearing, not cosmetic.** The first fit of this
+task applied the L2 penalty to raw occupancy indices, which span roughly 1e-4
+to 4e-1. At that scale the penalty dominates the likelihood, every coefficient
+shrinks to at most 0.024, and each prediction is essentially the fold's
+intercept. Because a leave-one-out fold that omits a positive drug has a lower
+class prevalence, that drug receives the *lower* intercept: the model ranked
+every positive below every negative and produced a leave-one-out AUROC of
+exactly 0.000 for all seven effects while the in-sample AUROC was 0.755. Two
+facts identify that as a collapsed fit rather than a real inversion: the exact
+0.000 for every effect, and the near-constant predicted probabilities (about
+0.312 versus 0.346, spread under 0.04). The zero table this task first
+committed is withdrawn; the fit was repaired by standardising each fold's
+features, and a regression test now fails if leave-one-out predictions collapse
+to their fold intercept again. No tolerance, label, class weight, feature set
+or split was changed.
+
+The primary internal estimate is leave-one-drug-out over every train drug with
+that effect labelled:
+
+| effect | n scored | positive / negative | AUROC | headline status |
+|---|---:|---:|---:|---|
+| EPS | 30 | 10 / 20 | 0.565 | scored |
+| sedation | 31 | 25 / 6 | 0.500 | scored |
+| weight gain | 28 | 11 / 17 | 0.497 | scored |
+| anticholinergic | 29 | 26 / 3 | 0.077 | underpowered; excluded |
+| orthostasis | 32 | 3 / 29 | 0.069 | underpowered; excluded |
+| sexual dysfunction | 29 | 8 / 21 | 0.542 | scored |
+| seizure | 31 | 0 / 31 | not estimable | underpowered; excluded |
+
+**Read the corrected table as a mostly negative result.** On the train split
+the model is at or near chance for every well-populated effect (0.497–0.565),
+and the two effects it ranks below chance are the two the class-count rule
+already excludes. With 35 fitted drugs and 57 target features an L2 logistic at
+this penalty does not learn a transportable occupancy-to-effect map. Any effect
+with fewer than five examples of either class is excluded from headline
+metrics, which excludes anticholinergic, orthostasis and seizure in this data,
+not just seizure.
+
+The tier-1-only sensitivity analysis has n=2 for every effect, with at most one
+positive and one negative and therefore every effect underpowered. It is
+reported beside the headline by `report()` and is not promoted to a clinical
+claim.
+
+### Held-out result (run on a host that holds the frozen truth)
+
+The conductor's checkout removes all 55 frozen held-out effect records, so
+there `heldout_evaluation()` returns `searched-and-empty` with every drug named
+and no drug counted as a negative. On a host with the full tree the same
+function scores the 39 held-out drugs that have both a label and a unique exact
+oral clinical dose. Sixteen are reported as input gaps, not truth gaps:
+amineptine, asenapine, bifemelane, bitopertin, bradanicline, chlorproethazine,
+droperidol, fluanisone, gedocarnil, mosapramine, navacaprant, oxitriptan,
+pinazepam, pipotiazine, tofisopam, verucerfont (no unique exact oral clinical
+dose). Nothing in the fit or the feature set is chosen on held-out data.
+
+| effect | n scored | positive / negative | AUROC | underpowered |
+|---|---:|---:|---:|---|
+| EPS | 14 | 5 / 9 | 0.956 | no |
+| sedation | 17 | 12 / 5 | 0.542 | no |
+| weight gain | 15 | 4 / 11 | 0.705 | yes (4 positives) |
+| anticholinergic | 16 | 15 / 1 | 0.333 | yes |
+| orthostasis | 15 | 3 / 12 | 0.306 | yes |
+| sexual dysfunction | 12 | 6 / 6 | 0.806 | no |
+| seizure | 14 | 0 / 14 | not estimable | yes |
+
+**These held-out point estimates are not evidence of a working map.** They
+contradict the train-split estimate: EPS is 0.565 in leave-one-out and 0.956 on
+held-out, on 14 drugs with 5 positives, and sedation is 0.500 versus 0.542.
+A model at chance on its own train drugs that scores 0.96 on 14 held-out drugs
+is describing the noise in a 14-point sample, not a mechanism; the comparison
+that would separate the two is a baseline, which is P30.2's job and is
+deliberately not done here. The held-out numbers are reported as measured and
+no headline claim is made from them.
+
+The choice of a regularised logistic model follows the interpretability goal:
+regularised logistic models are used specifically to expose a compact set of
+non-zero, comprehensible predictors in clinical prediction (Liu et al. 2016,
+PMID 26921029). The paper is methodological support for the model family, not
+a source for any neurocascade parameter.
