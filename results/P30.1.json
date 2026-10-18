@@ -1,0 +1,13 @@
+{
+  "task": "P30.1",
+  "n_scored": 39,
+  "n_heldout_scored": 39,
+  "n_heldout": 55,
+  "status": "scored_on_full_truth_host_train_loo_near_chance",
+  "scored_unit": "held-out drugs with a label and a unique exact oral clinical dose; train LOO over the 35 fitted train drugs",
+  "heldout_missing_input": 16,
+  "heldout_missing_truth": 0,
+  "headline_metrics": "no headline claim: train LOO 0.497-0.565 for every well-populated effect; held-out point estimates 0.306-0.956 on 12-17 drugs and are not evidence of transportable signal (P30.2 compares baselines)",
+  "exposure": "tier 1 observed human oral CL/F where available; tier 2 registered dose/Ki proxy; no predicted PK",
+  "fit": "one L2 logistic per effect (strength 1.0, illustrative), features standardised within each fit, held-out never used to fit or choose anything"
+}
