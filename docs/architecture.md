@@ -17512,14 +17512,14 @@ for a drug, so per-effect n is 9–13:
 | anticholinergic | 13 | 12 / 1 | 0.42 [0.17, 0.73] | 0.67 | 0.42 | 0.94 [0.78, 1.00] | 0.92 | 0.93 | 0.07 [0.01, 0.20] |
 | orthostasis | 12 | 3 / 9 | 0.30 [0.00, 0.82] | 0.52 | 0.67 | 0.26 [0.08, 0.73] | 0.25 | 0.63 | 0.22 [0.01, 0.44] |
 | sexual dysfunction | 9 | 5 / 4 | 0.85 [0.44, 1.00] | 0.50 | 0.90 | 0.88 [0.52, 1.00] | 0.56 | 0.95 | 0.25 [0.12, 0.38] |
-| seizure | 11 | 0 / 11 | not estimable | not estimable | not estimable | — | — | — | 0.00 [0.00, 0.00] (all-negative) |
+| seizure | 11 | 0 / 11 | NA | NA | NA | NA | 0.00 | NA | 0.00 [0.00, 0.00] |
 
 **Every held-out effect is underpowered** (fewer than five positives or
 negatives), so the headline fields are empty by the pre-declared rule and no
 clinical claim is made. Read as descriptives, the occupancy model beats *both*
 baselines on AUROC for EPS and weight gain, but on AUPRC only for EPS: on
 weight gain nearest-neighbour scores 0.50 against the model's 0.44, and on
-sexual dysfunction it scores 0.95 against 0.88. The perfect EPS row is four
+sexual dysfunction it scores 0.95 against 0.88 (LODO 1-NN 0.46 against 0.65). The perfect EPS row is four
 positives and seven negatives, and its `[1.00, 1.00]` interval is what a
 degenerate bootstrap looks like, not evidence. The strongest-Ki baseline wins
 sedation and anticholinergic on AUROC; nearest-neighbour wins orthostasis and
@@ -17531,13 +17531,13 @@ inputs, not held-out evidence) is harsher:
 
 | effect | n | model AUROC / AUPRC / Brier | strongest-Ki AUROC / AUPRC | 1-NN AUROC / AUPRC |
 |---|---:|---|---|---|
-| EPS | 37 | 0.68 / 0.55 / 0.24 | 0.63 / 0.53 | 0.56 / 0.43 |
-| sedation | 42 | 0.39 / 0.81 / 0.16 | 0.73 / 0.92 | 0.35 / 0.76 |
-| weight gain | 36 | 0.47 / 0.44 / 0.28 | 0.54 / 0.45 | 0.78 / 0.71 |
-| anticholinergic | 39 | 0.06 / 0.84 / 0.08 | 0.35 / 0.91 | 0.44 / 0.91 |
-| orthostasis | 39 | 0.36 / 0.17 / 0.18 | 0.59 / 0.24 | 0.64 / 0.31 |
-| sexual dysfunction | 34 | 0.80 / 0.65 / 0.20 | 0.48 / 0.37 | 0.57 / 0.40 |
-| seizure | 38 | not estimable / 0.00 | not estimable | not estimable |
+| EPS | 37 | 0.68 / 0.55 / 0.24 | 0.63 / 0.53 | 0.56 / 0.48 |
+| sedation | 42 | 0.39 / 0.81 / 0.16 | 0.73 / 0.92 | 0.35 / 0.78 |
+| weight gain | 36 | 0.47 / 0.44 / 0.28 | 0.54 / 0.45 | 0.78 / 0.74 |
+| anticholinergic | 39 | 0.06 / 0.84 / 0.08 | 0.35 / 0.91 | 0.44 / 0.92 |
+| orthostasis | 39 | 0.36 / 0.17 / 0.18 | 0.59 / 0.24 | 0.64 / 0.39 |
+| sexual dysfunction | 34 | 0.80 / 0.65 / 0.20 | 0.48 / 0.37 | 0.57 / 0.46 |
+| seizure | 38 | NA / NA / 0.00 | NA / NA | NA / NA |
 
 In LODO the occupancy model beats both baselines on both metrics for EPS
 (0.68/0.55 against 0.63/0.53 and 0.56/0.43) and sexual dysfunction

@@ -154,3 +154,48 @@ def test_committed_results_file_is_the_function_schema():
             for key in ("auroc", "auprc", "brier", "brier_note",
                         "prevalence_baseline", "auroc_ci", "auprc_ci", "brier_ci"):
                 assert key in metrics
+
+
+def _fmt(value):
+    return "NA" if value is None else f"{value:.2f}"
+
+
+def _ci(values):
+    return "" if not values else f" [{_fmt(values[0])}, {_fmt(values[1])}]"
+
+
+def test_docs_tables_match_the_generated_results():
+    """The published tables are transcribed from results/P30.2.json by
+    scripts/score_p30_2.py's formatter; this test fails if they drift.
+
+    The acceptance review of PR #34 found the docs LODO table still carrying
+    AUPRC values from before the tie fix, so the check is mechanical now.
+    """
+    root = Path(__file__).resolve().parents[1]
+    results = json.loads((root / "results" / "P30.2.json").read_text())
+    docs = (root / "docs" / "architecture.md").read_text()
+    for effect, entry in results["heldout"]["effects"].items():
+        methods = entry["methods"]
+        model = methods["occupancy_model"]
+        strongest = methods["strongest_target_ki"]
+        neighbour = methods["nearest_neighbor"]
+        label = "EPS" if effect == "eps" else effect.replace("_", " ")
+        row = (f"| {label} "
+               f"| {model['n_scored']} | {model['n_positive']} / {model['n_negative']} "
+               f"| {_fmt(model['auroc'])}{_ci(model['auroc_ci'])} "
+               f"| {_fmt(strongest['auroc'])} | {_fmt(neighbour['auroc'])} "
+               f"| {_fmt(model['auprc'])}{_ci(model['auprc_ci'])} "
+               f"| {_fmt(model['prevalence_baseline'])} | {_fmt(neighbour['auprc'])} "
+               f"| {_fmt(model['brier'])}{_ci(model['brier_ci'])} |")
+        assert row in docs, f"held-out row for {effect} drifted from results/P30.2.json"
+    for effect, entry in results["lodo_all_available_drugs"]["effects"].items():
+        methods = entry["methods"]
+        model = methods["occupancy_model"]
+        strongest = methods["strongest_target_ki"]
+        neighbour = methods["nearest_neighbor"]
+        label = "EPS" if effect == "eps" else effect.replace("_", " ")
+        row = (f"| {label} | {model['n_scored']} "
+               f"| {_fmt(model['auroc'])} / {_fmt(model['auprc'])} / {_fmt(model['brier'])} "
+               f"| {_fmt(strongest['auroc'])} / {_fmt(strongest['auprc'])} "
+               f"| {_fmt(neighbour['auroc'])} / {_fmt(neighbour['auprc'])} |")
+        assert row in docs, f"LODO row for {effect} drifted from results/P30.2.json"
