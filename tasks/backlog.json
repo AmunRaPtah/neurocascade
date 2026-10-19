@@ -2755,17 +2755,19 @@
       "deps": [
         "P30.1"
       ],
-      "status": "pending",
+      "status": "blocked",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-19 00:22 empty; rejected: gate failed:\nn.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_m",
           "2026-10-19 01:24 PR #31 rejected by acceptance review: ACCEPTANCE 1: FAIL . The V19 row in docs/validation-ledger.md:47 gives only point estimates for the held-out AUROCs; the one interval it mentions is EPS's degenerate [1.00, 1.00]. The CIs appear only in docs/architecture.md and results/P30.2.json. The brief asks for \"AUROC and calibration with bootstrap CIs\", and calibration (Brier score, calibration slope or similar) appears nowhere: grepping eff",
-          "2026-10-19 02:19 PR #32 rejected by acceptance review: ACCEPTANCE 2: FAIL . The failure-analysis text gets the leave-one-drug-out (LODO) result wrong.\nREVIEW: REJECT The failure analysis says the model beats both baselines in LODO \"only for sexual dysfunction\" (`docs/architecture.md:17537`, ledger V19), but the PR's own `results/P30.2.json` shows it also beats both for EPS, which is adequately powered; and `heldout.missing_input` reports about 22 drug"
+          "2026-10-19 02:19 PR #32 rejected by acceptance review: ACCEPTANCE 2: FAIL . The failure-analysis text gets the leave-one-drug-out (LODO) result wrong.\nREVIEW: REJECT The failure analysis says the model beats both baselines in LODO \"only for sexual dysfunction\" (`docs/architecture.md:17537`, ledger V19), but the PR's own `results/P30.2.json` shows it also beats both for EPS, which is adequately powered; and `heldout.missing_input` reports about 22 drug",
+          "2026-10-19 04:28 PR #33 rejected by acceptance review: ACCEPTANCE 2: FAIL — heldout.failure_analysis exists and names effects. But the AUPRC half of its \"beats both baselines\" list rests on a tie-handling formula that doesn't do what its documentation says. _auprc (effect_scoring.py, docstring and the \"averages over every ordering inside a tied block\" sentence in architecture.md) claims to average over every ordering of a tied block. It doesn't: again"
         ],
-        "review_rejections": 2
-      }
+        "review_rejections": 3
+      },
+      "result": "acceptance review rejected 3 PRs; last: ACCEPTANCE 2: FAIL — heldout.failure_analysis exists and names effects. But the AUPRC half of its \"beats both baselines\" list rests on a tie-handling formula that doesn't do what its documentation says. _auprc (effect_scoring.py, docstring and the \"averages over every ordering inside a tied block\" s"
     },
     {
       "id": "P30.3",
