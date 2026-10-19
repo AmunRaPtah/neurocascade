@@ -199,3 +199,27 @@ def test_docs_tables_match_the_generated_results():
                f"| {_fmt(strongest['auroc'])} / {_fmt(strongest['auprc'])} "
                f"| {_fmt(neighbour['auroc'])} / {_fmt(neighbour['auprc'])} |")
         assert row in docs, f"LODO row for {effect} drifted from results/P30.2.json"
+
+
+def test_ledger_v19_quotes_the_generated_metrics():
+    """The ledger row restates the metrics (its acceptance requires it), so it
+    is checked against results/P30.2.json rather than trusted."""
+    root = Path(__file__).resolve().parents[1]
+    results = json.loads((root / "results" / "P30.2.json").read_text())
+    ledger = (root / "docs" / "validation-ledger.md").read_text()
+    row = next(line for line in ledger.splitlines() if line.startswith("| V19 |"))
+    for effect, entry in results["heldout"]["effects"].items():
+        if effect == "seizure":
+            continue
+        metrics = entry["methods"]["occupancy_model"]
+        auroc = metrics["auroc"]
+        auroc_ci = metrics["auroc_ci"]
+        auprc = metrics["auprc"]
+        auprc_ci = metrics["auprc_ci"]
+        brier = metrics["brier"]
+        brier_ci = metrics["brier_ci"]
+        assert (f"{auroc:.2f} [{auroc_ci[0]:.2f}, {auroc_ci[1]:.2f}]" in row), effect
+        assert (f"{auprc:.2f} [{auprc_ci[0]:.2f}, {auprc_ci[1]:.2f}]" in row), effect
+        assert (f"{brier:.2f} [{brier_ci[0]:.2f}, {brier_ci[1]:.2f}]" in row), effect
+        neighbour = entry["methods"]["nearest_neighbor"]
+        assert f"{neighbour['auprc']:.2f}" in row, effect

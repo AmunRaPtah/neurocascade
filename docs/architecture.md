@@ -17517,14 +17517,14 @@ for a drug, so per-effect n is 9–13:
 **Every held-out effect is underpowered** (fewer than five positives or
 negatives), so the headline fields are empty by the pre-declared rule and no
 clinical claim is made. Read as descriptives, the occupancy model beats *both*
-baselines on AUROC for EPS and weight gain, but on AUPRC only for EPS: on
-weight gain nearest-neighbour scores 0.50 against the model's 0.44, and on
-sexual dysfunction it scores 0.95 against 0.88 (LODO 1-NN 0.46 against 0.65). The perfect EPS row is four
-positives and seven negatives, and its `[1.00, 1.00]` interval is what a
-degenerate bootstrap looks like, not evidence. The strongest-Ki baseline wins
-sedation and anticholinergic on AUROC; nearest-neighbour wins orthostasis and
-sexual dysfunction. A different winner per effect on 9–13 drugs is what a set
-of noise-sized estimates looks like.
+baselines on AUROC for EPS and weight gain, but on AUPRC only for EPS. The
+perfect EPS row is four positives and seven negatives, and its `[1.00, 1.00]`
+interval is what a degenerate bootstrap looks like, not evidence. The
+strongest-Ki baseline wins sedation and anticholinergic on AUROC;
+nearest-neighbour wins orthostasis and sexual dysfunction. A different winner
+per effect on 9–13 drugs is what a set of noise-sized estimates looks like.
+No number in this paragraph is restated from the tables above on purpose:
+prose that repeats the artifact is how the previous draft drifted.
 
 The all-available LODO diagnostic (52 drugs, leave-one-drug-out over frozen
 inputs, not held-out evidence) is harsher:
@@ -17539,15 +17539,18 @@ inputs, not held-out evidence) is harsher:
 | sexual dysfunction | 34 | 0.80 / 0.65 / 0.20 | 0.48 / 0.37 | 0.57 / 0.46 |
 | seizure | 38 | NA / NA / 0.00 | NA / NA | NA / NA |
 
-In LODO the occupancy model beats both baselines on both metrics for EPS
-(0.68/0.55 against 0.63/0.53 and 0.56/0.43) and sexual dysfunction
-(0.80/0.65 against 0.48/0.37 and 0.57/0.46), and for no other effect; on
-held-out it does so for EPS only on both metrics, and for weight gain on AUROC
-alone. **The failure analysis this task's
-acceptance asks for is explicit: outside those effects the occupancy map is not
-shown to predict any effect better than a one-feature or nearest-neighbour
-baseline.** Seizure cannot be separated by the committed label rule at all (no
-positive in 38 or 39 drugs).
+In LODO the occupancy model beats both baselines on both metrics for EPS and
+sexual dysfunction, and for no other effect; on held-out it does so for EPS on
+both metrics and for weight gain on AUROC alone. **The failure analysis this
+task's acceptance asks for is explicit: outside those effects the occupancy map
+is not shown to predict any effect better than a one-feature or
+nearest-neighbour baseline.** Seizure cannot be separated by the committed
+label rule at all (no positive in 38 or 39 drugs). These qualitative claims are
+read straight off the two tables above, which are rendered from
+`results/P30.2.json`; the prose does not restate their numbers, because
+restating them is exactly how the previous draft drifted (acceptance review of
+PR #35 found an EPS LODO 1-NN AUPRC of 0.43 here against 0.48 in the
+artifact).
 
 Why this is expected: with 35 fitted train drugs and 57 target features, the
 frozen P30.1 model is already at or below chance on its own train drugs (train
