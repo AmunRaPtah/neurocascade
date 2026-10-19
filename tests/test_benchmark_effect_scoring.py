@@ -63,7 +63,8 @@ def test_p30_2_never_reads_missing_heldout_truth_as_a_negative():
         assert result["status"] == "scored"
         assert result["n_scored"] > 0
         assert missing_truth == []
-        assert result["n_scored"] + len(missing_input) == result["n_heldout"]
+        unlabelled = heldout["unlabelled"]
+        assert result["n_scored"] + len(missing_input) + len(unlabelled) == result["n_heldout"]
         assert heldout["effects"]
         for effect in heldout["effects"].values():
             assert set(effect["methods"]) == {

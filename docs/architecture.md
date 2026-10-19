@@ -17438,12 +17438,14 @@ one known binary label, so the number is a scored-drug count, not a
 drugs-with-a-profile count. On a host with the full tree the same
 function scores the held-out drugs that have both a known label and a unique
 exact oral clinical dose. The denominator is easy to overstate: of the 55
-held-out drugs, **39 have a unique exact oral clinical dose, 18 carry at least
-one known binary effect label, and 17 have both** — that 17 is the held-out
-scoring set. Thirty-seven drugs have a P28.4 record whose every effect label is
-unknown (no incidence resolves the threshold), so they are reported under
-`unlabelled` and are not counted as scored. Sixteen have no unique exact oral
-clinical dose and are reported as input gaps, not truth gaps:
+held-out drugs, **18 carry at least one known binary effect label, 39 have a
+unique exact oral clinical dose, and 17 have both** — that 17 is the held-out
+scoring set. The other 38 split into two disjoint reported buckets: 22 have a
+dose but no known label for any effect (`unlabelled`; 37 held-out drugs in all
+have all-unknown labels, and 15 of those also lack a dose), and 16 have no
+unique exact oral clinical dose (`missing_input`; asenapine is the one of those
+16 that does carry labels — its label gap is a dosing gap). Neither bucket is
+ever scored as a negative:
 amineptine, asenapine, bifemelane, bitopertin, bradanicline, chlorproethazine,
 droperidol, fluanisone, gedocarnil, mosapramine, navacaprant, oxitriptan,
 pinazepam, pipotiazine, tofisopam, verucerfont (no unique exact oral clinical
@@ -17496,10 +17498,11 @@ illustrative analysis settings, not biological parameters).
   with a permutation test).
 
 On a host holding the frozen truth the held-out split, as in P30.1, is small:
-**17 of the 55 held-out drugs are scorable** (39 have a unique exact oral
-clinical dose, 18 carry at least one known binary label, 17 have both; 37 have
-all-unknown labels and are never counted as negatives). The comparison also
-requires both baselines for a drug, so per-effect n is 9–13:
+**17 of the 55 held-out drugs are scorable** (18 carry at least one known
+binary label, 39 have a unique exact oral clinical dose, 17 have both; the
+other 22 have a dose but no label and the remaining 16 have no dose, and none of
+them is ever scored as a negative). The comparison also requires both baselines
+for a drug, so per-effect n is 9–13:
 
 | effect | n | +/– | model AUROC (95% CI) | strongest-Ki AUROC | 1-NN AUROC | model AUPRC (95% CI) | prevalence | model Brier (95% CI) |
 |---|---:|---:|---|---|---|---|---:|---|
@@ -17534,12 +17537,14 @@ inputs, not held-out evidence) is harsher:
 | sexual dysfunction | 34 | 0.80 / 0.65 / 0.20 | 0.48 / 0.37 | 0.57 / 0.40 |
 | seizure | 38 | not estimable / 0.00 | not estimable | not estimable |
 
-The occupancy model beats both baselines only for sexual dysfunction here and
-for EPS and weight gain on held-out, so **the failure analysis this task's
-acceptance asks for is explicit: the occupancy map cannot be shown to predict
-any effect better than a one-feature or nearest-neighbour baseline.** Seizure
-cannot be separated by the committed label rule at all (no positive in 38 or 39
-drugs).
+In LODO the occupancy model beats both baselines on both metrics for EPS
+(0.68/0.55 against 0.63/0.53 and 0.56/0.43) and sexual dysfunction
+(0.80/0.65 against 0.48/0.37 and 0.57/0.40), and for no other effect; on
+held-out it does so for EPS and weight gain. **The failure analysis this task's
+acceptance asks for is explicit: outside those effects the occupancy map is not
+shown to predict any effect better than a one-feature or nearest-neighbour
+baseline.** Seizure cannot be separated by the committed label rule at all (no
+positive in 38 or 39 drugs).
 
 Why this is expected: with 35 fitted train drugs and 57 target features, the
 frozen P30.1 model is already at or below chance on its own train drugs (train
@@ -17550,5 +17555,9 @@ degenerate interval, and a 0.68 LODO estimate beside it.
 Two data gaps are now explicit and separate from the model. First, no paired
 placebo incidence exists anywhere in the repository, so the label rule remains
 the flagged absolute fallback and no label is placebo-subtracted. Second, 37 of
-the 55 held-out drugs have all-unknown P28.4 effect labels, which caps the
-held-out scorable set at 17 regardless of the model.
+the 55 held-out drugs have all-unknown P28.4 effect labels — 22 of them have a
+dose and are reported as `unlabelled`, the other 15 also lack a dose and are
+reported under `missing_input` (asenapine is the single labelled drug among the
+16 without a dose) — which caps the held-out scorable set at 17 regardless of
+the model. The classifier is identical in `effects.heldout_evaluation` and
+`effect_scoring._heldout_coverage`.

@@ -416,6 +416,40 @@ def _failure_analysis(section: Mapping[str, dict]) -> dict:
     }
 
 
+def _heldout_coverage() -> tuple[list, list, list, list]:
+    """Classify the frozen held-out split into four exclusive buckets.
+
+    Returns ``(scoreable, missing_truth, missing_input, unlabelled)`` where a
+    drug is scoreable only if its truth resolves AND it has a unique exact oral
+    clinical dose AND at least one effect label is known. A drug with a dose but
+    no known label is ``unlabelled``, not an input gap: the first version folded
+    those 22 drugs into ``missing_input``, which the acceptance review of PR #32
+    caught because it made a label gap look like a dosing gap.
+    """
+    split = load_split()
+    scoreable_rows: list = []
+    missing_truth: list[str] = []
+    missing_input: list[str] = []
+    unlabelled: list[str] = []
+    for drug in split["heldout"]:
+        try:
+            labels = {row.effect: row.label for row in effect_labels(drug)}
+        except (KeyError, ValueError):
+            missing_truth.append(drug)
+            continue
+        has_label = any(label in (0, 1) for label in labels.values())
+        try:
+            profile = occupancy_profile(drug, train_drugs=tuple(split["train"]))
+        except (KeyError, ValueError):
+            missing_input.append(drug)
+            continue
+        if not has_label:
+            unlabelled.append(drug)
+            continue
+        scoreable_rows.append((drug, profile, labels))
+    return scoreable_rows, missing_truth, missing_input, unlabelled
+
+
 def score_p30_2(
     *,
     regularization_strength: float = ILLUSTRATIVE_L2_STRENGTH,
@@ -425,19 +459,8 @@ def score_p30_2(
     """Score P30.1, both baselines, held-out truth, and all-available LODO."""
     split = load_split()
     train_rows = _profiles_for_split(split["train"])
-    heldout_rows = _profiles_for_split(split["heldout"])
+    heldout_rows, missing_truth, missing_input, unlabelled = _heldout_coverage()
     lodo_rows = _profiles_for_split(tuple(split["train"]) + tuple(split["heldout"]))
-    missing_truth = []
-    for drug in split["heldout"]:
-        try:
-            effect_labels(drug)
-        except (KeyError, ValueError):
-            missing_truth.append(drug)
-    available_heldout = {row[0] for row in heldout_rows}
-    missing_input = [
-        drug for drug in split["heldout"]
-        if drug not in missing_truth and drug not in available_heldout
-    ]
     lodo = _lodo_all_drugs(
         lodo_rows,
         regularization_strength=regularization_strength,
@@ -451,6 +474,7 @@ def score_p30_2(
             "n_heldout": len(split["heldout"]),
             "missing_truth": missing_truth,
             "missing_input": missing_input,
+            "unlabelled": unlabelled,
             "effects": {},
         }
     else:
@@ -460,6 +484,7 @@ def score_p30_2(
             "n_heldout": len(split["heldout"]),
             "missing_truth": missing_truth,
             "missing_input": missing_input,
+            "unlabelled": unlabelled,
             "effects": _fixed_train_heldout(
                 heldout_rows, train_rows,
                 regularization_strength=regularization_strength,
