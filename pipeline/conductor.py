@@ -83,6 +83,10 @@ CODEX_BACKOFF = HOME / "codex_backoff_until"
 ARCH_MODEL = os.environ.get("NC_ARCH_MODEL", "opus")
 REVIEW_MODEL = os.environ.get("NC_REVIEW_MODEL", "sonnet")
 ARCH_TIMEOUT_S = int(os.environ.get("NC_ARCH_TIMEOUT_S", 2 * 3600))
+#: The acceptance reviewer reads a diff and renders a verdict; healthy runs
+#: finish well under an hour, so a tighter cap stops a stuck reviewer eating
+#: the full task budget (the rc=137 7200s loops).
+REVIEW_TIMEOUT_S = int(os.environ.get("NC_REVIEW_TIMEOUT_S", 3600))
 ARCH_MAX_TURNS = int(os.environ.get("NC_ARCH_MAX_TURNS", 250))
 MAX_TASK_SESSIONS = int(os.environ.get("NC_MAX_TASK_SESSIONS", 6))
 MAX_TAKEOVERS = 2
@@ -304,7 +308,8 @@ def next_task(tasks: list[dict]) -> dict | None:
     for t in tasks:
         if t["status"] in ("done", "optional", "blocked", "blocked-on-data"):
             continue
-        if (t.get("conductor") or {}).get("gave_up"):
+        c = t.get("conductor") or {}
+        if c.get("gave_up") or c.get("review_rejections", 0) >= MAX_REVIEW_REJECTS:
             continue
         if all(d in done for d in t.get("deps", [])):
             return t
@@ -935,7 +940,7 @@ def run_codex_architect(name: str, base: str, prompt: str, model: str, adir: Pat
     effort = "medium" if model == REVIEW_MODEL else "high"
     cname = f"nca-{re.sub(r'[^a-zA-Z0-9]', '-', name)}"
     t0 = now()
-    deadline = t0 + ARCH_TIMEOUT_S
+    deadline = t0 + timeout_s
     _codex_session(cname, tree, home, prof, prompt, None, effort, adir / "agent.jsonl", deadline,
                    readonly)
     res = parse_codex_log((adir / "agent.jsonl").read_text(errors="replace"))
@@ -968,7 +973,7 @@ def run_codex_architect(name: str, base: str, prompt: str, model: str, adir: Pat
 
 def run_architect(name: str, base: str, prompt: str, model: str, adir: Path,
                   wip: str = "", backend: tuple[str, str] | None = None,
-                  readonly: bool = False) -> dict:
+                  readonly: bool = False, timeout_s: int = ARCH_TIMEOUT_S) -> dict:
     """One headless Claude session in the sandbox image on a clone at `base`,
     optionally with an earlier session's unfinished patch already applied.
     A session that stops without its verdict line is resumed once. `backend`
@@ -1037,6 +1042,21 @@ def gate(host: Path, adir: Path, tests: list[str] = ()) -> tuple[bool, str]:
                             "run": adir.name, "passed": passed,
                             "tree": git("write-tree", cwd=host, check=False)}) + "\n")
     return passed, tail
+
+
+def host_eval(host: Path, adir: Path, cmd: str) -> str:
+    """A task's pre-registered held-out evaluation (backlog field host_eval,
+    human-owned), run once on the host clone, which has the full v2 truth, with
+    NC_HOST_EVAL=1. Sessions never see held-out rows; this output is the only
+    held-out number a PR may report. Logged as a held-out look like the gate."""
+    passed, tail = o.sandbox_pytest(host, f"NC_HOST_EVAL=1 {cmd}", f"nca-eval-{adir.name}",
+                                    adir / "host-eval.txt")
+    with HELDOUT_LOG.open("a") as f:
+        f.write(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "task": adir.parent.name,
+                            "run": adir.name, "kind": "host_eval", "passed": passed}) + "\n")
+    out = "\n".join(tail.splitlines()[-25:])
+    return (f"Host held-out evaluation (`{cmd}`, {'ok' if passed else 'FAILED'}):\n\n"
+            f"```\n{out}\n```")
 
 
 def host_checks(host: Path, base: str, patch: str, tid: str) -> tuple[str | None, list[str], int | None]:
@@ -1147,6 +1167,18 @@ def step_accept(st: dict, prs: list[dict], dry: bool) -> bool:
         if ci == "pending":
             continue
         num = str(pr["number"])
+        tid = pr["headRefName"].split("/", 1)[-1]
+        main = {x["id"]: x for x in backlog_at(git("rev-parse", "origin/main"))["tasks"]}
+        if ("Backlog-Task: " + tid in (pr.get("body") or "") and tid in main
+                and main[tid]["status"] in ("blocked", "blocked-on-data", "done", "optional")):
+            # The stop rule: a task the backlog has closed gets no more reviews,
+            # whoever opened the PR. Reopening it is a human's call.
+            log(f"PR #{num}: {tid} is {main[tid]['status']} on main, closing without review")
+            if not dry:
+                gh("pr", "close", num, "--comment", f"{tid} is `{main[tid]['status']}` in tasks/backlog.json "
+                   "on main, so this PR is closed without an acceptance review. A human must reopen the task.")
+            progress(st, f"closed PR #{num} for closed task {tid}")
+            return True
         if ci == "failure":
             verdict, findings, rest = "reject", "CI failed on the PR branch.", "CI failed"
             log(f"PR #{num}: CI failed, rejecting")
@@ -1168,14 +1200,16 @@ def step_accept(st: dict, prs: list[dict], dry: bool) -> bool:
             tgt = accept_target(pr, head)
             body = pr.get("body") or ""
             host = "\n".join(x for x in body.splitlines() if x.startswith("- ")
-                             and ("Citations" in x or "n_scored" in x)) or "(none reported)"
+                             and ("Citations" in x or "n_scored" in x))
+            ev = re.search(r"- Host held-out evaluation.*?```.*?```", body, re.S)
+            host = "\n".join(x for x in (host, ev and ev.group(0)) if x) or "(none reported)"
             adir = rundir(tgt["id"], f"accept-{num}")
             res = run_architect(f"accept-{tgt['id']}", head, ACCEPT_PROMPT.format(
                 rules=rules(), number=num, id=tgt["id"], title=tgt["title"], brief=tgt["brief"],
                 acceptance="\n".join(f"{k}. {a}" for k, a in enumerate(tgt["acceptance"], 1)),
                 n=len(tgt["acceptance"]), host=host,
                 diff=git("diff", f"origin/main...{head}")[:60000]),
-                model, adir, backend=(kind, prof), readonly=True)
+                model, adir, backend=(kind, prof), readonly=True, timeout_s=REVIEW_TIMEOUT_S)
             if res.get("infra"):
                 st["waiting"] = f"acceptance review session failed to run: {res['final'][:120]}"
                 return True
@@ -1500,6 +1534,8 @@ def step_advance(st: dict, base: str, dry: bool) -> bool:
         if not reason:
             passed, tail = gate(host, adir)
             reason = None if passed else f"gate failed:\n{tail[-1200:]}"
+        if not reason and t.get("host_eval"):
+            notes.append(host_eval(host, adir, t["host_eval"]))
         if not reason:
             branch = f"architect/{tid}"
             commit_push(host, f"{tid}: {t['title']}\n\nArchitect session ({res['model']}), "

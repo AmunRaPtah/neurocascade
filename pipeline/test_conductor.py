@@ -201,7 +201,7 @@ def accept_env(monkeypatch, tmp_path, final, ci="SUCCESS"):
     monkeypatch.setattr(c, "backend_ok", lambda k, p: (True, "ok"))
     monkeypatch.setattr(c, "review_backend", lambda: ("claude", "", "sonnet"))
 
-    def run(name, base, prompt, model, adir, wip="", backend=None, readonly=False):
+    def run(name, base, prompt, model, adir, wip="", backend=None, readonly=False, timeout_s=None):
         calls["run"].append(dict(name=name, model=model, backend=backend, readonly=readonly, prompt=prompt))
         return {"final": final, "claim": c.parse_claim(final)[0], "rest": c.parse_claim(final)[1]}
     monkeypatch.setattr(c, "run_architect", run)
@@ -263,3 +263,9 @@ def test_heldout_runs_counted_per_task(monkeypatch, tmp_path):
     assert c.heldout_runs() == {}
     log.write_text('{"task": "P1"}\n{"task": "P1"}\n{"task": "P2"}\nbroken\n')
     assert c.heldout_runs() == {"P1": 2, "P2": 1}
+
+
+def test_next_task_skips_task_past_review_reject_limit():
+    tasks = [{"id": "A", "status": "pending", "conductor": {"review_rejections": c.MAX_REVIEW_REJECTS}},
+             {"id": "B", "status": "pending"}]
+    assert c.next_task(tasks)["id"] == "B"

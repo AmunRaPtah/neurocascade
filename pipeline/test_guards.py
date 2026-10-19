@@ -154,3 +154,25 @@ def test_new_refs_only_counts_added_citations():
     assert g.new_refs([p, "docs/x.json"], old, new) == [("2", "diazepam", False)]
     assert g.new_refs([g.BENCH + "adme/new.json"], {}, {g.BENCH + "adme/new.json": '{"pmid": "4"}'}) == [
         ("4", "new", False)]
+
+
+def test_v2_heldout_rule_is_deterministic_and_about_a_fifth():
+    names = [f"drug{i}" for i in range(2000)]
+    share = sum(map(g.v2_heldout, names)) / len(names)
+    assert 0.17 < share < 0.23
+    assert g.v2_heldout("Haloperidol ") == g.v2_heldout("haloperidol")
+
+
+def test_v2_truth_frozen_and_heldout_rows_hidden(repo):
+    inns = [f"drug{i}" for i in range(40)]
+    write(repo, g.V2_TRUTH + "ki.json", {"drugs": [{"inn": i, "ki": 1} for i in inns]})
+    write(repo, g.V2_TRUTH + "odd.json", [1, 2])
+    git(repo, "add", "-A")
+    git(repo, "commit", "-q", "-m", "v2")
+    assert g.V2_TRUTH + "ki.json" in g.frozen_paths(repo)
+    tree = repo.parent / "x-tree"
+    subprocess.run(["cp", "-a", str(repo), str(tree)], check=True)
+    g.hide_heldout(tree)
+    kept = [r["inn"] for r in json.loads((tree / g.V2_TRUTH / "ki.json").read_text())["drugs"]]
+    assert kept == [i for i in inns if not g.v2_heldout(i)] and len(kept) < len(inns)
+    assert not (tree / g.V2_TRUTH / "odd.json").exists()

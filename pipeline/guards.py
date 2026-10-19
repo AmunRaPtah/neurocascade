@@ -14,6 +14,7 @@ Three things the architect must not decide for itself:
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import shutil
@@ -32,6 +33,14 @@ TRUTH = BENCH + "truth/"
 #: them at all, since its context would not match the full file anyway.
 TRUTH_AGGREGATES = (TRUTH + "effect_labels.json", BENCH + "p29_5/oral_exposure.json",
                     BENCH + "p29_5/pet_plasma_pairs.json")
+#: The v2 benchmark (2026-10-19 MVP plan). Its truth files are
+#: {"drugs": [{"inn": ...}, ...]} tables built from public sources, and its
+#: held-out set is a rule declared here rather than a list a session could
+#: edit: about one INN in five by hash. Held-out rows are stripped from every
+#: session tree; only the gate and the host_eval step (on the host clone) see
+#: them. A v2 truth file is frozen once it is on main: later tasks add new
+#: files rather than edit old ones.
+V2_TRUTH = BENCH + "v2/truth/"
 LEDGER = "docs/validation-ledger.md"
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
 
@@ -48,11 +57,23 @@ def truth_file(inn: str) -> str:
     return f"{TRUTH}{inn.replace(' ', '_')}.json"
 
 
+def v2_heldout(inn: str) -> bool:
+    """The v2 held-out rule: sha256 of the normalised INN, ~20% of drugs."""
+    key = "nc-v2:" + inn.strip().lower()
+    return int(hashlib.sha256(key.encode()).hexdigest()[:8], 16) % 5 == 0
+
+
+def v2_truth_files(root: Path) -> list[str]:
+    d = root / V2_TRUTH
+    return sorted(V2_TRUTH + p.name for p in d.glob("*.json")) if d.is_dir() else []
+
+
 def frozen_paths(root: Path) -> list[str]:
     """What an architect patch may never touch: the split, every held-out
-    drug's truth record, and the aggregates held-out rows are filtered from.
-    New truth files for train drugs stay allowed."""
-    return [SPLIT, *TRUTH_AGGREGATES, *(truth_file(inn) for inn in heldout(root))]
+    drug's truth record, the aggregates held-out rows are filtered from, and
+    every v2 truth file already in the tree. New truth files stay allowed."""
+    return [SPLIT, *TRUTH_AGGREGATES, *(truth_file(inn) for inn in heldout(root)),
+            *v2_truth_files(root)]
 
 
 def hide_heldout(tree: Path, wip: str = "") -> tuple[str, bool]:
@@ -77,6 +98,19 @@ def hide_heldout(tree: Path, wip: str = "") -> tuple[str, bool]:
             d["drugs"] = {k: v for k, v in rows.items() if k not in names}
         elif isinstance(rows, list):
             d["drugs"] = [r for r in rows if r.get("inn") not in names and r.get("split") != "heldout"]
+        p.write_text(json.dumps(d, indent=1, ensure_ascii=False) + "\n")
+    for rel in v2_truth_files(tree):
+        p = tree / rel
+        d = json.loads(p.read_text())
+        rows = d.get("drugs") if isinstance(d, dict) else None
+        if isinstance(rows, list):
+            d["drugs"] = [r for r in rows if not (isinstance(r, dict) and v2_heldout(str(r.get("inn", ""))))]
+        elif isinstance(rows, dict):
+            d["drugs"] = {k: v for k, v in rows.items() if not v2_heldout(k)}
+        else:
+            # Unknown shape: hide the whole file rather than leak held-out rows.
+            p.unlink()
+            continue
         p.write_text(json.dumps(d, indent=1, ensure_ascii=False) + "\n")
     shutil.rmtree(tree / ".git")
     # The tree is already owned by the worker uid; the host runs git as root.
