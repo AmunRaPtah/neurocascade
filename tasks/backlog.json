@@ -2761,9 +2761,10 @@
         "sessions": 1,
         "history": [
           "2026-10-19 00:22 empty; rejected: gate failed:\nn.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_m",
-          "2026-10-19 01:24 PR #31 rejected by acceptance review: ACCEPTANCE 1: FAIL . The V19 row in docs/validation-ledger.md:47 gives only point estimates for the held-out AUROCs; the one interval it mentions is EPS's degenerate [1.00, 1.00]. The CIs appear only in docs/architecture.md and results/P30.2.json. The brief asks for \"AUROC and calibration with bootstrap CIs\", and calibration (Brier score, calibration slope or similar) appears nowhere: grepping eff"
+          "2026-10-19 01:24 PR #31 rejected by acceptance review: ACCEPTANCE 1: FAIL . The V19 row in docs/validation-ledger.md:47 gives only point estimates for the held-out AUROCs; the one interval it mentions is EPS's degenerate [1.00, 1.00]. The CIs appear only in docs/architecture.md and results/P30.2.json. The brief asks for \"AUROC and calibration with bootstrap CIs\", and calibration (Brier score, calibration slope or similar) appears nowhere: grepping eff",
+          "2026-10-19 02:19 PR #32 rejected by acceptance review: ACCEPTANCE 2: FAIL . The failure-analysis text gets the leave-one-drug-out (LODO) result wrong.\nREVIEW: REJECT The failure analysis says the model beats both baselines in LODO \"only for sexual dysfunction\" (`docs/architecture.md:17537`, ledger V19), but the PR's own `results/P30.2.json` shows it also beats both for EPS, which is adequately powered; and `heldout.missing_input` reports about 22 drug"
         ],
-        "review_rejections": 1
+        "review_rejections": 2
       }
     },
     {
