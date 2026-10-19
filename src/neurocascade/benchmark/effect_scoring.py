@@ -142,6 +142,8 @@ def metric_summary(
     seed: int = BOOTSTRAP_SEED,
     replicates: int = BOOTSTRAP_REPLICATES,
     brier_eligible: bool = True,
+    power_positive: int | None = None,
+    power_negative: int | None = None,
 ) -> dict:
     """Return AUROC, AUPRC, calibration, prevalence and bootstrap CIs.
 
@@ -161,8 +163,21 @@ def metric_summary(
         "n_scored": len(labels),
         "n_positive": positive,
         "n_negative": negative,
-        "underpowered": min(positive, negative) < UNDERPOWERED_MIN_CLASS,
-        "headline": min(positive, negative) >= UNDERPOWERED_MIN_CLASS,
+        # The power rule is about the held-out truth for this effect, not about
+        # the subset that all three methods happen to cover: acceptance review
+        # of PR #37 found that judging power after the baseline intersection
+        # turned EPS (5 positives / 9 negatives), sedation (12/5) and sexual
+        # dysfunction (6/6) into "underpowered" and emptied the headline.
+        "power_positive": positive if power_positive is None else power_positive,
+        "power_negative": negative if power_negative is None else power_negative,
+        "underpowered": min(
+            positive if power_positive is None else power_positive,
+            negative if power_negative is None else power_negative,
+        ) < UNDERPOWERED_MIN_CLASS,
+        "headline": min(
+            positive if power_positive is None else power_positive,
+            negative if power_negative is None else power_negative,
+        ) >= UNDERPOWERED_MIN_CLASS,
         "auroc": auroc,
         "auroc_ci": _bootstrap_interval(
             labels, scores, _auc, seed=seed, replicates=replicates
@@ -272,6 +287,8 @@ def _comparison(
     *,
     seed: int,
     replicates: int,
+    power_positive: int | None = None,
+    power_negative: int | None = None,
 ) -> dict:
     summaries = {
         method: metric_summary(
@@ -280,6 +297,8 @@ def _comparison(
             seed=seed + index * 10,
             replicates=replicates,
             brier_eligible=method != "strongest_target_ki",
+            power_positive=power_positive,
+            power_negative=power_negative,
         )
         for index, (method, values) in enumerate(predictions.items())
     }
@@ -371,11 +390,14 @@ def _fixed_train_heldout(
     for effect in EFFECTS:
         predictions = {"occupancy_model": [], "strongest_target_ki": [], "nearest_neighbor": []}
         excluded: dict[str, str] = {}
+        labelled_positive = labelled_negative = 0
         for drug, profile, labels in heldout_rows:
             label = labels.get(effect)
             if label not in (0, 1) or effect not in models:
                 continue
             label = int(label)
+            labelled_positive += 1 if label == 1 else 0
+            labelled_negative += 1 if label == 0 else 0
             ki_score = strongest.get(drug)
             neighbor = nearest_neighbor(drug, [candidate for candidate, _, candidate_labels in train_rows
                                                 if candidate_labels.get(effect) in (0, 1)])
@@ -395,7 +417,10 @@ def _fixed_train_heldout(
             predictions["occupancy_model"].append((label, models[effect].predict_proba(profile.features)))
             predictions["strongest_target_ki"].append((label, ki_score.score))
             predictions["nearest_neighbor"].append((label, float(neighbor_label)))
-        comparison = _comparison(effect, predictions, seed=seed, replicates=replicates)
+        comparison = _comparison(
+            effect, predictions, seed=seed, replicates=replicates,
+            power_positive=labelled_positive, power_negative=labelled_negative,
+        )
         comparison["n_excluded_for_baseline"] = len(excluded)
         comparison["excluded_for_baseline"] = dict(sorted(excluded.items()))
         results[effect] = comparison

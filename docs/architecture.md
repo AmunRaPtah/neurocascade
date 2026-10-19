@@ -17509,27 +17509,32 @@ are reported per effect in `results/P30.2.json` (`excluded_for_baseline`, with
 its reason) and counted in the table's `excluded` column, so per-effect n
 compared is 9–13 out of the 17:
 
-| effect | n compared | excluded | +/– | model AUROC (95% CI) | strongest-Ki AUROC | 1-NN AUROC | model AUPRC (95% CI) | prevalence | 1-NN AUPRC | model Brier (95% CI) |
+| effect | compared | excluded | held-out +/– (power) | headline | model AUROC (95% CI) | strongest-Ki AUROC | 1-NN AUROC | model AUPRC (95% CI) | prevalence | 1-NN AUPRC | model Brier (95% CI) |
 |---|---:|---:|---:|---|---|---|---|---:|---:|---|
-| EPS | 11 | 3 | 4 / 7 | 1.00 [1.00, 1.00] | 0.61 | 0.62 | 1.00 [1.00, 1.00] | 0.36 | 0.65 | 0.10 [0.05, 0.18] |
-| sedation | 13 | 4 | 9 / 4 | 0.61 [0.20, 1.00] | 0.78 | 0.39 | 0.81 [0.55, 1.00] | 0.69 | 0.70 | 0.23 [0.07, 0.42] |
-| weight gain | 12 | 3 | 3 / 9 | 0.74 [0.43, 1.00] | 0.33 | 0.61 | 0.44 [0.20, 1.00] | 0.25 | 0.50 | 0.24 [0.13, 0.37] |
-| anticholinergic | 13 | 3 | 12 / 1 | 0.42 [0.17, 0.73] | 0.67 | 0.42 | 0.94 [0.78, 1.00] | 0.92 | 0.93 | 0.07 [0.01, 0.20] |
-| orthostasis | 12 | 3 | 3 / 9 | 0.30 [0.00, 0.82] | 0.52 | 0.67 | 0.26 [0.08, 0.73] | 0.25 | 0.63 | 0.22 [0.01, 0.44] |
-| sexual dysfunction | 9 | 3 | 5 / 4 | 0.85 [0.44, 1.00] | 0.50 | 0.90 | 0.88 [0.52, 1.00] | 0.56 | 0.95 | 0.25 [0.12, 0.38] |
-| seizure | 11 | 3 | 0 / 11 | NA | NA | NA | NA | 0.00 | NA | 0.00 [0.00, 0.00] |
+| EPS | 14 (5 / 9) | 3 | 4 / 7 of 11 | yes | 1.00 [1.00, 1.00] | 0.61 | 0.62 | 1.00 [1.00, 1.00] | 0.36 | 0.65 | 0.10 [0.05, 0.18] |
+| sedation | 17 (12 / 5) | 4 | 9 / 4 of 13 | yes | 0.61 [0.20, 1.00] | 0.78 | 0.39 | 0.81 [0.55, 1.00] | 0.69 | 0.70 | 0.23 [0.07, 0.42] |
+| weight gain | 15 (4 / 11) | 3 | 3 / 9 of 12 | no | 0.74 [0.43, 1.00] | 0.33 | 0.61 | 0.44 [0.20, 1.00] | 0.25 | 0.50 | 0.24 [0.13, 0.37] |
+| anticholinergic | 16 (15 / 1) | 3 | 12 / 1 of 13 | no | 0.42 [0.17, 0.73] | 0.67 | 0.42 | 0.94 [0.78, 1.00] | 0.92 | 0.93 | 0.07 [0.01, 0.20] |
+| orthostasis | 15 (3 / 12) | 3 | 3 / 9 of 12 | no | 0.30 [0.00, 0.82] | 0.52 | 0.67 | 0.26 [0.08, 0.73] | 0.25 | 0.63 | 0.22 [0.01, 0.44] |
+| sexual dysfunction | 12 (6 / 6) | 3 | 5 / 4 of 9 | yes | 0.85 [0.44, 1.00] | 0.50 | 0.90 | 0.88 [0.52, 1.00] | 0.56 | 0.95 | 0.25 [0.12, 0.38] |
+| seizure | 14 (0 / 14) | 3 | 0 / 11 of 11 | no | NA | NA | NA | NA | 0.00 | NA | 0.00 [0.00, 0.00] |
 
-**Every held-out effect is underpowered** (fewer than five positives or
-negatives), so the headline fields are empty by the pre-declared rule and no
-clinical claim is made. Read as descriptives, the occupancy model beats *both*
-baselines on AUROC for EPS and weight gain, but on AUPRC only for EPS. The
-perfect EPS row is four positives and seven negatives, and its `[1.00, 1.00]`
-interval is what a degenerate bootstrap looks like, not evidence. The
-strongest-Ki baseline wins sedation and anticholinergic on AUROC;
-nearest-neighbour wins orthostasis and sexual dysfunction. A different winner
-per effect on 9–13 drugs is what a set of noise-sized estimates looks like.
-No number in this paragraph is restated from the tables above on purpose:
-prose that repeats the artifact is how the previous draft drifted.
+**The power rule is applied to the held-out truth for each effect, not to the
+smaller set that all three methods happen to cover.** By that rule three
+effects are adequately powered — EPS (5 positives / 9 negatives), sedation
+(12/5) and sexual dysfunction (6/6) — and four are not (weight gain 4/11,
+anticholinergic 15/1, orthostasis 3/12, seizure 0/14) and are excluded from the
+headline. The table's `held-out +/– (power)` column is the power denominator and
+the `compared` column is how many drugs the three-way comparison actually runs
+on after baseline exclusions, so the two are deliberately visible side by side.
+
+On the three powered effects the model beats both baselines on both metrics
+only for EPS; for sedation the strongest-Ki baseline wins and for sexual
+dysfunction the nearest neighbour wins. The EPS row is four positives and seven
+negatives in the comparison, and its `[1.00, 1.00]` interval is what a
+degenerate bootstrap looks like, not evidence. No number in this paragraph is
+restated from the tables above on purpose: prose that repeats the artifact is
+how the previous draft drifted.
 
 The all-available LODO diagnostic (52 drugs, leave-one-drug-out over frozen
 inputs, not held-out evidence) is harsher:
