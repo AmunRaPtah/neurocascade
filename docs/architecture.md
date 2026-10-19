@@ -17501,18 +17501,23 @@ On a host holding the frozen truth the held-out split, as in P30.1, is small:
 **17 of the 55 held-out drugs are scorable** (18 carry at least one known
 binary label, 39 have a unique exact oral clinical dose, 17 have both; the
 other 22 have a dose but no label and the remaining 16 have no dose, and none of
-them is ever scored as a negative). The comparison also requires both baselines
-for a drug, so per-effect n is 9–13:
+them is ever scored as a negative). A three-way comparison needs all three
+methods on the same drug, which drops four more: clobazam has no human Ki panel
+for the strongest-Ki baseline, and clobazam, alprazolam, diazepam and aprepitant
+have no nearest neighbour with a shared target and that label. Those exclusions
+are reported per effect in `results/P30.2.json` (`excluded_for_baseline`, with
+its reason) and counted in the table's `excluded` column, so per-effect n
+compared is 9–13 out of the 17:
 
-| effect | n | +/– | model AUROC (95% CI) | strongest-Ki AUROC | 1-NN AUROC | model AUPRC (95% CI) | prevalence | 1-NN AUPRC | model Brier (95% CI) |
-|---|---:|---:|---|---|---|---|---:|---:|---|
-| EPS | 11 | 4 / 7 | 1.00 [1.00, 1.00] | 0.61 | 0.62 | 1.00 [1.00, 1.00] | 0.36 | 0.65 | 0.10 [0.05, 0.18] |
-| sedation | 13 | 9 / 4 | 0.61 [0.20, 1.00] | 0.78 | 0.39 | 0.81 [0.55, 1.00] | 0.69 | 0.70 | 0.23 [0.07, 0.42] |
-| weight gain | 12 | 3 / 9 | 0.74 [0.43, 1.00] | 0.33 | 0.61 | 0.44 [0.20, 1.00] | 0.25 | 0.50 | 0.24 [0.13, 0.37] |
-| anticholinergic | 13 | 12 / 1 | 0.42 [0.17, 0.73] | 0.67 | 0.42 | 0.94 [0.78, 1.00] | 0.92 | 0.93 | 0.07 [0.01, 0.20] |
-| orthostasis | 12 | 3 / 9 | 0.30 [0.00, 0.82] | 0.52 | 0.67 | 0.26 [0.08, 0.73] | 0.25 | 0.63 | 0.22 [0.01, 0.44] |
-| sexual dysfunction | 9 | 5 / 4 | 0.85 [0.44, 1.00] | 0.50 | 0.90 | 0.88 [0.52, 1.00] | 0.56 | 0.95 | 0.25 [0.12, 0.38] |
-| seizure | 11 | 0 / 11 | NA | NA | NA | NA | 0.00 | NA | 0.00 [0.00, 0.00] |
+| effect | n compared | excluded | +/– | model AUROC (95% CI) | strongest-Ki AUROC | 1-NN AUROC | model AUPRC (95% CI) | prevalence | 1-NN AUPRC | model Brier (95% CI) |
+|---|---:|---:|---:|---|---|---|---|---:|---:|---|
+| EPS | 11 | 3 | 4 / 7 | 1.00 [1.00, 1.00] | 0.61 | 0.62 | 1.00 [1.00, 1.00] | 0.36 | 0.65 | 0.10 [0.05, 0.18] |
+| sedation | 13 | 4 | 9 / 4 | 0.61 [0.20, 1.00] | 0.78 | 0.39 | 0.81 [0.55, 1.00] | 0.69 | 0.70 | 0.23 [0.07, 0.42] |
+| weight gain | 12 | 3 | 3 / 9 | 0.74 [0.43, 1.00] | 0.33 | 0.61 | 0.44 [0.20, 1.00] | 0.25 | 0.50 | 0.24 [0.13, 0.37] |
+| anticholinergic | 13 | 3 | 12 / 1 | 0.42 [0.17, 0.73] | 0.67 | 0.42 | 0.94 [0.78, 1.00] | 0.92 | 0.93 | 0.07 [0.01, 0.20] |
+| orthostasis | 12 | 3 | 3 / 9 | 0.30 [0.00, 0.82] | 0.52 | 0.67 | 0.26 [0.08, 0.73] | 0.25 | 0.63 | 0.22 [0.01, 0.44] |
+| sexual dysfunction | 9 | 3 | 5 / 4 | 0.85 [0.44, 1.00] | 0.50 | 0.90 | 0.88 [0.52, 1.00] | 0.56 | 0.95 | 0.25 [0.12, 0.38] |
+| seizure | 11 | 3 | 0 / 11 | NA | NA | NA | NA | 0.00 | NA | 0.00 [0.00, 0.00] |
 
 **Every held-out effect is underpowered** (fewer than five positives or
 negatives), so the headline fields are empty by the pre-declared rule and no

@@ -181,7 +181,8 @@ def test_docs_tables_match_the_generated_results():
         neighbour = methods["nearest_neighbor"]
         label = "EPS" if effect == "eps" else effect.replace("_", " ")
         row = (f"| {label} "
-               f"| {model['n_scored']} | {model['n_positive']} / {model['n_negative']} "
+               f"| {model['n_scored']} | {entry['n_excluded_for_baseline']} "
+               f"| {model['n_positive']} / {model['n_negative']} "
                f"| {_fmt(model['auroc'])}{_ci(model['auroc_ci'])} "
                f"| {_fmt(strongest['auroc'])} | {_fmt(neighbour['auroc'])} "
                f"| {_fmt(model['auprc'])}{_ci(model['auprc_ci'])} "

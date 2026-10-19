@@ -169,6 +169,12 @@
       "model_beats_auroc": true,
       "model_beats_auprc": true
      }
+    },
+    "n_excluded_for_baseline": 3,
+    "excluded_for_baseline": {
+     "alprazolam": "no nearest-neighbour with a shared target and this label",
+     "aprepitant": "no nearest-neighbour with a shared target and this label",
+     "clobazam": "no human Ki panel for the strongest-Ki baseline; no nearest-neighbour with a shared target and this label"
     }
    },
    "sedation": {
@@ -275,6 +281,13 @@
       "model_beats_auroc": true,
       "model_beats_auprc": true
      }
+    },
+    "n_excluded_for_baseline": 4,
+    "excluded_for_baseline": {
+     "alprazolam": "no nearest-neighbour with a shared target and this label",
+     "aprepitant": "no nearest-neighbour with a shared target and this label",
+     "clobazam": "no human Ki panel for the strongest-Ki baseline; no nearest-neighbour with a shared target and this label",
+     "diazepam": "no nearest-neighbour with a shared target and this label"
     }
    },
    "weight_gain": {
@@ -381,6 +394,12 @@
       "model_beats_auroc": true,
       "model_beats_auprc": false
      }
+    },
+    "n_excluded_for_baseline": 3,
+    "excluded_for_baseline": {
+     "alprazolam": "no nearest-neighbour with a shared target and this label",
+     "aprepitant": "no nearest-neighbour with a shared target and this label",
+     "clobazam": "no human Ki panel for the strongest-Ki baseline; no nearest-neighbour with a shared target and this label"
     }
    },
    "anticholinergic": {
@@ -487,6 +506,12 @@
       "model_beats_auroc": false,
       "model_beats_auprc": true
      }
+    },
+    "n_excluded_for_baseline": 3,
+    "excluded_for_baseline": {
+     "alprazolam": "no nearest-neighbour with a shared target and this label",
+     "aprepitant": "no nearest-neighbour with a shared target and this label",
+     "clobazam": "no human Ki panel for the strongest-Ki baseline; no nearest-neighbour with a shared target and this label"
     }
    },
    "orthostasis": {
@@ -593,6 +618,12 @@
       "model_beats_auroc": false,
       "model_beats_auprc": false
      }
+    },
+    "n_excluded_for_baseline": 3,
+    "excluded_for_baseline": {
+     "alprazolam": "no nearest-neighbour with a shared target and this label",
+     "aprepitant": "no nearest-neighbour with a shared target and this label",
+     "clobazam": "no human Ki panel for the strongest-Ki baseline; no nearest-neighbour with a shared target and this label"
     }
    },
    "sexual_dysfunction": {
@@ -699,6 +730,12 @@
       "model_beats_auroc": false,
       "model_beats_auprc": false
      }
+    },
+    "n_excluded_for_baseline": 3,
+    "excluded_for_baseline": {
+     "alprazolam": "no nearest-neighbour with a shared target and this label",
+     "aprepitant": "no nearest-neighbour with a shared target and this label",
+     "clobazam": "no human Ki panel for the strongest-Ki baseline; no nearest-neighbour with a shared target and this label"
     }
    },
    "seizure": {
@@ -787,6 +824,12 @@
       "model_beats_auroc": null,
       "model_beats_auprc": null
      }
+    },
+    "n_excluded_for_baseline": 3,
+    "excluded_for_baseline": {
+     "alprazolam": "no nearest-neighbour with a shared target and this label",
+     "aprepitant": "no nearest-neighbour with a shared target and this label",
+     "clobazam": "no human Ki panel for the strongest-Ki baseline; no nearest-neighbour with a shared target and this label"
     }
    }
   },

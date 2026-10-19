@@ -370,6 +370,7 @@ def _fixed_train_heldout(
     results = {}
     for effect in EFFECTS:
         predictions = {"occupancy_model": [], "strongest_target_ki": [], "nearest_neighbor": []}
+        excluded: dict[str, str] = {}
         for drug, profile, labels in heldout_rows:
             label = labels.get(effect)
             if label not in (0, 1) or effect not in models:
@@ -378,15 +379,26 @@ def _fixed_train_heldout(
             ki_score = strongest.get(drug)
             neighbor = nearest_neighbor(drug, [candidate for candidate, _, candidate_labels in train_rows
                                                 if candidate_labels.get(effect) in (0, 1)])
-            if ki_score is None or neighbor is None:
+            # A comparison needs all three methods on the same row. Say which
+            # drug was dropped and why instead of shrinking the denominator
+            # silently: the acceptance review of PR #36 found four scored drugs
+            # (clobazam, alprazolam, diazepam, aprepitant) missing this way.
+            missing = []
+            if ki_score is None:
+                missing.append("no human Ki panel for the strongest-Ki baseline")
+            if neighbor is None:
+                missing.append("no nearest-neighbour with a shared target and this label")
+            if missing:
+                excluded[drug] = "; ".join(missing)
                 continue
             neighbor_label = next(row[2][effect] for row in train_rows if row[0] == neighbor.neighbor)
             predictions["occupancy_model"].append((label, models[effect].predict_proba(profile.features)))
             predictions["strongest_target_ki"].append((label, ki_score.score))
             predictions["nearest_neighbor"].append((label, float(neighbor_label)))
-        results[effect] = _comparison(
-            effect, predictions, seed=seed, replicates=replicates
-        )
+        comparison = _comparison(effect, predictions, seed=seed, replicates=replicates)
+        comparison["n_excluded_for_baseline"] = len(excluded)
+        comparison["excluded_for_baseline"] = dict(sorted(excluded.items()))
+        results[effect] = comparison
     return results
 
 
