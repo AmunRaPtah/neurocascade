@@ -87,20 +87,48 @@ def test_p30_2_never_reads_missing_heldout_truth_as_a_negative():
             assert "prevalence_baseline" in method
 
 
-def test_auprc_is_invariant_under_input_order():
-    """Tied scores must not be ranked by the order the drugs arrive in.
+def _brute_force_ap(labels, scores):
+    """Independent definition: average AP over every ordering of tied blocks."""
+    positives = sum(labels)
+    orderings = []
+    for order in permutations(range(len(labels))):
+        ranked = sorted(order, key=lambda i: -scores[i])
+        found = 0
+        total = 0.0
+        for rank, index in enumerate(ranked, start=1):
+            if labels[index] == 1:
+                found += 1
+                total += found / rank
+        orderings.append(total / positives)
+    return sum(orderings) / len(orderings)
 
-    The nearest-neighbour baseline scores every drug 0.0 or 1.0, so almost all
-    of its scores tie; an index tie-break made its AUPRC and CI depend on row
-    order (found by the acceptance review of PR #31).
+
+def test_auprc_equals_the_brute_force_average_over_tied_orderings():
+    """Tied scores must be averaged over every ordering of the tied block.
+
+    A simple permutation check cannot catch a formula that is invariant but
+    wrong: the first "fix" was order-invariant yet disagreed with brute force
+    on `_auprc([1,0],[0,0])` (0.5 where the average over the two orderings is
+    0.75), which the acceptance review of PR #33 found. This test compares
+    against the definition, not against the implementation's own output.
     """
+    cases = [
+        ([1, 0], [0.0, 0.0]),
+        ([1, 0, 1], [1.0, 1.0, 0.5]),
+        ([0, 1, 0, 1, 1], [0.5, 0.5, 1.0, 0.0, 0.5]),
+        ([1, 1, 0, 0], [0.9, 0.8, 0.2, 0.1]),
+        ([0, 0, 1], [1.0, 0.0, 1.0]),
+    ]
+    for labels, scores in cases:
+        assert _auprc(labels, scores) == pytest.approx(_brute_force_ap(labels, scores), abs=1e-9)
+
+
+def test_auprc_is_invariant_under_input_order():
     labels = [1, 0, 0, 1, 0]
     scores = [1.0, 1.0, 0.0, 0.5, 1.0]
     base = _auprc(labels, scores)
-    assert base is not None
     for order in permutations(range(len(labels))):
         assert _auprc([labels[i] for i in order], [scores[i] for i in order]) == pytest.approx(base)
-    assert _auprc([1, 0, 0], [1.0, 1.0, 0.0]) == pytest.approx(0.5)
 
 
 def test_metric_summary_reports_calibration_with_an_interval():

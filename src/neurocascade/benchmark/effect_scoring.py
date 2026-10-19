@@ -49,15 +49,21 @@ class BaselineScore:
 
 
 def _auprc(labels: list[int], scores: list[float]) -> float | None:
-    """Tie-aware average precision over scores ordered high to low.
+    """Average precision, averaged exactly over every ordering inside a tied block.
 
-    Tied scores are averaged over every ordering of the tied block, so the
-    value depends on the multiset of (score, label) pairs and never on the
-    order the drugs arrive in. The first version broke ties by input index
-    (`key=(-score, i)`), which made the nearest-neighbour baseline's 0/1 scores
-    order-dependent: the acceptance review of PR #31 found
-    `_auprc([1,0,0],[1,1,0]) = 1.0` against `_auprc([0,1,0],[1,1,0]) = 0.5`,
-    where both are 0.5 by the tie-correct definition.
+    AP = (1/P) * sum over positives of the precision at that positive's rank.
+    When k drugs share a score, the rank of each one inside that block is
+    arbitrary, so this walks each slot of the block and uses the *expected*
+    precision at that slot over all orderings of the block, with the number of
+    positives before the slot hypergeometric. That makes the value depend on the
+    multiset of (score, label) pairs and not on the order the drugs arrive in.
+
+    The first version broke ties by input index (`key=(-score, i)`), which made
+    the nearest-neighbour baseline's 0/1 scores order-dependent. The second
+    version replaced that with a midpoint formula that LOOKED tie-averaged but
+    was not: acceptance review of PR #33 showed `_auprc([1,0],[0,0])` returned
+    0.5 where averaging over the two orderings gives 0.75. `tests/test_benchmark_effect_scoring.py`
+    now checks this function against a brute-force enumeration of orderings.
     """
     positives = sum(label == 1 for label in labels)
     if not positives:
@@ -70,17 +76,28 @@ def _auprc(labels: list[int], scores: list[float]) -> float | None:
         end = index + 1
         while end < len(pairs) and pairs[end][0] == pairs[index][0]:
             end += 1
-        group_tp = sum(1 for k in range(index, end) if pairs[k][1] == 1)
-        group_n = end - index
-        if group_tp:
-            precision_sum = 0.0
-            for step in range(1, group_n + 1):
-                precision_sum += (seen_tp + group_tp * step / group_n) / (seen_n + step)
-            total += (precision_sum / group_n) * (group_tp / positives)
-        seen_tp += group_tp
-        seen_n += group_n
+        block_n = end - index
+        block_tp = sum(1 for k in range(index, end) if pairs[k][1] == 1)
+        if block_tp:
+            for slot in range(1, block_n + 1):
+                probability_positive = block_tp / block_n
+                expected_precision = 0.0
+                for known in range(0, slot):
+                    # `known` positives among the slot-1 positions before this one.
+                    missing = slot - 1 - known
+                    if known > block_tp - 1 or missing > block_n - block_tp:
+                        continue
+                    weight = (
+                        math.comb(slot - 1, known)
+                        * math.comb(block_n - slot, block_tp - 1 - known)
+                        / math.comb(block_n - 1, block_tp - 1)
+                    )
+                    expected_precision += weight * ((seen_tp + known + 1) / (seen_n + slot))
+                total += probability_positive * expected_precision
+        seen_tp += block_tp
+        seen_n += block_n
         index = end
-    return total
+    return total / positives
 
 
 def _brier(labels: list[int], scores: list[float]) -> float | None:

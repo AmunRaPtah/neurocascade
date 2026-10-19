@@ -17504,25 +17504,27 @@ other 22 have a dose but no label and the remaining 16 have no dose, and none of
 them is ever scored as a negative). The comparison also requires both baselines
 for a drug, so per-effect n is 9–13:
 
-| effect | n | +/– | model AUROC (95% CI) | strongest-Ki AUROC | 1-NN AUROC | model AUPRC (95% CI) | prevalence | model Brier (95% CI) |
-|---|---:|---:|---|---|---|---|---:|---|
-| EPS | 11 | 4 / 7 | 1.00 [1.00, 1.00] | 0.61 | 0.62 | 1.00 [1.00, 1.00] | 0.36 | 0.10 [0.05, 0.18] |
-| sedation | 13 | 9 / 4 | 0.61 [0.20, 1.00] | 0.78 | 0.39 | 0.81 [0.55, 1.00] | 0.69 | 0.23 [0.07, 0.42] |
-| weight gain | 12 | 3 / 9 | 0.74 [0.43, 1.00] | 0.33 | 0.61 | 0.44 [0.20, 1.00] | 0.25 | 0.24 [0.13, 0.37] |
-| anticholinergic | 13 | 12 / 1 | 0.42 [0.17, 0.73] | 0.67 | 0.42 | 0.94 [0.78, 1.00] | 0.92 | 0.07 [0.01, 0.20] |
-| orthostasis | 12 | 3 / 9 | 0.30 [0.00, 0.82] | 0.52 | 0.67 | 0.26 [0.08, 0.73] | 0.25 | 0.22 [0.01, 0.44] |
-| sexual dysfunction | 9 | 5 / 4 | 0.85 [0.44, 1.00] | 0.50 | 0.90 | 0.88 [0.52, 1.00] | 0.56 | 0.25 [0.12, 0.38] |
-| seizure | 11 | 0 / 11 | not estimable | not estimable | not estimable | — | — | 0.00 [0.00, 0.00] (all-negative) |
+| effect | n | +/– | model AUROC (95% CI) | strongest-Ki AUROC | 1-NN AUROC | model AUPRC (95% CI) | prevalence | 1-NN AUPRC | model Brier (95% CI) |
+|---|---:|---:|---|---|---|---|---:|---:|---|
+| EPS | 11 | 4 / 7 | 1.00 [1.00, 1.00] | 0.61 | 0.62 | 1.00 [1.00, 1.00] | 0.36 | 0.65 | 0.10 [0.05, 0.18] |
+| sedation | 13 | 9 / 4 | 0.61 [0.20, 1.00] | 0.78 | 0.39 | 0.81 [0.55, 1.00] | 0.69 | 0.70 | 0.23 [0.07, 0.42] |
+| weight gain | 12 | 3 / 9 | 0.74 [0.43, 1.00] | 0.33 | 0.61 | 0.44 [0.20, 1.00] | 0.25 | 0.50 | 0.24 [0.13, 0.37] |
+| anticholinergic | 13 | 12 / 1 | 0.42 [0.17, 0.73] | 0.67 | 0.42 | 0.94 [0.78, 1.00] | 0.92 | 0.93 | 0.07 [0.01, 0.20] |
+| orthostasis | 12 | 3 / 9 | 0.30 [0.00, 0.82] | 0.52 | 0.67 | 0.26 [0.08, 0.73] | 0.25 | 0.63 | 0.22 [0.01, 0.44] |
+| sexual dysfunction | 9 | 5 / 4 | 0.85 [0.44, 1.00] | 0.50 | 0.90 | 0.88 [0.52, 1.00] | 0.56 | 0.95 | 0.25 [0.12, 0.38] |
+| seizure | 11 | 0 / 11 | not estimable | not estimable | not estimable | — | — | — | 0.00 [0.00, 0.00] (all-negative) |
 
 **Every held-out effect is underpowered** (fewer than five positives or
 negatives), so the headline fields are empty by the pre-declared rule and no
 clinical claim is made. Read as descriptives, the occupancy model beats *both*
-baselines on both AUROC and AUPRC only for EPS and weight gain. The perfect EPS
-row is four positives and seven negatives, and its `[1.00, 1.00]` interval is
-what a degenerate bootstrap looks like, not evidence. The strongest-Ki baseline
-wins sedation and anticholinergic on AUROC; nearest-neighbour wins orthostasis
-and sexual dysfunction. A different winner per effect on 9–13 drugs is what a
-set of noise-sized estimates looks like.
+baselines on AUROC for EPS and weight gain, but on AUPRC only for EPS: on
+weight gain nearest-neighbour scores 0.50 against the model's 0.44, and on
+sexual dysfunction it scores 0.95 against 0.88. The perfect EPS row is four
+positives and seven negatives, and its `[1.00, 1.00]` interval is what a
+degenerate bootstrap looks like, not evidence. The strongest-Ki baseline wins
+sedation and anticholinergic on AUROC; nearest-neighbour wins orthostasis and
+sexual dysfunction. A different winner per effect on 9–13 drugs is what a set
+of noise-sized estimates looks like.
 
 The all-available LODO diagnostic (52 drugs, leave-one-drug-out over frozen
 inputs, not held-out evidence) is harsher:
@@ -17539,8 +17541,9 @@ inputs, not held-out evidence) is harsher:
 
 In LODO the occupancy model beats both baselines on both metrics for EPS
 (0.68/0.55 against 0.63/0.53 and 0.56/0.43) and sexual dysfunction
-(0.80/0.65 against 0.48/0.37 and 0.57/0.40), and for no other effect; on
-held-out it does so for EPS and weight gain. **The failure analysis this task's
+(0.80/0.65 against 0.48/0.37 and 0.57/0.46), and for no other effect; on
+held-out it does so for EPS only on both metrics, and for weight gain on AUROC
+alone. **The failure analysis this task's
 acceptance asks for is explicit: outside those effects the occupancy map is not
 shown to predict any effect better than a one-feature or nearest-neighbour
 baseline.** Seizure cannot be separated by the committed label rule at all (no
