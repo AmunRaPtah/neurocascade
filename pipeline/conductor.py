@@ -69,6 +69,11 @@ TOKEN_FILE = Path("/root/.claude-anthropic/oauth-token.pinned")
 #: "deepseek[:model]" runs the same Claude Code session against DeepSeek's
 #: Anthropic-compatible API (2026-10-12, both Codex accounts down).
 ARCH_BACKEND_FILE = HOME / "ARCH_BACKEND"
+#: Claude sprint (2026-10-21): {"cap": 95, "until": <ts>, "revert": "codex:main"}.
+#: While present Claude is architect, the weekly pace line is replaced by a
+#: hard used% cap, and the first tick at/over the cap (or past `until`, the
+#: weekly reset) writes `revert` back to ARCH_BACKEND and removes this file.
+SPRINT_FILE = HOME / "CLAUDE_SPRINT"
 DEEPSEEK_URL = "https://api.deepseek.com/anthropic"
 DEEPSEEK_MODEL = "deepseek-v4-pro"
 DEEPSEEK_MIN_BALANCE = 0.10
@@ -262,10 +267,45 @@ def claude_ok() -> tuple[bool, str]:
     if wk.get("resets_at") and t < float(wk["resets_at"]):
         frac = 1 - (float(wk["resets_at"]) - t) / (7 * 86400)
         used, cap = float(wk["used_percentage"]), week_allowance(frac)
-        if used > cap and os.environ.get("NC_IGNORE_PACE") != "1":   # one-off manual kick
+        sp = sprint()
+        if sp:
+            cap = float(sp["cap"])
+            if used >= cap:
+                return False, f"week {used:.0f}% used >= sprint cap {cap:.0f}%"
+        elif used > cap and os.environ.get("NC_IGNORE_PACE") != "1":   # one-off manual kick
             return False, f"week {used:.0f}% used > pace {cap:.0f}%"
         notes.append(f"week {used:.0f}%/{cap:.0f}%")
     return True, ", ".join(notes) or "windows rolled over"
+
+
+def sprint() -> dict | None:
+    try:
+        return json.loads(SPRINT_FILE.read_text())
+    except Exception:
+        return None
+
+
+def week_used() -> float | None:
+    try:
+        wk = json.loads(runner.QUOTA_CACHE.read_text())["rate_limits"]["seven_day"]
+        return float(wk["used_percentage"]) if now() < float(wk["resets_at"]) else 0.0
+    except Exception:
+        return None
+
+
+def end_sprint_if_due(st: dict) -> None:
+    sp = sprint()
+    if not sp:
+        return
+    used = week_used()
+    over = used is not None and used >= float(sp["cap"])
+    if not over and now() < float(sp["until"]):
+        return
+    ARCH_BACKEND_FILE.write_text(sp["revert"] + "\n")
+    SPRINT_FILE.unlink()
+    why = f"week {used:.0f}% >= {sp['cap']}%" if over else "weekly window reset"
+    log(f"claude sprint over ({why}); architect -> {sp['revert']}")
+    alert(st, "sprint", f"Claude architect sprint over ({why}); architect back to {sp['revert']}")
 
 
 def modal_ok() -> tuple[bool, str]:
@@ -1621,6 +1661,7 @@ def tick(dry: bool) -> None:
     for k in ("waiting", "waiting_on"):
         st.pop(k, None)
     try:
+        end_sprint_if_due(st)
         if PAUSE.exists():
             st["waiting"] = "paused by PAUSE file"
             return
@@ -1671,6 +1712,9 @@ def status() -> None:
     until = st.get("agy_waiting_until", 0)
     mu = st.get("modal_waiting_until", 0)
     print(f"architect: {arch_ok()[1]}\nclaude: {claude_ok()[1]}")
+    if sprint():
+        sp = sprint()
+        print(f"claude sprint: cap {sp['cap']}%, until {time.strftime('%a %H:%M', time.localtime(sp['until']))}, then {sp['revert']}")
     print("modal: " + ("off (NC_MODAL_WORKER=0)" if not MODAL_WORKER else
           f"backing off until {time.strftime('%H:%M', time.localtime(mu))}" if time.time() < mu
           else modal_ok()[1]) + " (worker 1)")
