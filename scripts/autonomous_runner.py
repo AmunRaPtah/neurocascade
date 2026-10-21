@@ -97,9 +97,10 @@ Non-negotiable rules for this codebase:
 4. Tests must pass. Do not delete, skip, weaken or xfail an existing test to get
    to green. If an existing test genuinely encodes a wrong expectation, fix the
    test and explain why in the commit message.
-4b. The gate you are judged by runs `pytest -m "not slow"`. Iterate against that
-   for speed, but run the full suite once before you commit, because the daily
-   --verify-full sweep will run it anyway. `slow` classifies a test that takes
+4b. The gate you are judged by runs `pytest -m "not slow"`, and the host runs it
+   for you after the session. It takes 40+ minutes, so inside a time-limited
+   session run only the test files your change adds, touches or imports; the
+   daily --verify-full sweep covers the rest. `slow` classifies a test that takes
    minutes for real computational reasons (MCMC and the like). Marking a test
    `slow` to get it out of the gate is the same offence as skipping it under
    rule 4. Never apply the marker to a test that is failing.

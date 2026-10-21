@@ -55,6 +55,8 @@ def write_quota(tmp_path, monkeypatch, fh_used, fh_reset, wk_used, wk_reset):
         "five_hour": {"used_percentage": fh_used, "resets_at": fh_reset},
         "seven_day": {"used_percentage": wk_used, "resets_at": wk_reset}}}))
     monkeypatch.setattr(c.runner, "QUOTA_CACHE", f)
+    # The live conductor's CLAUDE_SPRINT file swaps the pace gate for a flat cap.
+    monkeypatch.setattr(c, "SPRINT_FILE", tmp_path / "no-sprint")
 
 
 def test_claude_gate_blocks_then_auto_resumes_after_reset(tmp_path, monkeypatch):

@@ -622,7 +622,10 @@ Environment for this session, overriding rules 7 and 8 above:
 - An independent reviewer checks your PR against the acceptance criteria
   before it can merge.
 - The host gates your patch with `python -m pytest -q -m "not slow"` in a
-  network-less container. Run it yourself before finishing.
+  network-less container after your session. That suite takes 40+ minutes and
+  sessions are killed at 2 hours, so do NOT run it yourself: run only the test
+  files your change adds or touches, plus those importing the modules you
+  changed (`grep -l <module> tests/`).
 - Delete scratch files before finishing. Leave no debug output behind.
 """.strip()
 
@@ -816,7 +819,7 @@ def rules() -> str:
 
 NUDGE = ("Your session ended without the required final line. Background commands "
          "do not survive a headless session: run everything in the foreground "
-         "(pass a Bash timeout of up to 45 min for the full suite). Finish the work "
+         "(run only the test files your change touches; the host runs the full suite). Finish the work "
          "that is in /work and end with the TASK_RESULT (or REVIEW) line.")
 
 WIP_NOTE = """
