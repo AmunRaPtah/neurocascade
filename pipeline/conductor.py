@@ -927,7 +927,8 @@ def session_tree(name: str, host: Path, wip: str = "") -> tuple[Path, str, bool]
 
 
 def run_codex_architect(name: str, base: str, prompt: str, model: str, adir: Path,
-                        prof: str, wip: str = "", readonly: bool = False) -> dict:
+                        prof: str, wip: str = "", readonly: bool = False,
+                        timeout_s: int = ARCH_TIMEOUT_S) -> dict:
     """run_architect with Codex in place of Claude Code; same contract."""
     adir.mkdir(parents=True, exist_ok=True)
     host = host_clone(name, base)
@@ -982,7 +983,7 @@ def run_architect(name: str, base: str, prompt: str, model: str, adir: Path,
     `base` with full data; the session's patch is against its hidden tree."""
     kind, prof = backend or arch_backend()
     if kind == "codex":
-        return run_codex_architect(name, base, prompt, model, adir, prof, wip, readonly)
+        return run_codex_architect(name, base, prompt, model, adir, prof, wip, readonly, timeout_s)
     if kind == "deepseek":
         model = prof
     adir.mkdir(parents=True, exist_ok=True)
@@ -996,7 +997,7 @@ def run_architect(name: str, base: str, prompt: str, model: str, adir: Path,
     o.sh(["chown", "-R", f"{o.WORKER_UID}:{o.WORKER_UID}", str(home)])
     cname = f"nca-{re.sub(r'[^a-zA-Z0-9]', '-', name)}"
     t0 = now()
-    deadline = t0 + ARCH_TIMEOUT_S
+    deadline = t0 + timeout_s
     rc = _session(cname, tree, home, ["-p", prompt, "--model", model],
                   adir / "agent.jsonl", deadline, (kind, prof), readonly)
     text = (adir / "agent.jsonl").read_text(errors="replace")
