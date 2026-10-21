@@ -155,5 +155,49 @@
       "fallback_drug_pct": 10.0
     }
   },
-  "heldout": "No held-out field is stored. Consumers apply pipeline.guards.v2_heldout(inn)."
+  "heldout": "No held-out field is stored. Consumers apply pipeline.guards.v2_heldout(inn).",
+  "amendments": [
+    {
+      "id": "A1",
+      "date": "2026-10-21",
+      "made_after_seeing": "mirtazapine's primary table came out as 'Table 2: Adverse Reactions Leading to Discontinuation'",
+      "rule": "Tables whose caption (including a title row inside the table) contains 'discontinu' are excluded: they report discontinuation, not incidence.",
+      "affects": "table eligibility only; term map and margin unchanged"
+    },
+    {
+      "id": "A2",
+      "date": "2026-10-21",
+      "made_after_seeing": "mirtazapine Tables 3 and 4 tie on n; label order picked the '>=5% and twice placebo' subset table",
+      "rule": "primary_table_rule step (3): ties on total n are broken by the larger number of data rows, then label order.",
+      "affects": "primary-table choice only; term map and margin unchanged"
+    },
+    {
+      "id": "A3",
+      "date": "2026-10-21",
+      "made_after_seeing": "a scan of unmatched row labels containing liability words (no outcome values inspected for it): 'weight increase' x7, 'dystonic event(s)' x7, 'extrapyramidal event', 'any/other extrapyramidal event', 'akathisia events', 'vision abnormality', 'drowsy'",
+      "rule": "Row labels (not the term map) are normalised before matching: a leading 'any'/'other'/'all' is dropped; singular 'event' -> 'events'; 'increase' -> 'increased'; 'abnormality/ies' -> 'abnormal'; 'dystonic event(s)' -> 'dystonia'; '<akathisia|parkinsonism|dystonia> event(s)' -> the bare term; 'drowsy'/'daytime drowsiness' -> 'drowsiness'. A row starting 'other' is never treated as the grouped row, so it is combined by max with the named sub-terms.",
+      "affects": "row matching only; the term list, margin and pooling are unchanged"
+    },
+    {
+      "id": "A4",
+      "date": "2026-10-21",
+      "made_after_seeing": "fluoxetine/clomipramine/trazodone tables place several trials side by side (MDD | OCD | bulimia; adults | children; inpatients | outpatients), each with its own placebo column, and the first build pooled the placebo arms across populations",
+      "rule": "A table whose header has a spanning row splitting the arms into >=2 groups that each contain a placebo and a drug column is treated as one sub-table per group (table_index + column_group); each drug arm is compared only with its own group's placebo. The primary-table rule then runs over the sub-tables, with the group label appended to the caption so the adult and monotherapy steps see it.",
+      "affects": "table structure only"
+    },
+    {
+      "id": "A5",
+      "date": "2026-10-21",
+      "made_after_seeing": "lurasidone Table 20: arm headers span two body columns, which created duplicate arms; and the 'All LATUDA' column was pooled as if it were a dose arm",
+      "rule": "A column whose last header cell is a colspan copy is not a separate arm. A header containing 'all ' (e.g. 'All LATUDA') is a pooled column, like 'total'/'all doses', and is excluded from dose arms.",
+      "affects": "column roles only"
+    },
+    {
+      "id": "A6",
+      "date": "2026-10-21",
+      "made_after_seeing": "spot-check: pimozide's placebo-controlled table (N=20 per arm) reports patient counts, which the first build read as percentages (dry mouth 5 vs 1 read as 5% vs 1%; it is 25% vs 5%)",
+      "rule": "A table is a count table when nothing marks its values as percentages ('%', 'percent', 'incidence', 'rate' absent from caption and headers; no '%' or decimal in any value cell), every arm column states its N, every value is an integer no larger than its column's N, and at least one value is impossible as a rounded percentage of that N (no k <= N has round(100k/N) equal to it; e.g. 14 with N=20). The last condition was added after the first version also caught topiramate Table 6 (N=183/291), whose integer values are percentages. Its cells are converted to 100*count/N and the entry is flagged counts_converted.",
+      "affects": "cell values of count tables only"
+    }
+  ]
 }
