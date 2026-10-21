@@ -1,0 +1,5950 @@
+{
+ "description": "Human plasma fraction unbound for the v2 benchmark drugs (P33.1 stage 2), from ChEMBL-curated Fu/PPB activities.",
+ "retrieved": "2026-10-21",
+ "chembl_release": "ChEMBL_37 (2026-05-01), live API read 2026-10-21",
+ "n_drugs": 334,
+ "drugs": [
+  {
+   "inn": "cetirizine",
+   "chembl_id": "CHEMBL1000",
+   "fu": {
+    "value": 0.1899,
+    "min": 0.1899,
+    "max": 0.1899,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "pentazocine",
+   "chembl_id": "CHEMBL100116",
+   "fu": null
+  },
+  {
+   "inn": "remifentanil",
+   "chembl_id": "CHEMBL1005",
+   "fu": {
+    "value": 0.3,
+    "min": 0.3,
+    "max": 0.3,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "levodopa",
+   "chembl_id": "CHEMBL1009",
+   "fu": {
+    "value": 0.76,
+    "min": 0.76,
+    "max": 0.76,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "tiagabine",
+   "chembl_id": "CHEMBL1027",
+   "fu": {
+    "value": 0.04,
+    "min": 0.04,
+    "max": 0.051,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "pregabalin",
+   "chembl_id": "CHEMBL1059",
+   "fu": null
+  },
+  {
+   "inn": "methysergide",
+   "chembl_id": "CHEMBL1065",
+   "fu": null
+  },
+  {
+   "inn": "oxcarbazepine",
+   "chembl_id": "CHEMBL1068",
+   "fu": null
+  },
+  {
+   "inn": "varenicline",
+   "chembl_id": "CHEMBL1076903",
+   "fu": null
+  },
+  {
+   "inn": "ropivacaine",
+   "chembl_id": "CHEMBL1077896",
+   "fu": {
+    "value": 0.06,
+    "min": 0.06,
+    "max": 0.06,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "carbamazepine",
+   "chembl_id": "CHEMBL108",
+   "fu": {
+    "value": 0.2326,
+    "min": 0.171,
+    "max": 0.2942,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "suvorexant",
+   "chembl_id": "CHEMBL1083659",
+   "fu": null
+  },
+  {
+   "inn": "dibucaine",
+   "chembl_id": "CHEMBL1086",
+   "fu": null
+  },
+  {
+   "inn": "mepivacaine",
+   "chembl_id": "CHEMBL1087",
+   "fu": {
+    "value": 0.3,
+    "min": 0.3,
+    "max": 0.3,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "mesoridazine",
+   "chembl_id": "CHEMBL1088",
+   "fu": {
+    "value": 0.0768,
+    "min": 0.0768,
+    "max": 0.0768,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "phenelzine",
+   "chembl_id": "CHEMBL1089",
+   "fu": null
+  },
+  {
+   "inn": "opicapone",
+   "chembl_id": "CHEMBL1089318",
+   "fu": null
+  },
+  {
+   "inn": "valproic acid",
+   "chembl_id": "CHEMBL109",
+   "fu": {
+    "value": 0.0755,
+    "min": 0.026,
+    "max": 0.084,
+    "n_measurements": 19,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3784929",
+      "pmid": "3921078",
+      "doi": "10.1002/bdd.2510060105",
+      "title": "Pharmacokinetics of valproic acid in volunteers after a single dose study.",
+      "journal": "Biopharm Drug Dispos",
+      "year": 1985
+     },
+     {
+      "chembl_document_id": "CHEMBL3785076",
+      "pmid": "336377",
+      "doi": "10.1007/bf00645133",
+      "title": "Disposition of valproic acid in man.",
+      "journal": "Eur J Clin Pharmacol",
+      "year": 1977
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "articaine",
+   "chembl_id": "CHEMBL1093",
+   "fu": null
+  },
+  {
+   "inn": "felbamate",
+   "chembl_id": "CHEMBL1094",
+   "fu": null
+  },
+  {
+   "inn": "ethotoin",
+   "chembl_id": "CHEMBL1095",
+   "fu": null
+  },
+  {
+   "inn": "indacaterol",
+   "chembl_id": "CHEMBL1095777",
+   "fu": {
+    "value": 0.045902,
+    "min": 0.043,
+    "max": 0.049,
+    "n_measurements": 2,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1157120",
+      "pmid": "20402514",
+      "doi": "10.1021/jm100068m",
+      "title": "The identification of indacaterol as an ultralong-acting inhaled beta2-adrenoceptor agonist.",
+      "journal": "J Med Chem",
+      "year": 2010
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "bupivacaine",
+   "chembl_id": "CHEMBL1098",
+   "fu": {
+    "value": 0.056,
+    "min": 0.056,
+    "max": 0.232,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "imipramine",
+   "chembl_id": "CHEMBL11",
+   "fu": {
+    "value": 0.1,
+    "min": 0.075,
+    "max": 0.1213,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "biperiden",
+   "chembl_id": "CHEMBL1101",
+   "fu": {
+    "value": 0.097,
+    "min": 0.097,
+    "max": 0.097,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "droperidol",
+   "chembl_id": "CHEMBL1108",
+   "fu": null
+  },
+  {
+   "inn": "aripiprazole",
+   "chembl_id": "CHEMBL1112",
+   "fu": {
+    "value": 0.006,
+    "min": 0.002,
+    "max": 0.01,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "amoxapine",
+   "chembl_id": "CHEMBL1113",
+   "fu": {
+    "value": 0.1095,
+    "min": 0.1095,
+    "max": 0.1095,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "pyridostigmine",
+   "chembl_id": "CHEMBL1115",
+   "fu": {
+    "value": 1.0,
+    "min": 1.0,
+    "max": 1.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "desvenlafaxine",
+   "chembl_id": "CHEMBL1118",
+   "fu": null
+  },
+  {
+   "inn": "acetaminophen",
+   "chembl_id": "CHEMBL112",
+   "fu": {
+    "value": 0.6268,
+    "min": 0.52,
+    "max": 1.0,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "dicyclomine",
+   "chembl_id": "CHEMBL1123",
+   "fu": null
+  },
+  {
+   "inn": "caffeine",
+   "chembl_id": "CHEMBL113",
+   "fu": {
+    "value": 0.64,
+    "min": 0.64,
+    "max": 0.7555,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "desloratadine",
+   "chembl_id": "CHEMBL1172",
+   "fu": null
+  },
+  {
+   "inn": "duloxetine",
+   "chembl_id": "CHEMBL1175",
+   "fu": null
+  },
+  {
+   "inn": "pemoline",
+   "chembl_id": "CHEMBL1177",
+   "fu": null
+  },
+  {
+   "inn": "tetrabenazine",
+   "chembl_id": "CHEMBL117785",
+   "fu": null
+  },
+  {
+   "inn": "chloroprocaine",
+   "chembl_id": "CHEMBL1179047",
+   "fu": null
+  },
+  {
+   "inn": "zolmitriptan",
+   "chembl_id": "CHEMBL1185",
+   "fu": {
+    "value": 0.75,
+    "min": 0.75,
+    "max": 0.75,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "umeclidinium",
+   "chembl_id": "CHEMBL1187833",
+   "fu": null
+  },
+  {
+   "inn": "olopatadine",
+   "chembl_id": "CHEMBL1189432",
+   "fu": null
+  },
+  {
+   "inn": "prilocaine",
+   "chembl_id": "CHEMBL1194",
+   "fu": {
+    "value": 0.72,
+    "min": 0.72,
+    "max": 0.72,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "aclidinium",
+   "chembl_id": "CHEMBL1194325",
+   "fu": null
+  },
+  {
+   "inn": "diazepam",
+   "chembl_id": "CHEMBL12",
+   "fu": {
+    "value": 0.0215,
+    "min": 0.0139,
+    "max": 0.023,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "dimenhydrinate",
+   "chembl_id": "CHEMBL1200406",
+   "fu": null
+  },
+  {
+   "inn": "quazepam",
+   "chembl_id": "CHEMBL1200472",
+   "fu": null
+  },
+  {
+   "inn": "tropicamide",
+   "chembl_id": "CHEMBL1200604",
+   "fu": null
+  },
+  {
+   "inn": "sevoflurane",
+   "chembl_id": "CHEMBL1200694",
+   "fu": null
+  },
+  {
+   "inn": "desflurane",
+   "chembl_id": "CHEMBL1200733",
+   "fu": null
+  },
+  {
+   "inn": "haloperidol decanoate",
+   "chembl_id": "CHEMBL1200986",
+   "fu": null
+  },
+  {
+   "inn": "thiothixene",
+   "chembl_id": "CHEMBL1201",
+   "fu": null
+  },
+  {
+   "inn": "cabergoline",
+   "chembl_id": "CHEMBL1201087",
+   "fu": null
+  },
+  {
+   "inn": "isocarboxazid",
+   "chembl_id": "CHEMBL1201168",
+   "fu": null
+  },
+  {
+   "inn": "levocetirizine",
+   "chembl_id": "CHEMBL1201191",
+   "fu": null
+  },
+  {
+   "inn": "armodafinil",
+   "chembl_id": "CHEMBL1201192",
+   "fu": null
+  },
+  {
+   "inn": "methamphetamine",
+   "chembl_id": "CHEMBL1201201",
+   "fu": {
+    "value": 0.85,
+    "min": 0.85,
+    "max": 0.85,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "benztropine",
+   "chembl_id": "CHEMBL1201203",
+   "fu": null
+  },
+  {
+   "inn": "dapiprazole",
+   "chembl_id": "CHEMBL1201216",
+   "fu": null
+  },
+  {
+   "inn": "dyclonine",
+   "chembl_id": "CHEMBL1201217",
+   "fu": null
+  },
+  {
+   "inn": "lisdexamfetamine",
+   "chembl_id": "CHEMBL1201222",
+   "fu": null
+  },
+  {
+   "inn": "cinacalcet",
+   "chembl_id": "CHEMBL1201284",
+   "fu": null
+  },
+  {
+   "inn": "acamprosate",
+   "chembl_id": "CHEMBL1201293",
+   "fu": null
+  },
+  {
+   "inn": "glycopyrronium",
+   "chembl_id": "CHEMBL1201335",
+   "fu": {
+    "value": 0.7105,
+    "min": 0.7105,
+    "max": 0.7105,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "fosphenytoin",
+   "chembl_id": "CHEMBL1201336",
+   "fu": null
+  },
+  {
+   "inn": "dexchlorpheniramine",
+   "chembl_id": "CHEMBL1201353",
+   "fu": null
+  },
+  {
+   "inn": "methylergonovine",
+   "chembl_id": "CHEMBL1201356",
+   "fu": null
+  },
+  {
+   "inn": "rufinamide",
+   "chembl_id": "CHEMBL1201754",
+   "fu": null
+  },
+  {
+   "inn": "tapentadol",
+   "chembl_id": "CHEMBL1201776",
+   "fu": null
+  },
+  {
+   "inn": "propoxyphene",
+   "chembl_id": "CHEMBL1213351",
+   "fu": {
+    "value": 0.24,
+    "min": 0.24,
+    "max": 0.24,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "perampanel",
+   "chembl_id": "CHEMBL1214124",
+   "fu": null
+  },
+  {
+   "inn": "ramelteon",
+   "chembl_id": "CHEMBL1218",
+   "fu": null
+  },
+  {
+   "inn": "sulconazole",
+   "chembl_id": "CHEMBL1221",
+   "fu": null
+  },
+  {
+   "inn": "oxybutynin",
+   "chembl_id": "CHEMBL1231",
+   "fu": {
+    "value": 0.01635,
+    "min": 0.0034,
+    "max": 0.0293,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "nitrous oxide",
+   "chembl_id": "CHEMBL1234579",
+   "fu": null
+  },
+  {
+   "inn": "lurasidone",
+   "chembl_id": "CHEMBL1237021",
+   "fu": null
+  },
+  {
+   "inn": "tramadol",
+   "chembl_id": "CHEMBL1237044",
+   "fu": {
+    "value": 0.8,
+    "min": 0.8,
+    "max": 0.8,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "isoflurane",
+   "chembl_id": "CHEMBL1256",
+   "fu": null
+  },
+  {
+   "inn": "enflurane",
+   "chembl_id": "CHEMBL1257",
+   "fu": null
+  },
+  {
+   "inn": "oxiconazole",
+   "chembl_id": "CHEMBL1262",
+   "fu": null
+  },
+  {
+   "inn": "salmeterol",
+   "chembl_id": "CHEMBL1263",
+   "fu": {
+    "value": 0.0661,
+    "min": 0.0661,
+    "max": 0.0661,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "naratriptan",
+   "chembl_id": "CHEMBL1278",
+   "fu": {
+    "value": 0.7,
+    "min": 0.7,
+    "max": 0.7,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "frovatriptan",
+   "chembl_id": "CHEMBL1279",
+   "fu": {
+    "value": 0.85,
+    "min": 0.85,
+    "max": 0.85,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "sumatriptan",
+   "chembl_id": "CHEMBL128",
+   "fu": {
+    "value": 0.83,
+    "min": 0.82,
+    "max": 0.83,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "levetiracetam",
+   "chembl_id": "CHEMBL1286",
+   "fu": null
+  },
+  {
+   "inn": "rotigotine",
+   "chembl_id": "CHEMBL1303",
+   "fu": null
+  },
+  {
+   "inn": "tolcapone",
+   "chembl_id": "CHEMBL1324",
+   "fu": {
+    "value": 0.0021,
+    "min": 0.0012,
+    "max": 0.003,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "sorafenib",
+   "chembl_id": "CHEMBL1336",
+   "fu": null
+  },
+  {
+   "inn": "clonidine",
+   "chembl_id": "CHEMBL134",
+   "fu": {
+    "value": 0.68,
+    "min": 0.56,
+    "max": 0.8,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "oxybate",
+   "chembl_id": "CHEMBL1342",
+   "fu": null
+  },
+  {
+   "inn": "darifenacin",
+   "chembl_id": "CHEMBL1346",
+   "fu": {
+    "value": 0.0344,
+    "min": 0.02,
+    "max": 0.0488,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "modafinil",
+   "chembl_id": "CHEMBL1373",
+   "fu": null
+  },
+  {
+   "inn": "tolterodine",
+   "chembl_id": "CHEMBL1382",
+   "fu": {
+    "value": 0.037,
+    "min": 0.037,
+    "max": 0.037,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "pimozide",
+   "chembl_id": "CHEMBL1423",
+   "fu": null
+  },
+  {
+   "inn": "norepinephrine",
+   "chembl_id": "CHEMBL1437",
+   "fu": null
+  },
+  {
+   "inn": "iloperidone",
+   "chembl_id": "CHEMBL14376",
+   "fu": null
+  },
+  {
+   "inn": "bethanechol",
+   "chembl_id": "CHEMBL1482",
+   "fu": null
+  },
+  {
+   "inn": "trihexyphenidyl",
+   "chembl_id": "CHEMBL1490",
+   "fu": null
+  },
+  {
+   "inn": "almotriptan",
+   "chembl_id": "CHEMBL1505",
+   "fu": {
+    "value": 0.6,
+    "min": 0.6,
+    "max": 0.6,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "escitalopram",
+   "chembl_id": "CHEMBL1508",
+   "fu": null
+  },
+  {
+   "inn": "eletriptan",
+   "chembl_id": "CHEMBL1510",
+   "fu": {
+    "value": 0.15,
+    "min": 0.15,
+    "max": 0.15,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "zaleplon",
+   "chembl_id": "CHEMBL1521",
+   "fu": {
+    "value": 0.4,
+    "min": 0.4,
+    "max": 0.4,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "eszopiclone",
+   "chembl_id": "CHEMBL1522",
+   "fu": null
+  },
+  {
+   "inn": "ganaxolone",
+   "chembl_id": "CHEMBL1568698",
+   "fu": null
+  },
+  {
+   "inn": "dihydrocodeine",
+   "chembl_id": "CHEMBL1595",
+   "fu": null
+  },
+  {
+   "inn": "phenytoin",
+   "chembl_id": "CHEMBL16",
+   "fu": {
+    "value": 0.11195,
+    "min": 0.095,
+    "max": 0.1289,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "homatropine",
+   "chembl_id": "CHEMBL1618018",
+   "fu": null
+  },
+  {
+   "inn": "paliperidone",
+   "chembl_id": "CHEMBL1621",
+   "fu": {
+    "value": 0.116,
+    "min": 0.116,
+    "max": 0.116,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "ipratropium",
+   "chembl_id": "CHEMBL1621597",
+   "fu": null
+  },
+  {
+   "inn": "clemastine",
+   "chembl_id": "CHEMBL1626",
+   "fu": null
+  },
+  {
+   "inn": "doxepin",
+   "chembl_id": "CHEMBL1628227",
+   "fu": {
+    "value": 0.21805,
+    "min": 0.2,
+    "max": 0.2361,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "ambenonium",
+   "chembl_id": "CHEMBL1652",
+   "fu": null
+  },
+  {
+   "inn": "cevimeline",
+   "chembl_id": "CHEMBL168815",
+   "fu": null
+  },
+  {
+   "inn": "cisapride",
+   "chembl_id": "CHEMBL1729",
+   "fu": null
+  },
+  {
+   "inn": "dihydroergotamine",
+   "chembl_id": "CHEMBL1732",
+   "fu": null
+  },
+  {
+   "inn": "solifenacin",
+   "chembl_id": "CHEMBL1734",
+   "fu": {
+    "value": 0.02,
+    "min": 0.017,
+    "max": 0.02,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "lofexidine",
+   "chembl_id": "CHEMBL17860",
+   "fu": null
+  },
+  {
+   "inn": "plerixafor",
+   "chembl_id": "CHEMBL18442",
+   "fu": null
+  },
+  {
+   "inn": "trospium",
+   "chembl_id": "CHEMBL1888176",
+   "fu": null
+  },
+  {
+   "inn": "tiotropium",
+   "chembl_id": "CHEMBL1900528",
+   "fu": {
+    "value": 0.523,
+    "min": 0.523,
+    "max": 0.523,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "naltrexone",
+   "chembl_id": "CHEMBL19019",
+   "fu": {
+    "value": 0.79,
+    "min": 0.79,
+    "max": 0.79,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "cannabidiol",
+   "chembl_id": "CHEMBL190461",
+   "fu": {
+    "value": 0.1,
+    "min": 0.1,
+    "max": 0.1,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL4680278",
+      "pmid": "32804502",
+      "doi": "10.1021/acs.jmedchem.0c00724",
+      "title": "The Essential Medicinal Chemistry of Cannabidiol (CBD).",
+      "journal": "J Med Chem",
+      "year": 2020
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "trofinetide",
+   "chembl_id": "CHEMBL197084",
+   "fu": null
+  },
+  {
+   "inn": "stiripentol",
+   "chembl_id": "CHEMBL1983350",
+   "fu": null
+  },
+  {
+   "inn": "prazosin",
+   "chembl_id": "CHEMBL2",
+   "fu": {
+    "value": 0.06,
+    "min": 0.04,
+    "max": 0.06,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "cariprazine",
+   "chembl_id": "CHEMBL2028019",
+   "fu": null
+  },
+  {
+   "inn": "brexanolone",
+   "chembl_id": "CHEMBL207538",
+   "fu": null
+  },
+  {
+   "inn": "tasimelteon",
+   "chembl_id": "CHEMBL2103822",
+   "fu": null
+  },
+  {
+   "inn": "vortioxetine",
+   "chembl_id": "CHEMBL2104993",
+   "fu": null
+  },
+  {
+   "inn": "brexpiprazole",
+   "chembl_id": "CHEMBL2105760",
+   "fu": null
+  },
+  {
+   "inn": "arimoclomol",
+   "chembl_id": "CHEMBL2107726",
+   "fu": null
+  },
+  {
+   "inn": "pimavanserin",
+   "chembl_id": "CHEMBL2111101",
+   "fu": null
+  },
+  {
+   "inn": "maprotiline",
+   "chembl_id": "CHEMBL21731",
+   "fu": {
+    "value": 0.12,
+    "min": 0.11,
+    "max": 0.1263,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "rimegepant",
+   "chembl_id": "CHEMBL2178422",
+   "fu": null
+  },
+  {
+   "inn": "topiramate",
+   "chembl_id": "CHEMBL220492",
+   "fu": null
+  },
+  {
+   "inn": "ubrogepant",
+   "chembl_id": "CHEMBL2364638",
+   "fu": null
+  },
+  {
+   "inn": "valbenazine",
+   "chembl_id": "CHEMBL2364639",
+   "fu": null
+  },
+  {
+   "inn": "zavegepant",
+   "chembl_id": "CHEMBL2397415",
+   "fu": null
+  },
+  {
+   "inn": "amisulpride",
+   "chembl_id": "CHEMBL243712",
+   "fu": {
+    "value": 0.84,
+    "min": 0.84,
+    "max": 0.84,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "oliceridine",
+   "chembl_id": "CHEMBL2443262",
+   "fu": null
+  },
+  {
+   "inn": "silodosin",
+   "chembl_id": "CHEMBL24778",
+   "fu": null
+  },
+  {
+   "inn": "aspirin",
+   "chembl_id": "CHEMBL25",
+   "fu": {
+    "value": 0.68,
+    "min": 0.68,
+    "max": 0.68,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "milnacipran",
+   "chembl_id": "CHEMBL259209",
+   "fu": {
+    "value": 0.87,
+    "min": 0.87,
+    "max": 0.87,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1152288",
+      "pmid": "18954038",
+      "doi": "10.1021/jm8009537",
+      "title": "Characterization of thien-2-yl 1S,2R-milnacipran analogues as potent norepinephrine/serotonin transporter inhibitors for the treatment of neuropathic pain.",
+      "journal": "J Med Chem",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "amobarbital",
+   "chembl_id": "CHEMBL267894",
+   "fu": {
+    "value": 0.3923,
+    "min": 0.3923,
+    "max": 0.3923,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "neostigmine",
+   "chembl_id": "CHEMBL278020",
+   "fu": null
+  },
+  {
+   "inn": "gepirone",
+   "chembl_id": "CHEMBL284092",
+   "fu": null
+  },
+  {
+   "inn": "dalfampridine",
+   "chembl_id": "CHEMBL284348",
+   "fu": null
+  },
+  {
+   "inn": "estazolam",
+   "chembl_id": "CHEMBL285674",
+   "fu": null
+  },
+  {
+   "inn": "edaravone",
+   "chembl_id": "CHEMBL290916",
+   "fu": null
+  },
+  {
+   "inn": "capsaicin",
+   "chembl_id": "CHEMBL294199",
+   "fu": null
+  },
+  {
+   "inn": "nicotine",
+   "chembl_id": "CHEMBL3",
+   "fu": {
+    "value": 0.95,
+    "min": 0.95,
+    "max": 0.95,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "pramipexole",
+   "chembl_id": "CHEMBL301265",
+   "fu": null
+  },
+  {
+   "inn": "lasmiditan",
+   "chembl_id": "CHEMBL3039520",
+   "fu": null
+  },
+  {
+   "inn": "viloxazine",
+   "chembl_id": "CHEMBL306700",
+   "fu": null
+  },
+  {
+   "inn": "eslicarbazepine",
+   "chembl_id": "CHEMBL315985",
+   "fu": null
+  },
+  {
+   "inn": "asenapine",
+   "chembl_id": "CHEMBL3187365",
+   "fu": null
+  },
+  {
+   "inn": "lumateperone",
+   "chembl_id": "CHEMBL3306803",
+   "fu": null
+  },
+  {
+   "inn": "butorphanol",
+   "chembl_id": "CHEMBL33986",
+   "fu": {
+    "value": 0.175,
+    "min": 0.17,
+    "max": 0.18,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "amifampridine",
+   "chembl_id": "CHEMBL354077",
+   "fu": null
+  },
+  {
+   "inn": "lemborexant",
+   "chembl_id": "CHEMBL3545367",
+   "fu": null
+  },
+  {
+   "inn": "lorcaserin",
+   "chembl_id": "CHEMBL360328",
+   "fu": null
+  },
+  {
+   "inn": "cocaine",
+   "chembl_id": "CHEMBL370805",
+   "fu": {
+    "value": 0.105,
+    "min": 0.09,
+    "max": 0.12,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "methscopolamine",
+   "chembl_id": "CHEMBL376897",
+   "fu": null
+  },
+  {
+   "inn": "esketamine",
+   "chembl_id": "CHEMBL395091",
+   "fu": null
+  },
+  {
+   "inn": "safinamide",
+   "chembl_id": "CHEMBL396778",
+   "fu": null
+  },
+  {
+   "inn": "hydromorphone",
+   "chembl_id": "CHEMBL398707",
+   "fu": {
+    "value": 0.86,
+    "min": 0.86,
+    "max": 0.86,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "tranylcypromine",
+   "chembl_id": "CHEMBL3989843",
+   "fu": null
+  },
+  {
+   "inn": "cenobamate",
+   "chembl_id": "CHEMBL3989949",
+   "fu": null
+  },
+  {
+   "inn": "atogepant",
+   "chembl_id": "CHEMBL3991065",
+   "fu": null
+  },
+  {
+   "inn": "phenobarbital",
+   "chembl_id": "CHEMBL40",
+   "fu": {
+    "value": 0.49,
+    "min": 0.49,
+    "max": 0.49,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "amphetamine",
+   "chembl_id": "CHEMBL405",
+   "fu": {
+    "value": 0.8,
+    "min": 0.8,
+    "max": 0.8,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "fluoxetine",
+   "chembl_id": "CHEMBL41",
+   "fu": {
+    "value": 0.0428,
+    "min": 0.0428,
+    "max": 0.0428,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "zuranolone",
+   "chembl_id": "CHEMBL4105630",
+   "fu": null
+  },
+  {
+   "inn": "ezogabine",
+   "chembl_id": "CHEMBL41355",
+   "fu": {
+    "value": 0.1395,
+    "min": 0.1395,
+    "max": 0.1395,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "clomipramine",
+   "chembl_id": "CHEMBL415",
+   "fu": {
+    "value": 0.0332,
+    "min": 0.004,
+    "max": 0.04,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "clozapine",
+   "chembl_id": "CHEMBL42",
+   "fu": {
+    "value": 0.05355,
+    "min": 0.05,
+    "max": 0.055,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "guanabenz",
+   "chembl_id": "CHEMBL420",
+   "fu": null
+  },
+  {
+   "inn": "trifluoperazine",
+   "chembl_id": "CHEMBL422",
+   "fu": {
+    "value": 0.0081,
+    "min": 0.0081,
+    "max": 0.0081,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "labetalol",
+   "chembl_id": "CHEMBL429",
+   "fu": {
+    "value": 0.5,
+    "min": 0.376,
+    "max": 0.5,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "remimazolam",
+   "chembl_id": "CHEMBL4297526",
+   "fu": null
+  },
+  {
+   "inn": "daridorexant",
+   "chembl_id": "CHEMBL4297590",
+   "fu": null
+  },
+  {
+   "inn": "solriamfetol",
+   "chembl_id": "CHEMBL4297620",
+   "fu": null
+  },
+  {
+   "inn": "omaveloxolone",
+   "chembl_id": "CHEMBL4303525",
+   "fu": null
+  },
+  {
+   "inn": "istradefylline",
+   "chembl_id": "CHEMBL431770",
+   "fu": null
+  },
+  {
+   "inn": "vilazodone",
+   "chembl_id": "CHEMBL439849",
+   "fu": null
+  },
+  {
+   "inn": "thiopental",
+   "chembl_id": "CHEMBL441",
+   "fu": {
+    "value": 0.14,
+    "min": 0.14,
+    "max": 0.14,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "ergotamine",
+   "chembl_id": "CHEMBL442",
+   "fu": {
+    "value": 0.02,
+    "min": 0.02,
+    "max": 0.02,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "nortriptyline",
+   "chembl_id": "CHEMBL445",
+   "fu": {
+    "value": 0.12,
+    "min": 0.006,
+    "max": 0.1315,
+    "n_measurements": 5,
+    "n_documents": 5,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "secobarbital",
+   "chembl_id": "CHEMBL447",
+   "fu": null
+  },
+  {
+   "inn": "pentobarbital",
+   "chembl_id": "CHEMBL448",
+   "fu": {
+    "value": 0.39,
+    "min": 0.39,
+    "max": 0.39,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "melatonin",
+   "chembl_id": "CHEMBL45",
+   "fu": null
+  },
+  {
+   "inn": "mephobarbital",
+   "chembl_id": "CHEMBL45029",
+   "fu": null
+  },
+  {
+   "inn": "chlordiazepoxide",
+   "chembl_id": "CHEMBL451",
+   "fu": {
+    "value": 0.048,
+    "min": 0.0229,
+    "max": 0.056,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "clonazepam",
+   "chembl_id": "CHEMBL452",
+   "fu": {
+    "value": 0.15,
+    "min": 0.15,
+    "max": 0.15,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "chloral hydrate",
+   "chembl_id": "CHEMBL455917",
+   "fu": null
+  },
+  {
+   "inn": "molindone",
+   "chembl_id": "CHEMBL460",
+   "fu": null
+  },
+  {
+   "inn": "ethyl chloride",
+   "chembl_id": "CHEMBL46058",
+   "fu": null
+  },
+  {
+   "inn": "pitolisant",
+   "chembl_id": "CHEMBL462605",
+   "fu": null
+  },
+  {
+   "inn": "thioridazine",
+   "chembl_id": "CHEMBL479",
+   "fu": {
+    "value": 0.0037,
+    "min": 0.0037,
+    "max": 0.0037,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "irinotecan",
+   "chembl_id": "CHEMBL481",
+   "fu": {
+    "value": 0.46505,
+    "min": 0.4201,
+    "max": 0.51,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "codeine",
+   "chembl_id": "CHEMBL485",
+   "fu": {
+    "value": 0.815,
+    "min": 0.7,
+    "max": 0.93,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "buspirone",
+   "chembl_id": "CHEMBL49",
+   "fu": {
+    "value": 0.2434,
+    "min": 0.2238,
+    "max": 0.263,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "paroxetine",
+   "chembl_id": "CHEMBL490",
+   "fu": {
+    "value": 0.055,
+    "min": 0.005,
+    "max": 0.1009,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "bromocriptine",
+   "chembl_id": "CHEMBL493",
+   "fu": {
+    "value": 0.051,
+    "min": 0.002,
+    "max": 0.1,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     },
+     {
+      "chembl_document_id": "CHEMBL4622962",
+      "pmid": "32676143",
+      "doi": "10.1021/acsmedchemlett.0c00042",
+      "title": "Bromocriptine as a Novel Pharmacological Chaperone for Mucopolysaccharidosis IV A.",
+      "journal": "ACS Med Chem Lett",
+      "year": 2020
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "donepezil",
+   "chembl_id": "CHEMBL502",
+   "fu": {
+    "value": 0.1051,
+    "min": 0.04,
+    "max": 0.113,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     },
+     {
+      "chembl_document_id": "CHEMBL3526005",
+      "pmid": "21148081",
+      "doi": "10.1124/dmd.110.035964",
+      "title": "Pharmacokinetic and pharmacodynamic properties of cholinesterase inhibitors donepezil, tacrine, and galantamine in aged and young Lister hooded rats.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "chlorpheniramine",
+   "chembl_id": "CHEMBL505",
+   "fu": {
+    "value": 0.7,
+    "min": 0.3,
+    "max": 0.7,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "buprenorphine",
+   "chembl_id": "CHEMBL511142",
+   "fu": {
+    "value": 0.04,
+    "min": 0.04,
+    "max": 0.04,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "cyproheptadine",
+   "chembl_id": "CHEMBL516",
+   "fu": null
+  },
+  {
+   "inn": "atropine",
+   "chembl_id": "CHEMBL517712",
+   "fu": {
+    "value": 0.61,
+    "min": 0.61,
+    "max": 0.82,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "mepenzolate",
+   "chembl_id": "CHEMBL524004",
+   "fu": null
+  },
+  {
+   "inn": "dextromethorphan",
+   "chembl_id": "CHEMBL52440",
+   "fu": {
+    "value": 0.818291,
+    "min": 0.72,
+    "max": 0.93,
+    "n_measurements": 2,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3526083",
+      "pmid": "22010218",
+      "doi": "10.1124/dmd.111.042200",
+      "title": "Prediction of relative in vivo metabolite exposure from in vitro data using two model drugs: dextromethorphan and omeprazole.",
+      "journal": "Drug Metab Dispos",
+      "year": 2012
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "propofol",
+   "chembl_id": "CHEMBL526",
+   "fu": {
+    "value": 0.018,
+    "min": 0.016,
+    "max": 0.02,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "apomorphine",
+   "chembl_id": "CHEMBL53",
+   "fu": {
+    "value": 0.057,
+    "min": 0.057,
+    "max": 0.057,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "pergolide",
+   "chembl_id": "CHEMBL531",
+   "fu": null
+  },
+  {
+   "inn": "ketotifen",
+   "chembl_id": "CHEMBL534",
+   "fu": null
+  },
+  {
+   "inn": "haloperidol",
+   "chembl_id": "CHEMBL54",
+   "fu": {
+    "value": 0.08,
+    "min": 0.006,
+    "max": 0.1452,
+    "n_measurements": 6,
+    "n_documents": 5,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3784949",
+      "pmid": "3108922",
+      "doi": "10.1007/bf00216005",
+      "title": "Pharmacokinetics of haloperidol in psychotic patients.",
+      "journal": "Psychopharmacology (Berl)",
+      "year": 1987
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "citalopram",
+   "chembl_id": "CHEMBL549",
+   "fu": {
+    "value": 0.2,
+    "min": 0.047,
+    "max": 0.4034,
+    "n_measurements": 5,
+    "n_documents": 5,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "pentamidine",
+   "chembl_id": "CHEMBL55",
+   "fu": null
+  },
+  {
+   "inn": "pilocarpine",
+   "chembl_id": "CHEMBL550",
+   "fu": null
+  },
+  {
+   "inn": "perphenazine",
+   "chembl_id": "CHEMBL567",
+   "fu": {
+    "value": 0.07,
+    "min": 0.0149,
+    "max": 0.07,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "oxazepam",
+   "chembl_id": "CHEMBL568",
+   "fu": {
+    "value": 0.04,
+    "min": 0.0383,
+    "max": 0.105,
+    "n_measurements": 5,
+    "n_documents": 5,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3244425",
+      "pmid": "536989",
+      "doi": "10.1021/jm00198a003",
+      "title": "Oxazepam esters. 2. Correlation of hydrophobicity with serum binding, brain penetration, and excretion.",
+      "journal": "J Med Chem",
+      "year": 1979
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "procaine",
+   "chembl_id": "CHEMBL569",
+   "fu": null
+  },
+  {
+   "inn": "scopolamine",
+   "chembl_id": "CHEMBL569713",
+   "fu": null
+  },
+  {
+   "inn": "mitoxantrone",
+   "chembl_id": "CHEMBL58",
+   "fu": {
+    "value": 0.25,
+    "min": 0.25,
+    "max": 0.25,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "lorazepam",
+   "chembl_id": "CHEMBL580",
+   "fu": {
+    "value": 0.09,
+    "min": 0.072,
+    "max": 0.09,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "lacosamide",
+   "chembl_id": "CHEMBL58323",
+   "fu": null
+  },
+  {
+   "inn": "fenoldopam",
+   "chembl_id": "CHEMBL588",
+   "fu": null
+  },
+  {
+   "inn": "ropinirole",
+   "chembl_id": "CHEMBL589",
+   "fu": null
+  },
+  {
+   "inn": "dopamine",
+   "chembl_id": "CHEMBL59",
+   "fu": null
+  },
+  {
+   "inn": "fentanyl",
+   "chembl_id": "CHEMBL596",
+   "fu": {
+    "value": 0.16,
+    "min": 0.16,
+    "max": 0.16,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "phentolamine",
+   "chembl_id": "CHEMBL597",
+   "fu": null
+  },
+  {
+   "inn": "meperidine",
+   "chembl_id": "CHEMBL607",
+   "fu": {
+    "value": 0.42,
+    "min": 0.42,
+    "max": 0.42,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "brivaracetam",
+   "chembl_id": "CHEMBL607400",
+   "fu": null
+  },
+  {
+   "inn": "terazosin",
+   "chembl_id": "CHEMBL611",
+   "fu": {
+    "value": 0.08,
+    "min": 0.08,
+    "max": 0.2045,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "dextroamphetamine",
+   "chembl_id": "CHEMBL612",
+   "fu": null
+  },
+  {
+   "inn": "trazodone",
+   "chembl_id": "CHEMBL621",
+   "fu": {
+    "value": 0.07,
+    "min": 0.03,
+    "max": 0.077,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "nefazodone",
+   "chembl_id": "CHEMBL623",
+   "fu": {
+    "value": 0.01,
+    "min": 0.009,
+    "max": 0.01,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "amitriptyline",
+   "chembl_id": "CHEMBL629",
+   "fu": {
+    "value": 0.07,
+    "min": 0.06,
+    "max": 0.07,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "propafenone",
+   "chembl_id": "CHEMBL631",
+   "fu": {
+    "value": 0.05,
+    "min": 0.038,
+    "max": 0.0705,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "amiodarone",
+   "chembl_id": "CHEMBL633",
+   "fu": {
+    "value": 0.0002,
+    "min": 0.0002,
+    "max": 0.0002,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "alfentanil",
+   "chembl_id": "CHEMBL634",
+   "fu": {
+    "value": 0.086,
+    "min": 0.08,
+    "max": 0.09,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "rivastigmine",
+   "chembl_id": "CHEMBL636",
+   "fu": {
+    "value": 0.6,
+    "min": 0.345,
+    "max": 0.6,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "venlafaxine",
+   "chembl_id": "CHEMBL637",
+   "fu": {
+    "value": 0.73,
+    "min": 0.73,
+    "max": 0.8136,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "azelastine",
+   "chembl_id": "CHEMBL639",
+   "fu": {
+    "value": 0.17,
+    "min": 0.013,
+    "max": 0.17,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "atomoxetine",
+   "chembl_id": "CHEMBL641",
+   "fu": {
+    "value": 0.02,
+    "min": 0.02,
+    "max": 0.02,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "promethazine",
+   "chembl_id": "CHEMBL643",
+   "fu": {
+    "value": 0.08,
+    "min": 0.07,
+    "max": 0.09,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "trimipramine",
+   "chembl_id": "CHEMBL644",
+   "fu": {
+    "value": 0.051,
+    "min": 0.05,
+    "max": 0.069,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "triazolam",
+   "chembl_id": "CHEMBL646",
+   "fu": {
+    "value": 0.1,
+    "min": 0.1,
+    "max": 0.1452,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "methadone",
+   "chembl_id": "CHEMBL651",
+   "fu": {
+    "value": 0.21,
+    "min": 0.11,
+    "max": 0.21,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "mirtazapine",
+   "chembl_id": "CHEMBL654",
+   "fu": {
+    "value": 0.15,
+    "min": 0.15,
+    "max": 0.15,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "midazolam",
+   "chembl_id": "CHEMBL655",
+   "fu": {
+    "value": 0.01725,
+    "min": 0.017,
+    "max": 0.02,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "oxycodone",
+   "chembl_id": "CHEMBL656",
+   "fu": {
+    "value": 0.55,
+    "min": 0.55,
+    "max": 0.55,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "diphenhydramine",
+   "chembl_id": "CHEMBL657",
+   "fu": {
+    "value": 0.19,
+    "min": 0.042,
+    "max": 0.22,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "sufentanil",
+   "chembl_id": "CHEMBL658",
+   "fu": {
+    "value": 0.075,
+    "min": 0.07,
+    "max": 0.075,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "galantamine",
+   "chembl_id": "CHEMBL659",
+   "fu": {
+    "value": 0.82,
+    "min": 0.82,
+    "max": 0.83,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3526005",
+      "pmid": "21148081",
+      "doi": "10.1124/dmd.110.035964",
+      "title": "Pharmacokinetic and pharmacodynamic properties of cholinesterase inhibitors donepezil, tacrine, and galantamine in aged and young Lister hooded rats.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "amantadine",
+   "chembl_id": "CHEMBL660",
+   "fu": {
+    "value": 0.33,
+    "min": 0.171,
+    "max": 0.33,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "alprazolam",
+   "chembl_id": "CHEMBL661",
+   "fu": {
+    "value": 0.29,
+    "min": 0.2895,
+    "max": 0.29,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "acetylcholine",
+   "chembl_id": "CHEMBL667",
+   "fu": null
+  },
+  {
+   "inn": "protriptyline",
+   "chembl_id": "CHEMBL668",
+   "fu": null
+  },
+  {
+   "inn": "epinephrine",
+   "chembl_id": "CHEMBL679",
+   "fu": null
+  },
+  {
+   "inn": "etomidate",
+   "chembl_id": "CHEMBL681",
+   "fu": {
+    "value": 0.24,
+    "min": 0.23,
+    "max": 0.25,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156442",
+      "pmid": "17311911",
+      "doi": "10.1074/jbc.m700479200",
+      "title": "Identification of anesthetic binding sites on human serum albumin using a novel etomidate photolabel.",
+      "journal": "J Biol Chem",
+      "year": 2007
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "trimethadione",
+   "chembl_id": "CHEMBL695",
+   "fu": null
+  },
+  {
+   "inn": "ethosuximide",
+   "chembl_id": "CHEMBL696",
+   "fu": null
+  },
+  {
+   "inn": "verapamil",
+   "chembl_id": "CHEMBL6966",
+   "fu": {
+    "value": 0.0965,
+    "min": 0.093,
+    "max": 0.1073,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "methsuximide",
+   "chembl_id": "CHEMBL697",
+   "fu": null
+  },
+  {
+   "inn": "tetracaine",
+   "chembl_id": "CHEMBL698",
+   "fu": null
+  },
+  {
+   "inn": "morphine",
+   "chembl_id": "CHEMBL70",
+   "fu": {
+    "value": 0.65,
+    "min": 0.61,
+    "max": 0.7917,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "clobazam",
+   "chembl_id": "CHEMBL70418",
+   "fu": null
+  },
+  {
+   "inn": "doxazosin",
+   "chembl_id": "CHEMBL707",
+   "fu": {
+    "value": 0.017,
+    "min": 0.017,
+    "max": 0.017,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "ziprasidone",
+   "chembl_id": "CHEMBL708",
+   "fu": {
+    "value": 0.0012,
+    "min": 0.001,
+    "max": 0.0012,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "alfuzosin",
+   "chembl_id": "CHEMBL709",
+   "fu": null
+  },
+  {
+   "inn": "chlorpromazine",
+   "chembl_id": "CHEMBL71",
+   "fu": {
+    "value": 0.03,
+    "min": 0.003,
+    "max": 0.056,
+    "n_measurements": 5,
+    "n_documents": 5,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "olanzapine",
+   "chembl_id": "CHEMBL715",
+   "fu": {
+    "value": 0.1073,
+    "min": 0.1073,
+    "max": 0.1073,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "quetiapine",
+   "chembl_id": "CHEMBL716",
+   "fu": null
+  },
+  {
+   "inn": "desipramine",
+   "chembl_id": "CHEMBL72",
+   "fu": {
+    "value": 0.15,
+    "min": 0.011,
+    "max": 0.16,
+    "n_measurements": 5,
+    "n_documents": 5,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "carvedilol",
+   "chembl_id": "CHEMBL723",
+   "fu": {
+    "value": 0.02,
+    "min": 0.02,
+    "max": 0.02,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "fluphenazine",
+   "chembl_id": "CHEMBL726",
+   "fu": {
+    "value": 0.0119,
+    "min": 0.0119,
+    "max": 0.0119,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "prochlorperazine",
+   "chembl_id": "CHEMBL728",
+   "fu": null
+  },
+  {
+   "inn": "carbetapentane",
+   "chembl_id": "CHEMBL73234",
+   "fu": null
+  },
+  {
+   "inn": "lamotrigine",
+   "chembl_id": "CHEMBL741",
+   "fu": {
+    "value": 0.4427,
+    "min": 0.4427,
+    "max": 0.4427,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "methohexital",
+   "chembl_id": "CHEMBL7413",
+   "fu": {
+    "value": 0.27,
+    "min": 0.27,
+    "max": 0.27,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "ketamine",
+   "chembl_id": "CHEMBL742",
+   "fu": {
+    "value": 0.5799,
+    "min": 0.47,
+    "max": 0.88,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL4680282",
+      "pmid": "32915563",
+      "doi": "10.1021/acs.jmedchem.0c01193",
+      "title": "Repurposing of Drugs-The Ketamine Story.",
+      "journal": "J Med Chem",
+      "year": 2020
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "riluzole",
+   "chembl_id": "CHEMBL744",
+   "fu": {
+    "value": 0.02035,
+    "min": 0.012,
+    "max": 0.0287,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "zonisamide",
+   "chembl_id": "CHEMBL750",
+   "fu": {
+    "value": 0.308,
+    "min": 0.308,
+    "max": 0.308,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "oxymetazoline",
+   "chembl_id": "CHEMBL762",
+   "fu": null
+  },
+  {
+   "inn": "tegaserod",
+   "chembl_id": "CHEMBL76370",
+   "fu": {
+    "value": 0.02,
+    "min": 0.02,
+    "max": 0.02,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "dexmedetomidine",
+   "chembl_id": "CHEMBL778",
+   "fu": {
+    "value": 0.06,
+    "min": 0.06,
+    "max": 0.06,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "lidocaine",
+   "chembl_id": "CHEMBL79",
+   "fu": {
+    "value": 0.303,
+    "min": 0.3,
+    "max": 0.33,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "methylphenidate",
+   "chembl_id": "CHEMBL796",
+   "fu": {
+    "value": 0.85,
+    "min": 0.85,
+    "max": 0.85,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "memantine",
+   "chembl_id": "CHEMBL807",
+   "fu": null
+  },
+  {
+   "inn": "econazole",
+   "chembl_id": "CHEMBL808",
+   "fu": null
+  },
+  {
+   "inn": "sertraline",
+   "chembl_id": "CHEMBL809",
+   "fu": {
+    "value": 0.0078,
+    "min": 0.001,
+    "max": 0.0146,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "raloxifene",
+   "chembl_id": "CHEMBL81",
+   "fu": {
+    "value": 0.005,
+    "min": 0.005,
+    "max": 0.005,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "fluvoxamine",
+   "chembl_id": "CHEMBL814",
+   "fu": {
+    "value": 0.138608,
+    "min": 0.022,
+    "max": 0.2664,
+    "n_measurements": 3,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "dexmethylphenidate",
+   "chembl_id": "CHEMBL827",
+   "fu": null
+  },
+  {
+   "inn": "tamoxifen",
+   "chembl_id": "CHEMBL83",
+   "fu": null
+  },
+  {
+   "inn": "loxapine",
+   "chembl_id": "CHEMBL831",
+   "fu": null
+  },
+  {
+   "inn": "tamsulosin",
+   "chembl_id": "CHEMBL836",
+   "fu": {
+    "value": 0.01,
+    "min": 0.01,
+    "max": 0.01,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "brimonidine",
+   "chembl_id": "CHEMBL844",
+   "fu": null
+  },
+  {
+   "inn": "risperidone",
+   "chembl_id": "CHEMBL85",
+   "fu": {
+    "value": 0.105,
+    "min": 0.1,
+    "max": 0.154,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "triprolidine",
+   "chembl_id": "CHEMBL855",
+   "fu": {
+    "value": 0.6454,
+    "min": 0.6454,
+    "max": 0.6454,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "primidone",
+   "chembl_id": "CHEMBL856",
+   "fu": null
+  },
+  {
+   "inn": "metoclopramide",
+   "chembl_id": "CHEMBL86",
+   "fu": {
+    "value": 0.6,
+    "min": 0.295,
+    "max": 0.701,
+    "n_measurements": 5,
+    "n_documents": 5,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "mephenytoin",
+   "chembl_id": "CHEMBL861",
+   "fu": null
+  },
+  {
+   "inn": "guanfacine",
+   "chembl_id": "CHEMBL862",
+   "fu": {
+    "value": 0.28,
+    "min": 0.28,
+    "max": 0.28,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "procyclidine",
+   "chembl_id": "CHEMBL86715",
+   "fu": null
+  },
+  {
+   "inn": "fenfluramine",
+   "chembl_id": "CHEMBL87493",
+   "fu": null
+  },
+  {
+   "inn": "rasagiline",
+   "chembl_id": "CHEMBL887",
+   "fu": null
+  },
+  {
+   "inn": "bupropion",
+   "chembl_id": "CHEMBL894",
+   "fu": {
+    "value": 0.3676,
+    "min": 0.195,
+    "max": 0.5402,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "nalbuphine",
+   "chembl_id": "CHEMBL895",
+   "fu": {
+    "value": 0.5,
+    "min": 0.5,
+    "max": 0.5,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "vigabatrin",
+   "chembl_id": "CHEMBL89598",
+   "fu": null
+  },
+  {
+   "inn": "hydroxyzine",
+   "chembl_id": "CHEMBL896",
+   "fu": {
+    "value": 0.0818,
+    "min": 0.0818,
+    "max": 0.0818,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "diflunisal",
+   "chembl_id": "CHEMBL898",
+   "fu": {
+    "value": 0.00185,
+    "min": 0.0016,
+    "max": 0.0021,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "histamine",
+   "chembl_id": "CHEMBL90",
+   "fu": null
+  },
+  {
+   "inn": "orphenadrine",
+   "chembl_id": "CHEMBL900",
+   "fu": null
+  },
+  {
+   "inn": "rizatriptan",
+   "chembl_id": "CHEMBL905",
+   "fu": {
+    "value": 0.86,
+    "min": 0.86,
+    "max": 0.86,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "miconazole",
+   "chembl_id": "CHEMBL91",
+   "fu": null
+  },
+  {
+   "inn": "zolpidem",
+   "chembl_id": "CHEMBL911",
+   "fu": {
+    "value": 0.08,
+    "min": 0.08,
+    "max": 0.08,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "fexofenadine",
+   "chembl_id": "CHEMBL914",
+   "fu": {
+    "value": 0.3706,
+    "min": 0.3706,
+    "max": 0.3706,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "dobutamine",
+   "chembl_id": "CHEMBL926",
+   "fu": null
+  },
+  {
+   "inn": "halothane",
+   "chembl_id": "CHEMBL931",
+   "fu": null
+  },
+  {
+   "inn": "gabapentin",
+   "chembl_id": "CHEMBL940",
+   "fu": {
+    "value": 0.97,
+    "min": 0.97,
+    "max": 0.97,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "tacrine",
+   "chembl_id": "CHEMBL95",
+   "fu": {
+    "value": 0.45,
+    "min": 0.25,
+    "max": 0.4655,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     },
+     {
+      "chembl_document_id": "CHEMBL3526005",
+      "pmid": "21148081",
+      "doi": "10.1124/dmd.110.035964",
+      "title": "Pharmacokinetic and pharmacodynamic properties of cholinesterase inhibitors donepezil, tacrine, and galantamine in aged and young Lister hooded rats.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "entacapone",
+   "chembl_id": "CHEMBL953",
+   "fu": {
+    "value": 0.02,
+    "min": 0.02,
+    "max": 0.025,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3525956",
+      "pmid": "21474681",
+      "doi": "10.1124/dmd.111.038778",
+      "title": "Species independence in brain tissue binding using brain homogenates.",
+      "journal": "Drug Metab Dispos",
+      "year": 2011
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "oxymorphone",
+   "chembl_id": "CHEMBL963",
+   "fu": null
+  },
+  {
+   "inn": "disulfiram",
+   "chembl_id": "CHEMBL964",
+   "fu": null
+  },
+  {
+   "inn": "carbamoylcholine",
+   "chembl_id": "CHEMBL965",
+   "fu": null
+  },
+  {
+   "inn": "temazepam",
+   "chembl_id": "CHEMBL967",
+   "fu": null
+  },
+  {
+   "inn": "flurazepam",
+   "chembl_id": "CHEMBL968",
+   "fu": null
+  },
+  {
+   "inn": "selegiline",
+   "chembl_id": "CHEMBL972",
+   "fu": {
+    "value": 0.13,
+    "min": 0.13,
+    "max": 0.2709,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3301361",
+      "pmid": null,
+      "doi": "10.6019/CHEMBL3301361",
+      "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
+      "journal": null,
+      "year": null
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "methacholine",
+   "chembl_id": "CHEMBL978",
+   "fu": null
+  },
+  {
+   "inn": "meprobamate",
+   "chembl_id": "CHEMBL979",
+   "fu": {
+    "value": 1.0,
+    "min": 1.0,
+    "max": 1.0,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "nalmefene",
+   "chembl_id": "CHEMBL982",
+   "fu": {
+    "value": 0.65,
+    "min": 0.65,
+    "max": 0.65,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
+  },
+  {
+   "inn": "loratadine",
+   "chembl_id": "CHEMBL998",
+   "fu": null
+  },
+  {
+   "inn": "levomilnacipran",
+   "chembl_id": "CHEMBL99946",
+   "fu": null
+  }
+ ]
+}
