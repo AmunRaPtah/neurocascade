@@ -2761,7 +2761,7 @@
    "deps": [
     "P30.1"
    ],
-   "status": "pending",
+   "status": "optional",
    "attempts": 0,
    "conductor": {
     "sessions": 1,
@@ -2780,7 +2780,7 @@
     "gave_up": false
    },
    "result": "",
-   "note": "Reset 2026-10-19 after 8 PRs (#31-#38) were rejected in acceptance review for numerical-consistency bugs, NOT for the science. Every rejection was a number in docs (architecture.md table, validation-ledger V19) disagreeing with results/P30.2.json, or a metric computed on the baseline-intersection instead of the held-out drugs. ROOT CAUSE: values were hand-written into docs. FIX THIS TASK ONCE: generate every reported number programmatically from results/P30.2.json (a small script or doctest that writes the table), so docs cannot disagree with the JSON. The honest result is a NEGATIVE and that is ACCEPTED: report held-out AUROC/AUPRC per effect against ALL baselines (strongest-Ki, 1-NN fingerprint, ATC-class prevalence, train mean); on the adequately-powered effects the model beats every baseline only for EPS, and you must say so plainly. Power is judged on the HELD-OUT drugs the model scores, never on the subset all baselines can score. Prior review findings to satisfy in one pass:\n- ACCEPTANCE 1: FAIL . The V19 row in docs/validation-ledger.md:47 gives only point estimates for the held-out AUROCs; the one interval it mentions is EPS's degenerate [1.00, 1.00]. The CIs appear only in docs/architecture.md and results/P30.2.json. The brief as\n- ACCEPTANCE 2: FAIL . The failure-analysis text gets the leave-one-drug-out (LODO) result wrong.\nREVIEW: REJECT The failure analysis says the model beats both baselines in LODO \"only for sexual dysfunction\" (`docs/architecture.md:17537`, ledger V19), but the PR\n- ACCEPTANCE 2: FAIL — heldout.failure_analysis exists and names effects. But the AUPRC half of its \"beats both baselines\" list rests on a tie-handling formula that doesn't do what its documentation says. _auprc (effect_scoring.py, docstring and the \"averages ov\n- ACCEPTANCE 4: FAIL . The LODO results are reported, but several published values don't match what score_p30_2() generated:\nREVIEW: REJECT The LODO results in docs/validation-ledger.md V19 and the docs/architecture.md P30.2 table don't match the generated resul\n- ACCEPTANCE 2: FAIL — The failure-analysis section exists and names the effects (only EPS beats both baselines held-out, plus weight gain on AUROC alone; seizure can't be estimated). But the paragraph supporting it misstates a number: docs/architecture.md:17543\n- ACCEPTANCE 1: FAIL . The V19 row does give held-out AUROC with bootstrap CIs and both baselines' AUROC, and the numbers match the JSON. But it states the compared set as 17 drugs with \"both baselines computable\" when only 13 have both. Clobazam, alprazolam, di\n- ACCEPTANCE 5: FAIL — metric_summary judges power on the baseline-intersected subset, not on the held-out drugs the model scores, so the headline is vacated as described above.\nCHECK THRESHOLDS: FAIL — UNDERPOWERED_MIN_CLASS = 5 itself is unchanged (effects.py:\n- ACCEPTANCE 5: FAIL . Power is counted before the drugs that can't be compared are dropped (effect_scoring.py:398-400 against :404-412):\nCHECK THRESHOLDS: FAIL . UNDERPOWERED_MIN_CLASS = 5 is unchanged (effects.py:44). What changed is the population it is appli",
+   "note": "Retired 2026-10-21 as an honest negative, superseded by P33.3. Across 8 attempts (PRs #31-#38) the v1 held-out result was consistent: P30.1 beats every baseline only for EPS (degenerate CI, few held-out positives) and is at baseline or chance elsewhere; the rejections were doc/JSON number mismatches, not the science. v1 (185 drugs, unsubtracted labels) cannot power this; the question is re-asked on v2 data in P33.3. Previous note follows.\n\nReset 2026-10-19 after 8 PRs (#31-#38) were rejected in acceptance review for numerical-consistency bugs, NOT for the science. Every rejection was a number in docs (architecture.md table, validation-ledger V19) disagreeing with results/P30.2.json, or a metric computed on the baseline-intersection instead of the held-out drugs. ROOT CAUSE: values were hand-written into docs. FIX THIS TASK ONCE: generate every reported number programmatically from results/P30.2.json (a small script or doctest that writes the table), so docs cannot disagree with the JSON. The honest result is a NEGATIVE and that is ACCEPTED: report held-out AUROC/AUPRC per effect against ALL baselines (strongest-Ki, 1-NN fingerprint, ATC-class prevalence, train mean); on the adequately-powered effects the model beats every baseline only for EPS, and you must say so plainly. Power is judged on the HELD-OUT drugs the model scores, never on the subset all baselines can score. Prior review findings to satisfy in one pass:\n- ACCEPTANCE 1: FAIL . The V19 row in docs/validation-ledger.md:47 gives only point estimates for the held-out AUROCs; the one interval it mentions is EPS's degenerate [1.00, 1.00]. The CIs appear only in docs/architecture.md and results/P30.2.json. The brief as\n- ACCEPTANCE 2: FAIL . The failure-analysis text gets the leave-one-drug-out (LODO) result wrong.\nREVIEW: REJECT The failure analysis says the model beats both baselines in LODO \"only for sexual dysfunction\" (`docs/architecture.md:17537`, ledger V19), but the PR\n- ACCEPTANCE 2: FAIL — heldout.failure_analysis exists and names effects. But the AUPRC half of its \"beats both baselines\" list rests on a tie-handling formula that doesn't do what its documentation says. _auprc (effect_scoring.py, docstring and the \"averages ov\n- ACCEPTANCE 4: FAIL . The LODO results are reported, but several published values don't match what score_p30_2() generated:\nREVIEW: REJECT The LODO results in docs/validation-ledger.md V19 and the docs/architecture.md P30.2 table don't match the generated resul\n- ACCEPTANCE 2: FAIL — The failure-analysis section exists and names the effects (only EPS beats both baselines held-out, plus weight gain on AUROC alone; seizure can't be estimated). But the paragraph supporting it misstates a number: docs/architecture.md:17543\n- ACCEPTANCE 1: FAIL . The V19 row does give held-out AUROC with bootstrap CIs and both baselines' AUROC, and the numbers match the JSON. But it states the compared set as 17 drugs with \"both baselines computable\" when only 13 have both. Clobazam, alprazolam, di\n- ACCEPTANCE 5: FAIL — metric_summary judges power on the baseline-intersected subset, not on the held-out drugs the model scores, so the headline is vacated as described above.\nCHECK THRESHOLDS: FAIL — UNDERPOWERED_MIN_CLASS = 5 itself is unchanged (effects.py:\n- ACCEPTANCE 5: FAIL . Power is counted before the drugs that can't be compared are dropped (effect_scoring.py:398-400 against :404-412):\nCHECK THRESHOLDS: FAIL . UNDERPOWERED_MIN_CLASS = 5 is unchanged (effects.py:44). What changed is the population it is appli",
    "host_eval": "python -m pytest -q -p no:cacheprovider src/neurocascade/benchmark/test_p30_2_heldout.py"
   },
   {
@@ -2798,7 +2798,8 @@
     "evidence": ""
    },
    "deps": [
-    "P30.2"
+    "P30.1",
+    "P33.3"
    ],
    "status": "pending",
    "attempts": 0
@@ -2838,7 +2839,7 @@
     "evidence": ""
    },
    "deps": [
-    "P30.2"
+    "P33.3"
    ],
    "status": "pending",
    "attempts": 0
@@ -2921,8 +2922,11 @@
     "evidence": ""
    },
    "deps": [],
-   "status": "pending",
-   "attempts": 0
+   "status": "done",
+   "attempts": 0,
+   "finished_at": "2026-10-21T21:00:00+00:00",
+   "result": "complete",
+   "note": "Done 2026-10-21 (merge of v2-data). 334 receptor-selected approved drugs with FDA labels (drugs.json); ChEMBL Ki for 37 targets (inputs/binding.json); human IV CL 134, Vss 133, fu 152 of 334 (truth/human_pk.json, inputs/plasma_fu.json). GAPS: therapeutic Cmax 0/334 (Schulz 2020 PDF values unreliable), oral F not collected."
   },
   {
    "id": "P33.2",
@@ -2941,14 +2945,17 @@
    "deps": [
     "P33.1"
    ],
-   "status": "pending",
-   "attempts": 0
+   "status": "done",
+   "attempts": 0,
+   "finished_at": "2026-10-21T21:00:00+00:00",
+   "result": "complete",
+   "note": "Done 2026-10-21. truth/liabilities.json under liability_rules.json amendments A1-A7: 189 placebo-subtracted, 136 absolute fallback, 9 absent. Placebo-subtracted positives: sedation 45, anticholinergic 35, EPS 6, orthostatic 3; weight_gain labels withheld (A7, labels under-call it). Known weaknesses: ~15% structural error estimate on unchecked tables (liability_spotcheck.md); 'anticholinergic' includes non-muscarinic dry mouth/constipation. EPS, orthostatic and weight need NMA effect sizes (Huhn 2019 etc.) to be scoreable."
   },
   {
    "id": "P33.3",
    "phase": "Phase 33: v2 data universe and per-stage baselines",
    "title": "Per-stage chain benchmark against baselines",
-   "brief": "A single harness that scores each stage of the product chain on the v2 held-out drugs against the required baselines, so predict_compound is judged stage by stage, not just end to end. Stages: human CL, Vss, F; free plasma exposure; Kp,uu; multi-target occupancy; each liability. Baselines per stage: train mean (PK), single strongest-target Ki and 1-NN fingerprint and ATC-class prevalence (liabilities), plasma-Cmax,u/Ki occupancy (occupancy). Report GMFE/fold-error for continuous stages and AUROC/AUPRC with bootstrap CIs for liabilities, each beside its baselines, underpowered effects separated. Scoring runs once on the host via host_eval with the frozen v2 truth; sessions see only the train rows.",
+   "brief": "A single harness that scores each stage of the product chain on the v2 held-out drugs against the required baselines, so predict_compound is judged stage by stage, not just end to end. Stages: human CL, Vss, F; free plasma exposure; Kp,uu; multi-target occupancy; each liability. Baselines per stage: train mean (PK), single strongest-target Ki and 1-NN fingerprint and ATC-class prevalence (liabilities), plasma-Cmax,u/Ki occupancy (occupancy). Report GMFE/fold-error for continuous stages and AUROC/AUPRC with bootstrap CIs for liabilities, each beside its baselines, underpowered effects separated. Scoring runs once on the host via host_eval with the frozen v2 truth; sessions see only the train rows. SCOPE (2026-10-21): liabilities are scored for sedation and anticholinergic only; EPS (6 positives), orthostatic (3) and weight gain (withheld) are reported as underpowered/unavailable, not scored. Therapeutic Cmax and oral F are not in v2 yet, so the F stage and the plasma-Cmax,u/Ki occupancy baseline are reported as 'no data' rather than invented. This task is the go/no-go gate: P30.3 and P32.x wait on it; GO only if at least one liability beats every baseline on held-out drugs with a CI excluding the best baseline.",
    "acceptance": [
     "a committed per-stage table: metric vs each required baseline for every stage, on v2 held-out drugs, underpowered effects flagged",
     "the harness reads v2 truth only through the benchmark API and never references the held-out split directly",
@@ -2960,8 +2967,7 @@
    },
    "deps": [
     "P33.1",
-    "P33.2",
-    "P30.2"
+    "P33.2"
    ],
    "status": "pending",
    "attempts": 0,
