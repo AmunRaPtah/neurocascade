@@ -10,8 +10,35 @@
   "liabilities": {
     "eps": {
       "receptor": "D2",
-      "terms": ["extrapyramidal disorder", "extrapyramidal symptoms", "extrapyramidal syndrome", "extrapyramidal events", "extrapyramidal reactions", "extrapyramidal symptoms (eps)", "eps", "akathisia", "parkinsonism", "drug-induced parkinsonism", "dystonia", "acute dystonia", "muscle rigidity", "cogwheel rigidity", "bradykinesia", "hypokinesia", "oculogyric crisis", "torticollis"],
-      "grouped_terms": ["extrapyramidal disorder", "extrapyramidal symptoms", "extrapyramidal syndrome", "extrapyramidal events", "extrapyramidal reactions", "eps", "extrapyramidal symptoms (eps)"],
+      "terms": [
+        "extrapyramidal disorder",
+        "extrapyramidal symptoms",
+        "extrapyramidal syndrome",
+        "extrapyramidal events",
+        "extrapyramidal reactions",
+        "extrapyramidal symptoms (eps)",
+        "eps",
+        "akathisia",
+        "parkinsonism",
+        "drug-induced parkinsonism",
+        "dystonia",
+        "acute dystonia",
+        "muscle rigidity",
+        "cogwheel rigidity",
+        "bradykinesia",
+        "hypokinesia",
+        "oculogyric crisis",
+        "torticollis"
+      ],
+      "grouped_terms": [
+        "extrapyramidal disorder",
+        "extrapyramidal symptoms",
+        "extrapyramidal syndrome",
+        "extrapyramidal events",
+        "extrapyramidal reactions",
+        "eps",
+        "extrapyramidal symptoms (eps)"
+      ],
       "excluded": {
         "tremor": "Non-specific: SSRIs, SNRIs, lithium, valproate, beta-agonists and stimulants produce tremor through non-D2 mechanisms. Including it would label most antidepressants EPS-positive and blur the D2 anchor.",
         "tardive dyskinesia": "Delayed, cumulative syndrome not measured in 3-8 week placebo tables.",
@@ -22,7 +49,13 @@
     },
     "sedation": {
       "receptor": "H1",
-      "terms": ["somnolence", "sedation", "hypersomnia", "drowsiness", "sleepiness"],
+      "terms": [
+        "somnolence",
+        "sedation",
+        "hypersomnia",
+        "drowsiness",
+        "sleepiness"
+      ],
       "grouped_terms": [],
       "excluded": {
         "fatigue": "Non-specific (also asthenia, depression symptom); not an H1 readout.",
@@ -32,7 +65,12 @@
     },
     "weight_gain": {
       "receptor": "H1/5-HT2C",
-      "terms": ["weight increased", "weight gain", "increased weight", "body weight increased"],
+      "terms": [
+        "weight increased",
+        "weight gain",
+        "increased weight",
+        "body weight increased"
+      ],
       "grouped_terms": [],
       "excluded": {
         "increased appetite": "Upstream of weight gain but a different measured endpoint; kept out so that the label means measured weight change reported as an adverse reaction.",
@@ -41,7 +79,19 @@
     },
     "anticholinergic": {
       "receptor": "M1-M5",
-      "terms": ["dry mouth", "mouth dry", "constipation", "blurred vision", "vision blurred", "vision abnormal", "abnormal vision", "amblyopia", "urinary retention", "urinary hesitation", "urinary hesitancy"],
+      "terms": [
+        "dry mouth",
+        "mouth dry",
+        "constipation",
+        "blurred vision",
+        "vision blurred",
+        "vision abnormal",
+        "abnormal vision",
+        "amblyopia",
+        "urinary retention",
+        "urinary hesitation",
+        "urinary hesitancy"
+      ],
       "grouped_terms": [],
       "excluded": {
         "mydriasis, tachycardia": "Rarely tabulated; tachycardia has many non-muscarinic causes.",
@@ -51,7 +101,15 @@
     },
     "orthostatic_hypotension": {
       "receptor": "alpha1",
-      "terms": ["orthostatic hypotension", "hypotension orthostatic", "postural hypotension", "dizziness postural", "postural dizziness", "orthostatic dizziness", "orthostatic intolerance"],
+      "terms": [
+        "orthostatic hypotension",
+        "hypotension orthostatic",
+        "postural hypotension",
+        "dizziness postural",
+        "postural dizziness",
+        "orthostatic dizziness",
+        "orthostatic intolerance"
+      ],
       "grouped_terms": [],
       "excluded": {
         "dizziness": "Vestibular/CNS dizziness is reported by almost every CNS drug; only the postural form is alpha1-specific.",
@@ -90,7 +148,12 @@
     "justification": "This is the FDA labeling convention for 'commonly observed, drug-related' adverse reactions (incidence >= 5% and at least twice placebo; FDA guidance 'Adverse Reactions Section of Labeling for Human Prescription Drug and Biological Products - Content and Format' (2006), and common in PLR labels as 'incidence >= 5% and at least twice that for placebo'), tightened from an absolute 5% floor to a 5-point risk difference so that a common background event (constipation 8% vs placebo 4%) does not pass on the ratio alone. Both conditions must hold: the difference guards against tiny absolute rates with large ratios (2% vs 0.5%), the ratio guards against noisy differences on high-background terms (dry mouth 25% vs 19%).",
     "absent_below_threshold": "A liability none of whose terms appears in the primary placebo-controlled table is negative (0) with drug_pct and placebo_pct null and flag absent_below_threshold. Justification: label tables list reactions above a stated incidence threshold (usually >=1-5% and more than placebo), so absence implies drug incidence below that threshold or not above placebo; under either the 5-point rule cannot be met when the threshold is <=5%. The verbatim threshold sentence is recorded so a reader can check it.",
     "absolute_fallback": "When the selected label has no placebo-controlled table: positive (1) iff a mapped term has drug % >= 10 (CIOMS 'very common') in a non-placebo adverse-reaction table; 0 if the table is present and the mapped terms are absent or below 10; null when only prose is available (recorded as listed_in_prose true/false, no number). Every such row carries basis 'absolute_fallback' and flagged true.",
-    "absent": "No usable label or no adverse-reaction section: label null, basis 'absent'."
+    "absent": "No usable label or no adverse-reaction section: label null, basis 'absent'.",
+    "parameters": {
+      "rd_pp": 5.0,
+      "ratio": 2.0,
+      "fallback_drug_pct": 10.0
+    }
   },
   "heldout": "No held-out field is stored. Consumers apply pipeline.guards.v2_heldout(inn)."
 }
