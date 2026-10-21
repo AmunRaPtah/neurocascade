@@ -148,8 +148,12 @@ def _name_segment(spl: str) -> str:
     words = spl.split()
     for i, w in enumerate(words[1:], 1):
         if len(w) >= 3 and w.isupper():
-            return " ".join(words[:i])
-    return " ".join(words)
+            words = words[:i]
+            break
+    # Brand plus the first words of the generic name. Mixed-case excipients
+    # can follow (phenol in an Anzemet label), and a kit's second active can
+    # trail ("Diclofenac Sodium Topical with Capsaicin").
+    return " ".join(words[:4])
 
 
 def label_index(names: dict[str, str], candidates: set[str]) -> dict[str, list[dict]]:
@@ -179,7 +183,7 @@ def label_index(names: dict[str, str], candidates: set[str]) -> dict[str, list[d
         else:
             head = _name_segment(" ".join(lab.get("spl_product_data_elements") or []))
             found = {by_name[m] for m in word.findall(head.upper())}
-            combo = re.search(r"\band\b|/|,|\w-\w", head, re.I)
+            combo = re.search(r"\b(and|with|plus)\b|/|,|\w-\w", head, re.I)
             parent = found.pop() if len(found) == 1 and not combo else None
             how = "spl_product_data_elements"
         if not parent:

@@ -1,5 +1,5 @@
 """P33.1 stage 2: human IV PK truth (clearance_iv, Vss) and the plasma_fu
-input, for the v2 benchmark's 331 drugs."""
+input, for the v2 benchmark drugs."""
 
 import json
 from pathlib import Path
@@ -87,7 +87,7 @@ def test_clearance_values_are_plausible_and_cited(truth):
         assert cl["n_measurements"] >= 1
         assert cl["matched_on"] == "chembl_id"
         assert _has_source(cl), (r["inn"], "clearance_iv has no verified source")
-    assert n >= 100, f"expected at least 100/331 drugs with human IV clearance, got {n}"
+    assert n >= 100, f"expected at least 100/334 drugs with human IV clearance, got {n}"
 
 
 def test_vss_values_are_plausible_and_cited(truth):
@@ -103,7 +103,7 @@ def test_vss_values_are_plausible_and_cited(truth):
         assert vss["n_measurements"] >= 1
         assert vss["matched_on"] == "chembl_id"
         assert _has_source(vss), (r["inn"], "vss has no verified source")
-    assert n >= 100, f"expected at least 100/331 drugs with human Vss, got {n}"
+    assert n >= 100, f"expected at least 100/334 drugs with human Vss, got {n}"
 
 
 def test_therapeutic_cmax_is_explicitly_absent_not_fabricated(truth):
@@ -128,7 +128,7 @@ def test_fu_values_are_plausible_and_cited(fu_inputs):
         assert fu["n_measurements"] >= 1
         assert fu["matched_on"] == "chembl_id"
         assert _has_source(fu), (r["inn"], "fu has no verified source")
-    assert n >= 100, f"expected at least 100/331 drugs with human plasma fu, got {n}"
+    assert n >= 100, f"expected at least 100/334 drugs with human plasma fu, got {n}"
 
 
 def test_missing_rows_are_explicit_null_not_omitted(truth, fu_inputs):

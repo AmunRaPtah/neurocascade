@@ -2,7 +2,7 @@
  "description": "Human plasma fraction unbound for the v2 benchmark drugs (P33.1 stage 2), from ChEMBL-curated Fu/PPB activities.",
  "retrieved": "2026-10-21",
  "chembl_release": "ChEMBL_37 (2026-05-01), live API read 2026-10-21",
- "n_drugs": 331,
+ "n_drugs": 334,
  "drugs": [
   {
    "inn": "cetirizine",
@@ -1349,11 +1349,6 @@
    }
   },
   {
-   "inn": "phenol",
-   "chembl_id": "CHEMBL14060",
-   "fu": null
-  },
-  {
    "inn": "pimozide",
    "chembl_id": "CHEMBL1423",
    "fu": null
@@ -1576,8 +1571,18 @@
    }
   },
   {
+   "inn": "ambenonium",
+   "chembl_id": "CHEMBL1652",
+   "fu": null
+  },
+  {
    "inn": "cevimeline",
    "chembl_id": "CHEMBL168815",
+   "fu": null
+  },
+  {
+   "inn": "cisapride",
+   "chembl_id": "CHEMBL1729",
    "fu": null
   },
   {
@@ -1888,6 +1893,29 @@
    "inn": "silodosin",
    "chembl_id": "CHEMBL24778",
    "fu": null
+  },
+  {
+   "inn": "aspirin",
+   "chembl_id": "CHEMBL25",
+   "fu": {
+    "value": 0.68,
+    "min": 0.68,
+    "max": 0.68,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "milnacipran",
@@ -3043,6 +3071,11 @@
     "matched_on": "chembl_id",
     "unit": "fraction"
    }
+  },
+  {
+   "inn": "mepenzolate",
+   "chembl_id": "CHEMBL524004",
+   "fu": null
   },
   {
    "inn": "dextromethorphan",

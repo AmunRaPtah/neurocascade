@@ -618,6 +618,51 @@
    ],
    "targets": {}
   },
+  "ambenonium": {
+   "chembl_id": "CHEMBL1652",
+   "inn": "ambenonium",
+   "kd_only": {},
+   "searched_and_empty": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "ADRA2A",
+    "ADRA2B",
+    "ADRA2C",
+    "ADRB1",
+    "ADRB2",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD1",
+    "DRD2",
+    "DRD3",
+    "DRD4",
+    "DRD5",
+    "HRH1",
+    "HRH2",
+    "HRH3",
+    "HRH4",
+    "HTR1A",
+    "HTR1B",
+    "HTR1D",
+    "HTR1E",
+    "HTR2A",
+    "HTR2B",
+    "HTR2C",
+    "HTR3A",
+    "HTR5A",
+    "HTR6",
+    "HTR7",
+    "KCNH2",
+    "SLC6A2",
+    "SLC6A3",
+    "SLC6A4"
+   ],
+   "targets": {}
+  },
   "amifampridine": {
    "chembl_id": "CHEMBL354077",
    "inn": "amifampridine",
@@ -3530,6 +3575,51 @@
      "status": "data"
     }
    }
+  },
+  "aspirin": {
+   "chembl_id": "CHEMBL25",
+   "inn": "aspirin",
+   "kd_only": {},
+   "searched_and_empty": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "ADRA2A",
+    "ADRA2B",
+    "ADRA2C",
+    "ADRB1",
+    "ADRB2",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD1",
+    "DRD2",
+    "DRD3",
+    "DRD4",
+    "DRD5",
+    "HRH1",
+    "HRH2",
+    "HRH3",
+    "HRH4",
+    "HTR1A",
+    "HTR1B",
+    "HTR1D",
+    "HTR1E",
+    "HTR2A",
+    "HTR2B",
+    "HTR2C",
+    "HTR3A",
+    "HTR5A",
+    "HTR6",
+    "HTR7",
+    "KCNH2",
+    "SLC6A2",
+    "SLC6A3",
+    "SLC6A4"
+   ],
+   "targets": {}
   },
   "atogepant": {
    "chembl_id": "CHEMBL3991065",
@@ -9234,6 +9324,272 @@
      "n_documents": 1,
      "n_measurements": 1,
      "pki_median": 6.11,
+     "status": "data"
+    }
+   }
+  },
+  "cisapride": {
+   "chembl_id": "CHEMBL1729",
+   "inn": "cisapride",
+   "kd_only": {},
+   "searched_and_empty": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRB1",
+    "ADRB2",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD1",
+    "DRD4",
+    "DRD5",
+    "HRH1",
+    "HRH2",
+    "HRH3",
+    "HRH4",
+    "HTR1B",
+    "HTR1D",
+    "HTR1E",
+    "HTR5A",
+    "HTR6",
+    "SLC6A2",
+    "SLC6A3"
+   ],
+   "targets": {
+    "ADRA1D": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL1909046",
+       "pubmed_id": null,
+       "year": null
+      }
+     ],
+     "ki_max_nM": 93.0,
+     "ki_min_nM": 93.0,
+     "ki_nM": 93.32543,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 7.03,
+     "status": "data"
+    },
+    "ADRA2A": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL1909046",
+       "pubmed_id": null,
+       "year": null
+      }
+     ],
+     "ki_max_nM": 666.0,
+     "ki_min_nM": 666.0,
+     "ki_nM": 660.693448,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 6.18,
+     "status": "data"
+    },
+    "ADRA2B": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL1909046",
+       "pubmed_id": null,
+       "year": null
+      }
+     ],
+     "ki_max_nM": 524.0,
+     "ki_min_nM": 524.0,
+     "ki_nM": 524.80746,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 6.28,
+     "status": "data"
+    },
+    "ADRA2C": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL1909046",
+       "pubmed_id": null,
+       "year": null
+      }
+     ],
+     "ki_max_nM": 113.0,
+     "ki_min_nM": 113.0,
+     "ki_nM": 112.201845,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 6.95,
+     "status": "data"
+    },
+    "DRD2": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL1909046",
+       "pubmed_id": null,
+       "year": null
+      }
+     ],
+     "ki_max_nM": 158.0,
+     "ki_min_nM": 158.0,
+     "ki_nM": 158.489319,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 6.8,
+     "status": "data"
+    },
+    "DRD3": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL1909046",
+       "pubmed_id": null,
+       "year": null
+      }
+     ],
+     "ki_max_nM": 49.0,
+     "ki_min_nM": 49.0,
+     "ki_nM": 48.977882,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 7.31,
+     "status": "data"
+    },
+    "HTR1A": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL2401700",
+       "pubmed_id": 23756062,
+       "year": 2013
+      }
+     ],
+     "ki_max_nM": 794.33,
+     "ki_min_nM": 794.33,
+     "ki_nM": 794.328235,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 6.1,
+     "status": "data"
+    },
+    "HTR2A": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL2401700",
+       "pubmed_id": 23756062,
+       "year": 2013
+      },
+      {
+       "document_chembl_id": "CHEMBL1909046",
+       "pubmed_id": null,
+       "year": null
+      }
+     ],
+     "ki_max_nM": 6.31,
+     "ki_min_nM": 1.102,
+     "ki_nM": 2.630268,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "pki_median": 8.58,
+     "status": "data"
+    },
+    "HTR2B": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL2401700",
+       "pubmed_id": 23756062,
+       "year": 2013
+      },
+      {
+       "document_chembl_id": "CHEMBL1909046",
+       "pubmed_id": null,
+       "year": null
+      }
+     ],
+     "ki_max_nM": 70.0,
+     "ki_min_nM": 39.81,
+     "ki_nM": 52.480746,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "pki_median": 7.28,
+     "status": "data"
+    },
+    "HTR2C": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL1909046",
+       "pubmed_id": null,
+       "year": null
+      }
+     ],
+     "ki_max_nM": 402.0,
+     "ki_min_nM": 402.0,
+     "ki_nM": 398.107171,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 6.4,
+     "status": "data"
+    },
+    "HTR3A": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL2401700",
+       "pubmed_id": 23756062,
+       "year": 2013
+      }
+     ],
+     "ki_max_nM": 1995.26,
+     "ki_min_nM": 1995.26,
+     "ki_nM": 1995.262315,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "pki_median": 5.7,
+     "status": "data"
+    },
+    "HTR7": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL2401700",
+       "pubmed_id": 23756062,
+       "year": 2013
+      }
+     ],
+     "ki_max_nM": 1000.0,
+     "ki_min_nM": 1000.0,
+     "ki_nM": 1000.0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 6.0,
+     "status": "data"
+    },
+    "KCNH2": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL1909046",
+       "pubmed_id": null,
+       "year": null
+      }
+     ],
+     "ki_max_nM": 139.4,
+     "ki_min_nM": 139.4,
+     "ki_nM": 138.038426,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 6.86,
+     "status": "data"
+    },
+    "SLC6A4": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL1909046",
+       "pubmed_id": null,
+       "year": null
+      }
+     ],
+     "ki_max_nM": 204.0,
+     "ki_min_nM": 204.0,
+     "ki_nM": 204.173794,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 6.69,
      "status": "data"
     }
    }
@@ -25463,6 +25819,92 @@
    ],
    "targets": {}
   },
+  "mepenzolate": {
+   "chembl_id": "CHEMBL524004",
+   "inn": "mepenzolate",
+   "kd_only": {},
+   "searched_and_empty": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "ADRA2A",
+    "ADRA2B",
+    "ADRA2C",
+    "ADRB1",
+    "ADRB2",
+    "CHRM1",
+    "CHRM4",
+    "CHRM5",
+    "DRD1",
+    "DRD2",
+    "DRD3",
+    "DRD4",
+    "DRD5",
+    "HRH1",
+    "HRH2",
+    "HRH3",
+    "HRH4",
+    "HTR1A",
+    "HTR1B",
+    "HTR1D",
+    "HTR1E",
+    "HTR2A",
+    "HTR2B",
+    "HTR2C",
+    "HTR3A",
+    "HTR5A",
+    "HTR6",
+    "HTR7",
+    "KCNH2",
+    "SLC6A2",
+    "SLC6A3",
+    "SLC6A4"
+   ],
+   "targets": {
+    "CHRM2": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL4387754",
+       "pubmed_id": 31204225,
+       "year": 2019
+      },
+      {
+       "document_chembl_id": "CHEMBL3286356",
+       "pubmed_id": 24844758,
+       "year": 2014
+      }
+     ],
+     "ki_max_nM": 2.1,
+     "ki_min_nM": 0.68,
+     "ki_nM": 1.188502,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "pki_median": 8.925,
+     "status": "data"
+    },
+    "CHRM3": {
+     "documents": [
+      {
+       "document_chembl_id": "CHEMBL4387754",
+       "pubmed_id": 31204225,
+       "year": 2019
+      },
+      {
+       "document_chembl_id": "CHEMBL3286356",
+       "pubmed_id": 24844758,
+       "year": 2014
+      }
+     ],
+     "ki_max_nM": 5.3,
+     "ki_min_nM": 2.6,
+     "ki_nM": 3.672823,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "pki_median": 8.435,
+     "status": "data"
+    }
+   }
+  },
   "meperidine": {
    "chembl_id": "CHEMBL607",
    "inn": "meperidine",
@@ -32900,51 +33342,6 @@
   "phenobarbital": {
    "chembl_id": "CHEMBL40",
    "inn": "phenobarbital",
-   "kd_only": {},
-   "searched_and_empty": [
-    "ADRA1A",
-    "ADRA1B",
-    "ADRA1D",
-    "ADRA2A",
-    "ADRA2B",
-    "ADRA2C",
-    "ADRB1",
-    "ADRB2",
-    "CHRM1",
-    "CHRM2",
-    "CHRM3",
-    "CHRM4",
-    "CHRM5",
-    "DRD1",
-    "DRD2",
-    "DRD3",
-    "DRD4",
-    "DRD5",
-    "HRH1",
-    "HRH2",
-    "HRH3",
-    "HRH4",
-    "HTR1A",
-    "HTR1B",
-    "HTR1D",
-    "HTR1E",
-    "HTR2A",
-    "HTR2B",
-    "HTR2C",
-    "HTR3A",
-    "HTR5A",
-    "HTR6",
-    "HTR7",
-    "KCNH2",
-    "SLC6A2",
-    "SLC6A3",
-    "SLC6A4"
-   ],
-   "targets": {}
-  },
-  "phenol": {
-   "chembl_id": "CHEMBL14060",
-   "inn": "phenol",
    "kd_only": {},
    "searched_and_empty": [
     "ADRA1A",

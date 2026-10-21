@@ -2,7 +2,7 @@
  "description": "Human IV clearance and Vss for the v2 benchmark drugs (P33.1 stage 2), from ChEMBL-curated Lombardo/Obach human IV PK compilations and the AstraZeneca ChEMBL DMPK dataset. therapeutic_cmax is null throughout. Schulz M. et al. 2020 Crit Care (PMID 32375836, PMC7201985, doi:10.1186/s13054-020-02915-5) was verified and its supplementary table (Additional file 1, a PDF of therapeutic/toxic/comatose-fatal blood-plasma concentrations for 1100+ substances) was downloaded. It was not used: the table's numeric cells have reference footnote digits fused directly onto the value with no delimiter, for example 0.9-3.9308 for abacavir, which is the range 0.9 to 3.9 plus footnote 308, not the number 3.9308. Splitting value from footnote by rule is exactly the regex-a-number-out-of-prose risk this project forbids, so no value was extracted rather than risk a silently wrong one.",
  "retrieved": "2026-10-21",
  "chembl_release": "ChEMBL_37 (2026-05-01), live API read 2026-10-21",
- "n_drugs": 331,
+ "n_drugs": 334,
  "drugs": [
   {
    "inn": "cetirizine",
@@ -2145,13 +2145,6 @@
    "therapeutic_cmax": null
   },
   {
-   "inn": "phenol",
-   "chembl_id": "CHEMBL14060",
-   "clearance_iv": null,
-   "vss": null,
-   "therapeutic_cmax": null
-  },
-  {
    "inn": "pimozide",
    "chembl_id": "CHEMBL1423",
    "clearance_iv": null,
@@ -2506,8 +2499,22 @@
    "therapeutic_cmax": null
   },
   {
+   "inn": "ambenonium",
+   "chembl_id": "CHEMBL1652",
+   "clearance_iv": null,
+   "vss": null,
+   "therapeutic_cmax": null
+  },
+  {
    "inn": "cevimeline",
    "chembl_id": "CHEMBL168815",
+   "clearance_iv": null,
+   "vss": null,
+   "therapeutic_cmax": null
+  },
+  {
+   "inn": "cisapride",
+   "chembl_id": "CHEMBL1729",
    "clearance_iv": null,
    "vss": null,
    "therapeutic_cmax": null
@@ -2943,6 +2950,57 @@
    "chembl_id": "CHEMBL24778",
    "clearance_iv": null,
    "vss": null,
+   "therapeutic_cmax": null
+  },
+  {
+   "inn": "aspirin",
+   "chembl_id": "CHEMBL25",
+   "clearance_iv": {
+    "value": 12.0,
+    "min": 12.0,
+    "max": 12.0,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg"
+   },
+   "vss": {
+    "value": 0.185,
+    "min": 0.15,
+    "max": 0.22,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1153781",
+      "pmid": "19586686",
+      "doi": "10.1016/j.ejmech.2009.06.004",
+      "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+      "journal": "Eur J Med Chem",
+      "year": 2009
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "L/kg"
+   },
    "therapeutic_cmax": null
   },
   {
@@ -4796,6 +4854,13 @@
     "matched_on": "chembl_id",
     "unit": "L/kg"
    },
+   "therapeutic_cmax": null
+  },
+  {
+   "inn": "mepenzolate",
+   "chembl_id": "CHEMBL524004",
+   "clearance_iv": null,
+   "vss": null,
    "therapeutic_cmax": null
   },
   {

@@ -84,6 +84,8 @@ def test_binary_rule_consistent(data):
     for r in data["drugs"]:
         for L in LIABS:
             e = r[L]
+            if "label_withheld_A7" in (e.get("flags") or []):
+                continue
             if e["basis"] == "placebo_subtracted" and e.get("risk_difference") is not None:
                 want = int(e["risk_difference"] >= 5 and e["drug_pct"] >= 2 * e["placebo_pct"])
                 assert e["label"] == want, (r["inn"], L)
@@ -94,8 +96,32 @@ def test_absent_terms_record_threshold(data):
         for L in LIABS:
             e = r[L]
             if "absent_below_threshold" in (e.get("flags") or []):
-                assert e.get("label") == 0
+                assert e.get("label") == (None if L == "weight_gain" else 0)
                 assert "threshold_text" in e, (r["inn"], L)
+
+
+def test_weight_gain_withheld(data):
+    # amendment A7: labels under-call weight gain (olanzapine came out
+    # negative), so the label is withheld while the numbers are kept.
+    for r in data["drugs"]:
+        e = r["weight_gain"]
+        assert e["label"] is None, r["inn"]
+        if e.get("risk_difference") is not None:
+            assert "label_withheld_A7" in e["flags"], r["inn"]
+
+
+def test_no_local_or_combo_source(data):
+    """A7: aripiprazole is scored from its oral label, not the depot
+    injection, and no row is sourced from a rejected fallback tier."""
+    assert data_drug(data, "aripiprazole")["eps"]["label"] == 0
+    for r in data["drugs"]:
+        for L in LIABS:
+            fl = r[L].get("flags") or []
+            assert "local_route_label" not in fl and "multi_ingredient_label" not in fl, (r["inn"], L)
+
+
+def data_drug(data, inn):
+    return next(r for r in data["drugs"] if r["inn"] == inn)
 
 
 def test_no_heldout_field(data):

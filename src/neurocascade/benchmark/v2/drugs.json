@@ -65,7 +65,7 @@
    "anchor_pki": {
     "HRH1": 8.23
    },
-   "n_labels": 51,
+   "n_labels": 54,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -742,7 +742,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 59,
+   "n_labels": 63,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -984,7 +984,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 219,
+   "n_labels": 223,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -1161,7 +1161,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 24,
+   "n_labels": 26,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -1453,7 +1453,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 402,
+   "n_labels": 408,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -1908,7 +1908,7 @@
     "HRH1": 8.0,
     "HTR2C": 6.8
    },
-   "n_labels": 69,
+   "n_labels": 70,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -2595,7 +2595,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 80,
+   "n_labels": 79,
    "n_nda_labels": 5,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -2716,7 +2716,7 @@
     "CHRM5": 8.77,
     "HTR2C": 6.61
    },
-   "n_labels": 286,
+   "n_labels": 287,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -3069,7 +3069,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 300,
+   "n_labels": 301,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -3476,7 +3476,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 51,
+   "n_labels": 52,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -3639,7 +3639,7 @@
    "anchor_pki": {
     "HRH1": 8.5
    },
-   "n_labels": 57,
+   "n_labels": 59,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -3750,7 +3750,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 2,
+   "n_labels": 3,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -3769,6 +3769,16 @@
     {
      "set_id": "ca454f96-2e2d-46ed-95af-c741726773de",
      "version": "2",
+     "effective_time": "20241220",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "a654df2a-68bc-43c5-bd97-ad43f8679dc0",
+     "version": "9",
      "effective_time": "20241220",
      "application_number": null,
      "route": null,
@@ -3854,7 +3864,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 262,
+   "n_labels": 265,
    "n_nda_labels": 4,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -4455,7 +4465,7 @@
    "anchor_pki": {
     "DRD2": 9.34
    },
-   "n_labels": 34,
+   "n_labels": 36,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -4841,7 +4851,7 @@
    "anchor_pki": {
     "HRH1": 8.1
    },
-   "n_labels": 91,
+   "n_labels": 93,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -5069,7 +5079,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 6,
+   "n_labels": 8,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -5123,6 +5133,26 @@
      "set_id": "f03a68d5-ed00-8a2d-af68-28be909ea85f",
      "version": "14",
      "effective_time": "20221212",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "15e150c7-1347-40fb-9f58-c390521bc6f9",
+     "version": "6",
+     "effective_time": "20160414",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "50bed84c-7833-4a29-ac8e-513189e2ecb1",
+     "version": "1",
+     "effective_time": "20120222",
      "application_number": null,
      "route": null,
      "matched_on": "spl_product_data_elements",
@@ -5569,7 +5599,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 15,
+   "n_labels": 19,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -5940,7 +5970,7 @@
     "DRD2": 6.56,
     "HTR2C": 8.18
    },
-   "n_labels": 34,
+   "n_labels": 35,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -6171,7 +6201,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 27,
+   "n_labels": 28,
    "n_nda_labels": 4,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -6283,7 +6313,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 20,
+   "n_labels": 21,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -6301,6 +6331,16 @@
      "set_id": "48cd2b13-ccbd-4748-a571-485f7f4e1069",
      "version": "3",
      "effective_time": "20151008",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "8a7d514e-94ec-47ae-9d69-711b12a948ba",
+     "version": "19",
+     "effective_time": "20140306",
      "application_number": null,
      "route": null,
      "matched_on": "spl_product_data_elements",
@@ -6351,16 +6391,6 @@
      "set_id": "fcbf7639-9bc8-4669-bf36-c07a55dc58f6",
      "version": "4",
      "effective_time": "20120319",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
-     "mentions_placebo": false
-    },
-    {
-     "set_id": "aaccfdf4-ce07-4799-9a7c-14dc0588a2a3",
-     "version": "1",
-     "effective_time": "20110620",
      "application_number": null,
      "route": null,
      "matched_on": "spl_product_data_elements",
@@ -6493,7 +6523,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 53,
+   "n_labels": 54,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -6723,7 +6753,7 @@
     "CHRM4": 9.56,
     "CHRM5": 8.63
    },
-   "n_labels": 226,
+   "n_labels": 227,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -7072,7 +7102,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 389,
+   "n_labels": 395,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -7693,7 +7723,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 197,
+   "n_labels": 199,
    "n_nda_labels": 6,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -7807,7 +7837,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 432,
+   "n_labels": 435,
    "n_nda_labels": 8,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -8148,7 +8178,7 @@
     "ADRA1A": 6.29,
     "ADRA1D": 6.22
    },
-   "n_labels": 353,
+   "n_labels": 357,
    "n_nda_labels": 9,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -8367,7 +8397,7 @@
     "CHRM4": 8.07,
     "CHRM5": 8.64
    },
-   "n_labels": 17,
+   "n_labels": 18,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -8602,7 +8632,7 @@
     "CHRM4": 8.51,
     "CHRM5": 8.66
    },
-   "n_labels": 50,
+   "n_labels": 52,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -8701,107 +8731,6 @@
      "matched_on": "substance_name",
      "has_ar_table": true,
      "mentions_placebo": true
-    }
-   ],
-   "v1": null
-  },
-  {
-   "inn": "phenol",
-   "chembl_id": "CHEMBL14060",
-   "atc": [
-    "C05BB05",
-    "D08AE03",
-    "N01BX03",
-    "R02AA19"
-   ],
-   "first_approval": null,
-   "selected_by": [
-    "atc_N"
-   ],
-   "anchor_pki": {},
-   "n_labels": 12,
-   "n_nda_labels": 0,
-   "any_label_mentions_placebo": true,
-   "labels": [
-    {
-     "set_id": "7ce2fc1e-7520-4d04-be45-2baba32ca24a",
-     "version": "10",
-     "effective_time": "20250701",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
-     "mentions_placebo": false
-    },
-    {
-     "set_id": "c228ff95-7052-465f-9344-22915b2ce4c8",
-     "version": "15",
-     "effective_time": "20230320",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
-     "mentions_placebo": false
-    },
-    {
-     "set_id": "6168205f-e917-4826-9519-f444aa51a5b2",
-     "version": "9",
-     "effective_time": "20220520",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
-     "mentions_placebo": false
-    },
-    {
-     "set_id": "11d14362-8f69-4c30-b487-5d05f6462bd7",
-     "version": "8",
-     "effective_time": "20190909",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": true,
-     "mentions_placebo": false
-    },
-    {
-     "set_id": "6600dfea-fcf2-4f89-ab45-66282dee969f",
-     "version": "17",
-     "effective_time": "20180403",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": true,
-     "mentions_placebo": true
-    },
-    {
-     "set_id": "0797d0b2-a61d-4db8-a2ce-ce973a2eb064",
-     "version": "3",
-     "effective_time": "20150713",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
-     "mentions_placebo": false
-    },
-    {
-     "set_id": "33ad349a-2969-4591-8c67-4d2a422a5ffb",
-     "version": "3",
-     "effective_time": "20150709",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
-     "mentions_placebo": false
-    },
-    {
-     "set_id": "10f9f923-d51b-4fc7-a671-51a3fafdf58c",
-     "version": "1",
-     "effective_time": "20140417",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
-     "mentions_placebo": false
     }
    ],
    "v1": null
@@ -9335,7 +9264,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 6,
+   "n_labels": 7,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -9379,6 +9308,16 @@
      "set_id": "a8479ec0-204e-11e1-aa3f-a3c74724019b",
      "version": "8",
      "effective_time": "20200515",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "9129bb95-7846-4ed7-bd03-0c17d8963447",
+     "version": "3",
+     "effective_time": "20180731",
      "application_number": null,
      "route": null,
      "matched_on": "spl_product_data_elements",
@@ -9536,7 +9475,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 19,
+   "n_labels": 24,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -9650,7 +9589,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 48,
+   "n_labels": 49,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -10272,7 +10211,7 @@
     "CHRM2": 9.1,
     "CHRM3": 9.1
    },
-   "n_labels": 83,
+   "n_labels": 84,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -10513,7 +10452,7 @@
     "ADRA1D": 7.24,
     "HTR2C": 7.62
    },
-   "n_labels": 219,
+   "n_labels": 225,
    "n_nda_labels": 5,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -10618,6 +10557,34 @@
     "inn": "doxepin",
     "split": "train"
    }
+  },
+  {
+   "inn": "ambenonium",
+   "chembl_id": "CHEMBL1652",
+   "atc": [
+    "N07AA30"
+   ],
+   "first_approval": 1956,
+   "selected_by": [
+    "atc_N"
+   ],
+   "anchor_pki": {},
+   "n_labels": 1,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "d323d428-97c7-495d-8f65-58b5f0e8afda",
+     "version": "7",
+     "effective_time": "20141212",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
   },
   {
    "inn": "cevimeline",
@@ -10732,6 +10699,38 @@
      "matched_on": "substance_name",
      "has_ar_table": false,
      "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "cisapride",
+   "chembl_id": "CHEMBL1729",
+   "atc": [
+    "A03FA02"
+   ],
+   "first_approval": 1993,
+   "selected_by": [
+    "anchor_pki"
+   ],
+   "anchor_pki": {
+    "DRD2": 6.8,
+    "ADRA1D": 7.03,
+    "HTR2C": 6.4
+   },
+   "n_labels": 1,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "fdd8f491-28d6-49ae-9935-0224b8815e84",
+     "version": "2",
+     "effective_time": "20091006",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
     }
    ],
    "v1": null
@@ -11227,7 +11226,7 @@
     "CHRM4": 8.84,
     "CHRM5": 8.22
    },
-   "n_labels": 38,
+   "n_labels": 39,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -12332,7 +12331,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 381,
+   "n_labels": 386,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -12721,6 +12720,38 @@
    "v1": null
   },
   {
+   "inn": "aspirin",
+   "chembl_id": "CHEMBL25",
+   "atc": [
+    "A01AD05",
+    "B01AC06",
+    "N02BA01",
+    "N02BA51",
+    "N02BA71"
+   ],
+   "first_approval": 1950,
+   "selected_by": [
+    "atc_N"
+   ],
+   "anchor_pki": {},
+   "n_labels": 1,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "4c2a1403-3862-1efd-0a91-444989222b37",
+     "version": "6",
+     "effective_time": "20150925",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
    "inn": "milnacipran",
    "chembl_id": "CHEMBL259209",
    "atc": [
@@ -12882,7 +12913,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 59,
+   "n_labels": 61,
    "n_nda_labels": 5,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -13042,7 +13073,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 16,
+   "n_labels": 17,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -13337,17 +13368,17 @@
    "anchor_pki": {},
    "n_labels": 3,
    "n_nda_labels": 0,
-   "any_label_mentions_placebo": true,
+   "any_label_mentions_placebo": false,
    "labels": [
     {
-     "set_id": "c830369b-6cac-c661-e053-2995a90a61c2",
-     "version": "4",
-     "effective_time": "20250227",
+     "set_id": "ac4eba14-1bf9-7821-e053-2995a90a9a64",
+     "version": "8",
+     "effective_time": "20221102",
      "application_number": null,
      "route": null,
      "matched_on": "spl_product_data_elements",
-     "has_ar_table": true,
-     "mentions_placebo": true
+     "has_ar_table": false,
+     "mentions_placebo": false
     },
     {
      "set_id": "ab5a8fa3-2eb2-44fd-bf9b-a1ac114e0c9b",
@@ -13467,7 +13498,7 @@
     "DRD2": 10.83,
     "HRH1": 8.35
    },
-   "n_labels": 81,
+   "n_labels": 85,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -13688,7 +13719,7 @@
     "HRH1": 9.0,
     "HTR2C": 8.61
    },
-   "n_labels": 8,
+   "n_labels": 9,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -13775,9 +13806,9 @@
      "mentions_placebo": true
     },
     {
-     "set_id": "86a40942-8d6b-478c-995f-3c346b197463",
-     "version": "4",
-     "effective_time": "20170224",
+     "set_id": "17209c32-56eb-4f84-954d-aed7b7a1b18d",
+     "version": "17",
+     "effective_time": "20211231",
      "application_number": null,
      "route": null,
      "matched_on": "spl_product_data_elements",
@@ -14028,7 +14059,7 @@
    "anchor_pki": {
     "HTR2C": 7.82
    },
-   "n_labels": 2,
+   "n_labels": 1,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -14036,16 +14067,6 @@
      "set_id": "7cbbb12f-760d-487d-b789-ae2d52a3e01f",
      "version": "23",
      "effective_time": "20180429",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": true,
-     "mentions_placebo": true
-    },
-    {
-     "set_id": "5b42e05f-33dd-49a0-ae24-a316f07a4b8d",
-     "version": "1",
-     "effective_time": "20160725",
      "application_number": null,
      "route": null,
      "matched_on": "spl_product_data_elements",
@@ -14364,7 +14385,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 92,
+   "n_labels": 93,
    "n_nda_labels": 12,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -14655,7 +14676,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 190,
+   "n_labels": 189,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -14765,7 +14786,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 33,
+   "n_labels": 34,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -14885,7 +14906,7 @@
     "CHRM5": 6.01,
     "HTR2C": 7.21
    },
-   "n_labels": 428,
+   "n_labels": 430,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -15074,7 +15095,7 @@
     "ADRA1D": 7.06,
     "HTR2C": 7.75
    },
-   "n_labels": 42,
+   "n_labels": 43,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -15469,7 +15490,7 @@
    "anchor_pki": {
     "ADRA1D": 6.59
    },
-   "n_labels": 205,
+   "n_labels": 206,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -15683,7 +15704,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 1,
+   "n_labels": 2,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -15696,6 +15717,16 @@
       "ORAL"
      ],
      "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "f1a1100e-8318-1596-e053-2995a90a533e",
+     "version": "4",
+     "effective_time": "20240130",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
      "has_ar_table": true,
      "mentions_placebo": true
     }
@@ -15902,7 +15933,7 @@
     "ADRA1D": 7.62,
     "HTR2C": 7.54
    },
-   "n_labels": 3,
+   "n_labels": 4,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -15937,6 +15968,16 @@
      "matched_on": "spl_product_data_elements",
      "has_ar_table": false,
      "mentions_placebo": false
+    },
+    {
+     "set_id": "1bfd4827-5123-4dbb-8f94-7b097f5bfd5c",
+     "version": "1",
+     "effective_time": "20120908",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
     }
    ],
    "v1": null
@@ -15962,7 +16003,7 @@
     "ADRA1D": 6.87,
     "HTR2C": 8.09
    },
-   "n_labels": 164,
+   "n_labels": 172,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -16226,10 +16267,20 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 1,
+   "n_labels": 2,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
+    {
+     "set_id": "7801badd-0e55-46e2-a21b-86c9b5f264a4",
+     "version": "2",
+     "effective_time": "20120328",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
     {
      "set_id": "f2a8b4cb-e6ae-4aaf-bab1-4510ca7a642d",
      "version": "2",
@@ -16257,7 +16308,7 @@
    "anchor_pki": {
     "HRH1": 6.68
    },
-   "n_labels": 62,
+   "n_labels": 63,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -16374,7 +16425,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 247,
+   "n_labels": 248,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -16516,7 +16567,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 2,
+   "n_labels": 4,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -16541,6 +16592,26 @@
      "matched_on": "spl_product_data_elements",
      "has_ar_table": false,
      "mentions_placebo": false
+    },
+    {
+     "set_id": "575ceb1b-e3f8-44e6-8122-e455d06e8c12",
+     "version": "1",
+     "effective_time": "20130319",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "326b49bd-3639-43ad-bfff-8f23ca8697b6",
+     "version": "8",
+     "effective_time": "20101005",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
     }
    ],
    "v1": {
@@ -16559,7 +16630,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 68,
+   "n_labels": 51,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -16940,7 +17011,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 9,
+   "n_labels": 14,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -16965,6 +17036,36 @@
       "ORAL"
      ],
      "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "b735c239-d335-4320-b31d-ae56a4d0fcdb",
+     "version": "4",
+     "effective_time": "20230425",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "aebefc5e-5487-42ef-98f7-01d26eb38362",
+     "version": "10",
+     "effective_time": "20180827",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "352b0d40-a773-4d80-967a-6c4cfb14c786",
+     "version": "2",
+     "effective_time": "20170814",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
      "has_ar_table": false,
      "mentions_placebo": false
     },
@@ -16997,36 +17098,6 @@
      "matched_on": "spl_product_data_elements",
      "has_ar_table": false,
      "mentions_placebo": false
-    },
-    {
-     "set_id": "82ce83dd-6b7c-4efa-9ad4-d31ddc1b4517",
-     "version": "4",
-     "effective_time": "20160113",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
-     "mentions_placebo": false
-    },
-    {
-     "set_id": "144ce866-0f25-44db-9536-b9d2cec2b022",
-     "version": "2",
-     "effective_time": "20160113",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
-     "mentions_placebo": false
-    },
-    {
-     "set_id": "3771f072-c50f-43e2-8aa2-d66ce43121da",
-     "version": "1",
-     "effective_time": "20100121",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
-     "mentions_placebo": false
     }
    ],
    "v1": null
@@ -17046,7 +17117,7 @@
     "DRD2": 7.89,
     "ADRA1D": 6.28
    },
-   "n_labels": 387,
+   "n_labels": 390,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -17170,7 +17241,7 @@
     "CHRM4": 7.47,
     "CHRM5": 7.05
    },
-   "n_labels": 269,
+   "n_labels": 270,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -17525,14 +17596,54 @@
    "anchor_pki": {
     "HRH1": 9.04
    },
-   "n_labels": 1,
+   "n_labels": 5,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
     {
-     "set_id": "76f50be7-4c26-4c08-bac3-8d16867409b9",
-     "version": "1",
-     "effective_time": "20100301",
+     "set_id": "aba49438-efbd-4a16-a723-a9db138a96f4",
+     "version": "2",
+     "effective_time": "20110310",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "b6a3d770-fd57-4060-8f43-c5025cc9f379",
+     "version": "6",
+     "effective_time": "20110204",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "65a954d9-1d77-47d8-9481-cf9b2a806b87",
+     "version": "6",
+     "effective_time": "20110204",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "368bb8cc-31e2-40c2-a919-ec835ae72279",
+     "version": "2",
+     "effective_time": "20100526",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "89a941ee-7121-4208-af85-aaf8d810b444",
+     "version": "10",
+     "effective_time": "20091027",
      "application_number": null,
      "route": null,
      "matched_on": "spl_product_data_elements",
@@ -17555,7 +17666,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 112,
+   "n_labels": 115,
    "n_nda_labels": 5,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -17802,7 +17913,7 @@
     "ADRA1D": 6.18,
     "HTR2C": 6.28
    },
-   "n_labels": 119,
+   "n_labels": 122,
    "n_nda_labels": 14,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -17921,6 +18032,37 @@
    "v1": null
   },
   {
+   "inn": "mepenzolate",
+   "chembl_id": "CHEMBL524004",
+   "atc": [
+    "A03AB12"
+   ],
+   "first_approval": 1956,
+   "selected_by": [
+    "anchor_pki"
+   ],
+   "anchor_pki": {
+    "CHRM2": 9.17,
+    "CHRM3": 8.59
+   },
+   "n_labels": 1,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "71b7afe6-4625-4467-adb7-510769da2b17",
+     "version": "7",
+     "effective_time": "20170815",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
    "inn": "dextromethorphan",
    "chembl_id": "CHEMBL52440",
    "atc": [
@@ -17932,7 +18074,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 2,
+   "n_labels": 3,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -17950,6 +18092,16 @@
      "set_id": "6a9c6a8e-d21f-369d-e053-2a91aa0a5c33",
      "version": "1",
      "effective_time": "20180424",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "71438c2f-fdf7-451f-a7fd-bcf20f60fb90",
+     "version": "1",
+     "effective_time": "20101027",
      "application_number": null,
      "route": null,
      "matched_on": "spl_product_data_elements",
@@ -18193,20 +18345,10 @@
     "CHRM5": 7.01,
     "HTR2C": 7.08
    },
-   "n_labels": 3,
+   "n_labels": 2,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
-    {
-     "set_id": "d222d68c-911e-48a9-9bde-a1ca7e992d18",
-     "version": "2",
-     "effective_time": "20220311",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
-     "mentions_placebo": false
-    },
     {
      "set_id": "4e1347d9-c312-40d6-b8b3-3586dd48066b",
      "version": "2",
@@ -18247,7 +18389,7 @@
     "ADRA1A": 7.96,
     "ADRA1D": 7.39
    },
-   "n_labels": 199,
+   "n_labels": 200,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -18368,7 +18510,7 @@
     "HRH1": 6.43,
     "HTR2C": 6.81
    },
-   "n_labels": 312,
+   "n_labels": 315,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -18591,7 +18733,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 43,
+   "n_labels": 44,
    "n_nda_labels": 5,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -19187,7 +19329,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 334,
+   "n_labels": 336,
    "n_nda_labels": 6,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -19308,7 +19450,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 91,
+   "n_labels": 92,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -19592,7 +19734,7 @@
    "anchor_pki": {
     "DRD2": 8.72
    },
-   "n_labels": 28,
+   "n_labels": 29,
    "n_nda_labels": 12,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -19708,7 +19850,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 108,
+   "n_labels": 112,
    "n_nda_labels": 6,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -19932,7 +20074,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 20,
+   "n_labels": 23,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -20163,7 +20305,7 @@
     "ADRA1B": 8.92,
     "ADRA1D": 9.07
    },
-   "n_labels": 120,
+   "n_labels": 124,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -20277,7 +20419,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 68,
+   "n_labels": 69,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -20396,7 +20538,7 @@
     "ADRA1D": 6.89,
     "HTR2C": 7.33
    },
-   "n_labels": 284,
+   "n_labels": 289,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -20521,7 +20663,7 @@
     "ADRA1D": 6.35,
     "HTR2C": 6.6
    },
-   "n_labels": 11,
+   "n_labels": 12,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -20637,7 +20779,7 @@
     "ADRA1D": 7.28,
     "HTR2C": 8.5
    },
-   "n_labels": 335,
+   "n_labels": 338,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -20875,7 +21017,7 @@
     "CHRM4": 6.3,
     "HTR2C": 6.67
    },
-   "n_labels": 131,
+   "n_labels": 134,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -21161,7 +21303,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 490,
+   "n_labels": 493,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -21526,7 +21668,7 @@
     "ADRA1D": 7.05,
     "HTR2C": 8.19
    },
-   "n_labels": 331,
+   "n_labels": 342,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -21751,7 +21893,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 27,
+   "n_labels": 29,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -21986,7 +22128,7 @@
     "HRH1": 8.8,
     "HTR2C": 7.41
    },
-   "n_labels": 250,
+   "n_labels": 251,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -22103,7 +22245,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 112,
+   "n_labels": 114,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -22223,7 +22365,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 297,
+   "n_labels": 307,
    "n_nda_labels": 8,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -22548,7 +22690,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 42,
+   "n_labels": 43,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -22662,7 +22804,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 112,
+   "n_labels": 114,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -22776,7 +22918,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 341,
+   "n_labels": 346,
    "n_nda_labels": 9,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -23038,7 +23180,7 @@
     "DRD2": 6.04,
     "ADRA1D": 6.66
    },
-   "n_labels": 173,
+   "n_labels": 176,
    "n_nda_labels": 66,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -23425,7 +23567,7 @@
    "anchor_pki": {
     "HTR2C": 6.81
    },
-   "n_labels": 253,
+   "n_labels": 256,
    "n_nda_labels": 7,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -23816,7 +23958,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 39,
+   "n_labels": 40,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -23938,7 +24080,7 @@
     "ADRA1D": 9.49,
     "HTR2C": 6.54
    },
-   "n_labels": 177,
+   "n_labels": 179,
    "n_nda_labels": 8,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -24058,7 +24200,7 @@
     "ADRA1A": 8.22,
     "HTR2C": 9.26
    },
-   "n_labels": 145,
+   "n_labels": 146,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -24179,7 +24321,7 @@
     "ADRA1B": 8.55,
     "ADRA1D": 8.5
    },
-   "n_labels": 41,
+   "n_labels": 43,
    "n_nda_labels": 1,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -24304,7 +24446,7 @@
     "ADRA1D": 8.71,
     "HTR2C": 8.56
    },
-   "n_labels": 106,
+   "n_labels": 108,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -24434,7 +24576,7 @@
     "ADRA1D": 7.35,
     "HTR2C": 8.55
    },
-   "n_labels": 292,
+   "n_labels": 294,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -24560,7 +24702,7 @@
     "ADRA1B": 7.0,
     "ADRA1D": 7.32
    },
-   "n_labels": 440,
+   "n_labels": 441,
    "n_nda_labels": 4,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -25049,7 +25191,7 @@
     "ADRA1D": 7.8,
     "HTR2C": 7.39
    },
-   "n_labels": 147,
+   "n_labels": 148,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -25169,10 +25311,20 @@
     "CHRM1": 7.12,
     "CHRM2": 6.78
    },
-   "n_labels": 1,
+   "n_labels": 2,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
+    {
+     "set_id": "c3a1a47a-27ce-4565-9d6a-a2d8314357a6",
+     "version": "3",
+     "effective_time": "20170918",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
     {
      "set_id": "c99b7dff-05cc-4590-8550-5e9280066e75",
      "version": "2",
@@ -25197,7 +25349,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 277,
+   "n_labels": 282,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -25512,7 +25664,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 24,
+   "n_labels": 25,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -26021,7 +26173,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 674,
+   "n_labels": 694,
    "n_nda_labels": 35,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -26138,7 +26290,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 185,
+   "n_labels": 193,
    "n_nda_labels": 16,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -26252,7 +26404,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 143,
+   "n_labels": 144,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -26492,7 +26644,7 @@
     "CHRM5": 6.44,
     "HTR2C": 6.25
    },
-   "n_labels": 414,
+   "n_labels": 415,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -26844,7 +26996,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 68,
+   "n_labels": 69,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -27080,7 +27232,7 @@
    "anchor_pki": {
     "DRD2": 7.68
    },
-   "n_labels": 45,
+   "n_labels": 46,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -27202,7 +27354,7 @@
     "ADRA1B": 9.21,
     "ADRA1D": 10.24
    },
-   "n_labels": 185,
+   "n_labels": 186,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -27320,7 +27472,7 @@
    "anchor_pki": {
     "ADRA1D": 6.07
    },
-   "n_labels": 41,
+   "n_labels": 43,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -27442,7 +27594,7 @@
     "ADRA1D": 8.31,
     "HTR2C": 8.61
    },
-   "n_labels": 254,
+   "n_labels": 258,
    "n_nda_labels": 2,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -27561,14 +27713,34 @@
    "anchor_pki": {
     "HRH1": 8.8
    },
-   "n_labels": 1,
+   "n_labels": 3,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
     {
+     "set_id": "60af3ee8-75cf-4e7e-b90f-c426d6f2cabd",
+     "version": "1",
+     "effective_time": "20101102",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
      "set_id": "aed2a15b-ffc5-4a7d-aa3f-b4dbcae14346",
      "version": "1",
      "effective_time": "20101028",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "DD62A5EB-DD5A-4329-8696-07ACB555AF10",
+     "version": "1",
+     "effective_time": "20081128",
      "application_number": null,
      "route": null,
      "matched_on": "spl_product_data_elements",
@@ -27705,7 +27877,7 @@
    "anchor_pki": {
     "DRD2": 7.38
    },
-   "n_labels": 174,
+   "n_labels": 178,
    "n_nda_labels": 4,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -28137,7 +28309,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 702,
+   "n_labels": 705,
    "n_nda_labels": 7,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -28787,7 +28959,7 @@
     "CHRM5": 7.7,
     "HTR2C": 6.55
    },
-   "n_labels": 59,
+   "n_labels": 60,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -28901,7 +29073,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 101,
+   "n_labels": 102,
    "n_nda_labels": 3,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -29107,7 +29279,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 290,
+   "n_labels": 297,
    "n_nda_labels": 8,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -29223,7 +29395,7 @@
    "anchor_pki": {
     "HRH1": 7.57
    },
-   "n_labels": 27,
+   "n_labels": 31,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -29278,6 +29450,16 @@
      "mentions_placebo": true
     },
     {
+     "set_id": "f9a15b63-f48e-4802-bd4d-53fdb65ca6a2",
+     "version": "6",
+     "effective_time": "20180910",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
      "set_id": "f6c3d4ca-0c82-4d74-b147-d3dede8e68f7",
      "version": "3816",
      "effective_time": "20180329",
@@ -29295,16 +29477,6 @@
      "route": null,
      "matched_on": "spl_product_data_elements",
      "has_ar_table": true,
-     "mentions_placebo": true
-    },
-    {
-     "set_id": "ff8b8d50-2ae5-40ca-aa4d-ad426823bceb",
-     "version": "2",
-     "effective_time": "20161018",
-     "application_number": null,
-     "route": null,
-     "matched_on": "spl_product_data_elements",
-     "has_ar_table": false,
      "mentions_placebo": true
     }
    ],
@@ -29465,7 +29637,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 996,
+   "n_labels": 1000,
    "n_nda_labels": 4,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -29989,7 +30161,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 134,
+   "n_labels": 144,
    "n_nda_labels": 5,
    "any_label_mentions_placebo": true,
    "labels": [
@@ -30351,7 +30523,7 @@
     "atc_N"
    ],
    "anchor_pki": {},
-   "n_labels": 8,
+   "n_labels": 9,
    "n_nda_labels": 0,
    "any_label_mentions_placebo": false,
    "labels": [
@@ -30432,9 +30604,9 @@
      "mentions_placebo": false
     },
     {
-     "set_id": "a27d7877-38e4-4437-afd3-3d570c0dead1",
-     "version": "8",
-     "effective_time": "20080626",
+     "set_id": "d6fa7f20-5125-ff79-4e8d-00542a13472a",
+     "version": "1",
+     "effective_time": "20090909",
      "application_number": null,
      "route": null,
      "matched_on": "spl_product_data_elements",

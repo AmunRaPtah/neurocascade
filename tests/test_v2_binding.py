@@ -28,7 +28,7 @@ def test_panel_resolved_every_target():
 
 def test_every_drug_present():
     assert set(BINDING["drugs"]) == DRUG_INNS
-    assert len(BINDING["drugs"]) == 331
+    assert len(BINDING["drugs"]) == len(DRUGS["drugs"])
 
 
 def test_no_heldout_membership_recorded():

@@ -52,8 +52,17 @@ OUT = V2 / "truth/liabilities.json"
 CACHE = Path(os.environ.get("NC_V2_CACHE", "/root/nc-v2-cache")) / "liab/labels.jsonl.gz"
 
 LIABS = ("eps", "sedation", "weight_gain", "anticholinergic", "orthostatic_hypotension")
-LOCAL_ROUTES = {"OPHTHALMIC", "TOPICAL", "NASAL", "OTIC", "CUTANEOUS", "VAGINAL", "RECTAL",
-                "DENTAL", "INTRAVITREAL", "AURICULAR (OTIC)", "TRANSMUCOSAL"}
+LOCAL_ROUTES = {"OPHTHALMIC", "TOPICAL", "OTIC", "CUTANEOUS", "VAGINAL",
+                "DENTAL", "INTRAVITREAL", "AURICULAR (OTIC)", "TRANSMUCOSAL",
+                # amendment A7: local anaesthesia and skin-test routes
+                "INFILTRATION", "EPIDURAL", "PERINEURAL", "SUBMUCOSAL", "PERCUTANEOUS",
+                "INTRADERMAL", "INTRACAVERNOUS", "INTRA-ARTICULAR"}
+# amendment A7: nasal, inhaled and rectal labels count as local unless the
+# drug is a nervous-system drug (ATC N) given that way for systemic effect
+# (diazepam nasal spray and rectal gel, inhaled levodopa, volatile
+# anaesthetics), so inhaled bronchodilators, antihistamine nasal sprays and
+# haemorrhoid products are excluded.
+AIRWAY_ROUTES = {"NASAL", "RESPIRATORY (INHALATION)", "INHALATION", "RECTAL"}
 FOOTNOTE_CHARS = "*†‡§¶#‖"
 POOLED_WORDS = ("all doses", "total", "pooled", "combined", "all ")
 PEDIATRIC = re.compile(r"pediatric|paediatric|children|adolescent|\bchild\b", re.I)
@@ -573,9 +582,10 @@ def single_ingredient(label: dict) -> bool:
     return len(subs) <= 1 and " and " not in gen and "/" not in gen
 
 
-def systemic(meta: dict) -> bool:
+def systemic(meta: dict, atc: list[str]) -> bool:
     routes = {r.upper() for r in meta.get("route") or []}
-    return not routes or bool(routes - LOCAL_ROUTES)
+    local = LOCAL_ROUTES | (set() if any(c.startswith("N") for c in atc) else AIRWAY_ROUTES)
+    return not routes or bool(routes - local)
 
 
 def analyse_label(inn: str, label: dict) -> dict:
@@ -601,13 +611,13 @@ def analyse_label(inn: str, label: dict) -> dict:
 
 
 def select_label(drug: dict, labels: dict[str, dict]) -> tuple[dict | None, dict | None, dict | None, list[str]]:
-    metas = [m for m in drug["labels"] if m["set_id"] in labels]
-    tiers = []
-    for si in (True, False):
-        for sy in (True, False):
-            tier = [m for m in metas if single_ingredient(labels[m["set_id"]]) == si and systemic(m) == sy]
-            tiers.append((tier, [] if si else ["multi_ingredient_label"]) )
-            tiers[-1] = (tier, tiers[-1][1] + ([] if sy else ["local_route_label"]))
+    # amendment A7: multi-ingredient and local-route labels are never used
+    # (they were fallback tiers), and oral labels come first so a drug is
+    # scored from its tablet label rather than a depot injection.
+    metas = [m for m in drug["labels"] if m["set_id"] in labels
+             and single_ingredient(labels[m["set_id"]]) and systemic(m, drug.get("atc") or [])]
+    metas.sort(key=lambda m: "ORAL" not in (m.get("route") or []))
+    tiers = [(metas, [])]
     for want in ("placebo", "table", "prose"):
         for tier, fl in tiers:
             for m in tier:
@@ -650,7 +660,7 @@ def build(rules: dict, drugs: list[dict], labels: dict[str, dict]) -> list[dict]
         rec = {"inn": inn}
         if lab is None:
             for L in LIABS:
-                rec[L] = {"basis": "absent", "label": None, "flags": ["no_label_with_adverse_reactions"],
+                rec[L] = {"basis": "absent", "label": None, "flags": ["no_eligible_label"],
                           "arms": [], "source": None}
             rows.append(rec)
             continue
@@ -752,6 +762,15 @@ def build(rules: dict, drugs: list[dict], labels: dict[str, dict]) -> list[dict]
                     entry.update({"label": None, "source": provenance(m, lab, None, None)})
                     entry["flags"].append("prose_only")
                 rec[L] = entry
+        # amendment A7: weight gain is withheld. Labels report it mostly
+        # outside the adverse-reaction tables (a "Weight Gain" warning with % of
+        # patients gaining >=7%), so a table-only read calls olanzapine
+        # negative. The extracted numbers stay for reference; the label waits
+        # for a source that measures weight directly.
+        w = rec["weight_gain"]
+        if w.get("label") is not None:
+            w["label"] = None
+            w["flags"] = sorted(set(w.get("flags", [])) | {"label_withheld_A7"})
         rows.append(rec)
     return rows
 

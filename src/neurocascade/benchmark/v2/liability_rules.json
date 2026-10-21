@@ -1,203 +1,210 @@
 {
-  "description": "Pre-specified rules for the v2 placebo-subtracted liability labels (P33.2). Written and committed before any extraction result was inspected. scripts/v2_liabilities.py reads this file and records its sha256 in truth/liabilities.json; changing a rule changes the hash.",
-  "version": 1,
-  "written": "2026-10-21",
-  "term_matching": {
-    "normalisation": "Row label lowercased; footnote markers (*, dagger, double dagger, section sign, superscript letters/digits in <sup>), trailing colons and repeated whitespace removed. Text in parentheses is split off and kept as the row's 'includes' note.",
-    "match": "A row matches a liability when its normalised label (parenthetical removed) equals one of the liability's terms, or when the label is a compound joined by '/', ',' or ' or ' and any component equals a term. Substring matching is not used: 'tardive dyskinesia' must not match 'dyskinesia', 'hypotension' must not match 'orthostatic hypotension'.",
-    "grouped_terms": "A row is a grouped term when its label is one of the liability's grouped_terms, or carries a parenthetical 'includes ...' note, or is a compound containing two or more of the liability's terms. When a placebo-controlled table has a grouped row for a liability, that row is used alone. Otherwise the liability value per arm is the MAX over its matched single-term rows, never the sum (the same patient can report several terms, so summing double-counts)."
+ "description": "Pre-specified rules for the v2 placebo-subtracted liability labels (P33.2). Written and committed before any extraction result was inspected. scripts/v2_liabilities.py reads this file and records its sha256 in truth/liabilities.json; changing a rule changes the hash.",
+ "version": 1,
+ "written": "2026-10-21",
+ "term_matching": {
+  "normalisation": "Row label lowercased; footnote markers (*, dagger, double dagger, section sign, superscript letters/digits in <sup>), trailing colons and repeated whitespace removed. Text in parentheses is split off and kept as the row's 'includes' note.",
+  "match": "A row matches a liability when its normalised label (parenthetical removed) equals one of the liability's terms, or when the label is a compound joined by '/', ',' or ' or ' and any component equals a term. Substring matching is not used: 'tardive dyskinesia' must not match 'dyskinesia', 'hypotension' must not match 'orthostatic hypotension'.",
+  "grouped_terms": "A row is a grouped term when its label is one of the liability's grouped_terms, or carries a parenthetical 'includes ...' note, or is a compound containing two or more of the liability's terms. When a placebo-controlled table has a grouped row for a liability, that row is used alone. Otherwise the liability value per arm is the MAX over its matched single-term rows, never the sum (the same patient can report several terms, so summing double-counts)."
+ },
+ "liabilities": {
+  "eps": {
+   "receptor": "D2",
+   "terms": [
+    "extrapyramidal disorder",
+    "extrapyramidal symptoms",
+    "extrapyramidal syndrome",
+    "extrapyramidal events",
+    "extrapyramidal reactions",
+    "extrapyramidal symptoms (eps)",
+    "eps",
+    "akathisia",
+    "parkinsonism",
+    "drug-induced parkinsonism",
+    "dystonia",
+    "acute dystonia",
+    "muscle rigidity",
+    "cogwheel rigidity",
+    "bradykinesia",
+    "hypokinesia",
+    "oculogyric crisis",
+    "torticollis"
+   ],
+   "grouped_terms": [
+    "extrapyramidal disorder",
+    "extrapyramidal symptoms",
+    "extrapyramidal syndrome",
+    "extrapyramidal events",
+    "extrapyramidal reactions",
+    "eps",
+    "extrapyramidal symptoms (eps)"
+   ],
+   "excluded": {
+    "tremor": "Non-specific: SSRIs, SNRIs, lithium, valproate, beta-agonists and stimulants produce tremor through non-D2 mechanisms. Including it would label most antidepressants EPS-positive and blur the D2 anchor.",
+    "tardive dyskinesia": "Delayed, cumulative syndrome not measured in 3-8 week placebo tables.",
+    "dyskinesia": "In dopaminergic (levodopa, dopamine agonist) labels dyskinesia is a D2 AGONIST effect, the opposite mechanism.",
+    "restlessness": "Not specific to akathisia; also anxiety/activation from serotonergic drugs.",
+    "hypertonia, muscle spasms": "Too broad; mostly musculoskeletal."
+   }
   },
-  "liabilities": {
-    "eps": {
-      "receptor": "D2",
-      "terms": [
-        "extrapyramidal disorder",
-        "extrapyramidal symptoms",
-        "extrapyramidal syndrome",
-        "extrapyramidal events",
-        "extrapyramidal reactions",
-        "extrapyramidal symptoms (eps)",
-        "eps",
-        "akathisia",
-        "parkinsonism",
-        "drug-induced parkinsonism",
-        "dystonia",
-        "acute dystonia",
-        "muscle rigidity",
-        "cogwheel rigidity",
-        "bradykinesia",
-        "hypokinesia",
-        "oculogyric crisis",
-        "torticollis"
-      ],
-      "grouped_terms": [
-        "extrapyramidal disorder",
-        "extrapyramidal symptoms",
-        "extrapyramidal syndrome",
-        "extrapyramidal events",
-        "extrapyramidal reactions",
-        "eps",
-        "extrapyramidal symptoms (eps)"
-      ],
-      "excluded": {
-        "tremor": "Non-specific: SSRIs, SNRIs, lithium, valproate, beta-agonists and stimulants produce tremor through non-D2 mechanisms. Including it would label most antidepressants EPS-positive and blur the D2 anchor.",
-        "tardive dyskinesia": "Delayed, cumulative syndrome not measured in 3-8 week placebo tables.",
-        "dyskinesia": "In dopaminergic (levodopa, dopamine agonist) labels dyskinesia is a D2 AGONIST effect, the opposite mechanism.",
-        "restlessness": "Not specific to akathisia; also anxiety/activation from serotonergic drugs.",
-        "hypertonia, muscle spasms": "Too broad; mostly musculoskeletal."
-      }
-    },
-    "sedation": {
-      "receptor": "H1",
-      "terms": [
-        "somnolence",
-        "sedation",
-        "hypersomnia",
-        "drowsiness",
-        "sleepiness"
-      ],
-      "grouped_terms": [],
-      "excluded": {
-        "fatigue": "Non-specific (also asthenia, depression symptom); not an H1 readout.",
-        "lethargy, asthenia": "Same reason as fatigue.",
-        "insomnia": "Opposite direction."
-      }
-    },
-    "weight_gain": {
-      "receptor": "H1/5-HT2C",
-      "terms": [
-        "weight increased",
-        "weight gain",
-        "increased weight",
-        "body weight increased"
-      ],
-      "grouped_terms": [],
-      "excluded": {
-        "increased appetite": "Upstream of weight gain but a different measured endpoint; kept out so that the label means measured weight change reported as an adverse reaction.",
-        "weight tables (>=7% gain)": "Many labels report categorical weight gain in a separate Warnings table, not the adverse-reaction table. Those tables are not read here (different denominator and definition); only the adverse-reaction row counts."
-      }
-    },
-    "anticholinergic": {
-      "receptor": "M1-M5",
-      "terms": [
-        "dry mouth",
-        "mouth dry",
-        "constipation",
-        "blurred vision",
-        "vision blurred",
-        "vision abnormal",
-        "abnormal vision",
-        "amblyopia",
-        "urinary retention",
-        "urinary hesitation",
-        "urinary hesitancy"
-      ],
-      "grouped_terms": [],
-      "excluded": {
-        "mydriasis, tachycardia": "Rarely tabulated; tachycardia has many non-muscarinic causes.",
-        "nausea, dyspepsia": "Not anticholinergic."
-      },
-      "notes": "amblyopia and vision abnormal are included because pre-MedDRA COSTART labels (paroxetine, older TCAs) code blurred vision that way. Dry mouth and constipation also arise from alpha2 and noradrenergic mechanisms; the label is an anticholinergic-burden PHENOTYPE, not proof of muscarinic block. Terms combine by max."
-    },
-    "orthostatic_hypotension": {
-      "receptor": "alpha1",
-      "terms": [
-        "orthostatic hypotension",
-        "hypotension orthostatic",
-        "postural hypotension",
-        "dizziness postural",
-        "postural dizziness",
-        "orthostatic dizziness",
-        "orthostatic intolerance"
-      ],
-      "grouped_terms": [],
-      "excluded": {
-        "dizziness": "Vestibular/CNS dizziness is reported by almost every CNS drug; only the postural form is alpha1-specific.",
-        "hypotension": "Non-postural; includes vasodilator and volume effects.",
-        "syncope": "Multiple causes (QT, vasovagal)."
-      }
-    }
+  "sedation": {
+   "receptor": "H1",
+   "terms": [
+    "somnolence",
+    "sedation",
+    "hypersomnia",
+    "drowsiness",
+    "sleepiness"
+   ],
+   "grouped_terms": [],
+   "excluded": {
+    "fatigue": "Non-specific (also asthenia, depression symptom); not an H1 readout.",
+    "lethargy, asthenia": "Same reason as fatigue.",
+    "insomnia": "Opposite direction."
+   }
   },
-  "cell_values": {
-    "number": "A cell that is a plain number, optionally followed by '%', is that percentage.",
-    "n_and_pct": "A cell 'a (b)' or 'a (b%)' is count a with percentage b when the column or table header says n (%) or the parenthetical carries a % sign; 'a% (b)' is percentage a. Otherwise the cell is recorded as unparsed and not used.",
-    "less_than": "'<1' (or '< 0.5' etc.) is recorded verbatim as censored; for arithmetic it takes half the bound (0.5 for '<1') and the arm carries censored=true. A binary label that depends on a censored value is still computed but flagged.",
-    "dash_or_blank": "'-', en dash, em dash, '0' or blank in a row that has a value in another arm is 0, flagged dash_as_zero (labels use a dash for 'no cases' or 'below reporting threshold').",
-    "footnotes": "Footnote symbols (*, dagger, letters in <sup>) are stripped before parsing."
+  "weight_gain": {
+   "receptor": "H1/5-HT2C",
+   "terms": [
+    "weight increased",
+    "weight gain",
+    "increased weight",
+    "body weight increased"
+   ],
+   "grouped_terms": [],
+   "excluded": {
+    "increased appetite": "Upstream of weight gain but a different measured endpoint; kept out so that the label means measured weight change reported as an adverse reaction.",
+    "weight tables (>=7% gain)": "Many labels report categorical weight gain in a separate Warnings table, not the adverse-reaction table. Those tables are not read here (different denominator and definition); only the adverse-reaction row counts."
+   }
   },
-  "tables": {
-    "placebo_controlled": "An adverse-reaction table is placebo-controlled when at least one column header (after rowspan/colspan expansion and concatenation of header rows) contains 'placebo' and that column holds numeric cells.",
-    "drug_columns": "Non-placebo numeric columns. If any column header names the drug (INN or brand name from openfda), only those columns are drug arms (active comparators such as haloperidol in a risperidone table are excluded). If no column header names any drug, every non-placebo numeric column is a drug arm and the table is flagged drug_column_unnamed. Columns whose header says 'all doses', 'total', 'pooled' or 'combined' are a pooled drug column.",
-    "n_per_arm": "Read only from the column header cell (N=, n=, n =), never from prose.",
-    "threshold": "The inclusion threshold sentence is recorded verbatim from the table caption or, failing that, the last sentence of the adverse_reactions prose that mentions the table and a percent sign. It is NOT parsed into a number (project rule: no number regexed out of prose).",
-    "population": "Caption text, verbatim, is the population/indication.",
-    "primary_table_rule": "Among a label's placebo-controlled tables: (1) exclude tables whose caption mentions pediatric, paediatric, children, adolescent or child if any adult/unspecified table exists; (2) prefer monotherapy over captions mentioning adjunct/adjunctive/add-on/combination; (3) largest total stated n (drug arms + placebo); tables with no stated n rank after tables with n; (4) first in label order. One primary table per drug, used for all five liabilities; all other placebo-controlled tables are recorded under 'other_tables' with their own values."
+  "anticholinergic": {
+   "receptor": "M1-M5",
+   "terms": [
+    "dry mouth",
+    "mouth dry",
+    "constipation",
+    "blurred vision",
+    "vision blurred",
+    "vision abnormal",
+    "abnormal vision",
+    "amblyopia",
+    "urinary retention",
+    "urinary hesitation",
+    "urinary hesitancy"
+   ],
+   "grouped_terms": [],
+   "excluded": {
+    "mydriasis, tachycardia": "Rarely tabulated; tachycardia has many non-muscarinic causes.",
+    "nausea, dyspepsia": "Not anticholinergic."
+   },
+   "notes": "amblyopia and vision abnormal are included because pre-MedDRA COSTART labels (paroxetine, older TCAs) code blurred vision that way. Dry mouth and constipation also arise from alpha2 and noradrenergic mechanisms; the label is an anticholinergic-burden PHENOTYPE, not proof of muscarinic block. Terms combine by max."
   },
-  "label_selection": {
-    "order": "Labels in drugs.json order (NDA holder first, then by effective_time).",
-    "single_ingredient": "Labels whose openfda.substance_name lists more than one substance, or whose generic_name contains ' and ' or '/', are used only when no single-ingredient label qualifies.",
-    "systemic_route": "Labels whose route is only OPHTHALMIC, TOPICAL, NASAL, OTIC, CUTANEOUS, VAGINAL, RECTAL (local), DENTAL or INTRAVITREAL are used only when no systemic-route label qualifies.",
-    "priority": "First qualifying label that has at least one placebo-controlled adverse-reaction table; failing that, the first label with any adverse-reaction table (absolute fallback); failing that, the first label with adverse-reaction prose (absolute fallback, listed-in-prose only); failing that, absent."
+  "orthostatic_hypotension": {
+   "receptor": "alpha1",
+   "terms": [
+    "orthostatic hypotension",
+    "hypotension orthostatic",
+    "postural hypotension",
+    "dizziness postural",
+    "postural dizziness",
+    "orthostatic dizziness",
+    "orthostatic intolerance"
+   ],
+   "grouped_terms": [],
+   "excluded": {
+    "dizziness": "Vestibular/CNS dizziness is reported by almost every CNS drug; only the postural form is alpha1-specific.",
+    "hypotension": "Non-postural; includes vasodilator and volume effects.",
+    "syncope": "Multiple causes (QT, vasovagal)."
+   }
+  }
+ },
+ "cell_values": {
+  "number": "A cell that is a plain number, optionally followed by '%', is that percentage.",
+  "n_and_pct": "A cell 'a (b)' or 'a (b%)' is count a with percentage b when the column or table header says n (%) or the parenthetical carries a % sign; 'a% (b)' is percentage a. Otherwise the cell is recorded as unparsed and not used.",
+  "less_than": "'<1' (or '< 0.5' etc.) is recorded verbatim as censored; for arithmetic it takes half the bound (0.5 for '<1') and the arm carries censored=true. A binary label that depends on a censored value is still computed but flagged.",
+  "dash_or_blank": "'-', en dash, em dash, '0' or blank in a row that has a value in another arm is 0, flagged dash_as_zero (labels use a dash for 'no cases' or 'below reporting threshold').",
+  "footnotes": "Footnote symbols (*, dagger, letters in <sup>) are stripped before parsing."
+ },
+ "tables": {
+  "placebo_controlled": "An adverse-reaction table is placebo-controlled when at least one column header (after rowspan/colspan expansion and concatenation of header rows) contains 'placebo' and that column holds numeric cells.",
+  "drug_columns": "Non-placebo numeric columns. If any column header names the drug (INN or brand name from openfda), only those columns are drug arms (active comparators such as haloperidol in a risperidone table are excluded). If no column header names any drug, every non-placebo numeric column is a drug arm and the table is flagged drug_column_unnamed. Columns whose header says 'all doses', 'total', 'pooled' or 'combined' are a pooled drug column.",
+  "n_per_arm": "Read only from the column header cell (N=, n=, n =), never from prose.",
+  "threshold": "The inclusion threshold sentence is recorded verbatim from the table caption or, failing that, the last sentence of the adverse_reactions prose that mentions the table and a percent sign. It is NOT parsed into a number (project rule: no number regexed out of prose).",
+  "population": "Caption text, verbatim, is the population/indication.",
+  "primary_table_rule": "Among a label's placebo-controlled tables: (1) exclude tables whose caption mentions pediatric, paediatric, children, adolescent or child if any adult/unspecified table exists; (2) prefer monotherapy over captions mentioning adjunct/adjunctive/add-on/combination; (3) largest total stated n (drug arms + placebo); tables with no stated n rank after tables with n; (4) first in label order. One primary table per drug, used for all five liabilities; all other placebo-controlled tables are recorded under 'other_tables' with their own values."
+ },
+ "label_selection": {
+  "order": "Labels in drugs.json order (NDA holder first, then by effective_time).",
+  "single_ingredient": "Labels whose openfda.substance_name lists more than one substance, or whose generic_name contains ' and ' or '/', are used only when no single-ingredient label qualifies.",
+  "systemic_route": "Labels whose route is only OPHTHALMIC, TOPICAL, NASAL, OTIC, CUTANEOUS, VAGINAL, RECTAL (local), DENTAL or INTRAVITREAL are used only when no systemic-route label qualifies.",
+  "priority": "First qualifying label that has at least one placebo-controlled adverse-reaction table; failing that, the first label with any adverse-reaction table (absolute fallback); failing that, the first label with adverse-reaction prose (absolute fallback, listed-in-prose only); failing that, absent."
+ },
+ "pooling": {
+  "rule": "If the primary table has a pooled drug column ('all doses', 'total', 'pooled', 'combined'), its value is the pooled drug %. Otherwise pooled drug % is the n-weighted mean of the dose arms when every arm states n, else the unweighted mean of the arms. The pooled risk difference is pooled drug % minus placebo %. Per-arm risk differences are also recorded, and max_arm_rd is the largest of them.",
+  "multiple_placebo_columns": "If a table has more than one placebo column, they are pooled by the same rule."
+ },
+ "binary_rule": {
+  "placebo_subtracted": "positive (1) iff pooled risk difference >= 5 percentage points AND pooled drug % >= 2 x placebo %. negative (0) otherwise.",
+  "justification": "This is the FDA labeling convention for 'commonly observed, drug-related' adverse reactions (incidence >= 5% and at least twice placebo; FDA guidance 'Adverse Reactions Section of Labeling for Human Prescription Drug and Biological Products - Content and Format' (2006), and common in PLR labels as 'incidence >= 5% and at least twice that for placebo'), tightened from an absolute 5% floor to a 5-point risk difference so that a common background event (constipation 8% vs placebo 4%) does not pass on the ratio alone. Both conditions must hold: the difference guards against tiny absolute rates with large ratios (2% vs 0.5%), the ratio guards against noisy differences on high-background terms (dry mouth 25% vs 19%).",
+  "absent_below_threshold": "A liability none of whose terms appears in the primary placebo-controlled table is negative (0) with drug_pct and placebo_pct null and flag absent_below_threshold. Justification: label tables list reactions above a stated incidence threshold (usually >=1-5% and more than placebo), so absence implies drug incidence below that threshold or not above placebo; under either the 5-point rule cannot be met when the threshold is <=5%. The verbatim threshold sentence is recorded so a reader can check it.",
+  "absolute_fallback": "When the selected label has no placebo-controlled table: positive (1) iff a mapped term has drug % >= 10 (CIOMS 'very common') in a non-placebo adverse-reaction table; 0 if the table is present and the mapped terms are absent or below 10; null when only prose is available (recorded as listed_in_prose true/false, no number). Every such row carries basis 'absolute_fallback' and flagged true.",
+  "absent": "No usable label or no adverse-reaction section: label null, basis 'absent'.",
+  "parameters": {
+   "rd_pp": 5.0,
+   "ratio": 2.0,
+   "fallback_drug_pct": 10.0
+  }
+ },
+ "heldout": "No held-out field is stored. Consumers apply pipeline.guards.v2_heldout(inn).",
+ "amendments": [
+  {
+   "id": "A1",
+   "date": "2026-10-21",
+   "made_after_seeing": "mirtazapine's primary table came out as 'Table 2: Adverse Reactions Leading to Discontinuation'",
+   "rule": "Tables whose caption (including a title row inside the table) contains 'discontinu' are excluded: they report discontinuation, not incidence.",
+   "affects": "table eligibility only; term map and margin unchanged"
   },
-  "pooling": {
-    "rule": "If the primary table has a pooled drug column ('all doses', 'total', 'pooled', 'combined'), its value is the pooled drug %. Otherwise pooled drug % is the n-weighted mean of the dose arms when every arm states n, else the unweighted mean of the arms. The pooled risk difference is pooled drug % minus placebo %. Per-arm risk differences are also recorded, and max_arm_rd is the largest of them.",
-    "multiple_placebo_columns": "If a table has more than one placebo column, they are pooled by the same rule."
+  {
+   "id": "A2",
+   "date": "2026-10-21",
+   "made_after_seeing": "mirtazapine Tables 3 and 4 tie on n; label order picked the '>=5% and twice placebo' subset table",
+   "rule": "primary_table_rule step (3): ties on total n are broken by the larger number of data rows, then label order.",
+   "affects": "primary-table choice only; term map and margin unchanged"
   },
-  "binary_rule": {
-    "placebo_subtracted": "positive (1) iff pooled risk difference >= 5 percentage points AND pooled drug % >= 2 x placebo %. negative (0) otherwise.",
-    "justification": "This is the FDA labeling convention for 'commonly observed, drug-related' adverse reactions (incidence >= 5% and at least twice placebo; FDA guidance 'Adverse Reactions Section of Labeling for Human Prescription Drug and Biological Products - Content and Format' (2006), and common in PLR labels as 'incidence >= 5% and at least twice that for placebo'), tightened from an absolute 5% floor to a 5-point risk difference so that a common background event (constipation 8% vs placebo 4%) does not pass on the ratio alone. Both conditions must hold: the difference guards against tiny absolute rates with large ratios (2% vs 0.5%), the ratio guards against noisy differences on high-background terms (dry mouth 25% vs 19%).",
-    "absent_below_threshold": "A liability none of whose terms appears in the primary placebo-controlled table is negative (0) with drug_pct and placebo_pct null and flag absent_below_threshold. Justification: label tables list reactions above a stated incidence threshold (usually >=1-5% and more than placebo), so absence implies drug incidence below that threshold or not above placebo; under either the 5-point rule cannot be met when the threshold is <=5%. The verbatim threshold sentence is recorded so a reader can check it.",
-    "absolute_fallback": "When the selected label has no placebo-controlled table: positive (1) iff a mapped term has drug % >= 10 (CIOMS 'very common') in a non-placebo adverse-reaction table; 0 if the table is present and the mapped terms are absent or below 10; null when only prose is available (recorded as listed_in_prose true/false, no number). Every such row carries basis 'absolute_fallback' and flagged true.",
-    "absent": "No usable label or no adverse-reaction section: label null, basis 'absent'.",
-    "parameters": {
-      "rd_pp": 5.0,
-      "ratio": 2.0,
-      "fallback_drug_pct": 10.0
-    }
+  {
+   "id": "A3",
+   "date": "2026-10-21",
+   "made_after_seeing": "a scan of unmatched row labels containing liability words (no outcome values inspected for it): 'weight increase' x7, 'dystonic event(s)' x7, 'extrapyramidal event', 'any/other extrapyramidal event', 'akathisia events', 'vision abnormality', 'drowsy'",
+   "rule": "Row labels (not the term map) are normalised before matching: a leading 'any'/'other'/'all' is dropped; singular 'event' -> 'events'; 'increase' -> 'increased'; 'abnormality/ies' -> 'abnormal'; 'dystonic event(s)' -> 'dystonia'; '<akathisia|parkinsonism|dystonia> event(s)' -> the bare term; 'drowsy'/'daytime drowsiness' -> 'drowsiness'. A row starting 'other' is never treated as the grouped row, so it is combined by max with the named sub-terms.",
+   "affects": "row matching only; the term list, margin and pooling are unchanged"
   },
-  "heldout": "No held-out field is stored. Consumers apply pipeline.guards.v2_heldout(inn).",
-  "amendments": [
-    {
-      "id": "A1",
-      "date": "2026-10-21",
-      "made_after_seeing": "mirtazapine's primary table came out as 'Table 2: Adverse Reactions Leading to Discontinuation'",
-      "rule": "Tables whose caption (including a title row inside the table) contains 'discontinu' are excluded: they report discontinuation, not incidence.",
-      "affects": "table eligibility only; term map and margin unchanged"
-    },
-    {
-      "id": "A2",
-      "date": "2026-10-21",
-      "made_after_seeing": "mirtazapine Tables 3 and 4 tie on n; label order picked the '>=5% and twice placebo' subset table",
-      "rule": "primary_table_rule step (3): ties on total n are broken by the larger number of data rows, then label order.",
-      "affects": "primary-table choice only; term map and margin unchanged"
-    },
-    {
-      "id": "A3",
-      "date": "2026-10-21",
-      "made_after_seeing": "a scan of unmatched row labels containing liability words (no outcome values inspected for it): 'weight increase' x7, 'dystonic event(s)' x7, 'extrapyramidal event', 'any/other extrapyramidal event', 'akathisia events', 'vision abnormality', 'drowsy'",
-      "rule": "Row labels (not the term map) are normalised before matching: a leading 'any'/'other'/'all' is dropped; singular 'event' -> 'events'; 'increase' -> 'increased'; 'abnormality/ies' -> 'abnormal'; 'dystonic event(s)' -> 'dystonia'; '<akathisia|parkinsonism|dystonia> event(s)' -> the bare term; 'drowsy'/'daytime drowsiness' -> 'drowsiness'. A row starting 'other' is never treated as the grouped row, so it is combined by max with the named sub-terms.",
-      "affects": "row matching only; the term list, margin and pooling are unchanged"
-    },
-    {
-      "id": "A4",
-      "date": "2026-10-21",
-      "made_after_seeing": "fluoxetine/clomipramine/trazodone tables place several trials side by side (MDD | OCD | bulimia; adults | children; inpatients | outpatients), each with its own placebo column, and the first build pooled the placebo arms across populations",
-      "rule": "A table whose header has a spanning row splitting the arms into >=2 groups that each contain a placebo and a drug column is treated as one sub-table per group (table_index + column_group); each drug arm is compared only with its own group's placebo. The primary-table rule then runs over the sub-tables, with the group label appended to the caption so the adult and monotherapy steps see it.",
-      "affects": "table structure only"
-    },
-    {
-      "id": "A5",
-      "date": "2026-10-21",
-      "made_after_seeing": "lurasidone Table 20: arm headers span two body columns, which created duplicate arms; and the 'All LATUDA' column was pooled as if it were a dose arm",
-      "rule": "A column whose last header cell is a colspan copy is not a separate arm. A header containing 'all ' (e.g. 'All LATUDA') is a pooled column, like 'total'/'all doses', and is excluded from dose arms.",
-      "affects": "column roles only"
-    },
-    {
-      "id": "A6",
-      "date": "2026-10-21",
-      "made_after_seeing": "spot-check: pimozide's placebo-controlled table (N=20 per arm) reports patient counts, which the first build read as percentages (dry mouth 5 vs 1 read as 5% vs 1%; it is 25% vs 5%)",
-      "rule": "A table is a count table when nothing marks its values as percentages ('%', 'percent', 'incidence', 'rate' absent from caption and headers; no '%' or decimal in any value cell), every arm column states its N, every value is an integer no larger than its column's N, and at least one value is impossible as a rounded percentage of that N (no k <= N has round(100k/N) equal to it; e.g. 14 with N=20). The last condition was added after the first version also caught topiramate Table 6 (N=183/291), whose integer values are percentages. Its cells are converted to 100*count/N and the entry is flagged counts_converted.",
-      "affects": "cell values of count tables only"
-    }
-  ]
+  {
+   "id": "A4",
+   "date": "2026-10-21",
+   "made_after_seeing": "fluoxetine/clomipramine/trazodone tables place several trials side by side (MDD | OCD | bulimia; adults | children; inpatients | outpatients), each with its own placebo column, and the first build pooled the placebo arms across populations",
+   "rule": "A table whose header has a spanning row splitting the arms into >=2 groups that each contain a placebo and a drug column is treated as one sub-table per group (table_index + column_group); each drug arm is compared only with its own group's placebo. The primary-table rule then runs over the sub-tables, with the group label appended to the caption so the adult and monotherapy steps see it.",
+   "affects": "table structure only"
+  },
+  {
+   "id": "A5",
+   "date": "2026-10-21",
+   "made_after_seeing": "lurasidone Table 20: arm headers span two body columns, which created duplicate arms; and the 'All LATUDA' column was pooled as if it were a dose arm",
+   "rule": "A column whose last header cell is a colspan copy is not a separate arm. A header containing 'all ' (e.g. 'All LATUDA') is a pooled column, like 'total'/'all doses', and is excluded from dose arms.",
+   "affects": "column roles only"
+  },
+  {
+   "id": "A6",
+   "date": "2026-10-21",
+   "made_after_seeing": "spot-check: pimozide's placebo-controlled table (N=20 per arm) reports patient counts, which the first build read as percentages (dry mouth 5 vs 1 read as 5% vs 1%; it is 25% vs 5%)",
+   "rule": "A table is a count table when nothing marks its values as percentages ('%', 'percent', 'incidence', 'rate' absent from caption and headers; no '%' or decimal in any value cell), every arm column states its N, every value is an integer no larger than its column's N, and at least one value is impossible as a rounded percentage of that N (no k <= N has round(100k/N) equal to it; e.g. 14 with N=20). The last condition was added after the first version also caught topiramate Table 6 (N=183/291), whose integer values are percentages. Its cells are converted to 100*count/N and the entry is flagged counts_converted.",
+   "affects": "cell values of count tables only"
+  },
+  {
+   "id": "A7",
+   "date": "2026-10-21",
+   "made_after_seeing": "an audit of the first build: phenol scored from an Anzemet (dolasetron) label and capsaicin from a diclofenac-with-capsaicin kit (universe name matching, fixed in scripts/v2_universe.py); ~25 drugs scored from local-route labels (eye drops, local anaesthetic infiltration, inhaled bronchodilators, antihistamine nasal spray) and some from multi-ingredient labels via fallback tiers; aripiprazole scored from its long-acting injectable label; olanzapine weight gain negative because weight is reported outside the adverse-reaction tables",
+   "rule": "(1) Multi-ingredient and local-route labels are never used; local routes add infiltration, epidural, perineural, submucosal, percutaneous, intradermal, intracavernous, intra-articular; nasal, inhaled and rectal labels are local unless the drug has an ATC N code. (2) Among eligible labels, oral labels are tried first. (3) weight_gain labels are withheld (label null, flag label_withheld_A7); extracted numbers are kept.",
+   "affects": "label eligibility and order, and the weight_gain label; term map and margin rule unchanged"
+  }
+ ]
 }
