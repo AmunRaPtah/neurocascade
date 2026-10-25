@@ -2791,7 +2791,7 @@
       "acceptance": [
         "nominal 80% and 95% intervals with empirical LODO coverage per quantity in the ledger",
         "held-out coverage reported once, on the host, after the intervals are frozen",
-        "predict_compound returns the interval beside every point estimate"
+        "a committed band API (e.g. predict_with_bands) attaches the frozen 80%/95% intervals to any point estimate, with tests; wiring it into predict_compound belongs to P32.1, which depends on this task"
       ],
       "validation": {
         "kind": "ledger-row",
@@ -2807,7 +2807,8 @@
         "sessions": 1,
         "history": [
           "2026-10-25 14:06 COMPLETE, PR opened",
-          "2026-10-25 14:27 PR #40 rejected by acceptance review: ACCEPTANCE 2: FAIL — src/neurocascade/benchmark/conformal.py:230-240 (_v2_pk_values) filters for inn in train from v2_partition(), and _effect_predictions (line 244) calls effects.leave_one_drug_out() which is hard-restricted to load_split()[\"train\"] (effects.py:475-476). No function in conformal.py ever consumes a held-out drug, with or without restored truth — unlike every other \"host-pending\" m"
+          "2026-10-25 14:27 PR #40 rejected by acceptance review: ACCEPTANCE 2: FAIL — src/neurocascade/benchmark/conformal.py:230-240 (_v2_pk_values) filters for inn in train from v2_partition(), and _effect_predictions (line 244) calls effects.leave_one_drug_out() which is hard-restricted to load_split()[\"train\"] (effects.py:475-476). No function in conformal.py ever consumes a held-out drug, with or without restored truth — unlike every other \"host-pending\" m",
+          "2026-10-25 14:37 spec fix (human session): AC3 required predict_compound (P32.1) before it existed; reworded to the band API"
         ],
         "review_rejections": 1
       }
@@ -2839,7 +2840,7 @@
       "brief": "Define a compound preclinical-package schema (binding panel, efficacy, ADME, rodent PK) and a single entry point predict_compound(package) returning predicted human PK, target-engagement dose, panel occupancy-time, and effect probabilities, each with its calibrated band and provenance, plus the nearest benchmark drugs. Refuse only on a missing core input; widen the band for missing optional inputs.",
       "acceptance": [
         "predict_compound runs end to end on a held-out benchmark drug given only its preclinical package",
-        "every returned number carries a band and provenance; refusal only on missing core inputs",
+        "every returned number carries a band (from P30.3's band API) and provenance; refusal only on missing core inputs",
         "tests cover a full package, a minimal package, and a refused package"
       ],
       "validation": {
@@ -2847,10 +2848,16 @@
         "evidence": ""
       },
       "deps": [
-        "P33.3"
+        "P33.3",
+        "P30.3"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "conductor": {
+        "history": [
+          "2026-10-25 14:37 spec fix (human session): now depends on P30.3 and consumes its band API"
+        ]
+      }
     },
     {
       "id": "P32.2",
