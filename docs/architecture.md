@@ -17465,3 +17465,112 @@ regularised logistic models are used specifically to expose a compact set of
 non-zero, comprehensible predictors in clinical prediction (Liu et al. 2016,
 PMID 26921029). The paper is methodological support for the model family, not
 a source for any neurocascade parameter.
+
+## Phase 33, part three: per-stage v2 baselines (P33.3)
+
+P33.3 is implemented in `neurocascade.benchmark.v2.chain_benchmark` and is
+run by `src/neurocascade/benchmark/v2/test_chain_benchmark.py`, the host
+evaluation target named by the task. The v2 loaders in
+`neurocascade.benchmark.v2` are the only data seam used by the harness. The
+harness uses the v2 hash partition exposed by that API; it never opens the
+P28.1 `split.json`.
+
+### The data check came before the score
+
+The conductor checkout contains the 267 training rows and deliberately omits
+the 67 held-out rows from both v2 truth files. The harness therefore runs a
+train leave-one-drug-out baseline locally and returns `searched-and-empty`
+with the complete held-out INN list. On a host checkout with the frozen rows,
+the same calls score the held-out rows against training-only baselines. Missing
+truth is never interpreted as a negative label or a zero concentration.
+
+The load-bearing assumption is that a concentration-based occupancy score can
+be formed from the v2 inputs. It fails before implementation: therapeutic
+Cmax is absent for all v2 drugs, oral absolute F is absent, and no human
+Kp,uu table exists. `fu` alone is not an exposure. Consequently F, free
+plasma exposure, Kp,uu and multi-target occupancy are reported as `no data`;
+the harness does not manufacture a Cmax, F, Kp,uu, dose, molecular weight or
+plasma concentration.
+
+### Committed per-stage table
+
+The table below is generated from `results/P33.3.json`. Train-side numbers are
+the largest honest numbers available in this checkout; held-out cells are
+host-pending because those rows are intentionally absent here. GMFE is the
+geometric mean absolute fold error. Liability intervals are deterministic
+percentile bootstrap 95% CIs (2,000 resamples, seed `20261021`), an analysis
+reproducibility setting rather than a biological parameter.
+
+| Stage | Local train LODO / baseline | Required held-out comparison | State in this checkout |
+|---|---|---|---|
+| Human CL | train arithmetic mean; n=109; GMFE 2.931; median fold-error 2.107 | host: train mean vs held-out GMFE/fold-error | host-pending; 67 held-out truth rows absent |
+| Vss | train arithmetic mean; n=107; GMFE 3.511; median fold-error 3.135 | host: train mean vs held-out GMFE/fold-error | host-pending; 67 held-out truth rows absent |
+| Oral F | no data | no score | no v2 oral absolute-F truth |
+| Free plasma exposure | no data | no score | therapeutic Cmax absent; fu is not exposure |
+| Kp,uu | no data | no score | no v2 human Kp,uu truth |
+| Multi-target occupancy | no data | no score | Cmax and Kp,uu both absent |
+| Sedation | strongest-target Ki (n=25): 0.735 [0.522,0.916] / 0.490 [0.255,0.862]; 1-NN full-panel fingerprint (n=96): 0.626 [0.506,0.757] / 0.286 [0.157,0.455]; ATC prevalence (n=158): 0.613 [0.513,0.714] / 0.352 [0.246,0.493]; train prevalence (n=168): 0.000 [0.000,0.000] / 0.214 [0.155,0.280] (AUROC / AUPRC, 95% CI) | host: same four baselines on held-out | host-pending; held-out liability truth absent |
+| Anticholinergic | strongest-target Ki (n=31): 0.783 [0.619,0.932] / 0.495 [0.287,0.856]; 1-NN full-panel fingerprint (n=97): 0.610 [0.499,0.729] / 0.257 [0.140,0.422]; ATC prevalence (n=160): 0.528 [0.410,0.650] / 0.212 [0.124,0.354]; train prevalence (n=169): 0.000 [0.000,0.000] / 0.154 [0.101,0.207] (AUROC / AUPRC, 95% CI) | host: same four baselines on held-out | host-pending; held-out liability truth absent |
+| EPS | not scored | underpowered: six positives in v2 universe | excluded by scope |
+| Orthostatic hypotension | not scored | underpowered: three positives in v2 universe | excluded by scope |
+| Weight gain | not scored | unavailable: P33.2 withheld the label | excluded by scope |
+
+The local train-prevalence LODO AUROC can be zero because leaving out a
+positive lowers the fold prevalence and leaving out a negative raises it. It
+is retained as an auditable baseline result, not interpreted as a biological
+inverse relationship.
+
+The 1-NN baseline uses the **full v2 receptor panel** (every target named by
+any binding row, 37 in all), not the handful of targets that anchor the
+effect. An earlier draft fingerprinted only the effect's own targets (HRH1 for
+sedation, CHRM1-5 for anticholinergic); that made the 1-NN baseline a near
+copy of the strongest-target-Ki baseline and applied it to only the 25 drugs
+with that specific measurement, so it was not an independent comparator. Over
+the full panel it now scores 96-97 train drugs and carries clearly different
+numbers from the Ki baseline. A target a drug was searched for but has no
+usable Ki at is weak binding, not a missing value: it is imputed to the
+inactivity floor Ki = 100 uM (the weakest affinity present anywhere in the v2
+panel, and a standard receptor-screening inactivity concentration), which on
+the `-log10(Ki_nM)` axis is -5. The earlier draft imputed 0 there, which is
+Ki = 1 nM, i.e. it asserted potent binding at every unmeasured target; the
+fix reverses that. A drug with no measured affinity anywhere is refused rather
+than represented as an all-floor vector. ATC prevalence uses the mean of the
+training prevalence for matching ATC level-3 classes. These are baseline
+definitions and analysis conventions, not calibrated neurocascade parameters.
+
+The bootstrap draws on a fixed seed, and the row order it resamples is sorted
+by INN so the confidence intervals are identical on the session checkout and
+the host; before the sort the order came from a hash-randomised set union and
+the intervals drifted run to run.
+
+There is no `predict_compound` implementation in the repository yet, so this
+task freezes the scoring seam and required baselines rather than pretending a
+baseline is a chain model. The GO condition is therefore not met locally: no
+candidate can beat every baseline until P32.1 supplies a candidate. The host
+run is the one permitted held-out evaluation; its outcome must be read from
+the generated stage report, not inferred from the conductor checkout.
+
+### Host-gate fix: the held-out branch fed INN keys to the metrics
+
+The first host gate failed in the one branch a session checkout cannot
+exercise. `_continuous_stage` built held-out truth as an `{inn: value}` dict
+and passed that dict straight to `gmfe()` and `fold_errors()` as `observed`.
+Iterating a dict yields its keys, so on the host, with held-out rows present,
+the metrics compared INN strings with numbers and raised `TypeError`. In the
+session the dict is empty and the branch is skipped, which is why it passed
+locally. Both calls now pass `list(heldout_values.values())`. The fix touches
+types only, not values. Two tests now drive the held-out branches with dummy
+in-memory rows, never real held-out truth:
+`test_heldout_continuous_branch_scores_values_not_inn_keys` (GMFE = sqrt(5)
+for prediction 2.5 against 2 and 10; it raises the original `TypeError` on the
+unfixed code) and `test_heldout_liability_branch_scores_dummy_rows`. A missing
+row that only the host can supply is exactly the kind of path that needs a
+synthetic test, because the session has no other way to execute it.
+
+The host's `host_eval` output is the last 25 lines of a `pytest -q` run, and
+`-q` captures prints. So `src/neurocascade/benchmark/v2/conftest.py` adds a
+`pytest_terminal_summary` hook that runs only under `NC_HOST_EVAL=1`. It
+prints one line per stage, from `heldout_summary_lines()`: held-out n and
+train-mean GMFE for CL and Vss, and AUROC with its 95% CI and AUPRC for each
+liability baseline. Without this, the one permitted held-out run would print
+only pass/fail.

@@ -1,0 +1,632 @@
+{
+  "task": "P33.3",
+  "status": "complete-with-host-pending-heldout",
+  "partition": {
+    "n_train": 267,
+    "n_heldout": 67
+  },
+  "stages": {
+    "human_cl": {
+      "stage": "human CL",
+      "prediction": "train arithmetic mean",
+      "baseline": {
+        "name": "train_mean",
+        "value": 11.112250247706422,
+        "unit": "clearance_iv"
+      },
+      "available_data": {
+        "status": "scored",
+        "n": 109,
+        "gmfe": 2.9308550669219033,
+        "fold_error_median": 2.1068051659678546
+      },
+      "heldout": {
+        "status": "searched-and-empty",
+        "n": 0,
+        "gmfe": null,
+        "fold_error_median": null,
+        "missing_truth": [
+          "amobarbital",
+          "amoxapine",
+          "amphetamine",
+          "articaine",
+          "aspirin",
+          "atomoxetine",
+          "azelastine",
+          "bethanechol",
+          "brimonidine",
+          "brivaracetam",
+          "cabergoline",
+          "cenobamate",
+          "clonazepam",
+          "desloratadine",
+          "dexchlorpheniramine",
+          "dexmethylphenidate",
+          "dicyclomine",
+          "diflunisal",
+          "dihydroergotamine",
+          "diphenhydramine",
+          "dyclonine",
+          "esketamine",
+          "eszopiclone",
+          "etomidate",
+          "fenfluramine",
+          "fentanyl",
+          "fluoxetine",
+          "fluvoxamine",
+          "frovatriptan",
+          "guanabenz",
+          "histamine",
+          "hydroxyzine",
+          "ipratropium",
+          "lacosamide",
+          "levodopa",
+          "lisdexamfetamine",
+          "loratadine",
+          "mepenzolate",
+          "mephenytoin",
+          "mepivacaine",
+          "meprobamate",
+          "mesoridazine",
+          "methacholine",
+          "methylergonovine",
+          "mitoxantrone",
+          "neostigmine",
+          "oxazepam",
+          "oxiconazole",
+          "oxycodone",
+          "oxymetazoline",
+          "perampanel",
+          "pramipexole",
+          "prazosin",
+          "primidone",
+          "remifentanil",
+          "ropivacaine",
+          "rufinamide",
+          "selegiline",
+          "tapentadol",
+          "tetrabenazine",
+          "tiotropium",
+          "trimethadione",
+          "tropicamide",
+          "valproic acid",
+          "venlafaxine",
+          "vilazodone",
+          "zavegepant"
+        ]
+      }
+    },
+    "vss": {
+      "stage": "Vss",
+      "prediction": "train arithmetic mean",
+      "baseline": {
+        "name": "train_mean",
+        "value": 6.230700934579439,
+        "unit": "vss"
+      },
+      "available_data": {
+        "status": "scored",
+        "n": 107,
+        "gmfe": 3.511094064806215,
+        "fold_error_median": 3.135306603773585
+      },
+      "heldout": {
+        "status": "searched-and-empty",
+        "n": 0,
+        "gmfe": null,
+        "fold_error_median": null,
+        "missing_truth": [
+          "amobarbital",
+          "amoxapine",
+          "amphetamine",
+          "articaine",
+          "aspirin",
+          "atomoxetine",
+          "azelastine",
+          "bethanechol",
+          "brimonidine",
+          "brivaracetam",
+          "cabergoline",
+          "cenobamate",
+          "clonazepam",
+          "desloratadine",
+          "dexchlorpheniramine",
+          "dexmethylphenidate",
+          "dicyclomine",
+          "diflunisal",
+          "dihydroergotamine",
+          "diphenhydramine",
+          "dyclonine",
+          "esketamine",
+          "eszopiclone",
+          "etomidate",
+          "fenfluramine",
+          "fentanyl",
+          "fluoxetine",
+          "fluvoxamine",
+          "frovatriptan",
+          "guanabenz",
+          "histamine",
+          "hydroxyzine",
+          "ipratropium",
+          "lacosamide",
+          "levodopa",
+          "lisdexamfetamine",
+          "loratadine",
+          "mepenzolate",
+          "mephenytoin",
+          "mepivacaine",
+          "meprobamate",
+          "mesoridazine",
+          "methacholine",
+          "methylergonovine",
+          "mitoxantrone",
+          "neostigmine",
+          "oxazepam",
+          "oxiconazole",
+          "oxycodone",
+          "oxymetazoline",
+          "perampanel",
+          "pramipexole",
+          "prazosin",
+          "primidone",
+          "remifentanil",
+          "ropivacaine",
+          "rufinamide",
+          "selegiline",
+          "tapentadol",
+          "tetrabenazine",
+          "tiotropium",
+          "trimethadione",
+          "tropicamide",
+          "valproic acid",
+          "venlafaxine",
+          "vilazodone",
+          "zavegepant"
+        ]
+      }
+    },
+    "f": {
+      "stage": "oral F",
+      "status": "no data",
+      "reason": "v2 has no oral absolute-bioavailability truth"
+    },
+    "free_plasma_exposure": {
+      "stage": "free plasma exposure",
+      "status": "no data",
+      "reason": "therapeutic Cmax is absent; fu alone is not an exposure",
+      "fu_input_rows": 152
+    },
+    "kp_uu": {
+      "stage": "Kp,uu",
+      "status": "no data",
+      "reason": "v2 has no human Kp,uu truth"
+    },
+    "multi_target_occupancy": {
+      "stage": "multi-target occupancy",
+      "status": "no data",
+      "reason": "therapeutic Cmax and Kp,uu are both absent"
+    },
+    "eps": {
+      "stage": "eps",
+      "status": "underpowered",
+      "reason": "six positives in the v2 universe"
+    },
+    "sedation": {
+      "stage": "sedation",
+      "status": "scored",
+      "target_set": [
+        "HRH1"
+      ],
+      "available_data": {
+        "status": "scored",
+        "baselines": {
+          "strongest_target_ki": {
+            "n": 25,
+            "n_positive": 8,
+            "n_negative": 17,
+            "auroc": 0.7352941176470589,
+            "auprc": 0.4896367521367522,
+            "auroc_ci95": [
+              0.5223958333333334,
+              0.9156114718614717
+            ],
+            "auprc_ci95": [
+              0.25464460784313725,
+              0.8616847622074891
+            ]
+          },
+          "one_nn_fingerprint": {
+            "n": 96,
+            "n_positive": 19,
+            "n_negative": 77,
+            "auroc": 0.6257689678742311,
+            "auprc": 0.28618421052631576,
+            "auroc_ci95": [
+              0.50640625,
+              0.7567955241639451
+            ],
+            "auprc_ci95": [
+              0.1573838141025641,
+              0.45473681972789104
+            ]
+          },
+          "atc_class_prevalence": {
+            "n": 158,
+            "n_positive": 36,
+            "n_negative": 122,
+            "auroc": 0.6130464480874317,
+            "auprc": 0.3519485567943831,
+            "auroc_ci95": [
+              0.5125475762322934,
+              0.7141496757983139
+            ],
+            "auprc_ci95": [
+              0.24550991355671983,
+              0.4926241137016189
+            ]
+          },
+          "train_prevalence": {
+            "n": 168,
+            "n_positive": 36,
+            "n_negative": 132,
+            "auroc": 0.0,
+            "auprc": 0.2142857142857143,
+            "auroc_ci95": [
+              0.0,
+              0.0
+            ],
+            "auprc_ci95": [
+              0.15476190476190477,
+              0.27976190476190477
+            ]
+          }
+        }
+      },
+      "heldout": {
+        "status": "searched-and-empty",
+        "baselines": {
+          "strongest_target_ki": {
+            "n": 0,
+            "status": "no data"
+          },
+          "one_nn_fingerprint": {
+            "n": 0,
+            "status": "no data"
+          },
+          "atc_class_prevalence": {
+            "n": 0,
+            "status": "no data"
+          },
+          "train_prevalence": {
+            "n": 0,
+            "status": "no data"
+          }
+        },
+        "missing_truth": [
+          "amobarbital",
+          "amoxapine",
+          "amphetamine",
+          "articaine",
+          "aspirin",
+          "atomoxetine",
+          "azelastine",
+          "bethanechol",
+          "brimonidine",
+          "brivaracetam",
+          "cabergoline",
+          "cenobamate",
+          "clonazepam",
+          "desloratadine",
+          "dexchlorpheniramine",
+          "dexmethylphenidate",
+          "dicyclomine",
+          "diflunisal",
+          "dihydroergotamine",
+          "diphenhydramine",
+          "dyclonine",
+          "esketamine",
+          "eszopiclone",
+          "etomidate",
+          "fenfluramine",
+          "fentanyl",
+          "fluoxetine",
+          "fluvoxamine",
+          "frovatriptan",
+          "guanabenz",
+          "histamine",
+          "hydroxyzine",
+          "ipratropium",
+          "lacosamide",
+          "levodopa",
+          "lisdexamfetamine",
+          "loratadine",
+          "mepenzolate",
+          "mephenytoin",
+          "mepivacaine",
+          "meprobamate",
+          "mesoridazine",
+          "methacholine",
+          "methylergonovine",
+          "mitoxantrone",
+          "neostigmine",
+          "oxazepam",
+          "oxiconazole",
+          "oxycodone",
+          "oxymetazoline",
+          "perampanel",
+          "pramipexole",
+          "prazosin",
+          "primidone",
+          "remifentanil",
+          "ropivacaine",
+          "rufinamide",
+          "selegiline",
+          "tapentadol",
+          "tetrabenazine",
+          "tiotropium",
+          "trimethadione",
+          "tropicamide",
+          "valproic acid",
+          "venlafaxine",
+          "vilazodone",
+          "zavegepant"
+        ],
+        "n_truth": 0
+      }
+    },
+    "weight_gain": {
+      "stage": "weight_gain",
+      "status": "unavailable",
+      "reason": "P33.2 withheld this label; no binary truth exists"
+    },
+    "anticholinergic": {
+      "stage": "anticholinergic",
+      "status": "scored",
+      "target_set": [
+        "CHRM1",
+        "CHRM2",
+        "CHRM3",
+        "CHRM4",
+        "CHRM5"
+      ],
+      "available_data": {
+        "status": "scored",
+        "baselines": {
+          "strongest_target_ki": {
+            "n": 31,
+            "n_positive": 9,
+            "n_negative": 22,
+            "auroc": 0.7828282828282829,
+            "auprc": 0.49517693635340687,
+            "auroc_ci95": [
+              0.6192261904761905,
+              0.9316287878787879
+            ],
+            "auprc_ci95": [
+              0.28684873949579837,
+              0.8558619719926537
+            ]
+          },
+          "one_nn_fingerprint": {
+            "n": 97,
+            "n_positive": 18,
+            "n_negative": 79,
+            "auroc": 0.609704641350211,
+            "auprc": 0.2570446735395189,
+            "auroc_ci95": [
+              0.49850330618065325,
+              0.7290404624100879
+            ],
+            "auprc_ci95": [
+              0.13965746962444772,
+              0.42173811720021703
+            ]
+          },
+          "atc_class_prevalence": {
+            "n": 160,
+            "n_positive": 25,
+            "n_negative": 135,
+            "auroc": 0.5281481481481481,
+            "auprc": 0.21185879188065543,
+            "auroc_ci95": [
+              0.40970466910357156,
+              0.6496681460595933
+            ],
+            "auprc_ci95": [
+              0.12350105051580747,
+              0.3536808983690977
+            ]
+          },
+          "train_prevalence": {
+            "n": 169,
+            "n_positive": 26,
+            "n_negative": 143,
+            "auroc": 0.0,
+            "auprc": 0.15384615384615385,
+            "auroc_ci95": [
+              0.0,
+              0.0
+            ],
+            "auprc_ci95": [
+              0.10059171597633136,
+              0.20710059171597633
+            ]
+          }
+        }
+      },
+      "heldout": {
+        "status": "searched-and-empty",
+        "baselines": {
+          "strongest_target_ki": {
+            "n": 0,
+            "status": "no data"
+          },
+          "one_nn_fingerprint": {
+            "n": 0,
+            "status": "no data"
+          },
+          "atc_class_prevalence": {
+            "n": 0,
+            "status": "no data"
+          },
+          "train_prevalence": {
+            "n": 0,
+            "status": "no data"
+          }
+        },
+        "missing_truth": [
+          "amobarbital",
+          "amoxapine",
+          "amphetamine",
+          "articaine",
+          "aspirin",
+          "atomoxetine",
+          "azelastine",
+          "bethanechol",
+          "brimonidine",
+          "brivaracetam",
+          "cabergoline",
+          "cenobamate",
+          "clonazepam",
+          "desloratadine",
+          "dexchlorpheniramine",
+          "dexmethylphenidate",
+          "dicyclomine",
+          "diflunisal",
+          "dihydroergotamine",
+          "diphenhydramine",
+          "dyclonine",
+          "esketamine",
+          "eszopiclone",
+          "etomidate",
+          "fenfluramine",
+          "fentanyl",
+          "fluoxetine",
+          "fluvoxamine",
+          "frovatriptan",
+          "guanabenz",
+          "histamine",
+          "hydroxyzine",
+          "ipratropium",
+          "lacosamide",
+          "levodopa",
+          "lisdexamfetamine",
+          "loratadine",
+          "mepenzolate",
+          "mephenytoin",
+          "mepivacaine",
+          "meprobamate",
+          "mesoridazine",
+          "methacholine",
+          "methylergonovine",
+          "mitoxantrone",
+          "neostigmine",
+          "oxazepam",
+          "oxiconazole",
+          "oxycodone",
+          "oxymetazoline",
+          "perampanel",
+          "pramipexole",
+          "prazosin",
+          "primidone",
+          "remifentanil",
+          "ropivacaine",
+          "rufinamide",
+          "selegiline",
+          "tapentadol",
+          "tetrabenazine",
+          "tiotropium",
+          "trimethadione",
+          "tropicamide",
+          "valproic acid",
+          "venlafaxine",
+          "vilazodone",
+          "zavegepant"
+        ],
+        "n_truth": 0
+      }
+    },
+    "orthostatic_hypotension": {
+      "stage": "orthostatic_hypotension",
+      "status": "underpowered",
+      "reason": "three positives in the v2 universe"
+    }
+  },
+  "n_scored": 169,
+  "available_data_n_scored": 169,
+  "heldout_truth_missing": [
+    "amobarbital",
+    "amoxapine",
+    "amphetamine",
+    "articaine",
+    "aspirin",
+    "atomoxetine",
+    "azelastine",
+    "bethanechol",
+    "brimonidine",
+    "brivaracetam",
+    "cabergoline",
+    "cenobamate",
+    "clonazepam",
+    "desloratadine",
+    "dexchlorpheniramine",
+    "dexmethylphenidate",
+    "dicyclomine",
+    "diflunisal",
+    "dihydroergotamine",
+    "diphenhydramine",
+    "dyclonine",
+    "esketamine",
+    "eszopiclone",
+    "etomidate",
+    "fenfluramine",
+    "fentanyl",
+    "fluoxetine",
+    "fluvoxamine",
+    "frovatriptan",
+    "guanabenz",
+    "histamine",
+    "hydroxyzine",
+    "ipratropium",
+    "lacosamide",
+    "levodopa",
+    "lisdexamfetamine",
+    "loratadine",
+    "mepenzolate",
+    "mephenytoin",
+    "mepivacaine",
+    "meprobamate",
+    "mesoridazine",
+    "methacholine",
+    "methylergonovine",
+    "mitoxantrone",
+    "neostigmine",
+    "oxazepam",
+    "oxiconazole",
+    "oxycodone",
+    "oxymetazoline",
+    "perampanel",
+    "pramipexole",
+    "prazosin",
+    "primidone",
+    "remifentanil",
+    "ropivacaine",
+    "rufinamide",
+    "selegiline",
+    "tapentadol",
+    "tetrabenazine",
+    "tiotropium",
+    "trimethadione",
+    "tropicamide",
+    "valproic acid",
+    "venlafaxine",
+    "vilazodone",
+    "zavegepant"
+  ],
+  "notes": [
+    "No predict_compound implementation exists yet; this report freezes the stage baselines and scoring seam for P32.1.",
+    "Held-out rows are scored when the host restores them; missing rows are searched-and-empty, never negatives.",
+    "F, free plasma exposure, Kp,uu and multi-target occupancy are no data, not zero-error stages."
+  ]
+}
