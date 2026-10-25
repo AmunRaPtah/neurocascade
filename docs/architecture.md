@@ -17574,3 +17574,133 @@ prints one line per stage, from `heldout_summary_lines()`: held-out n and
 train-mean GMFE for CL and Vss, and AUROC with its 95% CI and AUPRC for each
 liability baseline. Without this, the one permitted held-out run would print
 only pass/fail.
+
+## Phase 30, part three: calibrated uncertainty bands (P30.3)
+
+P30.3 is `neurocascade.benchmark.conformal`. It puts a frozen, distribution-free
+80% and 95% band on every human quantity the product predicts. If a quantity
+has no scored upstream prediction, it gets no band and the module refuses it.
+The bands are frozen in `src/neurocascade/benchmark/conformal_bands.json`.
+`tests/test_conformal.py` recomputes them from train data and checks that the
+result matches the file exactly. Any code or data change that moves a band
+therefore fails a test; it cannot shift the band silently.
+
+### Why split-conformal on the existing out-of-sample residuals
+
+Each upstream predictor already produces a prediction for every train drug
+from a model that did not see that drug:
+
+- P29.2's IVIVE CL fits nothing per drug, so its train no-fit pass is already
+  leave-one-drug-out (n=15).
+- P33.3's train-mean CL/Vss baseline is scored leave-one-out (n=109 and n=107).
+- P30.1 already runs leave-one-drug-out per effect (n=28 to 32).
+
+Those residuals are used directly as the conformal calibration scores, so
+nothing new is fitted and no held-out row is read. The band is the
+`ceil((n + 1)(1 - a))`-th smallest score, which is the finite-sample rule of
+Lei et al. 2018 (J Am Stat Assoc 113:1094-1111). No parametric error model is
+assumed. This matters because the PK errors are skewed: the IVIVE arm
+systematically under-predicts lipophilic bases (V17).
+
+- **CL and Vss:** the nonconformity score is `|log10(pred / obs)|`, which gives
+  a symmetric multiplicative band, `point / f` to `point * f`.
+- **Effect probabilities:** the score is `1 - p(observed label)`. The band is
+  a conformal label set: `{1}`, `{0}`, `{0, 1}`, or (rarely) empty.
+
+A label set was chosen over an interval on the probability for a specific
+reason. The truth is a binary label, so only a statement about the label has a
+coverage that can be checked.
+
+When the rank exceeds n, the band is **unbounded**. For P29.2 CL at 95% with
+n=15, the band file stores `null` and `predict_with_bands` returns
+`upper = inf, bounded = False`. Two alternatives were rejected:
+
+- quietly using the largest residual, which would claim a coverage the data
+  cannot support;
+- reporting a lower level instead of 95%.
+
+### Empirical coverage, and what it does and does not show
+
+LODO coverage is a nested jackknife: each calibration drug's score is checked
+against the band built from the other n-1 scores. Results:
+
+| quantity | n | band 80% / 95% | LODO coverage 80% / 95% |
+|---|---:|---|---|
+| human_cl_ivive (P29.2) | 15 | ×÷7.55 / unbounded | 12/15 / 15/15 (all 15 bands unbounded) |
+| human_cl_v2_train_mean (P33.3) | 109 | ×÷5.89 / ×÷23.85 | 88/109 / 104/109 |
+| human_vss_v2_train_mean (P33.3) | 107 | ×÷7.48 / ×÷12.32 | 86/107 / 102/107 |
+| effect: eps | 30 | label set | 24/30 / 29/30 |
+| effect: sedation | 31 | label set | 25/31 / 30/31 |
+| effect: weight_gain | 28 | label set | 23/28 / 27/28 |
+| effect: sexual_dysfunction | 29 | label set | 24/29 / 28/29 |
+| effect: anticholinergic (underpowered) | 29 | label set | 24/29 / 28/29 |
+| effect: orthostasis (underpowered) | 32 | label set | 26/32 / 31/32 |
+| effect: seizure (0 positives) | 31 | label set | 31/31 / 31/31 |
+
+Coverage at nominal is what exchangeability guarantees, so on its own it is
+not evidence of a good model. The informative number is the **width** of each
+band:
+
+- **P29.2 CL:** honest only to ×÷7.6 at 80%. It cannot be bounded at 95%
+  until at least 19 train drugs have a compatible input.
+- **Effects at 95%:** the sets are almost always `{0, 1}`. At most 9 of the
+  28-31 drugs per effect get a single label. This is the conformal form of
+  V18's near-chance AUROC: the model cannot exclude either label.
+- **Effects at 80%:** the single-label sets for anticholinergic (26/29
+  positive) and orthostasis (3/32 positive) are just the majority class,
+  not model signal.
+
+Coverage is marginal, not per class. Mondrian (class-conditional) bands at
+95% need at least 19 calibration drugs per class, and the minority classes
+here have 0 to 11. This limit is recorded, not worked around.
+
+The v2 train-mean CL/Vss bands are included for two reasons. They are the only
+CL/Vss a compound without a preclinical ADME package can be given, and they
+are the only Vss prediction with any scored rows. P32.1's brief says to "widen
+the band for missing optional inputs", and that fallback is how it can do so
+without inventing a width. These bands are never attached to an IVIVE point:
+each quantity's band belongs to the method that produced its residuals.
+
+### Unbanded quantities
+
+`predict_with_bands` raises `UnbandedQuantityError` for the following
+quantities, and `pending_quantities()` lists them for P32.1's
+`predict_compound`:
+
+- `human_vss_ivive`: searched-and-empty. P29.2's Oie-Tozer arm has n=0.
+- `target_engagement_dose`: pending. P29.3 is searched-and-empty, and P29.5
+  is blocked on data.
+- `occupancy`: pending. P29.4 is searched-and-empty.
+
+No point estimate is produced for any of them, so an unscored estimate cannot
+leave the module with an interval attached.
+
+### Held-out coverage: one code path, scored on the host
+
+`heldout_coverage()` reads only the frozen band file. It scores three groups
+of held-out drugs:
+
+- **P28.1 held-out split (`load_split()["heldout"]`), IVIVE CL:** P29.2's
+  train-frozen model predicts each drug. The truth record is checked first,
+  so a stripped checkout reports a truth gap, not an input gap.
+- **P28.1 held-out split, effects:** the train-only P30.1 models give
+  probabilities from `fit_effect_models()`, and labels come from
+  `effect_labels()`.
+- **v2 hash held-out (`v2_partition()`), train-mean CL/Vss:** each drug is
+  scored against the frozen train mean.
+
+Each quantity reports covered/n per level, plus `missing_truth` and
+`not_scoreable` (truth present, but no input or no measurement for that
+field).
+
+- **In a session checkout,** every held-out drug is named under
+  `missing_truth` and the status is `searched-and-empty`.
+- **On the host,** the same calls score the restored rows.
+
+Synthetic in-memory rows exercise all three host branches in tests, as P33.3
+learned to do. The real-data test asserts only bookkeeping that holds both with
+and without truth: every held-out drug lands in exactly one bucket, and
+`status == scored` exactly when n > 0. The result is printed by
+`tests/conftest.py` under `NC_HOST_EVAL=1`, and only when
+`tests/test_conformal.py` ran. The bands were frozen before any held-out row
+was read, and no band, level or score is tuned on held-out coverage.
