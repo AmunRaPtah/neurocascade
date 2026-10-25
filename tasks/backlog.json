@@ -2806,8 +2806,10 @@
       "conductor": {
         "sessions": 1,
         "history": [
-          "2026-10-25 14:06 COMPLETE, PR opened"
-        ]
+          "2026-10-25 14:06 COMPLETE, PR opened",
+          "2026-10-25 14:27 PR #40 rejected by acceptance review: ACCEPTANCE 2: FAIL — src/neurocascade/benchmark/conformal.py:230-240 (_v2_pk_values) filters for inn in train from v2_partition(), and _effect_predictions (line 244) calls effects.leave_one_drug_out() which is hard-restricted to load_split()[\"train\"] (effects.py:475-476). No function in conformal.py ever consumes a held-out drug, with or without restored truth — unlike every other \"host-pending\" m"
+        ],
+        "review_rejections": 1
       }
     },
     {
