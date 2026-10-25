@@ -1,0 +1,226 @@
+{
+  "task": "P30.3",
+  "nominal_coverages": [
+    0.8,
+    0.95
+  ],
+  "continuous": {
+    "human_cl": {
+      "source": "v2 human IV CL truth; LODO train geometric-mean predictor",
+      "n": 109,
+      "coverage": {
+        "0.8": {
+          "nominal": 0.8,
+          "frozen_log_radius": 1.6028895584375114,
+          "frozen_fold_width": 4.967365198750147,
+          "empirical_lodo_coverage": 0.8073394495412844,
+          "n": 109,
+          "uninformative": false
+        },
+        "0.95": {
+          "nominal": 0.95,
+          "frozen_log_radius": 2.5575984707738892,
+          "frozen_fold_width": 12.904788844998247,
+          "empirical_lodo_coverage": 0.9541284403669725,
+          "n": 109,
+          "uninformative": false
+        }
+      }
+    },
+    "vss": {
+      "source": "v2 human Vss truth; LODO train geometric-mean predictor",
+      "n": 107,
+      "coverage": {
+        "0.8": {
+          "nominal": 0.8,
+          "frozen_log_radius": 1.5591345399816716,
+          "frozen_fold_width": 4.754704457330405,
+          "empirical_lodo_coverage": 0.8130841121495327,
+          "n": 107,
+          "uninformative": false
+        },
+        "0.95": {
+          "nominal": 0.95,
+          "frozen_log_radius": 2.6188606467869406,
+          "frozen_fold_width": 13.720082656240825,
+          "empirical_lodo_coverage": 0.9532710280373832,
+          "n": 107,
+          "uninformative": false
+        }
+      }
+    }
+  },
+  "effects": {
+    "eps": {
+      "n": 30,
+      "coverage": {
+        "0.8": {
+          "nominal": 0.8,
+          "frozen_score_quantile": 0.7007213221991095,
+          "empirical_lodo_coverage": 0.8,
+          "mean_set_size": 1.5666666666666667,
+          "n": 30
+        },
+        "0.95": {
+          "nominal": 0.95,
+          "frozen_score_quantile": 1.0,
+          "empirical_lodo_coverage": 0.9666666666666667,
+          "mean_set_size": 1.9666666666666666,
+          "n": 30
+        }
+      },
+      "n_positive": 10,
+      "n_negative": 20,
+      "underpowered": false,
+      "source": "P30.1 EffectModel LODO probabilities; conformal label set"
+    },
+    "sedation": {
+      "n": 31,
+      "coverage": {
+        "0.8": {
+          "nominal": 0.8,
+          "frozen_score_quantile": 0.8154566307944645,
+          "empirical_lodo_coverage": 0.8064516129032258,
+          "mean_set_size": 1.3225806451612903,
+          "n": 31
+        },
+        "0.95": {
+          "nominal": 0.95,
+          "frozen_score_quantile": 0.8560695487157722,
+          "empirical_lodo_coverage": 0.967741935483871,
+          "mean_set_size": 1.7096774193548387,
+          "n": 31
+        }
+      },
+      "n_positive": 25,
+      "n_negative": 6,
+      "underpowered": false,
+      "source": "P30.1 EffectModel LODO probabilities; conformal label set"
+    },
+    "weight_gain": {
+      "n": 28,
+      "coverage": {
+        "0.8": {
+          "nominal": 0.8,
+          "frozen_score_quantile": 0.725016572643491,
+          "empirical_lodo_coverage": 0.8214285714285714,
+          "mean_set_size": 1.75,
+          "n": 28
+        },
+        "0.95": {
+          "nominal": 0.95,
+          "frozen_score_quantile": 0.999994236610415,
+          "empirical_lodo_coverage": 0.9642857142857143,
+          "mean_set_size": 1.9285714285714286,
+          "n": 28
+        }
+      },
+      "n_positive": 11,
+      "n_negative": 17,
+      "underpowered": false,
+      "source": "P30.1 EffectModel LODO probabilities; conformal label set"
+    },
+    "anticholinergic": {
+      "n": 29,
+      "coverage": {
+        "0.8": {
+          "nominal": 0.8,
+          "frozen_score_quantile": 0.13238182387215924,
+          "empirical_lodo_coverage": 0.8275862068965517,
+          "mean_set_size": 0.9655172413793104,
+          "n": 29
+        },
+        "0.95": {
+          "nominal": 0.95,
+          "frozen_score_quantile": 0.9999999362887978,
+          "empirical_lodo_coverage": 0.9655172413793104,
+          "mean_set_size": 1.9310344827586208,
+          "n": 29
+        }
+      },
+      "n_positive": 26,
+      "n_negative": 3,
+      "underpowered": true,
+      "source": "P30.1 EffectModel LODO probabilities; conformal label set"
+    },
+    "orthostasis": {
+      "n": 32,
+      "coverage": {
+        "0.8": {
+          "nominal": 0.8,
+          "frozen_score_quantile": 0.18942154028767988,
+          "empirical_lodo_coverage": 0.8125,
+          "mean_set_size": 0.9375,
+          "n": 32
+        },
+        "0.95": {
+          "nominal": 0.95,
+          "frozen_score_quantile": 0.9999779834844245,
+          "empirical_lodo_coverage": 0.96875,
+          "mean_set_size": 1.96875,
+          "n": 32
+        }
+      },
+      "n_positive": 3,
+      "n_negative": 29,
+      "underpowered": true,
+      "source": "P30.1 EffectModel LODO probabilities; conformal label set"
+    },
+    "sexual_dysfunction": {
+      "n": 29,
+      "coverage": {
+        "0.8": {
+          "nominal": 0.8,
+          "frozen_score_quantile": 0.7067563031080402,
+          "empirical_lodo_coverage": 0.8275862068965517,
+          "mean_set_size": 1.5172413793103448,
+          "n": 29
+        },
+        "0.95": {
+          "nominal": 0.95,
+          "frozen_score_quantile": 1.0,
+          "empirical_lodo_coverage": 0.9655172413793104,
+          "mean_set_size": 1.9655172413793103,
+          "n": 29
+        }
+      },
+      "n_positive": 8,
+      "n_negative": 21,
+      "underpowered": false,
+      "source": "P30.1 EffectModel LODO probabilities; conformal label set"
+    },
+    "seizure": {
+      "n": 31,
+      "coverage": {
+        "0.8": {
+          "nominal": 0.8,
+          "frozen_score_quantile": 0.016129032258064502,
+          "empirical_lodo_coverage": 1.0,
+          "mean_set_size": 1,
+          "n": 31
+        },
+        "0.95": {
+          "nominal": 0.95,
+          "frozen_score_quantile": 0.016129032258064502,
+          "empirical_lodo_coverage": 1.0,
+          "mean_set_size": 1,
+          "n": 31
+        }
+      },
+      "n_positive": 0,
+      "n_negative": 31,
+      "underpowered": true,
+      "source": "P30.1 EffectModel LODO probabilities; conformal label set"
+    }
+  },
+  "pending": {
+    "target_engagement_dose": "P29.3 blocked on P29.5 oral-exposure/PET data",
+    "panel_occupancy": "needs therapeutic Cmax and Kp,uu; P33.3 reports both as no-data"
+  },
+  "n_scored": 109,
+  "held_out_status": "host-pending: no held-out truth in this checkout (v2 strips 67 PK rows; P28.1 strips 55 effect rows)",
+  "notes": [
+    "Radii/quantiles here are frozen on train residuals; the host scores held-out coverage once with these same radii.",
+    "A probability has no distribution-free interval against a 0/1 label; its calibrated object is a conformal label set, and a {0,1} set is an honest 'cannot exclude either outcome', not a missing number."
+  ]
+}

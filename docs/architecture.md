@@ -17574,3 +17574,92 @@ prints one line per stage, from `heldout_summary_lines()`: held-out n and
 train-mean GMFE for CL and Vss, and AUROC with its 95% CI and AUPRC for each
 liability baseline. Without this, the one permitted held-out run would print
 only pass/fail.
+
+## Phase 30, part three: calibrated uncertainty for every prediction (P30.3)
+
+P30.3 is implemented in `neurocascade.benchmark.conformal`. The product ships
+a prediction to a discovery team only with an interval whose width was
+measured, and this module is where that width is fitted and checked. The
+method is distribution-free (split-/leave-one-out conformal), as the task
+required; no parametric error model is assumed.
+
+### Two prediction families, two conformal objects
+
+The product returns two shapes of number, and a probability does not have a
+distribution-free *interval* against a 0/1 outcome, so they get different
+calibrated objects.
+
+- **Continuous human PK (CL, Vss).** The point predictor is the leave-one-
+  drug-out train geometric mean — the P33.3 baseline, which no per-drug model
+  in the repository beats, so it is the thing whose uncertainty is worth
+  calibrating. The nonconformity score is the absolute log-fold error, which
+  makes the interval multiplicative (`point * exp(±radius)`): the right shape
+  for a strictly positive, roughly log-normal quantity, and it reduces to a
+  fold-range a pharmacologist reads directly.
+
+- **Per-effect clinical probability (P30.1 `EffectModel`).** The calibrated
+  object is the conformal label *set*: the subset of `{0, 1}` whose true-label
+  nonconformity `1 - p(label)` is within the calibration quantile. A `{0, 1}`
+  set is not a missing answer; it is the honest "cannot exclude either outcome
+  at this confidence", which is exactly what a near-chance model (V18) should
+  say. An empty set, which the imbalanced effects produce occasionally at 80%,
+  is the dual statement that neither label is confidently admissible.
+
+### Coverage is measured without circularity
+
+The finite-sample conformal radius at nominal `1-α` is the
+`k = ceil((n+1)(1-α))`-th smallest residual; when `k > n` no finite radius can
+meet the guarantee and the radius is `+∞`, flagged uninformative rather than
+silently clipped to the largest residual. The *frozen* radius a fresh
+compound's band uses is computed on every available train residual.
+
+Empirical coverage is a second, non-circular leave-one-out on top of the
+already-LODO predictor: each drug's membership is judged by a radius built
+from the other drugs' residuals only, so no drug helps set the band that
+contains it. This is the honest jackknife-conformal coverage, not the
+in-sample (and trivially ~1) coverage of fitting and scoring on one set.
+
+### Result
+
+Coverage lands at nominal by construction (that is the conformal guarantee),
+so the deliverable is a correctness check plus the band *widths*, which are
+the real information for a user:
+
+| Quantity | n | 80% coverage | 95% coverage | 80% band | 95% band |
+|---|---:|---:|---:|---|---|
+| Human CL | 109 | 0.807 | 0.954 | ×4.97-fold | ×12.9-fold |
+| Vss | 107 | 0.813 | 0.953 | ×4.75-fold | ×13.7-fold |
+
+| Effect | n | pos/neg | 80% cov (set size) | 95% cov (set size) | headline |
+|---|---:|---:|---|---|---|
+| EPS | 30 | 10/20 | 0.800 (1.57) | 0.967 (1.97) | scored |
+| sedation | 31 | 25/6 | 0.806 (1.32) | 0.968 (1.71) | scored |
+| weight gain | 28 | 11/17 | 0.821 (1.75) | 0.964 (1.93) | scored |
+| sexual dysfunction | 29 | 8/21 | 0.828 (1.52) | 0.966 (1.97) | scored |
+| anticholinergic | 29 | 26/3 | 0.828 (0.97) | 0.966 (1.93) | underpowered |
+| orthostasis | 32 | 3/29 | 0.812 (0.94) | 0.969 (1.97) | underpowered |
+| seizure | 31 | 0/31 | 1.000 (1.00) | 1.000 (1.00) | underpowered |
+
+The CL band is the load-bearing honesty here: a ×5-fold 80% interval around a
+train-mean point says plainly that predicting human clearance from the train
+mean barely constrains the answer, and the user should read the interval, not
+the point. The 95% effect set is `{0, 1}` for about 97% of drugs — the
+calibrated object correctly declining to commit for a model that is at chance.
+
+### What is frozen, what is pending, what the host does
+
+`calibration_report()` freezes the radii/quantiles on train residuals and is
+the one permitted surface; `predict_with_bands(drug)` is the band-attachment
+layer P32.1's `predict_compound` will call, returning each point estimate
+beside its interval/label-set and provenance. Quantities whose upstream task
+is not done are declared pending and never filled with an unscored estimate or
+an invented band: the target-engagement dose (P29.3, blocked on P29.5) and the
+panel occupancy-time course (needs therapeutic Cmax and human Kp,uu, both
+reported no-data by P33.3).
+
+Held-out coverage is host-pending. This checkout strips all held-out truth
+(v2 removes 67 PK rows; the P28.1 split removes 55 effect rows), so the
+available-data number reported in the ledger is the train LODO coverage. The
+host restores the frozen rows and scores held-out coverage once, with exactly
+these frozen radii; freezing before the held-out look is what keeps that score
+honest, so the radii are committed in `results/P30.3.json`.
