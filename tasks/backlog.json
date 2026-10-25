@@ -2969,7 +2969,7 @@
         "P33.1",
         "P33.2"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "host_eval": "python -m pytest -q -p no:cacheprovider src/neurocascade/benchmark/v2/test_chain_benchmark.py",
       "conductor": {
@@ -2977,9 +2977,12 @@
         "history": [
           "2026-10-25 11:02 complete; rejected: gate failed:\nibration/bayesian_calibration.py:116\n  /work/src/neurocascade/calibration/bayesian_calibration.py:116: FutureWarning: pytensor.as_op is deprecated and will be removed in a future release. Please use pytensor.wrap_py instead.\n    @as_op(itypes=[pt.dvector], otypes=[pt.dvector])\n\nsrc/neurocascade/calibration/bayesian_calibration.py:154\n  /work/src/neurocascade/calibration/bayesian_calibration.py:154: FutureWarning: pytensor.as_op is deprecated and will be removed in a future release. Please use pytensor.wrap_py instead.\n    @as_op(itypes=[pt.dvector], otypes=[pt.dvector])\n\nsrc/neuro",
           "2026-10-25 12:16 COMPLETE, PR opened"
-        ]
+        ],
+        "pr": 39
       },
-      "note": "HOST-GATE FINDING (2026-10-25, from the developer, not a held-out peek). The previous session's work is seeded as WIP and is almost right. Two fixes remain:\n1. lxml is now a declared dependency (requirements.txt + pipeline/worker-constraints.txt, committed); do NOT re-add it and do not work around its absence.\n2. REAL BUG the session tree cannot surface: in chain_benchmark.py the held-out branch of _continuous_stage passes the `heldout_values` DICT as the `observed` argument to gmfe() and fold_errors(), e.g. `gmfe([prediction]*len(heldout_values), heldout_values)`. Iterating a dict yields its KEYS (INN strings), so on the host (full truth present) this raises TypeError: '<=' not supported between instances of 'str' and 'int' at gmfe()/fold_errors(). In the session tree held-out truth is stripped, so heldout_values is empty and the branch is skipped - that is why it passes locally but fails the host gate. FIX: pass `heldout_values.values()` (or `list(heldout_values.values())`) as observed in BOTH the held-out gmfe and fold_errors calls. This is a pure type fix, independent of any held-out value; confirmed value-free with a dummy dict. The train-LODO calls already pass lists and are fine. Re-run host_eval after the fix and report the held-out numbers it prints."
+      "note": "HOST-GATE FINDING (2026-10-25, from the developer, not a held-out peek). The previous session's work is seeded as WIP and is almost right. Two fixes remain:\n1. lxml is now a declared dependency (requirements.txt + pipeline/worker-constraints.txt, committed); do NOT re-add it and do not work around its absence.\n2. REAL BUG the session tree cannot surface: in chain_benchmark.py the held-out branch of _continuous_stage passes the `heldout_values` DICT as the `observed` argument to gmfe() and fold_errors(), e.g. `gmfe([prediction]*len(heldout_values), heldout_values)`. Iterating a dict yields its KEYS (INN strings), so on the host (full truth present) this raises TypeError: '<=' not supported between instances of 'str' and 'int' at gmfe()/fold_errors(). In the session tree held-out truth is stripped, so heldout_values is empty and the branch is skipped - that is why it passes locally but fails the host gate. FIX: pass `heldout_values.values()` (or `list(heldout_values.values())`) as observed in BOTH the held-out gmfe and fold_errors calls. This is a pure type fix, independent of any held-out value; confirmed value-free with a dummy dict. The train-LODO calls already pass lists and are fine. Re-run host_eval after the fix and report the held-out numbers it prints.",
+      "finished_at": "2026-10-25T12:00:55+00:00",
+      "result": "complete"
     }
   ]
 }
