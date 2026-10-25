@@ -1,0 +1,872 @@
+{
+  "task": "P30.3",
+  "method": "split-conformal on train leave-one-drug-out residuals",
+  "levels": [
+    "0.80",
+    "0.95"
+  ],
+  "quantities": {
+    "human_cl_ivive": {
+      "status": "calibrated",
+      "kind": "fold",
+      "source_task": "P29.2",
+      "method": "well-stirred IVIVE (rat allometry fallback), no per-drug fit, raw (no bias factor)",
+      "unit": "mL/min/kg",
+      "nonconformity": "|log10(predicted / observed)|",
+      "n_calibration": 15,
+      "calibration_drugs": [
+        "chlordiazepoxide",
+        "chlorpromazine",
+        "citalopram",
+        "clomipramine",
+        "clozapine",
+        "desipramine",
+        "haloperidol",
+        "lorazepam",
+        "maprotiline",
+        "mirtazapine",
+        "oxazepam",
+        "promazine",
+        "risperidone",
+        "trazodone",
+        "trimipramine"
+      ],
+      "quantiles": {
+        "0.80": 0.8777958038721762,
+        "0.95": null
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 12,
+          "n": 15,
+          "rate": 0.8,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 15,
+          "n": 15,
+          "rate": 1.0,
+          "n_unbounded": 15
+        }
+      },
+      "fold_bands": {
+        "0.80": 7.547372826375264,
+        "0.95": null
+      }
+    },
+    "human_cl_v2_train_mean": {
+      "status": "calibrated",
+      "kind": "fold",
+      "source_task": "P33.3",
+      "method": "v2 train arithmetic mean (fallback when no ADME package)",
+      "unit": "mL/min/kg",
+      "nonconformity": "|log10(predicted / observed)|",
+      "n_calibration": 109,
+      "calibration_drugs": [
+        "acetaminophen",
+        "alfentanil",
+        "alfuzosin",
+        "almotriptan",
+        "alprazolam",
+        "amantadine",
+        "amiodarone",
+        "amisulpride",
+        "amitriptyline",
+        "apomorphine",
+        "aripiprazole",
+        "atropine",
+        "biperiden",
+        "bupivacaine",
+        "buprenorphine",
+        "butorphanol",
+        "caffeine",
+        "carvedilol",
+        "chlordiazepoxide",
+        "chlorpheniramine",
+        "chlorpromazine",
+        "citalopram",
+        "clomipramine",
+        "clonidine",
+        "clozapine",
+        "cocaine",
+        "codeine",
+        "darifenacin",
+        "desipramine",
+        "dexmedetomidine",
+        "diazepam",
+        "donepezil",
+        "doxazosin",
+        "doxepin",
+        "eletriptan",
+        "entacapone",
+        "ergotamine",
+        "ethosuximide",
+        "gabapentin",
+        "galantamine",
+        "guanfacine",
+        "haloperidol",
+        "hydromorphone",
+        "imipramine",
+        "irinotecan",
+        "ketamine",
+        "labetalol",
+        "lamotrigine",
+        "lidocaine",
+        "lorazepam",
+        "maprotiline",
+        "melatonin",
+        "meperidine",
+        "methadone",
+        "methamphetamine",
+        "methohexital",
+        "methylphenidate",
+        "metoclopramide",
+        "midazolam",
+        "milnacipran",
+        "mirtazapine",
+        "morphine",
+        "nalbuphine",
+        "nalmefene",
+        "naltrexone",
+        "naratriptan",
+        "nefazodone",
+        "nicotine",
+        "nortriptyline",
+        "oxybutynin",
+        "paroxetine",
+        "pentamidine",
+        "pentobarbital",
+        "perphenazine",
+        "phenobarbital",
+        "phenytoin",
+        "prilocaine",
+        "prochlorperazine",
+        "procyclidine",
+        "promethazine",
+        "propafenone",
+        "propofol",
+        "propoxyphene",
+        "pyridostigmine",
+        "risperidone",
+        "rivastigmine",
+        "rizatriptan",
+        "scopolamine",
+        "solifenacin",
+        "sufentanil",
+        "sumatriptan",
+        "tacrine",
+        "tamsulosin",
+        "tegaserod",
+        "terazosin",
+        "thiopental",
+        "tiagabine",
+        "tolcapone",
+        "tolterodine",
+        "tramadol",
+        "trazodone",
+        "triazolam",
+        "trimipramine",
+        "verapamil",
+        "viloxazine",
+        "zaleplon",
+        "ziprasidone",
+        "zolmitriptan",
+        "zolpidem"
+      ],
+      "quantiles": {
+        "0.80": 0.7703693652355319,
+        "0.95": 1.377538344101768
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 88,
+          "n": 109,
+          "rate": 0.8073394495412844,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 104,
+          "n": 109,
+          "rate": 0.9541284403669725,
+          "n_unbounded": 0
+        }
+      },
+      "fold_bands": {
+        "0.80": 5.893446769005847,
+        "0.95": 23.852743833727345
+      },
+      "frozen_point": 11.112250247706422
+    },
+    "human_vss_v2_train_mean": {
+      "status": "calibrated",
+      "kind": "fold",
+      "source_task": "P33.3",
+      "method": "v2 train arithmetic mean (fallback when no ADME package)",
+      "unit": "L/kg",
+      "nonconformity": "|log10(predicted / observed)|",
+      "n_calibration": 107,
+      "calibration_drugs": [
+        "acetaminophen",
+        "alfentanil",
+        "alfuzosin",
+        "almotriptan",
+        "alprazolam",
+        "amantadine",
+        "amiodarone",
+        "amisulpride",
+        "amitriptyline",
+        "apomorphine",
+        "aripiprazole",
+        "atropine",
+        "biperiden",
+        "bupivacaine",
+        "buprenorphine",
+        "butorphanol",
+        "caffeine",
+        "carbamazepine",
+        "carvedilol",
+        "chlordiazepoxide",
+        "chlorpheniramine",
+        "chlorpromazine",
+        "citalopram",
+        "clomipramine",
+        "clonidine",
+        "clozapine",
+        "cocaine",
+        "codeine",
+        "darifenacin",
+        "desipramine",
+        "dexmedetomidine",
+        "diazepam",
+        "donepezil",
+        "doxazosin",
+        "doxepin",
+        "eletriptan",
+        "entacapone",
+        "ergotamine",
+        "ethosuximide",
+        "gabapentin",
+        "galantamine",
+        "guanfacine",
+        "haloperidol",
+        "hydromorphone",
+        "imipramine",
+        "irinotecan",
+        "ketamine",
+        "labetalol",
+        "lidocaine",
+        "lorazepam",
+        "maprotiline",
+        "meperidine",
+        "methadone",
+        "methamphetamine",
+        "methohexital",
+        "methylphenidate",
+        "metoclopramide",
+        "midazolam",
+        "mirtazapine",
+        "morphine",
+        "nalbuphine",
+        "nalmefene",
+        "naltrexone",
+        "naratriptan",
+        "nefazodone",
+        "nicotine",
+        "nortriptyline",
+        "oxybutynin",
+        "paroxetine",
+        "pentamidine",
+        "pentobarbital",
+        "perphenazine",
+        "phenobarbital",
+        "phenytoin",
+        "prilocaine",
+        "prochlorperazine",
+        "procyclidine",
+        "promethazine",
+        "propafenone",
+        "propofol",
+        "propoxyphene",
+        "pyridostigmine",
+        "risperidone",
+        "rivastigmine",
+        "rizatriptan",
+        "scopolamine",
+        "solifenacin",
+        "sufentanil",
+        "sumatriptan",
+        "tacrine",
+        "tamsulosin",
+        "tegaserod",
+        "terazosin",
+        "thiopental",
+        "tiagabine",
+        "tolcapone",
+        "tolterodine",
+        "tramadol",
+        "trazodone",
+        "triazolam",
+        "trimipramine",
+        "verapamil",
+        "viloxazine",
+        "zaleplon",
+        "ziprasidone",
+        "zolmitriptan",
+        "zolpidem"
+      ],
+      "quantiles": {
+        "0.80": 0.8737879915385627,
+        "0.95": 1.0907122892353651
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 86,
+          "n": 107,
+          "rate": 0.8037383177570093,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 102,
+          "n": 107,
+          "rate": 0.9532710280373832,
+          "n_unbounded": 0
+        }
+      },
+      "fold_bands": {
+        "0.80": 7.478043575920934,
+        "0.95": 12.322881982981869
+      },
+      "frozen_point": 6.230700934579439
+    },
+    "effect_probability:eps": {
+      "status": "calibrated",
+      "kind": "label_set",
+      "source_task": "P30.1",
+      "method": "L2 logistic on the occupancy index, leave-one-drug-out over train",
+      "unit": "probability of a positive clinical-effect label",
+      "nonconformity": "1 - p(observed label)",
+      "n_calibration": 30,
+      "n_positive": 10,
+      "n_negative": 20,
+      "underpowered": false,
+      "calibration_drugs": [
+        "agomelatine",
+        "aripiprazole",
+        "brexpiprazole",
+        "bromazepam",
+        "bupropion",
+        "buspirone",
+        "cariprazine",
+        "citalopram",
+        "clomipramine",
+        "clozapine",
+        "desvenlafaxine",
+        "duloxetine",
+        "fluvoxamine",
+        "gepirone",
+        "iloperidone",
+        "isocarboxazid",
+        "levomilnacipran",
+        "lumateperone",
+        "mianserin",
+        "mirtazapine",
+        "nefazodone",
+        "olanzapine",
+        "paliperidone",
+        "pimavanserin",
+        "pimozide",
+        "risperidone",
+        "sertraline",
+        "trazodone",
+        "vortioxetine",
+        "zuranolone"
+      ],
+      "quantiles": {
+        "0.80": 0.7007213221991095,
+        "0.95": 1.0
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 24,
+          "n": 30,
+          "rate": 0.8,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 29,
+          "n": 30,
+          "rate": 0.9666666666666667,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 0,
+          "1": 13,
+          "2": 17
+        },
+        "0.95": {
+          "0": 0,
+          "1": 1,
+          "2": 29
+        }
+      }
+    },
+    "effect_probability:sedation": {
+      "status": "calibrated",
+      "kind": "label_set",
+      "source_task": "P30.1",
+      "method": "L2 logistic on the occupancy index, leave-one-drug-out over train",
+      "unit": "probability of a positive clinical-effect label",
+      "nonconformity": "1 - p(observed label)",
+      "n_calibration": 31,
+      "n_positive": 25,
+      "n_negative": 6,
+      "underpowered": false,
+      "calibration_drugs": [
+        "aripiprazole",
+        "brexpiprazole",
+        "bromazepam",
+        "bupropion",
+        "buspirone",
+        "cariprazine",
+        "citalopram",
+        "clomipramine",
+        "clozapine",
+        "desvenlafaxine",
+        "doxepin",
+        "duloxetine",
+        "fluvoxamine",
+        "gepirone",
+        "iloperidone",
+        "isocarboxazid",
+        "levomilnacipran",
+        "loxapine",
+        "lumateperone",
+        "maprotiline",
+        "mirtazapine",
+        "nefazodone",
+        "olanzapine",
+        "paliperidone",
+        "pimavanserin",
+        "pimozide",
+        "risperidone",
+        "sertraline",
+        "trazodone",
+        "vortioxetine",
+        "zuranolone"
+      ],
+      "quantiles": {
+        "0.80": 0.8154566307944645,
+        "0.95": 0.8560695487157722
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 25,
+          "n": 31,
+          "rate": 0.8064516129032258,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 30,
+          "n": 31,
+          "rate": 0.967741935483871,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 0,
+          "1": 21,
+          "2": 10
+        },
+        "0.95": {
+          "0": 0,
+          "1": 9,
+          "2": 22
+        }
+      }
+    },
+    "effect_probability:weight_gain": {
+      "status": "calibrated",
+      "kind": "label_set",
+      "source_task": "P30.1",
+      "method": "L2 logistic on the occupancy index, leave-one-drug-out over train",
+      "unit": "probability of a positive clinical-effect label",
+      "nonconformity": "1 - p(observed label)",
+      "n_calibration": 28,
+      "n_positive": 11,
+      "n_negative": 17,
+      "underpowered": false,
+      "calibration_drugs": [
+        "aripiprazole",
+        "brexpiprazole",
+        "bromazepam",
+        "bupropion",
+        "buspirone",
+        "cariprazine",
+        "citalopram",
+        "clomipramine",
+        "clozapine",
+        "desvenlafaxine",
+        "duloxetine",
+        "fluvoxamine",
+        "gepirone",
+        "iloperidone",
+        "isocarboxazid",
+        "levomilnacipran",
+        "lumateperone",
+        "mirtazapine",
+        "nefazodone",
+        "olanzapine",
+        "paliperidone",
+        "pimavanserin",
+        "pimozide",
+        "risperidone",
+        "sertraline",
+        "trazodone",
+        "vortioxetine",
+        "zuranolone"
+      ],
+      "quantiles": {
+        "0.80": 0.725016572643491,
+        "0.95": 0.999994236610415
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 23,
+          "n": 28,
+          "rate": 0.8214285714285714,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 27,
+          "n": 28,
+          "rate": 0.9642857142857143,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 0,
+          "1": 7,
+          "2": 21
+        },
+        "0.95": {
+          "0": 0,
+          "1": 2,
+          "2": 26
+        }
+      }
+    },
+    "effect_probability:anticholinergic": {
+      "status": "calibrated",
+      "kind": "label_set",
+      "source_task": "P30.1",
+      "method": "L2 logistic on the occupancy index, leave-one-drug-out over train",
+      "unit": "probability of a positive clinical-effect label",
+      "nonconformity": "1 - p(observed label)",
+      "n_calibration": 29,
+      "n_positive": 26,
+      "n_negative": 3,
+      "underpowered": true,
+      "calibration_drugs": [
+        "aripiprazole",
+        "brexpiprazole",
+        "bupropion",
+        "buspirone",
+        "cariprazine",
+        "citalopram",
+        "clomipramine",
+        "clozapine",
+        "desvenlafaxine",
+        "doxepin",
+        "duloxetine",
+        "fluvoxamine",
+        "gepirone",
+        "iloperidone",
+        "isocarboxazid",
+        "levomilnacipran",
+        "lumateperone",
+        "maprotiline",
+        "mirtazapine",
+        "nefazodone",
+        "olanzapine",
+        "paliperidone",
+        "pimavanserin",
+        "pimozide",
+        "risperidone",
+        "sertraline",
+        "trazodone",
+        "vortioxetine",
+        "zuranolone"
+      ],
+      "quantiles": {
+        "0.80": 0.13238182387215924,
+        "0.95": 0.9999999362887978
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 24,
+          "n": 29,
+          "rate": 0.8275862068965517,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 28,
+          "n": 29,
+          "rate": 0.9655172413793104,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 1,
+          "1": 28,
+          "2": 0
+        },
+        "0.95": {
+          "0": 0,
+          "1": 2,
+          "2": 27
+        }
+      }
+    },
+    "effect_probability:orthostasis": {
+      "status": "calibrated",
+      "kind": "label_set",
+      "source_task": "P30.1",
+      "method": "L2 logistic on the occupancy index, leave-one-drug-out over train",
+      "unit": "probability of a positive clinical-effect label",
+      "nonconformity": "1 - p(observed label)",
+      "n_calibration": 32,
+      "n_positive": 3,
+      "n_negative": 29,
+      "underpowered": true,
+      "calibration_drugs": [
+        "agomelatine",
+        "aripiprazole",
+        "brexpiprazole",
+        "bromazepam",
+        "bupropion",
+        "buspirone",
+        "cariprazine",
+        "citalopram",
+        "clomipramine",
+        "clozapine",
+        "desvenlafaxine",
+        "doxepin",
+        "duloxetine",
+        "fluvoxamine",
+        "gepirone",
+        "iloperidone",
+        "isocarboxazid",
+        "levomilnacipran",
+        "lorazepam",
+        "lumateperone",
+        "mianserin",
+        "mirtazapine",
+        "nefazodone",
+        "olanzapine",
+        "paliperidone",
+        "pimavanserin",
+        "pimozide",
+        "risperidone",
+        "sertraline",
+        "trazodone",
+        "vortioxetine",
+        "zuranolone"
+      ],
+      "quantiles": {
+        "0.80": 0.18942154028767988,
+        "0.95": 0.9999779834844245
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 26,
+          "n": 32,
+          "rate": 0.8125,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 31,
+          "n": 32,
+          "rate": 0.96875,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 2,
+          "1": 30,
+          "2": 0
+        },
+        "0.95": {
+          "0": 0,
+          "1": 1,
+          "2": 31
+        }
+      }
+    },
+    "effect_probability:sexual_dysfunction": {
+      "status": "calibrated",
+      "kind": "label_set",
+      "source_task": "P30.1",
+      "method": "L2 logistic on the occupancy index, leave-one-drug-out over train",
+      "unit": "probability of a positive clinical-effect label",
+      "nonconformity": "1 - p(observed label)",
+      "n_calibration": 29,
+      "n_positive": 8,
+      "n_negative": 21,
+      "underpowered": false,
+      "calibration_drugs": [
+        "agomelatine",
+        "aripiprazole",
+        "brexpiprazole",
+        "bromazepam",
+        "bupropion",
+        "buspirone",
+        "cariprazine",
+        "citalopram",
+        "clomipramine",
+        "clozapine",
+        "desvenlafaxine",
+        "duloxetine",
+        "fluvoxamine",
+        "gepirone",
+        "iloperidone",
+        "isocarboxazid",
+        "levomilnacipran",
+        "lumateperone",
+        "mirtazapine",
+        "nefazodone",
+        "olanzapine",
+        "paliperidone",
+        "pimavanserin",
+        "pimozide",
+        "risperidone",
+        "sertraline",
+        "trazodone",
+        "vortioxetine",
+        "zuranolone"
+      ],
+      "quantiles": {
+        "0.80": 0.7067563031080402,
+        "0.95": 1.0
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 24,
+          "n": 29,
+          "rate": 0.8275862068965517,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 28,
+          "n": 29,
+          "rate": 0.9655172413793104,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 0,
+          "1": 14,
+          "2": 15
+        },
+        "0.95": {
+          "0": 0,
+          "1": 1,
+          "2": 28
+        }
+      }
+    },
+    "effect_probability:seizure": {
+      "status": "calibrated",
+      "kind": "label_set",
+      "source_task": "P30.1",
+      "method": "L2 logistic on the occupancy index, leave-one-drug-out over train",
+      "unit": "probability of a positive clinical-effect label",
+      "nonconformity": "1 - p(observed label)",
+      "n_calibration": 31,
+      "n_positive": 0,
+      "n_negative": 31,
+      "underpowered": true,
+      "calibration_drugs": [
+        "agomelatine",
+        "aripiprazole",
+        "brexpiprazole",
+        "bupropion",
+        "buspirone",
+        "cariprazine",
+        "citalopram",
+        "clomipramine",
+        "clozapine",
+        "desvenlafaxine",
+        "duloxetine",
+        "fluvoxamine",
+        "gepirone",
+        "haloperidol",
+        "iloperidone",
+        "isocarboxazid",
+        "levomilnacipran",
+        "lorazepam",
+        "lumateperone",
+        "mianserin",
+        "mirtazapine",
+        "nefazodone",
+        "olanzapine",
+        "paliperidone",
+        "pimavanserin",
+        "pimozide",
+        "risperidone",
+        "sertraline",
+        "trazodone",
+        "vortioxetine",
+        "zuranolone"
+      ],
+      "quantiles": {
+        "0.80": 0.016129032258064502,
+        "0.95": 0.016129032258064502
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 31,
+          "n": 31,
+          "rate": 1.0,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 31,
+          "n": 31,
+          "rate": 1.0,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 0,
+          "1": 31,
+          "2": 0
+        },
+        "0.95": {
+          "0": 0,
+          "1": 31,
+          "2": 0
+        }
+      }
+    },
+    "human_vss_ivive": {
+      "status": "searched-and-empty",
+      "reason": "P29.2's Oie-Tozer Vss arm has n=0 scoreable train drugs: no benchmark drug pairs a clean rat plasma Vss with human Vss truth"
+    },
+    "target_engagement_dose": {
+      "status": "pending",
+      "reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data"
+    },
+    "occupancy": {
+      "status": "pending",
+      "reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs"
+    }
+  }
+}

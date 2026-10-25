@@ -1,0 +1,381 @@
+{
+  "task": "P30.3",
+  "status": "complete-with-host-pending-heldout",
+  "n_scored": 109,
+  "n_scored_definition": "largest train calibration set with empirical LODO coverage (human_cl_v2_train_mean)",
+  "levels": [
+    "0.80",
+    "0.95"
+  ],
+  "quantities": {
+    "human_cl_ivive": {
+      "status": "calibrated",
+      "source_task": "P29.2",
+      "n": 15,
+      "quantiles": {
+        "0.80": 0.8777958038721762,
+        "0.95": null
+      },
+      "fold_bands": {
+        "0.80": 7.547372826375264,
+        "0.95": null
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 12,
+          "n": 15,
+          "rate": 0.8,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 15,
+          "n": 15,
+          "rate": 1.0,
+          "n_unbounded": 15
+        }
+      },
+      "lodo_set_sizes": null,
+      "underpowered": null
+    },
+    "human_cl_v2_train_mean": {
+      "status": "calibrated",
+      "source_task": "P33.3",
+      "n": 109,
+      "quantiles": {
+        "0.80": 0.7703693652355319,
+        "0.95": 1.377538344101768
+      },
+      "fold_bands": {
+        "0.80": 5.893446769005847,
+        "0.95": 23.852743833727345
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 88,
+          "n": 109,
+          "rate": 0.8073394495412844,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 104,
+          "n": 109,
+          "rate": 0.9541284403669725,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": null,
+      "underpowered": null
+    },
+    "human_vss_v2_train_mean": {
+      "status": "calibrated",
+      "source_task": "P33.3",
+      "n": 107,
+      "quantiles": {
+        "0.80": 0.8737879915385627,
+        "0.95": 1.0907122892353651
+      },
+      "fold_bands": {
+        "0.80": 7.478043575920934,
+        "0.95": 12.322881982981869
+      },
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 86,
+          "n": 107,
+          "rate": 0.8037383177570093,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 102,
+          "n": 107,
+          "rate": 0.9532710280373832,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": null,
+      "underpowered": null
+    },
+    "effect_probability:eps": {
+      "status": "calibrated",
+      "source_task": "P30.1",
+      "n": 30,
+      "quantiles": {
+        "0.80": 0.7007213221991095,
+        "0.95": 1.0
+      },
+      "fold_bands": null,
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 24,
+          "n": 30,
+          "rate": 0.8,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 29,
+          "n": 30,
+          "rate": 0.9666666666666667,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 0,
+          "1": 13,
+          "2": 17
+        },
+        "0.95": {
+          "0": 0,
+          "1": 1,
+          "2": 29
+        }
+      },
+      "underpowered": false
+    },
+    "effect_probability:sedation": {
+      "status": "calibrated",
+      "source_task": "P30.1",
+      "n": 31,
+      "quantiles": {
+        "0.80": 0.8154566307944645,
+        "0.95": 0.8560695487157722
+      },
+      "fold_bands": null,
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 25,
+          "n": 31,
+          "rate": 0.8064516129032258,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 30,
+          "n": 31,
+          "rate": 0.967741935483871,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 0,
+          "1": 21,
+          "2": 10
+        },
+        "0.95": {
+          "0": 0,
+          "1": 9,
+          "2": 22
+        }
+      },
+      "underpowered": false
+    },
+    "effect_probability:weight_gain": {
+      "status": "calibrated",
+      "source_task": "P30.1",
+      "n": 28,
+      "quantiles": {
+        "0.80": 0.725016572643491,
+        "0.95": 0.999994236610415
+      },
+      "fold_bands": null,
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 23,
+          "n": 28,
+          "rate": 0.8214285714285714,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 27,
+          "n": 28,
+          "rate": 0.9642857142857143,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 0,
+          "1": 7,
+          "2": 21
+        },
+        "0.95": {
+          "0": 0,
+          "1": 2,
+          "2": 26
+        }
+      },
+      "underpowered": false
+    },
+    "effect_probability:anticholinergic": {
+      "status": "calibrated",
+      "source_task": "P30.1",
+      "n": 29,
+      "quantiles": {
+        "0.80": 0.13238182387215924,
+        "0.95": 0.9999999362887978
+      },
+      "fold_bands": null,
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 24,
+          "n": 29,
+          "rate": 0.8275862068965517,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 28,
+          "n": 29,
+          "rate": 0.9655172413793104,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 1,
+          "1": 28,
+          "2": 0
+        },
+        "0.95": {
+          "0": 0,
+          "1": 2,
+          "2": 27
+        }
+      },
+      "underpowered": true
+    },
+    "effect_probability:orthostasis": {
+      "status": "calibrated",
+      "source_task": "P30.1",
+      "n": 32,
+      "quantiles": {
+        "0.80": 0.18942154028767988,
+        "0.95": 0.9999779834844245
+      },
+      "fold_bands": null,
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 26,
+          "n": 32,
+          "rate": 0.8125,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 31,
+          "n": 32,
+          "rate": 0.96875,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 2,
+          "1": 30,
+          "2": 0
+        },
+        "0.95": {
+          "0": 0,
+          "1": 1,
+          "2": 31
+        }
+      },
+      "underpowered": true
+    },
+    "effect_probability:sexual_dysfunction": {
+      "status": "calibrated",
+      "source_task": "P30.1",
+      "n": 29,
+      "quantiles": {
+        "0.80": 0.7067563031080402,
+        "0.95": 1.0
+      },
+      "fold_bands": null,
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 24,
+          "n": 29,
+          "rate": 0.8275862068965517,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 28,
+          "n": 29,
+          "rate": 0.9655172413793104,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 0,
+          "1": 14,
+          "2": 15
+        },
+        "0.95": {
+          "0": 0,
+          "1": 1,
+          "2": 28
+        }
+      },
+      "underpowered": false
+    },
+    "effect_probability:seizure": {
+      "status": "calibrated",
+      "source_task": "P30.1",
+      "n": 31,
+      "quantiles": {
+        "0.80": 0.016129032258064502,
+        "0.95": 0.016129032258064502
+      },
+      "fold_bands": null,
+      "lodo_coverage": {
+        "0.80": {
+          "covered": 31,
+          "n": 31,
+          "rate": 1.0,
+          "n_unbounded": 0
+        },
+        "0.95": {
+          "covered": 31,
+          "n": 31,
+          "rate": 1.0,
+          "n_unbounded": 0
+        }
+      },
+      "lodo_set_sizes": {
+        "0.80": {
+          "0": 0,
+          "1": 31,
+          "2": 0
+        },
+        "0.95": {
+          "0": 0,
+          "1": 31,
+          "2": 0
+        }
+      },
+      "underpowered": true
+    },
+    "human_vss_ivive": {
+      "status": "searched-and-empty",
+      "reason": "P29.2's Oie-Tozer Vss arm has n=0 scoreable train drugs: no benchmark drug pairs a clean rat plasma Vss with human Vss truth",
+      "n": 0
+    },
+    "target_engagement_dose": {
+      "status": "pending",
+      "reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "n": 0
+    },
+    "occupancy": {
+      "status": "pending",
+      "reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "n": 0
+    }
+  },
+  "heldout": {
+    "status": "host-pending",
+    "how": "neurocascade.benchmark.conformal.heldout_coverage() against the frozen conformal_bands.json; printed by tests/conftest.py under NC_HOST_EVAL=1 when tests/test_conformal.py runs",
+    "splits": {
+      "P28.1 heldout": "human_cl_ivive and effect_probability:*",
+      "v2 hash heldout": "human_*_v2_train_mean"
+    }
+  }
+}
