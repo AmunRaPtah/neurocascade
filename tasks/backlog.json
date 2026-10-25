@@ -2802,7 +2802,13 @@
         "P33.3"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "conductor": {
+        "sessions": 1,
+        "history": [
+          "2026-10-25 14:06 COMPLETE, PR opened"
+        ]
+      }
     },
     {
       "id": "P31.1",
