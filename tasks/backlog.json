@@ -3095,11 +3095,12 @@
       "host_eval": "PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump /tmp/p33_4_go.json && python pipeline/go_verdict.py /tmp/p33_4_go.json",
       "note": "Pre-registered rule and one-look policy: docs/prereg-p33-4-go.md (sealed 2026-10-26). The first host verdict binds (conductor HOME/go/P33.4.json).",
       "conductor": {
-        "sessions": 3,
+        "sessions": 4,
         "history": [
           "2026-10-26 07:32 complete; rejected: gate failed:\nE       PermissionError: [Errno 13] Permission denied: '/root/nc-v2-cache/cmax/labels.jsonl.gz'\nFAILED tests/test_v2_cmax.py::test_snippets_verbatim_in_cached_source - Permi...\n=========================== short test summary info ============================\n1 failed, 3003 passed, 2 skipped, 15 deselected, 15 warnings in 1688.44s (0:28:08)",
           "2026-10-26 09:01 complete; rejected: gate failed:\n.............................................s...........s.............. [ 66%]\n........................................................................ [ 69%]\n..............",
-          "2026-10-26 10:18 complete; rejected: gate failed:\n........................................................................ [ 81%]\n........................................................................ [ 83%]\n.........................................................."
+          "2026-10-26 10:18 complete; rejected: gate failed:\n........................................................................ [ 81%]\n........................................................................ [ 83%]\n..........................................................",
+          "2026-10-26 11:44 complete; rejected: gate failed:\n........................................................................ [ 88%]\n................................................................\nGATE TIMEOUT: pytest killed after 60 min. Make new tests faster or mark heavy ones @pytest.mark.slow."
         ]
       }
     },
