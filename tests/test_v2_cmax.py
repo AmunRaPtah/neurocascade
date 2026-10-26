@@ -6,6 +6,7 @@ every train drug to be present.
 """
 
 import importlib.util
+import os
 import json
 import math
 import re
@@ -100,8 +101,9 @@ def test_no_value_without_source_snippet(doc):
 
 def test_snippets_verbatim_in_cached_source(doc, mod):
     """Re-run the build verifier when the source cache is on this machine."""
-    if not mod.LABELS.exists() or not mod.PUBMED_DIR.exists():
-        pytest.skip("source cache not present")
+    # session sandboxes can see the host cache path but not read it
+    if not all(os.access(q, os.R_OK) for q in (mod.LABELS, mod.PUBMED_DIR)):
+        pytest.skip("source cache not present or not readable")
     labels = mod.load_labels()
     for r in doc["drugs"]:
         if r["status"] != "value":
