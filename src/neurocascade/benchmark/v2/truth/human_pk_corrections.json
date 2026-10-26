@@ -1,0 +1,3024 @@
+{
+ "version": 1,
+ "date": "2026-10-26",
+ "rule": "A clearance_iv or vss value is human in-vivo intravenous PK only if every ChEMBL activity behind it comes from an organism-based assay (bao_format BAO_0000218) in Homo sapiens with no cell type or subcellular fraction and no in-vitro wording (microsomes, hepatocytes, S9, intrinsic clearance, metabolic stability); for clearance, the assay must be total body clearance, not an organ-partial clearance (assay_tissue set, or hepatic/renal/biliary clearance); for vss, the assay must not be an unbound volume; and the assay must not state a non-intravenous route (po, oral, im, sc and similar) without also stating iv. A source document outside the curated human PK compilations listed in scripts/v2_pk.py is accepted only if its PubMed title names the drug as a whole word, carries a human or in-vivo PK term, and does not describe analogues, derivatives, a compound series, synthesis or lead optimisation, a drug-drug interaction, a non-human species or an in-vitro system. Activities failing any test are removed. A field with no valid activity left is dropped (set to null); a field with some valid activities left is recomputed from those alone with the original aggregation (geometric mean within a document, median across documents, censored values ignored). The rule concerns source type only and is applied identically to every drug.",
+ "applies_to": "truth/human_pk.json",
+ "drop": {
+  "donepezil": {
+   "fields": [
+    "clearance_iv",
+    "vss"
+   ],
+   "reason": "clearance_iv: non_iv_route; vss: non_iv_route",
+   "evidence": [
+    "CHEMBL3540922",
+    "PMID:21148081",
+    "CHEMBL3540921"
+   ],
+   "detail": {
+    "clearance_iv": {
+     "reasons": [
+      "non_iv_route"
+     ],
+     "excluded": [
+      {
+       "assay": "CHEMBL3540922",
+       "document": "CHEMBL3526005",
+       "pmid": "21148081",
+       "reason": "non_iv_route"
+      }
+     ]
+    },
+    "vss": {
+     "reasons": [
+      "non_iv_route"
+     ],
+     "excluded": [
+      {
+       "assay": "CHEMBL3540921",
+       "document": "CHEMBL3526005",
+       "pmid": "21148081",
+       "reason": "non_iv_route"
+      }
+     ]
+    }
+   }
+  },
+  "melatonin": {
+   "fields": [
+    "clearance_iv"
+   ],
+   "reason": "clearance_iv: in_vitro",
+   "evidence": [
+    "CHEMBL2327999",
+    "PMID:23228808"
+   ],
+   "detail": {
+    "clearance_iv": {
+     "reasons": [
+      "in_vitro"
+     ],
+     "excluded": [
+      {
+       "assay": "CHEMBL2327999",
+       "document": "CHEMBL2321713",
+       "pmid": "23228808",
+       "reason": "in_vitro"
+      }
+     ]
+    }
+   }
+  },
+  "milnacipran": {
+   "fields": [
+    "clearance_iv"
+   ],
+   "reason": "clearance_iv: in_vitro",
+   "evidence": [
+    "CHEMBL931357",
+    "PMID:18468895",
+    "CHEMBL948481",
+    "PMID:18954038"
+   ],
+   "detail": {
+    "clearance_iv": {
+     "reasons": [
+      "in_vitro"
+     ],
+     "excluded": [
+      {
+       "assay": "CHEMBL931357",
+       "document": "CHEMBL1143093",
+       "pmid": "18468895",
+       "reason": "in_vitro"
+      },
+      {
+       "assay": "CHEMBL948481",
+       "document": "CHEMBL1152288",
+       "pmid": "18954038",
+       "reason": "in_vitro"
+      }
+     ]
+    }
+   }
+  },
+  "tetrabenazine": {
+   "fields": [
+    "clearance_iv"
+   ],
+   "reason": "clearance_iv: in_vitro",
+   "evidence": [
+    "CHEMBL4829576",
+    "PMID:34329999"
+   ],
+   "detail": {
+    "clearance_iv": {
+     "reasons": [
+      "in_vitro"
+     ],
+     "excluded": [
+      {
+       "assay": "CHEMBL4829576",
+       "document": "CHEMBL4828724",
+       "pmid": "34329999",
+       "reason": "in_vitro"
+      }
+     ]
+    }
+   }
+  }
+ },
+ "replace": {
+  "acetaminophen": {
+   "clearance_iv": {
+    "value": 5.0,
+    "min": 5.0,
+    "max": 5.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "alfentanil": {
+   "clearance_iv": {
+    "value": 3.9,
+    "min": 3.9,
+    "max": 6.7,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614629",
+      "pmid": "15920768",
+      "doi": "10.1002/jps.20373",
+      "title": "Extrapolation of human pharmacokinetic parameters from rat, dog, and monkey data: Molecular properties associated with extrapolative success or failure.",
+      "journal": "J Pharm Sci",
+      "year": 2005
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "alprazolam": {
+   "clearance_iv": {
+    "value": 0.74,
+    "min": 0.74,
+    "max": 0.74,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "amiodarone": {
+   "clearance_iv": {
+    "value": 1.9,
+    "min": 1.9,
+    "max": 1.9,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614630",
+      "pmid": "16621936",
+      "doi": "10.1124/dmd.105.006619",
+      "title": "Extrapolation of preclinical pharmacokinetics and molecular feature analysis of \"discovery-like\" molecules to predict human pharmacokinetics.",
+      "journal": "Drug Metab Dispos",
+      "year": 2006
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "amisulpride": {
+   "clearance_iv": {
+    "value": 7.8,
+    "min": 7.8,
+    "max": 7.8,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "amitriptyline": {
+   "clearance_iv": {
+    "value": 6.1,
+    "min": 6.1,
+    "max": 6.1,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "atomoxetine": {
+   "clearance_iv": {
+    "value": 9.3,
+    "min": 9.3,
+    "max": 9.3,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "atropine": {
+   "clearance_iv": {
+    "value": 7.6,
+    "min": 7.6,
+    "max": 7.6,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "biperiden": {
+   "clearance_iv": {
+    "value": 12.0,
+    "min": 12.0,
+    "max": 15.3,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614630",
+      "pmid": "16621936",
+      "doi": "10.1124/dmd.105.006619",
+      "title": "Extrapolation of preclinical pharmacokinetics and molecular feature analysis of \"discovery-like\" molecules to predict human pharmacokinetics.",
+      "journal": "Drug Metab Dispos",
+      "year": 2006
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "bupivacaine": {
+   "clearance_iv": {
+    "value": 4.3,
+    "min": 4.3,
+    "max": 4.3,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "caffeine": {
+   "clearance_iv": {
+    "value": 1.4,
+    "min": 1.4,
+    "max": 2.0,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614629",
+      "pmid": "15920768",
+      "doi": "10.1002/jps.20373",
+      "title": "Extrapolation of human pharmacokinetic parameters from rat, dog, and monkey data: Molecular properties associated with extrapolative success or failure.",
+      "journal": "J Pharm Sci",
+      "year": 2005
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "carvedilol": {
+   "clearance_iv": {
+    "value": 7.8,
+    "min": 7.8,
+    "max": 7.8,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "chlordiazepoxide": {
+   "clearance_iv": {
+    "value": 0.37,
+    "min": 0.37,
+    "max": 0.37,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "chlorpheniramine": {
+   "clearance_iv": {
+    "value": 2.5,
+    "min": 2.5,
+    "max": 2.5,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   },
+   "vss": {
+    "value": 3.25,
+    "min": 3.2,
+    "max": 10.0,
+    "n_measurements": 6,
+    "n_documents": 6,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1135488",
+      "pmid": "12061889",
+      "doi": "10.1021/jm0200409",
+      "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+      "journal": "J Med Chem",
+      "year": 2002
+     },
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1153781",
+      "pmid": "19586686",
+      "doi": "10.1016/j.ejmech.2009.06.004",
+      "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+      "journal": "Eur J Med Chem",
+      "year": 2009
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3588773",
+      "pmid": "25799158",
+      "doi": "10.1021/acs.jmedchem.5b00201",
+      "title": "Volume of Distribution in Drug Design.",
+      "journal": "J Med Chem",
+      "year": 2015
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "L/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL3591350",
+      "document": "CHEMBL3588773",
+      "pmid": "25799158",
+      "reason": "unbound_volume"
+     }
+    ]
+   }
+  },
+  "chlorpromazine": {
+   "clearance_iv": {
+    "value": 16.0,
+    "min": 4.3,
+    "max": 16.0,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614630",
+      "pmid": "16621936",
+      "doi": "10.1124/dmd.105.006619",
+      "title": "Extrapolation of preclinical pharmacokinetics and molecular feature analysis of \"discovery-like\" molecules to predict human pharmacokinetics.",
+      "journal": "Drug Metab Dispos",
+      "year": 2006
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "citalopram": {
+   "clearance_iv": {
+    "value": 4.3,
+    "min": 4.3,
+    "max": 5.0,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614629",
+      "pmid": "15920768",
+      "doi": "10.1002/jps.20373",
+      "title": "Extrapolation of human pharmacokinetic parameters from rat, dog, and monkey data: Molecular properties associated with extrapolative success or failure.",
+      "journal": "J Pharm Sci",
+      "year": 2005
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "clonazepam": {
+   "clearance_iv": {
+    "value": 0.88,
+    "min": 0.88,
+    "max": 1.6,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614629",
+      "pmid": "15920768",
+      "doi": "10.1002/jps.20373",
+      "title": "Extrapolation of human pharmacokinetic parameters from rat, dog, and monkey data: Molecular properties associated with extrapolative success or failure.",
+      "journal": "J Pharm Sci",
+      "year": 2005
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "clozapine": {
+   "clearance_iv": {
+    "value": 2.5,
+    "min": 2.5,
+    "max": 2.5,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "desipramine": {
+   "clearance_iv": {
+    "value": 11.0,
+    "min": 11.0,
+    "max": 11.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "diazepam": {
+   "clearance_iv": {
+    "value": 0.38,
+    "min": 0.38,
+    "max": 0.38,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   },
+   "vss": {
+    "value": 1.05,
+    "min": 1.0,
+    "max": 1.3,
+    "n_measurements": 6,
+    "n_documents": 6,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1135488",
+      "pmid": "12061889",
+      "doi": "10.1021/jm0200409",
+      "title": "Prediction of volume of distribution values in humans for neutral and basic drugs using physicochemical measurements and plasma protein binding data.",
+      "journal": "J Med Chem",
+      "year": 2002
+     },
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1153781",
+      "pmid": "19586686",
+      "doi": "10.1016/j.ejmech.2009.06.004",
+      "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+      "journal": "Eur J Med Chem",
+      "year": 2009
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3588773",
+      "pmid": "25799158",
+      "doi": "10.1021/acs.jmedchem.5b00201",
+      "title": "Volume of Distribution in Drug Design.",
+      "journal": "J Med Chem",
+      "year": 2015
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "L/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL3591350",
+      "document": "CHEMBL3588773",
+      "pmid": "25799158",
+      "reason": "unbound_volume"
+     }
+    ]
+   }
+  },
+  "entacapone": {
+   "clearance_iv": {
+    "value": 11.85,
+    "min": 11.7,
+    "max": 12.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "fluoxetine": {
+   "vss": {
+    "value": 4.3,
+    "min": 4.3,
+    "max": 4.3,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL3588773",
+      "pmid": "25799158",
+      "doi": "10.1021/acs.jmedchem.5b00201",
+      "title": "Volume of Distribution in Drug Design.",
+      "journal": "J Med Chem",
+      "year": 2015
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "L/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL3591350",
+      "document": "CHEMBL3588773",
+      "pmid": "25799158",
+      "reason": "unbound_volume"
+     }
+    ]
+   }
+  },
+  "frovatriptan": {
+   "clearance_iv": {
+    "value": 2.5,
+    "min": 2.5,
+    "max": 2.5,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "galantamine": {
+   "clearance_iv": {
+    "value": 5.6,
+    "min": 5.6,
+    "max": 5.6,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL3540922",
+      "document": "CHEMBL3526005",
+      "pmid": "21148081",
+      "reason": "non_iv_route"
+     }
+    ]
+   },
+   "vss": {
+    "value": 2.38,
+    "min": 2.3,
+    "max": 2.46,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "L/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL3540921",
+      "document": "CHEMBL3526005",
+      "pmid": "21148081",
+      "reason": "non_iv_route"
+     }
+    ]
+   }
+  },
+  "guanfacine": {
+   "clearance_iv": {
+    "value": 5.2,
+    "min": 4.5,
+    "max": 5.9,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "haloperidol": {
+   "clearance_iv": {
+    "value": 7.8,
+    "min": 7.8,
+    "max": 11.8,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614630",
+      "pmid": "16621936",
+      "doi": "10.1124/dmd.105.006619",
+      "title": "Extrapolation of preclinical pharmacokinetics and molecular feature analysis of \"discovery-like\" molecules to predict human pharmacokinetics.",
+      "journal": "Drug Metab Dispos",
+      "year": 2006
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "lamotrigine": {
+   "clearance_iv": {
+    "value": 0.6,
+    "min": 0.6,
+    "max": 0.6,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "lorazepam": {
+   "clearance_iv": {
+    "value": 1.0,
+    "min": 1.0,
+    "max": 1.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "methadone": {
+   "clearance_iv": {
+    "value": 1.7,
+    "min": 1.4,
+    "max": 1.7,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614630",
+      "pmid": "16621936",
+      "doi": "10.1124/dmd.105.006619",
+      "title": "Extrapolation of preclinical pharmacokinetics and molecular feature analysis of \"discovery-like\" molecules to predict human pharmacokinetics.",
+      "journal": "Drug Metab Dispos",
+      "year": 2006
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "metoclopramide": {
+   "clearance_iv": {
+    "value": 5.7,
+    "min": 5.7,
+    "max": 5.7,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "midazolam": {
+   "clearance_iv": {
+    "value": 5.3,
+    "min": 5.3,
+    "max": 6.6,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614630",
+      "pmid": "16621936",
+      "doi": "10.1124/dmd.105.006619",
+      "title": "Extrapolation of preclinical pharmacokinetics and molecular feature analysis of \"discovery-like\" molecules to predict human pharmacokinetics.",
+      "journal": "Drug Metab Dispos",
+      "year": 2006
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "mirtazapine": {
+   "clearance_iv": {
+    "value": 8.0,
+    "min": 8.0,
+    "max": 8.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "naratriptan": {
+   "clearance_iv": {
+    "value": 6.6,
+    "min": 6.6,
+    "max": 6.6,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "nefazodone": {
+   "clearance_iv": {
+    "value": 7.5,
+    "min": 7.5,
+    "max": 7.5,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "neostigmine": {
+   "clearance_iv": {
+    "value": 9.2,
+    "min": 9.2,
+    "max": 9.2,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "nicotine": {
+   "clearance_iv": {
+    "value": 18.0,
+    "min": 18.0,
+    "max": 19.0,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614629",
+      "pmid": "15920768",
+      "doi": "10.1002/jps.20373",
+      "title": "Extrapolation of human pharmacokinetic parameters from rat, dog, and monkey data: Molecular properties associated with extrapolative success or failure.",
+      "journal": "J Pharm Sci",
+      "year": 2005
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "nortriptyline": {
+   "clearance_iv": {
+    "value": 10.0,
+    "min": 10.0,
+    "max": 10.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "oxazepam": {
+   "clearance_iv": {
+    "value": 1.1,
+    "min": 1.1,
+    "max": 1.1,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "paroxetine": {
+   "vss": {
+    "value": 17.6,
+    "min": 17.2,
+    "max": 18.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "L/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1005857",
+      "document": "CHEMBL1137661",
+      "pmid": "17846135",
+      "reason": "wrong_entity_source"
+     }
+    ]
+   }
+  },
+  "phenobarbital": {
+   "clearance_iv": {
+    "value": 0.063,
+    "min": 0.05,
+    "max": 0.063,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3785015",
+      "pmid": "7068937",
+      "doi": "10.1002/j.1552-4604.1982.tb02662.x",
+      "title": "Phenobarbital pharmacokinetics and bioavailability in adults.",
+      "journal": "J Clin Pharmacol",
+      "year": 1982
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     },
+     {
+      "assay": "CHEMBL3788617",
+      "document": "CHEMBL3785015",
+      "pmid": "7068937",
+      "reason": "partial_clearance"
+     }
+    ]
+   },
+   "vss": {
+    "value": 0.57,
+    "min": 0.54,
+    "max": 0.63,
+    "n_measurements": 4,
+    "n_documents": 4,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1153781",
+      "pmid": "19586686",
+      "doi": "10.1016/j.ejmech.2009.06.004",
+      "title": "Prediction of volume of distribution values in human using immobilized artificial membrane partitioning coefficients, the fraction of compound ionized and plasma protein binding data.",
+      "journal": "Eur J Med Chem",
+      "year": 2009
+     },
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     },
+     {
+      "chembl_document_id": "CHEMBL3785015",
+      "pmid": "7068937",
+      "doi": "10.1002/j.1552-4604.1982.tb02662.x",
+      "title": "Phenobarbital pharmacokinetics and bioavailability in adults.",
+      "journal": "J Clin Pharmacol",
+      "year": 1982
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "L/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL3790603",
+      "document": "CHEMBL3785044",
+      "pmid": "626078",
+      "reason": "non_iv_route"
+     },
+     {
+      "assay": "CHEMBL3790604",
+      "document": "CHEMBL3785044",
+      "pmid": "626078",
+      "reason": "non_iv_route"
+     },
+     {
+      "assay": "CHEMBL3790605",
+      "document": "CHEMBL3785044",
+      "pmid": "626078",
+      "reason": "non_iv_route"
+     },
+     {
+      "assay": "CHEMBL3790606",
+      "document": "CHEMBL3785044",
+      "pmid": "626078",
+      "reason": "non_iv_route"
+     },
+     {
+      "assay": "CHEMBL3790607",
+      "document": "CHEMBL3785044",
+      "pmid": "626078",
+      "reason": "non_iv_route"
+     }
+    ]
+   }
+  },
+  "phenytoin": {
+   "clearance_iv": {
+    "value": 0.47,
+    "min": 0.37,
+    "max": 0.57,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614629",
+      "pmid": "15920768",
+      "doi": "10.1002/jps.20373",
+      "title": "Extrapolation of human pharmacokinetic parameters from rat, dog, and monkey data: Molecular properties associated with extrapolative success or failure.",
+      "journal": "J Pharm Sci",
+      "year": 2005
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "prazosin": {
+   "clearance_iv": {
+    "value": 4.7,
+    "min": 4.7,
+    "max": 4.7,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "procyclidine": {
+   "clearance_iv": {
+    "value": 0.86,
+    "min": 0.86,
+    "max": 0.86,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "propafenone": {
+   "clearance_iv": {
+    "value": 12.4,
+    "min": 8.8,
+    "max": 16.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614630",
+      "pmid": "16621936",
+      "doi": "10.1124/dmd.105.006619",
+      "title": "Extrapolation of preclinical pharmacokinetics and molecular feature analysis of \"discovery-like\" molecules to predict human pharmacokinetics.",
+      "journal": "Drug Metab Dispos",
+      "year": 2006
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1918931",
+      "document": "CHEMBL1914304",
+      "pmid": "21955244",
+      "reason": "in_vitro"
+     },
+     {
+      "assay": "CHEMBL2160419",
+      "document": "CHEMBL2157870",
+      "pmid": "22708838",
+      "reason": "in_vitro"
+     }
+    ]
+   }
+  },
+  "pyridostigmine": {
+   "clearance_iv": {
+    "value": 9.6,
+    "min": 9.6,
+    "max": 9.6,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "risperidone": {
+   "clearance_iv": {
+    "value": 5.4,
+    "min": 5.4,
+    "max": 5.4,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "scopolamine": {
+   "clearance_iv": {
+    "value": 16.0,
+    "min": 16.0,
+    "max": 16.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "selegiline": {
+   "clearance_iv": {
+    "value": 20.0,
+    "min": 20.0,
+    "max": 20.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "solifenacin": {
+   "clearance_iv": {
+    "value": 2.1,
+    "min": 2.1,
+    "max": 2.1,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "sufentanil": {
+   "clearance_iv": {
+    "value": 15.0,
+    "min": 15.0,
+    "max": 15.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "sumatriptan": {
+   "clearance_iv": {
+    "value": 19.0,
+    "min": 19.0,
+    "max": 19.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "tacrine": {
+   "clearance_iv": {
+    "value": 56.0,
+    "min": 56.0,
+    "max": 56.0,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL3540922",
+      "document": "CHEMBL3526005",
+      "pmid": "21148081",
+      "reason": "non_iv_route"
+     }
+    ]
+   },
+   "vss": {
+    "value": 9.61,
+    "min": 8.22,
+    "max": 11.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1148291",
+      "pmid": "14971904",
+      "doi": "10.1021/jm030408h",
+      "title": "Prediction of human volume of distribution values for neutral and basic drugs. 2. Extended data set and leave-class-out statistics.",
+      "journal": "J Med Chem",
+      "year": 2004
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "L/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL3540921",
+      "document": "CHEMBL3526005",
+      "pmid": "21148081",
+      "reason": "non_iv_route"
+     }
+    ]
+   }
+  },
+  "tamsulosin": {
+   "clearance_iv": {
+    "value": 0.62,
+    "min": 0.62,
+    "max": 0.62,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "tegaserod": {
+   "clearance_iv": {
+    "value": 18.0,
+    "min": 18.0,
+    "max": 18.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "terazosin": {
+   "clearance_iv": {
+    "value": 1.1,
+    "min": 1.1,
+    "max": 1.1,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "tiagabine": {
+   "clearance_iv": {
+    "value": 1.6,
+    "min": 1.6,
+    "max": 1.6,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "tolterodine": {
+   "clearance_iv": {
+    "value": 8.4,
+    "min": 8.4,
+    "max": 8.4,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "tramadol": {
+   "clearance_iv": {
+    "value": 6.5,
+    "min": 6.5,
+    "max": 6.5,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "trazodone": {
+   "clearance_iv": {
+    "value": 1.4,
+    "min": 1.4,
+    "max": 1.4,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "triazolam": {
+   "clearance_iv": {
+    "value": 3.0,
+    "min": 3.0,
+    "max": 3.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "valproic acid": {
+   "clearance_iv": {
+    "value": 0.16,
+    "min": 0.11,
+    "max": 0.16,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614629",
+      "pmid": "15920768",
+      "doi": "10.1002/jps.20373",
+      "title": "Extrapolation of human pharmacokinetic parameters from rat, dog, and monkey data: Molecular properties associated with extrapolative success or failure.",
+      "journal": "J Pharm Sci",
+      "year": 2005
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   },
+   "vss": {
+    "value": 0.14,
+    "min": 0.14,
+    "max": 0.15,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614629",
+      "pmid": "15920768",
+      "doi": "10.1002/jps.20373",
+      "title": "Extrapolation of human pharmacokinetic parameters from rat, dog, and monkey data: Molecular properties associated with extrapolative success or failure.",
+      "journal": "J Pharm Sci",
+      "year": 2005
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "L/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL3788215",
+      "document": "CHEMBL3785076",
+      "pmid": "336377",
+      "reason": "non_iv_route"
+     },
+     {
+      "assay": "CHEMBL3790172",
+      "document": "CHEMBL3785076",
+      "pmid": "336377",
+      "reason": "non_iv_route"
+     }
+    ]
+   }
+  },
+  "venlafaxine": {
+   "clearance_iv": {
+    "value": 14.0,
+    "min": 14.0,
+    "max": 14.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "verapamil": {
+   "clearance_iv": {
+    "value": 18.0,
+    "min": 13.7,
+    "max": 18.0,
+    "n_measurements": 3,
+    "n_documents": 3,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614630",
+      "pmid": "16621936",
+      "doi": "10.1124/dmd.105.006619",
+      "title": "Extrapolation of preclinical pharmacokinetics and molecular feature analysis of \"discovery-like\" molecules to predict human pharmacokinetics.",
+      "journal": "Drug Metab Dispos",
+      "year": 2006
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "zaleplon": {
+   "clearance_iv": {
+    "value": 16.0,
+    "min": 16.0,
+    "max": 16.0,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "ziprasidone": {
+   "clearance_iv": {
+    "value": 5.1,
+    "min": 5.1,
+    "max": 5.1,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "zolmitriptan": {
+   "clearance_iv": {
+    "value": 6.7,
+    "min": 6.7,
+    "max": 6.7,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  },
+  "zolpidem": {
+   "clearance_iv": {
+    "value": 4.3,
+    "min": 4.3,
+    "max": 4.3,
+    "n_measurements": 2,
+    "n_documents": 2,
+    "sources": [
+     {
+      "chembl_document_id": "CHEMBL1156824",
+      "pmid": "20070106",
+      "doi": "10.1021/jm901371v",
+      "title": "Physicochemical space for optimum oral bioavailability: contribution of human intestinal absorption and first-pass elimination.",
+      "journal": "J Med Chem",
+      "year": 2010
+     },
+     {
+      "chembl_document_id": "CHEMBL1614632",
+      "pmid": "18426954",
+      "doi": "10.1124/dmd.108.020479",
+      "title": "Trend analysis of a database of intravenous pharmacokinetic parameters in humans for 670 drug compounds.",
+      "journal": "Drug Metab Dispos",
+      "year": 2008
+     }
+    ],
+    "matched_on": "chembl_id",
+    "unit": "mL/min/kg",
+    "excluded": [
+     {
+      "assay": "CHEMBL1043582",
+      "document": "CHEMBL1156824",
+      "pmid": "20070106",
+      "reason": "partial_clearance"
+     }
+    ]
+   }
+  }
+ }
+}

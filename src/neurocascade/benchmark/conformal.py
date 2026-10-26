@@ -148,7 +148,11 @@ def _v2_value(row: Mapping[str, Any] | None, field: str) -> float | None:
 
 def _v2_train_values(field: str) -> dict[str, float]:
     train, _ = v2_partition()
-    truth = load_v2_human_pk()
+    # The frozen conformal_bands.json was calibrated on human_pk.json as
+    # published, before the 2026-10-26 provenance corrections. Calibration
+    # reads that same input so the frozen bands stay exactly reproducible;
+    # recalibrating on corrected truth is a separate, deliberate re-freeze.
+    truth = load_v2_human_pk(corrected=False)
     values = {inn: _v2_value(truth.get(inn), field) for inn in train}
     return {inn: v for inn, v in sorted(values.items()) if v is not None}
 
