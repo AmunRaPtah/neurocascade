@@ -3095,16 +3095,18 @@
       "host_eval": "PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump /tmp/p33_4_go.json && python pipeline/go_verdict.py /tmp/p33_4_go.json",
       "note": "Pre-registered rule and one-look policy: docs/prereg-p33-4-go.md (sealed 2026-10-26). The first host verdict binds (conductor HOME/go/P33.4.json).",
       "conductor": {
-        "sessions": 5,
+        "sessions": 6,
         "history": [
           "2026-10-26 07:32 complete; rejected: gate failed:\nE       PermissionError: [Errno 13] Permission denied: '/root/nc-v2-cache/cmax/labels.jsonl.gz'\nFAILED tests/test_v2_cmax.py::test_snippets_verbatim_in_cached_source - Permi...\n=========================== short test summary info ============================\n1 failed, 3003 passed, 2 skipped, 15 deselected, 15 warnings in 1688.44s (0:28:08)",
           "2026-10-26 09:01 complete; rejected: gate failed:\n.............................................s...........s.............. [ 66%]\n........................................................................ [ 69%]\n..............",
           "2026-10-26 10:18 complete; rejected: gate failed:\n........................................................................ [ 81%]\n........................................................................ [ 83%]\n..........................................................",
           "2026-10-26 11:44 complete; rejected: gate failed:\n........................................................................ [ 88%]\n................................................................\nGATE TIMEOUT: pytest killed after 60 min. Make new tests faster or mark heavy ones @pytest.mark.slow.",
           "2026-10-26 13:09 COMPLETE, PR opened",
-          "2026-10-26 13:30 PR #42 rejected by acceptance review: ACCEPTANCE 3: FAIL — docs/validation-ledger.md:90 reads \"...its verbatim NC_GO_VERDICT line and per-liability AUROC CIs are host-pending (HOME/go/P33.4.json) and this row will quote them once the host logs the run.\" But the host already ran go_dump.py + go_verdict.py against this exact code (per the task's own \"Host checks\" block) and got a clean, unambiguous result: NC_GO_VERDICT: NO-GO with ever"
+          "2026-10-26 13:30 PR #42 rejected by acceptance review: ACCEPTANCE 3: FAIL — docs/validation-ledger.md:90 reads \"...its verbatim NC_GO_VERDICT line and per-liability AUROC CIs are host-pending (HOME/go/P33.4.json) and this row will quote them once the host logs the run.\" But the host already ran go_dump.py + go_verdict.py against this exact code (per the task's own \"Host checks\" block) and got a clean, unambiguous result: NC_GO_VERDICT: NO-GO with ever",
+          "2026-10-26 14:41 complete; rejected: gate failed:\nE       AssertionError: assert {'sedation': ...15385], ...}}} == {}\nE         \nE         Left contains 2 more items:\nE         {'anticholinergic': {'baselines': {'atc_class_prevalence': [0.1935483870967742,\nE                                                                     0.2],\nE                                            'cmax_u_ki_occupancy': [0.005211189869010465,\nE                                                                    0.2032628670619342],\nE                                            'one_nn_fingerprint': [0.0, 0.0],...\nE         \nE         ...Full output trunc"
         ],
-        "review_rejections": 1
+        "review_rejections": 1,
+        "gave_up": true
       }
     },
     {
