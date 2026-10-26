@@ -41,6 +41,8 @@ TRUTH_AGGREGATES = (TRUTH + "effect_labels.json", BENCH + "p29_5/oral_exposure.j
 #: them. A v2 truth file is frozen once it is on main: later tasks add new
 #: files rather than edit old ones.
 V2_TRUTH = BENCH + "v2/truth/"
+#: Per-INN maps inside a v2 truth file that has no "drugs" table.
+V2_INN_MAPS = ("drop", "replace")
 LEDGER = "docs/validation-ledger.md"
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
 
@@ -107,6 +109,11 @@ def hide_heldout(tree: Path, wip: str = "") -> tuple[str, bool]:
             d["drugs"] = [r for r in rows if not (isinstance(r, dict) and v2_heldout(str(r.get("inn", ""))))]
         elif isinstance(rows, dict):
             d["drugs"] = {k: v for k, v in rows.items() if not v2_heldout(k)}
+        elif isinstance(d, dict) and any(isinstance(d.get(k), dict) for k in V2_INN_MAPS):
+            # Correction files (human_pk_corrections.json): per-INN drop/replace maps.
+            for k in V2_INN_MAPS:
+                if isinstance(d.get(k), dict):
+                    d[k] = {inn: v for inn, v in d[k].items() if not v2_heldout(inn)}
         else:
             # Unknown shape: hide the whole file rather than leak held-out rows.
             p.unlink()

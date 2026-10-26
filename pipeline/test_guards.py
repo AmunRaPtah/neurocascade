@@ -176,3 +176,19 @@ def test_v2_truth_frozen_and_heldout_rows_hidden(repo):
     kept = [r["inn"] for r in json.loads((tree / g.V2_TRUTH / "ki.json").read_text())["drugs"]]
     assert kept == [i for i in inns if not g.v2_heldout(i)] and len(kept) < len(inns)
     assert not (tree / g.V2_TRUTH / "odd.json").exists()
+
+
+def test_v2_correction_maps_keep_train_and_hide_heldout(repo):
+    inns = [f"drug{i}" for i in range(40)]
+    write(repo, g.V2_TRUTH + "pk_corrections.json",
+          {"version": 1, "rule": "r", "drop": {i: {"fields": ["cl"]} for i in inns},
+           "replace": {i: {"vss": {"value": 1}} for i in inns}})
+    git(repo, "add", "-A")
+    git(repo, "commit", "-q", "-m", "v2 corrections")
+    tree = repo.parent / "c-tree"
+    subprocess.run(["cp", "-a", str(repo), str(tree)], check=True)
+    g.hide_heldout(tree)
+    d = json.loads((tree / g.V2_TRUTH / "pk_corrections.json").read_text())
+    train = [i for i in inns if not g.v2_heldout(i)]
+    assert sorted(d["drop"]) == sorted(train) and sorted(d["replace"]) == sorted(train)
+    assert d["rule"] == "r" and len(train) < len(inns)
