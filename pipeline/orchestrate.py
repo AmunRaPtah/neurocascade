@@ -63,7 +63,7 @@ MONTH_CAP = float(os.environ.get("NC_MODAL_MONTH_CAP", 25.0))
 # is cheaper than a long leash.
 AGENT_TIMEOUT_S = int(os.environ.get("NC_AGENT_TIMEOUT_S", 35 * 60))
 MAX_TURNS = int(os.environ.get("NC_MAX_TURNS", 100))
-TEST_TIMEOUT_S = 40 * 60
+TEST_TIMEOUT_S = 60 * 60   # full suite ran 28 min idle; box load can push it past 40
 # Router cold-start budget and LiteLLM timeout are both 1500 s; a cold start
 # measured ~270 s, so anything near this is a broken backend, not a slow one.
 READY_TIMEOUT_S = 1700
@@ -597,6 +597,10 @@ def sandbox_pytest(tree: Path, script: str, name: str, out: Path) -> tuple[bool,
     disposable_copy(tree, copy)
     rc = docker_run(name, [f"{copy}:/work", f"{DATA}:/work/data:ro"], ["sh", "-c", script],
                     network="none", timeout=TEST_TIMEOUT_S, stdout_path=out)
+    if rc == 124:   # say so, or the session only sees progress dots and cannot tell why
+        with out.open("a") as f:
+            f.write(f"\nGATE TIMEOUT: pytest killed after {TEST_TIMEOUT_S // 60} min. "
+                    "Make new tests faster or mark heavy ones @pytest.mark.slow.\n")
     shutil.rmtree(copy, ignore_errors=True)
     return rc == 0, "\n".join(out.read_text(errors="replace").strip().splitlines()[-40:])
 
