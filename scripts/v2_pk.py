@@ -50,6 +50,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import re
 import statistics
 import sys
 import time
@@ -256,23 +257,109 @@ FU_COMPILATIONS = {
 }
 
 
+# Title fallback vocabulary (2026-10-26 provenance audit, see
+# truth/human_pk_corrections.json). The old fallback accepted any title that
+# contained the drug name as a substring, which let in medicinal-chemistry
+# analogue papers ("milnacipran analogues", "propafenone analogues as
+# antimalarial leads", "dihydrotetrabenazine derivatives"), whose ChEMBL rows
+# for the parent drug are microsomal comparator values, not human IV PK.
+_HUMAN_PK_TITLE_TERMS = (
+    "pharmacokinetic", "kinetics", "disposition", "clearance", "bioavailability",
+    "in man", "in humans", "human", "healthy", "volunteer", "subjects",
+    "patients", "adults",
+)
+_REJECT_TITLE_PATTERNS = (
+    # analogue / SAR / synthesis papers about other compounds
+    r"analog", r"derivative", r"\bseries\b", r"synthes", r"optimi[sz]ation",
+    r"structure[- ]activity", r"\bSAR\b", r"\bnovel\b", r"\blead\b",
+    r"inhibitors\b", r"agonists\b", r"antagonists\b", r"\bligands\b",
+    # drug-drug interaction studies: the drug's PK is perturbed by another one
+    r"interaction", r"combined use", r"co-?administ",
+    # non-human species and in-vitro systems
+    r"\brats?\b", r"\bmice\b", r"\bmouse\b", r"\bdogs?\b", r"\bmonkeys?\b",
+    r"\bin vitro\b", r"microsom", r"hepatocyte",
+)
+
+
 def _title_names_drug(title: str | None, inn: str) -> bool:
     """A conservative per-document fallback for documents outside the curated
-    compilation lists above: trust a single-drug primary-literature document
-    (e.g. "Pharmacokinetics of haloperidol in psychotic patients") if its own
-    title names the drug, per guards.py's citation rule. Checked on the first
-    space-delimited word of the INN (>=5 chars) so salts/esters like
-    "haloperidol decanoate" still match a title that only says "haloperidol"."""
+    compilation lists above: trust a single-drug human PK paper (e.g.
+    "Pharmacokinetics of haloperidol in psychotic patients") only if its title
+    (1) names the drug as a whole word, checked on the first space-delimited
+    word of the INN (>=5 chars) so "haloperidol decanoate" still matches a
+    title that says "haloperidol", but "tetrabenazine" does not match
+    "dihydrotetrabenazine"; (2) carries a human/in-vivo PK term; and (3) does
+    not mark the paper as about analogues, a series, an interaction with
+    another drug, a non-human species or an in-vitro system."""
     if not title:
         return False
     head = inn.split(" ", 1)[0].lower()
-    return len(head) >= 5 and head in title.lower()
+    t = title.lower()
+    if len(head) < 5 or not re.search(rf"(?<![a-z0-9-]){re.escape(head)}(?![a-z0-9])", t):
+        return False
+    if not any(term in t for term in _HUMAN_PK_TITLE_TERMS):
+        return False
+    return not any(re.search(p, title, flags=re.IGNORECASE) for p in _REJECT_TITLE_PATTERNS)
+
+
+# Assay-level rule for invivo_cl / invivo_vss (2026-10-26 provenance audit).
+# ChEMBL BAO_0000218 is "organism-based format"; microsomal (BAO_0000251),
+# cell-based and tissue-based formats are in-vitro measurements and are never
+# human IV PK, whatever their standard_type and units say.
+BAO_ORGANISM = "BAO_0000218"
+_IN_VITRO_DESCR = re.compile(
+    r"microsom|hepatocyte|\bin vitro\b|intrinsic clearance|metabolic stability|"
+    r"\bS9\b|liver slice|\bHLM\b", re.IGNORECASE)
+_PARTIAL_CL_DESCR = re.compile(r"\b(hepatic|renal|biliary|non-?renal)\s+clearance",
+                               re.IGNORECASE)
+_NON_IV_ROUTE = re.compile(
+    r"\bp\.?o\.?\b|\boral(ly)?\b|\bi\.?m\.?\b|intramuscular|subcutaneous|\bs\.?c\.?\b|"
+    r"inhal|intranasal|rectal|sublingual|transdermal", re.IGNORECASE)
+_IV_ROUTE = re.compile(r"\bi\.?v\.?\b|intravenous", re.IGNORECASE)
+
+
+def _assay_exclusion(field: str, assay: dict, descr: str) -> str | None:
+    """Reason code why an activity cannot be human IV total clearance / Vss,
+    or None if it can. Codes: in_vitro, non_human, partial_clearance,
+    unbound_volume, non_iv_route."""
+    d = descr or assay.get("description") or ""
+    if (assay.get("bao_format") not in (None, BAO_ORGANISM)
+            or assay.get("assay_subcellular_fraction") or assay.get("assay_cell_type")
+            or _IN_VITRO_DESCR.search(d)):
+        return "in_vitro"
+    org = assay.get("assay_organism")
+    if (org and org != "Homo sapiens") or _species(org, d) != "human":
+        return "non_human"
+    if field == "invivo_cl" and (assay.get("assay_tissue") or _PARTIAL_CL_DESCR.search(d)):
+        return "partial_clearance"
+    if field == "invivo_vss" and re.search(r"\bunbound\b", d, re.IGNORECASE):
+        return "unbound_volume"
+    if _NON_IV_ROUTE.search(d) and not _IV_ROUTE.search(d):
+        return "non_iv_route"
+    return None
 
 
 def _trusted(field: str, doc_id: str, doc: dict, inn: str) -> bool:
     allow = {"invivo_cl": CL_COMPILATIONS, "invivo_vss": VSS_COMPILATIONS,
              "plasma_fu": FU_COMPILATIONS}[field]
-    return doc_id in allow or _title_names_drug(doc.get("title"), inn)
+    if doc_id in allow:
+        return True
+    if field == "plasma_fu":
+        # plasma_fu.json (an input, not truth) was not part of the 2026-10-26
+        # audit and fu is an in-vitro measurement by nature, so the human-PK
+        # title terms do not apply. Keep its original substring rule so a
+        # rebuild reproduces it; see the audit report for rows to review.
+        return _title_mentions_drug(doc.get("title"), inn)
+    return _title_names_drug(doc.get("title"), inn)
+
+
+def _title_mentions_drug(title: str | None, inn: str) -> bool:
+    """The pre-audit fallback: the INN's first word (>=5 chars) appears in
+    the title as a substring. Used for plasma_fu only."""
+    if not title:
+        return False
+    head = inn.split(" ", 1)[0].lower()
+    return len(head) >= 5 and head in title.lower()
 
 
 # ----------------------------------------------------------------- classify
@@ -396,6 +483,8 @@ def build(cache: Path) -> None:
             descr = a.get("assay_description") or assay.get("description") or ""
             sp = _species(assay.get("assay_organism"), descr)
             if sp != "human":
+                continue
+            if field != "plasma_fu" and _assay_exclusion(field, assay, descr):
                 continue
             if matrix == "ppb":
                 if not (0 <= value <= 100):
