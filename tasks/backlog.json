@@ -3101,8 +3101,10 @@
           "2026-10-26 09:01 complete; rejected: gate failed:\n.............................................s...........s.............. [ 66%]\n........................................................................ [ 69%]\n..............",
           "2026-10-26 10:18 complete; rejected: gate failed:\n........................................................................ [ 81%]\n........................................................................ [ 83%]\n..........................................................",
           "2026-10-26 11:44 complete; rejected: gate failed:\n........................................................................ [ 88%]\n................................................................\nGATE TIMEOUT: pytest killed after 60 min. Make new tests faster or mark heavy ones @pytest.mark.slow.",
-          "2026-10-26 13:09 COMPLETE, PR opened"
-        ]
+          "2026-10-26 13:09 COMPLETE, PR opened",
+          "2026-10-26 13:30 PR #42 rejected by acceptance review: ACCEPTANCE 3: FAIL — docs/validation-ledger.md:90 reads \"...its verbatim NC_GO_VERDICT line and per-liability AUROC CIs are host-pending (HOME/go/P33.4.json) and this row will quote them once the host logs the run.\" But the host already ran go_dump.py + go_verdict.py against this exact code (per the task's own \"Host checks\" block) and got a clean, unambiguous result: NC_GO_VERDICT: NO-GO with ever"
+        ],
+        "review_rejections": 1
       }
     },
     {
