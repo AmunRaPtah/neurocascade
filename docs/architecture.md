@@ -17575,6 +17575,88 @@ train-mean GMFE for CL and Vss, and AUROC with its 95% CI and AUPRC for each
 liability baseline. Without this, the one permitted held-out run would print
 only pass/fail.
 
+## Phase 33, part four: the candidate chain model and the GO gate (P33.4)
+
+P33.3 froze the baselines but had no candidate, so its own GO condition could
+not be met. P33.4 builds the candidate the product claims to be and scores it
+once on held-out under the pre-registered rule (`docs/prereg-p33-4-go.md`,
+sealed 2026-10-26). The verdict is computed by the human-owned
+`pipeline/go_verdict.py`; this task writes the dump it reads and must not
+declare GO/NO-GO itself.
+
+### The candidate: interpretable occupancy, not a bigger model
+
+The candidate is multi-target receptor occupancy at therapeutic exposure,
+`occ_t = Cu/(Cu+Ki_t)`, where `Cu` is unbound therapeutic plasma Cmax (v2
+Cmax,u, P33.6) and `Ki_t` the v2 human Ki (ChEMBL). Occupancies at the
+receptors pre-specified for each liability in `liability_rules.json` — H1 for
+sedation, M1–M5 for anticholinergic, the same sets the P33.3 baselines anchor —
+feed an L2-regularised logistic regression (`candidate.liability_predict`),
+fitted on train drugs only. A receptor the drug was searched for but has no
+usable Ki at is weak binding, so its occupancy is 0, never missing; a drug with
+no known Cmax is unscoreable (occupancy undefined), never imputed. The point is
+interpretability: one mechanistic feature per receptor, no fingerprints, no
+learned embeddings. The L2 strength (λ = 1.0 on standardised weights) is a fixed
+analysis hyperparameter, not a biological number and not tuned on held-out data.
+
+The predict path (`neurocascade.benchmark.v2.candidate`) imports no truth module
+and reads no file — a test parses its AST and asserts this, the property the GO
+reviewer checks. All truth reads (binding, Cmax, liabilities) happen in the
+harness (`candidate_benchmark.py`, `go_dump.py`), which hands the predict
+function already-assembled numbers, exactly as the host dump does. The same
+`liability_predict` is used for train leave-one-drug-out and for the held-out
+dump, so the two are the same estimator by construction.
+
+### What train LODO already shows (numbers from `results/P33.4.json`)
+
+On the common set `pipeline/go_verdict.py` uses (a drug counts only where the
+candidate and every baseline have a score, i.e. a measured Ki at the liability
+receptor exists), train leave-one-drug-out AUROCs are:
+
+| Liability | common n (pos) | candidate | occupancy_max | strongest-Ki | 1-NN | ATC |
+|---|---|---|---|---|---|---|
+| Sedation | 15 (7) | 0.571 | 0.679 | 0.821 | 0.527 | 0.589 |
+| Anticholinergic | 17 (7) | 0.343 | 0.943 | 0.800 | 0.493 | 0.364 |
+
+The candidate does not beat the baselines on train. Two things explain this and
+are reported rather than smoothed over. First, the strongest-Ki and occupancy
+baselines are already strong on the subset of drugs that have a measured
+receptor Ki, and the candidate carries no information beyond occupancy there.
+Second, on the **full featured set** (all 68 train drugs with a Cmax, occupancy
+0 where no Ki), a single fitted model reproduces the occupancy baseline almost
+exactly — sedation single-model AUROC 0.689 vs occupancy 0.689; anticholinergic
+0.746 vs 0.749 — but the *LODO* AUROC falls to 0.407 and 0.241. That gap is an
+artefact of leave-one-drug-out on a zero-inflated feature: 53 of 68 drugs have
+occupancy 0, and the per-fold intercept re-orders those tied drugs, manufacturing
+a spurious ranking among them. The held-out dump fits one model on all train and
+predicts held-out, so it does not have this jitter; the single-model numbers are
+what the held-out candidate behaves like. Either way the candidate matches, but
+does not exceed, the simple occupancy baseline, which strongly points to NO-GO.
+The binding decision is the host run, not this reading.
+
+### Secondary PK is searched-and-empty
+
+Candidate (2), human CL by well-stirred IVIVE on the corrected v2 PK truth, is
+secondary and non-gating per the pre-registration. It cannot be computed: the
+well-stirred equation needs an in-vitro intrinsic-clearance input (microsomal or
+hepatocyte CLint) per drug, and v2 has none — `human_pk.json` and the P33.5
+corrections hold observed in-vivo CL and Vss only, and the correction rule
+explicitly strips microsomal and intrinsic-clearance activities. No CLint source
+was assembled, so the train-mean CL baseline (P33.3, LODO GMFE 2.93) stands and
+IVIVE is recorded searched-and-empty.
+
+### The dump and the one look
+
+`go_dump.py` writes the held-out dump in `pipeline/go_verdict.py`'s schema
+(`drugs`, `y`, `candidate`, `baselines`). With `NC_HOST_EVAL=1` and the frozen
+truth it populates every liability; without the flag — the session tree, where
+held-out truth is absent — it writes an empty-liabilities dump naming every
+held-out drug as searched-and-empty and exits cleanly, and `go_verdict.py`
+prints NO-GO on it. A synthetic in-memory universe test
+(`tests/test_v2_go_dump.py`) drives `build_dump` end to end through the real
+`go_verdict.judge` so the schema is exercised without any held-out truth. The
+held-out verdict runs once on the host (`host_eval`); the first verdict binds.
+
 ## Phase 30, part three: calibrated uncertainty bands (P30.3)
 
 P30.3 is `neurocascade.benchmark.conformal`. It puts a frozen, distribution-free
