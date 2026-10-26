@@ -271,3 +271,52 @@ def test_next_task_skips_task_past_review_reject_limit():
     tasks = [{"id": "A", "status": "pending", "conductor": {"review_rejections": c.MAX_REVIEW_REJECTS}},
              {"id": "B", "status": "pending"}]
     assert c.next_task(tasks)["id"] == "B"
+
+
+def test_requires_go_holds_a_task_until_a_host_go_marker(tmp_path, monkeypatch):
+    monkeypatch.setattr(c, "GO_DIR", tmp_path)
+    tasks = [{"id": "P32.1", "status": "pending", "requires_go": ["P33.4"]},
+             {"id": "P29.6", "status": "pending"}]
+    assert c.next_task(tasks)["id"] == "P29.6"
+    (tmp_path / "P33.4.json").write_text(json.dumps({"verdict": "NO-GO"}))
+    assert c.next_task(tasks)["id"] == "P29.6"
+    (tmp_path / "P33.4.json").write_text(json.dumps({"verdict": "GO"}))
+    assert c.next_task(tasks)["id"] == "P32.1"
+
+
+def _fake_eval(monkeypatch, tmp_path, text, passed=True):
+    def sandbox_pytest(tree, script, name, out):
+        out.write_text(text)
+        return passed, text
+    monkeypatch.setattr(c.o, "sandbox_pytest", sandbox_pytest)
+    monkeypatch.setattr(c, "GO_DIR", tmp_path / "go")
+    monkeypatch.setattr(c, "HELDOUT_LOG", tmp_path / "log.jsonl")
+    adir = tmp_path / "P33.4" / "run1"
+    adir.mkdir(parents=True, exist_ok=True)
+    return adir
+
+
+def test_host_eval_writes_the_first_verdict_and_never_flips_it(tmp_path, monkeypatch):
+    adir = _fake_eval(monkeypatch, tmp_path, "table\nNC_GO_VERDICT: NO-GO\n")
+    c.host_eval(tmp_path, adir, "x")
+    assert not c.go_granted("P33.4")
+    adir = _fake_eval(monkeypatch, tmp_path, "NC_GO_VERDICT: GO\n")
+    c.host_eval(tmp_path, adir, "x")
+    assert not c.go_granted("P33.4")
+
+
+def test_host_eval_go_needs_a_passing_eval(tmp_path, monkeypatch):
+    adir = _fake_eval(monkeypatch, tmp_path, "NC_GO_VERDICT: GO\n", passed=False)
+    c.host_eval(tmp_path, adir, "x")
+    assert not c.go_granted("P33.4")
+
+
+def test_fail_excerpt_reports_failures_not_the_warnings_summary(tmp_path):
+    log = tmp_path / "pytest.txt"
+    log.write_text("....F\n" + "tests/test_x.py::test_slow\n  FutureWarning: as_op\n" * 50
+                   + "E       assert 'a' not in 'abc'\n"
+                   + "FAILED tests/test_y.py::test_guard - AssertionError\n"
+                   + "1 failed, 10 passed in 3s\n")
+    out = c.fail_excerpt(log, log.read_text())
+    assert "FAILED tests/test_y.py::test_guard" in out and "E       assert" in out
+    assert "FutureWarning" not in out

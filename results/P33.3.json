@@ -628,5 +628,22 @@
     "No predict_compound implementation exists yet; this report freezes the stage baselines and scoring seam for P32.1.",
     "Held-out rows are scored when the host restores them; missing rows are searched-and-empty, never negatives.",
     "F, free plasma exposure, Kp,uu and multi-target occupancy are no data, not zero-error stages."
-  ]
+  ],
+  "heldout_host": {
+    "source": "host_eval run 20261025-112735-task (2026-10-25), transcribed verbatim 2026-10-26",
+    "lines": [
+      "human_cl: scored n=25 train-mean GMFE=3.400",
+      "vss: scored n=26 train-mean GMFE=5.134",
+      "f: no data",
+      "free_plasma_exposure: no data",
+      "kp_uu: no data",
+      "multi_target_occupancy: no data",
+      "eps: underpowered",
+      "sedation: scored n_truth=36; strongest_target_ki n=3 no data; one_nn_fingerprint n=17 AUROC=0.583 [0.500,0.750] AUPRC=0.461; atc_class_prevalence n=35 AUROC=0.560 [0.354,0.761] AUPRC=0.416; train_prevalence n=36 AUROC=0.500 [0.500,0.500] AUPRC=0.361",
+      "weight_gain: unavailable",
+      "anticholinergic: scored n_truth=36; strongest_target_ki n=6 AUROC=0.625 [0.111,1.000] AUPRC=0.500; one_nn_fingerprint n=17 AUROC=0.593 [0.402,0.798] AUPRC=0.485; atc_class_prevalence n=35 AUROC=0.621 [0.390,0.838] AUPRC=0.551; train_prevalence n=36 AUROC=0.500 [0.500,0.500] AUPRC=0.333",
+      "orthostatic_hypotension: underpowered"
+    ],
+    "go_condition": "not met: no candidate existed, baselines only (decision moved to P33.4, docs/prereg-p33-4-go.md)"
+  }
 }

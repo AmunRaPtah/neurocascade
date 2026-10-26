@@ -2817,7 +2817,8 @@
         "pr": 41
       },
       "finished_at": "2026-10-25T18:21:21+00:00",
-      "result": "complete"
+      "result": "complete",
+      "note": "2026-10-26 audit: acceptance item 2 (held-out coverage) was never run and bands are around the train mean; superseded by P30.4. Band API kept."
     },
     {
       "id": "P31.1",
@@ -2854,8 +2855,10 @@
         "evidence": ""
       },
       "deps": [
+        "P30.3",
+        "P30.4",
         "P33.3",
-        "P30.3"
+        "P33.4"
       ],
       "status": "pending",
       "attempts": 0,
@@ -2867,11 +2870,16 @@
           "2026-10-25 23:01 complete; rejected: gate failed:\nibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_",
           "2026-10-26 00:03 complete; rejected: gate failed:\nibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_",
           "2026-10-26 01:02 complete; rejected: gate failed:\nibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_",
-          "2026-10-26 02:02 complete; rejected: gate failed:\nibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_"
+          "2026-10-26 02:02 complete; rejected: gate failed:\nibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_",
+          "2026-10-26 human: all 6 gate failures were a false positive in tests/test_p29_5_data.py (bare 'oral_exposure' substring guard matched the pending-dict key), not endpoint_calibration; guard narrowed to the truth filename. gave_up reset; now held behind P33.4 GO and P30.4."
         ],
         "sessions": 6,
-        "gave_up": true
-      }
+        "gave_up": false
+      },
+      "requires_go": [
+        "P33.4"
+      ],
+      "note": "2026-10-26: the earlier sessions' gate failures were a test false positive (fixed on main), not your code. Wire predict_compound to the P33.4 candidate and the P30.4 bands, not the train mean."
     },
     {
       "id": "P32.2",
@@ -2891,7 +2899,10 @@
         "P32.1"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "requires_go": [
+        "P33.4"
+      ]
     },
     {
       "id": "P32.3",
@@ -2912,7 +2923,10 @@
         "P33.3"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "requires_go": [
+        "P33.4"
+      ]
     },
     {
       "id": "P32.4",
@@ -2934,7 +2948,10 @@
         "P33.3"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "requires_go": [
+        "P33.4"
+      ]
     },
     {
       "id": "P33.1",
@@ -3009,9 +3026,98 @@
         ],
         "pr": 39
       },
-      "note": "HOST-GATE FINDING (2026-10-25, from the developer, not a held-out peek). The previous session's work is seeded as WIP and is almost right. Two fixes remain:\n1. lxml is now a declared dependency (requirements.txt + pipeline/worker-constraints.txt, committed); do NOT re-add it and do not work around its absence.\n2. REAL BUG the session tree cannot surface: in chain_benchmark.py the held-out branch of _continuous_stage passes the `heldout_values` DICT as the `observed` argument to gmfe() and fold_errors(), e.g. `gmfe([prediction]*len(heldout_values), heldout_values)`. Iterating a dict yields its KEYS (INN strings), so on the host (full truth present) this raises TypeError: '<=' not supported between instances of 'str' and 'int' at gmfe()/fold_errors(). In the session tree held-out truth is stripped, so heldout_values is empty and the branch is skipped - that is why it passes locally but fails the host gate. FIX: pass `heldout_values.values()` (or `list(heldout_values.values())`) as observed in BOTH the held-out gmfe and fold_errors calls. This is a pure type fix, independent of any held-out value; confirmed value-free with a dummy dict. The train-LODO calls already pass lists and are fine. Re-run host_eval after the fix and report the held-out numbers it prints.",
+      "note": "HOST-GATE FINDING (2026-10-25, from the developer, not a held-out peek). The previous session's work is seeded as WIP and is almost right. Two fixes remain:\n1. lxml is now a declared dependency (requirements.txt + pipeline/worker-constraints.txt, committed); do NOT re-add it and do not work around its absence.\n2. REAL BUG the session tree cannot surface: in chain_benchmark.py the held-out branch of _continuous_stage passes the `heldout_values` DICT as the `observed` argument to gmfe() and fold_errors(), e.g. `gmfe([prediction]*len(heldout_values), heldout_values)`. Iterating a dict yields its KEYS (INN strings), so on the host (full truth present) this raises TypeError: '<=' not supported between instances of 'str' and 'int' at gmfe()/fold_errors(). In the session tree held-out truth is stripped, so heldout_values is empty and the branch is skipped - that is why it passes locally but fails the host gate. FIX: pass `heldout_values.values()` (or `list(heldout_values.values())`) as observed in BOTH the held-out gmfe and fold_errors calls. This is a pure type fix, independent of any held-out value; confirmed value-free with a dummy dict. The train-LODO calls already pass lists and are fine. Re-run host_eval after the fix and report the held-out numbers it prints.\n\n2026-10-26 audit: P33.3 scored baselines only (no candidate existed); its own doc says the GO condition was not met. Held-out baseline results from the 2026-10-25 host run are backfilled into results/P33.3.json (heldout_host) and the ledger. The GO decision moved to P33.4.",
       "finished_at": "2026-10-25T12:00:55+00:00",
       "result": "complete"
+    },
+    {
+      "id": "P33.5",
+      "phase": "Phase 33: v2 benchmark",
+      "title": "v2 PK truth corrections: drop non-in-vivo and wrong-entity rows",
+      "brief": "Human-session data task (2026-10-26 audit): human_pk.json holds microsomal CL (milnacipran, melatonin) and analogue-paper rows (propafenone, tetrabenazine) from the _title_names_drug fallback in scripts/v2_pk.py. Fix lands as truth/human_pk_corrections.json (truth is frozen) plus a loader that applies it. Done by a human session on branch v2-pk-corrections; the conductor never starts it.",
+      "acceptance": [
+        "corrections file applied by the loader chain_benchmark uses",
+        "fallback fixed in scripts/v2_pk.py",
+        "same rule on train and held-out rows"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P33.1"
+      ],
+      "status": "blocked-on-data",
+      "attempts": 0
+    },
+    {
+      "id": "P33.6",
+      "phase": "Phase 33: v2 benchmark",
+      "title": "v2 therapeutic Cmax (total and unbound) per drug",
+      "brief": "Human-session data task (2026-10-26): source label/paper steady-state Cmax at the usual adult dose for v2 drugs, with source snippet per value, so the free-exposure and occupancy stages and the Cmax,u/Ki baseline stop being 'no data'. Branch v2-cmax; the conductor never starts it.",
+      "acceptance": [
+        "every value has a fetched source snippet",
+        "coverage reported train/held-out",
+        "held-out rows stripped from sessions like other truth"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P33.1"
+      ],
+      "status": "blocked-on-data",
+      "attempts": 0
+    },
+    {
+      "id": "P33.4",
+      "phase": "Phase 33: v2 benchmark",
+      "title": "Candidate chain model scored against the frozen baselines (GO/NO-GO)",
+      "brief": "The 2026-10-26 audit found P33.3 benchmarked baselines only: no candidate existed, the GO condition was not met, and the conductor went on to P30.3/P32.1 anyway, building predict_compound around the train mean. This task builds the candidate the product claims to be and scores it ONCE on held-out under the pre-registered rule in docs/prereg-p33-4-go.md (read it first).\nCANDIDATES (choose on train LODO only, never on held-out): (1) liability model: multi-target occupancy at therapeutic exposure, occ_t = Cu/(Cu+Ki_t) using v2 Cmax,u (P33.6) and v2 Ki, mapped to each liability through a small interpretable model (e.g. L2 logistic on the occupancies of the receptors pre-specified for that liability in liability_rules.json), fitted LODO; (2) human CL by well-stirred IVIVE on corrected v2 PK truth (P33.5), reported beside the train mean. Keep the candidate small and interpretable; that is the differentiator, not raw AUROC.\nHOST EVAL: write src/neurocascade/benchmark/v2/go_dump.py: `python -m neurocascade.benchmark.v2.go_dump OUT.json`. With NC_HOST_EVAL=1 it writes, for each liability, the held-out drugs, y, candidate scores and every P33.3 baseline score (plus the Cmax,u/Ki occupancy baseline) in the schema documented in pipeline/go_verdict.py. Candidate scores MUST come from the same predict function used in train LODO, fitted on train only, and that function must not import or read any truth module or file (the reviewer checks this). Without NC_HOST_EVAL it must exit cleanly on the session tree. The verdict is computed by pipeline/go_verdict.py, which you cannot edit; do not report a GO/NO-GO yourself. A NO-GO is an acceptable, honest outcome: complete the task and report it plainly.",
+      "acceptance": [
+        "candidate fitted and selected on train LODO only, LODO metrics beside every baseline in results/P33.4.json, numbers generated programmatically into docs",
+        "go_dump.py matches the go_verdict.py schema, with a test on a synthetic fixture; candidate predict path imports no truth",
+        "host_eval runs once; ledger row quotes the go_verdict output verbatim"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P33.3",
+        "P33.5",
+        "P33.6"
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "host_eval": "PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump /tmp/p33_4_go.json && python pipeline/go_verdict.py /tmp/p33_4_go.json",
+      "note": "Pre-registered rule and one-look policy: docs/prereg-p33-4-go.md (sealed 2026-10-26). The first host verdict binds (conductor HOME/go/P33.4.json)."
+    },
+    {
+      "id": "P30.4",
+      "phase": "Phase 30: occupancy-to-effects",
+      "title": "Recalibrate the uncertainty bands around the P33.4 candidate, held-out coverage once",
+      "brief": "P30.3 fitted conformal bands around the train-mean predictor (CL 95% band x/÷23.9, IVIVE unbounded, effect sets almost all {0,1}) and never ran held-out coverage although its acceptance required it. Refit the P30.3 band API on the P33.4 candidate's LODO residuals, report LODO coverage AND set/interval width beside the train-mean bands, freeze, then report held-out coverage once via host_eval.",
+      "acceptance": [
+        "bands refit on candidate residuals, frozen before held-out",
+        "LODO coverage and width per quantity in the ledger, beside the train-mean bands",
+        "held-out coverage reported once via host_eval"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P30.3",
+        "P33.4"
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "requires_go": [
+        "P33.4"
+      ],
+      "host_eval": "python -m pytest -q -p no:cacheprovider -s src/neurocascade/benchmark/v2/test_bands_heldout.py"
     }
   ]
 }

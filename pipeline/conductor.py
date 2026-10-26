@@ -101,6 +101,11 @@ MAX_REVIEW_REJECTS = int(os.environ.get("NC_MAX_REVIEW_REJECTS", 3))
 #: One line per host gate run on an architect patch: the gate is the only
 #: place held-out truth is read, so this counts held-out evaluations per task.
 HELDOUT_LOG = HOME / "heldout-evals.jsonl"
+# Host-side GO markers (2026-10-26). A task with `requires_go: [ids]` is never
+# started until every listed task's host_eval printed `NC_GO_VERDICT: GO`
+# (pipeline/go_verdict.py). Sessions cannot write here; a merged PR or a
+# results file claiming GO does not count.
+GO_DIR = HOME / "go"
 PUBMED_CACHE = HOME / "pubmed-cache.json"
 #: Five-hour window: keep this much for the user.
 MIN_SESSION_LEFT = float(os.environ.get("NC_MIN_SESSION_LEFT", 35))
@@ -343,6 +348,27 @@ def batches_had_infra(batch_dirs: list[Path]) -> bool:
 FINISHED = ("done", "optional")
 
 
+def go_granted(tid: str) -> bool:
+    try:
+        return json.loads((GO_DIR / f"{tid}.json").read_text()).get("verdict") == "GO"
+    except Exception:
+        return False
+
+
+def fail_excerpt(log: Path, tail: str, limit: int = 1500) -> str:
+    """The lines that say WHY a pytest run failed: the short test summary
+    (FAILED/ERROR lines) and the final count. A plain tail of the log lands in
+    pytest's warnings summary when there are many warnings, which sent six P32.1
+    sessions after the wrong test (2026-10-26)."""
+    try:
+        lines = log.read_text(errors="replace").splitlines()
+    except OSError:
+        return tail[-limit:]
+    keep = [l for l in lines if l.startswith(("FAILED ", "ERROR ", "E   "))]
+    keep += [l for l in lines[-3:] if l.strip() and l not in keep]
+    return ("\n".join(keep)[-limit:] if keep else tail[-limit:])
+
+
 def next_task(tasks: list[dict]) -> dict | None:
     done = {t["id"] for t in tasks if t["status"] == "done"}
     for t in tasks:
@@ -350,6 +376,8 @@ def next_task(tasks: list[dict]) -> dict | None:
             continue
         c = t.get("conductor") or {}
         if c.get("gave_up") or c.get("review_rejections", 0) >= MAX_REVIEW_REJECTS:
+            continue
+        if not all(go_granted(g) for g in t.get("requires_go", [])):
             continue
         if all(d in done for d in t.get("deps", [])):
             return t
@@ -1098,6 +1126,19 @@ def host_eval(host: Path, adir: Path, cmd: str) -> str:
     with HELDOUT_LOG.open("a") as f:
         f.write(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "task": adir.parent.name,
                             "run": adir.name, "kind": "host_eval", "passed": passed}) + "\n")
+    try:
+        full = (adir / "host-eval.txt").read_text(errors="replace")
+    except OSError:
+        full = tail
+    verdicts = [l.split(":", 1)[1].strip() for l in full.splitlines()
+                if l.startswith("NC_GO_VERDICT:")]
+    # The first verdict binds: a later re-run cannot turn NO-GO into GO.
+    if verdicts and not (GO_DIR / f"{adir.parent.name}.json").exists():
+        GO_DIR.mkdir(parents=True, exist_ok=True)
+        verdict = "GO" if passed and verdicts[-1] == "GO" else "NO-GO"
+        (GO_DIR / f"{adir.parent.name}.json").write_text(json.dumps(
+            {"verdict": verdict, "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+             "run": adir.name, "eval_passed": passed}) + "\n")
     out = "\n".join(tail.splitlines()[-25:])
     return (f"Host held-out evaluation (`{cmd}`, {'ok' if passed else 'FAILED'}):\n\n"
             f"```\n{out}\n```")
@@ -1348,7 +1389,7 @@ def step_review(st: dict, prs: list[dict], dry: bool) -> bool:
                           or o.apply_patch(host, head, res["patch"]))
                 if not reason:
                     passed, tail = gate(host, adir, spec.get("tests", []))
-                    reason = None if passed else f"review cleanup failed the gate:\n{tail[-1500:]}"
+                    reason = None if passed else f"review cleanup failed the gate:\n{fail_excerpt(adir / 'pytest.txt', tail)}"
                 if reason:
                     gh("pr", "comment", str(pr["number"]), "--body",
                        f"Architect cleanup rejected by the host: {reason[:1500]}")
@@ -1488,7 +1529,7 @@ def step_takeover(st: dict, dry: bool) -> bool:
         reason, notes, _ = host_checks(host, base, res["patch"], sid)
     if not reason:
         passed, tail = gate(host, adir, spec["tests"])
-        reason = None if passed else f"gate failed:\n{tail[-1500:]}"
+        reason = None if passed else f"gate failed:\n{fail_excerpt(adir / 'pytest.txt', tail)}"
     if reason:
         gh("issue", "comment", str(issue["number"]), "--body", f"Architect takeover failed: {reason[:1800]}")
         if st["takeovers"][sid] >= MAX_TAKEOVERS:
@@ -1577,7 +1618,7 @@ def step_advance(st: dict, base: str, dry: bool) -> bool:
                 outcome = "empty (host n_scored 0)"
         if not reason:
             passed, tail = gate(host, adir)
-            reason = None if passed else f"gate failed:\n{tail[-1200:]}"
+            reason = None if passed else f"gate failed:\n{fail_excerpt(adir / 'pytest.txt', tail, 1200)}"
         if not reason and t.get("host_eval"):
             notes.append(host_eval(host, adir, t["host_eval"]))
         if not reason:
@@ -1714,6 +1755,13 @@ def status() -> None:
     print(f"backlog {done}/{len(tasks)} done; next: {(next_task(tasks) or {}).get('id')}")
     until = st.get("agy_waiting_until", 0)
     mu = st.get("modal_waiting_until", 0)
+    gates = sorted({g for t in tasks for g in t.get("requires_go", [])})
+    for g in gates:
+        try:
+            m = json.loads((GO_DIR / f"{g}.json").read_text())
+            print(f"go gate {g}: {m['verdict']} ({m['ts']})")
+        except Exception:
+            print(f"go gate {g}: no verdict yet; tasks requiring it are held")
     print(f"architect: {arch_ok()[1]}\nclaude: {claude_ok()[1]}")
     if sprint():
         sp = sprint()

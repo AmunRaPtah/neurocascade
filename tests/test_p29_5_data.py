@@ -67,7 +67,9 @@ def test_preclinical_supplement_does_not_promote_heldout_truth_into_fitting():
         if p.name != "p29_5.py" and "test" not in p.name
     )
     assert "p29_5" not in fitting_text
-    assert "oral_exposure" not in fitting_text
+    # The truth file, not the bare word: predict_compound may name the quantity
+    # it leaves unscored (P32.1 tripped the bare-substring check 6 times).
+    assert "oral_exposure.json" not in fitting_text
     assert "load_oral_exposure(" not in fitting_text
     assert "load_pet_plasma_pairs(" not in fitting_text
     assert "load_preclinical_oral_inputs(" not in fitting_text
