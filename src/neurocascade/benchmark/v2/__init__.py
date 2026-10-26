@@ -20,6 +20,7 @@ _BINDING = V2_DIR / "inputs" / "binding.json"
 _PLASMA_FU = V2_DIR / "inputs" / "plasma_fu.json"
 _HUMAN_PK = V2_DIR / "truth" / "human_pk.json"
 _HUMAN_PK_CORRECTIONS = V2_DIR / "truth" / "human_pk_corrections.json"
+_HUMAN_CMAX = V2_DIR / "truth" / "human_cmax.json"
 _LIABILITIES = V2_DIR / "truth" / "liabilities.json"
 
 
@@ -87,6 +88,16 @@ def load_v2_human_pk(*, corrected: bool = True) -> dict[str, dict[str, Any]]:
     return apply_human_pk_corrections(rows, load_v2_human_pk_corrections())
 
 
+def load_v2_human_cmax() -> dict[str, dict[str, Any]]:
+    """Return human therapeutic plasma Cmax rows currently available, keyed by INN.
+
+    Rows have status "value" (cmax with source snippet, ng/mL and nM, plus
+    unbound Cmax from inputs/plasma_fu.json) or "searched_and_empty". Like
+    human_pk, held-out rows are stripped from the agent's tree.
+    """
+    return {row["inn"]: row for row in _read(_HUMAN_CMAX)["drugs"]}
+
+
 def load_v2_liabilities() -> dict[str, dict[str, Any]]:
     """Return liability truth rows currently available, keyed by INN."""
     return {row["inn"]: row for row in _read(_LIABILITIES)["drugs"]}
@@ -115,6 +126,7 @@ __all__ = [
     "apply_human_pk_corrections",
     "load_v2_binding",
     "load_v2_drugs",
+    "load_v2_human_cmax",
     "load_v2_human_pk",
     "load_v2_human_pk_corrections",
     "load_v2_liabilities",
