@@ -503,6 +503,8 @@ def build(_argv: list[str]) -> None:
             "route": rec.get("route"),
             "snippet": rec["snippet"], "dose_snippet": rec.get("dose_snippet"),
             "usual_dose_basis": rec.get("usual_dose_basis"),
+            # False: the source gives the dose but no label/guideline quote confirms it is the usual one
+            "dose_basis_confirmed": bool(rec.get("usual_dose_basis")),
             "note": rec.get("note"), "source": src},
             "fu": fu, "fu_flags": flags,
             "cmax_unbound_nM": None if (fu is None or nm is None) else _sig(nm * fu),

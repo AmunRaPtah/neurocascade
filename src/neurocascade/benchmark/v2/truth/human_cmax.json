@@ -30,6 +30,7 @@
     "snippet": "When healthy volunteers were administered multiple doses of cetirizine (10 mg tablets once daily for 10 days), a mean peak plasma concentration (Cmax) of 311 ng/mL was observed.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended dosage is 10 mg administered by intravenous injection.",
+    "dose_basis_confirmed": true,
     "note": "usual_dose_basis quote is from the only dosage_and_administration text available in the candidates file (an IV cetirizine product label), which confirms 10 mg as the standard adult cetirizine dose; the Cmax value itself is from a separate oral-tablet label (ANDA078398) at the same 10 mg adult dose.",
     "source": {
      "type": "fda_label",
@@ -70,6 +71,7 @@
     "snippet": "After intramuscular administration of 40 or 80 mg pentazocine alone, mean peak plasma concentrations at 15 minutes were 102 and 227 ng/ml, respectively, and mean plasma t1/2 values were 4.6 and 5.3 hours, respectively.",
     "dose_snippet": "single and combined doses of pentazocine HCl (40 and 80 mg)",
     "usual_dose_basis": "40 mg IM is within the standard 30 mg IM pentazocine dosing range for pain",
+    "dose_basis_confirmed": true,
     "note": "study population was healthy drug abusers (a common population in this era of opioid PK studies), not general patients; flagged uncertain",
     "source": {
      "type": "pubmed",
@@ -122,6 +124,7 @@
     "snippet": "Cmax with CVT-301 was lower than with oral CD/LD (590.3 vs 844.3 ng/mL).",
     "dose_snippet": "were receiving treatment with a stable regimen that included oral CD/LD (25/100 mg) (total LD, ≤800 mg/d)",
     "usual_dose_basis": "oral CD/LD (25/100 mg) (total LD, ≤800 mg/d)",
+    "dose_basis_confirmed": true,
     "note": "The candidates file on hand is for the INBRIJA (inhaled levodopa) label only, which gives no oral dosing basis, so usual_dose_basis is quoted from the PubMed source itself rather than an FDA label dosing section. Value is levodopa's own Cmax (844.3 ng/mL) from the oral carbidopa/levodopa (25/100 mg) arm of a crossover PK study comparing it with inhaled CVT-301; carbidopa/levodopa 25/100 mg is the standard immediate-release oral levodopa product and dose. Levodopa is essentially always dosed with a decarboxylase inhibitor (carbidopa/benserazide), so carbidopa does not count as a different drug for this record.",
     "source": {
      "type": "pubmed",
@@ -175,6 +178,7 @@
     "snippet": "LYRICA CR Once Daily LYRICA BID N 24 24 C max (µg/mL) 2.0 (17) 3.2 (21) T max (h) 8.0 (5.0 - 12.0) 0.7 (0.7 - 1.5) AUC 24 (µg•h/mL) 29.4 (17) 31.5 (18) C min (µg/mL) 0.44 (24) 0.59 (25) Absorption Pregabalin is absorbed from the small intestine and proximal colon.",
     "dose_snippet": "Table 5. Steady-State Pharmacokinetics for LYRICA CR 165 mg Once Daily and LYRICA 75 mg Twice Daily",
     "usual_dose_basis": "LYRICA CR should be administered once daily after an evening meal ... Single dose per day 165 mg/day ... Maximum dose 330 mg/day within 1 week ... Maximum dose of 660 mg/day.",
+    "dose_basis_confirmed": true,
     "note": "Steady-state geometric mean for immediate-release LYRICA 75 mg BID (150 mg/day) from the label's IR vs CR comparison table (second column); the CR 165 mg QD value in the same row was not used.",
     "source": {
      "type": "fda_label",
@@ -242,6 +246,7 @@
     "snippet": "In comparison, mean plasma Cmax after oral varenicline 1 mg was 4.63 ng/mL at a median Tmax of 3.0 hours.",
     "dose_snippet": null,
     "usual_dose_basis": "maintenance dosing titrates to 1 mg twice daily (CHANTIX dosing text).",
+    "dose_basis_confirmed": true,
     "note": "Label candidates file only gave Tmax timing with no numeric Cmax; this PubMed crossover study's 1 mg oral arm matches the per-dose maintenance amount.",
     "source": {
      "type": "pubmed",
@@ -294,6 +299,7 @@
     "snippet": "Following chronic administration (800 mg every 12 hours), the peak levels were 11.0 ± 2.5 mcg/mL and the time to reach the peak was 5.9 ± 1.8 hours.",
     "dose_snippet": null,
     "usual_dose_basis": "This is the chronic/repeat dosing regimen (800 mg q12h) that the label's own clinical pharmacology section uses to characterize steady-state peak plasma levels of carbamazepine; the label's general dosage text does not give one single numeric 'usual adult dose' but describes gradual individualized titration.",
+    "dose_basis_confirmed": true,
     "note": "Chose the steady-state chronic-dosing value (800 mg q12h, 11.0 ± 2.5 mcg/mL) over the single-dose 200 mg ER value (1.9 ± 0.3 mcg/mL) per instructions preferring steady-state at a maintenance-like dose; value is for carbamazepine itself, not the 10,11-epoxide metabolite (separate candidate sentences exist for that metabolite and were excluded).",
     "source": {
      "type": "fda_label",
@@ -358,6 +364,7 @@
     "snippet": "An increase in the average dose of mepivacaine from 1.88 ± 0.12 mg/kg (group I) to 3.35 ± 0.17 mg/kg (group II) increased the mean mepivacaine peak plasma levels from 2.33 ± 0.58 to 4.01 ± 0.69 µg/mL, respectively.",
     "dose_snippet": "group I (two unilateral third molars; submaximal dose of mepivacaine 108 mg with epinephrine 54 µg)",
     "usual_dose_basis": "For infiltration and block injections in the upper or lower jaw, the average dose of 1 cartridge will usually suffice. Each cartridge contains 1.7 mL (51 mg of mepivacaine).",
+    "dose_basis_confirmed": true,
     "note": "Not a volatile/topical-only drug: this is a dental local anesthetic whose systemic (plasma) peak after infiltration is routinely reported for toxicity assessment, which is what this value reflects. Group I dose (108 mg, ~two cartridges) is within the label's usual dental infiltration range; group II (216 mg) was not used. Value taken from the mean-peak clause, not the individual range given earlier in the same abstract.",
     "source": {
      "type": "pubmed",
@@ -410,6 +417,7 @@
     "snippet": "Pharmacokinetics Absorption Following a single 30 mg dose of phenelzine sulfate (2 × 15 mg tablets), a mean peak plasma concentration (Cmax) of 19.8 ng/mL occurred at a time (Tmax) of 43 minutes postdose.",
     "dose_snippet": null,
     "usual_dose_basis": "The usual starting dose of phenelzine sulfate is one tablet (15 mg) three times a day.",
+    "dose_basis_confirmed": true,
     "note": "The PK study dose (single 30 mg) differs from the usual starting regimen (15 mg three times daily = 45 mg/day); per spec this is reported as-is, not scaled, since it is the only Cmax value in the label.",
     "source": {
      "type": "fda_label",
@@ -450,6 +458,7 @@
     "snippet": "At steady-state (day 14), opicapone Cmax (peak plasma concentration) and AUC 0-last (area under the curve-time curve) were 459 ± 252 ng/mL and 2022 ± 783 ng/mL·h, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "study dosed once-daily opicapone 50 mg, matching the approved once-daily 50 mg adjunctive dose for Parkinson disease.",
+    "dose_basis_confirmed": true,
     "note": "Label candidates file was empty; study explicitly dosed once-daily opicapone 50 mg, matching the approved dose.",
     "source": {
      "type": "pubmed",
@@ -489,6 +498,7 @@
     "snippet": "The rate of absorption, as characterized by maximum concentration (C(max)) and time to C(max) (T(max)), may be rank-ordered as: VPA syrup (34.2mg/L, 0.9h)>VPA capsule (31.4mg/L, 2.2h)>divalproex sodium sprinkle capsule (20.7mg/L, 4.0h; lag-time congruent with1h) congruent withdivalproex sodium enteric-coated delayed-release tablet (26.0mg/L, 3.4h; lag-time congruent with2h)>divalproex sodium extended-release (divalproex-ER) tablet (11.8mg/L, 19.7h).",
     "dose_snippet": "Plasma VPA concentration-time profiles, following single oral dose (250mg) administration of five VPA/divalproex formulations under fasting conditions, from three pharmacokinetic studies in healthy subjects (N=9-15 each) were compared.",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "250 mg single-dose PK-comparison study; real maintenance epilepsy doses are much higher (weight-based, often 500-2000+ mg/day) -- recorded the dose actually used, per instructions not to scale. No FDA label candidate existed for valproic acid (all label hits were trough/therapeutic-range values, excluded by the rules).",
     "source": {
      "type": "pubmed",
@@ -635,6 +645,7 @@
     "snippet": "The C max of aripiprazole were 342 ng/mL and 344 ng/mL for ABILIFY ASIMTUFII and Abilify Maintena, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "Only the oral ABILIFY dosing table was captured for this label set in this session; the IM product's own dosing text was not retrieved, so the exact mg dose is not cited here.",
+    "dose_basis_confirmed": true,
     "note": "Two values given (342 ASIMTUFII, 344 Maintena) for the two approved long-acting IM products; ASIMTUFII value picked arbitrarily. Could not verify the IM maintenance dose in mg from cached text this session (only oral dosing table was in the candidates cache) -- dose field is therefore descriptive, not a sourced number. Flagged uncertain.",
     "source": {
      "type": "fda_label",
@@ -675,6 +686,7 @@
     "snippet": "Amoxapine reached maximum levels of 67.4 +/- 35.8 ng/ml between 1 and 2 h after administration.",
     "dose_snippet": "The plasma concentrations of amoxapine and its active metabolites, 8-hydroxyamoxapine and 7-hydroxyamoxapine were determined in 8 healthy volunteers receiving a single oral dose of 100 mg",
     "usual_dose_basis": "Usual starting dosage is 50 mg two or three times daily.",
+    "dose_basis_confirmed": true,
     "note": "No usable FDA label candidate (label has no clinical_pharmacology Cmax sentence, only dosage text). PubMed single-dose value at 100 mg, which falls within the usual initial adult dosing range (50 mg two or three times daily = 100-150 mg/day) even though it is below the usual effective maintenance dosage of 200-300 mg/day.",
     "source": {
      "type": "pubmed",
@@ -714,6 +726,7 @@
     "snippet": "C max (ng/mL) 9.30 [4.16] 10.91 [3.55] 13.76 [3.72] 14.43 [3.18] T max * (hours) 4.00 [1.00 – 5.00] 5.00 [4.00 – 20.00] 10.0 [5.00 – 18.00] 16.00 [5.00 – 20.00]",
     "dose_snippet": "Summary of Food Effect on PK Parameters of Pyridostigmine Bromide 105 mg Extended-Release Tablets",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Used the fasted-condition column of the food-effect table.",
     "source": {
      "type": "fda_label",
@@ -765,6 +778,7 @@
     "snippet": "Acetaminophen Injection Pharmacokinetic Parameters Subpopulations Mean (SD) AUC 0-6h (mcg × h/mL) C max (mcg/mL) T ½ (h) CL (L/h/kg) Vss (L/kg) Children 38 (8) 29 (7) 3.0 (1.5) 0.34 (0.10) 1.2 (0.3) Adolescents 41 (7) 31 (9) 2.9 (0.7) 0.29 (0.08) 1.1 (0.3) Adults 43 (11) 28 (21) 2.4 (0.6) 0.27 (0.08) 0.8 (0.2) The concentrations of acetaminophen observed in neonates greater than 32 weeks gestational age at birth treated with 12.5 mg/kg dose are similar to infants, children and adolescents treated with a 15 mg/kg dose, and similar to adults treated with a 1,000 mg dose.",
     "dose_snippet": "similar to adults treated with a 1,000 mg dose",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Adult Cmax row from the IV acetaminophen injection PK table; dose confirmed as 1,000 mg in the following sentence of the same label section.",
     "source": {
      "type": "fda_label",
@@ -817,6 +831,7 @@
     "snippet": "Geometric least squares (LS) means (without versus with LDX) for C max (ng/mL) were 5370 versus 5246 for caffeine, 2.43 versus 2.87 for dextromethorphan, 35.23 versus 35.11 for midazolam, and 677.9 versus 466.9 for omeprazole",
     "dose_snippet": "Thirty healthy volunteers were administered the Cooperstown cocktail (CYP1A2 [caffeine 200 mg], CYP2D6 [dextromethorphan 30 mg], CYP2C19 [omeprazole 40 mg], and CYP3A [midazolam 0.025 mg/kg] substrates) or Cooperstown cocktail + oral LDX 70 mg.",
     "usual_dose_basis": "The only FDA label with a caffeine Cmax (caffeine citrate injection, clinical_pharmacology) covers preterm neonates only (10 mg caffeine base/kg), which is not an adult dose; no adult-indicated caffeine Rx product exists, so 200 mg is used as a typical/standard caffeine dose from a human PK study instead of a label-stated adult dose.",
+    "dose_basis_confirmed": true,
     "note": "Value is the baseline (without lisdexamfetamine) geometric mean Cmax for a 200 mg oral caffeine probe dose given alone as part of a CYP cocktail study in healthy adults; this is the drug-interaction study's control arm, used here as the caffeine-alone reference value since no approved adult caffeine label dose exists.",
     "source": {
      "type": "pubmed",
@@ -854,6 +869,7 @@
     "snippet": "Following oral administration of a desloratadine 5-mg tablet once daily for 10 days to normal healthy volunteers, the mean time to maximum plasma concentrations (T max ) occurred at approximately 3 hours post dose and mean steady state peak plasma concentrations (C max ) and AUC of 4 ng/mL and 56.9 ng∙hr/mL were observed, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "5 mg once daily is the standard approved adult dose of desloratadine (CLARINEX)",
+    "dose_basis_confirmed": true,
     "note": "Mean steady-state Cmax after the usual 5 mg once-daily adult oral dose, from the CLARINEX clinical pharmacology section.",
     "source": {
      "type": "fda_label",
@@ -894,6 +910,7 @@
     "snippet": "Mean (SD) values for the main PK parameters for duloxetine after administration of multiple doses were as follows: C(ssmax) = 47.33 (16.95) ng/mL;",
     "dose_snippet": null,
     "usual_dose_basis": "received 30 mg of duloxetine twice daily for 7 days",
+    "dose_basis_confirmed": true,
     "note": "30 mg BID (60 mg/day) is within the usual adult maintenance dose range for duloxetine (40-60 mg/day); C(ssmax) is the steady-state peak plasma concentration.",
     "source": {
      "type": "pubmed",
@@ -985,6 +1002,7 @@
     "snippet": "On days 1 and 7, geometric mean Cmax of FF was 10.46 and 27.32 pg/mL, respectively; Cmax of UMEC was 144.14 and 241.35 pg/mL, respectively; and Cmax of VI was 120.42 and 196.78 pg/mL, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "62.5 µg is umeclidinium's own approved once-daily dose (as in the single-ingredient product Incruse Ellipta), but this study administered it only as part of a 3-drug combination inhaler (FF/UMEC/VI), not as an umeclidinium-only product. Chose the day 7 (steady-state, repeat dosing) value over day 1 (single dose).",
     "source": {
      "type": "pubmed",
@@ -1024,6 +1042,7 @@
     "snippet": "The mean (± SD) steady-state peak plasma concentration (C max ) of olopatadine was 16 ± 8.99 ng/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "2 DOSAGE AND ADMINISTRATION For nasal use only. Recommended dosages: Adults and Adolescents ≥12 Years: Two sprays per nostril (665 mcg per spray) twice daily ( 2.1 ).",
+    "dose_basis_confirmed": true,
     "note": "Label's PK section (olopatadine nasal spray) lists several Cmax figures (16, 23.3, 13.4 ng/mL) from what appear to be different study arms/subgroups; took the lead unqualified 'steady-state peak plasma concentration' statement as the general adult value, since the other sentences are explicitly tied to renal-impairment or pediatric comparison subgroups.",
     "source": {
      "type": "fda_label",
@@ -1077,6 +1096,7 @@
     "snippet": "aclidinium/formoterol FDC and aclidinium alone: Cmax , 270 and 215 pg/mL, respectively;",
     "dose_snippet": "This phase 1, randomized, open-label, 3-way, complete crossover, single-dose study assessed the pharmacokinetics, safety, and tolerability of an FDC, aclidinium bromide 400 µg, and formoterol fumarate 12 µg, all administered via Genuair™ to 30 healthy subjects.",
     "usual_dose_basis": "The recommended dose of TUDORZA PRESSAIR is one oral inhalation of 400 mcg, twice daily",
+    "dose_basis_confirmed": true,
     "note": "FDA label (TUDORZA PRESSAIR) has no candidate Cmax sentence, so this is from PubMed. 215 pg/mL is the 'aclidinium alone' arm (monotherapy, not the formoterol FDC) of a single-dose crossover PK study; dose (400 µg) matches the approved per-inhalation dose of TUDORZA PRESSAIR, given as a single dose rather than the approved twice-daily regimen.",
     "source": {
      "type": "pubmed",
@@ -1116,6 +1136,7 @@
     "snippet": "concurrent fluvoxamine intake was associated with increased mean peak plasma diazepam concentrations (from 108 to 143 ng/ml, geometric means, difference not significant), with a marked reduction in apparent oral diazepam clearance",
     "dose_snippet": "Each subject received a single oral dose of diazepam (10 mg) in a control session and on the fourth day of a 16-day treatment with fluvoxamine maleate (100 to 150 mg daily).",
     "usual_dose_basis": "Management of Anxiety Disorders and Relief of Symptoms of Anxiety. Depending upon severity of symptoms—2 mg to 10 mg, 2 to 4 times daily",
+    "dose_basis_confirmed": true,
     "note": "The only FDA-label candidate for diazepam was an intramuscular autoinjector Cmax without a matching dosing statement, so the oral control-session (no fluvoxamine) value of 108 ng/mL from PubMed was used instead; 10 mg is within the usual approved adult oral per-dose range.",
     "source": {
      "type": "pubmed",
@@ -1166,6 +1187,7 @@
     "snippet": "The peak plasma concentration of quazepam is approximately 20 ng/mL after a 15 mg dose and occurs at about 2 hours.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended initial dose is 7.5 mg. The 7.5 mg dose can be increased to 15 mg if necessary for efficacy.",
+    "dose_basis_confirmed": true,
     "note": "15 mg is within the usual adult quazepam dose range.",
     "source": {
      "type": "fda_label",
@@ -1271,6 +1293,7 @@
     "snippet": "Mean CAB maximal plasma concentrations (Cmax) were 33.3 +/- 3.69, 40.3 +/- 2.49, and 67.0 +/- 9.79 ng/L after 0.5, 1.0, and 1.5 mg CAB, respectively; time to Cmax was 2 h (median) for all doses;",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Label regimen for cabergoline (e.g., hyperprolactinemia) is 0.25 mg twice weekly; this PK study used a single 0.5 mg oral dose, which approximates the usual weekly total dose but is not an exact match to the twice-weekly split regimen. Chose the 0.5 mg dose level (lowest studied, closest to usual total weekly exposure) rather than the higher 1.0/1.5 mg levels.",
     "source": {
      "type": "pubmed",
@@ -1325,6 +1348,7 @@
     "snippet": "Peak concentrations are typically 270 ng/mL and 308 ng/mL following a single and a repeated 5 mg once daily dose, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "Adults and children 12 years of age and older: 5 mg once daily in the evening",
+    "dose_basis_confirmed": true,
     "note": "308 ng/mL is the repeated-dose (steady-state) value for the usual adult 5 mg once-daily dose.",
     "source": {
      "type": "fda_label",
@@ -1436,6 +1460,7 @@
     "snippet": "For intact lisdexamfetamine dimesylate, the median time to reach maximum plasma drug concentration (t(max)) was 1.00 hour, and the mean maximum plasma drug concentration (C(max)) was 58.2 +/- 28.1 ng/mL.",
     "dose_snippet": "In an open-label, single-centre study, six healthy adult volunteers aged 22-52 years received a single oral 70 mg dose of (14)C-radiolabelled lisdexamfetamine dimesylate in solution following a 10-hour fast.",
     "usual_dose_basis": "fda_label: no cached candidates with a concentration unit; 70 mg is within the approved VYVANSE adult dose range (30-70 mg once daily) and matches the PubMed study dose",
+    "dose_basis_confirmed": true,
     "note": "This is intact lisdexamfetamine dimesylate's own plasma Cmax (58.2 ng/mL), distinct from and much lower than its active metabolite d-amphetamine's Cmax (80.3 ng/mL) reported in the same study; the parent prodrug's own concentration was directly measured and reported, so the prodrug exclusion rule does not apply here.",
     "source": {
      "type": "pubmed",
@@ -1475,6 +1500,7 @@
     "snippet": "At steady state, the mean (SD) Cmax and AUC0-last values were 20.6 (9.63) ng/mL and 297 (146.15) ng∙h/mL.",
     "dose_snippet": "multiple doses of 50 mg of cinacalcet once daily for 7 days",
     "usual_dose_basis": "50 mg once daily steady state, within typical cinacalcet maintenance range",
+    "dose_basis_confirmed": true,
     "note": "",
     "source": {
      "type": "pubmed",
@@ -1514,6 +1540,7 @@
     "snippet": "Steady-state peak plasma concentrations after acamprosate calcium doses of 2 x 333 mg tablets three times daily average 350 ng/mL and occur at 3 to 8 hours post-dose.",
     "dose_snippet": null,
     "usual_dose_basis": "Recommended dose: 666 mg (two 333 mg tablets) taken three times daily",
+    "dose_basis_confirmed": true,
     "note": "Usual approved adult dose per dosing section.",
     "source": {
      "type": "fda_label",
@@ -1554,6 +1581,7 @@
     "snippet": "A fast absorption rate was found with a mean maximum plasma concentration (Cmax) of 6.3 (SD 1.5) ng/ml, a mean time to Cmax (Tmax) of 10.0 (3.8) minutes and the elimination half-life (t1) of 33.4 (1.92).",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "FDA label candidates for glycopyrronium had only dashed/missing Cmax cells for IV/IM and only a topical (Qbrexza) value, both unusable; this IM obstetric-anesthesia dose was the best adult systemic value found.",
     "source": {
      "type": "pubmed",
@@ -1619,6 +1647,7 @@
     "snippet": "Bioavailability studies conducted in fasting healthy female volunteers have shown that oral absorption of a 0.2 mg methylergonovine tablet was fairly rapid with a mean peak plasma concentration of 3243 ± 1308 pg/mL observed at 1.12 ± 0.82 hours.",
     "dose_snippet": null,
     "usual_dose_basis": "DOSAGE AND ADMINISTRATION Orally The recommended dosage of methylergonovine maleate is one tablet, 0.2 mg, orally 3 or 4 times daily in the puerperium for a maximum of 1 week.",
+    "dose_basis_confirmed": true,
     "note": "0.2 mg oral tablet is exactly the per-dose amount in the recommended regimen (0.2 mg 3-4x/day).",
     "source": {
      "type": "fda_label",
@@ -1659,6 +1688,7 @@
     "snippet": "After administration of multiple doses, arithmetic mean (SD) values of C max and AUC0-t were 3566 (873) µg/L and 62,803 (19,873) µg·h/L, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "The multiple-dose (steady-state) arm used 200 mg twice daily (400 mg/day), which falls within the usual adult starting/maintenance dose range for rufinamide; chosen over the single-dose arms (200/400/800/1200 mg) per the preference for steady-state values.",
     "source": {
      "type": "pubmed",
@@ -1698,6 +1728,7 @@
     "snippet": "Compared to tapentadol IR 86 mg, the prolonged-release characteristics of tapentadol PR 86 mg were evident with a lower Cmax (22.5 ng/ml vs. 64.2 ng/ml), a longer time to Cmax (5.0 h vs. 1.5 h), a higher half-value duration (HVD: 12.5 h vs. 3.6 h), and a longer mean residence time (MRT: 10.6 h vs. 6.0 h).",
     "dose_snippet": "oral tapentadol IR 86 mg and tapentadol PR 86 mg",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "64.2 ng/mL is the immediate-release (IR) value; the 22.5 ng/mL prolonged-release value was not used.",
     "source": {
      "type": "pubmed",
@@ -1737,6 +1768,7 @@
     "snippet": "After a 65-mg oral dose of propoxyphene hydrochloride, peak plasma levels of 0.05 to 0.1 µg/mL for propoxyphene and 0.1 to 0.2 µg/mL for norpropoxyphene (major metabolite) are achieved.",
     "dose_snippet": null,
     "usual_dose_basis": "The usual dosage is one 65 mg propoxyphene hydrochloride capsule every 4 hours as needed for pain.",
+    "dose_basis_confirmed": true,
     "note": "Range only given (no single mean/median); value is the geometric mean of 0.05 and 0.1 µg/mL. Dose of 65 mg matches the label's usual adult dosage exactly.",
     "source": {
      "type": "fda_label",
@@ -1777,6 +1809,7 @@
     "snippet": "mean t½, 109 h; mean maximum observed concentration at steady state (Css,max), 453 ng/mL; and mean area under the concentration-time curve over the dosing interval on multiple dosing (AUC(0- τ)), 7540 ng·h/mL.",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "FDA label candidates only mentioned '10-fold the steady-state Cmax at 12 mg' without giving the actual number; 4 mg/day is perampanel's usual starting/maintenance dose.",
     "source": {
      "type": "pubmed",
@@ -1816,6 +1849,7 @@
     "snippet": "Healthy adults (35-65 years) were randomly assigned to receive 1 of 5 oral ramelteon doses (4, 8, 16, 32, or 64 mg; n = 8 per group) or placebo (n = 20). C(max) and AUC(infinity) (mean [%CV]) increased with each dose: C(max) = 1.15 (109), 5.73 (97), 6.92 (77), 17.4 (76), and 25.9 (77) ng/mL, respectively",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "8 mg is the FDA-approved adult dose of ramelteon (Rozerem); chose the 8 mg dose-group value (5.73 ng/mL) from this single-ascending-dose study, in preference to the label's own PK text which (per prior review) only reported an elderly-subject value at a non-standard 16 mg dose.",
     "source": {
      "type": "pubmed",
@@ -1868,6 +1902,7 @@
     "snippet": "Following application of the first OXYTROL 3.9 mg/day transdermal system, oxybutynin plasma concentrations increase for approximately 24 to 48 hours, reaching average maximum concentrations of 3 to 4 ng/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "OXYTROL 3.9 mg/day should be applied to dry, intact skin on the abdomen, hip, or buttock twice weekly (every 3 or 4 days).",
+    "dose_basis_confirmed": true,
     "note": "Describes the first (single) transdermal application; classified as single_dose.",
     "source": {
      "type": "fda_label",
@@ -1920,6 +1955,7 @@
     "snippet": "After oral administration of 40 mg lurasidone hydrochloride under fed conditions, the mean area under the curve (AUCt, AUC∞) and maximum plasma concentrations (Cmax) were 175 ng/mL*h; 184 ng/mL*h and 60 ng/mL, respectively for the test product and 185 ng/mL*h; 198 ng/mL*h and 59 ng/mL respectively for the reference product. 90% Confidence Intervals (CI) for all PK parameters were within the acceptance range of 80.00-125.00%.",
     "dose_snippet": "After oral administration of 40 mg lurasidone hydrochloride under fed conditions",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Used the reference-product value (59 ng/mL); lurasidone (Latuda) must be taken with food per labeling, consistent with the fed-condition study.",
     "source": {
      "type": "pubmed",
@@ -1959,6 +1995,7 @@
     "snippet": "The mean C max and AUC of CONZIP capsules after a 300 mg single dose was 308 ng/mL and 6777 ng.hr/mL, respectively under fasting conditions.",
     "dose_snippet": null,
     "usual_dose_basis": "300 mg once daily is the maximum/usual upper end of the CONZIP (tramadol ER) label's recommended daily dose",
+    "dose_basis_confirmed": true,
     "note": "Single-dose value at the usual maximum daily ER dose; a steady-state 200 mg once-daily table value (Cmax 332 ng/mL) was also available in the label but the clean single-dose statement was used for an unambiguous verbatim snippet.",
     "source": {
      "type": "fda_label",
@@ -2036,6 +2073,7 @@
     "snippet": "Following chronic administration of an inhaled dose of 50 mcg of salmeterol inhalation powder twice daily, salmeterol was detected in plasma within 5 to 45 minutes in 7 subjects with asthma; plasma concentrations were very low, with mean peak concentrations of 167 pg/mL at 20 minutes and no accumulation with repeated doses.",
     "dose_snippet": null,
     "usual_dose_basis": "SEREVENT DISKUS ... more than 1 inhalation twice daily is not recommended; recommended dose is 1 inhalation (50 mcg) twice daily.",
+    "dose_basis_confirmed": true,
     "note": "Clean match: 50 mcg twice daily is the approved SEREVENT dose, chronic dosing described as steady-state (no accumulation).",
     "source": {
      "type": "fda_label",
@@ -2102,6 +2140,7 @@
     "snippet": "12.3 Pharmacokinetics Absorption The mean maximum concentration following oral dosing with 25 mg is 18 ng/mL (range: 7 to 47 ng/mL) and 51 ng/mL (range: 28 to 100 ng/mL) following oral dosing with 100 mg of sumatriptan.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended dose of IMITREX tablets is 25 mg, 50 mg, or 100 mg.",
+    "dose_basis_confirmed": true,
     "note": "Label also gives 18 ng/mL at the 25 mg dose; 100 mg (51 ng/mL) chosen as it is an approved single-tablet dose and the higher of the two label doses.",
     "source": {
      "type": "fda_label",
@@ -2154,6 +2193,7 @@
     "snippet": "At the 2 mg/24 h dose at steady state, the geometric mean AUC0-24h and Cmax values of unconjugated rotigotine were 5.88 ng·h/mL and 0.347 ng/mL, respectively; at the 4 mg/24 h dose, the corresponding values were 13.74 ng·h/mL and 0.838 ng/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "4 mg/24 hours is the FDA label's lowest effective / recommended starting dose for advanced-stage Parkinson's disease (and the first up-titration dose for early-stage disease)",
+    "dose_basis_confirmed": true,
     "note": "Value is for unconjugated (parent) rotigotine only; the same abstract also reports 'total rotigotine' Cmax of 0.776 ng/mL at 2 mg/24h, which was deliberately not used.",
     "source": {
      "type": "pubmed",
@@ -2193,6 +2233,7 @@
     "snippet": "With tid dosing of 100 mg or 200 mg, C max is approximately 3 mcg/mL and 6 mcg/mL, respectively.",
     "dose_snippet": "With tid dosing of 100 mg or 200 mg",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Label states this is 'approximately' 3 mcg/mL at the 100 mg tid dose; repeated (tid) dosing implies steady state.",
     "source": {
      "type": "fda_label",
@@ -2231,6 +2272,7 @@
     "snippet": "The geometric mean (%CV) sorafenib maximum concentration (Cmax) without and with levothyroxine was 2.09 (68.1) and 1.78 (63.9) mg/L, respectively, with a corresponding geometric mean area under the curve of 68.1 (68.2) and 64.3 (66.3) mg·h/L.",
     "dose_snippet": "In period 1, day 1, subjects received a single oral dose of sorafenib 400 mg, followed by a minimal 10-day washout.",
     "usual_dose_basis": "400 mg is the FDA label's recommended dose (400 mg orally twice daily; this study used a single 400 mg dose)",
+    "dose_basis_confirmed": true,
     "note": "This is the 'without levothyroxine' control arm value, to avoid the drug-interaction-affected arm; value is single-dose, not steady-state twice-daily dosing.",
     "source": {
      "type": "pubmed",
@@ -2270,6 +2312,7 @@
     "snippet": "Following single doses of NEXICLON XR 0.17 mg, clonidine mean (S.D.) peak plasma concentrations of 0.49 (±0.09) ng/mL occurred at 7.8 (±1.7) hours.",
     "dose_snippet": null,
     "usual_dose_basis": "A = NEXICLON XR Tablets (0.17 mg QD) Fasted",
+    "dose_basis_confirmed": true,
     "note": "NEXICLON XR is an extended-release once-daily clonidine formulation; 0.17 mg QD is the dose used in this label's own single-dose PK study. The 0.1 mg orally twice daily dosing text captured in the candidates file's 'dosing' field is from a different (immediate-release) clonidine label; per instructions, did not scale/convert between formulations and instead used NEXICLON XR's own PK value with its own dose.",
     "source": {
      "type": "fda_label",
@@ -2308,6 +2351,7 @@
     "snippet": "Absorption Following oral administration of a single 6 g dose of LUMRYZ, the peak plasma concentration (C max ) was 66 mcg/mL and the time to peak plasma concentration (T max ) was 1.5 hours.",
     "dose_snippet": "Following oral administration of a single 6 g dose of LUMRYZ",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "LUMRYZ (sodium oxybate extended-release) label.",
     "source": {
      "type": "fda_label",
@@ -2348,6 +2392,7 @@
     "snippet": "Table 3: Mean (SD) Steady-State Pharmacokinetic Parameters from Darifenacin 7.5 mg and 15 mg Extended-Release Tablets Based on Pooled Data by Predicted CYP2D6 Phenotype Darifenacin 7.5 mg (N = 68 EM, 5 PM) Darifenacin 15 mg (N = 102 EM, 17 PM) A UC 24 (ng•h/mL) C max (ng/mL) C a v g (ng/mL) T max (h) t 1/2 (h) A UC 24 (ng•h/mL) C max (ng/mL) C a v g (ng/mL) T max (h) t 1/2 (h) EM 29.24 2.01 1.22 6.49 12.43 88.90 5.76 3.70 7.61 12.05",
     "dose_snippet": "Table 3: Mean (SD) Steady-State Pharmacokinetic Parameters from Darifenacin 7.5 mg and 15 mg Extended-Release Tablets Based on Pooled Data by Predicted CYP2D6 Phenotype",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "First numeric column of the EM row under the 7.5 mg dose heading of Table 3.",
     "source": {
      "type": "fda_label",
@@ -2386,6 +2431,7 @@
     "snippet": "Peak plasma concentrations of modafinil (mean 4.82 mg/L) were reached 2.3 hours after a single 200mg oral dose in healthy volunteers.",
     "dose_snippet": null,
     "usual_dose_basis": "Label (PROVIGIL) dosing text: \"The recommended dosage of PROVIGIL for patients with narcolepsy or OSA is 200 mg taken orally once a day as a single dose in the morning.\"",
+    "dose_basis_confirmed": true,
     "note": "FDA label candidates file had no label sentence with a numeric Cmax (only a note that IV administration was precluded by insolubility), so PubMed was used. 200 mg single oral dose matches the label's recommended once-daily dose.",
     "source": {
      "type": "pubmed",
@@ -2425,6 +2471,7 @@
     "snippet": "Mean C max of tolterodine (1.6 µg/L in males versus 2.2 µg/L in females) and the active 5-hydroxymethyl metabolite (2.2 µg/L in males versus 2.5 µg/L in females) are similar in males and females who were administered tolterodine immediate release 2 mg.",
     "dose_snippet": null,
     "usual_dose_basis": "The initial recommended dose of DETROL Tablets is 2 mg twice daily.",
+    "dose_basis_confirmed": true,
     "note": "Snippet does not explicitly state single-dose vs steady-state for this male/female comparison; classified single_dose by analogy with the adjacent single-dose EM/PM table, but unconfirmed. Male value selected arbitrarily over the female value (2.2 µg/L). Flagged as uncertain.",
     "source": {
      "type": "fda_label",
@@ -2489,6 +2536,7 @@
     "snippet": "The pharmacokinetic parameters increased with the dose between 3 and 5 mg (from 2.2 to 5.2 ng/mL for Cmax, and 16 to 50 ng/mL.h for AUC).",
     "dose_snippet": "made a preliminary pharmacokinetic assessment of single 3- and 5-mg doses",
     "usual_dose_basis": "5 mg is the higher of the two single doses studied, but still far below the approved FANAPT maintenance range of 12-24 mg/day",
+    "dose_basis_confirmed": true,
     "note": "only early low single-dose PK data available (3-5 mg); approved maintenance doses are 6-12 mg BID, so this value is not representative of therapeutic exposure; flagged uncertain",
     "source": {
      "type": "pubmed",
@@ -2541,6 +2589,7 @@
     "snippet": "the mean +/- SD for the peak concentration (Cmax), the time to Cmax (Tmax), the rate of absorption (Ka), and the area under the curve from 0 to 72 h (AUC0-72) were found to be 7.15 +/- 2.58 ng/mL, 1.32 +/- 0.58 h, 2.07 +/- 0.93 1/h, and 201 +/- 71 ng h/mL, respectively.",
     "dose_snippet": "plasma samples obtained from eight healthy male volunteers after administration of a single 4 mg oral dose of the drug.",
     "usual_dose_basis": "As initial therapy for parkinsonism, 1 mg may be administered the first day... until a total of 6 to 10 mg is given daily",
+    "dose_basis_confirmed": true,
     "note": "Single 4 mg dose is within the usual total daily range (6-10 mg/day, divided) for trihexyphenidyl in idiopathic parkinsonism, though not identical to any single incremental dose; no FDA label Cmax candidate was available.",
     "source": {
      "type": "pubmed",
@@ -2580,6 +2629,7 @@
     "snippet": "Ketoconazole coadministration increased mean almotriptan AUC and Cmax from 312 to 490 ng h/mL and 52.6 to 84.5 ng/mL, respectively.",
     "dose_snippet": "Subjects received (A) 12.5 mg almotriptan orally on Day 2 of a 3-day regimen of 400 mg ketoconazole once daily and (B) 12.5 mg almotriptan in a crossover design.",
     "usual_dose_basis": "Adults and adolescents age 12 to 17 years: 6.25 mg or 12.5 mg single dose",
+    "dose_basis_confirmed": true,
     "note": "Baseline (arm B, almotriptan alone without ketoconazole) Cmax taken from an interaction study; the sentence reports baseline-to-interacting range 52.6 to 84.5 ng/mL, baseline value used is 52.6 ng/mL.",
     "source": {
      "type": "pubmed",
@@ -2619,6 +2669,7 @@
     "snippet": "Maximum plasma concentrations (C(max)) of 9.85 +/- 1.79 ng/ml (test) and 9.92 +/- 2.14 ng/ml (reference) were achieved.",
     "dose_snippet": "escitalopram 10 mg tablet as test preparation and 10 mg tablet commercially available original tablet of the drug as reference preparation) in 20 Chinese healthy male volunteers",
     "usual_dose_basis": "Recommended starting dosage is 10 mg orally once daily of another escitalopram product.",
+    "dose_basis_confirmed": true,
     "note": "No FDA label candidate contained a usable Cmax value, so a PubMed bioequivalence abstract was used. Took the reference (commercially available original tablet) value of 9.92 ng/mL rather than the generic test formulation's 9.85 ng/mL.",
     "source": {
      "type": "pubmed",
@@ -2658,6 +2709,7 @@
     "snippet": "No significant differences between phases were observed for maximum plasma concentration (cmax, range of means = 188-234 ng/ml), time to maximum concentration (tmax, range of means = 1.8-2.5 h), or systemic exposure (area under the curve [AUC], range of means = 1194-1514 ng x h/ml).",
     "dose_snippet": "Female volunteers (n = 16) with a regular menstrual cycle (28 +/- 4 days) received a single oral dose of 80 mg eletriptan during each of the four cycle phases: phase 1 (menses), days 1 to 4; phase 2 (follicular), days 6 to 10; phase 3 (ovulatory), days 11 to 13; and phase 4 (luteal), days 21 to 24.",
     "usual_dose_basis": "fda_label: no cached candidates with a concentration unit; 80 mg is the highest approved RELPAX single dose (20/40/80 mg) and matches the PubMed study dose",
+    "dose_basis_confirmed": true,
     "note": "Cmax reported only as a range of 4 per-cycle-phase means (188-234 ng/mL) with no overall single mean given in the abstract; recorded as range_geomean = sqrt(188*234) per instructions for range-only values.",
     "source": {
      "type": "pubmed",
@@ -2697,6 +2749,7 @@
     "snippet": "There were no significant differences between zaleplon monotherapy and combination therapy in mean +/- SD, of zaleplon clearance (CL) (2.80 +/- 0.72 versus 2.72 +/- 0.89 L/hr/kg, respectively), maximum plasma concentration (Cmax) (37.1 +/- 17.9 versus 39.8 +/- 20.0 ng/mL), or area under the concentration-versus-time curve (AUC) (56.7 +/- 22.8 versus 59.2 +/- 22.0 ng.hr/mL).",
     "dose_snippet": "Healthy adult volunteers were given a dose of zaleplon 10 mg alone, a dose of ibuprofen 600 mg alone, or a dose of zaleplon 10 mg and a dose of ibuprofen 600 mg concomitantly in an open-label, randomized, three-period crossover study.",
     "usual_dose_basis": "The recommended dose of zaleplon for most non-elderly adults is 10 mg.",
+    "dose_basis_confirmed": true,
     "note": "FDA label candidates for zaleplon contained no peak/Cmax sentence (only a protein-binding sentence). PubMed study is a drug-interaction trial (zaleplon + ibuprofen), but the value used (37.1 ng/mL) is the zaleplon-monotherapy arm, not the interaction-affected combination value, so it represents a normal single-dose Cmax at the usual 10 mg adult dose.",
     "source": {
      "type": "pubmed",
@@ -2734,6 +2787,7 @@
     "snippet": "the main pharmacokinetic parameters were Css_max at 33.43±5.63 ng/ml and AUCss (0-24) at 263.30±51.21 ng*h/ml",
     "dose_snippet": "In multiple-dose study, 8 subjects were given 3 mg eszopiclone once daily consecutively for 7 days.",
     "usual_dose_basis": "The total dose of LUNESTA should not exceed 3 mg, once daily immediately before bedtime",
+    "dose_basis_confirmed": true,
     "note": "FDA label candidates file for eszopiclone had zero cmax sentences, so sourced from PubMed. Css_max (steady-state Cmax) at 3 mg once daily, the maximum recommended LUNESTA dose; study also reports single-dose Cmax at 1.5/3/6 mg but the 3 mg steady-state value was taken as it matches the usual maintenance/maximum dose.",
     "source": {
      "type": "pubmed",
@@ -2773,6 +2827,7 @@
     "snippet": "Steady-state plasma levels (trough) occurred after approximately 7 days of dosing, with mean steady-state plasma concentrations (Cmax) in multiple dose studies of between 32 ng/ml (50-mg doses) and 376 ng/ml (500-mg doses).",
     "dose_snippet": "multiple doses (< or =300 mg b.i.d. for 10 days)",
     "usual_dose_basis": "lower end (50 mg) of the dose-range studied, since this early-phase study's fixed mg doses do not correspond to the approved Ztalmy weight-based oral-suspension regimen",
+    "dose_basis_confirmed": true,
     "note": "dose/formulation does not match the approved pediatric weight-based Ztalmy regimen; flagged uncertain",
     "source": {
      "type": "pubmed",
@@ -2827,6 +2882,7 @@
     "snippet": "The median (range) maximum serum concentration (Cmax ) values were significantly higher after FPHT administration compared with PHT: 10.7 (9.0-19.4) mg/L versus 5.0 (3.2-8.9) mg/L (p=0.002).",
     "dose_snippet": "Subjects were randomized to receive a single oral dose of either PHT sodium injection or FPHT sodium injection at a dose equivalent to 400 mg PHT acid.",
     "usual_dose_basis": "2.2 Adult Dosage The recommended starting dosage for adult patients who have received no previous treatment is 5 mL (125 mg/5 mL), or one teaspoonful, by mouth three times daily. Adjust the dosage to suit individual requirements, up to a maximum of 25 mL daily.",
+    "dose_basis_confirmed": true,
     "note": "Value (5.0 mg/L) is for phenytoin (PHT) sodium injection given orally as a single dose, not the FPHT (fosphenytoin) comparator value (10.7 mg/L). 400 mg is close to the usual maintenance total daily dose range cited in the label (up to 375-400 mg/day from 5 mL TID of the 125 mg/5 mL suspension), given here as a single dose rather than divided.",
     "source": {
      "type": "pubmed",
@@ -2890,6 +2946,7 @@
     "snippet": "A pharmacokinetic study with 29 chronic obstructive pulmonary disease (COPD) patients (48-79 years of age) demonstrated that mean peak plasma ipratropium concentrations of 59±20 pg/mL were obtained following a single administration of 4 inhalations of ATROVENT HFA (84 mcg).",
     "dose_snippet": "a single administration of 4 inhalations of ATROVENT HFA (84 mcg)",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": null,
     "source": {
      "type": "fda_label",
@@ -2944,6 +3001,7 @@
     "snippet": "In healthy volunteers, a single oral doxepin hydrochloride dose of 75 mg resulted in peak plasma doxepin concentrations that ranged from 8.8 ng/mL to 45.8 ng/mL (mean 26.1 ng/mL).",
     "dose_snippet": null,
     "usual_dose_basis": "SILENOR dosing: 6 mg once daily for adults; this PK study instead used a single 75 mg dose, the only dose reported with a Cmax number",
+    "dose_basis_confirmed": true,
     "note": "Label's PK study dose (75 mg single dose) differs from SILENOR's approved insomnia dose (3-6 mg); recorded as reported per task instructions (do not scale).",
     "source": {
      "type": "fda_label",
@@ -3010,6 +3068,7 @@
     "snippet": "For cisapride alone, mean parameter values were the following: peak concentration (Cmax), 56 ng/mL; time to Cmax (tmax), 1.7 hours; area under the concentration-time curve (AUC), 426 ng x h/mL; and terminal half-life (t1/2), 5.8 hours.",
     "dose_snippet": "a crossover study was conducted in healthy subjects to evaluate the oral pharmacokinetic interaction between cisapride (20 mg) and pantoprazole (40 mg)",
     "usual_dose_basis": "Initiate therapy with one 10 mg tablet of PROPULSID ® or 10 mL of the suspension 4 times daily at least 15 minutes before meals and at bedtime. In some patients the dosage will need to be increased to 20 mg, given as above, to obtain a satisfactory result.",
+    "dose_basis_confirmed": true,
     "note": "No FDA label candidate contained a usable Cmax value for cisapride, so a PubMed abstract was used. 20 mg is within the approved per-dose range (10-20 mg given up to 4 times daily).",
     "source": {
      "type": "pubmed",
@@ -3049,6 +3108,7 @@
     "snippet": "Following ATZUMI administration, the mean maximum plasma concentration was 2.1 ng/mL, and the median time from dosing to maximum plasma concentration was approximately 0.5 hours.",
     "dose_snippet": null,
     "usual_dose_basis": "ATZUMI's own dosing text was not present in the cached dosing list for this candidates file (only TRUDHESA's 1.45 mg dosing text was cached, under a different set_id); the 2.1 ng/mL value is ATZUMI's own labeled PK statement for its approved intranasal dose.",
+    "dose_basis_confirmed": true,
     "note": "Two dihydroergotamine nasal/SC products had cmax_term=true candidates: ATZUMI (nasal, 2.1 ng/mL) and BREKIYA (subcutaneous, 3.8 ng/mL). ATZUMI (nasal) was chosen arbitrarily as both are valid approved systemic routes; BREKIYA's SC value was not used to avoid implying both apply to the same formulation. Exact mg dose for ATZUMI was not available in the cached text, so 'dose' is left descriptive rather than invented.",
     "source": {
      "type": "fda_label",
@@ -3089,6 +3149,7 @@
     "snippet": "After oral administration of solifenacin succinate in healthy volunteers, peak plasma concentrations (C max ) of solifenacin were reached within 3 to 8 hours after administration and, at steady-state, ranged from 32.3 to 62.9 ng/mL for the 5 and 10 mg solifenacin succinate tablets, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended oral dose of solifenacin succinate tablets is 5 mg once daily. If the 5 mg dose is well tolerated, the dose may be increased to 10 mg once daily.",
+    "dose_basis_confirmed": true,
     "note": "Range spans the two approved dose levels (5 mg -> 32.3 ng/mL; 10 mg -> 62.9 ng/mL) rather than inter-subject variability at one dose.",
     "source": {
      "type": "fda_label",
@@ -3127,6 +3188,7 @@
     "snippet": "Mean lofexidine C max after the oral dose and intravenous infusion was 0.82 ng/mL (at median T max of 3 hours) and 0.64 ng/mL (at median T max of 4 hours), respectively.",
     "dose_snippet": "Lofexidine and its major metabolites did not induce or inhibit any CYP450 isoforms, with the exception of a slight inhibition of CYP2D6 by lofexidine, with an IC 50 of 4551 nM (approximately 225 times the steady-state C max for lofexidine with 0.72 mg 4 times daily dosing).",
     "usual_dose_basis": "The usual Lofexidine tablet dosage is three 0.18 mg tablets taken orally 4 times daily.",
+    "dose_basis_confirmed": true,
     "note": "The exact single oral dose that produced the 0.82 ng/mL Cmax is not stated anywhere in the cached clinical_pharmacology text; never fabricated a dose number. Flagged uncertain.",
     "source": {
      "type": "fda_label",
@@ -3181,6 +3243,7 @@
     "snippet": "Mean (± SD) Pharmacokinetic Parameter Estimates for a Single 20 mg Trospium Chloride Tablet Dose in Healthy Volunteers C max (ng/mL) AUC 0-∞ (ng/mL∙hr) T max (hr) t 1/2 (hr) 3.5 ± 4.0 36.4 ± 21.8 5.3 ± 1.2 18.3 ± 3.2 The mean plasma concentration-time (+ SD) profile for Trospium Chloride Tablets is shown in Figure 1 .",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended dose is 20 mg twice daily.",
+    "dose_basis_confirmed": true,
     "note": "Table gives Cmax/AUC/Tmax/t1/2 in that column order for a single 20 mg tablet dose; took the first value (3.5 ± 4.0) as Cmax. 20 mg matches the per-dose amount of the recommended 20 mg twice-daily regimen (immediate-release tablet).",
     "source": {
      "type": "fda_label",
@@ -3221,6 +3284,7 @@
     "snippet": "At steady state, peak tiotropium plasma levels in COPD patients were 17 to 19 pg/mL when measured 5 minutes after dry powder inhalation of an 18 mcg dose and decreased in a multi-compartmental manner.",
     "dose_snippet": null,
     "usual_dose_basis": "Two inhalations of the powder contents of a single SPIRIVA capsule (18 mcg) once daily",
+    "dose_basis_confirmed": true,
     "note": "Route judgment call: tiotropium is inhaled but not CNS-acting; included because the label's own route metadata does not classify oral inhalation as a local/excluded route, and the sentence explicitly says 'peak tiotropium plasma levels'.",
     "source": {
      "type": "fda_label",
@@ -3314,6 +3378,7 @@
     "snippet": "Pharmacokinetic analysis revealed maximum plasma prazosin concentrations of 4.1 (s.e.m. = 1.4) ng/ml, occurring 2.1 (s.e.m. = 0.4) h after drug ingestion.",
     "dose_snippet": "a single orally administered dose of 0.5 mg of prazosin",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "No clean healthy-volunteer value was found in cached sources after 3 queries; this value is from the therapeutic (CHF) population using the drug's initial oral dose, which is a labeled use rather than an impairment/overdose study.",
     "source": {
      "type": "pubmed",
@@ -3364,6 +3429,7 @@
     "snippet": "Mean (95% CI) Cmax was 89.7 ng/mL (74.19-108.39), and median (95% CI) tmax was 47.8 h (47.8-55.8) in plasma.",
     "dose_snippet": "Twelve participants received a 60-h infusion of brexanolone (titration up to 90 µg/kg/h).",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Label's own clinical_pharmacology sentence ('steady state exposure ... 79 ng/mL') was explicitly flagged non-Cmax (average exposure, not peak) by the curation tool and excluded; used this PubMed PK study instead, whose infusion/titration regimen matches the approved Zulresso schedule. Population is healthy volunteers, not PPD patients.",
     "source": {
      "type": "pubmed",
@@ -3403,6 +3469,7 @@
     "snippet": "The average dose normalized Cmax and AUC inf at the recommended dose was 231 ng/mL and 310 ng.h/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended dosage of HETLIOZ capsules in adults is 20 mg one hour before bedtime, at the same time every night.",
+    "dose_basis_confirmed": true,
     "note": "Value is described as 'dose normalized'; state (single vs steady-state) and exact study population are not specified in this excerpt. Flagged as uncertain.",
     "source": {
      "type": "fda_label",
@@ -3443,6 +3510,7 @@
     "snippet": "Steady-state mean C max values were 9, 18, and 33 ng/mL following doses of 5, 10, and 20 mg/day.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended starting dose is 10 mg administered orally once daily without regard to meals.",
+    "dose_basis_confirmed": true,
     "note": "Value selected for the 10 mg/day usual starting dose (middle of the three reported values 9/18/33 ng/mL for 5/10/20 mg/day).",
     "source": {
      "type": "fda_label",
@@ -3497,6 +3565,7 @@
     "snippet": "Table 2: Geometric mean (CV%) Pharmacokinetic Parameters of Arimoclomol Following Oral Administration in Healthy Subjects Plasma PK Parameters 248 mg arimoclomol oral administration three times a day Day 1 (first dose) Day 6 (steady state) AUC 0-8hr (hr·ng/mL) 5317 (17%) 7207 (19%) C max (ng/mL) 1749 (49%) 2090 (23%)",
     "dose_snippet": null,
     "usual_dose_basis": "Recommended MIPLYFFA oral dosage ... > 55 kg, is 124 mg three times a day",
+    "dose_basis_confirmed": true,
     "note": "Only Cmax data in the label's clinical pharmacology PK table is from a healthy-subject study at 248 mg TID (Day 6 steady state), which is 2x the label's approved adult (>55 kg) maintenance dose of 124 mg TID. Recorded as-is per instructions (do not scale). The label's own pediatric NPC patient Cmax (523 ng/mL) was excluded as pediatric-only.",
     "source": {
      "type": "fda_label",
@@ -3564,6 +3633,7 @@
     "snippet": "After a single dose (9 females, 7 males) median time to maximum plasma concentration was 1.5 hours; mean values were 937 ng/mL (maximum concentration), 4582 h*ng/mL (area under the concentration-time curve, 0 to infinity), 7.7 hours (terminal elimination half-life), and 19.9 L/h (apparent clearance).",
     "dose_snippet": "Pharmacokinetics and Safety of Single and Multiple Daily Dosing of 75-mg Rimegepant Orally Disintegrating Tablets in Healthy Chinese Adults",
     "usual_dose_basis": "75 mg is the approved single dose of rimegepant (Nurtec ODT) for acute migraine treatment",
+    "dose_basis_confirmed": true,
     "note": "no usable FDA label candidate sentence was found for rimegepant; value sourced from PubMed",
     "source": {
      "type": "pubmed",
@@ -3603,6 +3673,7 @@
     "snippet": "C(max): 2,143.33 +/- 724.26 and 2,262.51 +/- 751.12 ng/ml, for A (Toprel) and B (Topamax), respectively.",
     "dose_snippet": "The protocol, approved by the Institutional Committee of Ethics, consisted of administration of 1 tablet of 100 mg of topiramate of each formulation (Toprel and Topamax), to 20 healthy volunteers after a 12 h overnight fast, using an open, two-period, randomized, crossover and double-blind design.",
     "usual_dose_basis": "QUDEXY XR Once Daily Dose Week 1 50 mg Week 2 100 mg Week 3 150 mg Week 4 200 mg Week 5 300 mg Week 6 400 mg",
+    "dose_basis_confirmed": true,
     "note": "FDA label candidates for topiramate contained no peak/Cmax sentence (only protein-binding sentences). Used the Topamax (brand reference, B) value from a bioequivalence study; 100 mg is a dose named in the label's monotherapy titration schedule (week 2) but is below the eventual 400 mg/day adult maintenance target, since no label or PubMed Cmax at the maintenance dose was found in this search; recorded with the actual 100 mg dose per spec (no scaling).",
     "source": {
      "type": "pubmed",
@@ -3642,6 +3713,7 @@
     "snippet": "Peak exposure increased by 1%, 18%, and 26%, respectively, in participants with mild, moderate, or severe hepatic impairment compared to those with normal hepatic function (≈400 ng/mL).",
     "dose_snippet": "participants with severe (n = 4), moderate (n = 8), or mild (n = 8) hepatic impairment and matched participants with normal hepatic function (n = 8) were administered a single dose of 100 mg of ubrogepant.",
     "usual_dose_basis": "100 mg is one of the two FDA label-recommended doses (50 mg or 100 mg) for acute migraine treatment",
+    "dose_basis_confirmed": true,
     "note": "Normal-hepatic-function control group from a hepatic-impairment PK study, chosen to avoid both the impairment-affected arms and the drug-interaction papers which only reported percentage/ratio changes with no absolute Cmax number. Value given as an approximation in the abstract.",
     "source": {
      "type": "pubmed",
@@ -3681,6 +3753,7 @@
     "snippet": "Following oral administration of 80 mg INGREZZA, the geometric mean C max , AUC inf and median T max of valbenazine were 744 ng/mL, 6,419 ng*hr/mL and 0.5 hour, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "Tardive dyskinesia: The initial dosage is 40 mg once daily. After one week, increase the dose to the recommended dosage of 80 mg once daily. (2.1)",
+    "dose_basis_confirmed": true,
     "note": "Valbenazine's own intact parent-moiety plasma Cmax (744 ng/mL) directly measured and reported for 80 mg INGREZZA, the label's recommended maintenance dose; the much lower [+]-alpha-HTBZ active-metabolite Cmax (26 ng/mL) reported alongside it in the same label was excluded, since valbenazine's own concentration is directly available and the prodrug exclusion rule therefore does not apply.",
     "source": {
      "type": "fda_label",
@@ -3721,6 +3794,7 @@
     "snippet": "Geometric mean values for the primary pharmacokinetic parameters were 53.53 ng h/mL for area under the plasma concentration-time curve (AUC) from time zero to infinity, 44.25 ng h/mL for AUC from time zero to time of last quantifiable concentration, and 20.32 ng/mL for maximum plasma concentration (Cmax).",
     "dose_snippet": "This Phase 1, open-label study evaluated the pharmacokinetics, safety, and tolerability of a single intranasal dose of zavegepant 10 mg in 12 healthy Chinese adults.",
     "usual_dose_basis": "10 mg single intranasal spray is the FDA label's full recommended dose for ZAVZPRET",
+    "dose_basis_confirmed": true,
     "note": "Matches the approved systemic (nasal) route and exact labeled 10 mg dose.",
     "source": {
      "type": "pubmed",
@@ -3760,6 +3834,7 @@
     "snippet": "Mean (SD) Peak Plasma Concentration (ng/mL) AUC (0-∞) (ng∙h/mL) Healthy Subjects 5 mg 2 39 200 (139) 154 (30)",
     "dose_snippet": null,
     "usual_dose_basis": "Prevention of PONV: 5 mg as a single intravenous dose infused over 1 to 2 minutes at the time of induction of anesthesia",
+    "dose_basis_confirmed": true,
     "note": "BARHEMSYS label also reports 10 mg dose (451 ng/mL, treatment-of-PONV indication); 5 mg is the prevention-of-PONV usual dose, taken here.",
     "source": {
      "type": "fda_label",
@@ -3813,6 +3888,7 @@
     "snippet": "Table 3 Mean (±SD) Steady State Pharmacokinetic Parameters in Healthy Males Following Silodosin 8 mg Once Daily with Food C max (ng/mL) t max (hours) t 1/2 (hours) AUC ss (ng•hr/mL) 61.6 ± 27.54 2.6 ± 0.90 13.3 ± 8.07 373.4 ± 164.94 C max = maximum concentration, t max = time to reach C max , t 1/2 = elimination half-life, AUC ss = steady state area under the concentration-time curve Figure 1 Mean (±SD) Silodosin Steady State Plasma Concentration-Time Profile in Healthy Target-Aged Subjects Following Silodosin 8 mg Once Daily with Food The absolute bioavailability is approximately 32%.",
     "dose_snippet": "Mean (±SD) Steady State Pharmacokinetic Parameters in Healthy Males Following Silodosin 8 mg Once Daily with Food",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": null,
     "source": {
      "type": "fda_label",
@@ -3853,6 +3929,7 @@
     "snippet": "PL-ASA reached Tmax 3 h earlier (1.01 vs. 4.00 h, p < 0.0001), with almost double the Cmax (720 vs. 368 ng/mL, p < 0.0001) and overall 44% higher exposure of acetylsalicylic acid (AUC0-t: 601 vs. 416 h*ng/mL, p = 0.0013) compared with EC-ASA.",
     "dose_snippet": "This randomized, open-label, crossover study assessed PK and PD following a single 81-mg dose of PL-ASA versus EC-ASA under fasting conditions in 36 volunteers without cardiovascular disease between 18 and 75 years of age.",
     "usual_dose_basis": "Low dose enteric-coated aspirin (EC-ASA) is routinely used for secondary cardiovascular event prevention.",
+    "dose_basis_confirmed": true,
     "note": "No FDA label candidate had a usable systemic Cmax for aspirin itself, so a PubMed abstract was used. The sentence reports two values (PL-ASA 720 ng/mL and standard EC-ASA 368 ng/mL) at the same 81 mg dose; the EC-ASA (standard enteric-coated aspirin, not the novel PL-ASA formulation) value of 368 ng/mL was taken as representative of ordinary approved low-dose aspirin.",
     "source": {
      "type": "pubmed",
@@ -3892,6 +3969,7 @@
     "snippet": "Cmax values were 226 and 248 ng/ml.",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "FDA label candidates for milnacipran had 0 usable Cmax sentences. 226 ng/mL is the steady-state Cmax in the reference period (period 1, milnacipran alone, before any fluoxetine switch); 248 ng/mL (after fluoxetine) was not used.",
     "source": {
      "type": "pubmed",
@@ -3957,6 +4035,7 @@
     "snippet": "Combined therapy with rifampin (600 mg daily) and EXXUA (20 mg for two days, then 40 mg daily) decreased C max and AUC0-24 of EXXUA 20 times (EXXUA C max alone 9.63 ng/mL, with rifampin 0.491 ng/mL) and 29 times (EXXUA AUC0-24 alone 123 ng·hr/mL, with rifampin 4.19 ng·hr/mL), respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended starting dose is 18.2 mg administered orally once daily with food ... Depending on clinical response and tolerability, the dosage may be increased to 36.3 mg once daily on Day 4. Dosage may be further titrated to 54.5 mg once daily after Day 7 and to 72.6 mg once daily after an additional week",
+    "dose_basis_confirmed": true,
     "note": "No cmax_term label sentence exists outside the drug-interaction section. This is the EXXUA 'alone' (no rifampin) steady-state Cmax reported as the baseline/control arm of a DDI study, so it is a genuine (non-interaction-affected) exposure value, but the dose used (20 mg x2 days then 40 mg daily) is a near-match, not an exact match, to the label's own titration schedule (18.2/36.3/54.5/72.6 mg); recorded as-is per instructions rather than scaled.",
     "source": {
      "type": "fda_label",
@@ -3997,6 +4076,7 @@
     "snippet": "Single AMPYRA tablet 10 mg doses administered to healthy volunteers in a fasted state gave peak concentrations ranging from 17.3 ng/mL to 21.6 ng/mL occurring 3 to 4 hours post-administration (Tmax).",
     "dose_snippet": null,
     "usual_dose_basis": "10 mg is the standard per-dose amount of the approved extended-release tablet (AMPYRA/dalfampridine ER), given twice daily",
+    "dose_basis_confirmed": true,
     "note": "",
     "source": {
      "type": "fda_label",
@@ -4037,6 +4117,7 @@
     "snippet": "Mean Cmax was 54.7 ng/ml for the 1-mg dose.",
     "dose_snippet": null,
     "usual_dose_basis": "Plasma concentration-time profiles were compared following the oral administration of one 1-mg tablet, two 1-mg tablets, and one 2-mg tablet.",
+    "dose_basis_confirmed": true,
     "note": "1 mg is within the usual adult estazolam dose range (1-2 mg at bedtime).",
     "source": {
      "type": "pubmed",
@@ -4076,6 +4157,7 @@
     "snippet": "The corresponding maximum plasma drug concentration (C(max)) values were 1599.0 ± 382.6, 2378.7 ± 316.7, and 4540.1 ± 901.1 ng/mL, respectively, in the single-dose groups, and 2479.1 ± 477.9 ng/mL in the 30 mg repeated-dose group.",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "60 mg is the approved adult ALS daily dose of edaravone, matching this study's highest single-dose group. The approved label infusion is given over 60 minutes, whereas this study infused over 30 minutes, so the Cmax here may be a slight overestimate relative to the labeled regimen; recorded as-is per 'do not scale' rule.",
     "source": {
      "type": "pubmed",
@@ -4128,6 +4210,7 @@
     "snippet": "C max (ng/mL) 9 ± 3 (3.1–14)",
     "dose_snippet": null,
     "usual_dose_basis": "One dose is 1 mg of nicotine (2 sprays, one in each nostril)",
+    "dose_basis_confirmed": true,
     "note": "Nicotine is CNS-acting; nasal route is explicitly an approved systemic route under the task's rules.",
     "source": {
      "type": "fda_label",
@@ -4166,6 +4249,7 @@
     "snippet": "After single dose of 0.375 mg test and reference formulations under fasted condition, main pharmacokinetics of pramipexole were as follows: peak concentration (Cmax) were 409.33±95.93 and 413.77±132.03 pg/mL;",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "0.375 mg is pramipexole ER's usual starting adult dose (target maintenance range extends higher); value taken from the 'test' formulation arm.",
     "source": {
      "type": "pubmed",
@@ -4218,6 +4302,7 @@
     "snippet": "Wide interindividual variations were observed with respect to plasma levels, but there was no significant statistical correlation between weight and blood concentration (conventional form: Cmax = 3,599 +/- 579 ng/ml, tmax = 86 +/- 26 min; sustained-release form: Cmax = 1,917 +/- 922 ng/ml, tmax = 215 +/- 77 min).",
     "dose_snippet": "the pharmacokinetics of sustained-release form containing 300 mg viloxazine were compared with 300 mg conventional viloxazine in 11 normal volunteers",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "This 1989 study used conventional (immediate-release) viloxazine, not the extended-release product (Qelbree) now marketed for ADHD; value chosen is the conventional-form Cmax.",
     "source": {
      "type": "pubmed",
@@ -4257,6 +4342,7 @@
     "snippet": "Eslicarbazepine C(max) were 9.7, 15.5 and 23.0µg/mL, and areas under the plasma concentration-time curve over the dosing interval (AUC(0-24)) were 132.5, 205.4 and 336.1µgh/mL in patients receiving ESL doses of 400, 800 and 1200mg once-daily, respectively.",
     "dose_snippet": "in patients receiving ESL doses of 400, 800 and 1200mg once-daily",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Chose the middle (800 mg) dose of the three reported as the usual maintenance dose.",
     "source": {
      "type": "pubmed",
@@ -4296,6 +4382,7 @@
     "snippet": "Following a single 5 mg dose of SAPHRIS, the mean C max was approximately 4 ng/mL and was observed at a mean t max of 1 hour.",
     "dose_snippet": null,
     "usual_dose_basis": "5 mg is the standard starting/maintenance sublingual dose of SAPHRIS",
+    "dose_basis_confirmed": true,
     "note": "",
     "source": {
      "type": "fda_label",
@@ -4349,6 +4436,7 @@
     "snippet": "The mean maximum concentrations (Cmax) for the transnasal treatment with and without pretreatment of oxymetazoline were 1.61 and 3.01 ng.ml-1, respectively.",
     "dose_snippet": "In an open three-way crossover study, a single 2-mg dose of butorphanol tartrate was administered by intravenous bolus injection (Treatment A), by the transnasal route (Treatment B), or by the transnasal route with pretreatment of the vasoconstrictor, oxymetazoline (Treatment C).",
     "usual_dose_basis": "2 mg is the usual single transnasal dose for butorphanol tartrate nasal spray (Stadol NS label: 1 mg/spray, 2 sprays = 2mg typical initial dose).",
+    "dose_basis_confirmed": true,
     "note": "Used the transnasal-alone value (3.01 ng/mL, Treatment B), not the oxymetazoline-pretreated/interaction-affected value (1.61 ng/mL). Abstract confirms 'Plasma concentrations of butorphanol were determined' so the Cmax values are plasma, resolving the plasma-vs-blood ambiguity seen in the FDA label candidate wording ('peak blood levels').",
     "source": {
      "type": "pubmed",
@@ -4386,6 +4474,7 @@
     "snippet": "After administration of 10 or 20 mg 3,4-DAP following food intake, the maximum serum concentrations (Cmax) were 8.09 ± 4.47 ng/mL and 35.8 ± 15.7 ng/mL, respectively (mean ± standard deviation;",
     "dose_snippet": "After administration of 10 or 20 mg 3,4-DAP following food intake",
     "usual_dose_basis": "20 mg single dose within typical 10-20 mg individual-dose range of amifampridine (Firdapse) regimen",
+    "dose_basis_confirmed": true,
     "note": "3,4-diaminopyridine base study in Japanese volunteers, not the phosphate salt used in the US/EU label, but same active moiety; fed-state dose.",
     "source": {
      "type": "pubmed",
@@ -4438,6 +4527,7 @@
     "snippet": "Compared with lorcaserin IR, the Tmax after a single dose of lorcaserin extended-release was greater (median, 12 vs 3 hours), and the Cmax was 26% lower (38.8 vs 52.3 ng/mL).",
     "dose_snippet": "The initial approved formulation is a 10-mg, immediate-release (IR) tablet for administration BID.",
     "usual_dose_basis": "10 mg is the approved immediate-release lorcaserin per-dose amount (given BID)",
+    "dose_basis_confirmed": true,
     "note": "",
     "source": {
      "type": "pubmed",
@@ -4477,6 +4567,7 @@
     "snippet": "Following intranasal application of two 40 mg pledgets applied to each nasal cavity (160 mg cocaine hydrochloride total dose) for 20 minutes, the geometric mean (SD) cocaine C max was 43.2 (1.73) ng/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "Recommended dose: two pledgets, each containing 40 mg of cocaine hydrochloride, applied to each nasal cavity.",
+    "dose_basis_confirmed": true,
     "note": "Dose exactly matches the labeled recommended dose (GOPRELTO).",
     "source": {
      "type": "fda_label",
@@ -4528,6 +4619,7 @@
     "snippet": "The maximum plasma concentration was lower for KET01 (39.1 ng/mL) than esketamine (104.1 ng/mL); conversely, exposure to metabolites was higher for KET01 (eg, area under the curve [AUC] from baseline to last measurement for norketamine was 3.5 µg × h/mL) than esketamine (AUC for [S]-norketamine, 1.4 µg × h/mL).",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "esketamine candidates file had 0 usable label Cmax; value is the intranasal esketamine comparator arm (84 mg) in a KET01 vs. esketamine crossover trial. 84 mg matches an approved Spravato dose.",
     "source": {
      "type": "pubmed",
@@ -4580,6 +4672,7 @@
     "snippet": "CR vs. IR: AUC0-12 123.10 +/- 20.38 vs. 118.98 +/- 20.92 ng.hr.mL-1, P = NS, Cmax 17.76 +/- 3.07 vs. 19.70 +/- 4.04 ng.mL-1, P = NS, Cmin 6.04 +/- 1.01 vs. 5.28 +/- 1.000 ng.mL-1, P = NS",
     "dose_snippet": null,
     "usual_dose_basis": "oral solution 2.5-10 mg q3-6h, tablets 2-4 mg q4-6h (far below the 48 mg/day average dose in this study).",
+    "dose_basis_confirmed": true,
     "note": "Label candidates file was empty; this PubMed study's average daily dose (48 ± 11 mg, range 6-216 mg) is substantially higher than and more variable than the label's typical starting doses, and population is cancer patients rather than general adults -- flagged as uncertain. IR Cmax (19.70 ng/mL) was used rather than CR (17.76 ng/mL).",
     "source": {
      "type": "pubmed",
@@ -4645,6 +4738,7 @@
     "snippet": "The mean plasma and milk peak concentrations of atogepant were 779 ng/mL and 57.0 ng/mL, respectively, and the corresponding AUC values were 3270 ng·h/mL and 238 ng·h/mL, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "FDA label candidates had no usable Cmax number; 60 mg is an approved atogepant migraine-prevention dose. Population is adult (lactating) rather than a standard healthy-volunteer PK study.",
     "source": {
      "type": "pubmed",
@@ -4714,6 +4808,7 @@
     "snippet": "In man, following a single oral 40 mg dose, peak plasma concentrations of fluoxetine from 15 to 55 ng/mL are observed after 6 to 8 hours.",
     "dose_snippet": null,
     "usual_dose_basis": "MDD (2.1) 20 mg/day in am (initial dose)",
+    "dose_basis_confirmed": true,
     "note": "40 mg single dose used for this PK characterization sentence is within/near the usual fluoxetine dose range (20-80 mg/day); range reflects inter-subject variability at that single dose.",
     "source": {
      "type": "fda_label",
@@ -4782,6 +4877,7 @@
     "snippet": "After multiple daily doses of 150 mg of clomipramine hydrochloride capsules, steady-state maximum plasma concentrations range from 94 ng/mL to 339 ng/mL (mean, 218 ng/mL) for CMI and from 134 ng/mL to 532 ng/mL (mean, 274 ng/mL) for DMI.",
     "dose_snippet": null,
     "usual_dose_basis": "Thereafter, the dosage may be increased gradually over the next several weeks, up to a maximum of 250 mg daily.",
+    "dose_basis_confirmed": true,
     "note": "Value is for CMI (clomipramine parent moiety) only, not DMI (desmethylclomipramine metabolite). A mean is explicitly given alongside the range, so statistic is 'mean' (value 218 ng/mL), not range_geomean. 150 mg/day is within the usual adult titrated dose range (approx. 100-250 mg/day).",
     "source": {
      "type": "fda_label",
@@ -4822,6 +4918,7 @@
     "snippet": "Following oral administration of CLOZARIL 100 mg twice daily, the average steady-state peak plasma concentration was 319 ng/mL (range: 102 to 771 ng/mL), occurring at the average of 2.5 hours (range: 1 to 6 hours) after dosing.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended starting oral dosage of VERSACLOZ (clozapine) is 12.5 mg once or twice daily ... increase ... to achieve a target dosage of 150 mg to 225 mg twice per day",
+    "dose_basis_confirmed": true,
     "note": "The label's own PK reference dose (100 mg twice daily) is within the approved titration range but below the typical target maintenance dose (150-225 mg twice daily per the dosing section); recorded as given in the label's clinical pharmacology section without scaling, per instructions.",
     "source": {
      "type": "fda_label",
@@ -4873,6 +4970,7 @@
     "snippet": "Following the ingestion of the original trifluoperazine tablet formulation (5 mg) these same parameters were estimated to be 1.92 +/- 0.88 ng/mL, 4.02 +/- 1.10 h, 18.03 +/- 10.11 ng X h/mL, and 9.3 +/- 7 h, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "psychotic disorders oral starting 2-5 mg BID; anxiety 1-2 mg BID -- 5 mg single dose is within the approved dosing range.",
+    "dose_basis_confirmed": true,
     "note": "The same abstract reports 2.15 ± 1.07 ng/mL for a test (generic) formulation of the same 5 mg dose; the original/reference formulation value was used.",
     "source": {
      "type": "pubmed",
@@ -4940,6 +5038,7 @@
     "snippet": "Following daridorexant administration, mean (90% confidence interval, CI) ΔΔQTcF was 1.40 ms (0.48; 2.32 ms) and 1.84 ms (-0.12; 3.79 ms) at the Cmax of 747 ng/mL (50 mg dose) and 1809 ng/mL (200 mg dose), respectively, i.e., the upper bounds of the CIs were < 10 ms defined as threshold of regulatory concern.",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "50 mg is the higher of daridorexant's two approved insomnia doses (25/50 mg); the study's 200 mg arm is supratherapeutic and was not used.",
     "source": {
      "type": "pubmed",
@@ -4979,6 +5078,7 @@
     "snippet": "Finally, the method was successfully implemented for pharmacokinetic profiling in human volunteer plasma following administration of 75 mg solriamfetol, yielding t 1/2 = 7.6 h, C max = 465 ng mL-1, and t max = 1.5 h in agreement with literature values.",
     "dose_snippet": "",
     "usual_dose_basis": "Starting dose for patients with narcolepsy: 75 mg once daily. ( 2.3 )",
+    "dose_basis_confirmed": true,
     "note": "FDA label candidates for solriamfetol contained no peak/Cmax sentence. First PubMed query (default) found only a food-effect study at an above-label 300 mg dose with no reported absolute Cmax number (only fed/fasted ratios). A second, targeted PubMed query found this 2026 bioanalytical-method paper reporting an absolute Cmax at the labeled 75 mg narcolepsy starting dose.",
     "source": {
      "type": "pubmed",
@@ -5018,6 +5118,7 @@
     "snippet": "The mean omaveloxolone Cmax was 319 ng/mL in this study (4.5-fold the mean steady-state Cmax [71.5 ng/mL] with the approved dose).",
     "dose_snippet": "Omaveloxolone is approved for the treatment of Friedreich ataxia (FA) in patients aged ≥ 16 years at a dose of 150 mg once daily.",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Took the parenthetical reference value (71.5 ng/mL, steady-state Cmax at the approved dose), not the 319 ng/mL supratherapeutic value measured in this QTc study's healthy-adult cohort.",
     "source": {
      "type": "pubmed",
@@ -5070,6 +5171,7 @@
     "snippet": "At steady-state, after daily dosing of VIIBRYD 40 mg under fed conditions, the mean C max value was 156 ng/mL, and the mean AUC ( 0-24 hours ) value was 1645 ng·h/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "Recommended target dosage: 20 mg to 40 mg once daily with food",
+    "dose_basis_confirmed": true,
     "note": "40 mg is the top of vilazodone's approved target-dose range.",
     "source": {
      "type": "fda_label",
@@ -5124,6 +5226,7 @@
     "snippet": "In contrast, the 2 mg oral dose produced a mean peak plasma concentration of 21 pg/ml an average of 69 min following the dose.",
     "dose_snippet": "the 2 mg oral dose produced a mean peak plasma concentration of 21 pg/ml",
     "usual_dose_basis": "2 mg is the standard initial oral dose of ergotamine tartrate for migraine",
+    "dose_basis_confirmed": true,
     "note": "",
     "source": {
      "type": "pubmed",
@@ -5200,6 +5303,7 @@
     "snippet": "The median Cmax was 4,690 pg/mL for CRA-melatonin and 23,352 pg/mL for IR-melatonin.",
     "dose_snippet": "compared the pharmacokinetic and safety profile of CRA-melatonin (5 mg) with IR-melatonin (5 mg) in healthy adult volunteers.",
     "usual_dose_basis": "FDA label candidates file had no systemic dosing Cmax for melatonin (only a sleep-support drop product dosed by volume); 5 mg is the commonly used oral melatonin supplement dose and matches the dose tested in this PK study.",
+    "dose_basis_confirmed": true,
     "note": "Label for a melatonin oral drop product gave no Cmax value, only a dosage_and_administration volume instruction, so PubMed was used. Value is for immediate-release (IR) oral melatonin, not the novel continuous-release (CRA) formulation also reported in the same study.",
     "source": {
      "type": "pubmed",
@@ -5266,6 +5370,7 @@
     "snippet": "for reference brand were 19.75 +/- 5.95 ng/mL, 1.42 +/- 0.29 h, 46.88 +/- 11.29 h and 215.70 +/- 50.89 ng/ml.h respectively.",
     "dose_snippet": "To assess the bioavailability of clonazepam from two brands of 2 mg tablet formulations--Epitril and reference brand.",
     "usual_dose_basis": "2 mg is within the FDA label's usual adult oral clonazepam dosing range (initial dose up to 1.5 mg/day in divided doses, titrated up to 20 mg/day in some uses; 2 mg single tablet is a standard unit dose).",
+    "dose_basis_confirmed": true,
     "note": "Used the reference-brand arm's Cmax rather than the test-brand (Epitril) arm's 16.31 ng/mL; both were comparable and bioequivalent per the abstract.",
     "source": {
      "type": "pubmed",
@@ -5342,6 +5447,7 @@
     "snippet": "12.3 Pharmacokinetics Following oral administration of pitolisant 35.6 mg once daily, the steady state C max and AUC are 73 ng/mL (range: 49.2 to 126 ng/mL) and 812 ng*hr/mL (range: 518 to 1468 ng*hr/mL), respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "35.6 mg once daily is the maximum approved WAKIX maintenance dose",
+    "dose_basis_confirmed": true,
     "note": "",
     "source": {
      "type": "fda_label",
@@ -5395,6 +5501,7 @@
     "snippet": "Dose (mg/m 2 ) Irinotecan SN-38 C max (ng/mL) AUC 0–24 (ng∙h/mL) t 1/2 (h) V z (L/m 2 ) CL (L/h/m 2 ) C max (ng/mL) AUC 0–24 (ng∙h/mL) t 1/2 (h) C max - Maximum plasma concentration AUC 0–24 - Area under the plasma concentration-time curve from time 0 to 24 hours after the end of the 90-minute infusion t 1/2 - Terminal elimination half-life V z - Volume of distribution of terminal elimination phase CL - Total systemic clearance 125 (N=64) 1,660 ±797 10,200 ±3,270 5.8",
     "dose_snippet": null,
     "usual_dose_basis": "Colorectal cancer combination regimen 1: CAMPTOSAR 125 mg/m 2 intravenous infusion over 90 minutes on days 1, 8,15, 22 ... every 6 weeks.",
+    "dose_basis_confirmed": true,
     "note": "Each infusion is a discrete dose in an intermittent weekly/every-6-week schedule; reported as single_dose rather than steady_state. A separate irinotecan liposome (ONIVYDE) table with a geometric-mean Cmax in µg/mL exists in the same candidates file but was not used, to avoid conflating conventional and liposomal formulations.",
     "source": {
      "type": "fda_label",
@@ -5433,6 +5540,7 @@
     "snippet": "C max (ng/mL) 51.4 (± 13.8) 7.84 (± 1.84) 64.6 (± 21.9) 38.7 (± 15.2)",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "The codeine single-ingredient dosing text in the cache (codeine sulfate tablets, 15-60 mg q4h) belongs to an unrelated product, not TUZISTRA XR, so usual_dose_basis could not be confirmed for this combination product. The codeine mg dose in TUZISTRA XR itself is not stated in the cached label text -- flagged as uncertain.",
     "source": {
      "type": "fda_label",
@@ -5471,6 +5579,7 @@
     "snippet": "Peak plasma levels of 1 ng/mL to 6 ng/mL have been observed 40 to 90 minutes after single oral doses of 20 mg.",
     "dose_snippet": null,
     "usual_dose_basis": "In clinical trials allowing dose titration, divided doses of 20 mg to 30 mg per day were commonly employed.",
+    "dose_basis_confirmed": true,
     "note": "Label gives only a range (no mean), so recorded as range_geomean per spec; 20 mg single dose falls within the commonly used 20-30 mg/day range.",
     "source": {
      "type": "fda_label",
@@ -5509,6 +5618,7 @@
     "snippet": "Steady-state mean values of C max , C min , and AUC 0-last were 13.10 ng/mL (CV 91%), 7.17 ng/mL (CV 99%), and 237 hr*ng/mL (CV 94%), respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended dosage of BRISDELLE is 7.5 mg once daily, at bedtime.",
+    "dose_basis_confirmed": true,
     "note": "Clean match: dose, route and steady-state Cmax all from the same BRISDELLE label section.",
     "source": {
      "type": "fda_label",
@@ -5549,6 +5659,7 @@
     "snippet": "Following administration of 5 mg of bromocriptine mesylate twice daily for 14 days, the bromocriptine Cmax and AUC at steady-state were 628 ± 375 pg/mL and 2377 ± 1186 pg*hr/mL, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "Recommended starting dosage for idiopathic or postencephalitic Parkinson's disease is 1.25 mg twice daily. Increase the dosage by 1.25 mg twice daily every 14 to 28 days up to the maximum recommended daily dosage of 100 mg/day",
+    "dose_basis_confirmed": true,
     "note": "10 mg/day total falls within the approved maintenance range for hyperprolactinemia (2.5-15 mg once daily) and is a plausible twice-daily maintenance dose consistent with the Parkinson's BID titration pattern; the label PK sentence itself does not state the study population (healthy volunteers vs patients).",
     "source": {
      "type": "fda_label",
@@ -5589,6 +5700,7 @@
     "snippet": "After an oral administration of 5 mg E2020 to 20 healthy Chinese volunteers, the main pharmacokinetic parameters of E2020 are as follow: T(max), 3.10 +/- 0.55 h; t((1/2)), 65.7 +/- 12.8 h; C(max), 10.1 +/- 2.02 ng/mL",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended starting dosage of ARICEPT is 5 mg administered once per day",
+    "dose_basis_confirmed": true,
     "note": "Donepezil FDA label candidates only contained protein-binding/therapeutic-concentration sentences, no cmax_term=true sentence with a value, so pubmed was used. 5 mg is the usual adult starting/maintenance dose.",
     "source": {
      "type": "pubmed",
@@ -5626,6 +5738,7 @@
     "snippet": "C max (ng/mL) 51.4 (± 13.8) 7.84 (± 1.84) 64.6 (± 21.9) 38.7 (± 15.2)",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Chlorpheniramine's own single-ingredient candidates file was empty; this value is the chlorpheniramine column (multiple-dose, BID x7 days) of a codeine/chlorpheniramine combination-product (TUZISTRA XR) PK table. The exact chlorpheniramine mg dose used in that product is not given in the cached label text, so dose/usual-dose match could not be confirmed -- flagged as uncertain.",
     "source": {
      "type": "fda_label",
@@ -5664,6 +5777,7 @@
     "snippet": "C max (ng/mL) T max (h) AUC inf (h•ng/mL) t 1/2 (h) 2 mg Buprenorphine Mean SD 1.25 0.584 1.84 0.62 10.93 3.945 31.66 12.66 Norbuprenorphine Mean SD 0.301 0.127 2.36 2.75 12.39 4.526 39.28 20.85 8 mg Buprenorphine Mean SD 2.88 1.14 1.28 0.46 28.39 10.22 35.01 14.7",
     "dose_snippet": "Table 4. Pharmacokinetic Parameters of Buprenorphine and Norbuprenorphine after the Sublingual Administration of Buprenorphine Sublingual Tablets",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Chosen the 8 mg sublingual-tablet row from Table 4 as the mid-range, commonly-used dose; the label covers several other buprenorphine products (SUBLOCADE, BUTRANS, BELBUCA, BRIXADI) with very different dosing, which were not used here.",
     "source": {
      "type": "fda_label",
@@ -5743,6 +5857,7 @@
     "snippet": "Maximum plasma dextromethorphan concentration (Cmax) increased from 2006 to 5847 pg/mL.",
     "dose_snippet": "On day 1, 18 healthy subjects received an oral dose of 30 mg dextromethorphan followed by a 4-day washout period.",
     "usual_dose_basis": "baseline (no interacting drug) value for a 30 mg single dose, a common OTC antitussive dose",
+    "dose_basis_confirmed": true,
     "note": "baseline value selected from a CYP2D6 drug-drug interaction study; the 5847 pg/mL figure is the perturbed (interaction) value and was excluded",
     "source": {
      "type": "pubmed",
@@ -5819,6 +5934,7 @@
     "snippet": "Ketotifen was rapidly absorbed from all dosage forms reaching Cmax in the order of 400 pg ml-1 after the syrup formulations and 300 pg ml-1 after the capsule formulations within 2 to 4 h.",
     "dose_snippet": "The pharmacokinetics of 2 mg ketotifen from four different oral dosage forms were examined in two randomized, balanced cross-over studies.",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Abstract uses approximate wording ('in the order of') rather than an exact mean +/- SD; picked the capsule-formulation value (300 pg/mL) as closer to the usual tablet-equivalent product. Flagged uncertain.",
     "source": {
      "type": "pubmed",
@@ -5858,6 +5974,7 @@
     "snippet": "0.87 +/- 0.74 ng/mL vs 0.85 +/- 0.62 ng/mL, respectively",
     "dose_snippet": "the bioequivalence of two haloperidol 5 mg tablets, Myung In haloperidol (Myung In Pharm. Co., Ltd., test drug) and Peridol (Whanin Pharm. Co., Ltd., reference drug)",
     "usual_dose_basis": "Severe Symptomatology - 3 mg to 5 mg b.i.d. or t.i.d.",
+    "dose_basis_confirmed": true,
     "note": "Candidates file for haloperidol had an empty candidates list, so sourced from PubMed per task instructions. Value is the geometric mean Cmax for the reference formulation (Peridol) from a bioequivalence study; test-formulation value (0.87 ng/mL) was essentially identical. 5 mg is a single dose within the label's severe-symptomatology initial dosage range (3-5 mg per administration).",
     "source": {
      "type": "pubmed",
@@ -5897,6 +6014,7 @@
     "snippet": "Mean (SD) AUC(last), AUC(∞) and C(max) were 1436 (341) ng · h/mL, 1595 (381) ng · h/mL and 32.3 (5.9) ng/mL, respectively, for the test formulation, and 1444 (388) ng · h/mL, 1648 (504) ng · h/mL, 33.1 (7.4) ng/mL, respectively, for the reference formulation.",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "FDA label candidates for citalopram had 0 usable Cmax sentences; 20 mg is citalopram's usual starting adult dose. Value taken from the 'test formulation' arm of a bioequivalence crossover.",
     "source": {
      "type": "pubmed",
@@ -5936,6 +6054,7 @@
     "snippet": "Pharmacokinetic parameters following the administration of 4 mg/kg pentamidine isethionate as a single two-hour intravenous infusion or after a single intramuscular injection to 12 patients with AIDS are presented in the following table: Mean ± SD Cmax ng/mL Clearance L/h Half-life hours Vdss L Concentration ng/mL 8 hour 24 hour 2 hour I.V. infusion 4 mg/kg (N=6) 612 ± 371 248 ± 91 6.4 ± 1.3 821 ± 535 19.3 ± 16.9 2.9 ± 1.4 I.M. 4 mg/kg (N=6) 209 ± 48 305 ± 81 9.4 ± 2.0 2724 ± 1066 22.9 ± 8.0 6.6 ± 3.5 In seven patients treated with daily IM doses of pentamidine at 4 mg/kg for 10 to 12 days, plasma concentrations were between 300 to 500 ng/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "In seven patients treated with daily IM doses of pentamidine at 4 mg/kg for 10 to 12 days, plasma concentrations were between 300 to 500 ng/mL.",
+    "dose_basis_confirmed": true,
     "note": "No explicit DOSAGE AND ADMINISTRATION section text for this IV/IM injectable label (set_id cc2b635e, NDA019264) was cached this session -- only the NebuPent (inhaled) label's dosing text was available. 4 mg/kg is treated as the usual dose because it is the dose used consistently throughout this label's own pharmacokinetics table (both the single-infusion PK study and the multi-day IM treatment regimen it reports), not because an explicit adult dosage statement for the injectable product was read. Flagging this one as uncertain for review.",
     "source": {
      "type": "fda_label",
@@ -5976,6 +6095,7 @@
     "snippet": "C max values were 15 ng/mL and 41 ng/mL.",
     "dose_snippet": "The AUC trapezoidal values were 33 h(ng/mL) and 108 h(ng/mL), respectively, for the 5 and 10 mg doses following the last 6 hour dose.",
     "usual_dose_basis": "The recommended dose of Pilocarpine Hydrochloride Tablets is 5 mg taken four times a day.",
+    "dose_basis_confirmed": true,
     "note": "The Cmax sentence itself ('15 ng/mL and 41 ng/mL') does not name the two doses; the adjacent AUC sentence in the same section ties an equivalent pair of values to '5 and 10 mg doses' in the same order, so 15 ng/mL is taken as the 5 mg (usual single dose) value. This pairing is inferred, not stated verbatim in one sentence. Flagged uncertain.",
     "source": {
      "type": "fda_label",
@@ -6016,6 +6136,7 @@
     "snippet": "Mean (%CV) C max and C min values for perphenazine and 7-hydroxyperphenazine at steady-state are listed below: Parameter Perphenazine 7-Hydroxyperphenazine C max (pg/mL) 984 (43) 509 (25) C min (pg/mL) 442 (76) 350 (56) Peak 7-hydroxyperphenazine concentrations were observed between 2 to 4 hours with a terminal phase half-life ranging between 9.9 to 18.8 hours.",
     "dose_snippet": null,
     "usual_dose_basis": "Moderately disturbed nonhospitalized patients with schizophrenia: 4 to 8 mg t.i.d. initially; reduce as soon as possible to minimum effective dosage. Hospitalized patients with schizophrenia: 8 to 16 mg b.i.d. to q.i.d.; avoid dosages in excess of 64 mg daily.",
+    "dose_basis_confirmed": true,
     "note": "The exact mg dose used in the steady-state Cmax study is not stated in this clinical pharmacology excerpt; value is steady-state and plausibly at a usual adult dose but the precise regimen is unconfirmed. Flagged as uncertain.",
     "source": {
      "type": "fda_label",
@@ -6082,6 +6203,7 @@
     "snippet": "Peak plasma concentrations (Cmax) of approximately 100 pg/mL (range 11-240 pg/mL) of the alkaloid are reached after about 8 hours and achieve steady state.",
     "dose_snippet": null,
     "usual_dose_basis": "Transderm Scōp patch delivers approximately 1 mg scopolamine over 3 days for motion sickness/PONV.",
+    "dose_basis_confirmed": true,
     "note": "The single-ingredient FDA label candidate (87 pg/mL) was explicitly described as an average concentration over the wear period, not a peak, so it was excluded per the 'not average Css' rule; this PubMed review explicitly labels 100 pg/mL as Cmax (peak), so it was used instead.",
     "source": {
      "type": "pubmed",
@@ -6134,6 +6256,7 @@
     "snippet": "The peak plasma level of lorazepam from a 2 mg dose is approximately 20 ng/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "For anxiety, most patients require an initial dose of 2 to 3 mg/day given two times a day or three times a day.",
+    "dose_basis_confirmed": true,
     "note": "2 mg is within the usual adult oral dosing range on the Ativan label; statistic/state not explicitly specified in the sentence, treated as a single approximate value and single dose.",
     "source": {
      "type": "fda_label",
@@ -6172,6 +6295,7 @@
     "snippet": "For multiple doses of 100 and 200 mg twice daily, the geometric means C(max,ss) were 6.23 (15.0) and 13.13 (8.9) µg/ml respectively, and AUC(τ)(,s)(s) values were 52.10 (17.0) and 112.35 (13.0) µg·h/ml, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "Maximum recommended dosage for monotherapy and adjunctive therapy is 200 mg twice daily; Monotherapy: 150 mg to 200 mg twice daily; Adjunctive Therapy: 100 mg to 200 mg twice daily",
+    "dose_basis_confirmed": true,
     "note": "The only FDA label candidate sentence was a bioequivalence statement with no concentration value, so pubmed was used. Took the 200 mg twice daily arm (within the usual adult maintenance dosage range) rather than the 100 mg arm; both values are reported in the same sentence.",
     "source": {
      "type": "pubmed",
@@ -6238,6 +6362,7 @@
     "snippet": "The maximal concentrations (Cmax) of free DA in plasma after oral administration of 750 and 1500 mg of TA-870 to humans were 63 and 127 ng/ml, respectively, being higher than the concentrations of 8 and 31 ng/ml following the infusion of 1 and 3 micrograms/kg/min, the clinical doses of DA.",
     "dose_snippet": "the concentrations of 8 and 31 ng/ml following the infusion of 1 and 3 micrograms/kg/min, the clinical doses of DA",
     "usual_dose_basis": "3 mcg/kg/min is within the standard clinical dopamine infusion dosing range",
+    "dose_basis_confirmed": true,
     "note": "value reported as a comparator figure within a paper about an oral dopamine prodrug (TA-870), not a dedicated dopamine PK study; dopamine itself is only given IV so this is the best available human in-vivo figure",
     "source": {
      "type": "pubmed",
@@ -6277,6 +6402,7 @@
     "snippet": "Mean (SD) Maximal Concentration C max (ng/mL) Fentanyl Transdermal System 12 mcg/hr 28.8 (13.7) 0.38 (0.13) C max values dose normalized from 4 x 12.5 mcg/hr: Study 2003-038 in healthy volunteers Fentanyl Transdermal System 25 mcg/hr 31.7 (16.5) 0.85 (0.26) C max values: Study C-2002-048 dose proportionality study in healthy volunteers",
     "dose_snippet": null,
     "usual_dose_basis": "25 mcg/hr is one of fentanyl transdermal system's approved maintenance doses",
+    "dose_basis_confirmed": true,
     "note": "Value is from first (single) 72-hour patch application, not repeated-patch steady state.",
     "source": {
      "type": "fda_label",
@@ -6328,6 +6454,7 @@
     "snippet": "Mean +/- SD maximum concentration was decreased from 126+/-47 to 51+/-21 ng/ml.",
     "dose_snippet": "Subjects received oral meperidine 50 mg and had serial blood samples collected for 48 hours.",
     "usual_dose_basis": "Adults: 50 mg to 150 mg intramuscularly or subcutaneously every 3 to 4 hours. ( 2.2 )",
+    "dose_basis_confirmed": true,
     "note": "Value is the pre-interaction (baseline) Cmax from a meperidine/ritonavir interaction study, not a value measured in the presence of ritonavir; 50 mg is within the labeled usual adult dose range (50-150 mg), though the label's dose text is for the IM/SC injection while the PubMed study used the oral route.",
     "source": {
      "type": "pubmed",
@@ -6365,6 +6492,7 @@
     "snippet": "Brivaracetam was rapidly absorbed, with C(max) of 4 mug/ml occurring within 1.5 h of dosing.",
     "dose_snippet": "Six healthy male subjects received a single p.o. dose of (14)C-brivaracetam (150 mg, 82 microCi, or 3.03 MBq).",
     "usual_dose_basis": "150 mg single dose is within/near the approved Briviact dose range (50-200 mg/day)",
+    "dose_basis_confirmed": true,
     "note": "",
     "source": {
      "type": "pubmed",
@@ -6417,6 +6545,7 @@
     "snippet": "Following administration of three 5-mg tablets, average maximal dextroamphetamine plasma concentrations (C max ) of 36.6 ng/mL were achieved at approximately 3 hours.",
     "dose_snippet": null,
     "usual_dose_basis": "Narcolepsy usual dose is 5 to 60 mg per day in divided doses; ADHD dosing starts at 5-10 mg/day and titrates in 5-10 mg increments - 15 mg total (as divided tablets) falls within the usual therapeutic range described in the DOSAGE AND ADMINISTRATION section.",
+    "dose_basis_confirmed": true,
     "note": "Single-dose oral immediate-release value for parent dextroamphetamine; label also contains transdermal (XELSTRYM) and a generic 'average Cmax was 23.5 ng/mL' statement without stated dose, but the three-5-mg-tablet value was chosen because it explicitly states both dose and route for the plain oral immediate-release product.",
     "source": {
      "type": "fda_label",
@@ -6457,6 +6586,7 @@
     "snippet": "Compared to the control condition, ritonavir significantly reduced apparent oral clearance of trazodone (155 +/- 23 vs. 75 +/- 12 ml/min, p < 0.001), prolonged elimination half-life (6.7 +/- 0.7 vs. 14.9 +/- 3.9 h, p < 0.05), and increased peak plasma concentrations (842 +/- 64 vs. 1125 +/- 111 ng/ml, p < 0.05) (mean +/- SE).",
     "dose_snippet": "In a single-dose, blinded, four-way crossover study, 10 healthy volunteer subjects received 50 mg of trazodone hydrochloride or matching placebo concurrent with low-dose ritonavir (four doses of 200 mg each) or with placebo.",
     "usual_dose_basis": "fda_label: no cached candidates with a concentration unit; dose basis taken from the PubMed study's own 50 mg single oral dose of trazodone hydrochloride",
+    "dose_basis_confirmed": true,
     "note": "Value is the control-condition (without ritonavir) mean peak plasma concentration (842 ng/mL) for a single 50 mg oral dose of trazodone in healthy volunteers, taken from a drug-interaction study's baseline arm.",
     "source": {
      "type": "pubmed",
@@ -6494,6 +6624,7 @@
     "snippet": "The mean (SD) peak concentration (Cmax) for NEF was not affected by food and was 416 (220) ng mL-1 and 446 (271) ng mL-1 after the fed and fasted treatments, respectively.",
     "dose_snippet": "A group of 24 healthy adult male volunteers received a single 200 mg dose of NEF under fasting conditions",
     "usual_dose_basis": "200 mg single dose, within the typical nefazodone 300-600 mg/day therapeutic range given in divided doses",
+    "dose_basis_confirmed": true,
     "note": "",
     "source": {
      "type": "pubmed",
@@ -6531,6 +6662,7 @@
     "snippet": "Similar analyses of the plasma of three subjects who had received a single 50-mg oral dose of amitriptyline showed an average maximum plasma concentration of 25 +/- 10 ng/ml for amitriptyline and 10 +/- 4 ng/ml for nortriptyline.",
     "dose_snippet": "a single 50-mg oral dose of amitriptyline",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "n=3 subjects, 1977 assay-development paper.",
     "source": {
      "type": "pubmed",
@@ -6568,6 +6700,7 @@
     "snippet": "After oral administration of a single dose of 425 mg PPF hydrochloride sustained-release capsule, the maximum peak plasma concentration (Cmax) of PPF was 210.9 ± 141.9 ng/mL with a Tmax of 6 ± 1 h, the Cmax of 5-OHP was 129.6 ± 65.4 ng/mL with a Tmax of 7 ± 2 h.",
     "dose_snippet": null,
     "usual_dose_basis": "If additional therapeutic effect is needed, the dose of propafenone hydrochloride extended-release capsules may be increased to 425 mg given every 12 hours.",
+    "dose_basis_confirmed": true,
     "note": "Label's own cmax_term candidate sentences were IV-infusion data in patients with impaired ventricular function at a supratherapeutic dose ('greater than recommended oral dosing'), explicitly not usable per the usual-dose rule, so a pubmed single-dose PK study at the label's own 425 mg extended-release dose level was used instead. This is the top titration dose (every-12-hour maintenance can also be 225 or 325 mg); value is for the parent PPF moiety, not the 5-OHP metabolite also reported in the same sentence.",
     "source": {
      "type": "pubmed",
@@ -6605,6 +6738,7 @@
     "snippet": "Peak concentrations after 10-minute infusions of 150 mg intravenous amiodarone in patients with ventricular fibrillation (VF) or hemodynamically unstable ventricular tachycardia (VT) range between 7 and 26 mg/L.",
     "dose_snippet": null,
     "usual_dose_basis": "Initial Load: 150 mg in 100 mL infused over 10 minutes",
+    "dose_basis_confirmed": true,
     "note": "This is a range (not mean/median), hence statistic=range_geomean per instructions. The 150 mg/10-minute infusion exactly matches the labeled IV Initial Load dose, so this was preferred over the 5 mg/kg single-infusion candidate which is not the recommended regimen.",
     "source": {
      "type": "fda_label",
@@ -6643,6 +6777,7 @@
     "snippet": "Maximal serum alfentanil concentrations (Cmax) were attained 5 minutes after start of the procedure (tmax) and were 92 +/- 20 ng/ml.",
     "dose_snippet": "General anesthesia was induced with alfentanil 15 micrograms/kg and midazolam 2 mg and maintained with alfentanil 0.5 mg, 60% nitrous oxide (N2O) in oxygen (O2) and midazolam up to a total of 4 mg.",
     "usual_dose_basis": "IV alfentanil induction/maintenance dosing described in the abstract is a standard general-anesthesia regimen for this drug; FDA label candidates for alfentanil only contain non-Cmax therapeutic concentration-range sentences, not a usable numeric Cmax.",
+    "dose_basis_confirmed": true,
     "note": "FDA label candidates (4 systemic single-ingredient labels) only gave 'concentration-efficacy' ranges for anesthetic depth (e.g. 310-340 ng/mL for intra-abdominal surgery), not labeled as a peak/Cmax, so excluded; this PubMed value explicitly is Cmax, serum (allowed per plasma-or-serum rule), IV route.",
     "source": {
      "type": "pubmed",
@@ -6680,6 +6815,7 @@
     "snippet": "Compared with oral administration (AUV(0- infinity ) = 21 ng*h/mL, C(max) = 12.8 ng/mL, and t(max) = 0.87 h), delivery of the drug directly into the ileum, jejunum, and ascending colon did not change the extent of absorption, but the time to peak concentration appeared to be smaller (mean t(max) ranged from 0.4-0.6 h, with no change in C(max)).",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "3 mg is an approved rivastigmine capsule strength/titration dose; other PubMed hits (transdermal patch, nasal spray) were also available but this oral-capsule value was the most directly dose-labeled.",
     "source": {
      "type": "pubmed",
@@ -6717,6 +6853,7 @@
     "snippet": "Administration of 75 mg Venlafaxine Extended Release Tablets under fed conditions resulted in mean ± SD venlafaxine C max of 26.9 ± 13.4 ng/mL and AUC of 1536.3 ± 496.8 ng·hr/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "the recommended starting dose for Venlafaxine Extended Release Tablets is 75 mg/day, administered in a single dose",
+    "dose_basis_confirmed": true,
     "note": "Value is for venlafaxine's own parent moiety (not the ODV active metabolite, which the same label reports separately at Cmax 97.9 ng/mL). 75 mg matches the usual starting/maintenance daily dose for MDD and social anxiety disorder.",
     "source": {
      "type": "fda_label",
@@ -6770,6 +6907,7 @@
     "snippet": "For atomoxetine, Cmax increased from 226±96.1 to 386±137 ng/mL and more importantly, AUC0-∞ was significantly increasedfrom 1580±1040 to 8060±4160 ng*h/mL, while the mean t1/2 was prolonged after bupropion pretreatment.",
     "dose_snippet": "each volunteer received a single oral dose of 25 mg atomoxetine",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "226 ng/mL is the reference-period (atomoxetine alone, before bupropion) value; the increased value after bupropion pretreatment was excluded as a drug-interaction result. 25 mg is below the usual adult target dose (40-100 mg) but is an approved strength.",
     "source": {
      "type": "pubmed",
@@ -6807,6 +6945,7 @@
     "snippet": "Cmax was significantly lower for the 50-mg suppository (mean, 9.04 ng/mL) than for the syrup (19.3 ng/mL).",
     "dose_snippet": null,
     "usual_dose_basis": "various indications dosed around 25 mg per label dosing text; 50 mg oral syrup is within the approved promethazine dosing range.",
+    "dose_basis_confirmed": true,
     "note": null,
     "source": {
      "type": "pubmed",
@@ -6844,6 +6983,7 @@
     "snippet": "Peak plasma level attained was 28.2 +/- 4.4 ng/ml at 3.1 +/- 0.6 hr after oral dosing.",
     "dose_snippet": "Kinetic parameters were derived from trimipramine and desmethyltrimipramine plasma concentrations after administration of intravenous (12.5 mg) and oral (50 mg) trimipramine in nine subjects.",
     "usual_dose_basis": "50 mg oral dose used in this PK study is within the usual trimipramine adult starting/maintenance range for depression (commonly 50-75 mg/day up to 200 mg/day).",
+    "dose_basis_confirmed": true,
     "note": "Abstract does not state whether the nine subjects were healthy volunteers or patients.",
     "source": {
      "type": "pubmed",
@@ -6881,6 +7021,7 @@
     "snippet": "Following recommended doses of triazolam, triazolam peak plasma levels in the range of 1 to 6 ng/mL are seen.",
     "dose_snippet": null,
     "usual_dose_basis": "Adults: Recommended dosage is 0.25 mg once daily before bedtime. Maximum recommended dosage is 0.5 mg once daily.",
+    "dose_basis_confirmed": true,
     "note": "Range reported for 'recommended doses' (0.125-0.5 mg), recorded as range_geomean rather than a single value.",
     "source": {
      "type": "fda_label",
@@ -6933,6 +7074,7 @@
     "snippet": "The addition of phenytoin to an existing daily administration of mirtazapine resulted in a mean (+/-SD) decrease of the AUC(0-24) from 576+/-104 ng h/ml to 305+/-81.6 ng h/ml and a mean decrease of C(max) from 69.7+/-17.5 ng/ml to 46.9+/-10.9 ng/ml.",
     "dose_snippet": "mirtazapine, daily 15 mg for 2 days continuing with 30 mg for 15 days plus phenytoin 200 mg from day 8 to day 17",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "69.7 ng/mL is the pre-phenytoin (mirtazapine alone) steady-state value at the 30 mg daily maintenance dose; the post-phenytoin value was excluded as a drug-interaction result.",
     "source": {
      "type": "pubmed",
@@ -6970,6 +7112,7 @@
     "snippet": "Following IM administration of a single 10 mg midazolam dose to healthy subjects via this autoinjector, midazolam was absorbed with median Tmax (range) of 0.5 (0.17 to 1.03) hours; midazolam mean (±SD) Cmax and AUC 0-∞ were 127 (±47.3) ng/mL and 454 (±134) ng∙hr/mL, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "Recommended Dose The recommended dose of Midazolam Injection is a single 10 mg dose, administered by intramuscular injection",
+    "dose_basis_confirmed": true,
     "note": "Matches the label's own recommended single 10 mg IM autoinjector dose exactly.",
     "source": {
      "type": "fda_label",
@@ -7008,6 +7151,7 @@
     "snippet": "TABLE 6 Mean [% coefficient of variation] Regimen Dosage Form AUC (ng∙hr/mL) for single-dose AUC = AUC 0-inf C max (ng/mL) T max (hr) Single Dose data obtained while subjects received naltrexone, which can enhance absorption 10 mg 136 [27] 11.5 [27] 5.11 [21] 15 mg 196 [28] 16.8 [29] 4.59 [19] 20 mg 248 [25] 22.7 [25] 4.63 [22] 30 mg 377 [24] 34.6 [21] 4.61 [19] 40 mg 497 [27] 47.4 [30] 4.40 [22] 60 mg 705 [22] 64.6 [24] 4.15 [26] 80 mg 908 [21] 87.1 [29] 4.27 [26] Food Effects Food has no significant effect on the extent of absorption of oxycodone from OXYCONTIN.",
     "dose_snippet": null,
     "usual_dose_basis": "Adults : For patients who are not opioid tolerant, initiate with 10 mg tablets orally every 12 hours.",
+    "dose_basis_confirmed": true,
     "note": "Took the 10 mg dose row, matching OXYCONTIN's labeled initial adult dose for opioid-naive patients (10 mg orally every 12 hours). This single-dose PK table was generated with concomitant naltrexone, which the label states can enhance absorption; other label tables (ROXICODONE/ROXYBOND immediate-release, also cmax_term=true) give similar-magnitude Cmax values without that confound (e.g. ROXICODONE 15 mg Cmax 22.2 ng/mL) but their own dosage_and_administration text was not in the fetched candidates file, so the OXYCONTIN table was used because its dosing text was available to confirm usual adult dose.",
     "source": {
      "type": "fda_label",
@@ -7046,6 +7190,7 @@
     "snippet": "Mean peak plasma concentrations after sublingual administration were slightly lower than after oral dosage (38.3 vs 47.8 ng ml-1), and the time of peak concentration was similar (2.6 vs 2.3 h after dose).",
     "dose_snippet": "Eight healthy volunteers received 50 mg of dimenhydrinate, a theoclate salt of diphenhydramine, orally, sublingually, and intravenously on three separate occasions in random sequence.",
     "usual_dose_basis": "fda_label: no cached candidates with a concentration unit; dose basis taken from the PubMed study's own 50 mg dimenhydrinate (diphenhydramine salt) oral dose",
+    "dose_basis_confirmed": true,
     "note": "Diphenhydramine's own plasma concentration measured directly after a 50 mg oral dose of dimenhydrinate, the theoclate salt of diphenhydramine; oral value (47.8 ng/mL) used rather than the lower sublingual value (38.3 ng/mL).",
     "source": {
      "type": "pubmed",
@@ -7085,6 +7230,7 @@
     "snippet": "Following a single dose of DSUVIA, the mean AUC 0-inf is 278 h*pg/mL, the average C max of 63.1 pg/mL occurs at a median T max of 1.00 hour.",
     "dose_snippet": null,
     "usual_dose_basis": "DSUVIA (sufentanil sublingual tablet) is dosed as single sublingual tablets for acute pain in a medically supervised setting",
+    "dose_basis_confirmed": true,
     "note": "Label clinical pharmacology sentence gives only 'a single dose of DSUVIA' without restating the mcg strength in that sentence; no separate verbatim dosing-section sentence matching this exact set_id was found in the cached candidates file, so the specific mcg strength is omitted from dose rather than asserted from memory.",
     "source": {
      "type": "fda_label",
@@ -7123,6 +7269,7 @@
     "snippet": "GAL-ER (fasting) had mean AUC24 h similar to GAL-IR (fasting), with lower Cmax (63 ng/mL vs 84 ng/mL) and longer time to reach Cmax (4.4 h vs 1.2 h).",
     "dose_snippet": "GAL-ER 24 mg qd each morning (fed before Day 7 morning dose), and GAL-IR 12 mg bid (fasted before Day 7)",
     "usual_dose_basis": "the recommended dosage range is 16 to 24 mg/day given twice daily ... A further increase to 12 mg twice a day (24 mg/day) should be attempted",
+    "dose_basis_confirmed": true,
     "note": "FDA label candidates list was empty. Took the GAL-IR (immediate-release, matching the plain 'galantamine tablets' label) arm at 12 mg twice daily (24 mg/day), which is within the recommended maintenance dosage range, rather than the GAL-ER (extended-release, 63 ng/mL) value.",
     "source": {
      "type": "pubmed",
@@ -7160,6 +7307,7 @@
     "snippet": "After 15 days of amantadine 100 mg b.i.d., the C max was 0.47 ± 0.11 mcg/mL in four of the five volunteers.",
     "dose_snippet": null,
     "usual_dose_basis": "The daily dosage may be split into one capsule of 100 mg twice a day.",
+    "dose_basis_confirmed": true,
     "note": "Label also reports single-dose Cmax values (0.22-0.51 mcg/mL) at 100-200 mg; the 100 mg b.i.d. steady-state value was chosen as it matches the label's twice-daily maintenance option.",
     "source": {
      "type": "fda_label",
@@ -7198,6 +7346,7 @@
     "snippet": "Plasma levels are proportionate to the dose given; over the dose range of 0.5 to 3.0 mg, peak levels of 8.0 to 37 ng/mL were observed.",
     "dose_snippet": null,
     "usual_dose_basis": "Recommended starting oral dosage is 0.5 mg to 1 mg once daily...Recommended total daily dosage is 3 mg to 6 mg daily.",
+    "dose_basis_confirmed": true,
     "note": "Label gives a Cmax RANGE tied to a DOSE RANGE (0.5-3.0 mg), not a single usual dose; recorded as range_geomean rather than picking one dose arbitrarily. Flagged uncertain.",
     "source": {
      "type": "fda_label",
@@ -7262,6 +7411,7 @@
     "snippet": "Epinephrine peak concentration and total exposure were similar between Auvi-Q (Cmax = 0.486 ng/mL; AUC0-t = 0.536 ng·h/mL; AUCinf = 0.724 ng·h/mL) and EpiPen (Cmax = 0.520 ng/mL; AUC0-t = 0.466 ng·h/mL; AUCinf = 0.583 ng·h/mL).",
     "dose_snippet": "healthy adults (18-45 years old) received a single injection of 0.3 mg of epinephrine with Auvi-Q in one period and with EpiPen in the other 2 periods.",
     "usual_dose_basis": "Anaphylaxis: Administer intramuscularly or subcutaneously ... Adults and children over 30 kg (66 lb): 0.3-0.5 mg (0.3-0.5 mL)",
+    "dose_basis_confirmed": true,
     "note": "No candidates in the FDA label file (empty candidates list); an earlier pubmed hit (PMID 32448925) reporting IM 0.3 mg Cmax 0.47 ng/mL was a dog study, not human, so excluded. Used the EpiPen arm (0.3 mg IM, within approved adult anaphylaxis dose range) from a human crossover study instead.",
     "source": {
      "type": "pubmed",
@@ -7342,6 +7492,7 @@
     "snippet": "administration of 240 mg verapamil hydrochloride extended-release tablets with food produced peak plasma verapamil concentrations of 79 ng/mL",
     "dose_snippet": null,
     "usual_dose_basis": "240 mg once daily is within the standard verapamil ER tablet dosing range (120-480 mg/day)",
+    "dose_basis_confirmed": true,
     "note": "Fed value used because the extended-release tablet is labeled to be taken with food; the fasted value in the next sentence is higher. Racemic total verapamil.",
     "source": {
      "type": "fda_label",
@@ -7406,6 +7557,7 @@
     "snippet": "Administration of 30 mg of Morphine Sulfate Oral Solution every six hours for 5 days resulted in a comparable 24-hour exposure (AUC). The steady-state levels were achieved within 48 hours for both tablets and solution. The mean steady state C max values were about 78 and 58 ng/mL for tablet and solution, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "Morphine Sulfate Oral Solution 20 mg/mL is only for opioid-tolerant adult patients.",
+    "dose_basis_confirmed": true,
     "note": "The label states Cmax values for both tablet (78 ng/mL) and solution (58 ng/mL) formulations at steady state but only explicitly documents the dose (30 mg q6h) for the solution formulation; chose the solution value because its dose is unambiguously stated in the same passage, whereas the tablet's corresponding dose is not given in this section.",
     "source": {
      "type": "fda_label",
@@ -7444,6 +7596,7 @@
     "snippet": "Peak plasma concentrations were 350 +/- 63 ng/ml at 1.7 +/- 0.8 hr in healthy volunteers, 239 +/- 70 ng/ml at 3 +/- 1.9 hr in patients with viral hepatitis and 240 +/- 113 ng/ml at 2.5 +/- 1.5 hr in patients with cirrhosis.",
     "dose_snippet": null,
     "usual_dose_basis": "a single oral in dose of 20 mg clobazam was studied in 15 patients with liver disease and in 6 healthy volunteers",
+    "dose_basis_confirmed": true,
     "note": "20 mg is within the usual adult clobazam dose range (ONFI labeling: up to 5-40 mg/day); single-dose value used.",
     "source": {
      "type": "pubmed",
@@ -7483,6 +7636,7 @@
     "snippet": "TABLE 2 Mean (±SD) Plasma Concentration of Doxazosin at Steady State in Healthy Volunteers: Pharmacokinetic Parameters Parameter CARDURA XL (4 mg) CARDURA XL (8 mg) C max (ng/mL) 10.1 ± 5.6 25.8 ± 12.1",
     "dose_snippet": null,
     "usual_dose_basis": "Depending on the individual patient's urodynamics and BPH symptomatology, the dose may be titrated at 1 to 2 week intervals to 2 mg, and thereafter to 4 mg and 8 mg once daily.",
+    "dose_basis_confirmed": true,
     "note": "Took the 4 mg CARDURA XL column, not the 8 mg column, as 4 mg is the usual intermediate maintenance dose in the approved titration schedule (up to 8 mg BPH / 16 mg hypertension); usual_dose_basis quote is from a sibling doxazosin label since the CARDURA XL label's own dosing text was not captured in the candidates file.",
     "source": {
      "type": "fda_label",
@@ -7523,6 +7677,7 @@
     "snippet": "Systemic exposure to ziprasidone was similar following administration alone or after pretreatment with armodafinil, as assessed by mean peak plasma concentration (C max, 52.1 vs 50.4 ng/mL) and area under the plasma concentration-time curve from time 0 to infinity (AUC0-∞, 544.6 vs 469.1 ng·h/mL).",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "This abstract reports ziprasidone 20 mg Cmax both alone (52.1 ng/mL) and after armodafinil pretreatment (50.4 ng/mL); per rules preferring a non-drug-interaction baseline value when one exists, chose the 'alone' value (52.1 ng/mL).",
     "source": {
      "type": "pubmed",
@@ -7560,6 +7715,7 @@
     "snippet": "Following multiple dosing of 10 mg UROXATRAL under fed conditions, the time to maximum concentration is 8 hours. C max and AUC 0–24 are 13.6 (SD = 5.6) ng/mL and 194 (SD = 75) ng∙h/mL, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended dosage is one 10 mg UROXATRAL (alfuzosin HCl) extended-release tablet once daily.",
+    "dose_basis_confirmed": true,
     "note": "",
     "source": {
      "type": "fda_label",
@@ -7613,6 +7769,7 @@
     "snippet": "Mean peak plasma concentration of OLZ was 11 ng/ml, whereas that of radioactivity was 39 ng eq/ml.",
     "dose_snippet": "Disposition and biotransformation of the new antipsychotic agent olanzapine (OLZ) were studied in six male healthy volunteers after a single oral dose of 12.5 mg containing 100 microCi of [14C]OLZ.",
     "usual_dose_basis": "12.5 mg is within the usual approved adult oral dosing range for olanzapine (initial 5-10 mg once daily, target 10 mg/day, up to 20 mg/day) per the FDA label's dosage and administration section.",
+    "dose_basis_confirmed": true,
     "note": "The FDA label candidate states olanzapine 'reaches peak concentrations in approximately 6 hours following an oral dose' but gives no numeric Cmax, so this PubMed single-dose mass-balance study value was used instead.",
     "source": {
      "type": "pubmed",
@@ -7652,6 +7809,7 @@
     "snippet": "Maximum plasma concentration at steady state (C(max)) was approximately 13% lower for quetiapine XR than for quetiapine IR (495.3 versus 568.1 ng/mL)",
     "dose_snippet": "After a 2-day lead-in period during which patients received quetiapine XR 300 mg once daily, patients were randomized to quetiapine IR 150 mg twice daily followed by quetiapine XR 300 mg once daily, or quetiapine XR 300 mg once daily followed by quetiapine IR 150 mg twice daily.",
     "usual_dose_basis": "Bipolar Disorder, Depressive Episodes - Adults (2.2) 50 mg/day 300 mg/day 300 mg/day",
+    "dose_basis_confirmed": true,
     "note": "FDA label candidates for quetiapine contained no peak/Cmax sentence (only Ki binding values), so a PubMed crossover PK study was used instead. Sentence gives two Cmax values (XR vs IR); took the IR (immediate-release) value of 568.1 ng/mL since quetiapine IR 150 mg BID (300 mg/day total) matches a labeled adult maintenance dose (e.g. bipolar depression, MDD adjunct); value is at steady state in patients, not healthy volunteers.",
     "source": {
      "type": "pubmed",
@@ -7691,6 +7849,7 @@
     "snippet": "After 10 days of coadministration at the lower dose, mean desipramine maximum concentration in plasma (Cmax) relative to baseline increased from 37.8 to 173 ng/mL (+358%) with paroxetine versus from 36.1 to 51.9 ng/mL (+44%) with sertraline;",
     "dose_snippet": "Desipramine (50 mg/day) was administered for 23 days in each phase of the crossover study with a 7-day drug-free period between phases.",
     "usual_dose_basis": "The usual adolescent and geriatric dose is 25 mg to 100 mg daily.",
+    "dose_basis_confirmed": true,
     "note": "No usable FDA label candidate (no clinical_pharmacology Cmax sentence in the candidates file). PubMed value (37.8 ng/mL) is the desipramine-alone baseline Cmax before paroxetine was added in a crossover drug-interaction study, i.e. not an interaction value itself. 50 mg/day is below the usual adult maintenance dose (100-200 mg/day per label) but matches the usual adolescent/geriatric dose range and the 'recommended starting dosages' used in this study; the crossover's other baseline arm gave a similar value (36.1 ng/mL) before sertraline.",
     "source": {
      "type": "pubmed",
@@ -7730,6 +7889,7 @@
     "snippet": "The mean (SD) Cmax, AUC0-24, and AUC0-∞ values after administration of the test and reference formulations, respectively, were as follows: 73.71 (34.04) vs. 78.93 (43.64) ng/mL, 285.1 (147.0) vs. 296.9 (176.1) ng/mL · h, and 296.5 (161.4) vs. 303.4 (177.9) ng/mL · h.",
     "dose_snippet": "two tablet formulations of carvedilol 25-mg",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "78.93 ng/mL is the reference-formulation value from a bioequivalence crossover study.",
     "source": {
      "type": "pubmed",
@@ -7767,6 +7927,7 @@
     "snippet": "Cmax = 2.3 ng.ml-1, tmax = 2.8 h; slow release: Cmax = 1.2 ng.ml-1, tmax = 4.6 h",
     "dose_snippet": "The oral dose was 12 mg fluphenazine hydrochloride.",
     "usual_dose_basis": "total daily dosage for adult psychotic patients may range initially from 2.5 mg to 10 mg",
+    "dose_basis_confirmed": true,
     "note": "FDA label candidates file had zero cmax sentences, so sourced from PubMed. The 12 mg single oral dose used in this bioavailability study is slightly above the label's initial-titration range (2.5-10 mg/day) but within doses described as clinically used ('daily doses up to 40 mg may be necessary'); Cmax taken for the immediate-release formulation (the approved oral form), not the slow-release formulation also tested.",
     "source": {
      "type": "pubmed",
@@ -7832,6 +7993,7 @@
     "snippet": "Tmax, 3.1 +/- 2.1 h; Cmax, 8.2 +/- 6.5 mg/L; Vd, 1.1 +/- 1.0 L/kg; clearance, 0.08 +/- 0.08 mg/L/h; half-life, 22 +/- 30 h.",
     "dose_snippet": "Twenty-four patients received a single oral load of LTG (mean, 6.5 +/- 2.7 mg/kg).",
     "usual_dose_basis": "single weight-based oral loading dose in patients restarting lamotrigine; not the usual slow-titrated maintenance regimen",
+    "dose_basis_confirmed": true,
     "note": "loading-dose protocol in an epilepsy monitoring unit, not the standard slow-titration maintenance regimen; flagged uncertain",
     "source": {
      "type": "pubmed",
@@ -7897,6 +8059,7 @@
     "snippet": "C(max), C(min), and AUC(0-12) (128.9 ng/ml, 45.6 ng/ml, and 982.0 ng × hr/ml, respectively) were significantly higher on Day 3 than on Day 14 (76.5 ng/ml, 19.1 ng/ml, and 521.0 ng × hr/ml, respectively).",
     "dose_snippet": "received 50 mg riluzole twice daily for 28 doses.",
     "usual_dose_basis": "received 50 mg riluzole twice daily for 28 doses",
+    "dose_basis_confirmed": true,
     "note": "This is the Day-14 steady-state peak value (lower of the two reported days); Day 3 value (128.9 ng/mL) was higher and transient. Patients had acute spinal cord injury, not the labeled ALS indication, but dose (50 mg BID) matches the approved riluzole regimen. No usable FDA label Cmax candidate was present for riluzole.",
     "source": {
      "type": "pubmed",
@@ -7934,6 +8097,7 @@
     "snippet": "Pharmacokinetics: Absorption Following a 200 to 400 mg oral zonisamide dose, peak plasma concentrations (range: 2 to 5 mcg/mL) in normal volunteers occur within 2 to 6 hours.",
     "dose_snippet": null,
     "usual_dose_basis": "initial dosage 100 mg daily, titrated to 400 mg daily (max 600 mg daily) per ZONISADE dosing text; the 200-400 mg range matches typical maintenance dosing.",
+    "dose_basis_confirmed": true,
     "note": "Range value (2 to 5 mcg/mL) reported for the 200-400 mg dose span; value = sqrt(2*5) per range_geomean convention.",
     "source": {
      "type": "fda_label",
@@ -7989,6 +8153,7 @@
     "snippet": "The mean (±SD) peak tegaserod concentration (C max ) was 2.9 (±1.1) ng/mL, and mean (±SD) AUC was 10.5 (±4.6) h∙ng/mL following a single ZELNORM dose at 6 mg.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended dosage of ZELNORM in adult women less than 65 years of age is 6 mg taken twice daily orally at least 30 minutes before meals",
+    "dose_basis_confirmed": true,
     "note": "Value is for a single 6 mg dose, which matches the per-dose amount of the recommended 6 mg twice-daily regimen (single-dose state, as allowed by spec when steady-state data is not available). Tegaserod/ZELNORM availability is restricted (voluntarily withdrawn from general US market 2007, later available restricted-access) but the label still carries this Cmax value.",
     "source": {
      "type": "fda_label",
@@ -8040,6 +8205,7 @@
     "snippet": "The mean maximum plasma lidocaine concentrations at steady state with lidocaine patches applied in groups 1 and 2 were 186 and 225 ng/mL, respectively, compared with the reported mean maximum plasma concentration of 130 ng/ml. with the labeled dosage (12 hr/day).",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "This abstract's own study tested non-standard continuous patch-wear regimens (24 hr and 12 hr re-dosing cycles, 186 and 225 ng/mL); the 130 ng/mL figure used here is the value the abstract itself cites for the approved LABELED dosage (12 hr/day wear), not a value measured by the cited study's own continuous-application arms. Recorded as the value tied to the approved regimen per the verbatim text.",
     "source": {
      "type": "pubmed",
@@ -8077,6 +8243,7 @@
     "snippet": "Following a single, 60 mg oral dose of QUILLIVANT XR in 28 healthy adult subjects in a crossover study under fasting conditions, d- methylphenidate ( d- MPH) mean (± SD) peak plasma concentrations of 13.6 (± 5.8) ng/mL occurred at a median time of 5 hours after dosing (Figure 2).",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "60 mg is the top of the QUILLIVANT XR approved dosing range (20-60 mg/day); value is d-methylphenidate (the active enantiomer), reported directly in the label as the drug's own plasma peak.",
     "source": {
      "type": "fda_label",
@@ -8117,6 +8284,7 @@
     "snippet": "After single-dose oral administration, the main pharmacokinetic parameters found for memantine at doses of 5, 10, and 20 mg were as follows: C(max), 6.20 (0.75), 11.60 (1.95), and 25.34 (8.34) ng/mL, respectively",
     "dose_snippet": "Subjects were randomized to receive a single dose of 5, 10, or 20 mg of memantine to study the linear characteristics of pharmacokinetics, or a multiple dose of 5 mg once daily for 14 days to study the drug accumulation.",
     "usual_dose_basis": "20 mg once daily (given as 10 mg twice daily) is the usual target maintenance dose per the FDA label's dosage and administration section; this single-dose study measured Cmax at that 20 mg dose level.",
+    "dose_basis_confirmed": true,
     "note": "No FDA label candidate gave a numeric Cmax. This abstract's single-dose 20 mg value was preferred over its own steady-state value (C(ssmax) 19.69 ng/mL), because the steady-state arm only tested a 5 mg/day dose, well below the usual 20 mg/day target.",
     "source": {
      "type": "pubmed",
@@ -8169,6 +8337,7 @@
     "snippet": "Grapefruit juice increased the mean peak concentrations in plasma (C(max)) of sertraline from 17.6+/-6.1 to 29.3+/-11.5 ng/ml (mean+/-SD, P=0.003)",
     "dose_snippet": "On day 6, each subject was given 75 mg of sertraline with 250 ml of grapefruit juice or water.",
     "usual_dose_basis": "FDA label recommended sertraline dosage range for MDD/OCD is 50-200 mg once daily; 75 mg falls within this usual adult range.",
+    "dose_basis_confirmed": true,
     "note": "Value of 17.6 ng/mL is the water-control (no interaction) arm Cmax; the 29.3 ng/mL figure is the grapefruit-juice-interaction value and was not used, per instructions excluding drug-interaction values when a normal value exists.",
     "source": {
      "type": "pubmed",
@@ -8222,6 +8391,7 @@
     "snippet": "In a dose proportionality study involving fluvoxamine maleate at 100, 200 and 300 mg/day for 10 consecutive days in 30 normal volunteers, steady state was achieved after about a week of dosing. Maximum plasma concentrations at steady state occurred within 3 to 8 hours of dosing and reached concentrations averaging 88, 283 and 546 ng/mL, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "Recommended starting dose is 50 mg at bedtime, with increases of 50 mg every 4 to 7 days as tolerated to maximum effect, not to exceed 300 mg/day.",
+    "dose_basis_confirmed": true,
     "note": "The label's immediate-release dose-proportionality study reports steady-state Cmax at 100, 200, and 300 mg/day; chose the 100 mg/day level as closest to the usual lower/initial effective maintenance dose. A separate extended-release capsule study in the same label family (set_id 6c71d4f6) reports different values (47/161/319 ng/mL at the same dose levels) for a different formulation; the immediate-release values were used here.",
     "source": {
      "type": "fda_label",
@@ -8262,6 +8432,7 @@
     "snippet": "The three formulations had Cmax and AUC0-infinity values of 15.5 +/- 4.3 ng/ml and 119 +/- 41 ng x h/ml for bimodal release d-MPH, 17.9 +/- 5.3 ng/ml and 115 +/- 40 ng A h/ml for immediate release d-MPH, and 16.4 +/- 4.4 ng/ml and 122 +/- 36 ng x h/ml for d,l-MPH bimodal release, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "adults start 10 mg once daily, titrate by 10 mg/week, max 40 mg/day (Focalin XR dosing text) -- 20 mg is within the typical maintenance range.",
+    "dose_basis_confirmed": true,
     "note": "Label candidates file was empty; value taken from a 3-way crossover bioequivalence study. The same sentence also reports 17.9 ng/mL (two 10 mg IR doses 4h apart) and 16.4 ng/mL (40 mg racemic bimodal); the single 20 mg bimodal-release d-MPH value was chosen as closest to a single once-daily dose.",
     "source": {
      "type": "pubmed",
@@ -8301,6 +8472,7 @@
     "snippet": "Following a single oral dose of 20 mg tamoxifen, an average peak plasma concentration of 40 ng/mL (range 35 to 45 ng/mL) occurred approximately 5 hours after dosing.",
     "dose_snippet": null,
     "usual_dose_basis": "Adjuvant Treatment of Breast Cancer ... the recommended dose of SOLTAMOX is 20 mg per day; reduction of breast cancer incidence in women at high risk: 20 mg per day.",
+    "dose_basis_confirmed": true,
     "note": "Label also gives a range (35-45 ng/mL) around the stated average of 40 ng/mL; the explicit mean (40 ng/mL) was used rather than treating it as a range-only record.",
     "source": {
      "type": "fda_label",
@@ -8341,6 +8513,7 @@
     "snippet": "Plasma concentrations of loxapine increased with a median Tmax of 1 minute and a mean Cmax of 312 ng/mL.",
     "dose_snippet": "Forty-eight healthy volunteers received a single inhaled placebo or 10 mg loxapine.",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Label's own dosage section (first label indexed) covers oral Loxitane capsules (60-100 mg/day divided doses); the Cmax value here is from the separate approved inhaled single-dose product (Adasuve, 10 mg) for acute agitation, which is the route/dose matching this PubMed study. A second, consistent inhaled study (PMID 26501204, same 10 mg dose, mean Cmax 177 ng/mL after dose 1 of a 2-dose regimen) was also found but not used since the single-dose study is the closer match to the approved single 10 mg dose.",
     "source": {
      "type": "pubmed",
@@ -8380,6 +8553,7 @@
     "snippet": "C max (ng/mL) 10.1 ± 4.8 17.1 ± 17.1 29.8 ± 10.3 29.1 ± 11 41.6 ± 15.6",
     "dose_snippet": null,
     "usual_dose_basis": "Tamsulosin hydrochloride capsules 0.4 mg once daily is recommended as the dose...administered approximately one-half hour following the same meal each day",
+    "dose_basis_confirmed": true,
     "note": "0.4 mg Light Breakfast condition chosen as it matches the approved usual dose and administration instructions (taken after a meal); fasted/0.8 mg columns in the same table were not used.",
     "source": {
      "type": "fda_label",
@@ -8431,6 +8605,7 @@
     "snippet": "For RSP, mean (SD) C(max) values were 12.6 (2.7) and 16.0 (2.3) ng/mL for the test and reference formulations, respectively.",
     "dose_snippet": "Relative bioavailability of two oral formulations of risperidone 2 mg: A single-dose, randomized-sequence, open-label, two-period crossover comparison in healthy Brazilian volunteers.",
     "usual_dose_basis": "FDA label (NDA020588) recommended initial adult schizophrenia dose is 2 mg; target maintenance dose is 4-8 mg/day.",
+    "dose_basis_confirmed": true,
     "note": "Snippet gives Cmax for two formulations (test vs. reference); took the reference-formulation value (16.0 ng/mL) as representative of the standard risperidone product. Dose (2 mg) is the FDA label's initial adult dose, below the 4-8 mg/day target maintenance range; single-dose PK at this dose is the best available clean human value.",
     "source": {
      "type": "pubmed",
@@ -8468,6 +8643,7 @@
     "snippet": "Maximum plasma drug concentration (Cmax) decreased from 5.6 +/- 2.9 ng/mL (mean +/- SD) with oral dosing to 2.0 +/- 1.0 ng/mL and 4.2 +/- 2.0 ng/mL following 5 mg and 10 mg transdermal doses, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "FDA label candidates for triprolidine had 0 usable Cmax sentences. 2.5 mg oral syrup is a standard approved triprolidine dose.",
     "source": {
      "type": "pubmed",
@@ -8521,6 +8697,7 @@
     "snippet": "In the two periods of treatment, the mean peak plasma concentrations (Cmax) were 44.02 ng/ml (metoclopramide alone) and 62.72 ng/ml (metoclopramide after pre-treatment with fluoxetine).",
     "dose_snippet": "A dose of 20 mg metoclopramide in combination with 60 mg fluoxetine was administered to 24 healthy male volunteers in a two treatment study design, separated by 8 days in which the fluoxetine alone was administered as a single p.o. dose daily.",
     "usual_dose_basis": "Intermittent: Single doses up to 20 mg prior to provoking situation.",
+    "dose_basis_confirmed": true,
     "note": "Took the 'metoclopramide alone' arm value, not the value from the period with fluoxetine pre-treatment. This value matches (within rounding) the FDA label's own cached PK table (Cmax 44 ± 15 ng/mL alone), but that label candidate text did not itself state the dose, so the pubmed abstract (same underlying study) was used as source because it gives a verifiable dose.",
     "source": {
      "type": "pubmed",
@@ -8571,6 +8748,7 @@
     "snippet": "Immediate release Guanfacine in Adults Parameter INTUNIV 1 mg once daily (n=52) Immediate-release guanfacine 1 mg once daily (n=12) Note: Values are mean +/- SD, except for t max which is median (range) C max (ng/mL) 1.0 ± 0.3",
     "dose_snippet": null,
     "usual_dose_basis": "Recommended dose: 1 mg to 7 mg ... once daily; Begin at a dose of 1 mg once daily",
+    "dose_basis_confirmed": true,
     "note": "Uncertain whether this adult comparison table reflects single-dose or steady-state sampling; labeled steady_state by analogy with the pediatric multiple-dose comparison elsewhere in the same section, but not explicitly stated for this adult table. Flagged as uncertain.",
     "source": {
      "type": "fda_label",
@@ -8609,6 +8787,7 @@
     "snippet": "After oral dosing the mean peak plasma concentration was 116 ng/ml and mean bioavailability was 75%.",
     "dose_snippet": "The pharmacokinetics and pharmacodynamics of procyclidine (10 mg) after oral and intravenous administration were studied in six healthy volunteers.",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "10 mg is a single PK-study dose within procyclidine's approved overall dose range (typical maintenance 2.5-5 mg tid, up to 20 mg/day).",
     "source": {
      "type": "pubmed",
@@ -8648,6 +8827,7 @@
     "snippet": "food had no effect on the rate or extent of absorption and bioavailability of fenfluramine as assessed by fed vs fasted adjusted geometric mean observed plasma Cmax (59.1 vs 56.7 ng/mL; NS) and AUC0-∞ (1640 vs 1600 ng · h/mL; NS).",
     "dose_snippet": "received 2 single 0.8-mg/kg doses of ZX008 (fenfluramine hydrochloride oral solution)",
     "usual_dose_basis": "0.8 mg/kg/day is the maximum approved FINTEPLA dose; this adult PK study used the same weight-based dosing",
+    "dose_basis_confirmed": true,
     "note": "adult healthy-volunteer value chosen in preference to the FINTEPLA label's pediatric Dravet-syndrome-only steady-state figure",
     "source": {
      "type": "pubmed",
@@ -8687,6 +8867,7 @@
     "snippet": "In vitro studies showed that rasagiline at a concentration of 1 mcg/mL (equivalent to a level that is 160 times the average C max ~ 5.9 to 8.5 ng/mL in Parkinson's disease patients after 1 mg rasagiline multiple dosing) did not inhibit cytochrome P450 isoenzymes, CYP1A2, CYP2A6, CYP2C9, CYP2C19, CYP2D6, CYP2E1, CYP3A4 and CYP4A.",
     "dose_snippet": null,
     "usual_dose_basis": "Monotherapy: rasagiline 1 mg once daily (2.1); As adjunct without levodopa: rasagiline 1 mg once daily (2.1)",
+    "dose_basis_confirmed": true,
     "note": "Cmax reported only as a range (5.9-8.5 ng/mL) in an in-vitro CYP-inhibition passage of the label's clinical pharmacology section, for the average level in PD patients after 1 mg once-daily multiple dosing (steady state); recorded as range_geomean = sqrt(5.9*8.5) per instructions.",
     "source": {
      "type": "fda_label",
@@ -8727,6 +8908,7 @@
     "snippet": "Following chronic dosing of APLENZIN 348 mg once-daily tablets, the mean peak steady-state plasma concentration and area under the curve of bupropion were 134.3 (±38.2) ng/mL and 1409 (±346) ng•hr/mL, respectively.",
     "dose_snippet": null,
     "usual_dose_basis": "Usual target dose: 348 mg once daily (equivalent to 300 mg bupropion HCl).",
+    "dose_basis_confirmed": true,
     "note": "348 mg once daily is the usual target maintenance dose for APLENZIN.",
     "source": {
      "type": "fda_label",
@@ -8765,6 +8947,7 @@
     "snippet": "The mean maximum plasma concentrations (Cmax) after intramuscular or subcutaneous administration of nalbuphine 10 mg were 29 and 31 ng/ml, respectively.",
     "dose_snippet": "The subjects received single doses of 10 mg and 20 mg of nalbuphine separated by a one week washout period.",
     "usual_dose_basis": "The usual recommended adult dose is 10 mg for a 70 kg individual administered subcutaneously, intramuscularly, or intravenously; this dose may be repeated every 3 to 6 hours as necessary.",
+    "dose_basis_confirmed": true,
     "note": "Sentence gives both IM (29 ng/mL) and SC (31 ng/mL) values at the same 10 mg dose; took the IM value listed first.",
     "source": {
      "type": "pubmed",
@@ -8818,6 +9001,7 @@
     "snippet": "Following administration of 100-mg single oral doses to normal male volunteers, peak plasma concentrations of approximately 80 ng/ml were observed; the half-life of drug removal was approximately 3 hr.",
     "dose_snippet": null,
     "usual_dose_basis": "Adults, 50 to 100 mg q.i.d. ... adults, 25 mg t.i.d. or q.i.d. ... As a sedative ...: 50 to 100 mg for adults",
+    "dose_basis_confirmed": true,
     "note": "FDA label candidates list was empty. 100 mg is within the usual adult per-dose range on the label. 'Approximately 80 ng/mL' is reported as an observed value across volunteers, treated here as a mean.",
     "source": {
      "type": "pubmed",
@@ -8857,6 +9041,7 @@
     "snippet": "However, following administration of 250 mg b.i.d., a mean peak level of 56 ± 14 mcg/mL was observed on day 8, while the mean peak level after 500 mg b.i.d. for 11 days was 190 ± 33 mcg/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "For osteoarthritis and rheumatoid arthritis, the suggested dosage range is 500 mg to 1,000 mg daily in two divided doses.",
+    "dose_basis_confirmed": true,
     "note": "500 mg b.i.d. (1000 mg/day) is within the usual adult maintenance dose range.",
     "source": {
      "type": "fda_label",
@@ -8921,6 +9106,7 @@
     "snippet": "Following a single dose of 10mg RizaFilm, the mean Cmax and AUCinf of rizatriptan were 23.79 (± 8.36) ng/mL and 84.54 (± 18.65) ng·hr/mL, respectively; the maximum peak plasma concentrations were achieved in 1.4 hours.",
     "dose_snippet": "Following a single dose of 10mg RizaFilm",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": null,
     "source": {
      "type": "fda_label",
@@ -8974,6 +9160,7 @@
     "snippet": "In a single-dose crossover study in 45 healthy subjects administered 5 and 10 mg zolpidem tartrate tablets, the mean peak concentrations (C ma x ) were 59 (range: 29 to 113) and 121 (range: 58 to 272) ng/mL, respectively, occurring at a mean time (T ma x ) of 1.6 hours for both.",
     "dose_snippet": null,
     "usual_dose_basis": "10 mg is the standard adult immediate-release AMBIEN dose (men); 5 mg is the dose for women/lower-dose patients.",
+    "dose_basis_confirmed": true,
     "note": "Picked the 10 mg value (121 ng/mL) as the historically usual adult IR dose; excluded elderly- and hepatic-impairment-specific candidates per the curation rules.",
     "source": {
      "type": "fda_label",
@@ -9012,6 +9199,7 @@
     "snippet": "After administration of a single 60 mg capsule to healthy adult subjects, the mean maximum plasma concentration (C max ) was 131 ng/mL.",
     "dose_snippet": "a single 60 mg capsule to healthy adult subjects",
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": null,
     "source": {
      "type": "fda_label",
@@ -9078,6 +9266,7 @@
     "snippet": "Table 5: Mean ± SD Steady-State Pharmacokinetics for GRALISE and Gabapentin Immediate Release in Healthy Subjects under high-fat high calorie fed state (Day 5, n = 21) Pharmacokinetic Parameter (Mean ± SD) GRALISE 1,800 mg QD (3 x 600 mg) Gabapentin Immediate Release 600 mg TID $ Tmax is presented as median (range); * relative to most recent dose AUC0-24 (µg.hr/mL) 132.8 ± 34.7 141.3 ± 29.8 C max (µg/mL) 9.59 ± 2.33 8.54 ± 1.72 C min (µg/mL) 1.84 ± 0.65 2.6 ± 0.78 T max (hr) $ 8 (3-12) 2 (1-5)* The single dose pharmacokinetic parameters of 900 mg strength under high fat-high calorie fed state and low fat-low calorie fed state are presented shown in Table 6.",
     "dose_snippet": null,
     "usual_dose_basis": "GRALISE should be titrated to an 1,800 mg dose taken orally, once-daily, with the evening meal.",
+    "dose_basis_confirmed": true,
     "note": "Same table also reports gabapentin IR 600 mg TID Cmax 8.54 ± 1.72 µg/mL; GRALISE 1,800 mg QD value chosen since GRALISE is the single-ingredient product this candidates file was built from.",
     "source": {
      "type": "fda_label",
@@ -9116,6 +9305,7 @@
     "snippet": "Mean maximum plasma concentrations (Cmax) were 5.1 ng/ml, 20.7 ng/ml, and 33.9 ng/ml following administration of 10 mg, 20 mg, and 30 mg doses, respectively.",
     "dose_snippet": "following administration of 10 mg, 20 mg, and 30 mg doses, respectively",
     "usual_dose_basis": "10 mg per dose is the standard tacrine (Cognex) starting per-dose amount (10 mg four times daily)",
+    "dose_basis_confirmed": true,
     "note": "the 10 mg per-dose figure was chosen as the standard starting dose; higher per-dose values (20/30 mg, up to usual maintenance of 30-40 mg per dose) were also reported in the same source; flagged uncertain",
     "source": {
      "type": "pubmed",
@@ -9153,6 +9343,7 @@
     "snippet": "After a single 200 mg dose of entacapone, the C max is approximately 1.2 mcg/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "The recommended dose of entacapone is one 200 mg tablet administered concomitantly with each levodopa and carbidopa dose to a maximum of 8 times daily.",
+    "dose_basis_confirmed": true,
     "note": null,
     "source": {
      "type": "fda_label",
@@ -9191,6 +9382,7 @@
     "snippet": "Table 3: Mean (±SD) Oxymorphone Hydrochloride Tablets Pharmacokinetic Parameters Regimen Dosage C max (ng/mL) AUC (ng•hr/mL) T1/2 (hr) Single Dose 5 mg 10 mg 20 mg 1.10±0.55 1.93±0.75 4.39±1.72 4.48±2.07 9.10±3.40 20.07±",
     "dose_snippet": null,
     "usual_dose_basis": "Use the lowest effective dosage for the shortest duration consistent with individual patient treatment goals.",
+    "dose_basis_confirmed": true,
     "note": "The label's PK Table 3 lists single-dose Cmax values for 5, 10, and 20 mg immediate-release tablets in a linearized row (1.10, 1.93, 4.39 ng/mL respectively, aligned by position with the 5/10/20 mg dose row above them). Chose the 10 mg dose level as a commonly used opioid-naive starting dose; column alignment required positional inference since the table was flattened to plain text.",
     "source": {
      "type": "fda_label",
@@ -9257,6 +9449,7 @@
     "snippet": "Following ingestion of a 30 mg Restoril capsule, measurable plasma concentrations were achieved 10 to 20 minutes after dosing with peak plasma levels ranging from 666 to 982 ng/mL (mean 865 ng/mL) occurring approximately 1.2 to 1.6 hours (mean 1.5 hours) after dosing.",
     "dose_snippet": null,
     "usual_dose_basis": "FDA label's usual adult dose is 15 mg before retiring (range 7.5-30 mg); the label's own PK section reports this Cmax at the 30 mg capsule dose, so recorded at that dose without scaling",
+    "dose_basis_confirmed": true,
     "note": "Label's usual recommended adult dose is 15 mg, but the only Cmax data point in the label's clinical pharmacology section is from a 30 mg capsule; recorded as-is at 30 mg without scaling.",
     "source": {
      "type": "fda_label",
@@ -9297,6 +9490,7 @@
     "snippet": "Following a single oral dose, peak flurazepam plasma concentrations ranging from 0.5 to 4.0 ng/mL occur at 30 to 60 minutes post-dosing.",
     "dose_snippet": null,
     "usual_dose_basis": "Recommended initial adult dose is 15 mg for women and 15 mg or 30 mg for men (label Dosage and Administration); the PK sentence does not tie this range to a specific dose",
+    "dose_basis_confirmed": true,
     "note": "Range of peak plasma concentrations after a single oral dose; value is the geometric mean of the low/high bounds (sqrt(0.5*4.0)). Dose not explicitly linked in the same label sentence, recorded per usual_dose_basis instead of assumed.",
     "source": {
      "type": "fda_label",
@@ -9337,6 +9531,7 @@
     "snippet": "Mean (SD) maximum plasma concentrations of 3.34 (1.68) and 4.47 (2.56) ng/mL are reached after single dose of 1.25 and 2.5 mg ZELAPAR compared to 1.12 ng/mL (1.48) for the swallowed 5 mg selegiline tablets (given as 5 mg bid).",
     "dose_snippet": null,
     "usual_dose_basis": "2.5 mg once daily is the typical ZELAPAR maintenance dose after titration from the 1.25 mg starting dose",
+    "dose_basis_confirmed": true,
     "note": "",
     "source": {
      "type": "fda_label",
@@ -9401,6 +9596,7 @@
     "snippet": "Table 3: Geometric Mean (CV%) PK Parameters of Nalmefene after Intranasal (IN) Administration of 2.7 mg OPVEE nasal spray and Intramuscular (IM) Administration of 1.0 mg of Nalmefene Parameter OPVEE Nalmefene IM NA Not applicable T max (h) T max presented as median (range) 0.250 (0.0833-2.00) 0.33 (0.117-18.0) C max (ng/mL) Arithmetic mean 10.4 (62.6) 1.50 (59.4) AUC 0-2.5min (ng-hr/mL) 0.00763 (233) 0.00168 (186) AUC 0-5min (ng-hr/mL) 0.0599 (201) 0.0102 (142) AUC 0-10min (ng-hr/mL) 0.523 (124) 0.0639 (118) AUC 0-15min (ng-hr/mL) 1.20 (94.2) 0.142 (98.6) AUC 0-20min (ng-hr/mL) 1.89 (77.2) 0.228 (84.5) AUC 0-30min (ng-hr/mL) 3.07 (60.4) 0.405 (69.2) AUC 0-inf (ng-hr/mL) 40.6 (22.0) 16.8 (18.7) F rel 0.806 (10.9) NA T ½ (h) 11.4 (20.8) 10.6 (18.5) Values represent the mean and standard deviation (n=68) Figure 3: Mean Plasma Concentration-Time Profiles of Nalmefene (a) 0-12 hours and (b) 0-60 minutes Following Intranasal (IN) Administration of OPVEE nasal spray (2.7 mg) and Intramuscular (IM) Injection of Nalmefene (1.0 mg) (a) (b) In a second pharmacokinetic study (OPNT003-PK-002) in 24 healthy adult subjects, one 2.7 mg OPVEE nasal spray in one nostril was compared with two 2.7 mg OPVEE nasal sprays in one nostril and one 2.7 mg OPVEE nasal spray in each nostril.",
     "dose_snippet": null,
     "usual_dose_basis": null,
+    "dose_basis_confirmed": false,
     "note": "Value (1.50 ng/mL) is for the IM nalmefene comparator arm (1.0 mg) within the OPVEE label's PK table, not OPVEE itself. 1.0 mg is within the approved nalmefene HCl injection dosing range. Flagged uncertain.",
     "source": {
      "type": "fda_label",
@@ -9441,6 +9637,7 @@
     "snippet": "Reported clinical results suggest that the steady state mean (%CV) plasma Cmax and AUC(24hr) of loratadine were 4.73 ng/ml (119%) and 24.1 ng.hr/ml (157%), respectively, after dosing with 10 mg loratadine tablets for 10 days.",
     "dose_snippet": null,
     "usual_dose_basis": "OTC loratadine dosing text: \"1 tablet daily\" (10 mg).",
+    "dose_basis_confirmed": true,
     "note": null,
     "source": {
      "type": "pubmed",
@@ -9480,6 +9677,7 @@
     "snippet": "After daily dosing of FETZIMA 120 mg, the mean C max value is 341 ng/mL, and the mean steady-state AUC value is 5196 ng·h/mL.",
     "dose_snippet": null,
     "usual_dose_basis": "120 mg once daily is the maximum recommended/approved dosage per the DOSAGE AND ADMINISTRATION section (approved range 40 mg to 120 mg once daily); dose_snippet omitted because the dosing text lives in a different label section than the cited clinical_pharmacology source.",
+    "dose_basis_confirmed": true,
     "note": "FDA label steady-state Cmax at the top of the approved adult dosing range.",
     "source": {
      "type": "fda_label",

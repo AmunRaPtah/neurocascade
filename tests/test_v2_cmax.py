@@ -184,3 +184,11 @@ def test_coverage_count(doc):
     if len(rows) == doc["n_drugs"]:
         assert values == doc["n_with_value"]
     assert doc["n_train_with_value"] >= 100
+
+
+def test_value_rows_say_whether_the_dose_basis_is_confirmed():
+    from neurocascade.benchmark.v2 import load_v2_human_cmax
+    for inn, row in load_v2_human_cmax().items():
+        if row["status"] == "value":
+            c = row["cmax"]
+            assert c["dose_basis_confirmed"] is bool(c["usual_dose_basis"]), inn

@@ -3067,8 +3067,9 @@
       "deps": [
         "P33.1"
       ],
-      "status": "blocked-on-data",
-      "attempts": 0
+      "status": "done",
+      "attempts": 0,
+      "note": "2026-10-26: human_cmax.json merged, 198/334 with value (train 161/267). Independent review of 20 train rows: every value and snippet verified, conversions exact; 46 rows carry dose_basis_confirmed=false. Curation records in $NC_V2_CACHE/cmax/curation; build reproduces the file. Held-out Cmax is truth/, stripped from sessions; it is available to host_eval only."
     },
     {
       "id": "P33.4",
