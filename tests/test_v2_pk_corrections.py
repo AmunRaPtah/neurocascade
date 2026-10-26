@@ -82,7 +82,9 @@ def test_analogue_paper_sources_are_removed(corrections):
     if "propafenone" in pk:
         kept = {s["pmid"] for s in pk["propafenone"]["clearance_iv"]["sources"]}
         assert not kept & {"21955244", "22708838"}
-    assert "PMID:34329999" in corrections["drop"]["tetrabenazine"]["evidence"]
+    # tetrabenazine is v2 held-out, so session trees do not carry its correction
+    if "tetrabenazine" in corrections["drop"]:
+        assert "PMID:34329999" in corrections["drop"]["tetrabenazine"]["evidence"]
 
 
 def test_loader_applies_every_correction(corrections):
