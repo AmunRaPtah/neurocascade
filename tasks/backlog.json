@@ -3090,7 +3090,7 @@
         "P33.5",
         "P33.6"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "host_eval": "PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump /tmp/p33_4_go.json && python pipeline/go_verdict.py /tmp/p33_4_go.json",
       "note": "Pre-registered rule and one-look policy: docs/prereg-p33-4-go.md (sealed 2026-10-26). The first host verdict binds (conductor HOME/go/P33.4.json).",
@@ -3106,8 +3106,11 @@
           "2026-10-26 14:41 complete; rejected: gate failed:\nE       AssertionError: assert {'sedation': ...15385], ...}}} == {}\nE         \nE         Left contains 2 more items:\nE         {'anticholinergic': {'baselines': {'atc_class_prevalence': [0.1935483870967742,\nE                                                                     0.2],\nE                                            'cmax_u_ki_occupancy': [0.005211189869010465,\nE                                                                    0.2032628670619342],\nE                                            'one_nn_fingerprint': [0.0, 0.0],...\nE         \nE         ...Full output trunc"
         ],
         "review_rejections": 1,
-        "gave_up": true
-      }
+        "gave_up": true,
+        "pr": 43
+      },
+      "finished_at": "2026-10-27T12:03:57+00:00",
+      "result": "complete"
     },
     {
       "id": "P30.4",
