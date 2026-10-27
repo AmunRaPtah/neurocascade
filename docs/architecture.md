@@ -155,7 +155,7 @@ That splits into two questions the codebase had to answer honestly before
 adding this scenario:
 
 1. **Does the diazepam/flumazenil interaction fit `ReceptorSite` as-is?**
-   Yes, unmodified. Diazepam and flumazenil genuinely share one pool at the
+   Yes, unmodified. Diazepam and flumazenil share one pool at the
    benzodiazepine site, exactly the competitive-occupancy relationship
    `ReceptorSite` already models for fentanyl/naloxone. No change to
    `receptor.py` was needed.
@@ -221,7 +221,7 @@ whose activation should drive N nodes at N different gains was already
 expressible as `{"node_a": g_a, "node_b": g_b, "node_c": g_c, ...}` before
 this track started, with zero changes needed to `receptor.py`,
 `network.py`, or `engine.py`. That is a materially different situation from
-the GABA-A/benzodiazepine case above, which genuinely needed
+the GABA-A/benzodiazepine case above, which needed
 `connection_modulation`: there, the *shape* of the mechanism itself was
 wrong for any single node (additive drive doesn't represent an allosteric
 modulator at all). Here the shape is right already; only the number of
@@ -262,7 +262,7 @@ sub-systems the same mu-opioid receptor also innervates in real anatomy:
 `PAG_Interneuron`/`PAG_Output` and `LC` are deliberately left unconnected to
 the reward circuit and to each other: wiring them together would assert an
 anatomical projection this scenario doesn't intend to claim. The point is
-that one receptor's activation supplies drive to several genuinely separate
+that one receptor's activation supplies drive to several separate
 downstream systems at once, not that those systems interact.
 
 **Relative density citations** (qualitative/relative ordering, not absolute
@@ -295,7 +295,7 @@ Bmax numbers, which none of these sources report in comparable units):
   local interneuron, consistent with the direct-coupling mechanism used for
   `LC` above.
 
-**A genuinely interesting wrinkle surfaced by taking this literature
+**An interesting wrinkle surfaced by taking this literature
 seriously** (same spirit as Track A's naloxone-koff finding): LC is the
 highest-density region of these three per [TempelZukin1987], with VTA and
 PAG both in the "moderate" tier per [Hawkins1988]/[Mansour1987], yet the
@@ -358,7 +358,7 @@ relied on positional order. `sim.pk_models` / `sim.receptor_site` /
 `Simulation` when it has exactly one receptor system, whichever form built
 it, via properties that proxy to that sole `ReceptorSystem`; they raise a
 clear `AttributeError` (pointing at `sim.receptor_systems[i].<attr>`
-instead) on a genuinely multi-system `Simulation`, where a single such
+instead) on a multi-system `Simulation`, where a single such
 attribute would be ambiguous.
 
 **State vector.** For k receptor systems with n_1..n_k ligands each
@@ -439,7 +439,7 @@ that these two illustrative circuits causally talk to each other.
 integrates without error; each block's dynamics, with the other system's
 ligands held at zero concentration, reproduce that system's own standalone
 single-receptor-system `Simulation` to numerical integration tolerance
-(confirming the block-diagonal network genuinely doesn't let one system
+(confirming the block-diagonal network doesn't let one system
 leak into the other's block); both readouts show their correct effect
 under simultaneous dosing of both drugs; and, at the engine level with a
 minimal synthetic network (mirroring `tests/test_engine.py`'s existing
@@ -555,7 +555,7 @@ section of `scenarios.py`):
   directional/order-of-magnitude, not an exact match: Moss et al.'s
   occupancy is computed from an internal brain-concentration submodel this
   codebase doesn't have.
-- **A genuinely interesting real finding surfaced by calibration**: the
+- **An interesting real finding surfaced by calibration**: the
   illustrative placeholder assumed naloxone had the slower koff ("stickier"
   binding) of the two ligands, to make displacement easy to reason about.
   The real data says the opposite: naloxone's koff is about 9x FASTER than
@@ -616,7 +616,7 @@ derivations are inline in that section of `scenarios.py`):
   concentration solved to give ~55% occupancy at equilibrium must reach
   near-saturation at 10x that concentration), not the exact 1.5 mg/15 mg
   dose mapping.
-- **A genuinely interesting real finding surfaced by calibration, in two
+- **An interesting real finding surfaced by calibration, in two
   parts**: First, the illustrative placeholder assumed flumazenil had the
   faster koff ("weaker hold") of the two ligands, to mirror its short
   clinical duration of action. The real receptor-affinity data says the
@@ -931,7 +931,7 @@ likelihood built from real literature targets, results saved as `arviz`
 reason discovered empirically rather than assumed up front (see "An honest
 convergence story" below): the CCT model's 14 parameters all feed one
 coupled ODE state vector and were fit in a single joint `pm.Model`, which is
-right for that model, since those parameters genuinely interact. None of
+right for that model, since those parameters interact. None of
 neurocascade's three receptor systems (mu-opioid, D2, GABA-A) shares a
 parameter or a likelihood term with another: each has its own independent
 `ReceptorSite`/ligands/PK, and each of the three validation targets in
@@ -1254,7 +1254,7 @@ directly-quotable percent-open-arm-time figure specifically for diazepam
 (as opposed to its own bar-chart/figure data, not extractable from the
 full-text sources this search could access) was not found. A
 mechanistically identical same-class analog number WAS found and verified
-directly (full text fetched): an open-access 2026 paper (Biomarker-Based
+directly (full text fetched): an open-access 2025 paper (Biomarker-Based
 Pharmacological Characterization of ENX-102, PMC12564412) used
 chlordiazepoxide, not diazepam, as its positive control and reports vehicle
 rats spent 9.4% (+/-2.5% SE) of time in the EPM's open arms versus 39.1%
@@ -1278,7 +1278,7 @@ exact caveat forward from Track A), and every `CircuitNode`/
 `CircuitNetwork` `tau`/`baseline_input`/`gain`/connectivity weight in every
 scenario, remain hand-set illustrative placeholders, now with three
 specific, searched-and-verified real papers on file per system (two of
-three genuinely about the right drug) documenting exactly why none closes
+three about the right drug) documenting exactly why none closes
 this gap yet, rather than a blanket "no dataset was identified" note. Two
 rules keep this a documented, revisitable gap instead of a quietly-forced
 number: never substitute one ligand's or drug's measured value for
@@ -2950,7 +2950,7 @@ rat intraperitoneal diazepam study in reach reports an observed Tmax.
 [Friedman1986], whose disposition the composite uses, is closed access with
 no Tmax in its abstract and a first post-dose sample at 5 min. The search was
 extended beyond P1.4's sweep specifically for a rat IP diazepam Tmax; the
-nearest hit, Nelson et al. 2024 (PMC11296087, read in full), does dose male
+nearest hit, Guignet et al. 2024 (PMC11296087, read in full), does dose male
 Sprague-Dawley rats diazepam IP at 0.75-6 mg/kg with LC-MS plasma sampling,
 but it samples 10 min after the *last* of three hourly injections and reports
 no non-compartmental parameters, so there is no single-dose ascending limb in
@@ -4187,7 +4187,7 @@ deleted.
   all: every weight in both datasets is non-negative by construction, and
   `RegionalConnectome` treats a negative weight as a parse failure rather
   than as an inhibitory projection. Sourcing sign is P3.2's problem and it
-  is a genuinely separate search.
+  is a separate search.
 
 ### What this task changes, and what it does not
 
@@ -4312,7 +4312,7 @@ transmitter class and **no sign** rather than being pushed to +/-1:
   represent. This is the same argument the multi-region opioid scenario
   already makes about LC's receptor density not setting its coupling
   gain.
-- **Genuinely mixed output nuclei** (basal forebrain PALv/PALm), whose
+- **Mixed output nuclei** (basal forebrain PALv/PALm), whose
   long-range output is cholinergic and GABAergic and glutamatergic in
   comparable measure [Do2016].
 - **Regions with no rule**: most of hypothalamus, midbrain tegmentum,
@@ -5330,7 +5330,7 @@ Every file in this manifest is a live query, which is the weaker of the two
 situations P3.1 distinguished, and it was chosen only after looking for the
 stronger one.
 
-- `informatics-archive/october-2014/mouse_expression/` **is** a genuinely
+- `informatics-archive/october-2014/mouse_expression/` **is** a
   static archive of the adult-mouse expression data, and it publishes
   per-experiment *voxel grids*, not structure unionizes. Turning those into
   per-region numbers means re-implementing Allen's unionization against
@@ -7357,7 +7357,7 @@ acyclic cascade, where it fails at 1.414 and acyclicity does the work
 instead; a test asserts both, because two networks in this codebase now hold
 by different arguments).
 
-**Rule 3 had to change shape, and that is the one genuinely new
+**Rule 3 had to change shape, and that is the one new
 circuit-layer finding.** P5.1's unit-magnitude rule is per RECEPTOR: a fully
 occupied receptor bound by a full agonist shifts its node's input by one
 unit. `PFC_Pyramidal` carries two excitatory receptors, so that rule puts
@@ -8412,16 +8412,16 @@ question, and the brief named it precisely: *"CB1's presynaptic retrograde
 signaling does not fit the postsynaptic receptor pattern: represent it as
 connection modulation, as GABA-A allosterism already is."*
 
-So the three modules are three modules -- `histamine.py`, `cannabinoid.py`,
-`adenosine.py` -- following the one-transmitter-per-module convention every
+So the three modules are three modules (`histamine.py`, `cannabinoid.py`,
+`adenosine.py`) following the one-transmitter-per-module convention every
 Phase 5 task before this one used, rather than one `p5_6.py`. They share the
 discipline and nothing else, and each is described separately below.
 
 ### CB1: why `coupling` is the wrong shape, and what the right one costs
 
 Every receptor system in P5.1 to P5.4 adds drive to a node. That encodes a
-claim -- "this receptor sits on the modelled population and changes how much
-it fires" -- which is correct for a postsynaptic Gq, Gi or Gs receptor and
+claim: "this receptor sits on the modelled population and changes how much
+it fires", which is correct for a postsynaptic Gq, Gi or Gs receptor and
 false for CB1, for two independent anatomical reasons:
 
 1. **CB1 is presynaptic.** It is on the axon terminal, where it inhibits
@@ -8443,7 +8443,7 @@ that projection's weight,
 
     W_eff[post, pre] = W[post, pre] * (1 + gain * activation)
 
-which is what presynaptic inhibition of release IS in a rate model -- the
+which is what presynaptic inhibition of release IS in a rate model: the
 same presynaptic firing delivering less postsynaptic effect. This is the
 third occupant of a feature `engine.py` grew for diazepam and P5.5 reused
 for glutamate, and the first whose reason is presynaptic LOCALIZATION rather
@@ -8452,7 +8452,7 @@ than allosteric potentiation (diazepam) or avoidance of a double count
 
 The consequence worth stating is what did NOT have to be built.
 `receptor.py` gained a class in P5.4 and another in P5.5; P5.6 adds none.
-CB1's four ligands genuinely compete for one orthosteric pool, and nothing
+CB1's four ligands compete for one orthosteric pool, and nothing
 about the receptor's presynaptic location changes the binding arithmetic.
 What changes is what is done with `activation`, and that belongs to the
 receptor SYSTEM rather than to the site. The brief said CB1 does not fit the
@@ -8467,7 +8467,7 @@ different route: **its gain is a number someone measured.**
 
 [HoffmanLupica2000] recorded evoked GABA-A IPSCs in CA1 pyramidal neurons of
 rat hippocampal slices and applied the CB1 agonist WIN 55,212-2. The IPSC
-fell with an EC50 of 138 nM, and at 5 uM -- 36-fold above that EC50 -- the
+fell with an EC50 of 138 nM, and at 5 uM (36-fold above that EC50) the
 reduction was **47 +/- 4%, n = 12**. The effect was blocked by SR141716A and
 not by naloxone, was presynaptic (it changed the frequency of
 action-potential-dependent spontaneous IPSCs without touching miniature
@@ -8530,7 +8530,7 @@ them as RANGES:
 
 A single scenario needs one number per ligand, so `cb1_kd(..., "midpoint")`
 takes the GEOMETRIC MEAN of each pair and is labelled a DERIVED SUMMARY of
-two cited numbers rather than a measurement -- no experiment reported 20.1
+two cited numbers rather than a measurement: no experiment reported 20.1
 nM for THC. The two endpoints are selectable (`"tight"`, `"weak"`) and are
 published values, and every qualitative claim is asserted under all three.
 
@@ -8541,8 +8541,8 @@ anandamide. THC's range overlaps every other ligand's, so neither
 "rimonabant binds CB1 more tightly than THC" (midpoints 4.7 against 20.1 nM)
 nor "THC binds more tightly than anandamide" (20.1 against 182 nM) is
 settled by the compiled literature, even though both look decisive at the
-midpoints. [Pertwee2010] states one of them in prose -- anandamide's
-"affinity for the CB1 receptor is also similar to that of Delta9-THC" -- and
+midpoints. [Pertwee2010] states one of them in prose, anandamide's
+"affinity for the CB1 receptor is also similar to that of Delta9-THC", and
 `affinity_ordering_is_resolved()` is the arithmetic version, with a test
 asserting the exact resolved set. The model never states a selectivity the
 compiled data does not contain.
@@ -8573,8 +8573,8 @@ slices and measured the evoked IPSC at 115 +/- 17% of control (n = 9), i.e.
 no significant effect, because an acute slice has no ongoing postsynaptic
 depolarization and therefore no tonic endocannabinoid release to block. This
 model predicts inertness for exactly that reason. The limitation is not
-cancelled -- an intact animal has tone and rimonabant given alone has
-effects large enough to have had the drug withdrawn -- but the inertness is
+cancelled (an intact animal has tone and rimonabant given alone has
+effects large enough to have had the drug withdrawn), but the inertness is
 now a correct prediction FOR A PREPARATION WITHOUT TONE, so the day P6.2
 supplies tone, what changes is a written-down expectation.
 
@@ -8609,8 +8609,8 @@ What it means is the useful part. P5.3 took from [Sykes2022]'s 18-ligand
 beta1 kinetic panel the refinement that derivation 3 is FALSE across
 chemotypes and holds within one. [Bosma2017]'s ten-antihistamine panel spans
 **333-fold** in `kon`, and mepyramine (an ethylenediamine) and
-diphenhydramine (an ethanolamine) -- both first-generation antihistamines
-built on the same protonated-amine-plus-two-aryl-rings pharmacophore --
+diphenhydramine (an ethanolamine), both first-generation antihistamines
+built on the same protonated-amine-plus-two-aryl-rings pharmacophore,
 agree to 3%. That is a second, independent confirmation of the chemotype
 refinement, at a second receptor. It is also why histamine, which is not of
 that chemotype, gets its shared `kon` with the warning attached.
@@ -8629,7 +8629,7 @@ smoothed.
 The H1 sign is not a guess. [McCormick1991] showed histamine slowly
 depolarizes thalamic relay neurons with a DECREASE in membrane conductance
 reversing near EK, that the depolarization is blocked by pyrilamine,
-triprolidine or DIPHENHYDRAMINE -- the exact drug modelled here -- and that
+triprolidine or DIPHENHYDRAMINE (the exact drug modelled here), and that
 the functional consequence is a switch from rhythmic burst discharge to
 single-spike activity, the cellular signature of arousal. Sedation is named
 as the Phase 7 endpoint it is and not claimed here.
@@ -8735,8 +8735,8 @@ reader can see exactly how far from the bench each constant sits.
   A2A: two affinities per species plus the A1 pair that shows caffeine is
   non-selective, one measured association rate, two efficacies.
 - **CB1 is handled as connection modulation with the rationale written
-  down** -- presynaptic localization plus retrograde signalling, neither of
-  which a single-index `coupling` entry can express -- in this section, in
+  down** (presynaptic localization plus retrograde signalling, neither of
+  which a single-index `coupling` entry can express) in this section, in
   `cannabinoid.py`'s docstring, in the example script's "effective weight"
   column, and as executable identities: empty `coupling`, a gain equal to
   the measured suppression, a modulated weight that never changes sign, and
@@ -8803,8 +8803,8 @@ reference full agonist.
 Why a single-laboratory panel was worth searching for rather than assembling
 seven ligands from seven papers: **a selectivity ratio built from two papers
 is a comparison of two laboratories as much as of two receptors.** The whole
-content of P5.7 is ratios -- naloxone's mu over its kappa, fentanyl's mu over
-its delta, dynorphin's kappa over its mu -- and a ratio is only a statement
+content of P5.7 is ratios (naloxone's mu over its kappa, fentanyl's mu over
+its delta, dynorphin's kappa over its mu), and a ratio is only a statement
 about the receptors if numerator and denominator were measured in the same
 experiment. [Toll1998] measured all twenty-one cells that way.
 
@@ -8847,7 +8847,7 @@ the efficacy table is one of them rather than a default.
 3. **The "selective" antagonists are not very selective at equilibrium.**
    nor-BNI is 28.5-fold kappa-over-delta and naltrindole 31.5-fold
    delta-over-mu. nor-BNI's famous selectivity in vivo is a DURATION
-   phenomenon -- days to weeks of kappa antagonism after one dose -- which
+   phenomenon (days to weeks of kappa antagonism after one dose), which
    `TOOL_COMPOUND_KE` and a derivation-3 `koff` cannot represent, and which is
    listed under what was deliberately not built.
 
@@ -8902,7 +8902,7 @@ had since Track C1.
   [DiChiara1988] (J Pharmacol Exp Ther 1988;244:1067-1080, PMID 2855239) gave
   freely-moving rats systemic mu agonists (morphine, methadone, FENTANYL) and
   kappa agonists (U-50,488, bremazocine, tifluadom) and measured accumbal
-  dopamine going up under the first and down under the second -- two of this
+  dopamine going up under the first and down under the second, two of this
   module's own four drugs, so the opposite valence is not imported from a
   related compound; [Devine1993] found intra-VTA U-50,488H "failed to alter
   ventral striatal DA concentrations at any dose tested" while systemic
@@ -8974,14 +8974,14 @@ on both networks.
 The intermediate option fails the other way: `balanced_baselines` alone
 re-balances the baselines and leaves the weights, and with the nodes moved
 into the sensitive part of their sigmoids the loop's contraction number of
-2.632 makes it oscillate -- `stability.steady_state` returns residuals around
+2.632 makes it oscillate: `stability.steady_state` returns residuals around
 6e-2 from most initial conditions, i.e. no fixed point at all.
 
 So the module runs on `stability.stabilize(...)`'s output: one global weight
 scalar (0.342 = 0.9 / 2.632) and re-solved baselines, with relative weights,
 topology, taus and gains untouched. Contraction number 0.9, and
 `stability.steady_state` returns all-0.5 with a residual around 1e-9 from
-every one of P3.4's default initial conditions -- the global-uniqueness
+every one of P3.4's default initial conditions, the global-uniqueness
 certificate neither of the other two has. What it costs is stated: this is not
 literally the network the published mu results were computed on, so P5.7's
 re-run reports on BOTH.
@@ -9007,8 +9007,8 @@ of a dosed run from the drug-free run:
 result rather than a relief**: at 10 nM, about 7x fentanyl's mu Kd and 0.07x
 its kappa Kd, adding two receptors moves incentive salience by 1.5% and the
 PAG and LC readouts not at all, because neither new system touches those
-nodes. All three established mu results -- reward up, analgesia up, arousal
-down -- survive unchanged, on both networks, and a test asserts each.
+nodes. All three established mu results (reward up, analgesia up, arousal
+down) survive unchanged, on both networks, and a test asserts each.
 
 **In the limit fentanyl works against itself.** At 100 uM, four orders of
 magnitude above a clinical exposure and above its 84.8 nM kappa Ki, fentanyl's
@@ -9115,7 +9115,7 @@ a property of the two receptors.
   and left to [Devine1993]'s null result; the mu and delta receptors on
   accumbal cholinergic interneurons ([Britt2008] measured them, and
   representing them needs a cholinergic node this network lacks and a
-  tonic/burst distinction this abstraction cannot make -- their absence
+  tonic/burst distinction this abstraction cannot make; their absence
   over-states fentanyl's net accumbal effect); nor-BNI's days-to-weeks
   duration; delta receptors outside the VTA, and with them the P4.2 density
   factorization, for which `Oprd1` and `Oprk1` ISH data are already in the
@@ -9252,7 +9252,7 @@ supplies both for the three psychostimulants:
   Mouse column: cocaine 490/730/460 nM, methylphenidate 260/114370/170 nM,
   amphetamine 560/23820/120 nM at DAT/SERT/NET. One laboratory, one assay, so
   a selectivity ratio built from it compares two transporters rather than two
-  laboratories -- P5.7's argument for [Toll1998], made again.
+  laboratories; P5.7's argument for [Toll1998], made again.
 
   The paper does not state the KM used in its Cheng-Prusoff correction. With
   [S] = 50 nM and this module's substrate Km values the factor is 1.3, so the
@@ -9265,13 +9265,13 @@ supplies both for the three psychostimulants:
   caudate-putamen Km 0.16 uM, Vmax 3.1 +/- 0.20 uM/s; serotonin in substantia
   nigra Km 0.17 uM, Vmax 0.080 +/- 0.006 uM/s. The uptake kinetics the
   mechanism needs, in mouse, plus its own apparent-Ki table for four of the
-  five drugs -- a second, wholly different preparation to check [HanGu2006]
+  five drugs, a second, wholly different preparation to check [HanGu2006]
   against.
 
 - **[Bosse2011]** (J Neurochem 2011;120:385-395, PMC3385875). Mouse basal
   extracellular dopamine by ZERO NET FLUX microdialysis, 5.0 +/- 0.2 nM, and
   a voltammetric Vmax of 4.1 +/- 0.1 uM/s with Km fixed at 0.16 uM "based on
-  an average literature value" -- an independent confirmation of
+  an average literature value", an independent confirmation of
   [JohnJones2007]'s Km and a 1.32-fold check on its Vmax.
 
 - **[Mathews2004]** (J Neurosci Methods 2004;140:169-181). Mouse basal
@@ -9296,8 +9296,8 @@ comparisons are computed and asserted:
 
 **Two mouse preparations.** [HanGu2006]'s cloned transporters against
 [JohnJones2007]'s brain slices. At DAT they agree within 1.4-fold on all three
-psychostimulants -- cocaine 490 against 350 nM, methylphenidate 260 against
-210, amphetamine 560 against 420 -- which is a striking result on its own: a
+psychostimulants (cocaine 490 against 350 nM, methylphenidate 260 against
+210, amphetamine 560 against 420), which is a striking result on its own: a
 cloned mouse transporter in a gut-derived cell line and a mouse striatal
 terminal in a slice give the same number. At SERT they do not: cocaine
 disagrees 13.7-fold and methylphenidate 6.0-fold, while amphetamine agrees to
@@ -9348,11 +9348,11 @@ projection-system abstraction is for.
 missing cell means the drug is ABSENT from that transporter's ligand list
 rather than present with an implied infinite Ki:
 
-* **fluoxetine at DAT** -- no equilibrium constant obtained.
+* **fluoxetine at DAT**: no equilibrium constant obtained.
   BOUNDED omission: [JohnJones2007] measured an apparent Ki of 270 uM against
   mouse dopamine uptake, so the omitted action is one there is independent
   evidence is negligible.
-* **fluoxetine at NET** -- no equilibrium constant obtained.
+* **fluoxetine at NET**: no equilibrium constant obtained.
   UNBOUNDED omission: fluoxetine's noradrenergic action is absent and nothing
   here bounds its size.
 
@@ -9431,9 +9431,9 @@ instead of its own PK concentration. That is the whole of the closed loop, and
 it is opt-in, so nothing predating P5.8 moves.
 
 Wired to the existing calibrated D2 system it produces the result this task
-was worth doing for. Two measurements and no fitting -- [Agren2021]'s dopamine
+was worth doing for. Two measurements and no fitting: [Agren2021]'s dopamine
 `kon`/`koff` give the D2 site a Kd of 2.03 nM, and [Bosse2011]'s zero-net-flux
-basal dopamine is 5.0 nM -- put the striatal D2 receptor at **71.1% occupancy
+basal dopamine is 5.0 nM, put the striatal D2 receptor at **71.1% occupancy
 before any drug is given**. On the P3.4-stabilized indirect pathway:
 
     condition              DA (nM)   D2 occ   locomotor readout
@@ -9460,7 +9460,7 @@ Three readings, and the third is new:
    identical receptor system with no transporter behind it moves by less than
    1e-9.
 
-The tone is LOCAL -- one transporter maintaining one pool -- not
+The tone is LOCAL (one transporter maintaining one pool), not
 projection-derived, so this closes the gap for one transmitter at one site and
 not the general case, which is still P6.2's.
 
@@ -9829,7 +9829,7 @@ projection system means "this block's own region", which is the whole point of
 the class. A `Simulation` now requires transporter and projection names to be
 disjoint so that the bare string is never ambiguous.
 
-One genuinely new option, `run(occupancy0="resting")`, and it is not
+One new option, `run(occupancy0="resting")`, and it is not
 cosmetic. "The drug-free brain" and "the brain with every receptor empty" stop
 being the same state once there is endogenous transmitter. Starting from the
 second puts a start-up transient on every tonically occupied node of exactly
@@ -10157,8 +10157,8 @@ The weakest thing in P6.2, stated where a reader meets it rather than in a
 footnote. [Vinson1997] measured striatal acetylcholine. Striatal
 extracellular acetylcholine is released by tonically active cholinergic
 INTERNEURONS. The acetylcholine projection system in this codebase has three
-sources -- the diagonal band, the pedunculopontine and the laterodorsal
-tegmental nuclei -- and not one of them is a striatal interneuron. So the
+sources (the diagonal band, the pedunculopontine and the laterodorsal
+tegmental nuclei), and not one of them is a striatal interneuron. So the
 number is a measurement of the right analyte, in a rodent, by the right
 method, in the wrong compartment of the cholinergic system.
 
@@ -10293,13 +10293,13 @@ drug-free run stays flat at 0.5 in both cases and P6.1's test asserting that
 flatness still passes; what changed is how much of that resting drive the
 model now attributes to tonic neuromodulator.
 
-P6.1's honest caveat -- "the loop is closed in the concentration and
-invisible at the receptor" -- is now false for both, and `MEASURED_BASAL` is
+P6.1's honest caveat, "the loop is closed in the concentration and
+invisible at the receptor", is now false for both, and `MEASURED_BASAL` is
 all five ports rather than three. The effects are still small in absolute
 terms, and that is a real result rather than a disappointment: cortical
-alpha1 and beta receptors genuinely sit four and three orders of magnitude
+alpha1 and beta receptors sit four and three orders of magnitude
 below their Kd at a basal noradrenaline concentration of 1.59 nM, so a
-halving of the field genuinely cannot move them much. What changed is that
+halving of the field cannot move them much. What changed is that
 this is now a statement about two measured numbers rather than about a
 missing one.
 
@@ -10401,9 +10401,9 @@ antagonist effects in that same order.
   direct/indirect scenario is P6.1-shaped work and is the obvious next one.
 * **Region-wise tone.** Every port runs a uniform density map, so every
   region's predicted basal concentration equals the reference's. The measured
-  regional variation exists -- [Ihalainen1999] puts mouse striatal dopamine
+  regional variation exists: [Ihalainen1999] puts mouse striatal dopamine
   13-30 fold above cortical, [PanLai1995]'s conscious rat mPFC dopamine is
-  2.38 nM against [Bosse2011]'s 5.0 nM striatal -- and reproducing it is
+  2.38 nM against [Bosse2011]'s 5.0 nM striatal, and reproducing it is
   P6.3's job, not a constant P6.2 can set. The two cross-region dopamine
   numbers are recorded in `BASAL_TONE` as exactly that: the ordering P6.3's
   density map will be judged against, and a 2.1-fold ratio that does NOT
@@ -10588,9 +10588,9 @@ the hypothalamus immediately around the nucleus, the ratio is 1.27, and
 nothing would have gone wrong numerically. TM is excluded anyway, because a
 rule with a numerical exception in it is not the same rule.
 
-So each nuclear region keeps P6.1's value -- its own nucleus supplies the
+So each nuclear region keeps P6.1's value: its own nucleus supplies the
 reference region's total density, every other nucleus supplies zero, and the
-nucleus's concentration therefore equals the reference's measured one --
+nucleus's concentration therefore equals the reference's measured one,
 relabelled `illustrative-somatodendritic`. It is the one undelivered density
 in this task and it is visible in every `density_report()`.
 
@@ -10621,10 +10621,10 @@ field is the accumbens rather than the caudoputamen and its Methods could
 not be reached; [Portas1998] reports fmol/sample and [Sacchetti1999] shows
 an 8-fold swing in a "basal" level from probe geometry alone; [Adell1991]
 contradicts both. Dopamine's own three rows disagree with each other 7-fold
--- [KalivasDuffy1993] and [Engleman2011] are both primary no-net-flux
+([KalivasDuffy1993] and [Engleman2011] are both primary no-net-flux
 measurements of the same quantity in the same nucleus and report 0.79 nM and
 5.0 nM, with comparable extraction fractions, so the gap is not a fitting
-artefact -- and averaging them would manufacture a number neither laboratory
+artefact), and averaging them would manufacture a number neither laboratory
 measured.
 
 **Acetylcholine is the row where the MECHANISM argument itself is doubtful**,
@@ -10707,7 +10707,7 @@ match `REGION_STRUCTURES`.
 Three layers check it. The committed table is re-derived from the 15-region
 connectome fixture for every pair the fixture carries and asserted EQUAL,
 which is exact rather than approximate because a connection density depends
-on one row, one column and one voxel count -- the same fact
+on one row, one column and one voxel count, the same fact
 `connectome_scenarios.scenario_connectome` already relies on for the circuit
 layer. A `full_data_only` test re-derives all 162 from the 291-region
 verified files. And a third asserts the fixture and the cache agree on every
@@ -10742,8 +10742,8 @@ closed-form circuit Jacobian appears in the numerical one to 1e-5.
 **The PK block is split off and reported separately.** A PK model's
 right-hand side is a function of its own state only, so the full Jacobian is
 block triangular and its spectrum is exactly the union. The PK eigenvalues
-are drug elimination rate constants -- haloperidol's is 5.8e-4 min^-1, a
-20-hour half-life -- so folding them in made `abscissa` report a drug's
+are drug elimination rate constants (haloperidol's is 5.8e-4 min^-1, a
+20-hour half-life), so folding them in made `abscissa` report a drug's
 half-life and stop responding to the feedback loop it exists to measure.
 That is what it did before the split, and it is why amplifying the
 autoreceptor gain 400-fold appeared to change nothing. `assess_system`
@@ -10784,7 +10784,7 @@ coincidence.
 To show the check is not vacuous, one test flips the sign of the D2
 autoreceptor and nothing else. The loop becomes positive feedback,
 `assess_system` reaches different fixed points from different starts, and
-`unique` goes false -- a failure no circuit-only Jacobian could have
+`unique` goes false: a failure no circuit-only Jacobian could have
 reported.
 
 ### What the derived map cost, reported rather than remembered
@@ -10820,8 +10820,8 @@ P6.3 adds. P5.8's law `1 + [drug]/Ki` is derived holding RELEASE fixed;
 the D2 autoreceptor does not hold it fixed, because blocking uptake raises
 striatal dopamine, which raises dopamine at the VTA and SNc, which lowers
 their firing to 0.335, which lowers release. The test asserts P5.8's law
-where it is still exact -- the same port with that one loop opened, which
-reproduces 2.0204 -- and asserts that closing it buffers the psychostimulant.
+where it is still exact (the same port with that one loop opened, which
+reproduces 2.0204), and asserts that closing it buffers the psychostimulant.
 
 **The start-up transient 0.0224 -> 0.0173**, by the same negative feedback,
 and the test asserts the ordering rather than a threshold.
@@ -11144,7 +11144,7 @@ codebase forbids. So the module keeps
 the union endpoint the roadmap asks for - `ENDPOINTS` has seven members and a
 test asserts it - and publishes `ASSAY_VARIANTS`, two restrictions of it built by
 `Endpoint.restrict_to_assay`. They are views, not an eighth endpoint: every term
-in them is a term of `analgesia`, which a test asserts too. They select genuinely
+in them is a term of `analgesia`, which a test asserts too. They select
 different regions:
 
     analgesia_tail_flick   CEA, LC, SMT, ZI   (+ RM, contested)
@@ -12027,8 +12027,8 @@ data, because it decides what counts as a usable dataset:
 
 Write the behavioural measure as `b = k·A`, `A` the model's endpoint index,
 `k` unknown. One drug group gives one number: two unknowns, one equation.
-P2.2 got past this by assuming `k` away — with the same `k` in both groups
-the drug/vehicle **ratio** is `A_drug/A_vehicle` and `k` cancels — and P7.3
+P2.2 got past this by assuming `k` away (with the same `k` in both groups
+the drug/vehicle **ratio** is `A_drug/A_vehicle` and `k` cancels), and P7.3
 inherits that assumption and its cost. What a *dose-response curve* buys over
 a contrast is that the ratio is then over-determined, so the model's shape is
 tested rather than merely fitted. That is why P7.3's search criterion was
@@ -12044,7 +12044,7 @@ are populations (`VTA_GABA`, `CeA`), so no P7.1 endpoint can be read on them:
 scenario has none.
 
 `calibration/endpoint_forward.py` is P7.3's composition, and it is a
-composition rather than an implementation — the network is P3.2's build, the
+composition rather than an implementation: the network is P3.2's build, the
 operating point is P3.4's `stability.stabilize`, the densities are P4.2's
 `relative_density`, the steady state is `circuit_forward.steady_state_rates`
 (network-agnostic, previously exercised only at 3–5 nodes), and the readout
@@ -12076,9 +12076,9 @@ This is exact, not approximate, and
 three (gain, activation) pairs with the same product and requiring identical
 rates. It matters because one 291-node steady state costs 2–7 s: a
 `ResponseCurve` over a grid of `x` is computed once and interpolated inside
-the sampler. The interpolation is linear rather than spline — a cubic can
+the sampler. The interpolation is linear rather than spline (a cubic can
 overshoot between grid points and put a value the circuit cannot produce into
-a likelihood — and its error is **measured** against a re-integration at the
+a likelihood), and its error is **measured** against a re-integration at the
 grid midpoints rather than assumed: 1.4e-05 to 4.9e-05 on the 291-region
 curve, against likelihood widths of 0.05 to 0.29. Three orders of magnitude
 below the smallest published uncertainty is the sense in which an
@@ -12103,8 +12103,8 @@ the fraction of the endpoint's cited evidence currently pointing towards
 region silent and every anti-behaviour region saturated; and at rest it is
 **exactly 0.5 for all seven endpoints**, because `Σ|w| = 1` and `r = 0.5`.
 A test asserts that for all seven rather than this paragraph claiming it.
-It is still an assumption — it puts a linear readout's zero where all the
-evidence points the wrong way — and it is declared on the function.
+It is still an assumption: it puts a linear readout's zero where all the
+evidence points the wrong way, and it is declared on the function.
 
 ### The evidence: all seven endpoints, and what the searches actually found
 
@@ -12125,8 +12125,8 @@ exist. The module grew from 5 entries to 11.
 | sensorimotor gating | **no-data** | — |
 
 The constraint that shapes all of this is narrower than "what has been
-published". `drug_pk` builds exactly four (drug, species, route) triples —
-fentanyl/rat/IV, haloperidol/rat/IV, diazepam/rat/IV and diazepam/rat/IP —
+published". `drug_pk` builds exactly four (drug, species, route) triples:
+fentanyl/rat/IV, haloperidol/rat/IV, diazepam/rat/IV and diazepam/rat/IP,
 and of those, **exactly one reaches a receptor**: `BehavioralEvidenceEntry.
 receptor_drive_status()`, added here, asks `drug_pk` whether the
 plasma-to-brain step yields an *unbound* brain concentration, and for
@@ -12186,7 +12186,7 @@ synthetic curve in the tests, until the operating point lets the model move.
 
 **[Lustyk2023]** (Neurochem Res 2023;48(3):839–51, PMC9644393) is the second
 graded series: diazepam 5 and 10 mg/kg IP against 52.5 °C hot-plate latency,
-30 min, means and **SDs** — the only entry in the module reported that way,
+30 min, means and **SDs**, the only entry in the module reported that way,
 and the reason `DISPERSION_KINDS` records the kind rather than normalising
 it. A ratio of group means needs the sd *of the mean*, so the caller divides
 by √n at the point of use, and the source gives n as a band (6–9) rather than
@@ -12202,13 +12202,13 @@ only lower the locomotion index, at any gain of either sign inside a
 mechanistically bounded prior. `bound_verdict` returns `wrong-direction` and
 the posterior piles on the mechanistic null at zero. The same contrast read
 as sedation (immobility fell where the model needs it to rise) fails
-identically — which is honest to report as *one* contrast counted twice
+identically, which is honest to report as *one* contrast counted twice
 rather than as two independent failures, because it is the same four animals
 in the same five minutes.
 
 **2. The sensitivity, for anxiety.** The model moves the right way and not
-far enough. At a gain of 5 — a 5.5-fold potentiation of every inhibitory
-synapse in the brain, far beyond any benzodiazepine — the whole-brain anxiety
+far enough. At a gain of 5 (a 5.5-fold potentiation of every inhibitory
+synapse in the brain, far beyond any benzodiazepine) the whole-brain anxiety
 index moves from 0.5 to 0.4804, a ratio of 0.964 against [Graziani2022]'s
 measured 0.7835 ± 0.0517. The best achievable prediction misses by 3.5 of the
 observation's own standard deviations. This is a statement about the
@@ -12221,8 +12221,8 @@ synapse was hand-set to be consequential. **The disagreement between the two
 is the most useful single number in this task**, and it belongs to P3.4 and
 P9, not to P7.1.
 
-**3. The steepness, for analgesia.** [Yassen2008] — already this codebase's
-fentanyl rat IV PK source — publishes its antinociception as a logistic
+**3. The steepness, for analgesia.** [Yassen2008] (already this codebase's
+fentanyl rat IV PK source) publishes its antinociception as a logistic
 regression in the biophase concentration, `P = 1/(1+exp(−(α + β·Ce)))` with
 α = −8.77 (95% CI −11.49 to −6.05) and β = 1.11 per ng/mL (0.726–1.494), from
 486 observations in 40 rats. It needs **no dose bridge at all**. Its curve
@@ -12231,8 +12231,8 @@ occupancy curve needs **81-fold**, for every drug and every Kd, because
 occupancy is C/(C+Kd). No monotone function of fractional occupancy is that
 steep, so no linear readout over occupancy-driven rates can reproduce this
 dataset at any gain. The steepness is partly an artefact of a *quantal*
-endpoint — a probability of crossing a 10 s cut-off is steepened by
-between-animal variance — and modelling that honestly needs a threshold and a
+endpoint: a probability of crossing a 10 s cut-off is steepened by
+between-animal variance, and modelling that honestly needs a threshold and a
 spread, i.e. two more free parameters against a curve that publishes two.
 Three parameters, two constraints: underdetermined by exactly one, which is a
 counted degeneracy rather than a judgement.
@@ -12243,8 +12243,8 @@ is the one endpoint with a real IV dose-response, and there are two.
 righting reflex (13, 15, 26, 50 min at 12.5, 25, 50, 100 µg/kg);
 [Kissin1983] gives a quantal ED50 of 0.023 mg/kg (95% fiducial limits
 0.020–0.026) for losing it. Both measure a **threshold-crossing time or
-dose**, and every stage between plasma concentration and the endpoint index —
-occupancy, the Wilson-Cowan steady state, the linear readout — is monotone,
+dose**, and every stage between plasma concentration and the endpoint index
+(occupancy, the Wilson-Cowan steady state, the linear readout) is monotone,
 so the crossing is preserved exactly. Four latencies therefore constrain
 *one* number, where the threshold sits on the concentration axis, and say
 nothing whatever about the endpoint's regional weights. **These datasets
@@ -12270,8 +12270,8 @@ all?), `best_residual_sd` (how far is the *best* prediction in the box, in
 units of the published uncertainty?), and `information_matrix` (what can a
 dataset of this shape identify?). The last is P2.3's method at a different
 scale: for a single Gaussian observation `F = s sᵀ/sd²` is rank one whatever
-`s` is, so a two-point contrast cannot separate a gain from a scale — the
-measured eigenvalue ratio is ~1e-20, i.e. machine zero — while a three-level
+`s` is, so a two-point contrast cannot separate a gain from a scale: the
+measured eigenvalue ratio is ~1e-20, i.e. machine zero, while a three-level
 series lifts that rank, which is exactly what "a dose-response curve buys
 something a contrast does not" means, expressed as a spectrum.
 
@@ -12287,7 +12287,7 @@ dataset, and putting a bound-limited posterior there would be claiming a
 calibration that did not happen. A test asserts it stays out, and another
 asserts that no endpoint's coverage record reads `fitted`, so a later pass
 that does fit one has to change that test in the same commit that removes the
-label — rule 3 of this codebase, expressed as an assertion.
+label: rule 3 of this codebase, expressed as an assertion.
 
 P2.2's `gaba_a_connection_modulation_gain` is untouched and is a **different
 parameter**: one synapse in a three-node circuit against every inhibitory
@@ -12322,7 +12322,7 @@ searches P2.2 recorded rather than inheriting them.
    P2.2 recorded [Yassen2008]'s odds ratio (3.03) and T½,ke0 (6.08 min),
    which fix the curve's slope and lag and leave its position on the
    concentration axis undetermined. The full text gives α = −8.77, and with
-   it the whole curve — which is what made refutation 3 above computable.
+   it the whole curve, which is what made refutation 3 above computable.
    The same reading found an arithmetic slip in that paper's Discussion
    (it reports the antinociception probabilities at 3 and 4 ng/mL as though
    they were at 4 and 5; the respiratory half of the same sentence
@@ -12332,7 +12332,7 @@ searches P2.2 recorded rather than inheriting them.
 ### Searched and empty: the four endpoints with nothing, each empty differently
 
 * **Reward.** No rat conditioned place preference and no rat intracranial
-  self-stimulation study administers fentanyl intravenously — PubMed returns
+  self-stimulation study administers fentanyl intravenously: PubMed returns
   **zero** records for the conjunction. Every rat fentanyl CPP found is
   subcutaneous, and so is every fentanyl ICSS dose-effect, including
   [Moerke2019]'s fully tabulated one. IV self-administration is abundant and
@@ -12340,9 +12340,9 @@ searches P2.2 recorded rather than inheriting them.
   dose-effect ([Ren2022], Table 1) prints means with **no error bar of any
   kind** and pools the sexes. Roughly 1,000 titles screened and 516
   open-access full texts machine-scanned for a per-dose table.
-* **Working memory.** One paper would qualify — [LaMarca1995],
+* **Working memory.** One paper would qualify: [LaMarca1995],
   Psychopharmacology 120(4):426–32, an eight-arm radial maze after a bolus IV
-  fentanyl dose at the ED150 for loss of righting — and it is closed with no
+  fentanyl dose at the ED150 for loss of righting, and it is closed with no
   repository copy. PubMed returns **one** record for fentanyl AND rats AND
   the standard working-memory assay list. The nearest verified alternative
   measures paired-associate learning, which is long-term associative memory
@@ -12351,10 +12351,10 @@ searches P2.2 recorded rather than inheriting them.
 * **Sensorimotor gating.** A complete void, and the strongest negative
   because it is not about access: **no rat study, by any route, has measured
   prepulse inhibition or acoustic startle after fentanyl.** All eight
-  candidates fail on identity — minipump withdrawal, no fentanyl in the PPI
+  candidates fail on identity: minipump withdrawal, no fentanyl in the PPI
   arm at all, mouse, or alfentanil. Haloperidol has the design and not the
   route ([Danna2010]: four doses, 3–100 µg/kg, against amphetamine-disrupted
-  PPI in rats — intraperitoneally, and `drug_pk` has no rat haloperidol IP
+  PPI in rats, intraperitoneally, and `drug_pk` has no rat haloperidol IP
   bioavailability). P7.2 independently reported that the whole open-access
   *intracerebral* PPI literature prints no %PPI with a mean and SEM in a
   table; the two searches agree and were looking at different literatures.
@@ -12382,8 +12382,8 @@ Stated concretely, because "we found nothing" is not actionable:
   [Danna2010]'s four-dose PPI series and the entire D2 locomotor literature.
 * **A whole-brain operating point that is not ρ = 0.9.** Refutation 2 is a
   property of P3.4's illustrative choice, and the honest fix is not to tune
-  ρ against a behavioural target — that would be fitting the circuit to the
-  data it is supposed to predict — but to source the node parameters
+  ρ against a behavioural target (that would be fitting the circuit to the
+  data it is supposed to predict) but to source the node parameters
   (`connectome.DEFAULT_NODE`) that make ρ meaningful. That is Phase 9.
 * **A graded intravenous behavioural series with numbers in a table.** For
   reward and gating this does not exist and would need a de novo study;
@@ -12422,8 +12422,8 @@ Stated concretely, because "we found nothing" is not actionable:
 
 ### Two invariants P7.3 broke elsewhere in the repository, and how each is repaired
 
-P7.3 widened the evidence module — 5 entries to 11, one calibration-ready
-entry to four — and two guards written by earlier tasks were phrased in terms
+P7.3 widened the evidence module (5 entries to 11, one calibration-ready
+entry to four), and two guards written by earlier tasks were phrased in terms
 of the narrower world and failed. Both were right when written; neither is
 relaxed here, because in each case what the guard was protecting is still
 worth protecting and only its phrasing was tied to the old shape.
@@ -12434,7 +12434,7 @@ implemented that by requiring each entry whose `pk_route_status()` is
 `available` to contain the phrase "Bridge available and exercised". That
 implication held while both available entries were diazepam: for diazepam the
 PK step working meant the whole chain worked. P7.3's three fentanyl/rat/IV
-entries are the counterexample the rule never anticipated — `drug_pk` builds
+entries are the counterexample the rule never anticipated: `drug_pk` builds
 their PK model, so the status is `available`, and
 `receptor_drive_status()` is `total-brain-only`, so the chain stops before a
 receptor. Forcing the old phrase onto them would have made three verdicts
@@ -12518,9 +12518,9 @@ in nM. `fingerprint.PDSPRow` takes exactly those fields and
 `BindingFingerprint.from_pdsp_rows` reads them.
 
 **Searched and not obtained:** the downloadable CSV's own header list. Both
-documented download endpoints were unreachable on 2026-08-14 —
+documented download endpoints were unreachable on 2026-08-14:
 `kidbdev.med.unc.edu` refused the connection and `pdsp.unc.edu` failed TLS
-certificate verification — so the field set above is read off the live query
+certificate verification, so the field set above is read off the live query
 interface rather than off a file. The consequence is bounded and worth
 stating: `PDSPRow` matches the *published* row, and a caller with a CSV whose
 headers differ has a rename to do, which is why `from_pdsp_rows` also accepts
@@ -12530,8 +12530,8 @@ plain mappings.
 
 **PDSP publishes no efficacy, and that is a property of the assay rather than
 an omission.** A competition binding experiment measures how tightly a
-compound occupies a site. What the occupied receptor then does — full
-agonism, partial agonism, neutral antagonism, inverse agonism — is a
+compound occupies a site. What the occupied receptor then does (full
+agonism, partial agonism, neutral antagonism, inverse agonism) is a
 functional measurement (GTP-gamma-S, cAMP, electrophysiology) in a different
 experiment. Verified directly against the database, which reports no Emax, no
 agonist/antagonist flag and no functional column of any kind.
@@ -12567,8 +12567,8 @@ pool declaration below is for.
 
 What that does and does not cost, and the split is clean:
 
-* the ligand's **affinity is exact**, for any `kon` whatsoever —
-  `koff/kon == Ki` by construction — so every equilibrium quantity
+* the ligand's **affinity is exact**, for any `kon` whatsoever:
+  `koff/kon == Ki` by construction, so every equilibrium quantity
   (occupancy at a concentration, the competitive ratio between two ligands
   sharing a pool, an IC50) carries no assumption beyond `Kd = Ki`. A test
   asserts this across five orders of magnitude of `kon`;
@@ -12581,14 +12581,14 @@ This is derivation 3 of this codebase's four-way taxonomy, which
 `serotonin.py`, `noradrenaline.py`, `histamine.py`, `adenosine.py` and
 `scenarios.gaba_a_benzodiazepine_ligands_calibrated` had each written out by
 hand. P8.1 refactored the four modules that kept a private `_ligand()` helper onto
-the shared function — same numbers, one statement of the assumption — and left
+the shared function (same numbers, one statement of the assumption), and left
 the five that inline the arithmetic alone, because rewriting a calibrated
 ligand's decimal literal into a computed expression would move numbers this
 task has no calibration for.
 
 ### The kon table: five standings, and the one target that needs no assumption
 
-`fingerprint.TARGETS` is this repository's first canonical target registry —
+`fingerprint.TARGETS` is this repository's first canonical target registry:
 before P8.1 there were four partial ones (`opioid.RECEPTORS`,
 `endogenous_tone.TONE_TARGETS`, `monoamine_transporters.TRANSPORTERS`,
 `expression.genes.RECEPTOR_GENES`) with inconsistent naming and no joins. It
@@ -12609,7 +12609,7 @@ standing:
 
 That last row is the one worth pausing on. `transport.py` consumes a Ki
 **directly**, as the competitive term `1 + sum(C_i/Ki_i)` on the apparent Km,
-and never forms a `kon`/`koff` pair — its module docstring says deriving one
+and never forms a `kon`/`koff` pair: its module docstring says deriving one
 "would be a re-derivation with no measurement behind it". So a fingerprint
 entry at a monoamine transporter carries **no koff assumption whatsoever**:
 it is the only part of the whole fingerprint path that is assumption-free
@@ -12625,9 +12625,9 @@ Two choices in the table are choices and are recorded as such. **D2** takes
 haloperidol's measured `kon` rather than dopamine's, which is 2.7-fold higher,
 on the grounds that a fingerprint's compound is more often a synthetic ligand
 than the endogenous transmitter. **beta** takes propranolol's kinetically
-measured value, and `noradrenaline.py`'s own chemotype argument — a shared
+measured value, and `noradrenaline.py`'s own chemotype argument (a shared
 `kon` is defensible within a chemotype and false across [Sykes2022]'s
-230-fold panel — is the error bar that carries.
+230-fold panel) is the error bar that carries.
 
 ### The join that did not exist: pharmacological names to gene symbols
 
@@ -12662,8 +12662,8 @@ map as a receptor map.
 
 Every registry entry reaches its receptor through a zero-argument callable
 returning that module's own `engine.ReceptorSystem` or `TransporterSystem`.
-This is `projection_scenarios.ReceptorPlacement`'s rule — a port "cannot
-quietly redefine a receptor: it can only move it" — applied to a second
+This is `projection_scenarios.ReceptorPlacement`'s rule: a port "cannot
+quietly redefine a receptor: it can only move it", applied to a second
 problem for the same reason. `add_to_system` returns a copy with one more
 ligand and carries the coupling, the connection modulation, the name, the
 transmitter sources, the desensitization rates and every existing ligand and
@@ -12682,7 +12682,7 @@ Three mechanics that had to be got right rather than guessed:
 * **A desensitizing site's new ligand gets `k_des = 0`.** A Ki table says
   nothing about whether a compound drives desensitization, and `k_des = 0` is
   the class's own way of saying "occupies the orthosteric site without driving
-  the conformational change" — exactly what `acetylcholine.py` already does
+  the conformational change", exactly what `acetylcholine.py` already does
   for its competitive antagonists. A caller with a measured rate passes it.
 
 ### Which pool, which is the caller's declaration and not an inference
@@ -12690,7 +12690,7 @@ Three mechanics that had to be got right rather than guessed:
 `Kd = Ki` reads a competition constant as an *orthosteric* dissociation
 constant. That is what it is for a ligand competing with the radioligand at
 the labelled site and is not what it is for an open-channel blocker or an
-allosteric modulator — and a Ki table does not say which a compound is. So
+allosteric modulator, and a Ki table does not say which a compound is. So
 `FingerprintEntry.pool` defaults to `"orthosteric"`, the reading the datum
 supports, a caller who knows better declares `"channel"`, and a channel
 declaration at a site with no channel pool raises rather than being silently
@@ -12703,8 +12703,8 @@ The acceptance criterion is a round trip reproducing an existing hand-built
 scenario. Three were run, and the split between them is the result.
 
 **Exact (16 ligands).** The GABA-A benzodiazepine site and the kappa and delta
-opioid sites were themselves built by derivation 3 — one shared site `kon`,
-`koff = kon * Ki` — which is what this API does. So expressing
+opioid sites were themselves built by derivation 3 (one shared site `kon`,
+`koff = kon * Ki`), which is what this API does. So expressing
 `scenarios.gaba_a_benzodiazepine_ligands_calibrated` as two PDSP rows
 ([Mohler1977]'s diazepam Kd 3.6 nM, [Mohler1981]'s flumazenil 1.0 nM) and
 pushing them back through `ligand_set` returns the hand-built ligands with
@@ -12718,7 +12718,7 @@ The GABA-A round trip is then carried through the **whole scenario**: the
 rebuilt site substituted into `gaba_a_receptor_system_calibrated`, run on
 `amygdala_anxiety_circuit_network` against the hand-built one, occupancies and
 firing rates identical to 1e-12. And through `predict`, from 2 mg/kg IP in the
-rat — the dose P2.2's fit is against — reaching the same occupancy as the
+rat (the dose P2.2's fit is against), reaching the same occupancy as the
 hand-built path.
 
 **Not exact (2 ligands), and this is the useful half.**
@@ -12769,7 +12769,7 @@ one such gain has ever been fitted in this repository (P2.2's
 `GABA_A_CONNECTION_MODULATION_GAIN`, and P7.3's whole-brain counterpart).
 Composing 23 targets onto one whole-brain network with 22 unfitted gains would
 produce a plausible-looking behavioural profile whose magnitude nothing
-supports — which is precisely the failure mode this codebase's rule 1 exists
+supports, which is precisely the failure mode this codebase's rule 1 exists
 to prevent, arriving through a new door. What P8.1 hands P8.2 is
 `receptor_systems_for`, a wired `ReceptorSystem` per target, which is the
 object that composition needs.
@@ -12781,7 +12781,7 @@ is a drug arriving at an empty pool; tone is P6.2's and needs a circuit.
 parameter set and the partition, while each site's other ligands keep whatever
 species their own module sourced. The fingerprint's own rows carry the species
 its Ki was measured in, recorded and reported, and deliberately not checked
-against the PK species — affinity and disposition are routinely measured in
+against the PK species: affinity and disposition are routinely measured in
 different preparations, and refusing that combination would refuse most of the
 literature.
 
@@ -12790,7 +12790,7 @@ literature.
 `predict` needs the receptor layer without a circuit, and
 `engine.Simulation` requires a network. `_CircuitFreeBlock` is
 `Simulation.rhs` with the network, the drive and the connection modulation
-removed and nothing else changed — the same PK models through
+removed and nothing else changed: the same PK models through
 `pk.as_ode_pk_model`, the same `receptor_concentration_factor` correction,
 the same site right-hand side.
 
@@ -12799,7 +12799,7 @@ so it is compared with the first **at the derivative, at the same state**,
 where the comparison can be exact: eight random states, and the PK and
 occupancy regions must agree bit for bit. Comparing trajectories instead would
 only have shown that two `solve_ivp` calls over different-length state vectors
-landed close — a statement about the integrator. A second test bounds what the
+landed close, a statement about the integrator. A second test bounds what the
 integrator adds on top: the largest occupancy difference over a 40-minute
 GABA-A run is 1.8e-05 against occupancies of order 0.7, and it is reported as
 a measured number rather than absorbed into a tolerance.
@@ -12825,7 +12825,7 @@ The coverage that dispatcher exposes is the honest headline of this section:
 
 **Three drugs, four triples.** So of the arbitrary compounds this API was
 built to accept, every one needs its PK model passed in explicitly by a caller
-who owns that model's provenance — and P8.2's held-out drugs (morphine,
+who owns that model's provenance, and P8.2's held-out drugs (morphine,
 clozapine, alprazolam, amphetamine) have no sourced disposition here at all.
 That is a Phase 1 gap, not a P8.1 one, and naming it now is what stops P8.2
 from quietly filling it: substituting fentanyl's disposition for morphine's
@@ -12854,7 +12854,7 @@ what they do.
 
 * **A behavioural profile.** P8.2's, for the reason in "Where P8.1 stops".
 * **Substrate detection at a transporter.** A Ki cannot say whether a compound
-  is a substrate-type releaser or a pure uptake blocker — that is a separate
+  is a substrate-type releaser or a pure uptake blocker: that is a separate
   release assay, which is why `monoamine_transporters.RELEASE_EC50` has one
   entry. A fingerprint transporter entry is a **pure blocker** unless the
   caller supplies `release_ec50` and `release_emax`.
@@ -12876,8 +12876,8 @@ what they do.
    dispatcher raises rather than substituting. The searched-and-empty items
    are recorded above.
 2. **No cross-drug or cross-species substitution.** `pk_model_for` refuses
-   both explicitly and names what exists. The one borrow in the table —
-   diprenorphine's kappa `kon` used at mu — is a cross-*subtype* borrow within
+   both explicitly and names what exists. The one borrow in the table,
+   diprenorphine's kappa `kon` used at mu, is a cross-*subtype* borrow within
    one ligand, is what `opioid.py` already does, and is labelled
    `borrowed-from-subtype` in the registry and in the printed report.
 3. **Illustrative labels.** None removed. Seven targets inherit
@@ -12890,7 +12890,7 @@ what they do.
 5. **No widened tolerance.** The two tolerances that were loosened from an
    initial 0 are both reported as measured numbers: 1e-15 relative for
    `0.2 * 3.6` against the literal `0.72`, and 1.8e-05 for two `solve_ivp`
-   runs over different-length state vectors — and the exactness claim that
+   runs over different-length state vectors, and the exactness claim that
    test was originally making is now made at the derivative instead, where it
    is bit-for-bit.
 6. **Outputs.** `scripts/report_binding_fingerprints.py` ->
@@ -12919,7 +12919,7 @@ sides.
 
 **2. The reported brain-partition status contradicted the model that ran.**
 `predict` looked the status up by compound name even when the caller supplied
-the PK model — and for the arbitrary compound this API exists to accept, a
+the PK model, and for the arbitrary compound this API exists to accept, a
 supplied model is the *only* way to run, so the lookup always said "absent"
 while the run drove occupancy with an unbound brain concentration. A
 queryable-fact API stating the opposite of the fact. The status is now read
@@ -12928,8 +12928,8 @@ owns the provenance.
 
 **3. `pool="channel"` was refused at the two sites that have a channel pool.**
 The guard was `isinstance(site, ChannelBlockingReceptorSite)`, and
-`DesensitizingReceptorSite` deliberately does *not* subclass it — `receptor.py`
-explains that their state layouts interleave differently — while both nicotinic
+`DesensitizingReceptorSite` deliberately does *not* subclass it: `receptor.py`
+explains that their state layouts interleave differently, while both nicotinic
 sites carry a mecamylamine pool. So a true statement about the site was
 rejected with a false reason. Four targets have a channel pool, not one, and
 `_CHANNEL_KON` now lists all four with a `kon` and a provenance each. Latent
@@ -12948,7 +12948,7 @@ travel together.
 **5. `on_duplicate="replace"` silently dropped a caller's `k_des`/`k_rec`.**
 `setdefault` on a key that already exists. `k_des` and `k_rec` now default to
 `None` meaning "not stated", so a stated rate always wins and an unstated one
-keeps the module's measured value on replacement and takes 0 on addition —
+keeps the module's measured value on replacement and takes 0 on addition:
 three distinct cases, none of them silent.
 
 **6. Two aliases of one target could carry conflicting efficacies, last one
@@ -12961,14 +12961,14 @@ say so in the entry's note.
 **7. A table covering nothing this model carries returned an empty
 fingerprint, and `combine` was never validated when there was nothing to
 combine.** `predict` on that object built a PK model and returned a
-`CompoundPrediction` with zero targets — a prediction-shaped object that
+`CompoundPrediction` with zero targets, a prediction-shaped object that
 predicts nothing. Both now raise, the first naming the unmodelled targets.
 
 **8. `gene_note` was documented as "Required, and enforced" and was checked
 nowhere.** A `TargetSpec` for a multi-subunit receptor would have been
 accepted with no proxy caveat. The constructor has no way to know whether a
 receptor is an assembly, so the docstring now says where the check actually
-is — `test_the_multi_subunit_targets_are_exactly_the_ones_flagged_as_proxies`,
+is: `test_the_multi_subunit_targets_are_exactly_the_ones_flagged_as_proxies`,
 which pins the flagged set exactly rather than only requiring it to be
 non-empty. A docstring that claims an enforcement the code does not make is
 the same defect as a silent default, arriving through the documentation.
@@ -13593,7 +13593,7 @@ stimulation of one cortical site produces evoked potentials at another;
 stimulation site -> recording site *is* a direction. 780 epilepsy patients,
 34,354 stimulations, 774,445 CCEPs (Lemarechal et al. 2022, PMID
 35416942). Rows in the exported CSVs are the *stimulated* parcel (source)
-and columns are the *recorded* parcel (target) -- stated by the file
+and columns are the *recorded* parcel (target), stated by the file
 itself, not inferred.
 
 ### The data and its structure
@@ -13616,7 +13616,7 @@ Two additional features are per-parcel delay maps (tab-separated .txt, not
 - `synaptic_inhibitory_delay`: inhibitory synaptic time constant
 
 The P13.1 recon recorded these .txt files as empty; that is wrong for the
-v21-12 release -- the files exist and contain 360 entries each.
+v21-12 release: the files exist and contain 360 entries each.
 
 ### Coverage and asymmetry (pinned numbers)
 
@@ -13627,7 +13627,7 @@ v21-12 release -- the files exist and contain 360 entries each.
 | delay | 16,050 | 6,176 | 100.0 | 3,420 |
 
 `np.array_equal(M, M.T)` is `False` for every feature. 78.2% of reciprocal
-probability pairs are asymmetric -- the defining biological property of
+probability pairs are asymmetric, the defining biological property of
 CCEP direction. These numbers are pinned in `ftract.COVERAGE` and tested
 against the full CSVs when the cache is present.
 
@@ -14721,7 +14721,7 @@ The registry as first written could say only that risperidone's parent axis was
 missing. Both ratios turned out to be obtainable, and the refusal is now a
 number.
 
-Bråten 2022 (PMID 35253216) measured the metabolite:parent serum ratio in a
+Lenk et al. 2022 (PMID 35253216) measured the metabolite:parent serum ratio in a
 therapeutic drug monitoring cohort stratified by CYP2D6 phenotype and NFIB
 genotype: ten subgroups from 0.25 to 33.11, with 9.93 (95% CI 8.55 to 11.54) in
 the 243-patient normal-metaboliser row. Schotte 1995 measured both ligands
@@ -14739,7 +14739,7 @@ arithmetic against the chain's own error rather than by argument.
 The conclusion is stressed against its weakest input rather than defended. At an
 affinity ratio ten times more favourable to the parent than the measured one, the
 error is still 0.197, nearly six times the MAE. The exposure ratio near 10 is
-what decides this drug, and even at the bottom of Bråten's 130-fold phenotype
+what decides this drug, and even at the bottom of Lenk et al.'s 130-fold phenotype
 range, the poor-metaboliser ratio of 0.25, the error is 0.067, twice the MAE. No
 phenotype makes the parent-only path safe; they differ in how badly it fails,
 which is the label's phenotype dependence restated in occupancy units.
@@ -15206,7 +15206,7 @@ pk-layer refusal. So the dose-domain procedure cannot run.
 
 This is where rule 11 (the brief may be wrong about structure) and the
 pre-registration's own C1 deviation clause meet. The pre-registration was written
-before P22.2 established clozapine's pk refusal, so it assumed a drivable chain —
+before P22.2 established clozapine's pk refusal, so it assumed a drivable chain:
 a genuine error in the document. The correction, logged as a deviation: run the
 falsification in the concentration domain. The clozapine anomaly is, and always
 has been in the literature (Nordström 1995, Gründer 2006, Kapur 2000), a
@@ -15225,7 +15225,7 @@ otherwise, tie→B. The dose-domain refusal is still reported, under C2
 
 The pre-registration says to ingest clozapine's EC50 "under P22.2/P22.3's rules".
 That is satisfied by building the records with the same schema-validated
-`D2PlasmaEC50` dataclass the registry uses — carrying Emax convention, analyte,
+`D2PlasmaEC50` dataclass the registry uses, carrying Emax convention, analyte,
 plasma basis, region, tracer and provenance. It is **not** satisfied by inserting
 them into `D2_PLASMA_EC50`, and doing so would be wrong on three counts. First,
 C1: P22.2 (V8) and P22.3 both committed clozapine as refused / searched-and-empty
@@ -15235,7 +15235,7 @@ comparison already seen. Second, the suite uses clozapine as its canonical
 "unknown drug" fixture (`test_human_multidrug_occupancy`) to prove the
 refusal-layer ordering, and that fixture depends on clozapine having no registered
 EC50. Third, the chain cannot drive clozapine anyway (no PK), so a live-registry
-row would read as a capability it does not have — exactly the empty-container
+row would read as a capability it does not have, exactly the empty-container
 failure mode rule 10 warns against. The records therefore live in the P22.4
 module, outside the chain.
 
@@ -15248,13 +15248,13 @@ independently of Gründer to avoid circularity), so C65 is 2.94× above the top 
 the range at which clozapine works. Equivalently, across that range the model
 predicts 27–39% striatal occupancy, matching Gründer's measured putamen 36% /
 caudate 43%. Even the highest observed steady-state peak on the VERSACLOZ label
-(723 ng/mL, across 100–800 mg/day) gives only 43% occupancy — the anomaly holds
+(723 ng/mL, across 100–800 mg/day) gives only 43% occupancy: the anomaly holds
 against the label's own measured concentrations.
 
 The Emax=1.0 recording for "approached 100%" is the choice least favourable to
 the anomaly: a lower ceiling raises C65 or makes 65% unreachable, so Outcome A
 holds a fortiori. The sensitivity sweep confirms it across the full literature
-span — caudate (582→C65 1081), Uchida Emax-fixed (483→897), and most sharply
+span: caudate (582→C65 1081), Uchida Emax-fixed (483→897), and most sharply
 Uchida free-Emax (105 ng/mL with ceiling 0.60), under which 65% occupancy is
 unreachable at any plasma concentration. Every striatal candidate is Outcome A.
 The single candidate that lands near the threshold rather than far above it is the
@@ -15267,7 +15267,7 @@ sensitivity and never decides the headline.
 
 Row V11 is the fourth independent entry in this project (V2, V3, V5–V7, V10 being
 the others) where a comparison against a number nobody here chose comes out as a
-failure of a hypothesis rather than of an arbitrary tolerance — and the first
+failure of a hypothesis rather than of an arbitrary tolerance, and the first
 where the hypothesis failing is the central one the whole occupancy chain was
 built to test. The chain predicts an occupancy correctly and, in doing so,
 demonstrates that occupancy alone cannot be the sole mediator of clozapine's
@@ -15358,7 +15358,7 @@ layer attribution, and the journal popPK route that was never searched.
 Phase 23 is the one remaining test of the founding thesis, and the roadmap left
 it deliberately unfrozen: the data is free and public and the blocker is work,
 not an unobtainable measurement. The thesis is that a drug's *binding
-fingerprint* — the whole receptor profile, not D2 occupancy alone — is what maps
+fingerprint* (the whole receptor profile, not D2 occupancy alone) is what maps
 to a behavioural outcome. The ledger already records (V11, and the
 occupancy-to-clinical-outcome row) that occupancy alone is falsified as a sole
 determinant, on exactly the dataset this phase is built around: **Siafis 2023**
@@ -15368,7 +15368,7 @@ occupancy. Equal occupancy, unequal extrapyramidal risk. If anything in the mode
 can explain the gap, it is the rest of the profile.
 
 P23.1 is the input layer, not the test. It assembles per-drug **human** Ki at the
-five off-targets the phase names — 5-HT2A, M1, H1, alpha-1 and D3 — for the two
+five off-targets the phase names (5-HT2A, M1, H1, alpha-1 and D3) for the two
 drugs the Siafis contrast rests on. It makes no prediction and claims no
 validated-ledger row (rule 1).
 
@@ -15390,13 +15390,13 @@ one drug at one target). The three load-bearing primaries carry resolved PMIDs
 
 ### The gate is reused, not re-implemented
 
-PDSP mixes species in a single table, and Schotte 1996 — the canonical
-risperidone binding paper — is the sharpest case: it measured 5-HT2A, D2 and D3
+PDSP mixes species in a single table, and Schotte 1996 (the canonical
+risperidone binding paper) is the sharpest case: it measured 5-HT2A, D2 and D3
 on cloned **human** receptors but alpha-1 on **rat** cortex and H1 on
 **guinea-pig** cerebellum. A naive import would carry the rodent numbers into a
 human fingerprint, which is exactly rule 2. `gate_record` routes each record's
-provenance species through the *existing* `species_gate.gate` — the same function
-every PK, partition and endpoint parameter already passes — so a fingerprint
+provenance species through the *existing* `species_gate.gate`, the same function
+every PK, partition and endpoint parameter already passes, so a fingerprint
 value cannot enter a human comparison on a looser rule than anything else. Human
 rows pass; every non-human row raises `UnsourcedParameterError`.
 `NON_HUMAN_EXCLUDED` holds a representative refused set spanning rat, guinea-pig,
@@ -15421,12 +15421,12 @@ All ten cells (two drugs × five targets) resolved to a human value; none is
 searched-and-empty at the target level, and `missing_cells()` is empty. The
 contrast the Siafis test needs is already legible in the data without a model:
 risperidone's human 5-HT2A range (0.14–7 nM) sits entirely below haloperidol's
-(25–435 nM) — the Meltzer serotonin-dopamine mechanism — and risperidone is also
+(25–435 nM), the Meltzer serotonin-dopamine mechanism, and risperidone is also
 the more potent at H1 and comparable at alpha-1, while **M1 is a floor for both**
 (every human value ≥ ~1.5 µM, ceiling-dominated): neither drug is anticholinergic,
 so M1 cannot be part of whatever distinguishes their EPS. Two sub-class absences
 are recorded as searched-and-empty: there is no human-**tissue** D3 or M1 Ki for
-either drug in PDSP, only cloned/recombinant — recorded so the D3 and M1
+either drug in PDSP, only cloned/recombinant: recorded so the D3 and M1
 fingerprints are not later misread as tissue measurements.
 
 ### Rule 9 disposition
@@ -15434,14 +15434,14 @@ fingerprints are not later misread as tissue measurements.
 A documented data layer with two searched-and-empty records, no new prediction,
 no validated row. The ledger changes are two rows in the searched-and-empty
 table and a note that the off-target-fingerprint data for the Phase 23 test now
-exists. The comparison that would earn a validated row — fingerprint difference
-against the Siafis EPS contrast — is a later Phase 23 task.
+exists. The comparison that would earn a validated row (fingerprint difference
+against the Siafis EPS contrast) is a later Phase 23 task.
 
 ## Phase 23, part two: off-target occupancy from the shared plasma curve (P23.2)
 
 P23.1 assembled the per-drug human Ki fingerprints. P23.2 turns those affinities
 into occupancy-time curves driven by the **same** plasma concentration-time curve
-that `dose_to_occupancy` already produces for D2 —
+that `dose_to_occupancy` already produces for D2:
 `human/offtarget_occupancy.py`. The brief's one standing instruction is that an
 in-vitro Ki is not an in-vivo EC50 (P19.4 proved this for D2), so every off-target
 occupancy is a *weaker quantity* and must be labelled as such everywhere it
@@ -15475,12 +15475,12 @@ than asserted. `d2_invivo_vs_ki_discrepancy` computes the haloperidol D2 occupan
 the honest way (EC50 1.885 nM) and the way the off-targets are forced to be
 computed (the registered in-vitro Ki, Bartuzi 2022, 8.85 nM) on the same plasma
 curve, and returns the gap. Over a clinical 5 mg curve the two disagree by up to
-**0.368 occupancy units** — larger than any held-out error anywhere in the
+**0.368 occupancy units**, larger than any held-out error anywhere in the
 ledger. That gap is not a tolerance chosen here; it is two independent
 measurements (the Nyberg/Regenthal PET behind the EC50, Bartuzi 2022 behind the
 Ki) disagreeing, and it is the floor on how wrong every off-target occupancy in
 this module could be. The sign is instructive: the in-vivo EC50 is *below* the
-in-vitro Ki, so using the Ki *under*-states occupancy here — the opposite of the
+in-vitro Ki, so using the Ki *under*-states occupancy here: the opposite of the
 naive "total plasma overstates free drug" intuition, because brain accumulation
 and the high-affinity state dominate. And because the P19.4 EC50/Ki ratio
 straddles unity (0.21–14.5 across the seven sources), the sign of the gap even
@@ -15491,8 +15491,8 @@ flips with the choice of Ki: at the smallest in-vitro value (0.13 nM) the Ki
 
 "The same plasma curve that drives D2" exists only for a drug the chain can drive
 end to end. That is haloperidol. Olanzapine has a plasma curve (the bridged
-LYBALVI set) but no P23.1 off-target fingerprint. Risperidone — the other half of
-the Siafis contrast — has a fingerprint but no plasma curve: the chain refuses it
+LYBALVI set) but no P23.1 off-target fingerprint. Risperidone (the other half of
+the Siafis contrast) has a fingerprint but no plasma curve: the chain refuses it
 because parent-only disposition is ill-posed across CYP2D6 phenotype (P21.4), and
 there is no in-vivo risperidone D2 EC50 here. `offtarget_occupancy_from_curve`
 raises for any drug with no fingerprint, which naturally catches both gaps. The
@@ -15508,20 +15508,20 @@ Farde/Nyberg 1995 established the reciprocal crossover for risperidone, 5-HT2
 78–88% ≥ D2 75–80% at 6 mg/day). The Ki fingerprint reproduces the **sign** of
 the 5-HT2A-minus-D2 occupancy difference for haloperidol: at a clinical 5 mg curve
 its Ki-derived cortical 5-HT2A occupancy peaks at 0.01–0.17 against an in-vivo D2
-peak of 0.73. This is a one-drug, direction-only check — no numeric error, n=1 —
+peak of 0.73. This is a one-drug, direction-only check (no numeric error, n=1)
 and is labelled as such. It is consistent with the measured ordering; it is not a
 quantitative validation and earns no validated row.
 
 ### Rule 9 disposition
 
 P23.2 produces no new prediction against an independently measured off-target
-occupancy number — none is reachable for haloperidol paired to a plasma
+occupancy number: none is reachable for haloperidol paired to a plasma
 concentration (the familiar paywall/absence pattern). What it does produce is a
 measured quantification of the weakness the brief demanded be labelled: the
 0.368-occupancy-unit floor is a comparison of two independent measurements that
 were never fitted to each other. That belongs in the ledger's *untested* table as
 a sharpening of the occupancy→clinical-outcome row, plus the directional
-cross-check, not as a validated row — the validated comparison (fingerprint vs the
+cross-check, not as a validated row: the validated comparison (fingerprint vs the
 Siafis EPS contrast) is still P23.3.
 
 ## Phase 23, part three: does the fingerprint explain the EPS residual (P23.3)
@@ -15548,19 +15548,19 @@ and the low power the brief anticipated is a property of it.
 ### D2 occupancy is sourced in vivo; 5-HT2A occupancy cannot be, and that is the crux
 
 D2 occupancy at ED95 comes straight from Lako 2013 (PET/SPECT-fitted,
-`OccMax·dose/(dose+OccD50)`) at the Leucht 2020 ED95 — the same strong quantity
+`OccMax·dose/(dose+OccD50)`) at the Leucht 2020 ED95, the same strong quantity
 Siafis itself used. The 5-HT2A side has **no equivalent**: there is no
 meta-analytic dose→5-HT2A-occupancy model for these drugs, only scattered
 single-dose PET studies at non-matched doses (recorded searched-and-empty in the
-pre-registration). So 5-HT2A occupancy is built on P23.2's device — one plasma
-concentration drives every receptor — by transferring the in-vitro 5-HT2A:D2
+pre-registration). So 5-HT2A occupancy is built on P23.2's device (one plasma
+concentration drives every receptor) by transferring the in-vitro 5-HT2A:D2
 affinity ratio (PDSP human-median Ki, the P23.1 source and date) onto the D2
 dose-response: `OccD50_5HT2A = OccD50_D2·(Ki_5HT2A/Ki_D2)`, `OccMax_5HT2A = 100%`.
 That makes every 5-HT2A occupancy here the **weaker Ki-derived quantity** P23.2
 measured at a 0.368-occupancy-unit floor, plus the extra assumption that the
 in-vitro affinity ratio transfers to the in-vivo dose-ED50 ratio. The module
 carries `KI_DERIVED_LABEL` on every row so the quantity cannot be read without
-its warning. This asymmetry — strong D2, weak 5-HT2A — is the honest shape of the
+its warning. This asymmetry (strong D2, weak 5-HT2A) is the honest shape of the
 test and is stated, not hidden.
 
 ### Why the outcome is the maximum OR, and the anchor mismatch it carries
@@ -15578,13 +15578,13 @@ choice does not change the verdict.
 
 Model 0 (`lnOR ~ D2 occupancy`) gives R² = 0.314. Adding the fingerprint
 (`+ log10(5-HT2A:D2 occupancy ratio)`) gives R² = 0.636 with the ratio
-coefficient **negative** (−0.396) — the Meltzer direction, more 5-HT2A-selective
+coefficient **negative** (−0.396): the Meltzer direction, more 5-HT2A-selective
 → lower EPS. But the nested F(1,4) = 3.54 has **p = 0.133**, not significant at
 α = 0.05. The increment is a very large effect (Cohen f² = 0.88), yet the test's
 power to detect even a conventionally large effect (f² = 0.35) is **0.20**, and
 ~0.42 at the observed effect; n ≈ 13 would be needed for 80% power, more drugs
-than the eight that have a Lako formula. By the pre-registered rule — not
-significant, and power to find a large effect below 0.80 — this is
+than the eight that have a Lako formula. By the pre-registered rule (not
+significant, and power to find a large effect below 0.80) this is
 **indeterminate**: the trend is consistent with H1, the data confirm nothing and
 reject nothing.
 
@@ -15593,9 +15593,9 @@ stable across all seven deletions but significance is fragile and never crosses
 0.05 (dropping the partial agonist aripiprazole gets closest, p = 0.059; dropping
 quetiapine, which sits at 28% D2, far below the EPS threshold, collapses the
 D2-only R² to 0.01). A result that moves this much on one drug is, itself, an
-indeterminate result. The two structural confounds — aripiprazole's partial
+indeterminate result. The two structural confounds: aripiprazole's partial
 agonism (P21.5 refuses its transducer; Siafis notes partial agonists carry small
-ORs at high occupancy) and quetiapine's sub-threshold occupancy — are named, not
+ORs at high occupancy) and quetiapine's sub-threshold occupancy, are named, not
 trimmed.
 
 ### Rule 9 disposition
@@ -15616,8 +15616,8 @@ came out." It came out indeterminate, and the write-up says so without reading t
 trend as a finding. The deliverable is `docs/p23-4-fingerprint-result.md`, a
 plain-language, publication-ready statement that (a) opens with the one-sentence
 result, (b) gives the forced n = 7 denominator and the strong-D2 / Ki-derived-
-5-HT2A asymmetry, (c) states the numbers — R² 0.314→0.636, β_ratio −0.396,
-F(1,4) = 3.54, p = 0.133, power 0.20 — and (d) answers the task's specific demand
+5-HT2A asymmetry, (c) states the numbers (R² 0.314→0.636, β_ratio −0.396,
+F(1,4) = 3.54, p = 0.133, power 0.20) and (d) answers the task's specific demand
 of an underpowered result: *what number could settle it.* The answer is n ≈ 13 at
 the observed effect size (≈26 at a conventionally large one), beyond the eight
 drugs any dose→D2 formula covers; the two data items that would change that (an
@@ -15632,7 +15632,7 @@ was still mouse-scoped and otherwise omitted the one human-outcome test the
 receptor layer was carried forward to make. A drift-guard test,
 `tests/test_fingerprint_result.py`, ties every headline number in the write-up to
 the live `fit_models()` output and to ledger row V12, so prose, code and ledger
-cannot diverge silently — this is the machine form of the acceptance criterion
+cannot diverge silently: this is the machine form of the acceptance criterion
 "the validation ledger row matches the write-up."
 
 **One number corrected.** P23.3 recorded the fingerprint coefficient as −0.397 in
@@ -16192,7 +16192,7 @@ and withdrawn flag. `tests/test_benchmark_split.py` enforces this.
     - Chlordiazepoxide and tranylcypromine are representation differences:
       ChEMBL draws a different tautomer for one and writes the trans racemate
       as two components for the other.
-    - **Flupentixol is genuinely unresolved.** Its ATC-mapped ChEMBL record
+    - **Flupentixol is unresolved.** Its ATC-mapped ChEMBL record
       (CHEMBL6066864) has no structure, and PubChem's "flupentixol" is the Z
       isomer. The stored CAS therefore identifies cis-flupentixol, not
       necessarily the marketed substance. Phase 28's binding task must settle
@@ -16491,8 +16491,8 @@ Fourteen of the 55 held-out drugs are empty.
 
 P28.3 assembles the second input in each benchmark drug's preclinical package:
 the ADME/PK quantities a compound would have had before an IND. The brief names
-four fields — plasma fraction unbound, brain fraction unbound or Kp,uu, in-vitro
-intrinsic clearance (microsomal/hepatocyte), and rodent in-vivo CL/Vss — and
+four fields: plasma fraction unbound, brain fraction unbound or Kp,uu, in-vitro
+intrinsic clearance (microsomal/hepatocyte), and rodent in-vivo CL/Vss, and
 four source families: Lombardo 2018 companion data, the Fridén/Loryan Kp,uu
 compilations, ChEMBL ADME assays, and primary rat PK papers. Like P28.2 it makes
 no prediction and earns no validated row (ledger rule 1); its result is a
@@ -16506,15 +16506,15 @@ each row carrying its own species, tissue, units and source document, and the
 document resolves to a PMID. Confirmed by fetching `assay_type=A` activities on
 the parent molecules and reading the documents behind them:
 
-- **Lombardo/Obach IV-PK** — the human CL and Vss trend-analysis databases are
+- **Lombardo/Obach IV-PK**: the human CL and Vss trend-analysis databases are
   in ChEMBL as documents CHEMBL1135488 (Lombardo 2002, *J Med Chem*, PMID
   12061889), CHEMBL1148291 (Lombardo 2004), CHEMBL1614630/1614632 (Obach 2008
   670-compound set, PMID 18426954) and CHEMBL3588773 (Lombardo 2016 "Volume of
   Distribution in Drug Design", PMID 25799158).
-- **Fridén brain tissue binding** — CHEMBL3526149 (Fridén 2011 porcine brain
-  TRANSIL, PMID 21071520) and CHEMBL3525956 (Fridén 2011 species-independence,
+- **Brain tissue binding**: CHEMBL3526149 (Longhi 2011 porcine brain
+  TRANSIL, PMID 21071520) and CHEMBL3525956 (Di 2011 species-independence,
   PMID 21474681).
-- **Loryan unbound brain exposure** — CHEMBL3525927 (Loryan 2011, PMID 21149540)
+- **Unbound brain exposure**: CHEMBL3525927 (Fridén 2011, PMID 21149540)
   and CHEMBL4373730 (2019 Kp,uu set).
 
 Scraping the published supplements directly was tried and is not available: the
@@ -16569,7 +16569,7 @@ real IND package would carry) but tagged by species. In-vitro plasma fu and
 CLint are preclinical regardless of species, so human in-vitro values stay.
 
 Species is read from ChEMBL's `assay_organism`, falling back to the assay
-description when the organism is null — the Lombardo rows say "in man" with no
+description when the organism is null: the Lombardo rows say "in man" with no
 organism field, and a null-species row would otherwise be wrongly admissible to
 the rodent in-vivo field. "in man" → human (excluded); "in rat/Wistar/Sprague"
 → rat. Rows whose species cannot be resolved are kept out of the in-vivo field
@@ -16596,7 +16596,7 @@ marked unitless so it pools with the `Fu` fractions, and keeps the original
 percent in `ppb_percent`. Censored (`<`/`>`) rows are stored but never summarised.
 
 Spot checks against well-established human plasma protein binding (a test, not a
-hand-entered number — the build computes these medians): diazepam fu 0.0215
+hand-entered number, the build computes these medians): diazepam fu 0.0215
 (~98% bound), haloperidol 0.08 (~90%), fluoxetine 0.0514 (~95%).
 
 ### Coverage and the residual gap
@@ -16604,9 +16604,9 @@ hand-entered number — the build computes these medians): diazepam fu 0.0215
 80 of 185 drugs have at least one preclinical field (53 train, 27 held out), from
 903 cited measurements across 117 ChEMBL documents. Per field: plasma fu 71,
 brain fu/Kp,uu 40, in-vitro CLint 47, rodent in-vivo CL 22, rodent Vss 22. The
-105 empties are the same population as P28.2's — the N05B benzodiazepines and the
+105 empties are the same population as P28.2's: the N05B benzodiazepines and the
 pre-2000 regional antipsychotics/antidepressants, characterised before the
-microsomal-stability and brain-binding assay era — plus a few marketed drugs
+microsomal-stability and brain-binding assay era, plus a few marketed drugs
 (asenapine, droperidol, penfluridol) whose ADME is only in closed primary PK
 papers. The fourth brief source, primary rat PK papers not in ChEMBL, would
 reach some of these, but transcribing per-drug paywalled PK was out of scope for
@@ -16835,7 +16835,7 @@ placebo rows are not paired with drug rows by trial.
 
 P11.2 built the species gate on one rule: a non-human provenance species raises
 `UnsourcedParameterError` at every driving position, with a single licensed
-exception — a registered `CrossSpeciesAnchor`, which may be *reported* beside its
+exception: a registered `CrossSpeciesAnchor`, which may be *reported* beside its
 human counterpart but structurally can never *drive* a prediction
 (`may_drive_predictions = False`). That rule was correct for a human-primary
 model whose numbers were all meant to be human. Phase 29 is preclinical-to-human
@@ -16865,8 +16865,8 @@ A `TranslationTag` names three things and validates all three:
    `ivive` (Obach 1999, PMID 10534321, the in-vitro half-life approach with
    microsomal and blood binding), and `kp-uu-transfer` (Friden 2009, PMID
    19764786, which showed the rank order of rat and human Kp,uu,CSF is similar
-   across 43 drugs). None of these papers supplies a *parameter value* — they
-   supply the *method* — so registering them is not inventing a number. An
+   across 43 drugs). None of these papers supplies a *parameter value*: they
+   supply the *method*, so registering them is not inventing a number. An
    unregistered method string is a `ValueError`.
 2. **The source species**, which must normalize to a recognized non-human token.
    A tag "from human" is a `ValueError` (there is no crossing to declare), and so
@@ -16881,10 +16881,10 @@ A `TranslationTag` names three things and validates all three:
 ### What the gate returns, and why it must be carried
 
 The gate does not return `None` (pass) for a tagged input the way it does for a
-human number. It returns a `TranslatedInput` — layer, label, species, source and
+human number. It returns a `TranslatedInput`: layer, label, species, source and
 tag. This is deliberate: a translated number is not the same as a human number
 and the prediction must say so. `ChainLayer` now carries a `translations` tuple,
-and the invariant is enforced both ways — provenance `"translated"` requires a
+and the invariant is enforced both ways: provenance `"translated"` requires a
 non-empty tuple of `TranslatedInput` records, and a non-empty tuple requires
 provenance `"translated"` (`test_a_layer_cannot_claim_translated_without_the_gate_record_or_hide_one`).
 A layer cannot quietly consume a translated number under a `"measured"` label,
@@ -16899,7 +16899,7 @@ provenance ordering: one translated layer makes the whole prediction
 ### The exposure layer and the scored check (V16)
 
 `transfer_kp_uu` is the first consumer. Before P29.1 it accepted a rat Kp,uu and
-an arbitrary transfer factor with no gate at all — a hole, since the module's
+an arbitrary transfer factor with no gate at all, a hole, since the module's
 whole job is the species crossing P11.2 polices. It now routes the non-human
 source through `gate(..., translation=...)`: without a tag the rat number is
 refused (`UnsourcedParameterError`), with a `kp-uu-transfer` tag it is admitted
@@ -16908,7 +16908,7 @@ method is refused, because a Kp,uu transfer is not an allometric scaling.
 
 To close the task on a number nobody here chose (rule 9), `score_rat_kp_uu_transfer`
 translates each drug's rat Kp,uu,brain from its P28.3 ADME record to human by the
-tagged identity transfer (factor 1.0 — Friden 2009's own cross-species claim,
+tagged identity transfer (factor 1.0, Friden 2009's own cross-species claim,
 not a fitted coefficient, so no split is needed) and compares against the human
 Kp,uu,CSF measured in the *same* Friden 2009 dataset (ChEMBL_37 document
 CHEMBL1795238, human assay CHEMBL1798468). Four benchmark drugs have both:
@@ -16939,16 +16939,16 @@ imports `fingerprint` (its binding-layer check in `check_binding_target` resolve
 targets through it), and `fingerprint` imports the eager `neurocascade` package,
 which loads the frozen circuit/connectome/opioid tree. `test_v1_frozen_layers.py`
 forbids the v1 prediction path (`human.dose_to_occupancy` and its closure) from
-reaching any frozen layer. The v1 chain did *not* import `species_gate` before —
-it relies on its registries already being human — so adding
+reaching any frozen layer. The v1 chain did *not* import `species_gate` before:
+it relies on its registries already being human, so adding
 `from ..species_gate import TranslatedInput` to `dose_to_occupancy`, and a gate
 call to `kp_uu`, would have dragged the whole frozen tree into the v1 closure and
 failed that guard.
 
 The fix is a genuine architectural improvement rather than a workaround: the
-parts of the species boundary with no fingerprint dependency —
+parts of the species boundary with no fingerprint dependency:
 `UnsourcedParameterError`, the species tokens, `normalize_species`, and all the
-P29.1 translation types plus `check_translation` — moved to a new leaf module
+P29.1 translation types plus `check_translation`, moved to a new leaf module
 `neurocascade/translation.py` that imports only `re`. `species_gate` re-imports
 every name from it, so its public API (`species_gate.normalize_species`,
 `species_gate.TranslationTag`, the shared `UnsourcedParameterError` identity that
@@ -17082,8 +17082,8 @@ clinical dose without a predeclared interval scoring rule.
 
 The second load-bearing check is the endpoint itself. The 70% striatal D2
 threshold is admitted only for N05A antipsychotics, supported by the published
-65–70% efficacy discussion (Kapur and Seeman 2001, PMID 11729039) and the
-70–80% therapeutic window review (Kapur et al. 2009, PMID 21143431). No
+65–70% efficacy discussion (Kapur and Seeman 2001, PMID 11229973) and the
+70–80% therapeutic window review (Nord and Farde 2011, PMID 21143431). No
 equivalent class-level human target-engagement threshold was found for N05B,
 N06A, or FAIL, so the threshold is not transferred to those strata.
 
@@ -17532,8 +17532,8 @@ deliberately not done here. The held-out numbers are reported as measured and
 no headline claim is made from them.
 
 The choice of a regularised logistic model follows the interpretability goal:
-regularised logistic models are used specifically to expose a compact set of
-non-zero, comprehensible predictors in clinical prediction (Liu et al. 2016,
+regularised logistic models are used to select a compact set of non-zero,
+interpretable predictors, as in biomarker selection (Wu et al. 2016,
 PMID 26921029). The paper is methodological support for the model family, not
 a source for any neurocascade parameter.
 

@@ -304,7 +304,7 @@ def test_the_risperidone_refusal_costs_more_than_sixteen_times_the_chains_error(
     """Both ratios exist for this pair, so the cost of ignoring the metabolite
     is a number rather than a worry.
 
-    Braaten's normal-metaboliser MPR against Schotte's same-assay human D2L Ki
+    Lenk et al.'s normal-metaboliser MPR against Schotte's same-assay human D2L Ki
     pair gives d = 12.2. The same closed form that clears haloperidol at 0.0030
     condemns risperidone at 0.57, which is the quantitative form of the brief's
     "understate it silently".
@@ -337,7 +337,7 @@ def test_the_risperidone_conclusion_does_not_rest_on_the_affinity_ratio():
     assert stressed.max_occupancy_error() == pytest.approx(0.19683, abs=0.0001)
     assert stressed.max_occupancy_error() > 5.0 * V1_HELD_OUT_MAE
 
-    # The lowest metabolite:parent ratio anywhere in Braaten's table, from poor
+    # The lowest metabolite:parent ratio anywhere in Lenk et al.'s table, from poor
     # metabolisers, is the only phenotype where the parent-only path would be
     # anywhere near defensible, and the record's spread says so.
     poorest = replace(record, exposure_ratio=0.25)

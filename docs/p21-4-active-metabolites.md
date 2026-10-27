@@ -250,7 +250,7 @@ one rule.
 Risperidone is the one refused pair where both ratios turned out to be
 obtainable, so the cost of the refusal is a number rather than a worry.
 
-- **Exposure, human, oral.** Bråten 2022 (*Clin Pharmacol Ther* 111(6):1266-77,
+- **Exposure, human, oral.** Lenk et al. 2022 (*Clin Pharmacol Ther* 111(5):1165-74,
   PMID 35253216) measured the metabolite:parent serum ratio in a therapeutic
   drug monitoring cohort stratified by CYP2D6 phenotype and NFIB genotype, ten
   subgroups spanning **0.25 to 33.11**, a 130-fold range across one table. The
@@ -273,7 +273,7 @@ drug silently.
 The conclusion does not rest on the weaker of the two inputs. Stressed at an
 affinity ratio ten times more favourable to the parent than the measured one,
 `d` falls to 1.22 and the error is still 0.197, nearly six times the MAE. It is
-the exposure ratio near 10 that decides this drug. Even at the bottom of Bråten's
+the exposure ratio near 10 that decides this drug. Even at the bottom of Lenk et al.'s
 130-fold range, the poor-metaboliser ratio of 0.25, the worst-case error is 0.067,
 still about twice the MAE. No CYP2D6 phenotype makes the parent-only path safe;
 the phenotypes differ in how badly it fails, which is the phenotype dependence
@@ -389,7 +389,7 @@ is implemented.
 
 What is built instead is a registry that decides each case from sourced numbers:
 the 0.40 AUC fraction against Gründer's derived 1.0, and the 75/94 h half-life
-pair, for aripiprazole; Bråten's 9.93 exposure ratio against Schotte's same-assay
+pair, for aripiprazole; Lenk et al.'s 9.93 exposure ratio against Schotte's same-assay
 human Ki pair, plus the 3/21 h phenotype-dependent half-lives, for risperidone;
 and the 1.04 exposure ratio against the 85-fold rat affinity ratio for
 haloperidol. Those numbers are what produce the two refusals and the one
