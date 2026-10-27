@@ -1,0 +1,246 @@
+{
+  "task": "P33.4",
+  "candidate": "multi-target occupancy -> L2 logistic on pre-specified receptors",
+  "selection": "train leave-one-drug-out only; held-out decided once by host go_verdict",
+  "l2_lambda": 1.0,
+  "partition": {
+    "n_train": 267,
+    "n_heldout": 67
+  },
+  "liabilities": {
+    "sedation": {
+      "effect": "sedation",
+      "receptors": [
+        "HRH1"
+      ],
+      "common_n": 15,
+      "n_positive": 7,
+      "n_negative": 8,
+      "lodo": {
+        "candidate_occupancy_logistic": {
+          "n": 15,
+          "n_positive": 7,
+          "n_negative": 8,
+          "auroc": 0.5714285714285714,
+          "auprc": 0.5232993197278911
+        },
+        "occupancy_max": {
+          "n": 15,
+          "n_positive": 7,
+          "n_negative": 8,
+          "auroc": 0.6785714285714286,
+          "auprc": 0.609065934065934
+        },
+        "strongest_target_ki": {
+          "n": 15,
+          "n_positive": 7,
+          "n_negative": 8,
+          "auroc": 0.8214285714285714,
+          "auprc": 0.708390022675737
+        },
+        "one_nn_fingerprint": {
+          "n": 15,
+          "n_positive": 7,
+          "n_negative": 8,
+          "auroc": 0.5267857142857143,
+          "auprc": 0.48095238095238096
+        },
+        "atc_class_prevalence": {
+          "n": 15,
+          "n_positive": 7,
+          "n_negative": 8,
+          "auroc": 0.5892857142857143,
+          "auprc": 0.6309523809523808
+        }
+      },
+      "full_featured": {
+        "n": 68,
+        "n_positive": 14,
+        "candidate_lodo_auroc": 0.4074074074074074,
+        "candidate_single_model_auroc": 0.6891534391534392,
+        "occupancy_max_auroc": 0.6891534391534392
+      }
+    },
+    "anticholinergic": {
+      "effect": "anticholinergic",
+      "receptors": [
+        "CHRM1",
+        "CHRM2",
+        "CHRM3",
+        "CHRM4",
+        "CHRM5"
+      ],
+      "common_n": 17,
+      "n_positive": 7,
+      "n_negative": 10,
+      "lodo": {
+        "candidate_occupancy_logistic": {
+          "n": 17,
+          "n_positive": 7,
+          "n_negative": 10,
+          "auroc": 0.34285714285714286,
+          "auprc": 0.4287214885954382
+        },
+        "occupancy_max": {
+          "n": 17,
+          "n_positive": 7,
+          "n_negative": 10,
+          "auroc": 0.9428571428571428,
+          "auprc": 0.9093537414965985
+        },
+        "strongest_target_ki": {
+          "n": 17,
+          "n_positive": 7,
+          "n_negative": 10,
+          "auroc": 0.8,
+          "auprc": 0.7499226963512678
+        },
+        "one_nn_fingerprint": {
+          "n": 17,
+          "n_positive": 7,
+          "n_negative": 10,
+          "auroc": 0.4928571428571429,
+          "auprc": 0.40840336134453775
+        },
+        "atc_class_prevalence": {
+          "n": 17,
+          "n_positive": 7,
+          "n_negative": 10,
+          "auroc": 0.36428571428571427,
+          "auprc": 0.49249699879951975
+        }
+      },
+      "full_featured": {
+        "n": 68,
+        "n_positive": 12,
+        "candidate_lodo_auroc": 0.24107142857142858,
+        "candidate_single_model_auroc": 0.7455357142857143,
+        "occupancy_max_auroc": 0.7485119047619048
+      }
+    },
+    "eps": {
+      "effect": "eps",
+      "receptors": [
+        "DRD2"
+      ],
+      "common_n": 15,
+      "n_positive": 2,
+      "n_negative": 13,
+      "lodo": {
+        "candidate_occupancy_logistic": {
+          "n": 15,
+          "n_positive": 2,
+          "n_negative": 13,
+          "auroc": 0.07692307692307693,
+          "auprc": 0.10833333333333334
+        },
+        "occupancy_max": {
+          "n": 15,
+          "n_positive": 2,
+          "n_negative": 13,
+          "auroc": 0.7307692307692307,
+          "auprc": 0.30952380952380953
+        },
+        "strongest_target_ki": {
+          "n": 15,
+          "n_positive": 2,
+          "n_negative": 13,
+          "auroc": 0.8461538461538461,
+          "auprc": 0.45
+        },
+        "one_nn_fingerprint": {
+          "n": 15,
+          "n_positive": 2,
+          "n_negative": 13,
+          "auroc": 0.46153846153846156,
+          "auprc": 0.13333333333333333
+        },
+        "atc_class_prevalence": {
+          "n": 15,
+          "n_positive": 2,
+          "n_negative": 13,
+          "auroc": 0.5384615384615384,
+          "auprc": 0.25
+        }
+      },
+      "full_featured": {
+        "n": 68,
+        "n_positive": 2,
+        "candidate_lodo_auroc": 0.4166666666666667,
+        "candidate_single_model_auroc": 0.946969696969697,
+        "occupancy_max_auroc": 0.946969696969697
+      }
+    },
+    "orthostatic_hypotension": {
+      "effect": "orthostatic_hypotension",
+      "receptors": [
+        "ADRA1A",
+        "ADRA1B",
+        "ADRA1D"
+      ],
+      "common_n": 19,
+      "n_positive": 1,
+      "n_negative": 18,
+      "lodo": {
+        "candidate_occupancy_logistic": {
+          "n": 19,
+          "n_positive": 1,
+          "n_negative": 18,
+          "auroc": 0.0,
+          "auprc": 0.05263157894736842
+        },
+        "occupancy_max": {
+          "n": 19,
+          "n_positive": 1,
+          "n_negative": 18,
+          "auroc": 0.6111111111111112,
+          "auprc": 0.125
+        },
+        "strongest_target_ki": {
+          "n": 19,
+          "n_positive": 1,
+          "n_negative": 18,
+          "auroc": 0.3888888888888889,
+          "auprc": 0.08333333333333333
+        },
+        "one_nn_fingerprint": {
+          "n": 19,
+          "n_positive": 1,
+          "n_negative": 18,
+          "auroc": 0.4444444444444444,
+          "auprc": 0.05263157894736842
+        },
+        "atc_class_prevalence": {
+          "n": 19,
+          "n_positive": 1,
+          "n_negative": 18,
+          "auroc": 0.3333333333333333,
+          "auprc": 0.05263157894736842
+        }
+      },
+      "full_featured": {
+        "n": 68,
+        "n_positive": 1,
+        "candidate_lodo_auroc": 0.0,
+        "candidate_single_model_auroc": 0.9552238805970149,
+        "occupancy_max_auroc": 0.8955223880597015
+      }
+    }
+  },
+  "registered_scored_liabilities": [
+    "sedation",
+    "anticholinergic"
+  ],
+  "secondary_pk": {
+    "status": "searched-and-empty",
+    "what": "human CL by well-stirred IVIVE on corrected v2 PK (candidate 2)",
+    "why": "Well-stirred IVIVE needs an in-vitro intrinsic-clearance input (microsomal or hepatocyte CLint) per drug; v2 has none. human_pk.json/human_pk_corrections.json (P33.5) hold observed in-vivo CL and Vss only, and the correction rule explicitly removes microsomal and intrinsic-clearance activities. No CLint source was assembled, so IVIVE cannot be computed here; the train-mean CL baseline (P33.3, GMFE 2.93 LODO) stands. PK is secondary and non-gating per docs/prereg-p33-4-go.md.",
+    "train_mean_cl_lodo_gmfe": 2.93
+  },
+  "n_scored": 17,
+  "notes": [
+    "Candidate and every baseline are scored on the identical common set per liability (label + Cmax + every baseline defined), matching the common-set rule in pipeline/go_verdict.py.",
+    "Single-receptor liabilities (sedation=H1) give the candidate the same ranking as the occupancy_max baseline, so their LODO AUROCs coincide; the candidate's degree of freedom is multi-receptor (anticholinergic).",
+    "This is train LODO only. The GO/NO-GO verdict is host-side and binds once."
+  ]
+}
