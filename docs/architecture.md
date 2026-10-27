@@ -17657,6 +17657,29 @@ prints NO-GO on it. A synthetic in-memory universe test
 `go_verdict.judge` so the schema is exercised without any held-out truth. The
 held-out verdict runs once on the host (`host_eval`); the first verdict binds.
 
+### The held-out verdict: NO-GO
+
+The host ran the one permitted look on 2026-10-26 at 13:09 (conductor run
+`20261026-120042-task`, sealed in `HOME/go/P33.4.json`). `go_dump.py` reported
+36 held-out drugs per liability, and `pipeline/go_verdict.py` printed, verbatim:
+
+```
+anticholinergic: underpowered (pos 0, neg 2, common n 2)
+eps: underpowered (pos 0, neg 1, common n 1)
+orthostatic_hypotension: underpowered (pos 0, neg 1, common n 1)
+sedation: underpowered (pos 0, neg 1, common n 1)
+NC_GO_VERDICT: NO-GO
+```
+
+Of the 36 held-out drugs, at most two per liability have a v2 Cmax,u, a Ki at
+the pre-specified receptors, and a score from every baseline, and none of those
+is a positive. No paired-bootstrap CI could be formed, so the CI-above-0 rule
+could not be met. This NO-GO is a coverage failure: the held-out set cannot test
+the candidate, which is a different finding from the candidate losing to the
+baselines. P32.x stays held, and under the one-look rule this candidate is not
+re-scored against this held-out set. A GO needs wider Cmax,u and Ki coverage on
+a fresh held-out set and a new pre-registration.
+
 ## Phase 30, part three: calibrated uncertainty bands (P30.3)
 
 P30.3 is `neurocascade.benchmark.conformal`. It puts a frozen, distribution-free
