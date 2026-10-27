@@ -3166,7 +3166,13 @@
         "P33.4"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "conductor": {
+        "sessions": 1,
+        "history": [
+          "2026-10-27 23:37 COMPLETE, PR opened"
+        ]
+      }
     },
     {
       "id": "P34.2",
