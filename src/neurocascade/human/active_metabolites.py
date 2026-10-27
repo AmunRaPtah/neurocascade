@@ -552,7 +552,7 @@ ARIPIPRAZOLE_DEHYDRO_ARIPIPRAZOLE = ActiveMetabolite(
 #: source: no amount of further searching would close it.
 #:
 #: It is also the only refused pair whose cost can be priced. The label prints
-#: no ratio, but Braaten 2022 measured one in a therapeutic drug monitoring
+#: no ratio, but Lenk et al. 2022 measured one in a therapeutic drug monitoring
 #: cohort stratified by CYP2D6 phenotype, ten subgroups spanning 0.25 to 33.11
 #: with 243 patients in the normal-metaboliser row used here, and Schotte 1995
 #: measured both Ki values in the same assay against
@@ -597,7 +597,7 @@ RISPERIDONE_9_HYDROXYRISPERIDONE = ActiveMetabolite(
         "after the last dose"
     ),
     exposure_citation=(
-        "Braaten et al. 2022, Clin Pharmacol Ther 111(6):1266-77, PMID 35253216, "
+        "Lenk et al. 2022, Clin Pharmacol Ther 111(5):1165-74, PMID 35253216, "
         "human, oral; the RISPERDAL label prints no ratio at all"
     ),
     exposure_provenance="primary",

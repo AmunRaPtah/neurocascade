@@ -1254,7 +1254,7 @@ directly-quotable percent-open-arm-time figure specifically for diazepam
 (as opposed to its own bar-chart/figure data, not extractable from the
 full-text sources this search could access) was not found. A
 mechanistically identical same-class analog number WAS found and verified
-directly (full text fetched): an open-access 2026 paper (Biomarker-Based
+directly (full text fetched): an open-access 2025 paper (Biomarker-Based
 Pharmacological Characterization of ENX-102, PMC12564412) used
 chlordiazepoxide, not diazepam, as its positive control and reports vehicle
 rats spent 9.4% (+/-2.5% SE) of time in the EPM's open arms versus 39.1%
@@ -2950,7 +2950,7 @@ rat intraperitoneal diazepam study in reach reports an observed Tmax.
 [Friedman1986], whose disposition the composite uses, is closed access with
 no Tmax in its abstract and a first post-dose sample at 5 min. The search was
 extended beyond P1.4's sweep specifically for a rat IP diazepam Tmax; the
-nearest hit, Nelson et al. 2024 (PMC11296087, read in full), does dose male
+nearest hit, Guignet et al. 2024 (PMC11296087, read in full), does dose male
 Sprague-Dawley rats diazepam IP at 0.75-6 mg/kg with LC-MS plasma sampling,
 but it samples 10 min after the *last* of three hourly injections and reports
 no non-compartmental parameters, so there is no single-dose ascending limb in
@@ -14721,7 +14721,7 @@ The registry as first written could say only that risperidone's parent axis was
 missing. Both ratios turned out to be obtainable, and the refusal is now a
 number.
 
-Bråten 2022 (PMID 35253216) measured the metabolite:parent serum ratio in a
+Lenk et al. 2022 (PMID 35253216) measured the metabolite:parent serum ratio in a
 therapeutic drug monitoring cohort stratified by CYP2D6 phenotype and NFIB
 genotype: ten subgroups from 0.25 to 33.11, with 9.93 (95% CI 8.55 to 11.54) in
 the 243-patient normal-metaboliser row. Schotte 1995 measured both ligands
@@ -14739,7 +14739,7 @@ arithmetic against the chain's own error rather than by argument.
 The conclusion is stressed against its weakest input rather than defended. At an
 affinity ratio ten times more favourable to the parent than the measured one, the
 error is still 0.197, nearly six times the MAE. The exposure ratio near 10 is
-what decides this drug, and even at the bottom of Bråten's 130-fold phenotype
+what decides this drug, and even at the bottom of Lenk et al.'s 130-fold phenotype
 range, the poor-metaboliser ratio of 0.25, the error is 0.067, twice the MAE. No
 phenotype makes the parent-only path safe; they differ in how badly it fails,
 which is the label's phenotype dependence restated in occupancy units.
@@ -16511,8 +16511,8 @@ the parent molecules and reading the documents behind them:
   12061889), CHEMBL1148291 (Lombardo 2004), CHEMBL1614630/1614632 (Obach 2008
   670-compound set, PMID 18426954) and CHEMBL3588773 (Lombardo 2016 "Volume of
   Distribution in Drug Design", PMID 25799158).
-- **Fridén brain tissue binding** — CHEMBL3526149 (Fridén 2011 porcine brain
-  TRANSIL, PMID 21071520) and CHEMBL3525956 (Fridén 2011 species-independence,
+- **Brain tissue binding** — CHEMBL3526149 (Longhi 2011 porcine brain
+  TRANSIL, PMID 21071520) and CHEMBL3525956 (Di 2011 species-independence,
   PMID 21474681).
 - **Loryan unbound brain exposure** — CHEMBL3525927 (Loryan 2011, PMID 21149540)
   and CHEMBL4373730 (2019 Kp,uu set).
@@ -17082,8 +17082,8 @@ clinical dose without a predeclared interval scoring rule.
 
 The second load-bearing check is the endpoint itself. The 70% striatal D2
 threshold is admitted only for N05A antipsychotics, supported by the published
-65–70% efficacy discussion (Kapur and Seeman 2001, PMID 11729039) and the
-70–80% therapeutic window review (Kapur et al. 2009, PMID 21143431). No
+65–70% efficacy discussion (Kapur and Seeman 2001, PMID 11229973) and the
+70–80% therapeutic window review (Nord and Farde 2011, PMID 21143431). No
 equivalent class-level human target-engagement threshold was found for N05B,
 N06A, or FAIL, so the threshold is not transferred to those strata.
 
@@ -17461,8 +17461,8 @@ deliberately not done here. The held-out numbers are reported as measured and
 no headline claim is made from them.
 
 The choice of a regularised logistic model follows the interpretability goal:
-regularised logistic models are used specifically to expose a compact set of
-non-zero, comprehensible predictors in clinical prediction (Liu et al. 2016,
+regularised logistic models are used to select a compact set of non-zero,
+interpretable predictors, as in biomarker selection (Wu et al. 2016,
 PMID 26921029). The paper is methodological support for the model family, not
 a source for any neurocascade parameter.
 

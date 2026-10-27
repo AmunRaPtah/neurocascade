@@ -33,8 +33,8 @@ a pointwise fold-error score.
 
 For N05A antipsychotics, the target threshold was pre-specified as 70% striatal
 D2 occupancy, a value within the 65–70% efficacy range discussed by Kapur and
-Seeman (2001, PMID 11729039) and the 70–80% therapeutic window reviewed by
-Kapur et al. (2009, PMID 21143431). This threshold is not transferred to N05B,
+Seeman (2001, PMID 11229973) and the 70–80% therapeutic window reviewed by
+Nord and Farde (2011, PMID 21143431). This threshold is not transferred to N05B,
 N06A, or FAIL drugs: no class-level human target-engagement threshold was
 found for those strata in the benchmark source set.
 
