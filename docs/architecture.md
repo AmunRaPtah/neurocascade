@@ -17209,6 +17209,77 @@ The acceptance result is deliberately incomplete: oral truth is 8/8, but PET
 pairs are 5/8 (required >=6) and train preclinical coverage is 36/130
 (required >=60%). No prediction or calibration is reported from these records.
 
+## Phase 29, part six: microsomal binding (fu_mic) and Rb for the CL arm (P29.6)
+
+The P29.2 well-stirred CL arm was level with the train-mean floor (GMFE 2.855
+vs ~2.75–2.82 on its 15 train drugs) and its error was a one-sided
+under-prediction of lipophilic bases — haloperidol 18-fold, desipramine 8.7,
+chlorpromazine 7.5. That is the fingerprint of the two binding terms the arm
+set to 1: microsomal binding `fu_mic` (CLint_u = CLint / fu_mic) and the
+blood:plasma ratio `Rb` (fu_b = fu_p / Rb). For a lipophilic base fu_mic is well
+below 1, so omitting it under-estimates CLint_u and CL_H, worst for the most
+lipophilic drugs — precisely the observed slope.
+
+**Design decisions.**
+
+1. *fu_mic equation and its attribution.* The coefficients 0.072 / 0.067 /
+   −1.126 that are in wide PBPK use are **Hallifax & Houston 2006** (PMID
+   16552024), the quadratic refinement of the **Austin 2002** (PMID 12433825)
+   logP microsomal-binding model — not Austin's own linear 0.56 / −1.41 form.
+   Both the data file and the module say so, so a reader is not misled into
+   crediting the quadratic to Austin (the prior P29.6 PRs cited Austin for the
+   equation; the arithmetic is Hallifax-Houston's and is now labelled that way).
+2. *logP and ionisation.* ChEMBL_37 ALogP per drug (CHEMBL id cited). pKa /
+   ionisation class (PubChem→ChEMBL/DrugBank/HSDB) is used only to choose the
+   descriptor and the Rb acid/base default. Austin/Hallifax use logP for bases
+   and logD7.4 for neutrals/acids; every scored drug is a base or a neutral
+   benzodiazepine with no ionisable group near pH 7.4, so logD7.4 = ALogP and
+   ALogP is the descriptor throughout. No acid appears, so the acid Rb default
+   (0.55) is never exercised.
+3. *Incubation protein concentration C.* The ChEMBL CLint rows record no
+   per-assay protein concentration (checked: zero of the human-microsome rows
+   state one), so C is a **declared default** of 0.5 mg/mL — the standard HLM
+   substrate-depletion CLint assay concentration (Słoczyńska 2019, PMID
+   31259741). The result is robust to the choice (C=1.0 → 1.61, C=0.5 → 1.91,
+   both below the mean); the more conservative 0.5 was taken rather than the
+   GMFE-minimising value, so the number is not tuned to pass.
+4. *Rb — the part two prior PRs silently dropped.* A measured human
+   whole-blood:plasma ratio is applied where a primary source reports one
+   directly: haloperidol 0.79 (Cheng 1987, PMID 3108922), clozapine 0.88
+   (Flanagan 2003, PMID 12848787), risperidone 0.67 (Mannens 1994, PMID
+   7531854). For every other drug the base/neutral default Rb=1 is used (Obach
+   1999 convention, PMID 10534321) and the search is recorded **searched-and-empty
+   per drug** in `physchem.json`, including the cases where a *different*
+   quantity exists (RBC/plasma, postmortem, or a range spanning 1) but is not a
+   whole-blood:plasma ratio and would need an un-sourced haematocrit to convert.
+   Every measured ratio found is applied whether or not it helps — risperidone's
+   0.67 raises its prediction and risks overshoot, and is used anyway;
+   citalopram's reported RBC accumulation (Rb>1, which would *help* its
+   over-prediction) is **not** applied because the only source is in-vitro RBC
+   distribution, not an in-vivo whole-blood ratio. This makes the inclusion rule
+   explicit and auditable, which is what the rejections asked for.
+
+**Freezing discipline.** The frozen uncorrected arm is left exactly as it was:
+`score_train()`/`score_heldout()` and the V20 conformal bands that read them are
+unchanged (verified: train GMFE still 2.8548, bias factor still 0.35127, all
+conformal tests pass). The correction is an opt-in path
+(`_ivive_cl(..., binding_corrected=True)`, `score_train_binding_corrected()`),
+and it carries **no empirical bias factor** — the mechanistic correction stands
+on its own. `_human_truth` was made to return None (searched-and-empty) instead
+of raising when a truth file is absent, so the held-out scoring path degrades
+cleanly in this sandbox; on the host with full data it is transparent.
+
+**Result (train LOO, same 15 drugs).** Binding-corrected GMFE **1.911**, 11/15
+within 2-fold, 12/15 within 3-fold, vs the same-drugs train-mean baseline
+**2.817** — the arm now beats the mean, where the uncorrected arm did not
+(2.855). Lipophilic bases before→after: haloperidol 18.36→5.32, desipramine
+8.71→5.95, chlorpromazine 7.55→1.85. desipramine stays ~6-fold low because its
+available microsomal CLint under-represents its (largely CYP2D6) clearance — a
+CLint-input limit, not a binding one, which fu_mic cannot repair and which is
+reported rather than papered over. Held-out binding-corrected CL is host-pending:
+physchem inputs are supplied for the six held-out IVIVE drugs. Full source trail:
+`docs/p29-6-fu-mic-rb.md`; ledger row V17 updated.
+
 ## Phase 29, part seven: PDSP Link digits repaired as citations (P29.7)
 
 ### What was wrong, read off the PDSP CSV rather than the brief

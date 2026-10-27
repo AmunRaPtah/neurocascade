@@ -1,0 +1,162 @@
+{
+  "description": "P29.6 microsomal-binding (fu_mic) and blood:plasma-ratio (Rb) inputs for the P29.2 well-stirred IVIVE clearance arm. logP is ChEMBL_37 ALogP (per-drug CHEMBL id). pKa / ionisation class fixes the lipophilicity descriptor (Austin/Hallifax-Houston use logP for bases and logD7.4 for neutrals/acids; none of these drugs is an anionic acid at pH 7.4, and every neutral here lacks an ionisable group at 7.4 so logD7.4 == ALogP) and the Rb acid/base default. Rb is a measured human whole-blood:plasma ratio where a primary source reports one directly, else the base/neutral default. Numbers are literature-sourced; none is invented. See docs/p29-6-fu-mic-rb.md.",
+  "fu_mic": {
+    "equation": "fu_mic = 1 / (1 + C * 10^(0.072*x^2 + 0.067*x - 1.126)), x = logP for bases and logD7.4 for neutrals/acids, C = microsomal protein concentration in mg/mL",
+    "coefficients": {"a2": 0.072, "a1": 0.067, "a0": -1.126},
+    "equation_source": "Hallifax & Houston 2006 (quadratic refinement of the Austin et al. 2002 logP microsomal-binding model); PMIDs 16552024 (Hallifax-Houston 2006) and 12433825 (Austin et al. 2002)",
+    "equation_pmids": ["16552024", "12433825"],
+    "equation_pmid_note": "Method citations, not drug records. 16552024 = Hallifax & Houston 2006 DMD, the quadratic fu_mic coefficients used here; 12433825 = Austin et al. 2002 DMD, the original logP-based microsomal-binding model it refines. Neither names a single benchmark drug.",
+    "protein_mg_mL": 0.5,
+    "protein_basis": "declared default: the ChEMBL CLint records carry no per-assay microsomal protein concentration, so a default is declared. 0.5 mg/mL is the standard human-liver-microsome substrate-depletion CLint assay concentration.",
+    "protein_source": "Sloczynska et al. 2019, Acta Pharm 69:345-361, PMID 31259741 (review stating the standard HLM metabolic-stability/CLint incubation at 0.5 mg/mL microsomal protein)",
+    "protein_pmid": "31259741",
+    "protein_pmid_note": "Method/assay-convention citation, not a drug record; it states the standard HLM CLint incubation protein concentration and names no single benchmark drug."
+  },
+  "rb_defaults": {
+    "base": 1.0,
+    "neutral": 1.0,
+    "acid": 0.55,
+    "source": "Obach 1999 acid/base convention (bases and neutrals Rb=1, acids Rb~0.55), PMID 10534321",
+    "pmid": "10534321",
+    "pmid_note": "Method/convention citation (well-stirred IVIVE with blood and microsome binding), not a drug record; names no single benchmark drug."
+  },
+  "drugs": {
+    "haloperidol": {
+      "chembl_id": "CHEMBL54", "logp": 4.43, "logp_source": "ChEMBL_37 ALogP (CHEMBL54)",
+      "pka": 8.65, "pka_source": "PubChem CID 3559 (from ChEMBL)", "ionization_class": "base",
+      "rb": 0.79, "rb_basis": "measured",
+      "rb_source": "Cheng et al. 1987, Psychopharmacology (Berl) 91:410-414, PMID 3108922 (steady-state blood:plasma concentration ratio 0.79+/-0.03 in psychotic patients)",
+      "rb_pmid": "3108922"
+    },
+    "desipramine": {
+      "chembl_id": "CHEMBL72", "logp": 3.53, "logp_source": "ChEMBL_37 ALogP (CHEMBL72)",
+      "pka": 10.2, "pka_source": "PubChem CID 2995 (from ChEMBL)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: only an in-vitro RBC/plasma ratio (~0.78) is public, not a whole-blood:plasma Rb; base default (see rb_defaults)"
+    },
+    "chlorpromazine": {
+      "chembl_id": "CHEMBL71", "logp": 4.89, "logp_source": "ChEMBL_37 ALogP (CHEMBL71)",
+      "pka": 9.24, "pka_source": "PubChem CID 2726 (from ChEMBL)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: erythrocyte/plasma ~0.5 reported (Lund 1980) but no direct whole-blood:plasma Rb (conversion needs an assumed haematocrit); base default (see rb_defaults)"
+    },
+    "maprotiline": {
+      "chembl_id": "CHEMBL21731", "logp": 4.21, "logp_source": "ChEMBL_37 ALogP (CHEMBL21731)",
+      "pka": 10.5, "pka_source": "PubChem CID 4011 (from ChEMBL)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: reported to concentrate in erythrocytes (Maguire 1980, Clin Chem 26:1624) but no numeric whole-blood:plasma Rb; base default (see rb_defaults)"
+    },
+    "mirtazapine": {
+      "chembl_id": "CHEMBL654", "logp": 2.48, "logp_source": "ChEMBL_37 ALogP (CHEMBL654)",
+      "pka": 7.3, "pka_source": "PubChem CID 4205 (from ChEMBL)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: only a postmortem blood:plasma ratio (~2.5) is public, not an antemortem Rb; base default (see rb_defaults)"
+    },
+    "clozapine": {
+      "chembl_id": "CHEMBL42", "logp": 3.72, "logp_source": "ChEMBL_37 ALogP (CHEMBL42)",
+      "pka": 7.9, "pka_source": "PubChem CID 135398737 (from ChEMBL)", "ionization_class": "base",
+      "rb": 0.88, "rb_basis": "measured",
+      "rb_source": "Flanagan et al. 2003, Br J Clin Pharmacol 56:135, PMID 12848787 (whole-blood clozapine ~10% below plasma, i.e. Rb ~0.88-0.90)",
+      "rb_pmid": "12848787"
+    },
+    "risperidone": {
+      "chembl_id": "CHEMBL85", "logp": 3.59, "logp_source": "ChEMBL_37 ALogP (CHEMBL85)",
+      "pka": 8.3, "pka_source": "PubChem CID 5073 (from ChEMBL)", "ionization_class": "base",
+      "rb": 0.67, "rb_basis": "measured",
+      "rb_source": "Mannens et al. 1994, Psychopharmacology (Berl), PMID 7531854 (blood:plasma concentration ratio averaged 0.67 in man)",
+      "rb_pmid": "7531854"
+    },
+    "promazine": {
+      "chembl_id": "CHEMBL564", "logp": 4.24, "logp_source": "ChEMBL_37 ALogP (CHEMBL564)",
+      "pka": 9.28, "pka_source": "PubChem CID 4926 (from ChEMBL)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: no public human whole-blood:plasma ratio found; base default (see rb_defaults)"
+    },
+    "chlordiazepoxide": {
+      "chembl_id": "CHEMBL451", "logp": 2.95, "logp_source": "ChEMBL_37 ALogP (CHEMBL451)",
+      "pka": 4.8, "pka_source": "PubChem CID 2712 (from DrugBank)", "ionization_class": "neutral",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: no public human whole-blood:plasma ratio found; neutral default (see rb_defaults)"
+    },
+    "lorazepam": {
+      "chembl_id": "CHEMBL580", "logp": 3.10, "logp_source": "ChEMBL_37 ALogP (CHEMBL580)",
+      "pka": 11.0, "pka_source": "PubChem CID 3958 (from DrugBank)", "ionization_class": "neutral",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: no public human whole-blood:plasma ratio found; neutral default (see rb_defaults)"
+    },
+    "oxazepam": {
+      "chembl_id": "CHEMBL568", "logp": 2.45, "logp_source": "ChEMBL_37 ALogP (CHEMBL568)",
+      "pka": 10.9, "pka_source": "PubChem CID 4616 (HSDB, estimated)", "ionization_class": "neutral",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: no public human whole-blood:plasma ratio found; neutral default (see rb_defaults)"
+    },
+    "trimipramine": {
+      "chembl_id": "CHEMBL644", "logp": 4.12, "logp_source": "ChEMBL_37 ALogP (CHEMBL644)",
+      "pka": 9.24, "pka_source": "PubChem CID 5584 (from ChEMBL)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: no public human whole-blood:plasma ratio found; base default (see rb_defaults)"
+    },
+    "clomipramine": {
+      "chembl_id": "CHEMBL415", "logp": 4.53, "logp_source": "ChEMBL_37 ALogP (CHEMBL415)",
+      "pka": 9.38, "pka_source": "PubChem CID 2801 (from ChEMBL)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: plasma/whole-blood 0.70-1.20 reported (PMID 1277478), spanning 1 with no single value; base default (see rb_defaults)"
+    },
+    "trazodone": {
+      "chembl_id": "CHEMBL621", "logp": 2.36, "logp_source": "ChEMBL_37 ALogP (CHEMBL621)",
+      "pka": 6.79, "pka_source": "PubChem CID 5533 (from ChEMBL)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: no public human whole-blood:plasma ratio found; base default (see rb_defaults)"
+    },
+    "citalopram": {
+      "chembl_id": "CHEMBL549", "logp": 3.81, "logp_source": "ChEMBL_37 ALogP (CHEMBL549)",
+      "pka": 9.38, "pka_source": "PubChem CID 2771 (from ChEMBL)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: RBC accumulation reported in vitro (Fisar et al. 2006, PMID 16816836) but no clean in-vivo whole-blood:plasma Rb; base default (see rb_defaults)",
+      "rb_pmid_note": "PMID 16816836 ('Distribution of antidepressants between plasma and red blood cells') names citalopram in its abstract/MeSH, not its title; it is cited here only as the in-vitro RBC-distribution source that was NOT adopted."
+    },
+    "alprazolam": {
+      "split": "heldout",
+      "chembl_id": "CHEMBL661", "logp": 3.58, "logp_source": "ChEMBL_37 ALogP (CHEMBL661)",
+      "pka": null, "pka_source": "PubChem CID 2118: triazolo-1,4-benzodiazepine, no ionisable group with pKa near 7.4, so neutral at physiological pH", "ionization_class": "neutral",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: no public human whole-blood:plasma ratio found; neutral default (see rb_defaults)"
+    },
+    "diazepam": {
+      "split": "heldout",
+      "chembl_id": "CHEMBL12", "logp": 3.15, "logp_source": "ChEMBL_37 ALogP (CHEMBL12)",
+      "pka": 3.4, "pka_source": "PubChem CID 3016 (DrugBank / HSDB)", "ionization_class": "neutral",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: benzodiazepines are reported to be excluded from erythrocytes (Rb<1) but no single vetted primary whole-blood:plasma value is adopted here; neutral default (see rb_defaults)"
+    },
+    "fluphenazine": {
+      "split": "heldout",
+      "chembl_id": "CHEMBL726", "logp": 4.31, "logp_source": "ChEMBL_37 ALogP (CHEMBL726)",
+      "pka": 7.9, "pka_source": "PubChem CID 3372 (DrugBank / HSDB)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: no public human whole-blood:plasma ratio found; base default (see rb_defaults)"
+    },
+    "imipramine": {
+      "split": "heldout",
+      "chembl_id": "CHEMBL11", "logp": 3.88, "logp_source": "ChEMBL_37 ALogP (CHEMBL11)",
+      "pka": 9.5, "pka_source": "PubChem CID 3696 (from ChEMBL)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: only an in-vitro RBC/plasma ratio (~0.64) is public (PMID 3982232), not a whole-blood:plasma Rb; base default (see rb_defaults)",
+      "rb_pmid_note": "PMID 3982232 ('Uptake and/or binding of tricyclic antidepressants in human red cells') names imipramine in its abstract/MeSH, not its title; it is cited here only as the source of the RBC/plasma ratio that was NOT adopted."
+    },
+    "nomifensine": {
+      "split": "heldout",
+      "chembl_id": "CHEMBL273575", "logp": 2.85, "logp_source": "ChEMBL_37 ALogP (CHEMBL273575)",
+      "pka": null, "pka_source": "PubChem CID 4528: tetrahydroisoquinoline primary/secondary amine, basic at physiological pH", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: no public human whole-blood:plasma ratio found; base default (see rb_defaults)"
+    },
+    "venlafaxine": {
+      "split": "heldout",
+      "chembl_id": "CHEMBL637", "logp": 3.04, "logp_source": "ChEMBL_37 ALogP (CHEMBL637)",
+      "pka": 9.5, "pka_source": "PubChem CID 5656 (from ChEMBL)", "ionization_class": "base",
+      "rb": 1.0, "rb_basis": "default",
+      "rb_source": "searched-and-empty: no public human whole-blood:plasma ratio found; base default (see rb_defaults)"
+    }
+  }
+}
