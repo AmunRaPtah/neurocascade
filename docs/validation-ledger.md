@@ -223,9 +223,9 @@ Source: ChEMBL_37 ADME activities (`assay_type=A`) on each drug's parent
 molecule (salts included via `parent_molecule_chembl_id`), every value keeping
 its own species, tissue, units and source document. ChEMBL already carries the
 compilations the brief names — Lombardo 2002/2008/2016 and Obach 2008 IV-PK
-(CHEMBL1135488, CHEMBL1148291, CHEMBL1614630/1614632, CHEMBL3588773), Fridén
-2011 brain tissue binding (CHEMBL3526149, CHEMBL3525956) and Loryan 2011 unbound
-brain exposure (CHEMBL3525927) — so it is used as the single per-row-cited
+(CHEMBL1135488, CHEMBL1148291, CHEMBL1614630/1614632, CHEMBL3588773), Longhi
+2011 / Di 2011 brain tissue binding (CHEMBL3526149, CHEMBL3525956) and Fridén 2011
+unbound brain exposure (CHEMBL3525927) — so it is used as the single per-row-cited
 mirror rather than scraping paywalled supplements (all return HTTP 403). Files:
 `src/neurocascade/benchmark/adme/<inn>.json`, summary `adme/coverage.json`.
 Rules and the classifier in docs/architecture.md under P28.3.
