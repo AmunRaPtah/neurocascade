@@ -17751,6 +17751,86 @@ baselines. P32.x stays held, and under the one-look rule this candidate is not
 re-scored against this held-out set. A GO needs wider Cmax,u and Ki coverage on
 a fresh held-out set and a new pre-registration.
 
+## Phase 34, part one: diagnosing P33.4 and a parameter-free candidate (P34.1)
+
+P33.4 was NO-GO. Before building a fresh held-out set (P34.4), P34.1 asks a
+cheaper question first: does a *better* candidate exist at all, judged on train
+leave-one-drug-out against the frozen P33.3 baselines? If none beats even the
+simplest baseline on train, there is no point burning a fresh held-out set on
+it. P34.1 reads train INNs only (`v2_partition()[0]`); it does not read, import
+or run against any held-out (`v2_heldout`) or fresh drug.
+
+### The P33.4 loss was two things, only one of them fixable
+
+`results/P33.4.json` shows the P33.4 candidate (multi-target occupancy → L2
+logistic) losing to the unfitted `occupancy_max` baseline on both scored
+liabilities: sedation 0.571, anticholinergic **0.343** on the common set. An
+AUROC of 0.343 is *below chance* and is an artefact, not a measurement. The
+feature is zero-inflated — on the full featured set (n=68) ~53 of 68 drugs have
+occupancy 0 at the liability receptors — and a leave-one-drug-out logistic
+refits its **intercept** every fold. The intercept shifts all predictions by a
+fold-specific constant; among the many drugs tied at occupancy 0 that constant,
+plus tiny standardisation differences, manufactures an arbitrary ordering that
+AUROC then scores as signal (usually anti-signal). The unfitted `occupancy_max`
+baseline has no intercept and treats all the occupancy-0 drugs as one
+rank-averaged tie, so it is not fooled. That is why P33.4's single-model AUROC
+(no LODO) matched the baseline (0.689/0.746) while its LODO AUROC collapsed.
+
+The second part of the loss is **not** an artefact and does not go away: on the
+subset of drugs that actually bind, the occupancy baseline is already strong,
+and a fitted model on ~15 drugs carries more fitting variance than the signal it
+could add. We verified this directly — a no-intercept logistic on occupancy
+recovers to 0.53/0.53 (artefact gone) but still loses to the unfitted baseline;
+on the wide n=68 featured set the fitted model is worse again, because the
+zero-inflation returns. **No fitted occupancy model beats the unfitted
+`occupancy_max` baseline on this data.** That is the real constraint, and it
+rules out the whole "bigger/better-regularised logistic" family.
+
+### The candidate: a parameter-free rank ensemble of two mechanistic views
+
+The one place with headroom is sedation, where the `strongest_target_ki`
+baseline (0.821) beats `occupancy_max` (0.679). The mechanism is visible in the
+data: sedation is H1, and the strong H1 binders (cetirizine occ 0.915, clozapine
+0.964, doxepin 0.991, mirtazapine 0.961) are all crammed against occupancy 1 —
+occupancy **saturates** when Cu ≫ Ki, so it cannot rank the strong binders
+against each other, while affinity (Ki) still can. Conversely affinity ignores
+exposure entirely. The P34.1 candidate
+(`neurocascade.benchmark.v2.candidate_v2.rank_combined_score`) is the
+*parameter-free* combination of the two: each drug's `occupancy_max` and
+`strongest_target_ki` are converted to average ranks within the scored cohort
+and summed. There is no intercept, no L2 strength and no tuned weight — equal
+weight is the parameter-free choice; a tuned weight would be a fitted number and
+is deliberately not used. Because the score uses no labels it has nothing to
+overfit under LODO and no intercept to jitter, and (exactly like the two
+unfitted baselines) it is scored directly on the common set rather than by a
+fold loop. The predict path imports no truth and reads no file; the feature
+assembly that reads binding + Cmax truth lives in `candidate_v2_benchmark.py`
+and touches train INNs only (a test parses the AST and asserts both).
+
+### Train-LODO result (from `results/P34.1.json`)
+
+Candidate beside every baseline, on the identical go_verdict common set:
+
+| Liability | common n (pos) | candidate | occupancy_max | strongest-Ki | 1-NN | ATC |
+|---|---|---|---|---|---|---|
+| Sedation | 15 (7) | **0.750** | 0.679 | 0.821 | 0.527 | 0.589 |
+| Anticholinergic | 17 (7) | 0.871 | 0.943 | 0.800 | 0.493 | 0.364 |
+
+The candidate **beats `occupancy_max` on sedation** (0.750 > 0.679), which is
+P34.1's acceptance criterion, and is a large improvement over the P33.4
+candidate on both liabilities (0.571→0.750, 0.343→0.871) — the latter because
+the parameter-free score simply has no intercept to collapse. It is **not** a GO
+candidate: it does not beat `strongest_target_ki` on sedation (0.750 < 0.821),
+nor `occupancy_max` on anticholinergic (0.871 < 0.943), and a GO needs beating
+every baseline. n=15/17 is small and the 0.07 sedation edge is within the noise
+of seven positives; this is recorded as a train-LODO *selection* result, not a
+validated claim. The binding held-out decision belongs to the fresh-set tasks
+(P34.3→P34.5) under their own pre-registration, not to this selection. What
+P34.1 establishes is the load-bearing fact P34.4 needed before spending a fresh
+held-out set: a candidate that is at least competitive with — and on one
+liability better than — the simplest baseline does exist, and it is the
+parameter-free rank ensemble, not any fitted occupancy model.
+
 ## Phase 30, part three: calibrated uncertainty bands (P30.3)
 
 P30.3 is `neurocascade.benchmark.conformal`. It puts a frozen, distribution-free
