@@ -2864,7 +2864,7 @@
         "P30.3",
         "P30.4",
         "P33.3",
-        "P33.4"
+        "P34.5"
       ],
       "status": "pending",
       "attempts": 0,
@@ -2883,7 +2883,7 @@
         "gave_up": false
       },
       "requires_go": [
-        "P33.4"
+        "P34.5"
       ],
       "note": "2026-10-26: the earlier sessions' gate failures were a test false positive (fixed on main), not your code. Wire predict_compound to the P33.4 candidate and the P30.4 bands, not the train mean."
     },
@@ -2907,7 +2907,7 @@
       "status": "pending",
       "attempts": 0,
       "requires_go": [
-        "P33.4"
+        "P34.5"
       ]
     },
     {
@@ -2931,7 +2931,7 @@
       "status": "pending",
       "attempts": 0,
       "requires_go": [
-        "P33.4"
+        "P34.5"
       ]
     },
     {
@@ -2956,7 +2956,7 @@
       "status": "pending",
       "attempts": 0,
       "requires_go": [
-        "P33.4"
+        "P34.5"
       ]
     },
     {
@@ -3121,8 +3121,8 @@
     {
       "id": "P30.4",
       "phase": "Phase 30: occupancy-to-effects",
-      "title": "Recalibrate the uncertainty bands around the P33.4 candidate, held-out coverage once",
-      "brief": "P30.3 fitted conformal bands around the train-mean predictor (CL 95% band x/÷23.9, IVIVE unbounded, effect sets almost all {0,1}) and never ran held-out coverage although its acceptance required it. Refit the P30.3 band API on the P33.4 candidate's LODO residuals, report LODO coverage AND set/interval width beside the train-mean bands, freeze, then report held-out coverage once via host_eval.",
+      "title": "Recalibrate the uncertainty bands around the P34.3 frozen candidate, held-out coverage once",
+      "brief": "P30.3 fitted conformal bands around the train-mean predictor (CL 95% band x/÷23.9, IVIVE unbounded, effect sets almost all {0,1}) and never ran held-out coverage although its acceptance required it. Refit the P30.3 band API on the P34.3 frozen candidate's LODO residuals, report LODO coverage AND set/interval width beside the train-mean bands, freeze, then report held-out coverage once via host_eval.",
       "acceptance": [
         "bands refit on candidate residuals, frozen before held-out",
         "LODO coverage and width per quantity in the ledger, beside the train-mean bands",
@@ -3134,14 +3134,117 @@
       },
       "deps": [
         "P30.3",
-        "P33.4"
+        "P34.5"
       ],
       "status": "pending",
       "attempts": 0,
       "requires_go": [
-        "P33.4"
+        "P34.5"
       ],
       "host_eval": "python -m pytest -q -p no:cacheprovider -s src/neurocascade/benchmark/v2/test_bands_heldout.py"
+    },
+    {
+      "id": "P34.1",
+      "phase": "Phase 34: fresh candidate on a new held-out set (post-P33.4 NO-GO)",
+      "title": "Diagnose the P33.4 loss and build a better candidate on train LODO only",
+      "brief": "P33.4 was NO-GO: the candidate (multi-target occupancy -> L2 logistic) lost to the plain occupancy_max baseline on TRAIN leave-one-drug-out (results/P33.4.json: AUROC 0.57/0.34/0.08/0.00 vs 0.61-0.94). AUROC near 0 from LODO logistic on ~15 drugs is the leave-one-out intercept artifact. Only 15-19 of 267 train drugs reach the common set. Build and select a BETTER candidate using TRAIN drugs only (v2_partition train side), judged on train LODO against the frozen baselines. Allowed moves: drop the intercept / use a proper-scoring occupancy score, regularise toward occupancy_max, pool receptors per liability more carefully, widen the common set by imputing missing Ki/Cmax with a declared rule. You may NOT read, import or run against any held-out drug (guards.v2_heldout) or the fresh set. Pick ONE candidate family; selection is on train LODO only, recorded in results/P34.1.json.",
+      "acceptance": [
+        "a committed train-LODO table: candidate vs every baseline per liability, generated programmatically into results/P34.1.json and the ledger",
+        "candidate beats occupancy_max on train LODO for at least one liability, or the task ends TASK_RESULT: EMPTY naming why no train-LODO improvement was found",
+        "the candidate code imports no held-out or fresh truth; a test asserts it reads only train INNs"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P33.4"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P34.2",
+      "phase": "Phase 34: fresh candidate on a new held-out set (post-P33.4 NO-GO)",
+      "title": "Freeze the label, Cmax and binding build rules so the fresh set uses identical rules",
+      "brief": "Before the fresh held-out set is built, freeze the data-construction rules so they cannot be tuned on it. Commit the exact liability rule (src/neurocascade/benchmark/v2/liability_rules.json and scripts/v2_liabilities.py), the Cmax procedure (scripts/v2_cmax.py) and the binding procedure (scripts/v2_binding.py) as the frozen P34 build, recording each file's sha256 in results/P34.2.json. If an EU SmPC placebo-subtracted parser is wanted for the fresh set (prereg allows it), implement and validate it HERE on train drugs and freeze it now; do not add any parser later. No held-out or fresh drug is touched.",
+      "acceptance": [
+        "results/P34.2.json lists the frozen rule files with sha256, generated programmatically",
+        "any parser used for the fresh set exists and is tested as of this task; a test pins the rule shas",
+        "no change to any v2 truth file or the burned split"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P34.1"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P34.3",
+      "phase": "Phase 34: fresh candidate on a new held-out set (post-P33.4 NO-GO)",
+      "title": "Freeze the P34.1 candidate (code + fitted params + sha) before any fresh truth exists",
+      "brief": "Freeze the candidate selected in P34.1: commit its code and the parameters fitted on ALL train drugs (not LODO), and write results/P34.3.json with the candidate's code sha256, the fitted-param sha256, the liability->receptor map and l2 settings. After this commit nothing edits the candidate. The freeze is what makes the P34.5 held-out look a single pre-registered test. The candidate predict path must import no truth module. A test loads the frozen params and reproduces a fixed train prediction.",
+      "acceptance": [
+        "results/P34.3.json records candidate code sha256 and fitted-param sha256, generated programmatically",
+        "a test reproduces a fixed train-drug prediction from the frozen params and asserts the predict path imports no truth",
+        "the frozen candidate is the same family selected in P34.1 (id/hash cross-checked in the ledger)"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P34.1",
+        "P34.2"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P34.4",
+      "phase": "Phase 34: fresh candidate on a new held-out set (post-P33.4 NO-GO)",
+      "title": "Build the fresh held-out truth set (new drugs, not in the v2 universe)",
+      "brief": "Build a fresh held-out set under src/neurocascade/benchmark/v2/truth_fresh/ (guards.V2_FRESH), created only AFTER the P34.3 freeze, by the inclusion rule in docs/prereg-p34-go.md: approved small-molecule drugs NOT among the 465 P33.1 candidates, with pChEMBL>=5.0 at a P33.1 anchor target or a listed ATC code. Build liability labels with the P34.2-frozen rules, plus Cmax and binding by the frozen procedures. Record every pool member and per-drug exclusions (missing input only). The build scripts must NOT import or run the candidate. guards.hide_heldout deletes this directory from every later session tree and frozen_paths freezes it, so it stays invisible to the candidate author. If no liability reaches 8 positives and 8 negatives on the fresh common set, end TASK_RESULT: EMPTY naming the gap (that is not a NO-GO; it goes to the human).",
+      "acceptance": [
+        "src/neurocascade/benchmark/v2/truth_fresh/ holds new-drug liability + Cmax + Ki files built by the P34.2-frozen rules, with per-drug source citations and a pool listing",
+        "a test asserts every fresh drug is absent from the v2 universe (drugs.json) and that the build scripts import no candidate module",
+        "the ledger records fresh common-set positive/negative counts per liability; end EMPTY if none reaches 8/8"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P34.3"
+      ],
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "P34.5",
+      "phase": "Phase 34: fresh candidate on a new held-out set (post-P33.4 NO-GO)",
+      "title": "Score the frozen candidate on the fresh held-out set once (GO/NO-GO)",
+      "brief": "Score the P34.3-frozen candidate on the P34.4 fresh held-out set exactly once, host-side, under docs/prereg-p34-go.md. Add a host dump (like go_dump.py) that reads the fresh truth (V2_FRESH) only under NC_HOST_EVAL and emits the go_verdict.py schema: per liability the fresh drugs, 0/1 labels, frozen-candidate scores and every baseline score (strongest-target Ki, 1-NN fingerprint on train, ATC-class prevalence on train, occupancy_max). The statistic and decision are go_verdict.py unchanged (paired bootstrap, seed 20261026, 95% interval above 0). The host_eval runs the dump then go_verdict.py; the conductor records the first NC_GO_VERDICT into HOME/go/P34.5.json and it binds. The ledger quotes the verdict verbatim. GO unblocks P32.x; NO-GO holds them for the human.",
+      "acceptance": [
+        "host_eval produces the fresh-set dump and runs pipeline/go_verdict.py, printing NC_GO_VERDICT once",
+        "the dump reads fresh truth only under NC_HOST_EVAL; without it, it writes an empty-liabilities dump (NO-GO), proven by a test",
+        "the ledger row quotes the go_verdict output verbatim and the candidate predict path imports no truth"
+      ],
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "deps": [
+        "P34.3",
+        "P34.4"
+      ],
+      "host_eval": "NC_HOST_EVAL=1 PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump_fresh /tmp/p34_5_go.json && python pipeline/go_verdict.py /tmp/p34_5_go.json",
+      "status": "pending",
+      "attempts": 0
     }
   ]
 }

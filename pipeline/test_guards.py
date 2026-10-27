@@ -62,6 +62,18 @@ def test_hide_heldout_strips_truth_and_history(repo):
     assert git(repo, "status", "--porcelain") == ""
 
 
+def test_fresh_heldout_set_is_frozen_and_stripped_wholesale(repo):
+    # P34.4 fresh held-out set (new drugs, not caught by the v2_heldout hash).
+    write(repo, g.V2_FRESH + "fresh_liabilities.json",
+          {"drugs": [{"inn": "brexpiprazole", "sedation": {"label": 1}}]})
+    git(repo, "add", "-A")
+    git(repo, "commit", "-q", "-m", "fresh set")
+    assert g.V2_FRESH + "fresh_liabilities.json" in g.frozen_paths(repo)
+    g.hide_heldout(repo)
+    assert not (repo / g.V2_FRESH / "fresh_liabilities.json").exists()
+    assert "fresh_liabilities.json" not in git(repo, "log", "--all", "--name-only", "--format=")
+
+
 def test_hide_heldout_refuses_anything_but_a_session_tree(tmp_path):
     (tmp_path / "neurocascade" / ".git").mkdir(parents=True)
     with pytest.raises(ValueError):

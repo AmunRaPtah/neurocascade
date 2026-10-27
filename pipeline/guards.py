@@ -43,6 +43,14 @@ TRUTH_AGGREGATES = (TRUTH + "effect_labels.json", BENCH + "p29_5/oral_exposure.j
 V2_TRUTH = BENCH + "v2/truth/"
 #: Per-INN maps inside a v2 truth file that has no "drugs" table.
 V2_INN_MAPS = ("drop", "replace")
+#: The Phase 34 fresh held-out set (P34.4, prereg docs/prereg-p34-go.md). The v2
+#: held-out set is burned, so P34.5 scores the frozen P34.3 candidate on a new
+#: set of drugs that are NOT in the v2 universe. Those drugs are not caught by
+#: the v2_heldout() hash rule, so every file in this directory is held-out in
+#: full: it is deleted wholesale from session trees (hide_heldout) and frozen
+#: once on main (frozen_paths). Only the host gate and P34.5's host_eval, on the
+#: full-truth host clone, ever read it. P34.4 creates it; nothing edits it after.
+V2_FRESH = BENCH + "v2/truth_fresh/"
 LEDGER = "docs/validation-ledger.md"
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
 
@@ -70,12 +78,17 @@ def v2_truth_files(root: Path) -> list[str]:
     return sorted(V2_TRUTH + p.name for p in d.glob("*.json")) if d.is_dir() else []
 
 
+def v2_fresh_files(root: Path) -> list[str]:
+    d = root / V2_FRESH
+    return sorted(V2_FRESH + p.name for p in d.glob("*.json")) if d.is_dir() else []
+
+
 def frozen_paths(root: Path) -> list[str]:
     """What an architect patch may never touch: the split, every held-out
     drug's truth record, the aggregates held-out rows are filtered from, and
     every v2 truth file already in the tree. New truth files stay allowed."""
     return [SPLIT, *TRUTH_AGGREGATES, *(truth_file(inn) for inn in heldout(root)),
-            *v2_truth_files(root)]
+            *v2_truth_files(root), *v2_fresh_files(root)]
 
 
 def hide_heldout(tree: Path, wip: str = "") -> tuple[str, bool]:
@@ -119,6 +132,10 @@ def hide_heldout(tree: Path, wip: str = "") -> tuple[str, bool]:
             p.unlink()
             continue
         p.write_text(json.dumps(d, indent=1, ensure_ascii=False) + "\n")
+    # The Phase 34 fresh held-out set (new drugs, not caught by v2_heldout) is
+    # deleted wholesale: only the host gate and P34.5 host_eval ever read it.
+    for rel in v2_fresh_files(tree):
+        (tree / rel).unlink(missing_ok=True)
     shutil.rmtree(tree / ".git")
     # The tree is already owned by the worker uid; the host runs git as root.
     git = ["git", "-C", str(tree), "-c", "safe.directory=*", "-c", "user.name=conductor",
