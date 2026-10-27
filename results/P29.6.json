@@ -1,0 +1,12 @@
+{
+  "task": "P29.6",
+  "n_scored": 15,
+  "metric": "train leave-one-drug-out clearance GMFE (binding-corrected well-stirred IVIVE)",
+  "binding_corrected_train_cl_gmfe": 1.9113,
+  "same_drugs_train_mean_baseline_gmfe": 2.8168,
+  "beats_mean_baseline_on_train": true,
+  "within_2_fold": "11/15",
+  "within_3_fold": "12/15",
+  "uncorrected_frozen_train_cl_gmfe": 2.8548,
+  "heldout_binding_corrected": "host-pending: physchem inputs provided for 6 held-out IVIVE drugs (alprazolam, diazepam, fluphenazine, imipramine, nomifensine, venlafaxine); held-out truth absent in dev sandbox -> searched-and-empty here, host scores with full data"
+}

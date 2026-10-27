@@ -31,12 +31,16 @@ Methods and constants
      PMID 16930941).
    * fu_b = fu_p / Rb, blood:plasma ratio Rb = 1 (bases/neutral default; all
      recorded CNS drugs are bases or neutral, so no acid 0.55 case is used).
-   * fu_mic (microsomal binding, Austin 2002 PMID 12433825 /
-     Hallifax-Houston 2006 PMID 16552024) would be estimated from logP, but the
-     benchmark ADME records carry no logP, so the fu_mic correction is OMITTED
-     (fu_mic = 1).  This makes total-CLint inputs an UNDER-estimate of CLint_u
-     and is the main reason the raw arm under-predicts; see the TRAIN bias
-     factor below.
+   * fu_mic (microsomal binding) is OMITTED in this FROZEN arm (fu_mic = 1),
+     which makes total-CLint inputs an UNDER-estimate of CLint_u and is the main
+     reason the raw arm under-predicts; see the TRAIN bias factor below.
+     P29.6 adds the correction as a separate opt-in arm (``binding_corrected``):
+     a sourced ChEMBL ALogP per drug feeds the Hallifax-Houston 2006 quadratic
+     (PMID 16552024, refining Austin 2002 PMID 12433825) at a declared default
+     incubation protein concentration, and fu_b uses a measured blood:plasma
+     ratio Rb where public. It leaves THIS frozen arm (and the conformal bands
+     calibrated on it) untouched. See ``fu_mic``/``_binding_inputs`` below and
+     ``docs/p29-6-fu-mic-rb.md``.
    * CLint groups are keyed on (organ, in-vitro matrix, bound/unbound type,
      units) read from the measurement descriptions, so human LIVER microsomal
      CLint is never pooled with intestinal microsomes or with unbound vs total
@@ -77,11 +81,46 @@ scored exactly once after the method was frozen.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import json
 import math
+from pathlib import Path
 from statistics import geometric_mean, median
 from typing import Iterable
 
 from . import load_adme_record, load_split, load_truth_record
+
+# ---- P29.6 physicochemical inputs (fu_mic + Rb) ---------------------------
+PHYSCHEM_PATH = Path(__file__).resolve().parent / "physchem.json"
+
+
+def load_physchem() -> dict:
+    """P29.6 per-drug logP/pKa/ionisation/Rb and the fu_mic config.
+
+    Every number here is literature-sourced (``physchem.json`` records the
+    citation per field); nothing is fitted or invented.
+    """
+    return json.loads(PHYSCHEM_PATH.read_text())
+
+
+_PHYSCHEM = load_physchem()
+
+
+def fu_mic(logp: float, protein_mg_mL: float) -> float:
+    """Fraction unbound in the microsomal incubation (Hallifax & Houston 2006,
+    PMID 16552024; quadratic refinement of Austin et al. 2002, PMID 12433825).
+
+        fu_mic = 1 / (1 + C * 10**(0.072*x**2 + 0.067*x - 1.126))
+
+    with x the lipophilicity descriptor (logP for bases, logD7.4 for
+    neutrals/acids) and C the microsomal protein concentration in mg/mL. The
+    result is in (0, 1]; a larger logP or a higher C drives it toward 0, which
+    inflates the unbound CLint and therefore the predicted hepatic clearance --
+    the correction the P29.2 arm omitted, and the reason it under-predicted
+    lipophilic bases.
+    """
+    cfg = _PHYSCHEM["fu_mic"]["coefficients"]
+    exponent = cfg["a2"] * logp * logp + cfg["a1"] * logp + cfg["a0"]
+    return 1.0 / (1.0 + protein_mg_mL * (10.0 ** exponent))
 
 
 # ---- truth / input field names -------------------------------------------
@@ -101,7 +140,7 @@ class PKConstants:
     liver_g_per_kg: float = 21.4         # Barter 2007, PMID 17266522
     hpgl_cells_g: float = 99.0e6         # Barter 2007 / Sohlenius-Sternbeck 2006, PMID 16930941
     blood_plasma_ratio: float = 1.0      # bases/neutral default
-    fu_mic: float = 1.0                  # OMITTED (no logP in benchmark)
+    fu_mic: float = 1.0                  # frozen arm: OMITTED; P29.6 corrects via binding_corrected
     rat_bw_kg: float = 0.25              # Davies & Morris 1993, PMID 8378254
     human_bw_kg: float = 70.0            # Davies & Morris 1993, PMID 8378254
     allometric_exponent: float = 0.75    # Boxenbaum 1982, PMID 7120049
@@ -298,7 +337,13 @@ def _rat_vss(record: dict) -> _Feature | None:
 
 def _human_truth(inn: str, parameter: str) -> tuple[float, tuple[str, ...]] | None:
     field = CL_TRUTH_FIELD if parameter == "cl" else VSS_TRUTH_FIELD
-    blob = load_truth_record(inn).get("pk", {}).get("iv_compilations", {}).get(field)
+    try:
+        record = load_truth_record(inn)
+    except KeyError:
+        # Truth file absent -- held-out drugs in this sandbox. The host scores
+        # them with the full data; here it is a searched-and-empty outcome.
+        return None
+    blob = record.get("pk", {}).get("iv_compilations", {}).get(field)
     if not blob:
         return None
     for route in ("iv", "unspecified"):
@@ -313,8 +358,37 @@ def _human_truth(inn: str, parameter: str) -> tuple[float, tuple[str, ...]] | No
 
 
 # ---- mechanistic predictions ----------------------------------------------
-def _ivive_cl(record: dict, inn: str, k: PKConstants) -> _Feature | None:
-    """Well-stirred human CL_H in mL/min/kg from human liver CLint and fu_p."""
+def _binding_inputs(inn: str) -> tuple[float, float, tuple[str, ...]] | None:
+    """P29.6 per-drug (fu_mic, Rb, citations) from physchem.json, or None when
+    the drug has no sourced logP/Rb record so the binding correction cannot be
+    applied honestly."""
+    entry = _PHYSCHEM["drugs"].get(inn)
+    if entry is None:
+        return None
+    protein = _PHYSCHEM["fu_mic"]["protein_mg_mL"]
+    fm = fu_mic(float(entry["logp"]), float(protein))
+    rb = float(entry["rb"])
+    refs = (
+        entry["logp_source"],
+        "fu_mic: " + _PHYSCHEM["fu_mic"]["equation_source"]
+        + f", C={protein} mg/mL ({_PHYSCHEM['fu_mic']['protein_source']})",
+        "Rb: " + entry["rb_source"],
+    )
+    return fm, rb, refs
+
+
+def _ivive_cl(record: dict, inn: str, k: PKConstants,
+              binding_corrected: bool = False) -> _Feature | None:
+    """Well-stirred human CL_H in mL/min/kg from human liver CLint and fu_p.
+
+    With ``binding_corrected`` the P29.6 microsomal-binding (fu_mic) and
+    blood:plasma-ratio (Rb) corrections are applied from ``physchem.json``:
+    CLint_u = CLint / fu_mic and fu_b = fu_p / Rb, both per-drug and sourced.
+    Without it the frozen P29.2 behaviour (fu_mic = 1, Rb = 1) is unchanged, so
+    ``score``/``score_train``/``score_heldout`` and the conformal calibration
+    that reads them are untouched. A binding-corrected prediction is produced
+    only for a drug with a sourced physchem record; otherwise None.
+    """
     if inn in NON_MICROSOMAL_CLEARANCE:
         return None
     clint = _liver_clint(record)
@@ -325,10 +399,16 @@ def _ivive_cl(record: dict, inn: str, k: PKConstants) -> _Feature | None:
         clint_vivo = clint.value * k.mppgl_mg_g / 1000.0 * k.liver_g_per_kg
     else:  # hepatocytes: uL/min/1e6 cells -> mL/min/kg
         clint_vivo = clint.value * 1e-3 * k.hpgl_cells_g / 1e6 * k.liver_g_per_kg
-    clint_u = clint_vivo / k.fu_mic
-    fu_b = fu.value / k.blood_plasma_ratio
+    fu_mic_val, rb, extra_refs = k.fu_mic, k.blood_plasma_ratio, ()
+    if binding_corrected:
+        binding = _binding_inputs(inn)
+        if binding is None:
+            return None
+        fu_mic_val, rb, extra_refs = binding
+    clint_u = clint_vivo / fu_mic_val
+    fu_b = fu.value / rb
     cl_h = k.q_h_ml_min_kg * fu_b * clint_u / (k.q_h_ml_min_kg + fu_b * clint_u)
-    refs = tuple(sorted(set(clint.references + fu.references)))
+    refs = tuple(sorted(set(clint.references + fu.references + extra_refs)))
     return _Feature(cl_h, refs)
 
 
@@ -352,9 +432,29 @@ def _vss(record: dict, k: PKConstants) -> _Feature | None:
     return _Feature(rat.value, rat.references)  # simple allometry, volume exponent 1
 
 
-def _cl_prediction(inn: str, model: TranslationModel, corrected: bool) -> Prediction | None:
+def _cl_prediction(inn: str, model: TranslationModel, corrected: bool,
+                   binding_corrected: bool = False) -> Prediction | None:
     record = load_adme_record(inn)
     k = model.constants
+    if binding_corrected:
+        # The binding-corrected arm is the mechanistic IVIVE prediction with
+        # the P29.6 fu_mic/Rb corrections and NO empirical bias factor; the
+        # allometric fallback has no fu_mic/Rb analogue, so it is not used.
+        feat = _ivive_cl(record, inn, k, binding_corrected=True)
+        if feat is None:
+            return None
+        truth = _human_truth(inn, "cl")
+        if truth is None:
+            return None
+        observed, truth_refs = truth
+        return Prediction(
+            drug=inn, parameter="cl",
+            method=("well-stirred IVIVE (human liver CLint, human fu) + P29.6 "
+                    "microsomal binding (fu_mic) and blood:plasma ratio (Rb)"),
+            predicted=feat.value, observed=observed,
+            fold_error=max(feat.value / observed, observed / feat.value),
+            input_references=tuple(sorted(set(feat.references + truth_refs))),
+        )
     feat = _ivive_cl(record, inn, k)
     method = "well-stirred IVIVE (human liver CLint, human fu)"
     if feat is None:
@@ -435,17 +535,22 @@ def _metric(parameter: str, method: str, predictions: list[Prediction]) -> Metri
 
 
 def score(drugs: Iterable[str], model: TranslationModel | None = None,
-          corrected: bool = False) -> dict[str, Metric]:
+          corrected: bool = False, binding_corrected: bool = False) -> dict[str, Metric]:
     """Score the mechanistic predictions over ``drugs``.
 
     No per-drug coefficient is fitted, so a no-fit pass over the train drugs is
     its own leave-one-drug-out result.  Only parameters with >= 1 compatible
     prediction appear in the result; Vss is absent when no drug in ``drugs``
     has a compatible rat *plasma* Vss paired with human Vss truth.
+
+    With ``binding_corrected`` the CL arm applies the P29.6 fu_mic/Rb
+    corrections (no empirical bias factor); only drugs with a sourced physchem
+    record and human CL truth are scored.
     """
     model = model or fit_translation_models()
     drugs = tuple(drugs)
-    cl = [p for p in (_cl_prediction(d, model, corrected) for d in drugs) if p is not None]
+    cl = [p for p in (_cl_prediction(d, model, corrected, binding_corrected)
+                      for d in drugs) if p is not None]
     vss = [p for p in (_vss_prediction(d, model.constants) for d in drugs) if p is not None]
     out: dict[str, Metric] = {}
     if cl:
@@ -478,6 +583,58 @@ def train_geomean_baseline(parameter: str) -> tuple[float, int]:
     return geometric_mean(folds), len(obs)
 
 
+# ---- P29.6 binding-corrected CL arm ---------------------------------------
+def score_train_binding_corrected() -> dict[str, Metric]:
+    """P29.6 primary evaluation: no-fit (== leave-one-drug-out) over the TRAIN
+    drugs with the sourced fu_mic/Rb corrections applied.  Same drugs as the
+    frozen P29.2 train CL arm (every train IVIVE drug has a physchem record)."""
+    return score(load_split()["train"], binding_corrected=True)
+
+
+def score_heldout_binding_corrected() -> dict[str, Metric]:
+    """P29.6 secondary evaluation: the frozen held-out split with fu_mic/Rb.
+
+    Scores every held-out drug that has a sourced physchem record AND human CL
+    truth.  In this sandbox the held-out truth files are absent, so the result
+    is empty (searched-and-empty); the host re-scores with the full data.  See
+    ``heldout_binding_corrected_status`` for the explicit per-drug account."""
+    model = fit_translation_models()
+    return score(load_split()["heldout"], model=model, binding_corrected=True)
+
+
+def heldout_binding_corrected_status() -> dict:
+    """Honest account of the held-out binding-corrected arm in this sandbox.
+
+    Names every held-out drug that carries the sourced physchem inputs needed
+    to apply the frozen P29.6 method, and reports whether human CL truth is
+    present (scored) or absent (searched-and-empty; host re-scores)."""
+    heldout = load_split()["heldout"]
+    with_inputs, scored, missing_truth = [], [], []
+    for inn in heldout:
+        if inn not in _PHYSCHEM["drugs"]:
+            continue
+        with_inputs.append(inn)
+        (scored if _human_truth(inn, "cl") is not None else missing_truth).append(inn)
+    return {
+        "heldout_drugs_with_physchem_inputs": with_inputs,
+        "scored_here": scored,
+        "searched_and_empty_truth_absent": missing_truth,
+    }
+
+
+def same_drugs_mean_baseline(predictions: Iterable[Prediction]) -> float:
+    """Leave-one-out geometric-mean-of-observed baseline over EXACTLY the drugs
+    in ``predictions`` -- the apples-to-apples train-mean floor the P29.6 arm
+    must beat (acceptance: 'train-mean baseline on the same drugs')."""
+    obs = [p.observed for p in predictions]
+    folds = []
+    for i, o in enumerate(obs):
+        rest = obs[:i] + obs[i + 1:]
+        gm = geometric_mean(rest)
+        folds.append(max(gm / o, o / gm))
+    return geometric_mean(folds)
+
+
 __all__ = [
     "PKConstants",
     "CONSTANTS",
@@ -490,4 +647,10 @@ __all__ = [
     "score_heldout",
     "train_geomean_baseline",
     "NON_MICROSOMAL_CLEARANCE",
+    "load_physchem",
+    "fu_mic",
+    "score_train_binding_corrected",
+    "score_heldout_binding_corrected",
+    "heldout_binding_corrected_status",
+    "same_drugs_mean_baseline",
 ]
