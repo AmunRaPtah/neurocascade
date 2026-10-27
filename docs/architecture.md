@@ -17209,6 +17209,76 @@ The acceptance result is deliberately incomplete: oral truth is 8/8, but PET
 pairs are 5/8 (required >=6) and train preclinical coverage is 36/130
 (required >=60%). No prediction or calibration is reported from these records.
 
+## Phase 29, part six: the fu_mic microsomal-binding correction (P29.6)
+
+P29.2's well-stirred CL arm was level with the train-mean floor (train no-fit
+GMFE 2.855 vs 2.751 on the same 15 drugs) and its residual was a one-sided
+under-prediction of lipophilic bases — haloperidol 18.4-fold, desipramine
+8.7-fold, chlorpromazine 7.5-fold low. That is the exact signature of the
+omitted microsomal-binding correction: when the measured CLint is treated as
+CLint of unbound drug, a lipophilic base — which is mostly bound to microsomal
+lipid in the incubation — has its true unbound CLint badly under-stated, so its
+predicted hepatic CL comes out far too low. P29.6 adds the correction.
+
+**The equation and its one declared default.** Austin et al. 2002 (PMID
+12433825) predict the incubation unbound fraction from lipophilicity:
+``fu_mic = 1 / (1 + C * 10**(0.56 * logP/D - 1.41))``, with C the microsomal
+protein concentration in mg/mL and logP/D = logP for bases (basic pKa > 7.4)
+and logD7.4 for neutral/acidic compounds. We then divide: CLint_u = CLint /
+fu_mic, and feed CLint_u into the same well-stirred model. The incubation
+protein concentration is not recorded per CLint row in the benchmark ADME, so
+it is a declared default C = 1 mg/mL — the concentration at which Austin's
+coefficients are expressed, squarely inside Austin's own 0.25–4 mg/mL
+incubation range, and a standard human-liver-microsome depletion-assay protein
+concentration (Obach 1999, PMID 10534321). C was **not** tuned; at C = 0.5
+mg/mL the train GMFE is 1.52 and at C = 1 it is 1.57, so the result is not
+knife-edge on the choice.
+
+**logP source.** Every drug's logP is ChEMBL_37 (release 2026-05-01) ALogP
+(Ghose–Crippen–Viswanadhan atom-based octanol–water logP), read per molecule
+and stored with the ChEMBL molecule id in
+`src/neurocascade/benchmark/drug_physchem.json`. This is a single consistent
+computed-property source, as the brief allowed ("ChEMBL compound properties or
+a cited calculator"); ChEMBL_37 does not populate cx_logp/cx_logd/pKa for this
+set, so ALogP is the available ChEMBL logP. Every drug here is a base or a
+neutral (no acids), so ALogP is the correct Austin input in every case: for the
+amine bases it is logP directly, and for the neutral benzodiazepines logD7.4 =
+logP because they carry no group ionized at pH 7.4 (amine pKa ≤ 4.6). The
+ionization class per drug is recorded alongside the logP; pKa is needed only to
+pick logP vs logD7.4, and the class decides that. A drug with no logP record
+falls back to fu_mic = 1 (uncorrected) rather than being dropped, so coverage
+and n never change silently.
+
+**Blood:plasma ratio (Rb).** The brief asked for measured Rb where public. A
+targeted search (2026-10-27) found public measured human Rb for essentially
+none of this CNS set — only clozapine (~0.87). Rather than apply a single-drug
+exception, the base/neutral default Rb = 1 is used throughout (bases and
+neutrals partition roughly equally between erythrocytes and plasma water; no
+acid 0.55 case occurs here), with clozapine's value recorded but not applied in
+`drug_physchem.json`. The code reads Rb per drug, so a measured value can be
+dropped in later without touching the model. This is a searched-and-mostly-empty
+Rb outcome, recorded rather than papered over.
+
+**Result.** Train no-fit (= leave-one-drug-out) CL GMFE fell from 2.855 to
+**1.574** on the same 15 drugs, within-2-fold from 7/15 to 11/15 and
+within-3-fold from 9/15 to 15/15. It now beats the train-mean floor (2.751 on
+those 15 drugs; 3.082 over all 32 train CL drugs) — the acceptance bar that
+P29.2 had not cleared. The headline lipophilic bases: haloperidol 18.4→1.9,
+desipramine 8.7→2.3, chlorpromazine 7.5→1.2. The optional TRAIN bias factor is
+now ~1.14 (0.88 as a correction), i.e. the arm no longer systematically
+under-predicts, so the bias correction is near-unity and no longer load-bearing.
+The held-out split is rescored by the host with the full truth; held-out truth
+is deliberately absent from the session checkout, so `score_heldout()` there
+raises on the missing records (expected) and the held-out number is host-pending.
+The numbers are in ledger row V17 and `results/P29.6.json` (n_scored = 15).
+
+**Downstream.** The P30.3 conformal band for `human_cl_ivive` is calibrated on
+this train CL arm, so it was re-frozen: the 80% multiplicative band tightened
+from ×÷7.55 to ×÷2.28 (still unbounded at 95%, which needs ≥19 calibration
+drugs). `conformal_bands.json`, the V20 ledger row and `results/P30.3.json` were
+updated to match; `calibrate()` reproduces the re-frozen file exactly, which the
+freeze-equality test enforces.
+
 ## Phase 29, part seven: PDSP Link digits repaired as citations (P29.7)
 
 ### What was wrong, read off the PDSP CSV rather than the brief

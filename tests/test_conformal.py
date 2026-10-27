@@ -97,7 +97,7 @@ def test_frozen_band_values(frozen):
     q = frozen["quantities"]
     ivive = q["human_cl_ivive"]
     assert ivive["n_calibration"] == 15
-    assert ivive["fold_bands"]["0.80"] == pytest.approx(7.55, abs=0.01)
+    assert ivive["fold_bands"]["0.80"] == pytest.approx(2.28, abs=0.01)  # P29.6 fu_mic tightened from 7.55
     assert ivive["fold_bands"]["0.95"] is None  # n=15 cannot support a 95% band
     assert ivive["lodo_coverage"]["0.80"]["covered"] == 12
     cl = q["human_cl_v2_train_mean"]

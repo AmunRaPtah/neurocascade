@@ -1,0 +1,33 @@
+{
+  "_meta": {
+    "logp_source": "ChEMBL_37 (release 2026-05-01) computed molecular property ALogP (Ghose-Crippen-Viswanadhan atom-based octanol-water logP), read per molecule from the ChEMBL molecule.molecule_properties.alogp field. ChEMBL molecule id given per drug.",
+    "ionization_note": "Ionization class is used only to choose the Austin 2002 lipophilicity term: logP for bases (basic pKa > 7.4), logD7.4 for neutral/acidic. Every drug here is a base or a neutral (no acids). ALogP is used as the logP/D input: for bases it is logP directly; for the neutral benzodiazepines logD7.4 equals logP because they carry no group ionized at pH 7.4 (amine pKa <= 4.6), so the correct Austin input is ALogP in both cases.",
+    "rb_note": "Blood:plasma ratio Rb. A targeted literature search (2026-10-27) for measured human Rb across this CNS set returned almost nothing public: only clozapine has a clearly measured human Rb (~0.87). Rb for the rest is not publicly reported, so the base/neutral default Rb = 1.0 is applied (bases and neutrals partition roughly equally between erythrocytes and plasma water; no acid 0.55 case occurs here). clozapine's 0.87 is recorded but not applied, to keep one consistent convention rather than a single-drug exception; its effect (fu_b up ~15%, CL up ~15%) is within the arm's fold-error and does not change the train conclusion."
+  },
+  "bupropion":        {"chembl_id": "CHEMBL894",    "logp": 3.30, "ionization": "base",    "rb": 1.0},
+  "buspirone":        {"chembl_id": "CHEMBL49",     "logp": 2.09, "ionization": "base",    "rb": 1.0},
+  "chlordiazepoxide": {"chembl_id": "CHEMBL451",    "logp": 2.95, "ionization": "neutral", "rb": 1.0},
+  "chlorpromazine":   {"chembl_id": "CHEMBL71",     "logp": 4.89, "ionization": "base",    "rb": 1.0},
+  "citalopram":       {"chembl_id": "CHEMBL549",    "logp": 3.81, "ionization": "base",    "rb": 1.0},
+  "clomipramine":     {"chembl_id": "CHEMBL415",    "logp": 4.53, "ionization": "base",    "rb": 1.0},
+  "clozapine":        {"chembl_id": "CHEMBL42",     "logp": 3.72, "ionization": "base",    "rb": 1.0, "rb_measured": 0.87, "rb_measured_note": "measured human whole-blood:plasma ~0.87 (clozapine clinical PK); not applied, see _meta.rb_note"},
+  "desipramine":      {"chembl_id": "CHEMBL72",     "logp": 3.53, "ionization": "base",    "rb": 1.0},
+  "haloperidol":      {"chembl_id": "CHEMBL54",     "logp": 4.43, "ionization": "base",    "rb": 1.0},
+  "lorazepam":        {"chembl_id": "CHEMBL580",    "logp": 3.10, "ionization": "neutral", "rb": 1.0},
+  "maprotiline":      {"chembl_id": "CHEMBL21731",  "logp": 4.21, "ionization": "base",    "rb": 1.0},
+  "mardepodect":      {"chembl_id": "CHEMBL562318", "logp": 5.28, "ionization": "neutral", "rb": 1.0},
+  "mirtazapine":      {"chembl_id": "CHEMBL654",    "logp": 2.48, "ionization": "base",    "rb": 1.0},
+  "oxazepam":         {"chembl_id": "CHEMBL568",    "logp": 2.45, "ionization": "neutral", "rb": 1.0},
+  "pimozide":         {"chembl_id": "CHEMBL1423",   "logp": 5.86, "ionization": "base",    "rb": 1.0},
+  "promazine":        {"chembl_id": "CHEMBL564",    "logp": 4.24, "ionization": "base",    "rb": 1.0},
+  "risperidone":      {"chembl_id": "CHEMBL85",     "logp": 3.59, "ionization": "base",    "rb": 1.0},
+  "thioridazine":     {"chembl_id": "CHEMBL479",    "logp": 5.89, "ionization": "base",    "rb": 1.0},
+  "trazodone":        {"chembl_id": "CHEMBL621",    "logp": 2.36, "ionization": "neutral", "rb": 1.0},
+  "trimipramine":     {"chembl_id": "CHEMBL644",    "logp": 4.12, "ionization": "base",    "rb": 1.0},
+  "alprazolam":       {"chembl_id": "CHEMBL661",    "logp": 3.58, "ionization": "neutral", "rb": 1.0},
+  "diazepam":         {"chembl_id": "CHEMBL12",     "logp": 3.15, "ionization": "neutral", "rb": 1.0},
+  "fluphenazine":     {"chembl_id": "CHEMBL726",    "logp": 4.31, "ionization": "base",    "rb": 1.0},
+  "imipramine":       {"chembl_id": "CHEMBL11",     "logp": 3.88, "ionization": "base",    "rb": 1.0},
+  "nomifensine":      {"chembl_id": "CHEMBL273575", "logp": 2.85, "ionization": "base",    "rb": 1.0},
+  "venlafaxine":      {"chembl_id": "CHEMBL637",    "logp": 3.04, "ionization": "base",    "rb": 1.0}
+}

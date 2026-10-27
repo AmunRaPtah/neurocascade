@@ -29,14 +29,26 @@ Methods and constants
      (Barter et al. 2007, PMID 17266522); hepatocyte CLint scaled with
      hepatocellularity ~= 99e6 cells/g (Barter 2007; Sohlenius-Sternbeck 2006,
      PMID 16930941).
-   * fu_b = fu_p / Rb, blood:plasma ratio Rb = 1 (bases/neutral default; all
-     recorded CNS drugs are bases or neutral, so no acid 0.55 case is used).
-   * fu_mic (microsomal binding, Austin 2002 PMID 12433825 /
-     Hallifax-Houston 2006 PMID 16552024) would be estimated from logP, but the
-     benchmark ADME records carry no logP, so the fu_mic correction is OMITTED
-     (fu_mic = 1).  This makes total-CLint inputs an UNDER-estimate of CLint_u
-     and is the main reason the raw arm under-predicts; see the TRAIN bias
-     factor below.
+   * fu_b = fu_p / Rb, blood:plasma ratio Rb read per drug from
+     ``drug_physchem.json`` (measured where public, bases/neutral default
+     Rb = 1 otherwise; all recorded CNS drugs are bases or neutral, so no acid
+     0.55 case is used).
+   * fu_mic (microsomal binding) is now APPLIED using the Austin 2002 equation
+     (PMID 12433825): ``fu_mic = 1 / (1 + C * 10**(0.56 * logP/D - 1.41))`` with
+     C the microsomal protein concentration in mg/mL and logP/D = logP for bases
+     and logD7.4 for neutral/acidic compounds.  P29.6 adds a sourced logP per
+     drug (ChEMBL_37 ALogP, molecule id in ``drug_physchem.json``) and a
+     declared default incubation protein concentration C = 1 mg/mL -- the
+     concentration at which the Austin coefficients are expressed and squarely
+     inside Austin's own 0.25-4 mg/mL incubation range (Austin 2002), standard
+     for human-liver-microsome depletion assays (Obach 1999, PMID 10534321).
+     Because every drug here is a base or a neutral, ALogP is the correct
+     logP/D input (bases use logP directly; the neutral benzodiazepines carry no
+     group ionized at pH 7.4, so logD7.4 = logP).  CLint_u = CLint / fu_mic, so
+     a low-fu_mic lipophilic base gets a large upward correction and a
+     near-unity hydrophile almost none -- the differential the omitted
+     correction used to miss.  When a drug has no logP record the correction
+     falls back to fu_mic = 1 (uncorrected) rather than being dropped.
    * CLint groups are keyed on (organ, in-vitro matrix, bound/unbound type,
      units) read from the measurement descriptions, so human LIVER microsomal
      CLint is never pooled with intestinal microsomes or with unbound vs total
@@ -77,11 +89,15 @@ scored exactly once after the method was frozen.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import json
 import math
+from pathlib import Path
 from statistics import geometric_mean, median
 from typing import Iterable
 
 from . import load_adme_record, load_split, load_truth_record
+
+_PHYSCHEM_PATH = Path(__file__).with_name("drug_physchem.json")
 
 
 # ---- truth / input field names -------------------------------------------
@@ -100,14 +116,60 @@ class PKConstants:
     mppgl_mg_g: float = 40.0             # Barter 2007, PMID 17266522
     liver_g_per_kg: float = 21.4         # Barter 2007, PMID 17266522
     hpgl_cells_g: float = 99.0e6         # Barter 2007 / Sohlenius-Sternbeck 2006, PMID 16930941
-    blood_plasma_ratio: float = 1.0      # bases/neutral default
-    fu_mic: float = 1.0                  # OMITTED (no logP in benchmark)
+    blood_plasma_ratio: float = 1.0      # bases/neutral default when no measured Rb
+    fu_mic: float = 1.0                  # fallback only, used when a drug has no logP
+    microsomal_protein_mg_ml: float = 1.0  # Austin 2002 incubation protein C; Obach 1999
     rat_bw_kg: float = 0.25              # Davies & Morris 1993, PMID 8378254
     human_bw_kg: float = 70.0            # Davies & Morris 1993, PMID 8378254
     allometric_exponent: float = 0.75    # Boxenbaum 1982, PMID 7120049
 
 
 CONSTANTS = PKConstants()
+
+# Austin 2002 (PMID 12433825): microsomal binding from lipophilicity.
+AUSTIN_SLOPE = 0.56      # coefficient on logP/D
+AUSTIN_INTERCEPT = -1.41  # intercept
+AUSTIN_CITATION = "Austin et al. 2002, PMID 12433825 (fu_mic from logP/D); Obach 1999, PMID 10534321 (incubation protein C)"
+
+
+def load_physchem() -> dict:
+    """Per-drug logP (ChEMBL_37 ALogP), ionization class and Rb, with sources.
+
+    Keys starting with ``_`` are metadata (sources, search records), not drugs.
+    """
+    return json.loads(_PHYSCHEM_PATH.read_text())
+
+
+_PHYSCHEM = load_physchem()
+
+
+def austin_fu_mic(logp_d: float, protein_mg_ml: float) -> float:
+    """Fraction unbound in the microsomal incubation, Austin 2002 (PMID 12433825).
+
+    ``fu_mic = 1 / (1 + C * 10**(0.56 * logP/D - 1.41))`` with C the microsomal
+    protein concentration in mg/mL.  ``logp_d`` is logP for bases and logD7.4 for
+    neutral/acidic compounds; the caller supplies the correct term.  Returns a
+    value in (0, 1]; higher binding (more lipophilic, more protein) gives lower
+    fu_mic and hence a larger CLint_u = CLint / fu_mic.
+    """
+    return 1.0 / (1.0 + protein_mg_ml * 10.0 ** (AUSTIN_SLOPE * logp_d + AUSTIN_INTERCEPT))
+
+
+def _drug_fu_mic(inn: str, k: PKConstants) -> tuple[float, tuple[str, ...]]:
+    """fu_mic and its citation refs for ``inn``; (fallback 1.0, ()) if no logP."""
+    entry = _PHYSCHEM.get(inn)
+    if not entry or entry.get("logp") is None:
+        return k.fu_mic, ()
+    fu_mic = austin_fu_mic(float(entry["logp"]), k.microsomal_protein_mg_ml)
+    return fu_mic, (f"ChEMBL_37 ALogP {entry['chembl_id']}", AUSTIN_CITATION)
+
+
+def _drug_rb(inn: str, k: PKConstants) -> float:
+    """Blood:plasma ratio for ``inn``; measured where the table applies one, else default."""
+    entry = _PHYSCHEM.get(inn)
+    if entry and entry.get("rb") is not None:
+        return float(entry["rb"])
+    return k.blood_plasma_ratio
 
 WELL_STIRRED_CITATION = (
     "Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; "
@@ -325,10 +387,11 @@ def _ivive_cl(record: dict, inn: str, k: PKConstants) -> _Feature | None:
         clint_vivo = clint.value * k.mppgl_mg_g / 1000.0 * k.liver_g_per_kg
     else:  # hepatocytes: uL/min/1e6 cells -> mL/min/kg
         clint_vivo = clint.value * 1e-3 * k.hpgl_cells_g / 1e6 * k.liver_g_per_kg
-    clint_u = clint_vivo / k.fu_mic
-    fu_b = fu.value / k.blood_plasma_ratio
+    fu_mic, fu_mic_refs = _drug_fu_mic(inn, k)
+    clint_u = clint_vivo / fu_mic
+    fu_b = fu.value / _drug_rb(inn, k)
     cl_h = k.q_h_ml_min_kg * fu_b * clint_u / (k.q_h_ml_min_kg + fu_b * clint_u)
-    refs = tuple(sorted(set(clint.references + fu.references)))
+    refs = tuple(sorted(set(clint.references + fu.references + fu_mic_refs)))
     return _Feature(cl_h, refs)
 
 
@@ -481,6 +544,9 @@ def train_geomean_baseline(parameter: str) -> tuple[float, int]:
 __all__ = [
     "PKConstants",
     "CONSTANTS",
+    "AUSTIN_CITATION",
+    "austin_fu_mic",
+    "load_physchem",
     "TranslationModel",
     "Metric",
     "Prediction",

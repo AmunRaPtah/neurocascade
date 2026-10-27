@@ -1,0 +1,32 @@
+{
+  "task": "P29.6",
+  "n_scored": 15,
+  "n_scored_definition": "train leave-one-drug-out CL predictions with a compatible IVIVE input and human IV truth (held-out rescored by the host; held-out truth is absent from the session checkout)",
+  "parameter": "human IV clearance (mL/min/kg)",
+  "method": "well-stirred IVIVE + Austin 2002 fu_mic correction (PMID 12433825) at C=1 mg/mL microsomal protein; logP = ChEMBL_37 ALogP per drug",
+  "train_cl_gmfe_fu_mic": 1.574113735630004,
+  "train_cl_gmfe_no_fu_mic": 2.854830092083889,
+  "train_within_2_fold": 0.7333333333333333,
+  "train_within_3_fold": 1.0,
+  "train_mean_baseline_same_15": 2.816803165361739,
+  "train_mean_baseline_all_32": 3.0824491254020803,
+  "beats_train_mean_baseline": true,
+  "lipophilic_base_fold_error_before_after": {
+    "haloperidol": [
+      18.36,
+      1.874177095927482
+    ],
+    "desipramine": [
+      8.71,
+      2.2767658248213385
+    ],
+    "chlorpromazine": [
+      7.55,
+      1.2394907882473594
+    ]
+  },
+  "heldout": {
+    "status": "host-pending",
+    "reason": "P28.1 held-out truth is deliberately absent from the session checkout; the host rescores the held-out CL split with the full truth using the same score_heldout() path"
+  }
+}
