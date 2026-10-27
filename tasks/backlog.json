@@ -2577,7 +2577,7 @@
       "status": "pending",
       "attempts": 0,
       "conductor": {
-        "sessions": 3,
+        "sessions": 4,
         "history": [
           "2026-10-13 19:19 complete; rejected: gate failed:\n................................................................. [ 37%]\n........................................................................ [ 40%]\n........................................................................ [ 42%]\n........................................................................ [ 45%]\n........................................................................ [ 47%]\n........................................................................ [ 50%]\n........................................................................ [ 52%]\n..................................",
           "2026-10-13 21:18 complete; rejected: a patch that adds a validation-ledger row must ship results/P29.6.json with an integer \"n_scored\"",
@@ -2590,7 +2590,8 @@
           "2026-10-27 17:39 COMPLETE, PR opened",
           "2026-10-27 18:13 PR #45 rejected by acceptance review: ACCEPTANCE 1: FAIL — logP is solid (ChEMBL_37 ALogP spot-checked for haloperidol CHEMBL54 4.43, desipramine CHEMBL72 3.53, chlorpromazine CHEMBL71 4.89, lorazepam CHEMBL580 3.10, mardepodect CHEMBL562318 5.28 — all exact matches via https://www.ebi.ac.uk/chembl/api/data/molecule/<id>.json), and the Austin/Obach PMIDs are real (eutils confirms 12433825 = Austin et al. 2002 DMD 30:1497–1503, \"fu_mic",
           "2026-10-27 19:09 COMPLETE, PR opened",
-          "2026-10-27 19:57 PR #46 rejected by acceptance review: REVIEW: REJECT — every numbered acceptance bullet and required check passes on independent verification, but the PR's own title and brief (\"Microsomal binding (fu_mic) **and blood:plasma ratio** for the P29.2 CL arm... use measured Rb where public\") scope in Rb, and the patch delivers zero Rb work with zero disclosure (no implementation, no BLOCKED/searched-and-empty record, no mention in the new "
+          "2026-10-27 19:57 PR #46 rejected by acceptance review: REVIEW: REJECT — every numbered acceptance bullet and required check passes on independent verification, but the PR's own title and brief (\"Microsomal binding (fu_mic) **and blood:plasma ratio** for the P29.2 CL arm... use measured Rb where public\") scope in Rb, and the patch delivers zero Rb work with zero disclosure (no implementation, no BLOCKED/searched-and-empty record, no mention in the new ",
+          "2026-10-27 21:20 COMPLETE, PR opened"
         ],
         "gave_up": false,
         "review_rejections": 2
