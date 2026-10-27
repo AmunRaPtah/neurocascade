@@ -17015,15 +17015,20 @@ The primary (no-fit / leave-one-drug-out over train) and held-out results:
 | CL | train (no-fit) | 15 | 2.855 | 7/15 (0.47) | 9/15 (0.60) |
 | CL | held-out | 5 | 3.420 | 1/5 (0.20) | 3/5 (0.60) |
 | CL (bias-corrected) | held-out | 5 | 2.733 | 2/5 (0.40) | 3/5 (0.60) |
-| CL, train-mean baseline | same 15 train drugs | 15 | 2.751 | | |
+| CL, train-mean baseline | same 15 train drugs | 15 | 2.817 | | |
 | CL, train-mean baseline | held-out | 5 | 4.983 | 0/5 | 1/5 |
 
 Baselines (leave-one-out train geometric-mean predictor): CL GMFE 3.082 (n=32),
-Vss GMFE 3.889 (n=32). On the same 15 train drugs the mechanistic CL arm is
-level with the train-mean floor (2.855 vs 2.751); on the 5 held-out drugs it is
-better (3.42 vs 4.98), which n=5 cannot establish. The error is a systematic
-under-prediction of lipophilic bases (haloperidol 18-fold, desipramine 8.7,
-chlorpromazine 7.5), the signature of the omitted microsomal binding (fu_mic).
+Vss GMFE 3.889 (n=32). The "same 15 train drugs" baseline is the leave-one-drug-out
+geometric-mean-of-train predictor restricted to exactly the 15 CL-scored drugs,
+2.816803165361739 (reported as 2.817). An earlier draft quoted 2.751 here; that
+value is not reproducible by any clean computation on this 15-drug set (full-sample
+gives 2.629, LOO gives 2.817) and is corrected throughout by P29.6. On the same 15
+train drugs the uncorrected mechanistic CL arm is level with the train-mean floor
+(2.855 vs 2.817); on the 5 held-out drugs it is better (3.42 vs 4.98), which n=5
+cannot establish. The error is a systematic under-prediction of lipophilic bases
+(haloperidol 18-fold, desipramine 8.7, chlorpromazine 7.5), the signature of the
+omitted microsomal binding (fu_mic), which P29.6 adds (see below).
 
 CLint aggregation fix (2026-10-12, after the first held-out score). The first
 held-out score was GMFE 5.489 with imipramine 86-fold low. Its CLint was a
@@ -17035,6 +17040,68 @@ it moved train from 2.735 to 2.855 (worse) and held-out from 5.489 to 3.420.
 Because a held-out result prompted it, the 3.420 is a second look, logged in
 the conductor's held-out evaluation log.
 The superseded fitted method's held-out CL was GMFE 6.77.
+
+#### P29.6: the microsomal-binding (fu_mic) correction
+
+V17 named one missing mechanistic step: the well-stirred IVIVE divided the
+whole-liver intrinsic clearance by `fu_mic = 1`, i.e. it treated the *total*
+microsomal CLint as if it were the *unbound* CLint. For a lipophilic base a
+large fraction binds non-specifically to the microsomal membrane, so the
+measured total CLint understates the true unbound CLint, and the predicted CL
+comes out low — exactly the signature seen (haloperidol 18-fold, desipramine
+8.7, chlorpromazine 7.5 under). P29.6 recovers the unbound CLint:
+
+    CLint_u = CLint_total / fu_mic,   fu_mic from Hallifax-Houston 2006.
+
+**Equation.** `fu_mic = 1 / (1 + C · 10^(0.072·logP² + 0.067·logP − 1.126))`
+(Hallifax & Houston 2006, PMID 16552024, the quadratic-logP refinement of
+Austin 2002, PMID 12433825). `logP` is used for bases and neutrals and `logD7.4`
+for acids; **every CNS drug in this arm is a base or a neutral, so logP is used
+for all of them** and the acid branch is never exercised. `C` is the microsomal
+protein concentration.
+
+**Inputs, sourced per drug** (`src/neurocascade/benchmark/drug_physchem.json`).
+logP is the ChEMBL_37 ALOGP (ChemAxon-computed), spot-checked against the EBI
+molecule API (haloperidol 4.43, desipramine 3.53, chlorpromazine 4.89, …). The
+pKa and ionisation class are a *measured* pKa with a per-drug citation: Settimo
+et al. 2014 (PMID 24249037, a measured-pKa comparison that tabulates these
+drugs) for the eleven amines; HSDB / DrugBank (via PubChem) for the
+benzodiazepines (chlordiazepoxide, lorazepam, oxazepam) and clozapine;
+DrugCentral's MoKa value for nomifensine. Settimo is a multi-drug compilation,
+so its title never names an individual drug — each record that cites it carries
+a `pmid_note` flagging that, which is what the host's PMID check asks for. The
+pKa only *classifies* the drug (base/neutral → logP); it does not enter the
+fu_mic number, so its precision is not load-bearing here.
+
+**Protein concentration.** The benchmark CLint rows (ChEMBL activity comments)
+record substrate-concentration ranges, not microsomal protein concentration, so
+no per-assay `C` is available. We declare a default `C = 1 mg/mL`: Austin 2002
+measured binding at 0.25/1/4 mg/mL and expressed the relationship per mg/mL, and
+1 mg/mL is a standard HLM CLint incubation concentration. This is declared, not
+tuned — the train arm beats the mean baseline at both 0.5 (GMFE 1.999) and
+1.0 mg/mL (1.705), so the choice does not decide the pass/fail.
+
+**Result (train, no-fit / leave-one-drug-out over the same 15 drugs).** GMFE
+**1.705** (was 2.855), 12/15 within 2-fold, 12/15 within 3-fold — now **below**
+the train-mean floor (2.816803165361739), which the uncorrected arm was not.
+The gain is concentrated on the lipophilic bases V17 flagged: haloperidol
+18.36→4.17, desipramine 8.71→4.59, chlorpromazine 7.55→1.24. Hallifax-Houston
+is least accurate at logP ≥ 3, where several of these bases sit, so desipramine
+and haloperidol stay 4–5 fold under even corrected; the direction and magnitude
+of the fix are right, but the absolute CLint for high-CL secondary amines is
+still under-recovered — an honest residual, not hidden by the geometric mean.
+
+**Design: additive, not a rewrite.** The correction is opt-in
+(`score(..., apply_fu_mic=True)`, exposed as `score_train_fu_mic` /
+`score_heldout_fu_mic`). The frozen P29.2 default (`fu_mic = 1`) and its pinned
+held-out numbers (3.420, etc.) are left untouched: those pins are recomputed by
+the host with full held-out truth, and changing the default would have required
+pinning a held-out GMFE that cannot be computed in the sandbox (truth absent).
+The fu_mic arm is the recommended CL arm for P29.3. Physchem is provided for the
+6 held-out drugs that reach IVIVE CL (alprazolam, diazepam, fluphenazine,
+imipramine, nomifensine, venlafaxine) so the host's held-out pass exercises the
+correction rather than falling back to `fu_mic = 1`; that held-out score is
+host-pending and logged separately.
 
 Vss is reported as **n=0, data-limited**: no benchmark drug pairs clean rat
 plasma Vss with human Vss truth. The drugs that have human Vss truth carry only

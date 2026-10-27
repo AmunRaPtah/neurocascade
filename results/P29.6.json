@@ -1,0 +1,24 @@
+{
+  "task": "P29.6",
+  "title": "Microsomal binding (fu_mic) correction for the P29.2 well-stirred CL arm",
+  "n_scored": 15,
+  "scored_split": "train (no-fit == leave-one-drug-out over the 15 train drugs with human liver CLint, human fu and human IV CL truth)",
+  "fu_mic_equation": "Hallifax-Houston 2006 (PMID 16552024): fu_mic = 1/(1 + C*10^(0.072*logP^2 + 0.067*logP - 1.126)); logP = ChEMBL_37 ALOGP; C = 1.0 mg/mL declared default (Austin 2002, PMID 12433825)",
+  "protein_mg_ml": 1.0,
+  "train_loo_cl_gmfe_fu_mic": 1.7050282206874383,
+  "train_loo_cl_gmfe_uncorrected": 2.854830092083889,
+  "train_mean_baseline_same_15": 2.816803165361739,
+  "beats_mean_baseline_on_train": true,
+  "within_2_fold_fu_mic": 0.8,
+  "within_3_fold_fu_mic": 0.8,
+  "lipophilic_base_fold_error_before_after": {
+    "haloperidol": [18.362, 4.173],
+    "desipramine": [8.714, 4.586],
+    "chlorpromazine": [7.547, 1.243]
+  },
+  "heldout": {
+    "status": "host-pending",
+    "note": "Held-out truth is absent from the sandbox clone; the host scores the 6 held-out IVIVE drugs with full truth via score_heldout_fu_mic(). Physchem (logP/pKa) is provided for all 6 so the correction is exercised, not inert.",
+    "heldout_ivive_drugs": ["alprazolam", "diazepam", "fluphenazine", "imipramine", "nomifensine", "venlafaxine"]
+  }
+}

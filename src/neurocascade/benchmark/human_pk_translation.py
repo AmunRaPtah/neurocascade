@@ -77,11 +77,16 @@ scored exactly once after the method was frozen.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from functools import lru_cache
+import json
 import math
+from pathlib import Path
 from statistics import geometric_mean, median
 from typing import Iterable
 
 from . import load_adme_record, load_split, load_truth_record
+
+PHYSCHEM_PATH = Path(__file__).resolve().parent / "drug_physchem.json"
 
 
 # ---- truth / input field names -------------------------------------------
@@ -101,7 +106,8 @@ class PKConstants:
     liver_g_per_kg: float = 21.4         # Barter 2007, PMID 17266522
     hpgl_cells_g: float = 99.0e6         # Barter 2007 / Sohlenius-Sternbeck 2006, PMID 16930941
     blood_plasma_ratio: float = 1.0      # bases/neutral default
-    fu_mic: float = 1.0                  # OMITTED (no logP in benchmark)
+    fu_mic: float = 1.0                  # frozen P29.2 default (no correction)
+    fu_mic_protein_mg_ml: float = 1.0    # P29.6 fu_mic incubation C; Austin 2002 PMID 12433825
     rat_bw_kg: float = 0.25              # Davies & Morris 1993, PMID 8378254
     human_bw_kg: float = 70.0            # Davies & Morris 1993, PMID 8378254
     allometric_exponent: float = 0.75    # Boxenbaum 1982, PMID 7120049
@@ -115,6 +121,39 @@ WELL_STIRRED_CITATION = (
 )
 ALLOMETRY_CITATION = "Boxenbaum 1982, PMID 7120049; Davies & Morris 1993, PMID 8378254"
 VSS_CITATION = "Oie & Tozer 1979, PMID 501558"
+FU_MIC_CITATION = (
+    "Hallifax & Houston 2006, PMID 16552024 (quadratic logP form); "
+    "Austin 2002, PMID 12433825 (relationship and C=1 mg/mL reference); "
+    "logP = ChEMBL_37 ALOGP; pKa/ionisation per drug in drug_physchem.json"
+)
+
+
+@lru_cache(maxsize=1)
+def load_physchem() -> dict:
+    """Per-drug logP / pKa / ionisation for the P29.6 fu_mic correction."""
+    return json.loads(PHYSCHEM_PATH.read_text())
+
+
+def _drug_fu_mic(inn: str, protein_mg_ml: float) -> tuple[float, tuple[str, ...], str]:
+    """Microsomal fraction unbound via Hallifax-Houston 2006.
+
+    fu_mic = 1 / (1 + C * 10^(0.072*L^2 + 0.067*L - 1.126)), with L = logP for
+    bases and neutrals and logD7.4 for acids (none of the benchmark CNS drugs
+    are acids), C = microsomal protein concentration (mg/mL).  Returns 1.0
+    (i.e. no correction, the frozen P29.2 behaviour) and empty references when
+    the drug has no physchem record, so an un-sourced drug is never guessed.
+    """
+    entry = load_physchem().get("drugs", {}).get(inn)
+    if entry is None or entry.get("logp") is None:
+        return 1.0, (), "fu_mic omitted (no sourced logP for this drug)"
+    logp = float(entry["logp"])
+    lip = logp
+    if entry.get("ionisation_class") == "acid":
+        lip = float(entry.get("logd74", logp))
+    kmic = protein_mg_ml * 10 ** (0.072 * lip * lip + 0.067 * lip - 1.126)
+    fu_mic = 1.0 / (1.0 + kmic)
+    refs = tuple(r for r in (entry.get("logp_source"), entry.get("pka_source")) if r)
+    return fu_mic, refs, f"fu_mic={fu_mic:.4f} (logP {logp}, C {protein_mg_ml} mg/mL)"
 
 # Drugs whose human clearance is dominated by an enzyme the in-vitro matrix
 # does not contain, so their microsomal CLint cannot predict human CL.
@@ -313,8 +352,16 @@ def _human_truth(inn: str, parameter: str) -> tuple[float, tuple[str, ...]] | No
 
 
 # ---- mechanistic predictions ----------------------------------------------
-def _ivive_cl(record: dict, inn: str, k: PKConstants) -> _Feature | None:
-    """Well-stirred human CL_H in mL/min/kg from human liver CLint and fu_p."""
+def _ivive_cl(record: dict, inn: str, k: PKConstants,
+              apply_fu_mic: bool = False) -> _Feature | None:
+    """Well-stirred human CL_H in mL/min/kg from human liver CLint and fu_p.
+
+    With ``apply_fu_mic`` (P29.6) the total-protein CLint is divided by the
+    microsomal fraction unbound (Hallifax-Houston 2006) to recover the true
+    unbound CLint before the well-stirred equation, correcting the systematic
+    under-prediction of lipophilic bases.  Default False keeps the frozen
+    P29.2 behaviour (fu_mic = 1).
+    """
     if inn in NON_MICROSOMAL_CLEARANCE:
         return None
     clint = _liver_clint(record)
@@ -325,10 +372,14 @@ def _ivive_cl(record: dict, inn: str, k: PKConstants) -> _Feature | None:
         clint_vivo = clint.value * k.mppgl_mg_g / 1000.0 * k.liver_g_per_kg
     else:  # hepatocytes: uL/min/1e6 cells -> mL/min/kg
         clint_vivo = clint.value * 1e-3 * k.hpgl_cells_g / 1e6 * k.liver_g_per_kg
-    clint_u = clint_vivo / k.fu_mic
+    pc_refs: tuple[str, ...] = ()
+    fu_mic = k.fu_mic
+    if apply_fu_mic:
+        fu_mic, pc_refs, _ = _drug_fu_mic(inn, k.fu_mic_protein_mg_ml)
+    clint_u = clint_vivo / fu_mic
     fu_b = fu.value / k.blood_plasma_ratio
     cl_h = k.q_h_ml_min_kg * fu_b * clint_u / (k.q_h_ml_min_kg + fu_b * clint_u)
-    refs = tuple(sorted(set(clint.references + fu.references)))
+    refs = tuple(sorted(set(clint.references + fu.references + pc_refs)))
     return _Feature(cl_h, refs)
 
 
@@ -352,11 +403,14 @@ def _vss(record: dict, k: PKConstants) -> _Feature | None:
     return _Feature(rat.value, rat.references)  # simple allometry, volume exponent 1
 
 
-def _cl_prediction(inn: str, model: TranslationModel, corrected: bool) -> Prediction | None:
+def _cl_prediction(inn: str, model: TranslationModel, corrected: bool,
+                   apply_fu_mic: bool = False) -> Prediction | None:
     record = load_adme_record(inn)
     k = model.constants
-    feat = _ivive_cl(record, inn, k)
+    feat = _ivive_cl(record, inn, k, apply_fu_mic=apply_fu_mic)
     method = "well-stirred IVIVE (human liver CLint, human fu)"
+    if apply_fu_mic:
+        method += " + Hallifax-Houston fu_mic"
     if feat is None:
         feat = _allometric_cl(record, k)
         method = "rat single-species allometry (fixed exponent 0.75), IVIVE-missing fallback"
@@ -435,17 +489,21 @@ def _metric(parameter: str, method: str, predictions: list[Prediction]) -> Metri
 
 
 def score(drugs: Iterable[str], model: TranslationModel | None = None,
-          corrected: bool = False) -> dict[str, Metric]:
+          corrected: bool = False, apply_fu_mic: bool = False) -> dict[str, Metric]:
     """Score the mechanistic predictions over ``drugs``.
 
     No per-drug coefficient is fitted, so a no-fit pass over the train drugs is
     its own leave-one-drug-out result.  Only parameters with >= 1 compatible
     prediction appear in the result; Vss is absent when no drug in ``drugs``
     has a compatible rat *plasma* Vss paired with human Vss truth.
+
+    ``apply_fu_mic`` (P29.6) turns on the sourced microsomal-binding correction
+    on the IVIVE CL arm; it leaves the Vss arm and the allometric CL fallback
+    untouched.
     """
     model = model or fit_translation_models()
     drugs = tuple(drugs)
-    cl = [p for p in (_cl_prediction(d, model, corrected) for d in drugs) if p is not None]
+    cl = [p for p in (_cl_prediction(d, model, corrected, apply_fu_mic) for d in drugs) if p is not None]
     vss = [p for p in (_vss_prediction(d, model.constants) for d in drugs) if p is not None]
     out: dict[str, Metric] = {}
     if cl:
@@ -464,6 +522,33 @@ def score_heldout(corrected: bool = False) -> dict[str, Metric]:
     """Secondary evaluation: the frozen held-out split, scored once."""
     model = fit_translation_models()
     return score(load_split()["heldout"], model=model, corrected=corrected)
+
+
+def score_train_fu_mic() -> dict[str, Metric]:
+    """P29.6 primary: no-fit (== leave-one-drug-out) train CL with the sourced
+    Hallifax-Houston fu_mic correction on the IVIVE arm."""
+    return score(load_split()["train"], apply_fu_mic=True)
+
+
+def score_heldout_fu_mic(corrected: bool = False) -> dict[str, Metric]:
+    """P29.6 held-out CL with the fu_mic correction (scored by the host with
+    full held-out truth; truth is absent in the sandbox clone)."""
+    model = fit_translation_models()
+    return score(load_split()["heldout"], model=model, corrected=corrected,
+                 apply_fu_mic=True)
+
+
+def cl_train_mean_baseline() -> tuple[float, int]:
+    """Leave-one-drug-out geometric-mean-of-train predictor over exactly the
+    train drugs the IVIVE CL arm scores -- the 'same drugs' floor the fu_mic
+    arm must beat.  Independent of apply_fu_mic (identical drug set)."""
+    obs = [p.observed for p in score_train()["cl"].predictions]
+    folds = []
+    for i, o in enumerate(obs):
+        rest = obs[:i] + obs[i + 1:]
+        gm = geometric_mean(rest)
+        folds.append(max(gm / o, o / gm))
+    return geometric_mean(folds), len(obs)
 
 
 def train_geomean_baseline(parameter: str) -> tuple[float, int]:
@@ -488,6 +573,11 @@ __all__ = [
     "score",
     "score_train",
     "score_heldout",
+    "score_train_fu_mic",
+    "score_heldout_fu_mic",
+    "cl_train_mean_baseline",
     "train_geomean_baseline",
+    "load_physchem",
+    "FU_MIC_CITATION",
     "NON_MICROSOMAL_CLEARANCE",
 ]
