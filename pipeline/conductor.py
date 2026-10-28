@@ -486,9 +486,33 @@ def pr_label(num, add: str = "", remove: str = "") -> None:
         gh("api", "-X", "DELETE", f"repos/{{owner}}/{{repo}}/issues/{num}/labels/{remove}")
 
 
+# The repo is public: anyone can open a fork PR, an issue or a comment. Only
+# the owner's own (non-fork) PRs, issues and comments are acted on or fed to a
+# session; everything else is invisible to the conductor.
+# The author filter runs on GitHub's side (--author / author:), so a flood of
+# stranger items cannot push the owner's past a --limit; trusted() re-checks.
+TRUSTED = frozenset(a.strip() for a in os.environ.get("NC_TRUSTED_AUTHORS", "AmunRaPtah").split(",")
+                    if a.strip())
+
+
+def trusted(x: dict) -> bool:
+    return (x.get("author") or {}).get("login") in TRUSTED and not x.get("isCrossRepository")
+
+
+def by_author(*args) -> list[dict]:
+    """``gh <args> --author A`` for each trusted A, merged and re-checked."""
+    out: dict[int, dict] = {}
+    for a in sorted(TRUSTED):
+        for x in json.loads(gh(*args, "--author", a) or "[]"):
+            if trusted(x):
+                out[x["number"]] = x
+    return sorted(out.values(), key=lambda x: x["number"])
+
+
 def open_prs() -> list[dict]:
-    return json.loads(gh("pr", "list", "--state", "open", "--limit", "50", "--json",
-                         "number,title,headRefName,labels,statusCheckRollup,body") or "[]")
+    return by_author("pr", "list", "--state", "open", "--limit", "50", "--json",
+                     "number,title,headRefName,labels,statusCheckRollup,body,author,"
+                     "isCrossRepository")
 
 
 def labels(x: dict) -> set[str]:
@@ -508,8 +532,8 @@ def ci_state(pr: dict) -> str:
 
 
 def issues(label: str) -> list[dict]:
-    out = json.loads(gh("issue", "list", "--label", label, "--state", "open",
-                        "--json", "number,title,labels", "--limit", "100") or "[]")
+    out = by_author("issue", "list", "--label", label, "--state", "open",
+                    "--json", "number,title,labels,author", "--limit", "100")
     for i in out:
         m = re.match(r"^\[([A-Z]\w*\.\w+)\]", i["title"])
         i["id"] = m.group(1) if m else None
@@ -517,8 +541,8 @@ def issues(label: str) -> list[dict]:
 
 
 def open_issue_ids() -> set[str]:
-    out = json.loads(gh("issue", "list", "--state", "open", "--json", "title",
-                        "--limit", "200") or "[]")
+    out = by_author("issue", "list", "--state", "open", "--json", "number,title,author",
+                    "--limit", "200")
     return {m.group(1) for i in out if (m := re.match(r"^\[([A-Z]\w*\.\w+)\]", i["title"]))}
 
 
@@ -1415,8 +1439,8 @@ def step_review(st: dict, prs: list[dict], dry: bool) -> bool:
 
 
 def find_issue(sid: str) -> int | None:
-    out = json.loads(gh("issue", "list", "--state", "open", "--search", f"[{sid}] in:title",
-                        "--json", "number,title") or "[]")
+    out = by_author("issue", "list", "--state", "open", "--search", f"[{sid}] in:title",
+                    "--json", "number,title,author")
     for i in out:
         if i["title"].startswith(f"[{sid}]"):
             return i["number"]
@@ -1511,7 +1535,7 @@ def step_takeover(st: dict, dry: bool) -> bool:
     spec_text = git("show", f"{base}:tasks/specs/{sid}.md")
     spec = o.parse_spec(spec_text)
     comments = json.loads(gh("issue", "view", str(issue["number"]), "--json", "comments"))["comments"]
-    hist = "\n\n".join(c["body"][:1500] for c in comments[-3:]) or "(no comments)"
+    hist = "\n\n".join(c["body"][:1500] for c in [c for c in comments if trusted(c)][-3:]) or "(no comments)"
     adir = rundir(sid, "takeover")
     res = run_architect(f"takeover-{sid}", base, TAKEOVER_PROMPT.format(
         rules=rules(), override=RULES_OVERRIDE, id=sid, title=spec["title"],
