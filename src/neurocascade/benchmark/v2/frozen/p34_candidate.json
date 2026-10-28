@@ -1,0 +1,21 @@
+{
+ "task": "P34.3",
+ "family": "candidate_rank_combined",
+ "selected_in": "P34.1",
+ "description": "Parameter-free rank ensemble of exposure-adjusted occupancy (max_t Cu/(Cu+Ki_t)) and intrinsic affinity (max_t -log10 Ki_t) over each liability's pre-specified receptors. Ranks are taken within the scored cohort and summed with equal weight.",
+ "liability_receptors": {
+  "sedation": ["HRH1"],
+  "anticholinergic": ["CHRM1", "CHRM2", "CHRM3", "CHRM4", "CHRM5"],
+  "eps": ["DRD2"],
+  "orthostatic_hypotension": ["ADRA1A", "ADRA1B", "ADRA1D"]
+ },
+ "views": ["occupancy_max", "affinity_max_pki"],
+ "view_weights": [1.0, 1.0],
+ "rank_method": "average (scipy.stats.rankdata default), within the cohort where both views are defined",
+ "l2": null,
+ "intercept": null,
+ "fitted_parameters": {},
+ "n_fitted_parameters": 0,
+ "fitted_on": "all v2 train drugs (v2_partition()[0]); the family has no free parameter, so fitting on all train drugs leaves this file unchanged",
+ "missing_view_rule": "a drug missing either view (no Cmax,u, or no measured Ki at any listed receptor) gets no score; never imputed"
+}
