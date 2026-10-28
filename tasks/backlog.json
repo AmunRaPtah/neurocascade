@@ -2855,11 +2855,12 @@
       "id": "P32.1",
       "phase": "Phase 32: the product surface",
       "title": "Compound package schema and predict_compound()",
-      "brief": "Define a compound preclinical-package schema (binding panel, efficacy, ADME, rodent PK) and a single entry point predict_compound(package) returning predicted human PK, target-engagement dose, panel occupancy-time, and effect probabilities, each with its calibrated band and provenance, plus the nearest benchmark drugs. Refuse only on a missing core input; widen the band for missing optional inputs.",
+      "brief": "Define a compound preclinical-package schema (binding panel, efficacy, ADME, rodent PK) and a single entry point predict_compound(package) returning predicted human PK, target-engagement dose, panel occupancy-time, and effect probabilities, each with its calibrated band and provenance, plus the nearest benchmark drugs. Refuse only on a missing core input; widen the band for missing optional inputs. Human decision 2026-10-28 (after P34 closed with no verdict possible): proceed without a GO. Every effect probability, dose and band this task outputs is labelled 'not validated: P34 returned no verdict' in its provenance; P32.4 (prospective, post-freeze compounds) is the clean test.",
       "acceptance": [
         "predict_compound runs end to end on a held-out benchmark drug given only its preclinical package",
         "every returned number carries a band (from P30.3's band API) and provenance; refusal only on missing core inputs",
-        "tests cover a full package, a minimal package, and a refused package"
+        "tests cover a full package, a minimal package, and a refused package",
+        "every effect probability, dose and band predict_compound returns carries the provenance label 'not validated: P34 returned no verdict', asserted by a test that walks the whole returned structure"
       ],
       "validation": {
         "kind": "ledger-row",
@@ -2868,8 +2869,7 @@
       "deps": [
         "P30.3",
         "P30.4",
-        "P33.3",
-        "P34.5"
+        "P33.3"
       ],
       "status": "pending",
       "attempts": 0,
@@ -2943,7 +2943,7 @@
       "id": "P32.4",
       "phase": "Phase 32: the product surface",
       "title": "Prospective blind test on recently disclosed CNS compounds",
-      "brief": "The P28.1 held-out set was seen during earlier phases, so it cannot certify the product. Pick at least 6 CNS compounds whose human data were disclosed after the model freeze (recent approvals and published phase 1/2 readouts, e.g. xanomeline-trospium, zuranolone, gepirone, and compounds with recent human PET or phase 1 PK papers), build their preclinical packages from preclinical sources only, and run predict_compound. Commit the predictions (with a SHA-256 of the prediction file recorded in the ledger) BEFORE any human truth for them is added to the repo. Then add the human truth and score.",
+      "brief": "The P28.1 held-out set was seen during earlier phases, so it cannot certify the product. Pick at least 6 CNS compounds whose human data were disclosed after the model freeze (recent approvals and published phase 1/2 readouts, e.g. xanomeline-trospium, zuranolone, gepirone, and compounds with recent human PET or phase 1 PK papers), build their preclinical packages from preclinical sources only, and run predict_compound. Commit the predictions (with a SHA-256 of the prediction file recorded in the ledger) BEFORE any human truth for them is added to the repo. Then add the human truth and score. This is the first clean test of the P34.3 frozen candidate after P34 returned no verdict; its result is recorded verbatim in docs/validation-ledger.md.",
       "acceptance": [
         "prediction file committed and hashed in the ledger before any human truth record for those compounds exists in git history (checkable with git log)",
         "per-compound predicted vs observed dose, occupancy and effects with fold-errors and the mean-baseline beside them",
@@ -3127,19 +3127,20 @@
       "id": "P30.4",
       "phase": "Phase 30: occupancy-to-effects",
       "title": "Recalibrate the uncertainty bands around the P34.3 frozen candidate, held-out coverage once",
-      "brief": "P30.3 fitted conformal bands around the train-mean predictor (CL 95% band x/÷23.9, IVIVE unbounded, effect sets almost all {0,1}) and never ran held-out coverage although its acceptance required it. Refit the P30.3 band API on the P34.3 frozen candidate's LODO residuals, report LODO coverage AND set/interval width beside the train-mean bands, freeze, then report held-out coverage once via host_eval.",
+      "brief": "P30.3 fitted conformal bands around the train-mean predictor (CL 95% band x/÷23.9, IVIVE unbounded, effect sets almost all {0,1}) and never ran held-out coverage although its acceptance required it. Refit the P30.3 band API on the P34.3 frozen candidate's LODO residuals, report LODO coverage AND set/interval width beside the train-mean bands, freeze, then report held-out coverage once via host_eval. Human decision 2026-10-28 (after P34 closed with no verdict possible): proceed without a GO. Every effect probability, dose and band this task outputs is labelled 'not validated: P34 returned no verdict' in its provenance; P32.4 (prospective, post-freeze compounds) is the clean test. The v2 held-out split was already scored in P33.4, so its coverage is reported as retrospective and cannot certify the bands.",
       "acceptance": [
         "bands refit on candidate residuals, frozen before held-out",
         "LODO coverage and width per quantity in the ledger, beside the train-mean bands",
-        "held-out coverage reported once via host_eval"
+        "held-out coverage reported once via host_eval",
+        "the refit bands carry the provenance label 'not validated: P34 returned no verdict'",
+        "the held-out coverage ledger row is marked retrospective (the v2 split was scored in P33.4) and is not cited as certifying the bands"
       ],
       "validation": {
         "kind": "ledger-row",
         "evidence": ""
       },
       "deps": [
-        "P30.3",
-        "P34.5"
+        "P30.3"
       ],
       "status": "pending",
       "attempts": 0,
@@ -3339,7 +3340,7 @@
       "host_eval": "NC_HOST_EVAL=1 PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump_fresh /tmp/p34_5_go.json && python pipeline/go_verdict.py /tmp/p34_5_go.json",
       "status": "blocked-on-data",
       "attempts": 0,
-      "result": "searched-and-empty: never run. No fresh held-out set reaches the 8/8 power floor (P34.4 openFDA, P34.4b SmPC amendment, P34.6 universe exhausted). P34 closed with no verdict possible by human decision 2026-10-28; this is not a GO and not a NO-GO, and P32.x stay held for the human."
+      "result": "searched-and-empty: never run. No fresh held-out set reaches the 8/8 power floor (P34.4 openFDA, P34.4b SmPC amendment, P34.6 universe exhausted). P34 closed with no verdict possible by human decision 2026-10-28; this is not a GO and not a NO-GO, P32.1 and P30.4 then proceed on the human's decision with outputs labelled not validated (PR #62)."
     }
   ]
 }
