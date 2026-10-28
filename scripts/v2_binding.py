@@ -148,7 +148,10 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 import os
+import re
+import ssl
 import statistics
 import sys
 import time
@@ -168,6 +171,7 @@ DEFAULT_CACHE = Path(os.environ.get("NC_V2_BINDING_CACHE", "/root/nc-v2-cache/bi
 CHEMBL = "https://www.ebi.ac.uk/chembl/api/data"
 GTOPDB = "https://www.guidetopharmacology.org/DATA"
 GTOPDB_FILES = ("interactions.csv", "ligands.csv")
+PDSP_URL = "https://pdsp.unc.edu/databases/kiDownload/download.php"
 
 # Non-anchor CNS targets added to drugs.json's 11 anchors: gene symbol ->
 # UniProt accession. Chosen as the genes v1's build_benchmark_binding.py
@@ -395,6 +399,98 @@ def gtopdb_measurements(interactions: list[dict], lig_to_inn: dict[str, str],
     return out
 
 
+# ---------------------------------------------------------------- PDSP
+
+def fetch_pdsp(cache: Path) -> dict:
+    """Download the PDSP Ki CSV once into cache/pdsp; return provenance."""
+    d = cache / "pdsp"
+    d.mkdir(parents=True, exist_ok=True)
+    fn, stamp = d / "pdsp.csv", d / "RETRIEVED"
+    if not fn.exists():
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        req = urllib.request.Request(PDSP_URL, headers={"User-Agent": "neurocascade-v2-binding"})
+        with urllib.request.urlopen(req, timeout=600, context=ctx) as r:
+            fn.write_bytes(r.read())
+        stamp.write_text(time.strftime("%Y-%m-%d", time.gmtime()) + "\n")
+    return {
+        "url": PDSP_URL,
+        "retrieved": stamp.read_text().strip() if stamp.exists() else None,
+        "sha256": hashlib.sha256(fn.read_bytes()).hexdigest(),
+        "tls": "fetched with an unverified TLS context (server CA chain not verifiable)",
+    }
+
+
+def read_pdsp(path: Path) -> list[dict]:
+    with open(path, encoding="utf-8", errors="replace", newline="") as f:
+        return [{k.strip(): (v or "") for k, v in r.items() if k is not None}
+                for r in csv.DictReader(f)]
+
+
+def smiles_inchikey(smiles: str) -> str | None:
+    """Standard InChIKey of the largest, uncharged fragment of a SMILES."""
+    from rdkit import Chem, RDLogger
+    from rdkit.Chem.MolStandardize import rdMolStandardize
+    RDLogger.DisableLog("rdApp.*")
+    mol = Chem.MolFromSmiles(smiles) if smiles else None
+    if mol is None:
+        return None
+    try:
+        mol = rdMolStandardize.LargestFragmentChooser().choose(mol)
+        mol = rdMolStandardize.Uncharger().uncharge(mol)
+        return Chem.MolToInchiKey(mol) or None
+    except Exception:  # noqa: BLE001 - unparseable structure is "not mapped"
+        return None
+
+
+def _pmid_from_link(link: str) -> str | None:
+    """PMID only when the Link is a PubMed URL (v1 build_benchmark_binding rule)."""
+    link = link or ""
+    if "ncbi.nlm.nih.gov" not in link or "/pmc/" in link:
+        return None
+    m = re.search(r"(\d{6,9})", link)
+    return m.group(1) if m else None
+
+
+def pdsp_measurements(rows: list[dict], key_to_inn: dict[str, str], genes: set[str],
+                      smiles_key=smiles_inchikey
+                      ) -> tuple[dict[tuple[str, str], list[dict]],
+                                 dict[tuple[str, str], list[dict]], int]:
+    """Rule (b2): (inn, gene) -> measured rows and -> '>' censored rows, plus
+    the number of distinct SMILES that mapped to a v2 drug."""
+    measured: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    censored: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    key_cache: dict[str, str | None] = {}
+    for i, r in enumerate(rows):
+        if r.get("species") != "HUMAN" or r.get("Unigene", "").strip() not in genes:
+            continue
+        note = r.get("ki Note", "").strip()
+        if note not in ("", ">"):
+            continue
+        try:
+            ki = float(r.get("ki Val", ""))
+        except ValueError:
+            continue
+        if not (1e-3 <= ki <= 1e6):
+            continue
+        smi = r.get("SMILES", "").strip()
+        if not smi:
+            continue
+        if smi not in key_cache:
+            key_cache[smi] = smiles_key(smi)
+        inn = key_to_inn.get(key_cache[smi] or "")
+        if inn is None:
+            continue
+        pmid = _pmid_from_link(r.get("Link", ""))
+        rec = {"ki_nM": ki, "pki": 9 - math.log10(ki), "pubmed_id": pmid,
+               "reference": r.get("Reference", "").strip(), "row": i,
+               "key": f"PMID:{pmid}" if pmid else f"PDSP:{r.get('Reference', '').strip()}"}
+        (censored if note == ">" else measured)[(inn, r["Unigene"].strip())].append(rec)
+    n_mapped = len({s for s, k in key_cache.items() if k and k in key_to_inn})
+    return measured, censored, n_mapped
+
+
 # ---------------------------------------------------------------- aggregation
 
 def _censored(a: dict) -> bool:
@@ -424,40 +520,58 @@ def _doc_rows(doc_ids: list[str], docs: dict[str, dict]) -> list[dict]:
     return rows
 
 
+def _pdsp_refs(groups: dict[str, list[dict]]) -> list[dict]:
+    return [{"source": "pdsp", "reference": v[0]["reference"], "pubmed_id": v[0]["pubmed_id"],
+             "pki": round(statistics.fmean(x["pki"] for x in v), 4),
+             "n_measurements": len(v)}
+            for _, v in sorted(groups.items())][:MAX_DOCS]
+
+
 def summarise_target(acts: list[dict], docs: dict[str, dict],
-                     gtop: list[dict] | None = None) -> dict:
-    """Merge rule (c): ChEMBL rows grouped by document, GtoPdb rows by PMID
-    (dropped when that PMID is already a ChEMBL document for this pair);
+                     gtop: list[dict] | None = None,
+                     pdsp: list[dict] | None = None) -> dict:
+    """Merge rule (c): ChEMBL rows grouped by document, GtoPdb rows by PMID,
+    PDSP rows by publication key; a GtoPdb/PDSP group whose PMID an earlier
+    source (order ChEMBL, GtoPdb, PDSP) already has for this pair is dropped.
     pki_median = median of per-publication mean pKi."""
     by_doc: dict[str, list[float]] = defaultdict(list)
     vals_nM: list[float] = []
     for a in acts:
         by_doc[a["document_chembl_id"]].append(float(a["pchembl_value"]))
         vals_nM.append(float(a["standard_value"]))
-    chembl_pmids = {str((docs.get(d) or {}).get("pubmed_id")) for d in by_doc
-                    if (docs.get(d) or {}).get("pubmed_id")}
+    seen = {str((docs.get(d) or {}).get("pubmed_id")) for d in by_doc
+            if (docs.get(d) or {}).get("pubmed_id")}
     by_ref: dict[str, list[dict]] = defaultdict(list)
     for g in gtop or []:
-        if g["pubmed_id"] and g["pubmed_id"] in chembl_pmids:
+        if g["pubmed_id"] and g["pubmed_id"] in seen:
             continue
         key = f"PMID:{g['pubmed_id']}" if g["pubmed_id"] else f"gtopdb-row:{g['row']}"
         by_ref[key].append(g)
-    if not by_doc and not by_ref:
+    seen |= {v[0]["pubmed_id"] for v in by_ref.values() if v[0]["pubmed_id"]}
+    by_pdsp: dict[str, list[dict]] = defaultdict(list)
+    for r in pdsp or []:
+        if r["pubmed_id"] and r["pubmed_id"] in seen:
+            continue
+        by_pdsp[r["key"]].append(r)
+    if not by_doc and not by_ref and not by_pdsp:
         return {}
     group_means = [statistics.fmean(v) for v in by_doc.values()]
     group_means += [statistics.fmean(x["pki"] for x in v) for v in by_ref.values()]
+    group_means += [statistics.fmean(x["pki"] for x in v) for v in by_pdsp.values()]
     vals_nM += [10 ** (9 - x["pki"]) for v in by_ref.values() for x in v]
+    vals_nM += [x["ki_nM"] for v in by_pdsp.values() for x in v]
     pki_median = statistics.median(group_means)
     doc_ids = sorted(by_doc, key=lambda d: -((docs.get(d) or {}).get("year") or 0))
     n_gtop = sum(len(v) for v in by_ref.values())
+    n_pdsp = sum(len(v) for v in by_pdsp.values())
     out = {
         "status": "data",
         "pki_median": round(pki_median, 4),
         "ki_nM": round(10 ** (9 - pki_median), 6),
         "ki_min_nM": min(vals_nM),
         "ki_max_nM": max(vals_nM),
-        "n_documents": len(by_doc) + len(by_ref),
-        "n_measurements": len(acts) + n_gtop,
+        "n_documents": len(by_doc) + len(by_ref) + len(by_pdsp),
+        "n_measurements": len(acts) + n_gtop + n_pdsp,
         "documents": _doc_rows(doc_ids, docs),
     }
     if by_ref:
@@ -470,30 +584,51 @@ def summarise_target(acts: list[dict], docs: dict[str, dict],
                          "pki": round(statistics.fmean(x["pki"] for x in v), 4),
                          "n_measurements": len(v)})
         out["gtopdb_references"] = refs[:MAX_DOCS]
-        out["sources"] = {"chembl": len(by_doc), "gtopdb": len(by_ref)}
+    if by_pdsp:
+        out["pdsp_references"] = _pdsp_refs(by_pdsp)
+    if by_ref or by_pdsp:
+        out["sources"] = {"chembl": len(by_doc), "gtopdb": len(by_ref), "pdsp": len(by_pdsp)}
     return out
 
 
-def summarise_lower_bound(acts: list[dict], docs: dict[str, dict]) -> dict:
-    """Rule (a): censored '>'/'>=' Ki rows, never merged into the Ki value."""
+def summarise_lower_bound(acts: list[dict], docs: dict[str, dict],
+                          pdsp: list[dict] | None = None) -> dict:
+    """Rule (a): censored '>'/'>=' Ki rows (ChEMBL, and PDSP '>' rows whose
+    PMID is not already a ChEMBL censored document), never merged into Ki."""
     vals = [float(a["standard_value"]) for a in acts]
     doc_ids = sorted({a["document_chembl_id"] for a in acts},
                      key=lambda d: (-((docs.get(d) or {}).get("year") or 0), d))
-    return {
+    seen = {str((docs.get(d) or {}).get("pubmed_id")) for d in doc_ids
+            if (docs.get(d) or {}).get("pubmed_id")}
+    by_pdsp: dict[str, list[dict]] = defaultdict(list)
+    for r in pdsp or []:
+        if r["pubmed_id"] and r["pubmed_id"] in seen:
+            continue
+        by_pdsp[r["key"]].append(r)
+    vals += [x["ki_nM"] for v in by_pdsp.values() for x in v]
+    if not vals:
+        return {}
+    out = {
         "ki_lower_bound_nM": min(vals),
         "ki_lower_bound_max_nM": max(vals),
-        "n_measurements": len(acts),
-        "n_documents": len(doc_ids),
+        "n_measurements": len(vals),
+        "n_documents": len(doc_ids) + len(by_pdsp),
         "documents": _doc_rows(doc_ids, docs),
     }
+    if by_pdsp:
+        out["pdsp_references"] = [{k: v for k, v in r.items() if k != "pki"}
+                                  for r in _pdsp_refs(by_pdsp)]
+    return out
 
 
 def build_drug(drug: dict, target_ids: dict[str, str], acts: list[dict],
-                docs: dict[str, dict], censored: list[dict] | None = None,
-                gtop: dict[str, list[dict]] | None = None) -> dict:
-    """One drug's row. ``censored``: raw ChEMBL '>'/'>=' rows; ``gtop``:
-    gene -> qualifying GtoPdb rows for this drug."""
-    gtop = gtop or {}
+               docs: dict[str, dict], censored: list[dict] | None = None,
+               gtop: dict[str, list[dict]] | None = None,
+               pdsp: dict[str, list[dict]] | None = None,
+               pdsp_censored: dict[str, list[dict]] | None = None) -> dict:
+    """One drug's row. ``censored``: raw ChEMBL '>'/'>=' rows; ``gtop``,
+    ``pdsp``, ``pdsp_censored``: gene -> qualifying rows for this drug."""
+    gtop, pdsp, pdsp_censored = gtop or {}, pdsp or {}, pdsp_censored or {}
     by_target_id = defaultdict(list)   # Ki only
     kd_by_target_id = defaultdict(list)  # Kd only
     for a in acts:
@@ -510,7 +645,7 @@ def build_drug(drug: dict, target_ids: dict[str, str], acts: list[dict],
     kd_only: dict[str, dict] = {}
     for gene, tid in sorted(target_ids.items()):
         acts_t = by_target_id.get(tid, [])
-        summary = summarise_target(acts_t, docs, gtop.get(gene))
+        summary = summarise_target(acts_t, docs, gtop.get(gene), pdsp.get(gene))
         if summary:
             targets[gene] = summary
         else:
@@ -522,19 +657,22 @@ def build_drug(drug: dict, target_ids: dict[str, str], acts: list[dict],
                     "n_measurements": len(kd_acts),
                     "documents": _doc_rows(doc_ids, docs),
                 }
-    cens_by_tid = defaultdict(list)
+    cens_by_gene = defaultdict(list)
     for a in censored or []:
         if _censored(a) and a["target_chembl_id"] in gene_of:
-            cens_by_tid[a["target_chembl_id"]].append(a)
-    lower = {gene_of[tid]: summarise_lower_bound(v, docs)
-             for tid, v in sorted(cens_by_tid.items())}
+            cens_by_gene[gene_of[a["target_chembl_id"]]].append(a)
+    lower = {}
+    for gene in sorted(set(cens_by_gene) | {g for g in pdsp_censored if g in target_ids}):
+        lb = summarise_lower_bound(cens_by_gene.get(gene, []), docs, pdsp_censored.get(gene))
+        if lb:
+            lower[gene] = lb
     return {
         "inn": drug["inn"],
         "chembl_id": drug["chembl_id"],
         "targets": targets,
         "searched_and_empty": sorted(searched_and_empty),
         "kd_only": kd_only,
-        "ki_lower_bounds": dict(sorted(lower.items())),
+        "ki_lower_bounds": lower,
     }
 
 
@@ -595,11 +733,30 @@ def main(argv: list[str]) -> int:
     print("GtoPdb", gtopdb_prov["version"], len(lig_to_inn), "ligands mapped,",
           len(gtop), "drug x gene pairs with pKi", file=sys.stderr)
 
+    pdsp_prov = fetch_pdsp(cache)
+    key_to_inn: dict[str, str] = {}
+    key_clash: set[str] = set()
+    for d in drugs:
+        k = inchikeys.get(d["chembl_id"])
+        if k:
+            if k in key_to_inn:
+                key_clash.add(k)
+            key_to_inn[k] = d["inn"]
+    for k in key_clash:  # an InChIKey shared by two v2 drugs maps to neither
+        del key_to_inn[k]
+    p_meas, p_cens, n_pdsp_smiles = pdsp_measurements(
+        read_pdsp(cache / "pdsp" / "pdsp.csv"), key_to_inn, set(target_ids))
+    print("PDSP", n_pdsp_smiles, "SMILES mapped,", len(p_meas), "measured and",
+          len(p_cens), "censored drug x gene pairs", file=sys.stderr)
+
+    def _for(table, inn):
+        return {gene: rows for (i, gene), rows in table.items() if i == inn}
+
     out_drugs = {}
     for d in drugs:
-        g_rows = {gene: rows for (inn, gene), rows in gtop.items() if inn == d["inn"]}
         out_drugs[d["inn"]] = build_drug(d, target_ids, acts_by_drug[d["inn"]], docs,
-                                         cens_by_drug[d["inn"]], g_rows)
+                                         cens_by_drug[d["inn"]], _for(gtop, d["inn"]),
+                                         _for(p_meas, d["inn"]), _for(p_cens, d["inn"]))
 
     provenance = {
         "retrieved": time.strftime("%Y-%m-%d"),
@@ -616,7 +773,7 @@ def main(argv: list[str]) -> int:
             "document_chembl_id, averaged within each document, and pki_median "
             "is the median of those per-document means. ki_nM = 10**(9-pki_median). "
             "ki_min_nM/ki_max_nM are the extremes of the individual measurements. "
-            "GtoPdb measurements join this pool under merge_rule."),
+            "GtoPdb and PDSP measurements join this pool under merge_rule."),
         "kd_handling": (
             "Kd rows (same filters, standard_type=Kd) are kept separate under "
             "kd_only for drug x target pairs with no qualifying Ki, and are never "
@@ -641,21 +798,34 @@ def main(argv: list[str]) -> int:
                            "Relation '=' or blank; Affinity Median numeric."),
         },
         "merge_rule": (
-            "All '=' Ki measurements from ChEMBL and GtoPdb are pooled per drug x gene. "
-            "ChEMBL rows are grouped by document_chembl_id, GtoPdb rows by PubMed id "
-            "(or per row when no PMID); a GtoPdb row whose PMID equals a ChEMBL "
-            "document's PMID for the same pair is dropped as a duplicate of the same "
-            "publication. pki_median = median of per-publication mean pKi; "
-            "ki_nM = 10**(9-pki_median). No source is preferred."),
+            "All '=' Ki measurements from ChEMBL, GtoPdb and PDSP are pooled per drug x "
+            "gene. ChEMBL rows are grouped by document_chembl_id, GtoPdb rows by PubMed "
+            "id (or per row when no PMID), PDSP rows by PMID (PubMed Link) or "
+            "'PDSP:<Reference>'. A GtoPdb or PDSP group whose PMID an earlier source "
+            "(order ChEMBL, GtoPdb, PDSP) already has for the same pair is dropped as a "
+            "duplicate of the same publication. pki_median = median of per-publication "
+            "mean pKi; ki_nM = 10**(9-pki_median). No source is preferred."),
         "censored_handling": (
             "ChEMBL Ki rows with standard_relation '>' or '>=' (same human / panel-"
-            "target / nM / validity filters) are summarised per gene under each "
-            "drug's ki_lower_bounds: ki_lower_bound_nM = smallest censored threshold, "
-            "ki_lower_bound_max_nM = largest. They are never merged into targets/"
-            "ki_nM/pki_median and do not remove a gene from searched_and_empty."),
-        "pdsp": ("not used: https://pdsp.unc.edu/databases/kiDownload/ returned HTTP 403 "
-                 "to programmatic access on 2026-10-28, and PDSP records carry no "
-                 "InChIKey/ChEMBL id for identifier-based mapping."),
+            "target / nM / validity filters) and PDSP rows with ki Note '>' (PDSP row "
+            "filter; PMID-duplicates of a ChEMBL censored document dropped) are "
+            "summarised per gene under each drug's ki_lower_bounds: ki_lower_bound_nM = "
+            "smallest censored threshold, ki_lower_bound_max_nM = largest; ChEMBL "
+            "documents under documents, PDSP publications under pdsp_references. They "
+            "are never merged into targets/ki_nM/pki_median and do not remove a gene "
+            "from searched_and_empty. '<', '<=' and '~' rows are not used."),
+        "pdsp": {
+            **pdsp_prov,
+            "ligand_mapping": ("PDSP SMILES -> RDKit largest fragment, uncharged -> "
+                               "standard InChIKey, equal to the ChEMBL parent's full "
+                               "standard InChIKey; no name matching. InChIKeys shared by "
+                               ">1 v2 drug dropped."),
+            "n_smiles_mapped": n_pdsp_smiles,
+            "row_filter": ("species == 'HUMAN' exactly; Unigene equal to a panel gene "
+                           "resolved on the ChEMBL side; ki Val numeric, 1e-3..1e6 nM; "
+                           "ki Note blank = measured, '>' = lower bound, '<' unused; "
+                           "PMID only from a PubMed Link."),
+        },
     }
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
