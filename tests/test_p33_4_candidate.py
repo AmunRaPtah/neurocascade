@@ -29,7 +29,8 @@ CAND = ROOT / "src" / "neurocascade" / "benchmark" / "v2" / "candidate.py"
 
 # P33.4 was scored on the v2 inputs as of commit 70ea056; its NO-GO verdict is
 # the first verdict and binds. PRs #51 (binding coverage) and #52 (plasma fu
-# coverage) later extended these inputs, so a fresh re-run scores more drugs.
+# coverage, plus truth/human_cmax_corrections.json, which load_v2_human_cmax
+# applies by default) later extended these inputs, so a re-run scores more drugs.
 # The committed record is not regenerated; the reproduction tests only apply
 # while the inputs are byte-identical to the ones P33.4 was scored on.
 P33_4_INPUTS = {
@@ -41,13 +42,16 @@ P33_4_INPUTS = {
 def _inputs_as_scored() -> bool:
     import hashlib
     v2 = ROOT / "src" / "neurocascade" / "benchmark" / "v2"
+    if (v2 / "truth" / "human_cmax_corrections.json").exists():  # absent at 70ea056
+        return False
     return all(hashlib.sha256((v2 / rel).read_bytes()).hexdigest().startswith(want)
                for rel, want in P33_4_INPUTS.items())
 
 
 as_scored = pytest.mark.skipif(
     not _inputs_as_scored(),
-    reason="v2 inputs extended after P33.4 (PRs #51, #52); the binding P33.4 record is not re-run")
+    reason="v2 inputs (binding, plasma fu, Cmax corrections) extended after P33.4 by PRs #51/#52; "
+           "the binding P33.4 record is not re-run")
 
 
 @pytest.fixture(scope="module")
