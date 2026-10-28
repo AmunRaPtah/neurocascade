@@ -6,13 +6,17 @@ derivation is not available without RDKit, so instead compare the full InChI
 strings after normalising whitespace -- an exact match is strong confirmation,
 and any mismatch drops the candidate (never used), rather than guessing from a
 partial comparison.
+
+Usage:
+    python scripts/v2_fu_structure_verify.py <matches.json> [--out <verified.json>]
 """
 import hashlib, json, re, sys, time, urllib.request
 from pathlib import Path
 
-ROOT = Path("/root/projects/neurocascade/.claude/worktrees/agent-aa546ac89132d41e2")
+ROOT = Path(__file__).resolve().parents[1]
 CACHE = Path("/root/nc-v2-cache/fu2/drugcentral")
 CHEMBL = "https://www.ebi.ac.uk/chembl/api/data/"
+DEFAULT_OUT = Path("/tmp/v2_fu_drugcentral_matches_verified.json")
 
 
 def get(url, timeout=30):
@@ -44,8 +48,15 @@ def chembl_inchi(chembl_id):
     return (rec.get("molecule_structures") or {}).get("standard_inchi")
 
 
-def main():
-    matches = json.loads((ROOT / "tmp_fu_probe" / "drugcentral_matches.json").read_text())
+def main(argv):
+    if not argv:
+        raise SystemExit(__doc__)
+    matches_path = Path(argv[0])
+    out_path = DEFAULT_OUT
+    if "--out" in argv:
+        out_path = Path(argv[argv.index("--out") + 1])
+
+    matches = json.loads(matches_path.read_text())
     drugs = {d["inn"]: d["chembl_id"]
              for d in json.loads((ROOT / "src/neurocascade/benchmark/v2/drugs.json").read_text())["drugs"]}
     verified = {}
@@ -69,8 +80,8 @@ def main():
     print(f"structure-verified {len(verified)} of {len(matches)}; rejected {len(rejected)}", file=sys.stderr)
     for inn, dci, cmi in rejected:
         print("REJECT", inn, "dc=", dci, "chembl=", cmi, file=sys.stderr)
-    (ROOT / "tmp_fu_probe" / "drugcentral_matches_verified.json").write_text(json.dumps(verified, indent=1))
+    out_path.write_text(json.dumps(verified, indent=1))
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])

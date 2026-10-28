@@ -81,12 +81,12 @@
      "year": "1986"
     }
    },
-   "fu": 0.9961,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 355.962,
-   "cmax_unbound_ng_per_ml": 101.602
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "remifentanil",
@@ -880,12 +880,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9985,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 12.8495,
-   "cmax_unbound_ng_per_ml": 3.994
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "duloxetine",
@@ -920,12 +920,12 @@
      "year": "2009"
     }
    },
-   "fu": 0.9996,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 159.072,
-   "cmax_unbound_ng_per_ml": 47.3111
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "pemoline",
@@ -1012,12 +1012,12 @@
      "year": "2019"
     }
    },
-   "fu": 0.9989,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 0.562493,
-   "cmax_unbound_ng_per_ml": 0.241085
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "olopatadine",
@@ -1510,12 +1510,12 @@
      "year": "2016"
     }
    },
-   "fu": 0.9995,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 57.6065,
-   "cmax_unbound_ng_per_ml": 20.5897
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "acamprosate",
@@ -1551,12 +1551,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.99,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 1912.15,
-   "cmax_unbound_ng_per_ml": 346.5
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "glycopyrronium",
@@ -1698,12 +1698,12 @@
      "year": "2016"
     }
    },
-   "fu": 0.9925,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 14858.3,
-   "cmax_unbound_ng_per_ml": 3539.26
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "tapentadol",
@@ -1819,12 +1819,12 @@
      "year": "2023"
     }
    },
-   "fu": 0.9995,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 1295.9,
-   "cmax_unbound_ng_per_ml": 452.774
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "ramelteon",
@@ -1859,12 +1859,12 @@
      "year": "2006"
     }
    },
-   "fu": 0.998,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 22.0495,
-   "cmax_unbound_ng_per_ml": 5.71854
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "sulconazole",
@@ -2203,12 +2203,12 @@
      "year": "2015"
     }
    },
-   "fu": 0.9992,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 2.65414,
-   "cmax_unbound_ng_per_ml": 0.83733
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "tolcapone",
@@ -2362,12 +2362,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.99,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 627605.0,
-   "cmax_unbound_ng_per_ml": 65340.0
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "darifenacin",
@@ -2679,12 +2679,12 @@
      "year": "2009"
     }
    },
-   "fu": 0.9964,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 30.4694,
-   "cmax_unbound_ng_per_ml": 9.88429
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "eletriptan",
@@ -2797,12 +2797,12 @@
      "year": "2012"
     }
    },
-   "fu": 0.446105,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 38.3553,
-   "cmax_unbound_ng_per_ml": 14.9133
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "ganaxolone",
@@ -2837,12 +2837,12 @@
      "year": "1997"
     }
    },
-   "fu": 0.01,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 0.962319,
-   "cmax_unbound_ng_per_ml": 0.32
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "dihydrocodeine",
@@ -2957,12 +2957,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9905,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 0.175779,
-   "cmax_unbound_ng_per_ml": 0.0584395
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "clemastine",
@@ -3078,12 +3078,12 @@
      "year": "1999"
     }
    },
-   "fu": 0.9998,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 120.161,
-   "cmax_unbound_ng_per_ml": 55.9888
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "dihydroergotamine",
@@ -3119,12 +3119,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9993,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 3.59528,
-   "cmax_unbound_ng_per_ml": 2.09853
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "solifenacin",
@@ -3254,12 +3254,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9967,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 8.88732,
-   "cmax_unbound_ng_per_ml": 3.48845
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "tiotropium",
@@ -3480,12 +3480,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9988,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 940.497,
-   "cmax_unbound_ng_per_ml": 230.723
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "vortioxetine",
@@ -3521,12 +3521,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9998,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 60.2975,
-   "cmax_unbound_ng_per_ml": 17.9964
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "brexpiprazole",
@@ -3683,12 +3683,12 @@
      "year": "2010"
     }
    },
-   "fu": 0.9928,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 6618.79,
-   "cmax_unbound_ng_per_ml": 2246.22
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "ubrogepant",
@@ -3764,12 +3764,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9999,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 1777.26,
-   "cmax_unbound_ng_per_ml": 743.926
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "zavegepant",
@@ -3899,12 +3899,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9995,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 124.247,
-   "cmax_unbound_ng_per_ml": 61.5692
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "aspirin",
@@ -4127,12 +4127,12 @@
      "year": "1990"
     }
    },
-   "fu": 0.07,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 12.9907,
-   "cmax_unbound_ng_per_ml": 3.829
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "edaravone",
@@ -4167,12 +4167,12 @@
      "year": "2012"
     }
    },
-   "fu": 0.9911,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 25830.6,
-   "cmax_unbound_ng_per_ml": 4499.69
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "capsaicin",
@@ -4259,12 +4259,12 @@
      "year": "2023"
     }
    },
-   "fu": 0.9915,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 1.92046,
-   "cmax_unbound_ng_per_ml": 0.405851
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "lasmiditan",
@@ -4312,12 +4312,12 @@
      "year": "1989"
     }
    },
-   "fu": 0.21057,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 3193.6,
-   "cmax_unbound_ng_per_ml": 757.841
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "eslicarbazepine",
@@ -4393,12 +4393,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9995,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 13.9903,
-   "cmax_unbound_ng_per_ml": 3.998
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "lumateperone",
@@ -4537,12 +4537,12 @@
      "year": "2016"
     }
    },
-   "fu": 0.9994,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 267.099,
-   "cmax_unbound_ng_per_ml": 52.2686
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "cocaine",
@@ -5048,12 +5048,12 @@
      "year": "2021"
     }
    },
-   "fu": 0.003,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 4.96973,
-   "cmax_unbound_ng_per_ml": 2.241
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "solriamfetol",
@@ -5182,12 +5182,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9997,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 353.203,
-   "cmax_unbound_ng_per_ml": 155.953
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "thiopental",
@@ -5313,12 +5313,12 @@
      "year": "2019"
     }
    },
-   "fu": 0.9961,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 100.142,
-   "cmax_unbound_ng_per_ml": 23.2609
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "mephobarbital",
@@ -6065,12 +6065,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9991,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 1796.11,
-   "cmax_unbound_ng_per_ml": 611.449
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "pilocarpine",
@@ -6106,12 +6106,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9908,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 71.3627,
-   "cmax_unbound_ng_per_ml": 14.862
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "perphenazine",
@@ -6305,12 +6305,12 @@
      "year": "2012"
     }
    },
-   "fu": 0.9915,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 52011.2,
-   "cmax_unbound_ng_per_ml": 13018.4
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "fenoldopam",
@@ -6372,12 +6372,12 @@
      "year": "1990"
     }
    },
-   "fu": 0.9913,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 200.616,
-   "cmax_unbound_ng_per_ml": 30.7303
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "fentanyl",
@@ -6502,12 +6502,12 @@
      "year": "2008"
     }
    },
-   "fu": 0.9917,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 18685.8,
-   "cmax_unbound_ng_per_ml": 3966.8
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "terazosin",
@@ -7726,12 +7726,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9986,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 34.8713,
-   "cmax_unbound_ng_per_ml": 13.581
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "chlorpromazine",
@@ -7819,12 +7819,12 @@
      "year": "2009"
     }
    },
-   "fu": 0.17,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 251.817,
-   "cmax_unbound_ng_per_ml": 96.577
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "desipramine",
@@ -8294,12 +8294,12 @@
      "year": "2008"
     }
    },
-   "fu": 0.9947,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 140.571,
-   "cmax_unbound_ng_per_ml": 25.2057
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "econazole",
@@ -8442,12 +8442,12 @@
      "year": "2007"
     }
    },
-   "fu": 0.9913,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 65.8572,
-   "cmax_unbound_ng_per_ml": 15.3651
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "tamoxifen",
@@ -8523,12 +8523,12 @@
      "year": "2014"
     }
    },
-   "fu": 0.9998,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 951.58,
-   "cmax_unbound_ng_per_ml": 311.938
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "tamsulosin",
@@ -8797,12 +8797,12 @@
      "year": "1985"
     }
    },
-   "fu": 0.9991,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 403.185,
-   "cmax_unbound_ng_per_ml": 115.896
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "fenfluramine",
@@ -8837,12 +8837,12 @@
      "year": "2018"
     }
    },
-   "fu": 0.5,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 122.589,
-   "cmax_unbound_ng_per_ml": 28.35
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "rasagiline",
@@ -9460,12 +9460,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.04,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 115.046,
-   "cmax_unbound_ng_per_ml": 34.6
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   },
   {
    "inn": "flurazepam",
@@ -9688,12 +9688,12 @@
      "openfda_export_date": "2026-10-21"
     }
    },
-   "fu": 0.9932,
+   "fu": null,
    "fu_flags": [
-    "fu_single_measurement"
+    "fu_missing"
    ],
-   "cmax_unbound_nM": 1374.8,
-   "cmax_unbound_ng_per_ml": 338.681
+   "cmax_unbound_nM": null,
+   "cmax_unbound_ng_per_ml": null
   }
  ]
 }

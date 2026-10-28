@@ -24,12 +24,16 @@ was computed, per the task's own sequencing requirement):
      name, then verified by comparing DrugCentral's own InChIKey for the
      matched struct_id against ChEMBL's molecule_structures.standard_inchi
      for the same chembl_id; a mismatch (or an unresolvable structure on
-     either side) drops the candidate rather than guessing.
+     either side) drops the candidate rather than guessing. DrugCentral's
+     "fu (Fraction unbound in plasma)" table cell is already the fu
+     fraction itself (the page appends a stray "%" suffix to the number,
+     e.g. "0.04 %" means fu=0.04) -- it is stored directly as fu, with no
+     1 - x/100 conversion.
 
   3. FDA label "X% bound to plasma protein(s)" text, extracted from the
      openFDA label cache scripts/v2_cmax.py already builds
      ($NC_V2_CACHE/cmax/labels.jsonl.gz), via a conservative regex (see
-     tmp_fu_probe/label_fu.py, reused as the extraction module). Used only
+     scripts/v2_fu_label_extract.py, reused as the extraction module). Used only
      for drugs with neither a ChEMBL nor a DrugCentral/Lombardo fu value.
      Sentences mentioning a metabolite, multiple distinct %-bound clauses,
      or a special population (renal/hepatic impairment, pediatric,
@@ -40,7 +44,14 @@ was computed, per the task's own sequencing requirement):
      elsewhere in this pipeline). The label's own openFDA ingredient
      metadata (substance_name/generic_name) must either be absent or
      contain the drug's base name, guarding against combination-product
-     labels whose prose describes a different active ingredient.
+     labels whose prose describes a different active ingredient; this is
+     backstopped by a sentence-level check that the %-bound clause's
+     grammatical subject itself names the target drug or a salt form of
+     it, since a label with empty openFDA metadata would otherwise pass
+     unconditionally and let a different, co-mentioned drug's sentence
+     through. Censored phrasings ("<X% bound", "greater than X% bound",
+     "less than X% bound") are excluded outright rather than stored as
+     point values.
 
   No averaging/pooling across sources happens: at most one source tier
   contributes a value for any one drug, and that source's provenance
@@ -92,8 +103,19 @@ def _chembl_inchi(chembl_id: str) -> str | None:
     return (rec.get("molecule_structures") or {}).get("standard_inchi_key")
 
 
-def _pct_to_fu(pct_literal_value: float) -> float:
-    return round(1.0 - pct_literal_value / 100.0, 6)
+def _literal_to_fu(literal_value: float) -> float:
+    """DrugCentral's "fu (Fraction unbound in plasma)" table cell already IS
+    the fu fraction -- the page just appends a stray "%" suffix to the
+    number (e.g. "0.04 %" means fu=0.04), it is not a %-bound value needing
+    a 1 - x/100 conversion. Store the literal number directly as fu."""
+    return round(literal_value, 6)
+
+
+def _pct_bound_to_fu(pct_bound_value: float) -> float:
+    """FDA label text reports a %-bound value (e.g. "96% bound to plasma
+    protein"), so this (unlike the DrugCentral literal above) does need the
+    1 - x/100 conversion to fu."""
+    return round(1.0 - pct_bound_value / 100.0, 6)
 
 
 def merge(drugcentral_file: Path, labels_file: Path | None, verify_structure: bool) -> None:
@@ -113,10 +135,10 @@ def merge(drugcentral_file: Path, labels_file: Path | None, verify_structure: bo
         dc = dc_matches.get(inn)
         if dc and dc.get("value_literal") and "%" in dc["value_literal"]:
             try:
-                pct = float(dc["value_literal"].replace("%", "").strip())
+                literal = float(dc["value_literal"].replace("%", "").strip())
             except ValueError:
-                pct = None
-            if pct is not None and 0 < pct <= 100:
+                literal = None
+            if literal is not None and 0 < literal <= 1:
                 ok = True
                 if verify_structure and dc.get("inchikey"):
                     try:
@@ -127,7 +149,7 @@ def merge(drugcentral_file: Path, labels_file: Path | None, verify_structure: bo
                         ok = False
                         n_dc_struct_rejected += 1
                 if ok:
-                    fu_value = _pct_to_fu(pct)
+                    fu_value = _literal_to_fu(literal)
                     if fu_value > 0:
                         row["fu"] = {
                             "value": fu_value, "min": fu_value, "max": fu_value,
@@ -151,7 +173,9 @@ def merge(drugcentral_file: Path, labels_file: Path | None, verify_structure: bo
         cands = label_matches.get(inn)
         if cands:
             c = cands[0]
-            fu_value = _pct_to_fu(c["pct_bound"])
+            if c.get("censored"):
+                continue
+            fu_value = _pct_bound_to_fu(c["pct_bound"])
             if fu_value > 0:
                 row["fu"] = {
                     "value": fu_value, "min": fu_value, "max": fu_value,
@@ -194,8 +218,8 @@ def merge(drugcentral_file: Path, labels_file: Path | None, verify_structure: bo
 def main(argv: list[str]) -> None:
     if not argv or argv[0] != "merge":
         raise SystemExit(__doc__)
-    dc_file = ROOT / "tmp_fu_probe" / "drugcentral_matches.json"
-    labels_file = ROOT / "tmp_fu_probe" / "label_fu_candidates.json"
+    dc_file = Path("/tmp/v2_fu_drugcentral_matches_verified.json")
+    labels_file = Path("/tmp/v2_fu_label_candidates.json")
     verify_structure = True
     if "--drugcentral" in argv:
         dc_file = Path(argv[argv.index("--drugcentral") + 1])

@@ -1,5 +1,5 @@
 {
- "description": "Human plasma fraction unbound for the v2 benchmark drugs (P33.1 stage 2), from ChEMBL-curated Fu/PPB activities. Extended by scripts/v2_fu_merge.py: drugs with no ChEMBL fu are backfilled, in priority order, from (2) a DrugCentral mirror of Lombardo F, Berellini G, Obach RS 2018 Drug Metab Dispos 46(11):1466-1477 (doi:10.1124/dmd.118.082966, PMID 30115648), name-matched by exact drugcentral.org title and structure-checked against ChEMBL's InChIKey where DrugCentral exposes one, then (3) a conservative regex extraction of 'X% bound to plasma protein(s)' from FDA label text (openFDA cache built by scripts/v2_cmax.py), rejecting any sentence about a metabolite, a special population, or more than one distinct %-bound clause, with ranges collapsed to their geometric midpoint. No value is pooled/averaged across sources; each row keeps exactly one source tier's full citation and a verbatim snippet.",
+ "description": "Human plasma fraction unbound for the v2 benchmark drugs (P33.1 stage 2), from ChEMBL-curated Fu/PPB activities. Extended by scripts/v2_fu_merge.py: drugs with no ChEMBL fu are backfilled, in priority order, from (2) a DrugCentral mirror of Lombardo F, Berellini G, Obach RS 2018 Drug Metab Dispos 46(11):1466-1477 (doi:10.1124/dmd.118.082966, PMID 30115648), name-matched by exact drugcentral.org title and structure-checked against ChEMBL's InChIKey where DrugCentral exposes one, then (3) a conservative regex extraction of 'X% bound to plasma protein(s)' from FDA label text (openFDA cache built by scripts/v2_cmax.py), rejecting any sentence about a metabolite, a special population, or more than one distinct %-bound clause, with ranges collapsed to their geometric midpoint. No value is pooled/averaged across sources; each row keeps exactly one source tier's full citation and a verbatim snippet. Extended by scripts/v2_fu_merge.py: drugs with no ChEMBL fu are backfilled, in priority order, from (2) a DrugCentral mirror of Lombardo F, Berellini G, Obach RS 2018 Drug Metab Dispos 46(11):1466-1477 (doi:10.1124/dmd.118.082966, PMID 30115648), name-matched by exact drugcentral.org title and structure-checked against ChEMBL's InChIKey where DrugCentral exposes one, then (3) a conservative regex extraction of 'X% bound to plasma protein(s)' from FDA label text (openFDA cache built by scripts/v2_cmax.py), rejecting any sentence about a metabolite, a special population, or more than one distinct %-bound clause, with ranges collapsed to their geometric midpoint. No value is pooled/averaged across sources; each row keeps exactly one source tier's full citation and a verbatim snippet.",
  "retrieved": "2026-10-21",
  "chembl_release": "ChEMBL_37 (2026-05-01), live API read 2026-10-21",
  "n_drugs": 334,
@@ -31,9 +31,9 @@
    "inn": "pentazocine",
    "chembl_id": "CHEMBL100116",
    "fu": {
-    "value": 0.9961,
-    "min": 0.9961,
-    "max": 0.9961,
+    "value": 0.39,
+    "min": 0.39,
+    "max": 0.39,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -217,9 +217,9 @@
    "inn": "suvorexant",
    "chembl_id": "CHEMBL1083659",
    "fu": {
-    "value": 0.9995,
-    "min": 0.9995,
-    "max": 0.9995,
+    "value": 0.05,
+    "min": 0.05,
+    "max": 0.05,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -352,9 +352,9 @@
    "inn": "articaine",
    "chembl_id": "CHEMBL1093",
    "fu": {
-    "value": 0.9954,
-    "min": 0.9954,
-    "max": 0.9954,
+    "value": 0.46,
+    "min": 0.46,
+    "max": 0.46,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -611,9 +611,9 @@
    "inn": "desvenlafaxine",
    "chembl_id": "CHEMBL1118",
    "fu": {
-    "value": 0.993,
-    "min": 0.993,
-    "max": 0.993,
+    "value": 0.7,
+    "min": 0.7,
+    "max": 0.7,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -737,9 +737,9 @@
    "inn": "desloratadine",
    "chembl_id": "CHEMBL1172",
    "fu": {
-    "value": 0.9985,
-    "min": 0.9985,
-    "max": 0.9985,
+    "value": 0.15,
+    "min": 0.15,
+    "max": 0.15,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -764,9 +764,9 @@
    "inn": "duloxetine",
    "chembl_id": "CHEMBL1175",
    "fu": {
-    "value": 0.9996,
-    "min": 0.9996,
-    "max": 0.9996,
+    "value": 0.04,
+    "min": 0.04,
+    "max": 0.04,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -860,9 +860,9 @@
    "inn": "umeclidinium",
    "chembl_id": "CHEMBL1187833",
    "fu": {
-    "value": 0.9989,
-    "min": 0.9989,
-    "max": 0.9989,
+    "value": 0.11,
+    "min": 0.11,
+    "max": 0.11,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -1065,9 +1065,9 @@
    "inn": "cinacalcet",
    "chembl_id": "CHEMBL1201284",
    "fu": {
-    "value": 0.9995,
-    "min": 0.9995,
-    "max": 0.9995,
+    "value": 0.05,
+    "min": 0.05,
+    "max": 0.05,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -1092,9 +1092,9 @@
    "inn": "acamprosate",
    "chembl_id": "CHEMBL1201293",
    "fu": {
-    "value": 0.99,
-    "min": 0.99,
-    "max": 0.99,
+    "value": 1.0,
+    "min": 1.0,
+    "max": 1.0,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -1142,9 +1142,9 @@
    "inn": "fosphenytoin",
    "chembl_id": "CHEMBL1201336",
    "fu": {
-    "value": 0.9995,
-    "min": 0.9995,
-    "max": 0.9995,
+    "value": 0.05,
+    "min": 0.05,
+    "max": 0.05,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -1179,9 +1179,9 @@
    "inn": "rufinamide",
    "chembl_id": "CHEMBL1201754",
    "fu": {
-    "value": 0.9925,
-    "min": 0.9925,
-    "max": 0.9925,
+    "value": 0.75,
+    "min": 0.75,
+    "max": 0.75,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -1234,9 +1234,9 @@
    "inn": "perampanel",
    "chembl_id": "CHEMBL1214124",
    "fu": {
-    "value": 0.9995,
-    "min": 0.9995,
-    "max": 0.9995,
+    "value": 0.05,
+    "min": 0.05,
+    "max": 0.05,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -1261,9 +1261,9 @@
    "inn": "ramelteon",
    "chembl_id": "CHEMBL1218",
    "fu": {
-    "value": 0.998,
-    "min": 0.998,
-    "max": 0.998,
+    "value": 0.2,
+    "min": 0.2,
+    "max": 0.2,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -1504,9 +1504,9 @@
    "inn": "levetiracetam",
    "chembl_id": "CHEMBL1286",
    "fu": {
-    "value": 0.991,
-    "min": 0.991,
-    "max": 0.991,
+    "value": 0.9,
+    "min": 0.9,
+    "max": 0.9,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -1531,9 +1531,9 @@
    "inn": "rotigotine",
    "chembl_id": "CHEMBL1303",
    "fu": {
-    "value": 0.9992,
-    "min": 0.9992,
-    "max": 0.9992,
+    "value": 0.08,
+    "min": 0.08,
+    "max": 0.08,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -1624,30 +1624,7 @@
   {
    "inn": "oxybate",
    "chembl_id": "CHEMBL1342",
-   "fu": {
-    "value": 0.99,
-    "min": 0.99,
-    "max": 0.99,
-    "n_measurements": 1,
-    "n_documents": 1,
-    "sources": [
-     {
-      "chembl_document_id": null,
-      "pmid": null,
-      "doi": null,
-      "title": null,
-      "journal": null,
-      "year": null,
-      "source_type": "fda_label",
-      "set_id": "926eb076-a4a8-45e4-91ef-411f0aa4f3ca",
-      "section": "clinical_pharmacology",
-      "application_number": "NDA021196",
-      "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins."
-     }
-    ],
-    "matched_on": "fda_label",
-    "unit": "fraction"
-   }
+   "fu": null
   },
   {
    "inn": "darifenacin",
@@ -1776,9 +1753,9 @@
    "inn": "escitalopram",
    "chembl_id": "CHEMBL1508",
    "fu": {
-    "value": 0.9964,
-    "min": 0.9964,
-    "max": 0.9964,
+    "value": 0.36,
+    "min": 0.36,
+    "max": 0.36,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -1977,9 +1954,9 @@
    "inn": "ipratropium",
    "chembl_id": "CHEMBL1621597",
    "fu": {
-    "value": 0.9905,
-    "min": 0.9905,
-    "max": 0.9905,
+    "value": 0.95,
+    "min": 0.95,
+    "max": 0.95,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2044,38 +2021,15 @@
   {
    "inn": "cevimeline",
    "chembl_id": "CHEMBL168815",
-   "fu": {
-    "value": 0.8,
-    "min": 0.8,
-    "max": 0.8,
-    "n_measurements": 1,
-    "n_documents": 1,
-    "sources": [
-     {
-      "chembl_document_id": null,
-      "pmid": null,
-      "doi": null,
-      "title": null,
-      "journal": null,
-      "year": null,
-      "source_type": "fda_label",
-      "set_id": "7fa69ad5-7fa7-4078-9328-aacbb0d145a4",
-      "section": "clinical_pharmacology",
-      "application_number": "NDA020989",
-      "snippet": "Distribution: Cevimeline has a volume of distribution of approximately 6L/kg and is <20% bound to human plasma proteins."
-     }
-    ],
-    "matched_on": "fda_label",
-    "unit": "fraction"
-   }
+   "fu": null
   },
   {
    "inn": "cisapride",
    "chembl_id": "CHEMBL1729",
    "fu": {
-    "value": 0.9998,
-    "min": 0.9998,
-    "max": 0.9998,
+    "value": 0.02,
+    "min": 0.02,
+    "max": 0.02,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2100,9 +2054,9 @@
    "inn": "dihydroergotamine",
    "chembl_id": "CHEMBL1732",
    "fu": {
-    "value": 0.9993,
-    "min": 0.9993,
-    "max": 0.9993,
+    "value": 0.07,
+    "min": 0.07,
+    "max": 0.07,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2176,9 +2130,9 @@
    "inn": "trospium",
    "chembl_id": "CHEMBL1888176",
    "fu": {
-    "value": 0.9967,
-    "min": 0.9967,
-    "max": 0.9967,
+    "value": 0.33,
+    "min": 0.33,
+    "max": 0.33,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2331,9 +2285,9 @@
    "inn": "tasimelteon",
    "chembl_id": "CHEMBL2103822",
    "fu": {
-    "value": 0.9988,
-    "min": 0.9988,
-    "max": 0.9988,
+    "value": 0.12,
+    "min": 0.12,
+    "max": 0.12,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2358,9 +2312,9 @@
    "inn": "vortioxetine",
    "chembl_id": "CHEMBL2104993",
    "fu": {
-    "value": 0.9998,
-    "min": 0.9998,
-    "max": 0.9998,
+    "value": 0.02,
+    "min": 0.02,
+    "max": 0.02,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2444,9 +2398,9 @@
    "inn": "topiramate",
    "chembl_id": "CHEMBL220492",
    "fu": {
-    "value": 0.9928,
-    "min": 0.9928,
-    "max": 0.9928,
+    "value": 0.72,
+    "min": 0.72,
+    "max": 0.72,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2476,9 +2430,9 @@
    "inn": "valbenazine",
    "chembl_id": "CHEMBL2364639",
    "fu": {
-    "value": 0.9999,
-    "min": 0.9999,
-    "max": 0.9999,
+    "value": 0.01,
+    "min": 0.01,
+    "max": 0.01,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2536,9 +2490,9 @@
    "inn": "silodosin",
    "chembl_id": "CHEMBL24778",
    "fu": {
-    "value": 0.9995,
-    "min": 0.9995,
-    "max": 0.9995,
+    "value": 0.05,
+    "min": 0.05,
+    "max": 0.05,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2632,9 +2586,9 @@
    "inn": "neostigmine",
    "chembl_id": "CHEMBL278020",
    "fu": {
-    "value": 0.99,
-    "min": 0.99,
-    "max": 0.99,
+    "value": 1.0,
+    "min": 1.0,
+    "max": 1.0,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2697,9 +2651,9 @@
    "inn": "edaravone",
    "chembl_id": "CHEMBL290916",
    "fu": {
-    "value": 0.9911,
-    "min": 0.9911,
-    "max": 0.9911,
+    "value": 0.89,
+    "min": 0.89,
+    "max": 0.89,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2768,9 +2722,9 @@
    "inn": "pramipexole",
    "chembl_id": "CHEMBL301265",
    "fu": {
-    "value": 0.9915,
-    "min": 0.9915,
-    "max": 0.9915,
+    "value": 0.85,
+    "min": 0.85,
+    "max": 0.85,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2833,9 +2787,9 @@
    "inn": "asenapine",
    "chembl_id": "CHEMBL3187365",
    "fu": {
-    "value": 0.9995,
-    "min": 0.9995,
-    "max": 0.9995,
+    "value": 0.05,
+    "min": 0.05,
+    "max": 0.05,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -2906,9 +2860,9 @@
    "inn": "lorcaserin",
    "chembl_id": "CHEMBL360328",
    "fu": {
-    "value": 0.9994,
-    "min": 0.9994,
-    "max": 0.9994,
+    "value": 0.06,
+    "min": 0.06,
+    "max": 0.06,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -3216,9 +3170,9 @@
    "inn": "guanabenz",
    "chembl_id": "CHEMBL420",
    "fu": {
-    "value": 0.999,
-    "min": 0.999,
-    "max": 0.999,
+    "value": 0.1,
+    "min": 0.1,
+    "max": 0.1,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -3353,9 +3307,9 @@
    "inn": "vilazodone",
    "chembl_id": "CHEMBL439849",
    "fu": {
-    "value": 0.9997,
-    "min": 0.9997,
-    "max": 0.9997,
+    "value": 0.03,
+    "min": 0.03,
+    "max": 0.03,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -3517,9 +3471,9 @@
    "inn": "melatonin",
    "chembl_id": "CHEMBL45",
    "fu": {
-    "value": 0.9961,
-    "min": 0.9961,
-    "max": 0.9961,
+    "value": 0.39,
+    "min": 0.39,
+    "max": 0.39,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -3636,30 +3590,7 @@
   {
    "inn": "ethyl chloride",
    "chembl_id": "CHEMBL46058",
-   "fu": {
-    "value": 0.01,
-    "min": 0.01,
-    "max": 0.01,
-    "n_measurements": 1,
-    "n_documents": 1,
-    "sources": [
-     {
-      "chembl_document_id": null,
-      "pmid": null,
-      "doi": null,
-      "title": null,
-      "journal": null,
-      "year": null,
-      "source_type": "fda_label",
-      "set_id": "07a8174b-f0ed-c277-e063-6394a90a9eb1",
-      "section": "clinical_pharmacology",
-      "application_number": null,
-      "snippet": "Greater than 99 % of unesterified EPA is bound to plasma proteins."
-     }
-    ],
-    "matched_on": "fda_label",
-    "unit": "fraction"
-   }
+   "fu": null
   },
   {
    "inn": "pitolisant",
@@ -4234,9 +4165,9 @@
    "inn": "pentamidine",
    "chembl_id": "CHEMBL55",
    "fu": {
-    "value": 0.9991,
-    "min": 0.9991,
-    "max": 0.9991,
+    "value": 0.09,
+    "min": 0.09,
+    "max": 0.09,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -4261,9 +4192,9 @@
    "inn": "pilocarpine",
    "chembl_id": "CHEMBL550",
    "fu": {
-    "value": 0.9908,
-    "min": 0.9908,
-    "max": 0.9908,
+    "value": 0.92,
+    "min": 0.92,
+    "max": 0.92,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -4381,30 +4312,7 @@
   {
    "inn": "procaine",
    "chembl_id": "CHEMBL569",
-   "fu": {
-    "value": 0.4,
-    "min": 0.4,
-    "max": 0.4,
-    "n_measurements": 1,
-    "n_documents": 1,
-    "sources": [
-     {
-      "chembl_document_id": null,
-      "pmid": null,
-      "doi": null,
-      "title": null,
-      "journal": null,
-      "year": null,
-      "source_type": "fda_label",
-      "set_id": "014bfd30-4c79-4d62-f792-6d41b9289eaa",
-      "section": "clinical_pharmacology",
-      "application_number": null,
-      "snippet": "Approximately 60% of penicillin G is bound to serum protein."
-     }
-    ],
-    "matched_on": "fda_label",
-    "unit": "fraction"
-   }
+   "fu": null
   },
   {
    "inn": "scopolamine",
@@ -4485,9 +4393,9 @@
    "inn": "lacosamide",
    "chembl_id": "CHEMBL58323",
    "fu": {
-    "value": 0.9915,
-    "min": 0.9915,
-    "max": 0.9915,
+    "value": 0.85,
+    "min": 0.85,
+    "max": 0.85,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -4512,9 +4420,9 @@
    "inn": "fenoldopam",
    "chembl_id": "CHEMBL588",
    "fu": {
-    "value": 0.9988,
-    "min": 0.9988,
-    "max": 0.9988,
+    "value": 0.12,
+    "min": 0.12,
+    "max": 0.12,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -4539,9 +4447,9 @@
    "inn": "ropinirole",
    "chembl_id": "CHEMBL589",
    "fu": {
-    "value": 0.994,
-    "min": 0.994,
-    "max": 0.994,
+    "value": 0.6,
+    "min": 0.6,
+    "max": 0.6,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -4566,9 +4474,9 @@
    "inn": "dopamine",
    "chembl_id": "CHEMBL59",
    "fu": {
-    "value": 0.9913,
-    "min": 0.9913,
-    "max": 0.9913,
+    "value": 0.87,
+    "min": 0.87,
+    "max": 0.87,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -4660,9 +4568,9 @@
    "inn": "brivaracetam",
    "chembl_id": "CHEMBL607400",
    "fu": {
-    "value": 0.9917,
-    "min": 0.9917,
-    "max": 0.9917,
+    "value": 0.83,
+    "min": 0.83,
+    "max": 0.83,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -5618,9 +5526,9 @@
    "inn": "protriptyline",
    "chembl_id": "CHEMBL668",
    "fu": {
-    "value": 0.9986,
-    "min": 0.9986,
-    "max": 0.9986,
+    "value": 0.14,
+    "min": 0.14,
+    "max": 0.14,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -5854,9 +5762,9 @@
    "inn": "alfuzosin",
    "chembl_id": "CHEMBL709",
    "fu": {
-    "value": 0.9986,
-    "min": 0.9986,
-    "max": 0.9986,
+    "value": 0.14,
+    "min": 0.14,
+    "max": 0.14,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -6389,9 +6297,9 @@
    "inn": "memantine",
    "chembl_id": "CHEMBL807",
    "fu": {
-    "value": 0.9947,
-    "min": 0.9947,
-    "max": 0.9947,
+    "value": 0.53,
+    "min": 0.53,
+    "max": 0.53,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -6506,9 +6414,9 @@
    "inn": "dexmethylphenidate",
    "chembl_id": "CHEMBL827",
    "fu": {
-    "value": 0.9913,
-    "min": 0.9913,
-    "max": 0.9913,
+    "value": 0.87,
+    "min": 0.87,
+    "max": 0.87,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -6538,9 +6446,9 @@
    "inn": "loxapine",
    "chembl_id": "CHEMBL831",
    "fu": {
-    "value": 0.9998,
-    "min": 0.9998,
-    "max": 0.9998,
+    "value": 0.02,
+    "min": 0.02,
+    "max": 0.02,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -6790,9 +6698,9 @@
    "inn": "procyclidine",
    "chembl_id": "CHEMBL86715",
    "fu": {
-    "value": 0.9991,
-    "min": 0.9991,
-    "max": 0.9991,
+    "value": 0.09,
+    "min": 0.09,
+    "max": 0.09,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -6996,9 +6904,9 @@
    "inn": "miconazole",
    "chembl_id": "CHEMBL91",
    "fu": {
-    "value": 0.9992,
-    "min": 0.9992,
-    "max": 0.9992,
+    "value": 0.08,
+    "min": 0.08,
+    "max": 0.08,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [
@@ -7347,9 +7255,9 @@
    "inn": "levomilnacipran",
    "chembl_id": "CHEMBL99946",
    "fu": {
-    "value": 0.9932,
-    "min": 0.9932,
-    "max": 0.9932,
+    "value": 0.68,
+    "min": 0.68,
+    "max": 0.68,
     "n_measurements": 1,
     "n_documents": 1,
     "sources": [

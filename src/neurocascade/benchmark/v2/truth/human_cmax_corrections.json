@@ -1,0 +1,491 @@
+{
+ "version": 1,
+ "date": "2026-10-28",
+ "rule": "truth/human_cmax.json is a frozen file (pipeline/guards.py frozen_paths()); rather than edit it in place, this file carries the unbound-exposure fields (fu, fu_flags, cmax_unbound_nM, cmax_unbound_ng_per_ml) recomputed from the corrected inputs/plasma_fu.json (P33.1 follow-up: ChEMBL + DrugCentral mirror of Lombardo et al. 2018 + FDA label text, see scripts/v2_fu_merge.py), using the same scripts/v2_cmax.py fu_status()/_sig() logic the frozen file itself was built with. Total Cmax (value/unit/nM/ng_per_ml/snippet/source) is never touched -- only the four fu-derived fields are replaced, and only for rows whose status is \"value\" and whose recomputed fields differ from the frozen file. load_v2_human_cmax(corrected=True) (the default) applies this file on top of truth/human_cmax.json; corrected=False returns the frozen file unchanged.",
+ "applies_to": "truth/human_cmax.json",
+ "drop": {},
+ "replace": {
+  "pentazocine": {
+   "fu": 0.39,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 139.369,
+   "cmax_unbound_ng_per_ml": 39.78
+  },
+  "amoxapine": {
+   "fu": 0.1095,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 23.5198,
+   "cmax_unbound_ng_per_ml": 7.3803
+  },
+  "desloratadine": {
+   "fu": 0.15,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 1.93032,
+   "cmax_unbound_ng_per_ml": 0.6
+  },
+  "duloxetine": {
+   "fu": 0.04,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 6.3654,
+   "cmax_unbound_ng_per_ml": 1.8932
+  },
+  "umeclidinium": {
+   "fu": 0.11,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 0.0619423,
+   "cmax_unbound_ng_per_ml": 0.0265485
+  },
+  "cinacalcet": {
+   "fu": 0.05,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 2.88177,
+   "cmax_unbound_ng_per_ml": 1.03
+  },
+  "acamprosate": {
+   "fu": 1.0,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 1931.46,
+   "cmax_unbound_ng_per_ml": 350.0
+  },
+  "rufinamide": {
+   "fu": 0.75,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 11228.0,
+   "cmax_unbound_ng_per_ml": 2674.5
+  },
+  "propoxyphene": {
+   "fu": 0.24,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 49.9898,
+   "cmax_unbound_ng_per_ml": 16.9706
+  },
+  "perampanel": {
+   "fu": 0.05,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 64.8275,
+   "cmax_unbound_ng_per_ml": 22.65
+  },
+  "ramelteon": {
+   "fu": 0.2,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 4.41874,
+   "cmax_unbound_ng_per_ml": 1.146
+  },
+  "tramadol": {
+   "fu": 0.8,
+   "fu_flags": [],
+   "cmax_unbound_nM": 935.528,
+   "cmax_unbound_ng_per_ml": 246.4
+  },
+  "rotigotine": {
+   "fu": 0.08,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 0.212502,
+   "cmax_unbound_ng_per_ml": 0.06704
+  },
+  "escitalopram": {
+   "fu": 0.36,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 11.0086,
+   "cmax_unbound_ng_per_ml": 3.5712
+  },
+  "eszopiclone": {
+   "fu": 0.446105,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 38.3553,
+   "cmax_unbound_ng_per_ml": 14.9133
+  },
+  "ganaxolone": {
+   "fu": 0.01,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 0.962319,
+   "cmax_unbound_ng_per_ml": 0.32
+  },
+  "ipratropium": {
+   "fu": 0.95,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 0.168592,
+   "cmax_unbound_ng_per_ml": 0.05605
+  },
+  "cisapride": {
+   "fu": 0.02,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 2.4037,
+   "cmax_unbound_ng_per_ml": 1.12
+  },
+  "dihydroergotamine": {
+   "fu": 0.07,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 0.251846,
+   "cmax_unbound_ng_per_ml": 0.147
+  },
+  "trospium": {
+   "fu": 0.33,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 2.94252,
+   "cmax_unbound_ng_per_ml": 1.155
+  },
+  "tiotropium": {
+   "fu": 0.523,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 0.0239464,
+   "cmax_unbound_ng_per_ml": 0.00939946
+  },
+  "prazosin": {
+   "fu": 0.06,
+   "fu_flags": [],
+   "cmax_unbound_nM": 0.64161,
+   "cmax_unbound_ng_per_ml": 0.246
+  },
+  "tasimelteon": {
+   "fu": 0.12,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 112.995,
+   "cmax_unbound_ng_per_ml": 27.72
+  },
+  "vortioxetine": {
+   "fu": 0.02,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 1.20619,
+   "cmax_unbound_ng_per_ml": 0.36
+  },
+  "topiramate": {
+   "fu": 0.72,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 4800.09,
+   "cmax_unbound_ng_per_ml": 1629.01
+  },
+  "valbenazine": {
+   "fu": 0.01,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 17.7744,
+   "cmax_unbound_ng_per_ml": 7.44
+  },
+  "silodosin": {
+   "fu": 0.05,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 6.21545,
+   "cmax_unbound_ng_per_ml": 3.08
+  },
+  "estazolam": {
+   "fu": 0.07,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 12.9907,
+   "cmax_unbound_ng_per_ml": 3.829
+  },
+  "edaravone": {
+   "fu": 0.89,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 23195.7,
+   "cmax_unbound_ng_per_ml": 4040.69
+  },
+  "pramipexole": {
+   "fu": 0.85,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 1.64638,
+   "cmax_unbound_ng_per_ml": 0.347931
+  },
+  "viloxazine": {
+   "fu": 0.21057,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 3193.61,
+   "cmax_unbound_ng_per_ml": 757.841
+  },
+  "asenapine": {
+   "fu": 0.05,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 0.699865,
+   "cmax_unbound_ng_per_ml": 0.2
+  },
+  "lorcaserin": {
+   "fu": 0.06,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 16.0355,
+   "cmax_unbound_ng_per_ml": 3.138
+  },
+  "hydromorphone": {
+   "fu": 0.86,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 59.3747,
+   "cmax_unbound_ng_per_ml": 16.942
+  },
+  "daridorexant": {
+   "fu": 0.003,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 4.96974,
+   "cmax_unbound_ng_per_ml": 2.241
+  },
+  "vilazodone": {
+   "fu": 0.03,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 10.5993,
+   "cmax_unbound_ng_per_ml": 4.68
+  },
+  "ergotamine": {
+   "fu": 0.02,
+   "fu_flags": [],
+   "cmax_unbound_nM": 0.000722058,
+   "cmax_unbound_ng_per_ml": 0.00042
+  },
+  "melatonin": {
+   "fu": 0.39,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 39.2083,
+   "cmax_unbound_ng_per_ml": 9.10728
+  },
+  "bromocriptine": {
+   "fu": 0.051,
+   "fu_flags": [
+    "fu_sources_disagree_gt3x"
+   ],
+   "cmax_unbound_nM": 0.0489269,
+   "cmax_unbound_ng_per_ml": 0.032028
+  },
+  "chlorpheniramine": {
+   "fu": 0.7,
+   "fu_flags": [],
+   "cmax_unbound_nM": 98.581,
+   "cmax_unbound_ng_per_ml": 27.09
+  },
+  "dextromethorphan": {
+   "fu": 0.818291,
+   "fu_flags": [],
+   "cmax_unbound_nM": 6.04823,
+   "cmax_unbound_ng_per_ml": 1.64149
+  },
+  "pentamidine": {
+   "fu": 0.09,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 161.796,
+   "cmax_unbound_ng_per_ml": 55.08
+  },
+  "pilocarpine": {
+   "fu": 0.92,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 66.2634,
+   "cmax_unbound_ng_per_ml": 13.8
+  },
+  "lorazepam": {
+   "fu": 0.09,
+   "fu_flags": [],
+   "cmax_unbound_nM": 5.60469,
+   "cmax_unbound_ng_per_ml": 1.8
+  },
+  "lacosamide": {
+   "fu": 0.85,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 44588.5,
+   "cmax_unbound_ng_per_ml": 11160.5
+  },
+  "dopamine": {
+   "fu": 0.87,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 176.067,
+   "cmax_unbound_ng_per_ml": 26.97
+  },
+  "brivaracetam": {
+   "fu": 0.83,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 15638.9,
+   "cmax_unbound_ng_per_ml": 3320.0
+  },
+  "amiodarone": {
+   "fu": 0.0002,
+   "fu_flags": [],
+   "cmax_unbound_nM": 4.18088,
+   "cmax_unbound_ng_per_ml": 2.698
+  },
+  "amantadine": {
+   "fu": 0.33,
+   "fu_flags": [],
+   "cmax_unbound_nM": 1025.46,
+   "cmax_unbound_ng_per_ml": 155.1
+  },
+  "alfuzosin": {
+   "fu": 0.14,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 4.88881,
+   "cmax_unbound_ng_per_ml": 1.904
+  },
+  "quetiapine": {
+   "fu": 0.17,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 251.818,
+   "cmax_unbound_ng_per_ml": 96.577
+  },
+  "desipramine": {
+   "fu": 0.15,
+   "fu_flags": [
+    "fu_sources_disagree_gt3x"
+   ],
+   "cmax_unbound_nM": 21.2845,
+   "cmax_unbound_ng_per_ml": 5.67
+  },
+  "carvedilol": {
+   "fu": 0.02,
+   "fu_flags": [],
+   "cmax_unbound_nM": 3.88358,
+   "cmax_unbound_ng_per_ml": 1.5786
+  },
+  "riluzole": {
+   "fu": 0.02035,
+   "fu_flags": [],
+   "cmax_unbound_nM": 6.64721,
+   "cmax_unbound_ng_per_ml": 1.55678
+  },
+  "zonisamide": {
+   "fu": 0.308,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 4589.26,
+   "cmax_unbound_ng_per_ml": 973.982
+  },
+  "memantine": {
+   "fu": 0.53,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 74.8996,
+   "cmax_unbound_ng_per_ml": 13.4302
+  },
+  "dexmethylphenidate": {
+   "fu": 0.87,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 57.7986,
+   "cmax_unbound_ng_per_ml": 13.485
+  },
+  "loxapine": {
+   "fu": 0.02,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 19.0354,
+   "cmax_unbound_ng_per_ml": 6.24
+  },
+  "metoclopramide": {
+   "fu": 0.6,
+   "fu_flags": [],
+   "cmax_unbound_nM": 88.0986,
+   "cmax_unbound_ng_per_ml": 26.412
+  },
+  "procyclidine": {
+   "fu": 0.09,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 36.3193,
+   "cmax_unbound_ng_per_ml": 10.44
+  },
+  "fenfluramine": {
+   "fu": 0.5,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 122.59,
+   "cmax_unbound_ng_per_ml": 28.35
+  },
+  "temazepam": {
+   "fu": 0.04,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 115.046,
+   "cmax_unbound_ng_per_ml": 34.6
+  },
+  "levomilnacipran": {
+   "fu": 0.68,
+   "fu_flags": [
+    "fu_single_measurement"
+   ],
+   "cmax_unbound_nM": 941.263,
+   "cmax_unbound_ng_per_ml": 231.88
+  }
+ }
+}

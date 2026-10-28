@@ -442,16 +442,46 @@ aggregate train count), before -> after merging the two additional sources:
 
 | Quantity | Before (ChEMBL only) | After (+DrugCentral/Lombardo +FDA label) |
 |---|---|---|
-| All 334 v2 drugs with a plasma fu value | 152 | 216 (+48 DrugCentral/Lombardo, +16 FDA label) |
-| Train drugs with a plasma fu value | 123 | 170 |
+| All 334 v2 drugs with a plasma fu value | 152 | 212 (+48 DrugCentral/Lombardo, +12 FDA label) |
+| Train drugs with a plasma fu value | 123 | 166 |
 | Train drugs with a Cmax value (`truth/human_cmax.json`, unchanged by this work) | 161 | 161 |
-| Train drugs with a Cmax,u (`cmax_unbound_nM`) value | 92 | 126 |
+| Train drugs with a Cmax,u (`cmax_unbound_nM`) value | 92 | 125 |
 
-`truth/human_cmax.json`'s `cmax_unbound_nM`/`cmax_unbound_ng_per_ml`/`fu`/
-`fu_flags` fields were recomputed by re-running `scripts/v2_cmax.py build`
-against the merged `plasma_fu.json`; every other field, including every
-`cmax` value and the held-out split logic, is byte-identical to the prior
-build (checked programmatically, not by inspection).
+**2026-10-28 update, prompted by an independent review of this PR (#52):**
+the review caught the DrugCentral branch above storing `1 - x/100` of
+DrugCentral's "fu (Fraction unbound in plasma)" table cell, when that cell
+already *is* the fu fraction (its page just appends a stray "%" suffix, e.g.
+"0.04 %" means fu=0.04), so all 48 DrugCentral-sourced fu values were
+inverted (duloxetine's true fu 0.04 had been stored as 0.9996). The same
+review found two wrong-drug extractions in the FDA-label path (procaine's fu
+read from a sentence about penicillin G; ethyl chloride's from a sentence
+about unesterified EPA, both via labels with empty openFDA ingredient
+metadata) and two censored phrasings ("<20% bound", "less than 1% bound")
+stored as if they were exact point values. All four bugs were found and
+fixed in this same PR, as a single commit on top of the original merge, not
+as a separate correction after the fact: `scripts/v2_fu_merge.py` now stores
+the DrugCentral literal directly as fu (see `_literal_to_fu` vs.
+`_pct_bound_to_fu`), `scripts/v2_fu_label_extract.py` adds a sentence-subject
+check independent of openFDA metadata and a `censored` flag the merge script
+skips, and `tests/test_v2_pk.py` pins four known DrugCentral-sourced fu
+values (duloxetine, pentazocine, valbenazine, vortioxetine) plus a sanity
+check that no >=90%-bound drug ends up with fu > 0.5. The coverage table
+above already reflects the corrected numbers (212, not the inverted build's
+216: 4 FDA-label candidates that were actually the censored phrasings above
+are now correctly excluded rather than stored as point values). Because
+`truth/human_cmax.json` is a frozen file, its `cmax_unbound_nM`/
+`cmax_unbound_ng_per_ml`/`fu`/`fu_flags` fields were **not** edited in place a
+second time; the corrected values live in a new, additive
+`truth/human_cmax_corrections.json` file, applied by
+`load_v2_human_cmax()`'s default (`corrected=True`) on top of the unedited
+frozen file (`corrected=False` returns the frozen file exactly as published).
+
+`truth/human_cmax.json` itself (the frozen file) was built once, by
+re-running `scripts/v2_cmax.py build` against the (at-the-time, inverted)
+merged `plasma_fu.json`; every field other than the four fu-derived ones
+above, including every `cmax` value and the held-out split logic, is
+byte-identical to the prior build (checked programmatically, not by
+inspection).
 
 **This expanded train coverage makes the train-only numbers already committed
 in the P33.4 and P34.1 rows above (`results/P33.4.json`, `results/P34.1.json`,

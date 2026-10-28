@@ -3,18 +3,41 @@ label text already cached by scripts/v2_cmax.py fetch
 ($NC_V2_CACHE/cmax/labels.jsonl.gz). Looks for sentences of the form
 "X% bound to (human) plasma protein(s)" (or "plasma protein binding is X%",
 "X% of <drug> is bound to plasma proteins") in clinical_pharmacology /
-pharmacokinetics / description sections, converts %bound -> fu = 1 - %/100.
+pharmacokinetics / description sections, converts %bound -> fu = 1 - %/100
+(done downstream, in scripts/v2_fu_merge.py -- this module only extracts the
+literal %-bound value and never itself converts to fu).
 Ranges -> geometric midpoint of the two endpoints. Rejects any sentence
 mentioning a metabolite or a special population (renal/hepatic impairment,
 pediatric, geriatric, pregnancy, elderly) since those are not the drug's own
 normal-adult plasma protein binding.
+
+Two extra guards, added after an independent review of PR #52 found two
+wrong-drug extractions that slipped past the original openfda-metadata-only
+name check (both offending labels had empty openfda metadata, which made
+_name_matches() pass unconditionally):
+
+  - A sentence-level subject check: if a sentence has the shape "<N>% of
+    <subject> is/are bound", the captured <subject> must itself name the
+    target drug (or a salt form of it) -- independent of openfda metadata.
+    This caught procaine's fu being read from a sentence about "penicillin
+    G" and ethyl chloride's fu being read from a sentence about "unesterified
+    EPA", both via labels with empty openfda metadata.
+
+  - A censored-value guard: sentences phrased as an inequality ("<X% bound",
+    "greater than X% bound", "less than X% bound", etc.) are flagged
+    "censored" rather than treated as an exact point value; the merge script
+    (scripts/v2_fu_merge.py) skips any candidate so flagged. This caught
+    cevimeline's "<20% bound" and oxybate's "less than 1% is bound" being
+    stored as if they were exact measurements.
 """
 import gzip, json, math, re, sys
 from pathlib import Path
 
-ROOT = Path("/root/projects/neurocascade/.claude/worktrees/agent-aa546ac89132d41e2")
+ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import v2_cmax as cmax_mod  # reuse LABELS path, load_labels, clean, LOCAL_ROUTES, single_ingredient
+
+DEFAULT_OUT = Path("/tmp/v2_fu_label_candidates.json")
 
 RANGE_BOUND_RE = re.compile(
     r"(\d{1,3}(?:\.\d+)?)\s*(?:to|-|–|—)\s*(\d{1,3}(?:\.\d+)?)\s*(?:%|percent)"
@@ -27,6 +50,16 @@ REJECT_RE = re.compile(
     r"metabolite|respectively|renal impair|hepatic impair|pediatric|geriatric|elderly|"
     r"pregnan|end-stage renal|dialysis patient|neonat|\bchildren\b|desmethyl|"
     r"glucuronide|N-oxide|hydroxy[- ]?(?:derivative|metabolite)|\bMHD\b", re.IGNORECASE)
+
+# "<N>% of <subject> is/are bound" -- subject must name the target drug.
+OF_SUBJECT_RE = re.compile(
+    r"of\s+([A-Za-z][\w'\-]*(?:\s+[A-Za-z][\w'\-]*){0,3})\s+(?:is|are)\s+bound",
+    re.IGNORECASE)
+
+# Inequality / censored phrasing near the %-bound clause.
+CENSORED_RE = re.compile(
+    r"(?:<|>|≤|≥|\bless than\b|\bgreater than\b|\bmore than\b|\bat least\b|\bup to\b)\s*\d",
+    re.IGNORECASE)
 
 
 def sentences(text):
@@ -47,6 +80,21 @@ def _name_matches(inn, lab):
     return base in names
 
 
+def _subject_matches(inn, sentence):
+    """Sentence-level backstop for _name_matches(): if the sentence has the
+    "<N>% of <subject> is/are bound" shape, the captured subject must name
+    the target drug (or a salt form of it), regardless of what the label's
+    openfda metadata says (which may be empty and thus uninformative)."""
+    m = OF_SUBJECT_RE.search(sentence)
+    if not m:
+        return True  # sentence doesn't have this shape; nothing to check
+    subject = m.group(1).lower().strip()
+    base = inn.split(" ", 1)[0].lower()
+    if base in subject or subject in base:
+        return True
+    return any(tok == base for tok in subject.split())
+
+
 def extract_for_drug(inn, labels, drug_labels):
     candidates = []
     for m in drug_labels:
@@ -63,6 +111,8 @@ def extract_for_drug(inn, labels, drug_labels):
                 if REJECT_RE.search(s):
                     continue
                 if "protein" not in s.lower():
+                    continue
+                if not _subject_matches(inn, s):
                     continue
                 # reject sentences with more than one distinct %-bound clause
                 # (ambiguous: likely parent + metabolite, or multiple ranges)
@@ -81,15 +131,21 @@ def extract_for_drug(inn, labels, drug_labels):
                     literal = (mt.group(1),)
                 if not (0 < pct <= 100):
                     continue
+                censored = bool(CENSORED_RE.search(s))
                 candidates.append({
                     "set_id": m["set_id"], "section": sec, "snippet": s.strip(),
                     "pct_bound": pct, "literal": literal,
                     "application_number": m.get("application_number"),
+                    "censored": censored,
                 })
     return candidates
 
 
-def main():
+def main(argv):
+    out_path = DEFAULT_OUT
+    if "--out" in argv:
+        out_path = Path(argv[argv.index("--out") + 1])
+
     drugs = json.loads((ROOT / "src/neurocascade/benchmark/v2/drugs.json").read_text())["drugs"]
     fu_file = json.loads((ROOT / "src/neurocascade/benchmark/v2/inputs/plasma_fu.json").read_text())
     have = {r["inn"] for r in fu_file["drugs"] if r.get("fu")}
@@ -100,13 +156,17 @@ def main():
         if d["inn"] in have:
             continue
         cands = extract_for_drug(d["inn"], labels, d["labels"])
+        # drop censored-only candidate lists at the point-value level, but
+        # keep them visible in the output (flagged) rather than silently
+        # discarding the evidence -- scripts/v2_fu_merge.py skips any
+        # candidate with censored=True rather than storing it as fu.
         if cands:
             out[d["inn"]] = cands
             n_cand += 1
     print(f"{n_cand} of {sum(1 for d in drugs if d['inn'] not in have)} missing-fu drugs have a label fu candidate",
           file=sys.stderr)
-    (ROOT / "tmp_fu_probe" / "label_fu_candidates.json").write_text(json.dumps(out, indent=1))
+    out_path.write_text(json.dumps(out, indent=1))
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])

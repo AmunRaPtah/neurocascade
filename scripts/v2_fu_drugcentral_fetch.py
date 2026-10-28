@@ -5,19 +5,31 @@ explicit per-row citation to that paper). Verifies name match by exact-title
 match at drugcentral.org, then cross-checks structure via ChEMBL
 standard_inchi_key vs DrugCentral's own InChIKey for the same struct_id.
 Caches every raw response; never computes anything from memory.
+
+Note: the DrugCentral "fu (Fraction unbound in plasma)" table cell this
+script extracts as value_literal IS the fu fraction already (e.g. "0.04 %"
+means fu=0.04) -- scripts/v2_fu_merge.py stores it directly as fu, with no
+%-bound conversion. This script only extracts the raw literal; it does not
+interpret it.
+
+Usage:
+    python scripts/v2_fu_drugcentral_fetch.py [--out <matches.json>]
 """
 import json, re, time, urllib.request, urllib.parse, sys, hashlib
 from pathlib import Path
 
-ROOT = Path("/root/projects/neurocascade/.claude/worktrees/agent-aa546ac89132d41e2")
+ROOT = Path(__file__).resolve().parents[1]
 CACHE = Path("/root/nc-v2-cache/fu2/drugcentral")
 CACHE.mkdir(parents=True, exist_ok=True)
 CHEMBL = "https://www.ebi.ac.uk/chembl/api/data/"
+DEFAULT_OUT = Path("/tmp/v2_fu_drugcentral_matches.json")
+
 
 def get(url, timeout=30):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 neurocascade-fu-research"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read().decode("utf-8", "replace")
+
 
 def cached(key, fetcher):
     fn = CACHE / (hashlib.sha1(key.encode()).hexdigest() + ".txt")
@@ -28,22 +40,27 @@ def cached(key, fetcher):
     time.sleep(0.25)
     return val
 
+
 def search_ids(name):
     html = cached(f"search:{name}", lambda: get(f"https://drugcentral.org/?q={urllib.parse.quote(name)}"))
     return sorted(set(re.findall(r"drugcard/(\d+)", html)))
 
+
 def card_html(sid):
     return cached(f"card:{sid}", lambda: get(f"https://drugcentral.org/drugcard/{sid}"))
+
 
 def card_title(html):
     m = re.search(r"<title>([^<]*)</title>", html)
     return m.group(1).strip().lower() if m else None
+
 
 def fu_row(html):
     m = re.search(
         r"<td>\s*fu \(Fraction unbound in plasma\)\s*</td>\s*<td>\s*([^<]+?)\s*</td>\s*<td>\s*(.*?)</td>",
         html, re.S)
     return m
+
 
 def inchikey_of(html):
     m = re.search(r"InChIKey\s*:?\s*</?[^>]*>?\s*([A-Z0-9-]{20,})", html)
@@ -53,7 +70,11 @@ def inchikey_of(html):
     return m.group(1) if m else None
 
 
-def main():
+def main(argv):
+    out_path = DEFAULT_OUT
+    if "--out" in argv:
+        out_path = Path(argv[argv.index("--out") + 1])
+
     d = json.loads((ROOT / "src/neurocascade/benchmark/v2/inputs/plasma_fu.json").read_text())
     have = {r["inn"] for r in d["drugs"] if r.get("fu")}
     drugs = json.loads((ROOT / "src/neurocascade/benchmark/v2/drugs.json").read_text())["drugs"]
@@ -89,10 +110,11 @@ def main():
             out[inn] = match
         if n % 10 == 0:
             print(n, len(missing), inn, "->", bool(match), file=sys.stderr, flush=True)
-            (ROOT / "tmp_fu_probe" / "drugcentral_matches.json").write_text(json.dumps(out, indent=1))
+            out_path.write_text(json.dumps(out, indent=1))
 
-    (ROOT / "tmp_fu_probe" / "drugcentral_matches.json").write_text(json.dumps(out, indent=1))
+    out_path.write_text(json.dumps(out, indent=1))
     print("matched", len(out), "of", len(missing), file=sys.stderr, flush=True)
 
+
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
