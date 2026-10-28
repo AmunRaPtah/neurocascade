@@ -7,6 +7,14 @@
 > (asenapine, lurasidone, milnacipran are model-derived; paroxetine is a bound)
 > against the >=6/8 bar. P29.5 does not meet its acceptance and is
 > `blocked-on-data`; the record of what was found stands as written below.
+>
+> **Update (2026-10-28).** A further search added measured paroxetine pairs
+> (Simoons et al. 2020, PMID 31634334, Table 2: serum and midbrain SERT
+> occupancy group means after 6 weeks of 20 mg/day, [123I]beta-CIT SPECT).
+> Measured PET pairs are now **5/8**, still below the >=6/8 bar. Asenapine,
+> lurasidone and milnacipran remain model-derived; what was searched and why
+> each candidate was rejected is in `measured_pair_searched_and_empty` in
+> `pet_plasma_pairs.json` and in "Measured-pair search, 2026-10-28" below.
 
 ### Original closing note (superseded)
 
@@ -22,8 +30,8 @@ inputs: held-out truth is comparison-only.
 | Evidence layer | Coverage | Drugs with records | Status |
 |---|---:|---|---|
 | Human oral exposure truth | 8/8 PET drugs | amisulpride, asenapine, escitalopram, lurasidone, milnacipran, paroxetine, quetiapine, venlafaxine | meets >=8 held-out |
-| PET dose/plasma pair, measured | 4/8 PET drugs | amisulpride, escitalopram, quetiapine (group means), venlafaxine (subjects; plasma is total active moiety, venlafaxine + O-desmethylvenlafaxine) | below >=6/8 if only measured pairs count |
-| PET dose/plasma value, model-derived or bound | 4/8 PET drugs | asenapine (review exposure model), lurasidone (modeled threshold, plus metabolite), milnacipran (model ED50), paroxetine (plateau bound, ">=") | usable as constraints, not as observed pairs; each record carries `evidence_class` |
+| PET dose/plasma pair, measured | 5/8 PET drugs | amisulpride, escitalopram, quetiapine (group means), paroxetine (group means, added 2026-10-28), venlafaxine (subjects; plasma is total active moiety, venlafaxine + O-desmethylvenlafaxine) | below >=6/8 |
+| PET dose/plasma value, model-derived or bound only | 3/8 PET drugs | asenapine (review exposure model), lurasidone (modeled threshold, plus metabolite), milnacipran (model ED50); paroxetine also keeps its plateau bound (">=") next to the measured pairs | usable as constraints, not as observed pairs; each record carries `evidence_class` |
 | Preclinical oral/clearance input, held-out PET drugs | 5/8 | asenapine, escitalopram, lurasidone, milnacipran, venlafaxine | amisulpride, paroxetine, quetiapine are searched-and-empty |
 | Preclinical oral/clearance input, train split | 45/130 (34.6%) | inherited P28.3 CLint/CL/Vss fields plus nine 2026-10-11 rows (brexpiprazole, cariprazine, lumateperone, iloperidone, paliperidone, roluperidone, desvenlafaxine, esketamine, esmethadone) | meets the post-hoc >=34% bar (original target 60%) |
 
@@ -80,8 +88,8 @@ the schema therefore uses `plasma_concentration` plus `plasma_units`.
 - Escitalopram and lurasidone use their first-party labels for human CL/F or
   absorbed-fraction records. Lurasidone's rat oral F, IV clearance/Vss, and
   plasma binding use PMID 21838595.
-- Milnacipran uses the Savella NDA 022256 label. Paroxetine uses NDA 021299
-  and the regimen-specific human CL/F in PMID 18483540; its rat oral study
+- Milnacipran uses the Savella NDA 022256 label. Paroxetine uses the NDA 021299
+  BioPharm review (section 2) for absolute oral F; its rat oral study
   (PMID 1826617) did not expose a numeric F or clearance in the reachable
   record.
 - Quetiapine uses the open PET/PK study in PMID 21477416. Venlafaxine uses
@@ -97,6 +105,40 @@ the schema therefore uses `plasma_concentration` plus `plasma_units`.
   24073841), labelled `modeled_threshold` with `plasma_relation` ">", because
   the per-subject table (Wong 2013, PMID 23649882) is paywalled; an
   unverifiable "EC50 = 7.6 ng/mL" snippet was rejected.
+
+## Measured-pair search, 2026-10-28
+
+Only pairs whose plasma (or serum) value is printed in a fetched source, for
+the scanned subjects, count as measured; fitted EC50/ED50 values and figure
+points do not.
+
+- Paroxetine, added: Simoons et al. 2020 (PMID 31634334), Table 2 rows A and C
+  for rs2235040. Carriers (n=10): serum 23.87 +/- 4.8 ug/L, occupancy
+  76.7 +/- 6.0%; non-carriers (n=28): 50.0 +/- 7.0 ug/L, 71.7 +/- 5.1%
+  (mean +/- SEM). Trough serum was drawn immediately before SPECT. The two
+  strata are disjoint and together make up the n=38 SPECT sample. The other
+  SNP partitions describe the same subjects and were not added.
+- Paroxetine, rejected (abstract has no serum value; full text paywalled):
+  - Ruhé 2009 (PMID 18830236).
+  - Ruhé 2014 (PMID 24406081).
+  - Arakawa 2016 (PMID 27082864).
+  - Kent 2002 (PMID 12457263).
+  - Meyer 2004 (PMID 15121647).
+  - Catafau 2006 (PMID 17033844), [123I]ADAM: prints only the Emax Cp50.
+- Asenapine, rejected:
+  - Andrée 1997 (PMID 9226735, ORG 5222): occupancy ranges only, paywalled.
+  - de Greef 2011 (PMID 21184291): no asenapine observations in full text.
+  - Rabiner 2024 (PMID 37944261): no asenapine in full text.
+- Lurasidone, rejected:
+  - Wong 2013 (PMID 23649882): abstract gives occupancy by dose, no serum
+    values; no open full text found.
+  - Potkin 2014 (PMID 24073841): modeled threshold only.
+  - Nakazawa 2013 (PMID 22868411): marmoset study.
+- Milnacipran, rejected:
+  - Nogami 2013 (PMID 23067569), full text read: Table 1 has dose but no
+    plasma; per-subject plasma is only scatter in Figures 3b and 4b; the
+    only printed concentrations are fitted ED50s.
+  - Takano 2013 (PMID 23090625): nonhuman primates.
 
 The complete records are in
 `src/neurocascade/benchmark/p29_5/`: `oral_exposure.json`,

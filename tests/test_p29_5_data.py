@@ -48,6 +48,28 @@ def test_pet_pairs_keep_model_and_inequality_qualifiers_visible():
     assert set(data["searched_and_empty"]) == set()
     assert len(rows["quetiapine"]["pairs"]) == 4
     assert len(rows["venlafaxine"]["pairs"]) == 12
+    # Paroxetine: the Meyer 2001 bound stays first; the Simoons 2020 group
+    # means (added 2026-10-28) are measured and carry n, SEM and subgroup.
+    parox_measured = [p for p in rows["paroxetine"]["pairs"]
+                      if p["evidence_class"] == "measured"]
+    assert len(parox_measured) == 2
+    assert all(p["statistic"] == "group_mean" and p["citation"]["pmid"] == "31634334"
+               and p["n"] and p["subgroup"] and p["quote"] for p in parox_measured)
+
+
+def test_measured_pet_pair_count_is_reported_not_rounded_up():
+    # The P29.5 acceptance counts only MEASURED pairs (>=6 of 8). This test
+    # records the honest count; it does not assert the bar is met.
+    data = load_pet_plasma_pairs()
+    measured = {r["inn"] for r in data["drugs"]
+                if any(p["evidence_class"] == "measured" for p in r["pairs"])}
+    assert measured == {"amisulpride", "escitalopram", "paroxetine",
+                        "quetiapine", "venlafaxine"}
+    # Every drug without a measured pair has a logged search.
+    log = data["measured_pair_searched_and_empty"]
+    assert set(log) - {"_scope"} == PET_DRUGS - measured
+    for inn in PET_DRUGS - measured:
+        assert log[inn]["queries"] and log[inn]["pmids_read"]
 
 
 def test_preclinical_supplement_does_not_promote_heldout_truth_into_fitting():
