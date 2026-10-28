@@ -1,0 +1,385 @@
+{
+ "task": "P34.2",
+ "description": "Frozen P34 data-construction build. P34.4 must label, Cmax and Ki the fresh held-out set with exactly these files; tests/test_p34_2_frozen_build.py pins their sha256. No held-out or fresh drug was read: the SmPC validation ran on v2_partition() train INNs only.",
+ "frozen_files": [
+  {
+   "path": "src/neurocascade/benchmark/v2/liability_rules.json",
+   "role": "label",
+   "what": "pre-specified liability term map, table rules and 5-point / 2x placebo-subtracted margin (P33.2, amendments A1-A7)",
+   "sha256": "4f00d880761b03cae3ace37d9057fe8e3259da4521da008b27386fe8eb836028"
+  },
+  {
+   "path": "scripts/v2_liabilities.py",
+   "role": "label",
+   "what": "openFDA adverse-reaction table parser applying liability_rules.json",
+   "sha256": "37e273df0c5e7cdfe5c6b4eecc598e15d2951e46dae674a5ed3d2d555e2c92e2"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/smpc_rules.json",
+   "role": "label",
+   "what": "SmPC section 4.8 source, product selection and table normalisation rules (P34.2, amendment SA1)",
+   "sha256": "a1725ea59bfafa86d2c60bb84497b026c4c4810f8ce92d4109ac3cc6ccd759ce"
+  },
+  {
+   "path": "scripts/v2_smpc.py",
+   "role": "label",
+   "what": "SmPC parser: normalises section 4.8 tables and calls v2_liabilities.build unchanged",
+   "sha256": "85a86afe4a77bd38950db512b6928d55d964a364f56805d434a37ef4ceca0c28"
+  },
+  {
+   "path": "scripts/v2_label_index.py",
+   "role": "label+cmax",
+   "what": "openFDA bulk label index read by v2_liabilities and v2_cmax",
+   "sha256": "f1c8ab1bd54ca1448bc0ff0af2310fe876f2440443aaca905f5d198b85b399cc"
+  },
+  {
+   "path": "scripts/v2_cmax.py",
+   "role": "cmax",
+   "what": "therapeutic total Cmax: label/PubMed candidate snippets, verbatim-snippet build, Cmax,u via plasma fu",
+   "sha256": "9dbdf79403edd6dd248906de63b0b0656473cfc04d201451bf029ac6d5771d9e"
+  },
+  {
+   "path": "scripts/v2_pk.py",
+   "role": "cmax",
+   "what": "builds inputs/plasma_fu.json, the fu that v2_cmax.py joins for Cmax,u",
+   "sha256": "1a7821c68226c36a1a726e9300bb312913d3908b3df84797ed8bbf5d2191193a"
+  },
+  {
+   "path": "scripts/v2_binding.py",
+   "role": "binding",
+   "what": "ChEMBL human Ki panel: filters, per-document mean then median",
+   "sha256": "836fa9e84fafc7508fbfc458b0fa76480e11d112087b3386d026ee3a89cf0102"
+  }
+ ],
+ "smpc_parser": {
+  "frozen": true,
+  "used_for": "fresh-set drugs with no openFDA placebo-subtracted label (smpc_rules.json precedence)",
+  "train_validation": {
+   "n_train": 267,
+   "n_with_emc_smpc": 180,
+   "n_smpc_placebo_subtracted": 3,
+   "n_fetch_failed": 0,
+   "compared_drugs": [
+    "cetirizine",
+    "levocetirizine",
+    "rivastigmine"
+   ],
+   "n_compared_drugs": 3,
+   "n_compared_labels": 12,
+   "n_agree": 12,
+   "n_positive_fda": 0,
+   "comparisons": [
+    {
+     "inn": "cetirizine",
+     "liability": "eps",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": null,
+     "fda_placebo_pct": null,
+     "smpc_drug_pct": null,
+     "smpc_placebo_pct": null,
+     "agree": true
+    },
+    {
+     "inn": "cetirizine",
+     "liability": "sedation",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": 3.215,
+     "fda_placebo_pct": 1.3,
+     "smpc_drug_pct": 9.63,
+     "smpc_placebo_pct": 5.0,
+     "agree": true
+    },
+    {
+     "inn": "cetirizine",
+     "liability": "anticholinergic",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": null,
+     "fda_placebo_pct": null,
+     "smpc_drug_pct": 2.09,
+     "smpc_placebo_pct": 0.82,
+     "agree": true
+    },
+    {
+     "inn": "cetirizine",
+     "liability": "orthostatic_hypotension",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": null,
+     "fda_placebo_pct": null,
+     "smpc_drug_pct": null,
+     "smpc_placebo_pct": null,
+     "agree": true
+    },
+    {
+     "inn": "levocetirizine",
+     "liability": "eps",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": null,
+     "fda_placebo_pct": null,
+     "smpc_drug_pct": null,
+     "smpc_placebo_pct": null,
+     "agree": true
+    },
+    {
+     "inn": "levocetirizine",
+     "liability": "sedation",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": 5.718,
+     "fda_placebo_pct": 2.0,
+     "smpc_drug_pct": 5.2,
+     "smpc_placebo_pct": 1.4,
+     "agree": true
+    },
+    {
+     "inn": "levocetirizine",
+     "liability": "anticholinergic",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": 2.282,
+     "fda_placebo_pct": 1.0,
+     "smpc_drug_pct": 2.6,
+     "smpc_placebo_pct": 1.6,
+     "agree": true
+    },
+    {
+     "inn": "levocetirizine",
+     "liability": "orthostatic_hypotension",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": null,
+     "fda_placebo_pct": null,
+     "smpc_drug_pct": null,
+     "smpc_placebo_pct": null,
+     "agree": true
+    },
+    {
+     "inn": "rivastigmine",
+     "liability": "eps",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": null,
+     "fda_placebo_pct": null,
+     "smpc_drug_pct": 2.2,
+     "smpc_placebo_pct": 0.6,
+     "agree": true
+    },
+    {
+     "inn": "rivastigmine",
+     "liability": "sedation",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": 5.0,
+     "fda_placebo_pct": 3.0,
+     "smpc_drug_pct": null,
+     "smpc_placebo_pct": null,
+     "agree": true
+    },
+    {
+     "inn": "rivastigmine",
+     "liability": "anticholinergic",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": null,
+     "fda_placebo_pct": null,
+     "smpc_drug_pct": null,
+     "smpc_placebo_pct": null,
+     "agree": true
+    },
+    {
+     "inn": "rivastigmine",
+     "liability": "orthostatic_hypotension",
+     "fda_label": 0,
+     "smpc_label": 0,
+     "fda_drug_pct": null,
+     "fda_placebo_pct": null,
+     "smpc_drug_pct": null,
+     "smpc_placebo_pct": null,
+     "agree": true
+    }
+   ],
+   "drugs": [
+    {
+     "inn": "cetirizine",
+     "basis": "placebo_subtracted",
+     "products_seen": 17,
+     "emc_product_id": "175",
+     "population": "Double blind controlled clinical trials comparing cetirizine to placebo or other antihistamines at the recommended dosage (10 mg daily for cetirizine), of which quantified safety data are available, included more than 3200 subjects exposed to cetirizine. From this pooling, the following adverse reactions were reported for cetirizine 10 mg in the placebo-controlled trials at rates of 1.0 % or greater:",
+     "labels": {
+      "eps": 0,
+      "sedation": 0,
+      "weight_gain": null,
+      "anticholinergic": 0,
+      "orthostatic_hypotension": 0
+     },
+     "comparison": [
+      {
+       "liability": "eps",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": null,
+       "fda_placebo_pct": null,
+       "smpc_drug_pct": null,
+       "smpc_placebo_pct": null,
+       "agree": true
+      },
+      {
+       "liability": "sedation",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": 3.215,
+       "fda_placebo_pct": 1.3,
+       "smpc_drug_pct": 9.63,
+       "smpc_placebo_pct": 5.0,
+       "agree": true
+      },
+      {
+       "liability": "anticholinergic",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": null,
+       "fda_placebo_pct": null,
+       "smpc_drug_pct": 2.09,
+       "smpc_placebo_pct": 0.82,
+       "agree": true
+      },
+      {
+       "liability": "orthostatic_hypotension",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": null,
+       "fda_placebo_pct": null,
+       "smpc_drug_pct": null,
+       "smpc_placebo_pct": null,
+       "agree": true
+      }
+     ]
+    },
+    {
+     "inn": "levocetirizine",
+     "basis": "placebo_subtracted",
+     "products_seen": 5,
+     "emc_product_id": "348",
+     "population": "In therapeutic trials, the dropout rate due to adverse events was 1.0% (9/935) with levocetirizine 5 mg and 1.8% (14/771) with placebo. Clinical therapeutic trials with levocetirizine included 935 subjects exposed to the medicinal product at the recommended dose of 5 mg daily. From this pooling, following incidence of adverse drug reactions were reported at rates of 1% or greater (common: ≥ 1/100 to < 1/10) under levocetirizine 5 mg or placebo:",
+     "labels": {
+      "eps": 0,
+      "sedation": 0,
+      "weight_gain": null,
+      "anticholinergic": 0,
+      "orthostatic_hypotension": 0
+     },
+     "comparison": [
+      {
+       "liability": "eps",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": null,
+       "fda_placebo_pct": null,
+       "smpc_drug_pct": null,
+       "smpc_placebo_pct": null,
+       "agree": true
+      },
+      {
+       "liability": "sedation",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": 5.718,
+       "fda_placebo_pct": 2.0,
+       "smpc_drug_pct": 5.2,
+       "smpc_placebo_pct": 1.4,
+       "agree": true
+      },
+      {
+       "liability": "anticholinergic",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": 2.282,
+       "fda_placebo_pct": 1.0,
+       "smpc_drug_pct": 2.6,
+       "smpc_placebo_pct": 1.6,
+       "agree": true
+      },
+      {
+       "liability": "orthostatic_hypotension",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": null,
+       "fda_placebo_pct": null,
+       "smpc_drug_pct": null,
+       "smpc_placebo_pct": null,
+       "agree": true
+      }
+     ]
+    },
+    {
+     "inn": "rivastigmine",
+     "basis": "placebo_subtracted",
+     "products_seen": 34,
+     "emc_product_id": "2059",
+     "population": "Table 3 lists the number and percentage of patients from the specific 24-week clinical study conducted with rivastigmine in patients with dementia associated with Parkinson's disease with pre-defined adverse events that may reflect worsening of parkinsonian symptoms. Table 3",
+     "labels": {
+      "eps": 0,
+      "sedation": 0,
+      "weight_gain": null,
+      "anticholinergic": 0,
+      "orthostatic_hypotension": 0
+     },
+     "comparison": [
+      {
+       "liability": "eps",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": null,
+       "fda_placebo_pct": null,
+       "smpc_drug_pct": 2.2,
+       "smpc_placebo_pct": 0.6,
+       "agree": true
+      },
+      {
+       "liability": "sedation",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": 5.0,
+       "fda_placebo_pct": 3.0,
+       "smpc_drug_pct": null,
+       "smpc_placebo_pct": null,
+       "agree": true
+      },
+      {
+       "liability": "anticholinergic",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": null,
+       "fda_placebo_pct": null,
+       "smpc_drug_pct": null,
+       "smpc_placebo_pct": null,
+       "agree": true
+      },
+      {
+       "liability": "orthostatic_hypotension",
+       "fda_label": 0,
+       "smpc_label": 0,
+       "fda_drug_pct": null,
+       "fda_placebo_pct": null,
+       "smpc_drug_pct": null,
+       "smpc_placebo_pct": null,
+       "agree": true
+      }
+     ]
+    }
+   ],
+   "absent_reasons": {
+    "no emc SmPC": 87,
+    "no placebo-controlled table in section 4.8 of any eligible product": 157,
+    "no single-ingredient systemic product": 20
+   }
+  }
+ },
+ "n_scored": 3,
+ "n_scored_definition": "train drugs whose SmPC-derived placebo-subtracted labels were compared with their frozen openFDA labels (truth/liabilities.json); no held-out drug is scored by this task",
+ "heldout": "not touched; v2 held-out stays burned, the fresh set does not exist yet (P34.4)"
+}

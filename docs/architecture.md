@@ -17960,3 +17960,158 @@ and without truth: every held-out drug lands in exactly one bucket, and
 `tests/conftest.py` under `NC_HOST_EVAL=1`, and only when
 `tests/test_conformal.py` ran. The bands were frozen before any held-out row
 was read, and no band, level or score is tuned on held-out coverage.
+
+## Phase 34, part two: freezing the build rules and the SmPC parser (P34.2)
+
+`docs/prereg-p34-go.md` says the fresh held-out set (P34.4) is labelled, given
+Cmax and given Ki "by the procedures as frozen", so nobody can tune a rule after
+seeing fresh drugs. P34.2 makes "frozen" mechanical. `scripts/p34_2_freeze.py`
+writes `results/P34.2.json` with the sha256 of every file those procedures
+consist of. `tests/test_p34_2_frozen_build.py` pins the same hashes as literals,
+so editing a frozen file fails the gate. Updating the pin would be a visible edit
+to the test, which rule 4 forbids.
+
+### What is frozen, and why those files
+
+The brief names four files: `liability_rules.json`, `scripts/v2_liabilities.py`,
+`scripts/v2_cmax.py` and `scripts/v2_binding.py`. Freezing only those four would
+leave three ways to change the build without touching them, so the manifest also
+covers the files they depend on:
+
+- `scripts/v2_label_index.py`. Both the label parser and the Cmax fetch read
+  openFDA through it.
+- `scripts/v2_pk.py`. It builds `inputs/plasma_fu.json`, the fu that `v2_cmax.py`
+  joins to get Cmax,u. Fresh drugs will need fu by the same route.
+- `smpc_rules.json` and `scripts/v2_smpc.py`. These are the SmPC parser
+  described below.
+
+A test checks that `truth/liabilities.json`'s recorded `rules_sha256` equals the
+frozen `liability_rules.json` hash, so the train labels P34.1 selected on were
+built with the frozen rules.
+
+Two things a hash cannot freeze:
+
+1. **Cmax curation.** `v2_cmax.py build` accepts any curation record whose
+   snippet is a verbatim substring of fetched text. The choice of *which* sentence
+   to curate is a per-drug judgement. P34.4 must follow the rules in that
+   script's docstring (verbatim snippet, label first, PubMed fallback,
+   searched-and-empty otherwise) and must not change them.
+2. **Live sources.** ChEMBL, openFDA and emc change over time. P34.4 records its
+   retrieval dates, as v2 did.
+
+### Is an SmPC parser wanted? Testing the assumption first
+
+The prereg allows EU SmPC tables "only through the same placebo-subtracted rule".
+Whether a parser is worth freezing depends on one assumption: that SmPCs carry
+drug-vs-placebo adverse-reaction tables often enough to label anything. I tested
+that assumption before writing the parser. I searched emc (medicines.org.uk) for
+every one of the 267 v2 train INNs and opened each SmPC's section 4.8:
+
+- 180 train drugs have an emc SmPC.
+- Only 3 have a single-ingredient systemic product with a real drug-vs-placebo
+  adverse-reaction table: cetirizine, levocetirizine and rivastigmine.
+- Sorafenib's placebo table holds laboratory values; see SA1 below.
+- Sertraline, paliperidone and risperidone have tables that only *mention*
+  placebo in a caption over CIOMS frequency categories. That is expected: the
+  QRD template and the SmPC guideline (European Commission 2009, rev. 2) ask for
+  frequency categories by System Organ Class, not trial arms.
+
+So the parser reaches about 1% of drugs. It is still worth having for one
+reason. The fresh pool is defined as approved drugs **not** among the 465 P33.1
+candidates, and some of those drugs have no FDA label at all, so openFDA cannot
+label them. Bilastine is one: ATC R06AX29, and a live ChEMBL query on 2026-10-28
+returned no human H1 pChEMBL record for it, so it is very likely outside the
+465 (P34.4 decides membership mechanically). Its SmPC has a 1697-vs-1362 placebo table. Without the
+parser such drugs could only be excluded as missing input. The prereg allows the
+parser only if it exists before the fresh set does, so it is built now.
+
+### Design: an adapter, not a second parser
+
+`scripts/v2_smpc.py` re-implements none of the label logic: not the term map,
+cell parsing, primary-table rule, pooling, the 5-point / 2x margin or amendment
+A7. Instead it rewrites each SmPC table into the shape of an SPL table and calls
+`v2_liabilities.build` unchanged. Any difference between SmPC and FDA labels
+therefore comes from the source, not from a second implementation of the rule.
+The SmPC-specific rules are in `smpc_rules.json`, separate from
+`liability_rules.json`, so the train labels' recorded rules hash stays valid.
+
+**Source.** emc SmPCs are UK SmPCs. EMA (centrally authorised products) and the
+national EU agencies publish product information as PDF only, and no HTML EU
+SmPC source was found. The UK SmPC follows the same QRD template and section 4.8
+guideline. This substitutes the UK copy for "EU SmPC". It is a different
+document from the same template and trial programmes; it is not a different drug
+or species. The substitution is disclosed here and in the ledger row.
+
+**Precedence.** An SmPC label is used only when the openFDA build gives a drug no
+placebo-subtracted basis. The openFDA absolute-incidence fallback is never
+applied to SmPCs: the prereg allows only the placebo-subtracted rule, and a CIOMS
+"very common" category is not an incidence in any arm.
+
+**Product choice.** A product qualifies if:
+
+- its JSON-LD lists exactly one active ingredient, equal to the INN or the INN
+  plus a salt;
+- its pharmaceutical form is not a local form;
+- among qualifying products, oral forms come first, then products in ascending
+  emc id order (emc's search order is not stable);
+- the product has a placebo-controlled table in section 4.8. The first product
+  that does is used.
+
+**Table normalisation.** All of these rules were written before the train run;
+SA1 is the only change made after seeing results.
+
+- **S0, caption.** SmPC tables usually have no caption. The paragraph above the
+  table says what it is ("... in children aged from 6 months to 12 years"), so
+  the last two non-table paragraphs before the table become the caption. Without
+  this, the openFDA paediatric and adjunct rules could not see the population.
+- **S1, stacked lines.** Some SmPCs put several terms and values in one cell as
+  separate lines. Cetirizine has "Nervous system disorders / Dizziness /
+  Headache" against "1.10 % / 7.42 %", and its originator SmPC (Zirtek) uses a
+  malformed `<p />` for the line break. A row is split by line index only when
+  all of these hold:
+  - the row has a numeric value;
+  - every non-empty value cell has the same k lines;
+  - the label cell has k lines, or k + 1 (a System Organ Class heading followed
+    by k terms).
+- **S2, frequency columns.** QRD tables put System Organ Class and frequency
+  category to the left of the term (bilastine: "Uncommon | Oral herpes | arms").
+  The label is the rightmost non-frequency text left of the first value column.
+  System Organ Class title rows end the header and carry no values.
+- **SA1, laboratory tables (after seeing results).** The first train run compared
+  4 drugs and got 15/16 labels in agreement. The one disagreement was sorafenib:
+  the only placebo table in Nexavar's 4.8 is "Laboratory parameter (in % of
+  samples)". Read as the primary adverse-reaction table, it scored constipation 0
+  through `absent_below_threshold`, against openFDA 1 (15.0% vs 3.8%). This is
+  the openFDA A1 situation: the table does not measure adverse-reaction
+  incidence, so a missing term there says nothing. SA1 excludes tables whose
+  caption or header says "laborator". It changes table eligibility only. No term
+  or margin was touched.
+
+### Train validation result (`results/P34.2.json`, `smpc_parser.train_validation`)
+
+On 3 train drugs (cetirizine, levocetirizine, rivastigmine), **12/12** SmPC
+labels agree with the frozen openFDA labels. That is four liabilities per drug;
+weight gain is withheld by A7. Every one of those labels is 0.
+
+The percentages differ because they come from different trial pools: cetirizine
+somnolence is 9.63% vs 5.00% in the adult SmPC table against 3.2% vs 1.3% in the
+FDA paediatric table. Agreement on the binary label is what the fresh set needs.
+Cells that cannot be read stay unread; for example, the cetirizine paediatric
+placebo cell "1. 4 %" is recorded as `extraction_failed`.
+
+Offline tests pin the hand-read numbers on trimmed fixtures in
+`tests/fixtures/smpc/`: cetirizine, levocetirizine, bilastine and rivastigmine
+values, sorafenib excluded by SA1, and sertraline's frequency table not
+placebo-controlled.
+
+**What this does not show.** All 12 compared labels are negative, so the
+validation shows the parser does not create positives but cannot show it finds
+them. Testing that needs a drug with both an FDA placebo table and an SmPC
+placebo table that are positive for some liability. No train drug has both.
+This weakness is recorded, not hidden. If the fresh set's SmPC-labelled drugs
+contribute positives, P34.4 should report them separately from the openFDA
+labels; the `smpc` flag makes that possible.
+
+`n_scored` in `results/P34.2.json` is 3: the train drugs whose SmPC labels were
+compared with openFDA labels. P34.2 reads no held-out or fresh drug. A test
+asserts that every validated INN is a train INN.
