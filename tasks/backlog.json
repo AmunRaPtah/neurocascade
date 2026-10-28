@@ -3197,9 +3197,10 @@
       "status": "pending",
       "attempts": 0,
       "conductor": {
-        "sessions": 1,
+        "sessions": 2,
         "history": [
-          "2026-10-28 01:41 complete; rejected: gate failed:\nE           OSError: [Errno 28] No space left on device\nE           \nE           HINT: Set PyTensor `config.exception_verbosity` to `medium` or `high` for more information about the source of the error.\nFAILED tests/test_endpoint_calibration.py::test_the_fit_runs_and_converges_on_a_synthetic_target\n=========================== short test summary info ============================\n1 failed, 3038 passed, 4 skipped, 15 deselected, 15 warnings in 2877.01s (0:47:57)"
+          "2026-10-28 01:41 complete; rejected: gate failed:\nE           OSError: [Errno 28] No space left on device\nE           \nE           HINT: Set PyTensor `config.exception_verbosity` to `medium` or `high` for more information about the source of the error.\nFAILED tests/test_endpoint_calibration.py::test_the_fit_runs_and_converges_on_a_synthetic_target\n=========================== short test summary info ============================\n1 failed, 3038 passed, 4 skipped, 15 deselected, 15 warnings in 2877.01s (0:47:57)",
+          "2026-10-28 03:44 COMPLETE, PR opened"
         ]
       }
     },
