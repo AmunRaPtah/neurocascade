@@ -3,16 +3,48 @@
  "chembl_release": "ChEMBL_37 (2026-05-01)",
  "excluded": {
   "human_invivo_cl": 1,
-  "human_invivo_vss": 2
+  "human_invivo_vss": 2,
+  "human_oral_bioavailability": 1,
+  "oral_bioavailability_non_exact_relation": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": false,
+  "oral_bioavailability": false,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
  },
  "fields": {
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL635760",
+     "description": "Apparent permeability coefficient (Papp) (Caco-2 cell monolayer)",
+     "matrix": "caco2",
+     "ref": "CHEMBL1134498",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Papp",
+     "units": "cm s-1",
+     "value": 96000000.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "caco2",
+     "max": 96000000.0,
+     "min": 96000000.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "unspecified",
+     "units": "cm s-1",
+     "value": 96000000.0
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -42,6 +74,13 @@
  },
  "inn": "nordazepam",
  "references": {
+  "CHEMBL1134498": {
+   "chembl_document_id": "CHEMBL1134498",
+   "journal": "J Med Chem",
+   "pmid": "11384238",
+   "title": "Experimental and computational screening models for the prediction of intestinal drug absorption.",
+   "year": 2001
+  },
   "CHEMBL1148291": {
    "chembl_document_id": "CHEMBL1148291",
    "journal": "J Med Chem",
@@ -50,7 +89,7 @@
    "year": 2004
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 30
  },

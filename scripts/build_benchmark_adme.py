@@ -24,13 +24,27 @@ binding (CHEMBL3526149, CHEMBL3525956) and Loryan 2011 unbound brain exposure
 mirror keeps every value traceable to its primary paper without scraping
 paywalled supplements. See docs/architecture.md section "P28.3".
 
-The four preclinical fields (brief): plasma fraction unbound, brain fraction
-unbound or Kp,uu, in-vitro intrinsic clearance (microsomal/hepatocyte), and
-rodent in-vivo CL/Vss. The in-vivo CL/Vss field is NON-HUMAN only: human
-in-vivo CL/Vss is clinical outcome data and belongs to P28.4, not to the
-preclinical package. Human in-vitro plasma fu and CLint are preclinical and are
-kept here. The boundary is enforced in ``_classify`` and recorded per drug under
-``excluded``.
+The six preclinical fields (brief): plasma fraction unbound, brain fraction
+unbound or Kp,uu, in-vitro intrinsic clearance (microsomal/hepatocyte), rodent
+in-vivo CL/Vss, oral bioavailability/fraction absorbed (F/Fabs/Bioavailability),
+and permeability (Papp/Caco-2/MDCK). The in-vivo CL/Vss and oral-bioavailability
+fields are NON-HUMAN only: human in-vivo CL/Vss and human oral F are clinical
+outcome data and belong to P28.4, not to the preclinical package. Human
+in-vitro plasma fu, CLint and permeability (e.g. human Caco-2) are preclinical
+and are kept here, exactly like the existing human-liver-microsome CLint rows.
+The boundary is enforced in ``_classify``/``_build_one`` and recorded per drug
+under ``excluded``.
+
+P29.5 (2026-10-28) extended this script with the oral_bioavailability and
+permeability fields to close the preclinical oral-absorption-input gap
+documented in docs/p29-5-oral-exposure-pet-data.md. Inclusion rule for both
+new fields, written here BEFORE any coverage was counted: ``assay_type='A'``
+(inherited from ``fetch``), ``standard_relation == '='`` only (no censored
+bound), no ``data_validity_comment`` on the activity row, and for
+oral_bioavailability a non-human ``assay_organism`` (rat/dog/mouse/monkey/...;
+human F/Fabs/Bioavailability is clinical truth, not a model input).
+Permeability (Papp/Caco-2/MDCK) is kept for any host species/cell line because
+it is an in-vitro assay, never a clinical PK outcome.
 """
 
 from __future__ import annotations
@@ -54,7 +68,7 @@ DEFAULT_CACHE = Path(tempfile.gettempdir()) / "neurocascade_p28_3"
 
 CHEMBL = "https://www.ebi.ac.uk/chembl/api/data/"
 
-RETRIEVED = "2026-10-02"
+RETRIEVED = "2026-10-28"
 CHEMBL_RELEASE = "ChEMBL_37 (2026-05-01)"
 
 # The ChEMBL molecule queried when it is not drugs.json's chembl_id. P28.2
@@ -108,13 +122,38 @@ def _classify(st: str, units: str | None, description: str, tissue: str | None):
     """Map a ChEMBL ADME activity to (field, matrix) or None.
 
     Fields: plasma_fu, brain_fu, kp_uu, kp_total, clint,
-    invivo_cl_preclinical, invivo_vss_preclinical. ``matrix`` names the in-vitro
-    system for clint (microsomes/hepatocytes/s9/intestinal), else None.
+    invivo_cl_preclinical, invivo_vss_preclinical, oral_bioavailability,
+    permeability. ``matrix`` names the in-vitro system for clint
+    (microsomes/hepatocytes/s9/intestinal) or permeability (caco2/mdck), else
+    None.
+
+    P29.5 inclusion rule (pre-registered before any coverage count, see
+    docs/p29-5-oral-exposure-pet-data.md "ChEMBL bulk-query inclusion rule"):
+    oral-absorption standard types (``F``, ``Fabs``, ``Bioavailability``) are
+    preclinical inputs only in a non-human species (rat/dog/mouse/monkey/...);
+    the same standard type measured in human is a clinical outcome and
+    belongs to P28.4 truth, never to this preclinical package. Permeability
+    standard types (``Papp``, ``Caco-2 Permeability``, ``MDCK Permeability``)
+    are in-vitro assays and are kept regardless of the host-cell species
+    (human Caco-2, dog MDCK), exactly like human-liver-microsome CLint above.
+    Both new fields additionally require ``standard_relation == "="`` (no
+    ``<``/``>`` bound) and no ``data_validity_comment`` on the activity row,
+    enforced in the caller before a row reaches ``_classify``.
     """
     d = (description or "").lower()
     t = (tissue or "").lower()
     is_brain = "brain" in d or "cortex" in t or "cortex" in d or "cerebr" in d
 
+    if st in ("F", "Fabs", "Bioavailability"):
+        return ("oral_bioavailability", None)
+    if st in ("Papp", "Caco-2 Permeability", "MDCK Permeability",
+              "Caco-2 permeability", "MDCK permeability"):
+        matrix = None
+        if "caco" in d:
+            matrix = "caco2"
+        elif "mdck" in d:
+            matrix = "mdck"
+        return ("permeability", matrix)
     if st in ("Fu", "logFu"):
         # logFu rows in this corpus carry the de-logged fraction as the standard
         # value (e.g. haloperidol 0.08), so both are read as a fraction unbound.
@@ -278,7 +317,8 @@ def _build_one(d, acts, assays, docs):
     cid = chembl_query_id(d)
     fields = {k: [] for k in ("plasma_fu", "brain_fu", "kp_uu", "kp_total",
                               "clint", "invivo_cl_preclinical",
-                              "invivo_vss_preclinical")}
+                              "invivo_vss_preclinical", "oral_bioavailability",
+                              "permeability")}
     excluded = defaultdict(int)
     refs = {}
     used_refs = set()
@@ -308,6 +348,16 @@ def _build_one(d, acts, assays, docs):
         if cls is None or val is None:
             continue
         field, matrix = cls
+
+        # P29.5 bulk-ChEMBL inclusion rule for the two new fields: exact
+        # measurements only, and never a row ChEMBL itself has flagged.
+        if field in ("oral_bioavailability", "permeability"):
+            if a.get("data_validity_comment"):
+                excluded[f"{field}_data_validity_comment"] += 1
+                continue
+            if rel != "=":
+                excluded[f"{field}_non_exact_relation"] += 1
+                continue
         sp = _species(assay.get("assay_organism"), descr)
 
         # fraction unbound from PPB%: fu = 1 - PPB/100
@@ -321,19 +371,29 @@ def _build_one(d, acts, assays, docs):
             value = round(1.0 - value / 100.0, 6)
             matrix = None
             units = None  # the stored value is now a fraction unbound, not a percent
-        if value <= 0:  # fu/kp/cl/vss must be positive (and log-summarisable)
+        if field == "oral_bioavailability" and units == "%":
+            if not (0 <= value <= 100):
+                excluded["oral_bioavailability_out_of_range"] += 1
+                continue
+            value = round(value / 100.0, 6)
+            units = "fraction"
+        if value <= 0:  # fu/kp/cl/vss/F/Papp must be positive (and log-summarisable)
             excluded["nonpositive_value"] += 1
             continue
 
-        # the human/non-human boundary for in-vivo PK (human -> P28.4)
-        if field in ("invivo_cl", "invivo_vss"):
+        # the human/non-human boundary for in-vivo PK and oral absorption
+        # (human CL/Vss/F are clinical outcomes -> P28.4, not preclinical input).
+        # Permeability (Papp/Caco-2/MDCK) is an in-vitro assay and is kept
+        # regardless of the host-cell species, like human-microsome CLint.
+        if field in ("invivo_cl", "invivo_vss", "oral_bioavailability"):
             if sp == "human":
                 excluded[f"human_{field}"] += 1
                 continue
             if sp not in NONHUMAN:
                 excluded[f"species_unresolved_{field}"] += 1
                 continue
-            field = field + "_preclinical"
+            if field in ("invivo_cl", "invivo_vss"):
+                field = field + "_preclinical"
 
         doc_id = a.get("document_chembl_id")
         ref = add_ref(doc_id)
@@ -384,6 +444,8 @@ def _build_one(d, acts, assays, docs):
             "rodent_in_vivo_vss": any(
                 m["species"] in RODENT
                 for m in out_fields.get("invivo_vss_preclinical", {}).get("measurements", [])),
+            "oral_bioavailability": "oral_bioavailability" in out_fields,
+            "permeability": "permeability" in out_fields,
         },
         "excluded": dict(sorted(excluded.items())),
         "searched": {"chembl_adme_rows_returned": len(acts)},
@@ -424,7 +486,8 @@ def build(cache: Path) -> None:
 
 def _write_coverage(rows, provenance):
     fields = ["plasma_fu", "brain_fu_or_kp_uu", "clint",
-              "rodent_in_vivo_cl", "rodent_in_vivo_vss"]
+              "rodent_in_vivo_cl", "rodent_in_vivo_vss",
+              "oral_bioavailability", "permeability"]
     summary = {
         "n_drugs": len(rows),
         "n_with_any_field": sum(1 for r in rows if r["status"] == "data"),

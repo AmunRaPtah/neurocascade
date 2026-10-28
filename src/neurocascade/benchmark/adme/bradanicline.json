@@ -5,6 +5,8 @@
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": false,
+  "oral_bioavailability": true,
+  "permeability": false,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -33,6 +35,32 @@
      "species": "rat",
      "units": null,
      "value": 0.4
+    }
+   ]
+  },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL2188089",
+     "description": "Oral bioavailability in rat",
+     "ref": "CHEMBL2177097",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.2
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.2,
+     "min": 0.2,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.2
     }
    ]
   },
@@ -74,7 +102,7 @@
    "year": 2012
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 14
  },

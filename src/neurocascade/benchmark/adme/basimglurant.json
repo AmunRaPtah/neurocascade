@@ -5,6 +5,8 @@
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": true,
+  "permeability": false,
   "plasma_fu": true,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": true
@@ -178,6 +180,62 @@
     }
    ]
   },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3412677",
+     "description": "Oral bioavailability in fasted cynomolgus monkey at 0.3 mg/kg",
+     "ref": "CHEMBL3407448",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 1.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL3412681",
+     "description": "Oral bioavailability in fed cynomolgus monkey at 0.3 mg/kg",
+     "ref": "CHEMBL3407448",
+     "relation": "=",
+     "species": "monkey",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.54
+    },
+    {
+     "assay_chembl_id": "CHEMBL3412664",
+     "description": "Oral bioavailability in male Wistar rat at 10 mg/kg",
+     "ref": "CHEMBL3407448",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.91
+    }
+   ],
+   "summary": [
+    {
+     "max": 1.0,
+     "min": 0.54,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "monkey",
+     "units": "fraction",
+     "value": 0.734847
+    },
+    {
+     "max": 0.91,
+     "min": 0.91,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.91
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -275,7 +333,7 @@
    "year": 2015
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 30
  },

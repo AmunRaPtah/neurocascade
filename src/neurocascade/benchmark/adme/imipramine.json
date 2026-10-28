@@ -4,11 +4,14 @@
  "excluded": {
   "human_invivo_cl": 6,
   "human_invivo_vss": 6,
+  "human_oral_bioavailability": 3,
   "species_unresolved_invivo_vss": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": false,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -416,6 +419,32 @@
     }
    ]
   },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL905613",
+     "description": "Permeability coefficient through artificial membrane in presence of stirred water layer",
+     "ref": "CHEMBL1143050",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Papp",
+     "units": "10^-6 cm/s",
+     "value": 63.77
+    }
+   ],
+   "summary": [
+    {
+     "max": 63.77,
+     "min": 63.77,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "unspecified",
+     "units": "10^-6 cm/s",
+     "value": 63.77
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -706,6 +735,13 @@
    "title": "First-principle, structure-based prediction of hepatic metabolic clearance values in human.",
    "year": 2009
   },
+  "CHEMBL1143050": {
+   "chembl_document_id": "CHEMBL1143050",
+   "journal": "Bioorg Med Chem",
+   "pmid": "17418579",
+   "title": "QSAR study on permeability of hydrophobic compounds with artificial membranes.",
+   "year": 2007
+  },
   "CHEMBL1148291": {
    "chembl_document_id": "CHEMBL1148291",
    "journal": "J Med Chem",
@@ -854,7 +890,7 @@
    "year": 2024
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 369
  },

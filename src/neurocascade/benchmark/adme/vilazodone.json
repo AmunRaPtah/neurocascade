@@ -5,6 +5,8 @@
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": true,
+  "permeability": false,
   "plasma_fu": false,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": true
@@ -285,6 +287,42 @@
      "value": 0.514921
     }
    ]
+  },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL5318169",
+     "description": "Oral bioavailability in Sprague-Dawley rat at 2.5 mg/kg measured upto 24 hrs by LC-MS/MS analysis",
+     "ref": "CHEMBL5316302",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.4745
+    },
+    {
+     "assay_chembl_id": "CHEMBL5318170",
+     "description": "Oral bioavailability in Sprague-Dawley rat at 5 mg/kg measured upto 24 hrs by LC-MS/MS analysis",
+     "ref": "CHEMBL5316302",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.525
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.525,
+     "min": 0.4745,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.499112
+    }
+   ]
   }
  },
  "inn": "vilazodone",
@@ -332,7 +370,7 @@
    "year": 2023
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 195
  },

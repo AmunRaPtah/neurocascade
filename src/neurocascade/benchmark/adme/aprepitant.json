@@ -3,11 +3,14 @@
  "chembl_release": "ChEMBL_37 (2026-05-01)",
  "excluded": {
   "human_invivo_cl": 1,
-  "human_invivo_vss": 1
+  "human_invivo_vss": 1,
+  "human_oral_bioavailability": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
   "clint": false,
+  "oral_bioavailability": true,
+  "permeability": false,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -149,6 +152,52 @@
     }
    ]
   },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL869879",
+     "description": "Bioavailability in orally dosed dog",
+     "ref": "CHEMBL1149520",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.4
+    },
+    {
+     "assay_chembl_id": "CHEMBL869878",
+     "description": "Bioavailability in orally dosed rat",
+     "ref": "CHEMBL1149520",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.53
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.4,
+     "min": 0.4,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "fraction",
+     "value": 0.4
+    },
+    {
+     "max": 0.53,
+     "min": 0.53,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.53
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -179,6 +228,13 @@
  },
  "inn": "aprepitant",
  "references": {
+  "CHEMBL1149520": {
+   "chembl_document_id": "CHEMBL1149520",
+   "journal": "Bioorg Med Chem Lett",
+   "pmid": "16824752",
+   "title": "Cyclopentane-based human NK1 antagonists. Part 1: discovery and initial SAR.",
+   "year": 2006
+  },
   "CHEMBL3301361": {
    "chembl_document_id": "CHEMBL3301361",
    "journal": null,
@@ -194,7 +250,7 @@
    "year": 2011
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 73
  },

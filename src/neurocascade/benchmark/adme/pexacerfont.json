@@ -5,6 +5,8 @@
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": false,
+  "oral_bioavailability": true,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": true
@@ -142,6 +144,120 @@
     }
    ]
   },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL994541",
+     "description": "Oral bioavailability in chimpanzee at 1 mg/kg",
+     "ref": "CHEMBL1138476",
+     "relation": "=",
+     "species": "chimp",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.49
+    },
+    {
+     "assay_chembl_id": "CHEMBL3533868",
+     "description": "Oral bioavailability in chimpanzee at 5 mg/kg",
+     "ref": "CHEMBL3526146",
+     "relation": "=",
+     "species": "chimp",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.585
+    },
+    {
+     "assay_chembl_id": "CHEMBL3533859",
+     "description": "Oral bioavailability in beagle dog at 5 mg/kg",
+     "ref": "CHEMBL3526146",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.588
+    },
+    {
+     "assay_chembl_id": "CHEMBL994533",
+     "description": "Oral bioavailability in rat at 5 mg/kg",
+     "ref": "CHEMBL1138476",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.4
+    },
+    {
+     "assay_chembl_id": "CHEMBL3528633",
+     "description": "Oral bioavailability in Sprague-Dawley rat at 5 mg/kg",
+     "ref": "CHEMBL3526146",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.401
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.585,
+     "min": 0.49,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "chimp",
+     "units": "fraction",
+     "value": 0.5375
+    },
+    {
+     "max": 0.588,
+     "min": 0.588,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "fraction",
+     "value": 0.588
+    },
+    {
+     "max": 0.401,
+     "min": 0.4,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.4005
+    }
+   ]
+  },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3539312",
+     "description": "Apparent permeability from apical to basolateral side in human Caco2 cells",
+     "matrix": "caco2",
+     "ref": "CHEMBL3526146",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "10'-5 cm/s",
+     "value": 1.7
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "caco2",
+     "max": 1.7,
+     "min": 1.7,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "10'-5 cm/s",
+     "value": 1.7
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -229,7 +345,7 @@
    "year": 2012
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 130
  },

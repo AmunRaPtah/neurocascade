@@ -5,6 +5,8 @@
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": false,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -71,6 +73,45 @@
     }
    ]
   },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL930503",
+     "description": "Apparent permeability across human Caco-2 cells",
+     "matrix": "caco2",
+     "ref": "CHEMBL1143081",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "nm/s",
+     "value": 51.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL931359",
+     "description": "Apparent permeability across human Caco-2 cells",
+     "matrix": "caco2",
+     "ref": "CHEMBL1143093",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "nm/s",
+     "value": 51.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "caco2",
+     "max": 51.0,
+     "min": 51.0,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "nm/s",
+     "value": 51.0
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -116,7 +157,7 @@
    "year": 2008
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 17
  },

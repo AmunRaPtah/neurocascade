@@ -3,11 +3,14 @@
  "chembl_release": "ChEMBL_37 (2026-05-01)",
  "excluded": {
   "human_invivo_cl": 7,
-  "human_invivo_vss": 5
+  "human_invivo_vss": 5,
+  "oral_bioavailability_non_exact_relation": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": false,
+  "permeability": false,
   "plasma_fu": true,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": false
@@ -363,7 +366,7 @@
    "year": 2011
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 81
  },

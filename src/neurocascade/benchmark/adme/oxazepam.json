@@ -4,11 +4,15 @@
  "excluded": {
   "human_invivo_cl": 5,
   "human_invivo_vss": 4,
-  "nonpositive_value": 1
+  "human_oral_bioavailability": 1,
+  "nonpositive_value": 1,
+  "oral_bioavailability_non_exact_relation": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": false,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": false
@@ -107,6 +111,54 @@
      "species": "rat",
      "units": "mL.min-1.kg-1",
      "value": 29.1
+    }
+   ]
+  },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL925736",
+     "description": "Apparent permeability across parallel artificial membrane",
+     "ref": "CHEMBL1144698",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Papp",
+     "units": null,
+     "value": 4.09
+    },
+    {
+     "assay_chembl_id": "CHEMBL635760",
+     "description": "Apparent permeability coefficient (Papp) (Caco-2 cell monolayer)",
+     "matrix": "caco2",
+     "ref": "CHEMBL1134498",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Papp",
+     "units": "cm s-1",
+     "value": 91000000.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 4.09,
+     "min": 4.09,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "unspecified",
+     "units": null,
+     "value": 4.09
+    },
+    {
+     "matrix": "caco2",
+     "max": 91000000.0,
+     "min": 91000000.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "unspecified",
+     "units": "cm s-1",
+     "value": 91000000.0
     }
    ]
   },
@@ -260,12 +312,26 @@
    "title": "Combining in vitro and in vivo pharmacokinetic data for prediction of hepatic drug clearance in humans by artificial neural networks and multivariate statistical techniques.",
    "year": 1999
   },
+  "CHEMBL1134498": {
+   "chembl_document_id": "CHEMBL1134498",
+   "journal": "J Med Chem",
+   "pmid": "11384238",
+   "title": "Experimental and computational screening models for the prediction of intestinal drug absorption.",
+   "year": 2001
+  },
   "CHEMBL1137707": {
    "chembl_document_id": "CHEMBL1137707",
    "journal": "Eur J Med Chem",
    "pmid": "18768239",
    "title": "First-principle, structure-based prediction of hepatic metabolic clearance values in human.",
    "year": 2009
+  },
+  "CHEMBL1144698": {
+   "chembl_document_id": "CHEMBL1144698",
+   "journal": "J Med Chem",
+   "pmid": "18348514",
+   "title": "New approach to measure protein binding based on a parallel artificial membrane assay and human serum albumin.",
+   "year": 2008
   },
   "CHEMBL1148291": {
    "chembl_document_id": "CHEMBL1148291",
@@ -317,7 +383,7 @@
    "year": 2020
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 133
  },

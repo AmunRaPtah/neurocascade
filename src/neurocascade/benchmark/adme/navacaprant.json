@@ -5,6 +5,8 @@
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": true,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": true
@@ -288,6 +290,102 @@
     }
    ]
   },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4424320",
+     "description": "Oral bioavailability in C57B16 mouse at 10 mg/kg by LC-MS/MS analysis",
+     "ref": "CHEMBL4422661",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.12
+    },
+    {
+     "assay_chembl_id": "CHEMBL4424312",
+     "description": "Oral bioavailability in Sprague-Dawley rat at 5 mg/kg by LC-MS/MS analysis",
+     "ref": "CHEMBL4422661",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.302
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.12,
+     "min": 0.12,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": "fraction",
+     "value": 0.12
+    },
+    {
+     "max": 0.302,
+     "min": 0.302,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.302
+    }
+   ]
+  },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4424334",
+     "description": "Apparent permeability across apical to basolateral side in MDCK-MDR1 cells at 10 uM after 2 hrs by UPLC/MS analysis",
+     "matrix": "mdck",
+     "ref": "CHEMBL4422661",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "10'-6 cm/s",
+     "value": 7.1
+    },
+    {
+     "assay_chembl_id": "CHEMBL4424267",
+     "description": "Apparent permeability across apical to basolateral side in human Caco2 cells at 10 uM after 2 hrs by UPLC/MS analysis",
+     "matrix": "caco2",
+     "ref": "CHEMBL4422661",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "10'-6 cm/s",
+     "value": 20.9
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "mdck",
+     "max": 7.1,
+     "min": 7.1,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "10'-6 cm/s",
+     "value": 7.1
+    },
+    {
+     "matrix": "caco2",
+     "max": 20.9,
+     "min": 20.9,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "10'-6 cm/s",
+     "value": 20.9
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -368,7 +466,7 @@
    "year": 2019
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 51
  },

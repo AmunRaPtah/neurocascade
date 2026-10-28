@@ -1,10 +1,14 @@
 {
  "chembl_query_id": "CHEMBL10878",
  "chembl_release": "ChEMBL_37 (2026-05-01)",
- "excluded": {},
+ "excluded": {
+  "human_oral_bioavailability": 1
+ },
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": true,
+  "permeability": false,
   "plasma_fu": false,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -105,6 +109,32 @@
      "value": 2.875447
     }
    ]
+  },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4684901",
+     "description": "Oral bioavailability in rat",
+     "ref": "CHEMBL4680188",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.13
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.13,
+     "min": 0.13,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.13
+    }
+   ]
   }
  },
  "inn": "agomelatine",
@@ -116,6 +146,13 @@
    "title": "Design and synthesis of 4-arylpiperidinyl amide and N-arylpiperdin-3-yl-cyclopropane carboxamide derivatives as novel melatonin receptor ligands.",
    "year": 2011
   },
+  "CHEMBL4680188": {
+   "chembl_document_id": "CHEMBL4680188",
+   "journal": "Eur J Med Chem",
+   "pmid": "32004937",
+   "title": "Quinazoline and phthalazine derivatives as novel melatonin receptor ligands analogues of agomelatine.",
+   "year": 2020
+  },
   "CHEMBL4834400": {
    "chembl_document_id": "CHEMBL4834400",
    "journal": "J Med Chem",
@@ -124,7 +161,7 @@
    "year": 2021
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 25
  },

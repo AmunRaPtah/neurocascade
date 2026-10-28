@@ -3,11 +3,14 @@
  "chembl_release": "ChEMBL_37 (2026-05-01)",
  "excluded": {
   "human_invivo_cl": 8,
-  "human_invivo_vss": 10
+  "human_invivo_vss": 10,
+  "human_oral_bioavailability": 6
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
   "clint": true,
+  "oral_bioavailability": false,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": true
@@ -541,6 +544,78 @@
     }
    ]
   },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL2208724",
+     "description": "Apparent permeability across human Caco2 cells",
+     "matrix": "caco2",
+     "ref": "CHEMBL2203023",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "ucm/s",
+     "value": 18.9
+    },
+    {
+     "assay_chembl_id": "CHEMBL3529277",
+     "description": "Apparent permeability from basolateral to apical side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis in presence of 1 uM of P-gp inhibitor LY335979",
+     "matrix": "caco2",
+     "ref": "CHEMBL3526001",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "ucm/s",
+     "value": 2.9
+    },
+    {
+     "assay_chembl_id": "CHEMBL3529276",
+     "description": "Apparent permeability from apical to basolateral side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis in presence of 1 uM of P-gp inhibitor LY335979",
+     "matrix": "caco2",
+     "ref": "CHEMBL3526001",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "ucm/s",
+     "value": 7.1
+    },
+    {
+     "assay_chembl_id": "CHEMBL3529273",
+     "description": "Apparent permeability from basolateral to apical side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis",
+     "matrix": "caco2",
+     "ref": "CHEMBL3526001",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "ucm/s",
+     "value": 1.8
+    },
+    {
+     "assay_chembl_id": "CHEMBL3529272",
+     "description": "Apparent permeability from apical to basolateral side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis",
+     "matrix": "caco2",
+     "ref": "CHEMBL3526001",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "ucm/s",
+     "value": 4.1
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "caco2",
+     "max": 18.9,
+     "min": 1.8,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 5,
+     "species": "human",
+     "units": "ucm/s",
+     "value": 11.205489
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -802,6 +877,13 @@
    "title": "Human UDP-glucuronosyltransferase isoforms involved in haloperidol glucuronidation and quantitative estimation of their contribution.",
    "year": 2012
   },
+  "CHEMBL3526001": {
+   "chembl_document_id": "CHEMBL3526001",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21051535",
+   "title": "Attenuation of intestinal absorption by major efflux transporters: quantitative tools and strategies using a Caco-2 model.",
+   "year": 2011
+  },
   "CHEMBL3526113": {
    "chembl_document_id": "CHEMBL3526113",
    "journal": "Drug Metab Dispos",
@@ -845,7 +927,7 @@
    "year": 2019
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 472
  },

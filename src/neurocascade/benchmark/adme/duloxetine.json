@@ -5,6 +5,8 @@
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": true,
+  "permeability": true,
   "plasma_fu": false,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": true
@@ -89,6 +91,71 @@
      "value": 20.9
     }
    ]
+  },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1225499",
+     "description": "Oral bioavailability in rat",
+     "ref": "CHEMBL1221322",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.22
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.22,
+     "min": 0.22,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.22
+    }
+   ]
+  },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1051053",
+     "description": "Apparent permeability from basolateral to apical side of human Caco-2 cells at 10 uM after 21 days",
+     "matrix": "caco2",
+     "ref": "CHEMBL1153074",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "10'-6 cm/s",
+     "value": 9.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL1051054",
+     "description": "Apparent permeability from apical to basolateral side of human Caco-2 cells at 10 uM after 21 days",
+     "matrix": "caco2",
+     "ref": "CHEMBL1153074",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "10'-6 cm/s",
+     "value": 15.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "caco2",
+     "max": 15.0,
+     "min": 9.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "10'-6 cm/s",
+     "value": 11.61895
+    }
+   ]
   }
  },
  "inn": "duloxetine",
@@ -108,7 +175,7 @@
    "year": 2010
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 179
  },

@@ -3,11 +3,14 @@
  "chembl_release": "ChEMBL_37 (2026-05-01)",
  "excluded": {
   "human_invivo_cl": 3,
-  "human_invivo_vss": 2
+  "human_invivo_vss": 2,
+  "human_oral_bioavailability": 2
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
   "clint": false,
+  "oral_bioavailability": false,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -59,6 +62,96 @@
     }
    ]
   },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL851907",
+     "description": "Permeability Coefficient in 2/4/A1 cell model",
+     "ref": "CHEMBL1145178",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "cm/s * 10E6",
+     "value": 11.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL851909",
+     "description": "Permeability Coefficient in hexadecane membranes model",
+     "ref": "CHEMBL1145178",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "cm/s * 10E6",
+     "value": 0.43
+    },
+    {
+     "assay_chembl_id": "CHEMBL826140",
+     "description": "Percentage of mass balance in hexadecane membranes model",
+     "ref": "CHEMBL1145178",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "cm/s * 10E6",
+     "value": 102.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL851908",
+     "description": "Permeability Coefficient in Caco-2 cell culture model",
+     "matrix": "caco2",
+     "ref": "CHEMBL1145178",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "cm/s * 10E6",
+     "value": 0.21
+    },
+    {
+     "assay_chembl_id": "CHEMBL635760",
+     "description": "Apparent permeability coefficient (Papp) (Caco-2 cell monolayer)",
+     "matrix": "caco2",
+     "ref": "CHEMBL1134498",
+     "relation": "=",
+     "species": "unspecified",
+     "standard_type": "Papp",
+     "units": "cm s-1",
+     "value": 230000.0
+    }
+   ],
+   "summary": [
+    {
+     "max": 102.0,
+     "min": 0.43,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 3,
+     "species": "human",
+     "units": "cm/s * 10E6",
+     "value": 7.843088
+    },
+    {
+     "matrix": "caco2",
+     "max": 0.21,
+     "min": 0.21,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "cm/s * 10E6",
+     "value": 0.21
+    },
+    {
+     "matrix": "caco2",
+     "max": 230000.0,
+     "min": 230000.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "unspecified",
+     "units": "cm s-1",
+     "value": 230000.0
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -98,6 +191,20 @@
  },
  "inn": "sulpiride",
  "references": {
+  "CHEMBL1134498": {
+   "chembl_document_id": "CHEMBL1134498",
+   "journal": "J Med Chem",
+   "pmid": "11384238",
+   "title": "Experimental and computational screening models for the prediction of intestinal drug absorption.",
+   "year": 2001
+  },
+  "CHEMBL1145178": {
+   "chembl_document_id": "CHEMBL1145178",
+   "journal": "J Med Chem",
+   "pmid": "15658873",
+   "title": "Exploring the role of different drug transport routes in permeability screening.",
+   "year": 2005
+  },
   "CHEMBL1153781": {
    "chembl_document_id": "CHEMBL1153781",
    "journal": "Eur J Med Chem",
@@ -120,7 +227,7 @@
    "year": 2011
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 209
  },

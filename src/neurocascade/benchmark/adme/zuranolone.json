@@ -5,6 +5,8 @@
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": true,
+  "permeability": false,
   "plasma_fu": true,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": true
@@ -362,6 +364,82 @@
     }
    ]
   },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL4040869",
+     "description": "Oral bioavailability in Beagle dog at 20 mg/kg measured up to 8 hrs post dose by LC/MS-MS analysis",
+     "ref": "CHEMBL4038335",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.68
+    },
+    {
+     "assay_chembl_id": "CHEMBL4040866",
+     "description": "Oral bioavailability in CD1 mouse at 20 mg/kg measured up to 8 hrs post dose by LC/MS-MS analysis",
+     "ref": "CHEMBL4038335",
+     "relation": "=",
+     "species": "mouse",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.62
+    },
+    {
+     "assay_chembl_id": "CHEMBL4040865",
+     "description": "Oral bioavailability in Sprague-Dawley rat at 20 mg/kg measured up to 8 hrs post dose by LC/MS-MS analysis",
+     "ref": "CHEMBL4038335",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.32
+    },
+    {
+     "assay_chembl_id": "CHEMBL5609146",
+     "description": "Bioavailability in male Sprague-Dawley rat at 24.4 micromol/kg, IG administered as single dose and measured upto 24 hrs by LC-MS/MS analysis",
+     "ref": "CHEMBL5608182",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.577
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.68,
+     "min": 0.68,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "fraction",
+     "value": 0.68
+    },
+    {
+     "max": 0.62,
+     "min": 0.62,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "mouse",
+     "units": "fraction",
+     "value": 0.62
+    },
+    {
+     "max": 0.577,
+     "min": 0.32,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.4485
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -470,7 +548,7 @@
    "year": 2024
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 51
  },
