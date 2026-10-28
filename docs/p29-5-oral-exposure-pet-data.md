@@ -88,8 +88,8 @@ the schema therefore uses `plasma_concentration` plus `plasma_units`.
 - Escitalopram and lurasidone use their first-party labels for human CL/F or
   absorbed-fraction records. Lurasidone's rat oral F, IV clearance/Vss, and
   plasma binding use PMID 21838595.
-- Milnacipran uses the Savella NDA 022256 label. Paroxetine uses NDA 021299
-  and the regimen-specific human CL/F in PMID 18483540; its rat oral study
+- Milnacipran uses the Savella NDA 022256 label. Paroxetine uses the NDA 021299
+  BioPharm review (section 2) for absolute oral F; its rat oral study
   (PMID 1826617) did not expose a numeric F or clearance in the reachable
   record.
 - Quetiapine uses the open PET/PK study in PMID 21477416. Venlafaxine uses
