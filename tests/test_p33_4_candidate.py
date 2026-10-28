@@ -27,6 +27,33 @@ ROOT = Path(__file__).resolve().parents[1]
 CAND = ROOT / "src" / "neurocascade" / "benchmark" / "v2" / "candidate.py"
 
 
+# P33.4 was scored on the v2 inputs as of commit 70ea056; its NO-GO verdict is
+# the first verdict and binds. PRs #51 (binding coverage) and #52 (plasma fu
+# coverage, plus truth/human_cmax_corrections.json, which load_v2_human_cmax
+# applies by default) later extended these inputs, so a re-run scores more drugs.
+# The committed record is not regenerated; the reproduction tests only apply
+# while the inputs are byte-identical to the ones P33.4 was scored on.
+P33_4_INPUTS = {
+    "inputs/binding.json": "63fdbc904c983102",
+    "inputs/plasma_fu.json": "d5120f95495161ec",
+}
+
+
+def _inputs_as_scored() -> bool:
+    import hashlib
+    v2 = ROOT / "src" / "neurocascade" / "benchmark" / "v2"
+    if (v2 / "truth" / "human_cmax_corrections.json").exists():  # absent at 70ea056
+        return False
+    return all(hashlib.sha256((v2 / rel).read_bytes()).hexdigest().startswith(want)
+               for rel, want in P33_4_INPUTS.items())
+
+
+as_scored = pytest.mark.skipif(
+    not _inputs_as_scored(),
+    reason="v2 inputs (binding, plasma fu, Cmax corrections) extended after P33.4 by PRs #51/#52; "
+           "the binding P33.4 record is not re-run")
+
+
 @pytest.fixture(scope="module")
 def report():
     # The train LODO benchmark is ~1 min; run it once and share it.
@@ -122,6 +149,7 @@ def test_benchmark_scores_candidate_beside_every_baseline(report):
     assert report["secondary_pk"]["status"] == "searched-and-empty"
 
 
+@as_scored
 def test_committed_results_file_matches_a_fresh_run(report):
     committed = json.loads((ROOT / "results" / "P33.4.json").read_text())
     fresh = report
@@ -133,6 +161,7 @@ def test_committed_results_file_matches_a_fresh_run(report):
             )
 
 
+@as_scored
 def test_docs_quote_the_programmatic_auroc_numbers(report):
     """The architecture table and the ledger row must carry the same AUROCs the
     benchmark produces (acceptance: numbers generated programmatically)."""
