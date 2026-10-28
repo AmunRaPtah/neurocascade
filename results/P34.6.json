@@ -15,144 +15,201 @@
   "L04": 21,
   "C01": 19,
   "A10": 17,
-  "C09": 14,
   "B01": 14,
+  "C09": 14,
   "C10": 12,
   "C07": 10,
   "A06": 9,
   "A07": 8,
   "L02": 8,
-  "C08": 7,
-  "A16": 7,
   "A02": 7,
-  "G03": 6,
-  "V03": 6,
-  "M05": 6,
+  "A16": 7,
+  "C08": 7,
   "A05": 6,
-  "C02": 5,
-  "G04": 5,
+  "G03": 6,
+  "M05": 6,
+  "V03": 6,
   "B02": 5,
-  "R03": 5,
-  "D11": 5,
+  "G04": 5,
   "C03": 5,
+  "R03": 5,
+  "C02": 5,
+  "D11": 5,
+  "P01": 4,
+  "R01": 4,
+  "D06": 4,
   "G02": 4,
   "M03": 4,
-  "P01": 4,
-  "D06": 4,
-  "R01": 4,
+  "A01": 3,
   "H02": 3,
-  "M01": 3,
   "J01": 3,
   "B06": 3,
-  "M04": 3,
-  "J04": 3,
-  "C05": 3,
-  "A01": 3,
-  "D07": 3,
   "L03": 3,
-  "D05": 2,
-  "M09": 2,
-  "C04": 2,
-  "B03": 2,
-  "S01": 2,
-  "A08": 2,
-  "H01": 2,
+  "D07": 3,
+  "M01": 3,
+  "M04": 3,
+  "C05": 3,
+  "J04": 3,
   "D01": 2,
-  "J02": 2,
   "H05": 2,
+  "C04": 2,
+  "D05": 2,
+  "B03": 2,
+  "J02": 2,
+  "H01": 2,
+  "S01": 2,
+  "M09": 2,
+  "A08": 2,
   "D03": 1,
-  "A12": 1,
   "R07": 1,
-  "P03": 1,
+  "A12": 1,
+  "D10": 1,
   "R05": 1,
-  "A11": 1,
-  "D10": 1
+  "P03": 1,
+  "A11": 1
  },
- "anchor_ki_below_pki5": {
-  "DRD2": {
-   "with_label": 2,
-   "placebo_table": 1
-  },
-  "HRH1": {
-   "with_label": 0,
-   "placebo_table": 0
-  },
-  "CHRM1": {
-   "with_label": 0,
-   "placebo_table": 0
-  },
-  "CHRM2": {
-   "with_label": 0,
-   "placebo_table": 0
-  },
-  "CHRM3": {
-   "with_label": 0,
-   "placebo_table": 0
-  },
-  "CHRM4": {
-   "with_label": 0,
-   "placebo_table": 0
-  },
-  "CHRM5": {
-   "with_label": 1,
-   "placebo_table": 1
-  },
-  "ADRA1A": {
-   "with_label": 0,
-   "placebo_table": 0
-  },
-  "ADRA1B": {
-   "with_label": 0,
-   "placebo_table": 0
-  },
-  "ADRA1D": {
-   "with_label": 0,
-   "placebo_table": 0
-  },
-  "HTR2C": {
-   "with_label": 1,
-   "placebo_table": 1
-  }
- },
- "max_scorable_per_liability": {
-  "eps": 1,
-  "sedation": 0,
-  "anticholinergic": 1,
-  "orthostatic_hypotension": 0
- },
- "scorable_drugs": [
-  {
-   "chembl_id": "CHEMBL1256786",
-   "inn": "formoterol",
-   "anchors": [
+ "ki_source": "scripts/v2_binding.py unchanged (ChEMBL + GtoPdb + PDSP)",
+ "per_liability": {
+  "eps": {
+   "receptors": [
     "DRD2"
+   ],
+   "new_with_ki": 2,
+   "new_with_ki_and_placebo_table": 1,
+   "fresh_with_ki": 2,
+   "max_positives": 2,
+   "max_scorable": 4,
+   "could_reach_floor": false,
+   "new_drugs": [
+    {
+     "chembl_id": "CHEMBL1256786",
+     "inn": "formoterol",
+     "placebo_table": true,
+     "genes": [
+      "DRD2"
+     ]
+    },
+    {
+     "chembl_id": "CHEMBL434",
+     "inn": "isoproterenol",
+     "placebo_table": false,
+     "genes": [
+      "DRD2"
+     ]
+    }
    ]
   },
-  {
-   "chembl_id": "CHEMBL500",
-   "inn": "pindolol",
-   "anchors": [
-    "HTR2C"
-   ]
+  "sedation": {
+   "receptors": [
+    "HRH1"
+   ],
+   "new_with_ki": 0,
+   "new_with_ki_and_placebo_table": 0,
+   "fresh_with_ki": 6,
+   "max_positives": 1,
+   "max_scorable": 6,
+   "could_reach_floor": false,
+   "new_drugs": []
   },
-  {
-   "chembl_id": "CHEMBL584",
-   "inn": "nelfinavir",
-   "anchors": [
+  "anticholinergic": {
+   "receptors": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
     "CHRM5"
+   ],
+   "new_with_ki": 4,
+   "new_with_ki_and_placebo_table": 3,
+   "fresh_with_ki": 9,
+   "max_positives": 8,
+   "max_scorable": 13,
+   "could_reach_floor": false,
+   "new_drugs": [
+    {
+     "chembl_id": "CHEMBL2103827",
+     "inn": "droxidopa",
+     "placebo_table": true,
+     "genes": [
+      "CHRM1"
+     ]
+    },
+    {
+     "chembl_id": "CHEMBL3833319",
+     "inn": "revefenacin",
+     "placebo_table": true,
+     "genes": [
+      "CHRM1",
+      "CHRM2",
+      "CHRM3",
+      "CHRM4",
+      "CHRM5"
+     ]
+    },
+    {
+     "chembl_id": "CHEMBL584",
+     "inn": "nelfinavir",
+     "placebo_table": true,
+     "genes": [
+      "CHRM5"
+     ]
+    },
+    {
+     "chembl_id": "CHEMBL640",
+     "inn": "procainamide",
+     "placebo_table": false,
+     "genes": [
+      "CHRM2"
+     ]
+    }
+   ]
+  },
+  "orthostatic_hypotension": {
+   "receptors": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D"
+   ],
+   "new_with_ki": 3,
+   "new_with_ki_and_placebo_table": 0,
+   "fresh_with_ki": 6,
+   "max_positives": 3,
+   "max_scorable": 9,
+   "could_reach_floor": false,
+   "new_drugs": [
+    {
+     "chembl_id": "CHEMBL1215",
+     "inn": "phenylephrine",
+     "placebo_table": false,
+     "genes": [
+      "ADRA1B",
+      "ADRA1D"
+     ]
+    },
+    {
+     "chembl_id": "CHEMBL753",
+     "inn": "phenoxybenzamine",
+     "placebo_table": false,
+     "genes": [
+      "ADRA1D"
+     ]
+    },
+    {
+     "chembl_id": "CHEMBL761",
+     "inn": "naphazoline",
+     "placebo_table": false,
+     "genes": [
+      "ADRA1A"
+     ]
+    }
    ]
   }
- ],
+ },
  "power_floor": {
   "positives": 8,
   "negatives": 8
  },
- "max_positives_if_widened": {
-  "eps": 1,
-  "sedation": 1,
-  "anticholinergic": 5,
-  "orthostatic_hypotension": 0
- },
+ "feasible_liabilities": [],
  "result": "EMPTY",
- "gap": "approved-drug universe exhausted for the frozen candidate: even if every remaining scorable drug were positive, no liability reaches 8 positives ({\"eps\": 1, \"sedation\": 1, \"anticholinergic\": 5, \"orthostatic_hypotension\": 0})"
+ "gap": "approved-drug universe exhausted for the frozen candidate: even if every newly scorable drug were positive, no liability reaches the floor"
 }

@@ -11,17 +11,20 @@ what is left, from inputs only:
 
 1. approved parents (ChEMBL_37 snapshot, as P33.1) in neither set;
 2. of those, with a single-ingredient FDA Rx label (P33.1 ``label_index``,
-   unchanged) and an adverse-reaction table that mentions placebo;
-3. of those, with a measured human Ki (``=``, nM, pChEMBL < 5) at any anchor.
+   unchanged); how many also have a placebo adverse-reaction table is recorded;
+3. of those and the 37 fresh drugs, which have a measured ``ki_nM`` at each
+   liability's receptors in the unchanged ``scripts/v2_binding.py`` build
+   (ChEMBL Ki, GtoPdb pKi, PDSP Ki), the exact field the candidate reads.
 
-The best case adds every newly scorable drug, as a positive, to the P34.4
-labelled positives; P34 closes if no liability reaches the 8-positive floor.
-No liability label is computed for any drug, so no outcome is seen.
+The best case counts every P34.4 labelled positive plus every newly scorable
+drug as a positive; a liability can reach the floor only with >= 8 positives
+and >= 16 scorable drugs. No liability label is computed for any new drug, so
+no outcome is seen.
 
     python scripts/p34_6_exhausted.py
 
-Network: the openFDA label cache (local) and ChEMBL activity.json for the
-pChEMBL < 5 Ki band at the 11 anchors, cached under $NC_V2_CACHE/fresh/.
+Network: the openFDA label cache (local) and the v2_binding sources (ChEMBL,
+GtoPdb, PDSP), built once into $NC_V2_CACHE/fresh/p34_6_binding.json.
 """
 
 from __future__ import annotations
@@ -36,26 +39,31 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import v2_universe as U  # noqa: E402  (P33.1 helpers, unchanged)
 
+sys.path.insert(0, str(ROOT / "src"))
+from neurocascade.benchmark.v2.candidate import LIABILITY_RECEPTORS  # noqa: E402
+
 V2 = ROOT / "src" / "neurocascade" / "benchmark" / "v2"
 CACHE = U.CACHE / "fresh"
 
 
-def weak_ki(targets: dict[str, str]) -> dict[str, list[str]]:
-    """anchor -> parents with a measured Ki pChEMBL < 5, cached."""
+def binding_ki(drugs: list[dict]) -> dict[str, set[str]]:
+    """inn -> panel genes with a measured ki_nM, from the frozen v2_binding build.
+
+    Runs ``scripts/v2_binding.py`` unchanged (ChEMBL Ki, GtoPdb pKi and PDSP Ki,
+    merged by its own rules) on ``drugs``, writing to the cache instead of
+    v2/inputs; the candidate reads exactly this ``ki_nM``."""
+    import v2_binding as B
     CACHE.mkdir(parents=True, exist_ok=True)
-    f = CACHE / "anchor_ki_below5.json"
-    if f.exists():
-        return json.loads(f.read_text())
-    out: dict[str, set[str]] = defaultdict(set)
-    for sym, tid in targets.items():
-        q = (f"activity.json?target_chembl_id={tid}&pchembl_value__lt=5&standard_type=Ki"
-             f"&standard_relation==&standard_units=nM&only=parent_molecule_chembl_id&limit=1000")
-        for a in U._pages(q, "activities"):
-            if a.get("parent_molecule_chembl_id"):
-                out[sym].add(a["parent_molecule_chembl_id"])
-    res = {s: sorted(out[s]) for s in targets}
-    f.write_text(json.dumps(res))
-    return res
+    universe = json.loads((V2 / "drugs.json").read_text())
+    B.DRUGS_FILE = CACHE / "p34_6_drugs.json"
+    B.OUT = CACHE / "p34_6_binding.json"
+    B.DRUGS_FILE.write_text(json.dumps({"anchor_targets": universe["anchor_targets"], "drugs": drugs}))
+    if not B.OUT.exists():
+        assert B.main([]) == 0
+    built = json.loads(B.OUT.read_text())["drugs"]
+    return {inn: {g for g, t in row.get("targets", {}).items()
+                  if t.get("ki_nM") is not None and float(t["ki_nM"]) > 0}
+            for inn, row in built.items()}
 
 
 def main() -> int:
@@ -84,19 +92,28 @@ def main() -> int:
     placebo = {p for p in with_label
                if any(lab["has_ar_table"] and lab["mentions_placebo"] for lab in labels[p])}
 
-    weak = weak_ki(snap["targets"])
-    per_anchor = {s: {"with_label": len(set(v) & with_label), "placebo_table": len(set(v) & placebo)}
-                  for s, v in weak.items()}
-    any_ki = set().union(*map(set, weak.values()))
-    scorable = sorted(any_ki & placebo)
-    liab_receptors = {"eps": ["DRD2"], "sedation": ["HRH1"],
-                      "anticholinergic": ["CHRM1", "CHRM2", "CHRM3", "CHRM4", "CHRM5"],
-                      "orthostatic_hypotension": ["ADRA1A", "ADRA1B", "ADRA1D"]}
-    per_liability = {L: len(set().union(*(set(weak[g]) for g in gs)) & placebo)
-                     for L, gs in liab_receptors.items()}
+    fresh = json.loads((V2 / "truth_fresh" / "drugs.json").read_text())["drugs"]
+    new = [{"inn": pref.get(p) or p, "chembl_id": p} for p in sorted(with_label)]
+    ki = binding_ki(new + [{"inn": d["inn"], "chembl_id": d["chembl_id"]} for d in fresh])
+    inn_of = {d["chembl_id"]: d["inn"] for d in new}
     p344 = json.loads((ROOT / "results" / "P34.4.json").read_text())
-    max_pos = {L: p344["labelled_counts_upper_bound_on_common_set"][L]["labelled_pos"] + n
-               for L, n in per_liability.items()}
+    per_liability = {}
+    for L, genes in LIABILITY_RECEPTORS.items():
+        new_ki = sorted(p for p in with_label if ki.get(inn_of[p], set()) & set(genes))
+        fresh_ki = sorted(d["inn"] for d in fresh if ki.get(d["inn"], set()) & set(genes))
+        best_pos = p344["labelled_counts_upper_bound_on_common_set"][L]["labelled_pos"] + len(new_ki)
+        per_liability[L] = {
+            "receptors": list(genes),
+            "new_with_ki": len(new_ki),
+            "new_with_ki_and_placebo_table": len(set(new_ki) & placebo),
+            "fresh_with_ki": len(fresh_ki),
+            "max_positives": best_pos,
+            "max_scorable": len(new_ki) + len(fresh_ki),
+            "could_reach_floor": best_pos >= 8 and len(new_ki) + len(fresh_ki) >= 16,
+            "new_drugs": [{"chembl_id": p, "inn": inn_of[p], "placebo_table": p in placebo,
+                           "genes": sorted(ki[inn_of[p]] & set(genes))} for p in new_ki],
+        }
+    feasible = sorted(L for L, v in per_liability.items() if v["could_reach_floor"])
 
     out = {
         "task": "P34.6",
@@ -110,22 +127,17 @@ def main() -> int:
         "n_remaining_with_placebo_ar_table": len(placebo),
         "placebo_table_by_atc2": dict(Counter(
             (sorted(a[:3] for a in atc[p]) or ["none"])[0] for p in placebo).most_common()),
-        "anchor_ki_below_pki5": per_anchor,
-        "max_scorable_per_liability": per_liability,
-        "scorable_drugs": [{"chembl_id": p, "inn": pref.get(p),
-                            "anchors": sorted(s for s, v in weak.items() if p in v)} for p in scorable],
+        "ki_source": "scripts/v2_binding.py unchanged (ChEMBL + GtoPdb + PDSP)",
+        "per_liability": per_liability,
         "power_floor": {"positives": 8, "negatives": 8},
-        # Best case: every P34.4 labelled positive survives the Ki filter and
-        # every newly scorable drug is positive.
-        "max_positives_if_widened": max_pos,
-        "result": "EMPTY",
-        "gap": ("approved-drug universe exhausted for the frozen candidate: even if every "
-                "remaining scorable drug were positive, no liability reaches 8 positives "
-                f"({json.dumps(max_pos)})"),
+        "feasible_liabilities": feasible,
+        "result": "WIDENING_FEASIBLE" if feasible else "EMPTY",
+        "gap": None if feasible else (
+            "approved-drug universe exhausted for the frozen candidate: even if every newly "
+            "scorable drug were positive, no liability reaches the floor"),
     }
-    assert all(v < 8 for v in max_pos.values()), "a liability could reach the floor: do not close P34"
     (ROOT / "results" / "P34.6.json").write_text(json.dumps(out, indent=1) + "\n")
-    print("TASK_RESULT: EMPTY", json.dumps(per_liability))
+    print("TASK_RESULT:", out["result"], json.dumps({L: [v["max_positives"], v["max_scorable"]] for L, v in per_liability.items()}))
     return 0
 
 

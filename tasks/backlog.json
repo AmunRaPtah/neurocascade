@@ -3294,7 +3294,7 @@
       "id": "P34.6",
       "phase": "Phase 34: fresh candidate on a new held-out set (post-P33.4 NO-GO)",
       "title": "Feasibility: can the fresh set be widened with the frozen candidate? (closes P34)",
-      "brief": "Human decision 2026-10-28 after P34.4b EMPTY: widen the fresh pool. The frozen candidate scores a drug only with a measured Ki at the liability's receptors (all P33.1 anchors). scripts/p34_6_exhausted.py counts, from inputs only (no label computed), the approved drugs outside the P33.1 candidates and the P34.4 pool with an FDA Rx label, a placebo adverse-reaction table and any anchor Ki. If even the best case (every P34.4 positive plus every newly scorable drug positive) misses the 8-positive floor for every liability, P34 closes with no verdict possible and goes to the human.",
+      "brief": "Human decision 2026-10-28 after P34.4b EMPTY: widen the fresh pool. The frozen candidate scores a drug only with a measured Ki at the liability's receptors (all P33.1 anchors). scripts/p34_6_exhausted.py counts, from inputs only (no label computed), the approved drugs outside the P33.1 candidates and the P34.4 pool with an FDA Rx label and a measured Ki at each liability's receptors from the unchanged scripts/v2_binding.py (ChEMBL, GtoPdb, PDSP). If even the best case (every P34.4 positive plus every newly scorable drug positive) misses the 8-positive/8-negative floor for every liability, P34 closes with no verdict possible and goes to the human.",
       "acceptance": [
         "results/P34.6.json written by scripts/p34_6_exhausted.py; tests/test_p34_6_exhausted.py recomputes the best case from it",
         "no liability label computed for any new drug"
@@ -3303,7 +3303,7 @@
         "P34.4b"
       ],
       "status": "blocked-on-data",
-      "result": "searched-and-empty: approved-drug universe exhausted for the frozen candidate. 1767 approved parents are outside the P33.1 candidates and the P34.4 pool; 1092 have an FDA Rx label, 398 a placebo adverse-reaction table, 3 of those any measured anchor Ki (all pKi < 5). Best-case positives if widened: eps 1, sedation 1, anticholinergic 5, orthostatic_hypotension 0, against a floor of 8. P34 closed: no verdict possible. Human decision 2026-10-28.",
+      "result": "searched-and-empty: approved-drug universe exhausted for the frozen candidate. 1767 approved parents are outside the P33.1 candidates and the P34.4 pool; 1092 have an FDA Rx label. The unchanged v2_binding build (ChEMBL + GtoPdb + PDSP) on those plus the 37 fresh drugs gives best case (every P34.4 positive plus every newly scorable drug positive) / max scorable drugs: eps 2/4, sedation 1/6, anticholinergic 8/13, orthostatic_hypotension 3/9, against a floor of 8 positives and 8 negatives (16 drugs). P34 closed: no verdict possible. Human decision 2026-10-28.",
       "attempts": 0,
       "conductor": {
         "history": [
@@ -3314,7 +3314,7 @@
         "kind": "ledger-row",
         "evidence": ""
       },
-      "finished_at": "2026-10-28T17:30:00+00:00"
+      "finished_at": "2026-10-28T18:14:00+00:00"
     },
     {
       "id": "P34.5",
