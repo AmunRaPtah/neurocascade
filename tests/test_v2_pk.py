@@ -2,6 +2,7 @@
 input, for the v2 benchmark drugs."""
 
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -32,12 +33,19 @@ def fu_inputs():
     return json.loads(FU_FILE.read_text())
 
 
+FU_MATCHED_ON = {"chembl_id", "drugcentral_lombardo2018", "fda_label"}
+
+
 def _has_source(entry) -> bool:
     sources = entry.get("sources")
     if not sources:
         return False
     for s in sources:
         if s.get("pmid") or (s.get("doi") or "").startswith("10.6019/CHEMBL"):
+            return True
+        # fda_label rows have no pmid/doi (FDA label text, not a paper): a
+        # verbatim snippet tied to a specific label set_id is the citation.
+        if s.get("source_type") == "fda_label" and s.get("set_id") and s.get("snippet"):
             return True
     return False
 
@@ -126,9 +134,54 @@ def test_fu_values_are_plausible_and_cited(fu_inputs):
         assert FU_RANGE[0] <= fu["value"] <= FU_RANGE[1], (r["inn"], fu["value"])
         assert fu["min"] <= fu["value"] <= fu["max"]
         assert fu["n_measurements"] >= 1
-        assert fu["matched_on"] == "chembl_id"
+        assert fu["matched_on"] in FU_MATCHED_ON, (r["inn"], fu["matched_on"])
         assert _has_source(fu), (r["inn"], "fu has no verified source")
     assert n >= 100, f"expected at least 100/334 drugs with human plasma fu, got {n}"
+
+
+def test_drugcentral_literal_pinned_to_known_values(fu_inputs):
+    """2026-10-28 independent review of PR #52 found scripts/v2_fu_merge.py
+    treating the DrugCentral "fu (Fraction unbound in plasma)" literal (which
+    already IS fu) as a %-bound value and inverting it (1 - x/100), e.g.
+    duloxetine's true fu 0.04 became 0.9996. Pin known values so this class
+    of bug cannot silently recur."""
+    rows = {r["inn"]: r for r in fu_inputs["drugs"]}
+    expected = {
+        "duloxetine": 0.04,
+        "pentazocine": 0.39,
+        "valbenazine": 0.01,
+        "vortioxetine": 0.02,
+    }
+    for inn, want in expected.items():
+        fu = rows[inn]["fu"]
+        assert fu is not None, inn
+        assert fu["matched_on"] == "drugcentral_lombardo2018", (inn, fu["matched_on"])
+        assert fu["value"] == pytest.approx(want, abs=1e-6), (inn, fu["value"])
+
+
+def test_no_drug_over_90pct_bound_has_fu_over_half(fu_inputs):
+    """Sanity backstop for the same inversion-bug class: no drug whose own
+    source material states (or implies) >=90% plasma protein bound should
+    end up with a stored fu above 0.5."""
+    bound_re = re.compile(r"(\d{1,3}(?:\.\d+)?)\s*(?:%|percent)[^.;]{0,40}?\bbound\b", re.IGNORECASE)
+    for r in fu_inputs["drugs"]:
+        fu = r.get("fu")
+        if not fu:
+            continue
+        for s in fu.get("sources") or []:
+            if s.get("source_type") == "drugcentral_lombardo2018":
+                # The DrugCentral snippet's literal number IS fu already
+                # (e.g. "0.39 %" means fu=0.39), not a %-bound figure, so
+                # it is checked directly against the stored value rather
+                # than via the %-bound regex below.
+                m = re.search(r"<td>\s*([0-9.]+)\s*%?\s*</td>", s.get("snippet") or "")
+                if m:
+                    assert float(m.group(1)) == pytest.approx(fu["value"], abs=1e-6), r["inn"]
+                continue
+            snippet = s.get("snippet") or ""
+            m = bound_re.search(snippet)
+            if m and float(m.group(1)) >= 90:
+                assert fu["value"] <= 0.5, (r["inn"], snippet, fu["value"])
 
 
 def test_missing_rows_are_explicit_null_not_omitted(truth, fu_inputs):

@@ -21,6 +21,7 @@ _PLASMA_FU = V2_DIR / "inputs" / "plasma_fu.json"
 _HUMAN_PK = V2_DIR / "truth" / "human_pk.json"
 _HUMAN_PK_CORRECTIONS = V2_DIR / "truth" / "human_pk_corrections.json"
 _HUMAN_CMAX = V2_DIR / "truth" / "human_cmax.json"
+_HUMAN_CMAX_CORRECTIONS = V2_DIR / "truth" / "human_cmax_corrections.json"
 _LIABILITIES = V2_DIR / "truth" / "liabilities.json"
 
 
@@ -88,14 +89,55 @@ def load_v2_human_pk(*, corrected: bool = True) -> dict[str, dict[str, Any]]:
     return apply_human_pk_corrections(rows, load_v2_human_pk_corrections())
 
 
-def load_v2_human_cmax() -> dict[str, dict[str, Any]]:
+def load_v2_human_cmax_corrections() -> dict[str, Any] | None:
+    """Return the unbound-exposure corrections to the frozen human_cmax.json,
+    or None when the corrections file is absent from this checkout."""
+    if not _HUMAN_CMAX_CORRECTIONS.exists():
+        return None
+    return _read(_HUMAN_CMAX_CORRECTIONS)
+
+
+def apply_human_cmax_corrections(
+    rows: dict[str, dict[str, Any]], corrections: dict[str, Any] | None
+) -> dict[str, dict[str, Any]]:
+    """Apply ``drop`` (field -> None) and ``replace`` (field -> new value) to
+    human Cmax rows keyed by INN, without mutating the input. INNs not
+    present in ``rows`` are skipped, never created. Unlike
+    ``apply_human_pk_corrections``, replacement values are stored as-is
+    (not wrapped in ``dict(...)``), since human_cmax.json's fu-derived
+    fields include plain scalars (cmax_unbound_nM, cmax_unbound_ng_per_ml)
+    and lists (fu_flags), not only nested dicts."""
+    if not corrections:
+        return rows
+    out = {inn: dict(row) for inn, row in rows.items()}
+    for inn, entry in corrections.get("drop", {}).items():
+        if inn in out:
+            for field in entry["fields"]:
+                out[inn][field] = None
+    for inn, fields in corrections.get("replace", {}).items():
+        if inn in out:
+            for field, value in fields.items():
+                out[inn][field] = value
+    return out
+
+
+def load_v2_human_cmax(*, corrected: bool = True) -> dict[str, dict[str, Any]]:
     """Return human therapeutic plasma Cmax rows currently available, keyed by INN.
 
     Rows have status "value" (cmax with source snippet, ng/mL and nM, plus
     unbound Cmax from inputs/plasma_fu.json) or "searched_and_empty". Like
     human_pk, held-out rows are stripped from the agent's tree.
+
+    human_cmax.json is frozen; by default the unbound-exposure corrections in
+    human_cmax_corrections.json (fu, fu_flags, cmax_unbound_nM,
+    cmax_unbound_ng_per_ml recomputed from the corrected inputs/plasma_fu.json)
+    are applied on top of it. ``corrected=False`` returns the frozen file as
+    published, with the original (pre-correction) fu-derived fields.
     """
-    return {row["inn"]: row for row in _read(_HUMAN_CMAX)["drugs"]}
+    rows = {row["inn"]: row for row in _read(_HUMAN_CMAX)["drugs"]}
+    if not corrected:
+        return rows
+    return apply_human_cmax_corrections(rows, load_v2_human_cmax_corrections())
 
 
 def load_v2_liabilities() -> dict[str, dict[str, Any]]:
@@ -123,10 +165,12 @@ def v2_partition() -> tuple[tuple[str, ...], tuple[str, ...]]:
 
 
 __all__ = [
+    "apply_human_cmax_corrections",
     "apply_human_pk_corrections",
     "load_v2_binding",
     "load_v2_drugs",
     "load_v2_human_cmax",
+    "load_v2_human_cmax_corrections",
     "load_v2_human_pk",
     "load_v2_human_pk_corrections",
     "load_v2_liabilities",

@@ -160,13 +160,19 @@ def test_stored_conversions_consistent(doc, mod):
         assert math.isclose(c["nM"], c["ng_per_ml"] / mw * 1e3, rel_tol=1e-5), r["inn"]
 
 
-def test_unbound_cmax_and_fu_flags(doc, fu_rows, mod):
-    for r in doc["drugs"]:
+def test_unbound_cmax_and_fu_flags(fu_rows, mod):
+    """human_cmax.json is frozen (truth/*.json), so its raw fu-derived fields
+    are pinned to whatever inputs/plasma_fu.json held at publish time and are
+    *not* expected to track later corrections to plasma_fu.json (2026-10-28:
+    the DrugCentral/Lombardo fu literal-vs-%-bound fix). The corrected view is
+    load_v2_human_cmax()'s job, via human_cmax_corrections.json -- so this
+    test exercises the loader's corrected output, not the frozen file."""
+    for inn, r in load_v2_human_cmax().items():
         if r["status"] != "value":
             continue
         assert set(r["fu_flags"]) <= FU_FLAGS
-        fu, flags = mod.fu_status(fu_rows.get(r["inn"]))
-        assert r["fu"] == fu and r["fu_flags"] == flags, r["inn"]
+        fu, flags = mod.fu_status(fu_rows.get(inn))
+        assert r["fu"] == fu and r["fu_flags"] == flags, inn
         if fu is None:
             assert "fu_missing" in r["fu_flags"]
             assert r["cmax_unbound_nM"] is None
