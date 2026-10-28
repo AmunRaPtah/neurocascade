@@ -2554,7 +2554,7 @@
         ],
         "pr": 27
       },
-      "result": "blocked-on-data (reopened 2026-10-13 audit): set to done by the git-backup-sweep snapshot 185005e, ungated, on a post-hoc 34% bar. Measured PET pairs 4/8 (amisulpride, escitalopram, quetiapine, venlafaxine); asenapine, lurasidone, milnacipran are model-derived and paroxetine a bound. Train preclinical inputs 45/130 (34.6%) vs 60%. Oral-exposure truth 8/8 is met."
+      "result": "blocked-on-data (reopened 2026-10-13 audit): set to done by the git-backup-sweep snapshot 185005e, ungated, on a post-hoc 34% bar. Measured PET pairs 5/8 vs 6/8 bar (amisulpride, escitalopram, quetiapine, venlafaxine; paroxetine added 2026-10-28 by PR #50 from Simoons 2020 PMID 31634334, a [123I]beta-CIT SPECT study, not PET); asenapine, lurasidone, milnacipran searched-and-empty. Train preclinical inputs 46/130 (35.4%) vs 60% after PR #53 added ChEMBL F and Caco-2/MDCK Papp; ChEMBL has no more for the remaining drugs. Oral-exposure truth 8/8 is met."
     },
     {
       "id": "P29.6",
