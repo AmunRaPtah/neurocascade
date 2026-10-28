@@ -1,0 +1,75 @@
+{
+ "description": "Pre-specified rules for reading placebo-subtracted liability labels from an SmPC section 4.8 (P34.2). Written and frozen before any fresh-set drug was looked up. scripts/v2_smpc.py reads this file; the term map, cell parsing, primary-table rule, pooling and binary margin are NOT restated here: they are the openFDA rules in liability_rules.json, applied unchanged by calling scripts/v2_liabilities.py on a normalised copy of each SmPC table.",
+ "version": 1,
+ "written": "2026-10-28",
+ "source": {
+  "name": "electronic medicines compendium (emc), medicines.org.uk",
+  "why": "The only source of machine-readable HTML SmPCs found. EMA publishes centrally authorised product information as PDF only, and nationally authorised EU SmPCs (HPRA, CBG, BfArM) are PDF too. emc SmPCs are UK SmPCs, written to the same QRD template and the same 'Guideline on Summary of Product Characteristics' (European Commission, rev. 2, 2009) section 4.8 rules as EU SmPCs. This is the 'EU SmPC' route docs/prereg-p34-go.md allows, read from the UK copy; that substitution is disclosed in docs/architecture.md.",
+  "search": "https://www.medicines.org.uk/emc/search?q=<INN>; every /emc/product/<id>/smpc link on the first result page.",
+  "section": "The <details> element whose <summary> has id UNDESIRABLE_EFFECTS (SmPC section 4.8). No other section is read."
+ },
+ "precedence": "SmPC labels are used for a drug only when the openFDA build (scripts/v2_liabilities.py) gives it no placebo_subtracted basis, i.e. basis 'absent' or 'absolute_fallback'. An openFDA placebo-subtracted label is never replaced by an SmPC one.",
+ "product_selection": {
+  "single_ingredient": "The product's schema.org JSON-LD activeIngredient list has exactly one entry, and that entry lowercased equals the INN or starts with the INN followed by a space (salt forms such as 'levocetirizine dihydrochloride').",
+  "systemic": "Section 3 (FORM) text does not contain any of local_forms (case-insensitive substring).",
+  "order": "Products whose section 3 contains any of oral_forms first, then the rest; ties by ascending emc product id (search-page order is not stable over time).",
+  "priority": "First product in that order with at least one placebo-controlled table in section 4.8 after amendment A1 (discontinuation tables excluded). If none, the drug has no SmPC label (basis 'absent'). The openFDA absolute-incidence fallback is NOT applied to SmPCs: docs/prereg-p34-go.md allows SmPC tables only through the placebo-subtracted rule, and SmPC frequency-category tables (CIOMS 'very common' etc.) are not incidences in any arm.",
+  "local_forms": [
+   "eye drop",
+   "eye ointment",
+   "eye gel",
+   "ear drop",
+   "nasal spray",
+   "nasal drop",
+   "cream",
+   "ointment",
+   "cutaneous",
+   "shampoo",
+   "vaginal",
+   "pessar",
+   "suppositor",
+   "rectal",
+   "inhalation",
+   "inhaler",
+   "nebuliser",
+   "medicated plaster"
+  ],
+  "oral_forms": [
+   "tablet",
+   "capsule",
+   "oral solution",
+   "oral suspension",
+   "oral drops",
+   "syrup",
+   "granules",
+   "orodispersible",
+   "oral"
+  ]
+ },
+ "table_normalisation": {
+  "S0_caption": "A table's caption is its <caption> and title rows, as for openFDA. When it has neither, the caption is the text of the last two non-empty <p> paragraphs that precede the table in section 4.8 and are not inside a table, joined in document order. SmPCs introduce their tables in the paragraph above ('Adverse drug reactions ... in children aged from 6 months to 12 years'), and the openFDA primary-table rule needs that text to recognise paediatric and adjunctive tables.",
+  "S1_stacked_rows": "QRD tables often stack several terms in one cell as separate lines (<p> paragraphs or <br>, including the malformed '<p />' some emc tables use), with the values stacked the same way (cetirizine: 'Nervous system disorders / Dizziness / Headache' against '1.10 % / 7.42 %'). Only rows with at least one numeric value are considered. With k = the number of non-empty lines shared by every non-empty value cell, a label cell of k lines (k >= 2) is split into k rows by line index, and a label cell of k + 1 lines into a heading row (its first line, the System Organ Class, with no values) followed by k rows. Any other shape is left alone.",
+  "S2_frequency_columns": "QRD tables carry System Organ Class and CIOMS frequency category in columns before the term (bilastine: 'Uncommon | Oral herpes | arms'). Header rows are the leading rows up to the first row with a numeric cell or, after at least one header row, the first full-width title row (a System Organ Class heading). Value columns are every grid column from the leftmost one holding a numeric body cell; the columns to its left are label columns. Each body row's label is the rightmost non-empty label-column cell whose text is not a frequency word; header rows join their label-column text. Full-width title rows keep their text as the label and carry no values. The table is rewritten as one label column followed by the value columns (colspans preserved) and passed to the openFDA parser.",
+  "frequency_words": [
+   "very common",
+   "common",
+   "uncommon",
+   "rare",
+   "very rare",
+   "not known",
+   "frequency not known",
+   "unknown",
+   "frequency"
+  ]
+ },
+ "provenance": "Each liability entry's source is replaced by {source: 'UK SmPC section 4.8 (emc)', emc_product_id, product_name, url, table_index, column_group, population}; basis stays 'placebo_subtracted' and the flag 'smpc' is added so SmPC labels can always be separated from openFDA ones.",
+ "amendments": [
+  {
+   "id": "SA1",
+   "date": "2026-10-28",
+   "made_after_seeing": "the first train validation run: sorafenib's only placebo-controlled table in Nexavar section 4.8 is 'Laboratory parameter, (in % of samples investigated)' (anaemia, hypokalaemia, lipase ...). It was taken as the primary adverse-reaction table, so constipation was absent from it and scored 0 under absent_below_threshold, against an openFDA label of 1 (15.0% vs 3.8%).",
+   "rule": "A table whose caption or header rows contain 'laborator' is excluded: it reports laboratory abnormalities, not adverse-reaction incidence, so absence of a liability term from it says nothing about that liability (the same reasoning as openFDA amendment A1 for discontinuation tables).",
+   "affects": "table eligibility only; term map, margin and pooling unchanged"
+  }
+ ]
+}
