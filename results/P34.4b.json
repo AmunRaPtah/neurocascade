@@ -23,6 +23,20 @@
    "rivastigmine"
   ]
  },
+ "fetch_failed_retried_singly": [
+  {
+   "inn": "aripiprazole",
+   "retry_basis": "absent",
+   "products_seen": 47,
+   "reason": "no placebo-controlled table in section 4.8 of any eligible product"
+  },
+  {
+   "inn": "tolterodine",
+   "retry_basis": "absent",
+   "products_seen": 11,
+   "reason": "no placebo-controlled table in section 4.8 of any eligible product"
+  }
+ ],
  "bar": {
   "n_compared_labels": 12,
   "checks": {

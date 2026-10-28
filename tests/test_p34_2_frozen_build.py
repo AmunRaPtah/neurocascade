@@ -101,6 +101,8 @@ def test_no_smpc_parser_is_frozen_so_none_may_be_used(result):
     assert not any("smpc" in p.lower() for p in PINNED)
     # P34.2 froze no SmPC parser. The PR #49 parser may exist only under the
     # disclosed P34.4b amendment, byte-for-byte as PR #49 left it (commit 163fdc0).
+    # That it is never used on the fresh set unless it passed validation is
+    # checked in test_p34_4b_smpc_amendment.py::test_a_failed_parser_is_not_applied.
     if (ROOT / "scripts" / "v2_smpc.py").exists():
         assert (ROOT / "docs" / "prereg-p34-amendment-smpc.md").exists()
         assert sha(ROOT / "scripts" / "v2_smpc.py").startswith("85a86afe4a77bd38")

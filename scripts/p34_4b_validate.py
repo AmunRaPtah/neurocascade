@@ -9,8 +9,11 @@ the run:
 2. the SmPC label is positive on at least 2/3 of those;
 3. the SmPC label agrees on at least 90% of the openFDA-negative compared labels.
 
-weight_gain is withheld under A7 and is not compared. If the bar fails the
-parser is not frozen or applied, and the result is EMPTY.
+weight_gain is withheld under A7 and is not compared. Train drugs whose fetch
+failed in the threaded run are retried once, singly, with the unchanged
+parser; their outcome is recorded and any comparison they yield enters the
+bar. If the bar fails the parser is not frozen or applied, and the result is
+EMPTY.
 
     python scripts/p34_4b_validate.py VALIDATION.json
 
@@ -53,9 +56,35 @@ def bar(comparisons: list[dict]) -> dict:
             "pass": all(c["pass"] for c in checks.values())}
 
 
+def retry_failed(val: dict) -> tuple[list[dict], list[dict]]:
+    """Retry each fetch_failed train drug once, singly; return (outcomes, comparisons)."""
+    failed = [d["inn"] for d in val["drugs"] if d["basis"] == "fetch_failed"]
+    if not failed:
+        return [], []
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import v2_smpc as S
+    rules, _ = S.V.load_rules()
+    smpc_rules, _ = S.load_smpc_rules()
+    fda = {r["inn"]: r for r in json.loads(S.V.OUT.read_text())["drugs"]}
+    outcomes, rows = [], []
+    for inn in failed:
+        try:
+            r = S.smpc_record(inn, rules, smpc_rules)
+        except Exception as e:  # noqa: BLE001 - recorded, not hidden
+            outcomes.append({"inn": inn, "retry_basis": "fetch_failed", "reason": str(e)})
+            continue
+        outcomes.append({"inn": inn, "retry_basis": r["basis"],
+                         "products_seen": r.get("products_seen"), "reason": r.get("reason")})
+        if r["record"] is not None and inn in fda:
+            rows += [{"inn": inn, **c} for c in S.compare(fda[inn], r["record"])]
+    return outcomes, rows
+
+
 def main(path: str) -> int:
     val = json.loads(Path(path).read_text())
-    b = bar(val["comparisons"])
+    retried, extra = retry_failed(val)
+    comparisons = val["comparisons"] + extra
+    b = bar(comparisons)
     out = {
         "task": "P34.4b", "prereg": "docs/prereg-p34-amendment-smpc.md",
         "deviation": "SmPC parser added after P34.4 fresh openFDA counts were seen (disclosed)",
@@ -63,6 +92,7 @@ def main(path: str) -> int:
         "train_validation": {k: val[k] for k in ("n_train", "n_with_emc_smpc",
                                                  "n_smpc_placebo_subtracted", "n_fetch_failed",
                                                  "compared_drugs") if k in val},
+        "fetch_failed_retried_singly": retried,
         "bar": b,
         "parser_frozen": b["pass"],
         "applied_to_fresh": False,
@@ -70,7 +100,7 @@ def main(path: str) -> int:
         "gap": None if b["pass"] else
                "SmPC parser failed the pre-registered train validation bar; not frozen, not "
                "applied, no fresh drug touched",
-        "comparisons": val["comparisons"],
+        "comparisons": comparisons,
     }
     (ROOT / "results" / "P34.4b.json").write_text(json.dumps(out, indent=1) + "\n")
     print("TASK_RESULT:", "PARSER_PASSED" if b["pass"] else "EMPTY", json.dumps(b["checks"]))

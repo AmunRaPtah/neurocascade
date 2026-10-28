@@ -3284,7 +3284,7 @@
           "2026-10-28 interactive session: TASK_RESULT EMPTY (SmPC parser failed train validation); not applied to fresh set"
         ]
       },
-      "finished_at": "2026-10-28T12:40:00+00:00",
+      "finished_at": "2026-10-28T11:40:00+00:00",
       "validation": {
         "kind": "ledger-row",
         "evidence": ""
@@ -3306,7 +3306,8 @@
       },
       "deps": [
         "P34.3",
-        "P34.4"
+        "P34.4",
+        "P34.4b"
       ],
       "host_eval": "NC_HOST_EVAL=1 PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump_fresh /tmp/p34_5_go.json && python pipeline/go_verdict.py /tmp/p34_5_go.json",
       "status": "pending",
