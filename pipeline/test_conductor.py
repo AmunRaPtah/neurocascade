@@ -330,11 +330,35 @@ def test_only_the_owners_own_prs_issues_and_comments_are_seen(monkeypatch):
            {"number": 4, "author": stranger, "isCrossRepository": False, "headRefName": "architect/P1.3"}]
     iss = [{"number": 5, "title": "[P1.1] mine", "author": me, "labels": []},
            {"number": 6, "title": "[P1.2] theirs", "author": stranger, "labels": []}]
+    calls = []
+
     def fake(*a):
-        return json.dumps(prs if a[0] == "pr" else iss)
+        calls.append(a)
+        rows = prs if a[0] == "pr" else iss
+        who = a[a.index("--author") + 1]
+        # GitHub filters by author server-side; the fake does too, but keeps one
+        # stranger fork PR in to show trusted() still re-checks.
+        return json.dumps([r for r in rows if r["author"]["login"] == who or r["number"] == 2])
     monkeypatch.setattr(c, "gh", fake)
     assert [p["number"] for p in c.open_prs()] == [1]
     assert [i["number"] for i in c.issues("x")] == [5]
     assert c.open_issue_ids() == {"P1.1"}
     assert c.find_issue("P1.1") == 5 and c.find_issue("P1.2") is None
     assert not c.trusted({"author": None}) and not c.trusted({})
+    assert calls and all("--author" in a for a in calls)
+
+
+def test_stranger_flood_cannot_hide_the_owners_items(monkeypatch):
+    me = {"login": "AmunRaPtah"}
+    flood = [{"number": n, "author": {"login": "x"}, "isCrossRepository": True,
+              "headRefName": "architect/P1.1", "title": "[P1.1] spam", "labels": []} for n in range(1, 300)]
+    mine = {"number": 999, "author": me, "isCrossRepository": False, "headRefName": "architect/P1.1",
+            "title": "[P1.1] real", "labels": []}
+
+    def fake(*a):
+        lim = int(a[a.index("--limit") + 1]) if "--limit" in a else 30
+        who = a[a.index("--author") + 1] if "--author" in a else None
+        return json.dumps([r for r in flood + [mine] if who in (None, r["author"]["login"])][:lim])
+    monkeypatch.setattr(c, "gh", fake)
+    assert [p["number"] for p in c.open_prs()] == [999]
+    assert c.find_issue("P1.1") == 999 and c.open_issue_ids() == {"P1.1"}

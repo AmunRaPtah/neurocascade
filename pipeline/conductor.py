@@ -489,18 +489,30 @@ def pr_label(num, add: str = "", remove: str = "") -> None:
 # The repo is public: anyone can open a fork PR, an issue or a comment. Only
 # the owner's own (non-fork) PRs, issues and comments are acted on or fed to a
 # session; everything else is invisible to the conductor.
-TRUSTED = frozenset(os.environ.get("NC_TRUSTED_AUTHORS", "AmunRaPtah").split(","))
+# The author filter runs on GitHub's side (--author / author:), so a flood of
+# stranger items cannot push the owner's past a --limit; trusted() re-checks.
+TRUSTED = frozenset(a.strip() for a in os.environ.get("NC_TRUSTED_AUTHORS", "AmunRaPtah").split(",")
+                    if a.strip())
 
 
 def trusted(x: dict) -> bool:
     return (x.get("author") or {}).get("login") in TRUSTED and not x.get("isCrossRepository")
 
 
+def by_author(*args) -> list[dict]:
+    """``gh <args> --author A`` for each trusted A, merged and re-checked."""
+    out: dict[int, dict] = {}
+    for a in sorted(TRUSTED):
+        for x in json.loads(gh(*args, "--author", a) or "[]"):
+            if trusted(x):
+                out[x["number"]] = x
+    return sorted(out.values(), key=lambda x: x["number"])
+
+
 def open_prs() -> list[dict]:
-    out = json.loads(gh("pr", "list", "--state", "open", "--limit", "50", "--json",
-                        "number,title,headRefName,labels,statusCheckRollup,body,author,"
-                        "isCrossRepository") or "[]")
-    return [p for p in out if trusted(p)]
+    return by_author("pr", "list", "--state", "open", "--limit", "50", "--json",
+                     "number,title,headRefName,labels,statusCheckRollup,body,author,"
+                     "isCrossRepository")
 
 
 def labels(x: dict) -> set[str]:
@@ -520,9 +532,8 @@ def ci_state(pr: dict) -> str:
 
 
 def issues(label: str) -> list[dict]:
-    out = json.loads(gh("issue", "list", "--label", label, "--state", "open",
-                        "--json", "number,title,labels,author", "--limit", "100") or "[]")
-    out = [i for i in out if trusted(i)]
+    out = by_author("issue", "list", "--label", label, "--state", "open",
+                    "--json", "number,title,labels,author", "--limit", "100")
     for i in out:
         m = re.match(r"^\[([A-Z]\w*\.\w+)\]", i["title"])
         i["id"] = m.group(1) if m else None
@@ -530,9 +541,9 @@ def issues(label: str) -> list[dict]:
 
 
 def open_issue_ids() -> set[str]:
-    out = json.loads(gh("issue", "list", "--state", "open", "--json", "title,author",
-                        "--limit", "200") or "[]")
-    return {m.group(1) for i in out if trusted(i) and (m := re.match(r"^\[([A-Z]\w*\.\w+)\]", i["title"]))}
+    out = by_author("issue", "list", "--state", "open", "--json", "number,title,author",
+                    "--limit", "200")
+    return {m.group(1) for i in out if (m := re.match(r"^\[([A-Z]\w*\.\w+)\]", i["title"]))}
 
 
 def ensure_labels() -> None:
@@ -1428,10 +1439,10 @@ def step_review(st: dict, prs: list[dict], dry: bool) -> bool:
 
 
 def find_issue(sid: str) -> int | None:
-    out = json.loads(gh("issue", "list", "--state", "open", "--search", f"[{sid}] in:title",
-                        "--json", "number,title,author") or "[]")
+    out = by_author("issue", "list", "--state", "open", "--search", f"[{sid}] in:title",
+                    "--json", "number,title,author")
     for i in out:
-        if trusted(i) and i["title"].startswith(f"[{sid}]"):
+        if i["title"].startswith(f"[{sid}]"):
             return i["number"]
     return None
 

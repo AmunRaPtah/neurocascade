@@ -215,8 +215,12 @@ def gh_json(args: list[str]):
 
 
 def ready_issues() -> list[dict]:
-    issues = gh_json(["issue", "list", "--label", LABEL_READY, "--state", "open",
-                      "--json", "number,title", "--limit", "100"])
+    # Public repo: only the owner's issues, filtered on GitHub's side (as the conductor).
+    owners = [x.strip() for x in os.environ.get("NC_TRUSTED_AUTHORS", "AmunRaPtah").split(",") if x.strip()]
+    issues = [i for o in owners
+              for i in gh_json(["issue", "list", "--label", LABEL_READY, "--state", "open", "--author", o,
+                                "--json", "number,title,author", "--limit", "100"])
+              if (i.get("author") or {}).get("login") in owners]
     out = []
     for i in issues:
         m = re.match(r"^\[([A-Z]\w*\.\w+)\]", i["title"])

@@ -14,6 +14,9 @@ on:
     - cron: '0 3 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   fast:
     # Every push. Deselects `slow` exactly as the per-task gate does.
