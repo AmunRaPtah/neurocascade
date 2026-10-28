@@ -1,0 +1,1092 @@
+{
+ "description": "P34.4 fresh held-out pool, every member listed (docs/prereg-p34-go.md). Written by scripts/p34_4_pool.py.",
+ "rule": "approved small molecules (ChEMBL_37 max_phase 4) not among the 465 P33.1 candidates, with anchor Ki/Kd pChEMBL >= 5.0 or ATC in N05, N06, N03, N07, A03, A04, G04BD, C02CA, R06",
+ "chembl_release": "ChEMBL_37",
+ "n_pool": 75,
+ "n_included": 37,
+ "members": [
+  {
+   "chembl_id": "CHEMBL1004",
+   "inn": "doxylamine",
+   "atc": [
+    "R06AA09",
+    "R06AA59"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL104",
+   "inn": "clotrimazole",
+   "atc": [
+    "A01AB18",
+    "D01AC01",
+    "G01AF02"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "DRD2": 5.39,
+    "HRH1": 5.47,
+    "CHRM1": 5.78,
+    "CHRM2": 5.29,
+    "CHRM3": 5.68,
+    "CHRM4": 5.79,
+    "ADRA1D": 5.13,
+    "HTR2C": 5.12
+   },
+   "n_labels": 35,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1078261",
+   "inn": "propiverine",
+   "atc": [
+    "G04BD06"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1106",
+   "inn": "epinastine",
+   "atc": [
+    "R06AX24",
+    "S01GX10"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 10,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1110",
+   "inn": "alosetron",
+   "atc": [
+    "A03AE01"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 16,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1180725",
+   "inn": "propantheline",
+   "atc": [
+    "A03AB05"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 1,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1189679",
+   "inn": "palonosetron",
+   "atc": [
+    "A04AA05",
+    "A04AA55"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 38,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1193",
+   "inn": "pheniramine",
+   "atc": [
+    "D04AA16",
+    "R06AB05"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1200959",
+   "inn": "methdilazine",
+   "atc": [
+    "R06AD04"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201207",
+   "inn": "betamethasone phosphoric acid",
+   "atc": [],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HRH1": 5.93,
+    "CHRM1": 5.78,
+    "CHRM3": 5.87,
+    "CHRM4": 5.78,
+    "CHRM5": 5.25
+   },
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201232",
+   "inn": "isopropamide",
+   "atc": [
+    "A03AB09"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201235",
+   "inn": "methylhomatropine",
+   "atc": [
+    "A03BB06",
+    "A03CB04"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201245",
+   "inn": "bromodiphenhydramine",
+   "atc": [
+    "R06AA01"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201256",
+   "inn": "trimethobenzamide",
+   "atc": [
+    "R06AA10"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 39,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1201264",
+   "inn": "methantheline",
+   "atc": [
+    "A03AB07"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201271",
+   "inn": "buclizine",
+   "atc": [
+    "R06AE01",
+    "R06AE51"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201286",
+   "inn": "oxyphenonium",
+   "atc": [
+    "A03AB03",
+    "A03AB53"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201287",
+   "inn": "dexbrompheniramine",
+   "atc": [
+    "R06AB06",
+    "R06AB56"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201325",
+   "inn": "hexocyclium",
+   "atc": [
+    "A03AB10"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201340",
+   "inn": "diphemanil",
+   "atc": [
+    "A03AB15"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201354",
+   "inn": "tridihexethyl",
+   "atc": [
+    "A03AB08"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1201764",
+   "inn": "fesoterodine",
+   "atc": [
+    "G04BD11"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 21,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1241",
+   "inn": "tripelennamine",
+   "atc": [
+    "D04AA04",
+    "R06AC04"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1282",
+   "inn": "imiquimod",
+   "atc": [
+    "D06BB10"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "ADRA1D": 5.89
+   },
+   "n_labels": 26,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1289",
+   "inn": "haloprogin",
+   "atc": [
+    "D01AE11"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.87
+   },
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1305",
+   "inn": "antazoline",
+   "atc": [
+    "R01AC04",
+    "R06AX05"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1378",
+   "inn": "thiethylperazine",
+   "atc": [
+    "R06AD03"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1471",
+   "inn": "aprepitant",
+   "atc": [
+    "A04AD12"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 10,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1475",
+   "inn": "trioxsalen",
+   "atc": [
+    "D05AD01",
+    "D05BA01"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.91
+   },
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1479",
+   "inn": "danazol",
+   "atc": [
+    "G03XA01"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM3": 5.42
+   },
+   "n_labels": 11,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1491",
+   "inn": "amlodipine",
+   "atc": [
+    "C08CA01"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "ADRA1A": 5.63,
+    "ADRA1B": 5.1,
+    "ADRA1D": 5.27
+   },
+   "n_labels": 396,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1492",
+   "inn": "diphenylpyraline",
+   "atc": [
+    "R06AA07",
+    "R06AA57"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1493",
+   "inn": "flavoxate",
+   "atc": [
+    "G04BD02"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 10,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1495",
+   "inn": "oxyphencyclimine",
+   "atc": [
+    "A03AA01"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1535",
+   "inn": "hydroxychloroquine",
+   "atc": [
+    "P01BA02"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM2": 5.98,
+    "CHRM3": 5.32,
+    "CHRM4": 5.26,
+    "ADRA1D": 5.63
+   },
+   "n_labels": 115,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL157101",
+   "inn": "ketoconazole",
+   "atc": [
+    "D01AC08",
+    "G01AF11",
+    "H02CA03",
+    "J02AB02"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM2": 5.03
+   },
+   "n_labels": 154,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1623",
+   "inn": "meclizine",
+   "atc": [
+    "R06AE05",
+    "R06AE55"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 186,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1623992",
+   "inn": "piperidolate",
+   "atc": [
+    "A03AA30"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1697841",
+   "inn": "isometheptene",
+   "atc": [
+    "A03AX10"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 1,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1714574",
+   "inn": "terconazole",
+   "atc": [
+    "G01AG02"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM1": 5.86,
+    "CHRM2": 5.34,
+    "CHRM3": 5.51,
+    "CHRM4": 5.72,
+    "CHRM5": 5.5,
+    "ADRA1D": 5.15,
+    "HTR2C": 5.44
+   },
+   "n_labels": 26,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL1742423",
+   "inn": "bilastine",
+   "atc": [
+    "R06AX29",
+    "S01GX13"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL1909324",
+   "inn": "pinaverium",
+   "atc": [
+    "A03AX04"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL191",
+   "inn": "losartan",
+   "atc": [
+    "C09CA01"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.46
+   },
+   "n_labels": 454,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL193",
+   "inn": "nifedipine",
+   "atc": [
+    "C08CA05",
+    "C08CA55"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.02
+   },
+   "n_labels": 269,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL2095212",
+   "inn": "mirabegron",
+   "atc": [
+    "G04BD12"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 18,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL2104445",
+   "inn": "tritoqualine",
+   "atc": [
+    "R06AX21"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL2105458",
+   "inn": "thenalidine",
+   "atc": [
+    "D04AA03",
+    "R06AX03",
+    "R06AX53"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL2107826",
+   "inn": "vibegron",
+   "atc": [
+    "G04BD15"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 1,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL2110774",
+   "inn": "chlorphenoxamine",
+   "atc": [
+    "D04AA34",
+    "R06AA06",
+    "R06AA56"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL2218896",
+   "inn": "nabilone",
+   "atc": [
+    "A04AD11"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 3,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL2368925",
+   "inn": "dolasetron",
+   "atc": [
+    "A04AA04"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 5,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL27",
+   "inn": "propranolol",
+   "atc": [
+    "C07AA05"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.92
+   },
+   "n_labels": 359,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL282121",
+   "inn": "mebeverine",
+   "atc": [
+    "A03AA04"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL289469",
+   "inn": "granisetron",
+   "atc": [
+    "A04AA02"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 51,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL289480",
+   "inn": "rilmenidine",
+   "atc": [
+    "C02AC06"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "ADRA1A": 5.22
+   },
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL290106",
+   "inn": "bithionol",
+   "atc": [
+    "D10AB01",
+    "P02BX01"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.34
+   },
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL3304486",
+   "inn": "difemerine",
+   "atc": [
+    "A03AA09"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL344159",
+   "inn": "tolvaptan",
+   "atc": [
+    "C03XA01"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HRH1": 5.17,
+    "HTR2C": 5.31
+   },
+   "n_labels": 11,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL363295",
+   "inn": "terodiline",
+   "atc": [
+    "G04BD05"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL3707331",
+   "inn": "rolapitant",
+   "atc": [
+    "A04AD14"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 3,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL411",
+   "inn": "diethylstilbestrol",
+   "atc": [
+    "G03CB02",
+    "G03CC05",
+    "L02AA01"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "DRD2": 5.35,
+    "CHRM1": 5.44,
+    "CHRM3": 5.41,
+    "ADRA1D": 5.27
+   },
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL46",
+   "inn": "ondansetron",
+   "atc": [
+    "A04AA01"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 562,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL465",
+   "inn": "dronabinol",
+   "atc": [
+    "A04AD10"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 33,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL496",
+   "inn": "hexachlorophene",
+   "atc": [
+    "D08AE01"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.62
+   },
+   "n_labels": 3,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL53463",
+   "inn": "doxorubicin",
+   "atc": [
+    "L01DB01"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM1": 5.43
+   },
+   "n_labels": 55,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL56564",
+   "inn": "tropisetron",
+   "atc": [
+    "A04AA03"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5",
+    "atc"
+   ],
+   "anchor_pki": {
+    "CHRM5": 5.61
+   },
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL620",
+   "inn": "clidinium",
+   "atc": [
+    "A03CA02"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL672",
+   "inn": "fenofibrate",
+   "atc": [
+    "C10AB05"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.91
+   },
+   "n_labels": 320,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL76",
+   "inn": "chloroquine",
+   "atc": [
+    "P01BA01"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM1": 5.04,
+    "CHRM2": 5.33,
+    "CHRM3": 5.48,
+    "CHRM4": 5.24
+   },
+   "n_labels": 21,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL787",
+   "inn": "montelukast",
+   "atc": [
+    "R03DC03",
+    "R03DC53"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM1": 5.71,
+    "CHRM3": 5.85
+   },
+   "n_labels": 221,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL811",
+   "inn": "brompheniramine",
+   "atc": [
+    "R06AB01",
+    "R06AB51"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 9,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL829",
+   "inn": "methylpromazine",
+   "atc": [
+    "R06AD01"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  },
+  {
+   "chembl_id": "CHEMBL841",
+   "inn": "loperamide",
+   "atc": [
+    "A07DA03",
+    "A07DA53"
+   ],
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "DRD2": 5.24,
+    "ADRA1B": 5.43
+   },
+   "n_labels": 104,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL864",
+   "inn": "carbinoxamine",
+   "atc": [
+    "R06AA08"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 23,
+   "excluded": null
+  },
+  {
+   "chembl_id": "CHEMBL946",
+   "inn": "azatadine",
+   "atc": [
+    "R06AX09"
+   ],
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 0,
+   "excluded": "missing input: no single-ingredient FDA prescription label"
+  }
+ ]
+}

@@ -1,0 +1,3790 @@
+{
+ "description": "P34.4 fresh held-out universe, v2 drugs.json schema. Every drug is fresh held-out; none is in benchmark/v2/drugs.json.",
+ "chembl_release": "ChEMBL_37",
+ "anchor_targets": {
+  "DRD2": {
+   "uniprot": "P14416",
+   "chembl": "CHEMBL217"
+  },
+  "HRH1": {
+   "uniprot": "P35367",
+   "chembl": "CHEMBL231"
+  },
+  "CHRM1": {
+   "uniprot": "P11229",
+   "chembl": "CHEMBL216"
+  },
+  "CHRM2": {
+   "uniprot": "P08172",
+   "chembl": "CHEMBL211"
+  },
+  "CHRM3": {
+   "uniprot": "P20309",
+   "chembl": "CHEMBL245"
+  },
+  "CHRM4": {
+   "uniprot": "P08173",
+   "chembl": "CHEMBL1821"
+  },
+  "CHRM5": {
+   "uniprot": "P08912",
+   "chembl": "CHEMBL2035"
+  },
+  "ADRA1A": {
+   "uniprot": "P35348",
+   "chembl": "CHEMBL229"
+  },
+  "ADRA1B": {
+   "uniprot": "P35368",
+   "chembl": "CHEMBL232"
+  },
+  "ADRA1D": {
+   "uniprot": "P25100",
+   "chembl": "CHEMBL223"
+  },
+  "HTR2C": {
+   "uniprot": "P28335",
+   "chembl": "CHEMBL225"
+  }
+ },
+ "pchembl_min": 5.0,
+ "openfda_label_export": "2026-10-21",
+ "n_candidates": 75,
+ "drugs": [
+  {
+   "inn": "clotrimazole",
+   "chembl_id": "CHEMBL104",
+   "atc": [
+    "A01AB18",
+    "D01AC01",
+    "G01AF02"
+   ],
+   "first_approval": 1975,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "DRD2": 5.39,
+    "HRH1": 5.47,
+    "CHRM1": 5.78,
+    "CHRM2": 5.29,
+    "CHRM3": 5.68,
+    "CHRM4": 5.79,
+    "ADRA1D": 5.13,
+    "HTR2C": 5.12
+   },
+   "n_labels": 35,
+   "n_nda_labels": 1,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "ef0658c3-9c6b-4705-89d8-cf0644c80fcb",
+     "version": "1",
+     "effective_time": "20260303",
+     "application_number": "NDA217628",
+     "route": [
+      "AURICULAR (OTIC)"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "c64e2290-593f-48a2-a15d-41689f836fda",
+     "version": "1",
+     "effective_time": "20260716",
+     "application_number": "ANDA074580",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "53cafc9f-7761-83a9-e063-6294a90a3437",
+     "version": "1",
+     "effective_time": "20260609",
+     "application_number": "ANDA090219",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "15368c2a-572f-41fb-a3a1-7b1eb842faa8",
+     "version": "6",
+     "effective_time": "20260430",
+     "application_number": "ANDA216569",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "529bb597-b291-42fb-b45f-744a55df64f1",
+     "version": "3",
+     "effective_time": "20260409",
+     "application_number": "ANDA216569",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "6a50410d-ef84-4b60-9bec-cf1d1166e461",
+     "version": "102",
+     "effective_time": "20260319",
+     "application_number": "ANDA212281",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "4bd825f4-f5e2-aab7-e063-6394a90ad6a4",
+     "version": "1",
+     "effective_time": "20260227",
+     "application_number": "ANDA216569",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "f6898117-14f3-42d2-bc0e-d296add3ad70",
+     "version": "8",
+     "effective_time": "20260130",
+     "application_number": "ANDA090219",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "epinastine",
+   "chembl_id": "CHEMBL1106",
+   "atc": [
+    "R06AX24",
+    "S01GX10"
+   ],
+   "first_approval": 2003,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 10,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "0d4ee45c-e58f-4b7c-b389-898f5c27f54d",
+     "version": "7",
+     "effective_time": "20250322",
+     "application_number": "ANDA090951",
+     "route": [
+      "OPHTHALMIC"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "8ff37968-22a1-4904-a139-977463790f12",
+     "version": "11",
+     "effective_time": "20230314",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "4e1fcdcd-34f9-4513-969d-18354e12c735",
+     "version": "6",
+     "effective_time": "20220520",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "df001833-f478-ee51-325a-9e1b56199567",
+     "version": "4",
+     "effective_time": "20190815",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "cafe4650-6aa4-4466-9beb-064ee5a0e401",
+     "version": "5",
+     "effective_time": "20181024",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "6099119a-0cb4-4c63-a893-861a930686fe",
+     "version": "3",
+     "effective_time": "20171128",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "10d2f2e1-6225-4b12-9715-ac893bf58ceb",
+     "version": "5",
+     "effective_time": "20160811",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "6e8c8120-bdbd-f14b-2a75-40d788100c34",
+     "version": "4",
+     "effective_time": "20150220",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "alosetron",
+   "chembl_id": "CHEMBL1110",
+   "atc": [
+    "A03AE01"
+   ],
+   "first_approval": 2000,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 16,
+   "n_nda_labels": 2,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "35cbb9d5-639b-207a-e054-00144ff88e88",
+     "version": "8",
+     "effective_time": "20260630",
+     "application_number": "NDA021107",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "c216e967-436f-475a-8e6a-2ad11adc63af",
+     "version": "2",
+     "effective_time": "20260323",
+     "application_number": "NDA021107",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "da94d161-0bf0-48fe-90f4-8e38ae18e1ca",
+     "version": "102",
+     "effective_time": "20260401",
+     "application_number": "ANDA213614",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "38f5341f-5ae3-46bf-8bfc-30dff2068477",
+     "version": "103",
+     "effective_time": "20260401",
+     "application_number": "ANDA213614",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "d62b2c5a-1693-4e67-96d5-197e1fdc8694",
+     "version": "3",
+     "effective_time": "20251003",
+     "application_number": "ANDA211621",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "2846a244-7540-442b-81bc-638e641497ce",
+     "version": "5",
+     "effective_time": "20251001",
+     "application_number": "ANDA213614",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "3ac203a2-4c55-deac-e063-6394a90aa165",
+     "version": "3",
+     "effective_time": "20250909",
+     "application_number": "ANDA206647",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "2927e7d0-b1b8-4944-a7e8-97b60eb9bb71",
+     "version": "1",
+     "effective_time": "20230326",
+     "application_number": "ANDA206647",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "propantheline",
+   "chembl_id": "CHEMBL1180725",
+   "atc": [
+    "A03AB05"
+   ],
+   "first_approval": 1953,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 1,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "84a920c8-b637-4741-b9b2-fc607e245ce0",
+     "version": "7",
+     "effective_time": "20221024",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "palonosetron",
+   "chembl_id": "CHEMBL1189679",
+   "atc": [
+    "A04AA05",
+    "A04AA55"
+   ],
+   "first_approval": 2003,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 38,
+   "n_nda_labels": 2,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "13a201ba-c86d-48c5-a0e1-a3e0b4e6a2a7",
+     "version": "7",
+     "effective_time": "20250429",
+     "application_number": "NDA203050",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "37e7ef89-fd77-44e0-9271-ae91f8822603",
+     "version": "4",
+     "effective_time": "20220113",
+     "application_number": "NDA021372",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "ee6f6f94-1ca7-481e-9909-b19ae64e80c2",
+     "version": "8",
+     "effective_time": "20260825",
+     "application_number": "ANDA201533",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "bb2be46a-56f7-48b6-bb05-3c6b12c8b1ea",
+     "version": "1",
+     "effective_time": "20260706",
+     "application_number": "ANDA205648",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "689c953c-2120-2546-67a4-22bb34ba3330",
+     "version": "9",
+     "effective_time": "20251224",
+     "application_number": "ANDA201533",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "42e2d437-0712-4e9c-9c2a-00093c406d62",
+     "version": "6",
+     "effective_time": "20251030",
+     "application_number": "ANDA204702",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "4af600d1-0ab1-41c5-af2f-9dc24cf3c90e",
+     "version": "2",
+     "effective_time": "20250609",
+     "application_number": "ANDA205648",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "903d7aba-277e-6d28-4fee-fd2d605ab6a9",
+     "version": "8",
+     "effective_time": "20250102",
+     "application_number": "ANDA205648",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "trimethobenzamide",
+   "chembl_id": "CHEMBL1201256",
+   "atc": [
+    "R06AA10"
+   ],
+   "first_approval": 1974,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 39,
+   "n_nda_labels": 3,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "7da90678-b229-4ad6-9193-2b8a3e9ba695",
+     "version": "13",
+     "effective_time": "20260310",
+     "application_number": "NDA017530",
+     "route": [
+      "INTRAMUSCULAR"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "147def93-cd3d-4e42-89ad-6a6b413bf362",
+     "version": "7",
+     "effective_time": "20251014",
+     "application_number": "NDA017530",
+     "route": [
+      "INTRAMUSCULAR"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "9bd0bfa0-c189-751c-e053-2a95a90a5f5a",
+     "version": "4",
+     "effective_time": "20240128",
+     "application_number": "NDA017530",
+     "route": [
+      "INTRAMUSCULAR"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "a9a661ca-87ca-4c96-88ef-58fcaae233b5",
+     "version": "2",
+     "effective_time": "20260807",
+     "application_number": "ANDA219606",
+     "route": [
+      "INTRAMUSCULAR"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "ee626da9-cffc-4bb9-a528-482687201b2a",
+     "version": "2",
+     "effective_time": "20251211",
+     "application_number": "ANDA205950",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "00ba5395-1455-4ea9-9278-e3749979526c",
+     "version": "4",
+     "effective_time": "20240404",
+     "application_number": "ANDA076546",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "c18073be-d52a-4347-a8d1-6be11bcb7824",
+     "version": "5",
+     "effective_time": "20240130",
+     "application_number": "ANDA076546",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "b0aa9b7e-bbe7-482e-81d3-d9658d5ac21f",
+     "version": "6",
+     "effective_time": "20231121",
+     "application_number": "ANDA205950",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "fesoterodine",
+   "chembl_id": "CHEMBL1201764",
+   "atc": [
+    "G04BD11"
+   ],
+   "first_approval": 2007,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 21,
+   "n_nda_labels": 1,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "5be745f0-8ae7-4c3c-9962-37d6263326f1",
+     "version": "33",
+     "effective_time": "20260407",
+     "application_number": "NDA022030",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "b1abd9cb-c480-437b-8531-e2de3e188363",
+     "version": "9",
+     "effective_time": "20260716",
+     "application_number": "ANDA204827",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "e5e6e146-d39a-471c-e053-2995a90a7538",
+     "version": "3",
+     "effective_time": "20251218",
+     "application_number": "ANDA204975",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "5c5d2a97-9029-744f-c410-a4bbbe9761a8",
+     "version": "10",
+     "effective_time": "20250901",
+     "application_number": "ANDA204975",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "299db62d-9658-4796-b449-657fa859c5cd",
+     "version": "8",
+     "effective_time": "20250617",
+     "application_number": "ANDA204973",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "cb597206-1c75-4a4f-a17a-524a2010a4b9",
+     "version": "2",
+     "effective_time": "20250305",
+     "application_number": "ANDA204792",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "dc532c6c-ff0d-488a-8a92-b1b0f37c944e",
+     "version": "2",
+     "effective_time": "20250304",
+     "application_number": "ANDA204792",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "8c68e918-b47b-466d-80bc-4f521aa74607",
+     "version": "7",
+     "effective_time": "20250101",
+     "application_number": "ANDA204946",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "imiquimod",
+   "chembl_id": "CHEMBL1282",
+   "atc": [
+    "D06BB10"
+   ],
+   "first_approval": 1997,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "ADRA1D": 5.89
+   },
+   "n_labels": 26,
+   "n_nda_labels": 3,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "9f2cbefd-f295-47e2-8a9e-3e7c5812c963",
+     "version": "5",
+     "effective_time": "20250630",
+     "application_number": "NDA022483",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "d86eeb0e-70e0-4c72-aaa3-37daa1d8611e",
+     "version": "7",
+     "effective_time": "20250603",
+     "application_number": "NDA022483",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "28cd9b5b-680b-480f-b33d-9c5b52bbf03d",
+     "version": "23",
+     "effective_time": "20250523",
+     "application_number": "NDA022483",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "51913a5a-1cab-4b9e-b2c2-e0174062df73",
+     "version": "8",
+     "effective_time": "20260121",
+     "application_number": "ANDA205971",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "9291e5cd-b83d-4b43-88f5-30cac6cef5ff",
+     "version": "100",
+     "effective_time": "20251105",
+     "application_number": "ANDA078837",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "f8db59e2-8052-413b-9f9f-07cd9eea07ec",
+     "version": "3",
+     "effective_time": "20250925",
+     "application_number": "ANDA078837",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "59af8153-4cf8-4f22-9000-f239798d52d1",
+     "version": "11",
+     "effective_time": "20250811",
+     "application_number": "ANDA200173",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "47d3045f-a145-4095-bb8a-c67ba1ff3bda",
+     "version": "100",
+     "effective_time": "20250729",
+     "application_number": "ANDA078837",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "aprepitant",
+   "chembl_id": "CHEMBL1471",
+   "atc": [
+    "A04AD12"
+   ],
+   "first_approval": 2003,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 10,
+   "n_nda_labels": 3,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "4c218d3a-a508-4abc-9ed8-a6e8e191d1b4",
+     "version": "15",
+     "effective_time": "20260401",
+     "application_number": "NDA209296",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "d1b111eb-659a-496b-a86a-8f0fa370f147",
+     "version": "8",
+     "effective_time": "20260401",
+     "application_number": "NDA216457",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "696f9e80-9cae-403b-de9e-078343ce4713",
+     "version": "42",
+     "effective_time": "20240705",
+     "application_number": "NDA021549",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "af9b6086-4bf2-472c-8740-4134eaaebace",
+     "version": "9",
+     "effective_time": "20260611",
+     "application_number": "ANDA211835",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "a78aaa00-a46b-4f9e-a415-2fca9e9a4fb4",
+     "version": "2",
+     "effective_time": "20260327",
+     "application_number": "ANDA207777",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "377c3ecb-fdec-dde4-e063-6294a90a29bd",
+     "version": "3",
+     "effective_time": "20260309",
+     "application_number": "ANDA211835",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "f58b8944-93ee-4be1-a238-cc0061ddd93a",
+     "version": "15",
+     "effective_time": "20240909",
+     "application_number": "ANDA090999",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "d72e0e10-4557-41b0-b65d-d395468cad19",
+     "version": "13",
+     "effective_time": "20260128",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "danazol",
+   "chembl_id": "CHEMBL1479",
+   "atc": [
+    "G03XA01"
+   ],
+   "first_approval": 1976,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM3": 5.42
+   },
+   "n_labels": 11,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "55ad6325-16f6-4f0c-a1dc-734847052d0b",
+     "version": "3",
+     "effective_time": "20241010",
+     "application_number": "ANDA077246",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "e19acee5-ff33-45a5-bbbf-801756bc59b4",
+     "version": "15",
+     "effective_time": "20221001",
+     "application_number": "ANDA074582",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "9e103cf9-f075-48ba-8913-2e44f9442781",
+     "version": "1",
+     "effective_time": "20220401",
+     "application_number": "ANDA078214",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "f2c9b713-aafc-49ca-866e-334d9b5c2e2d",
+     "version": "28",
+     "effective_time": "20200430",
+     "application_number": "ANDA078214",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "7f5374f9-66bb-7e32-ffe6-61a7ddeb37c1",
+     "version": "5",
+     "effective_time": "20220906",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "db372b81-28e6-44c7-a6c8-1c15362bec0d",
+     "version": "5",
+     "effective_time": "20151125",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "d30a0bb0-d8e4-e17a-0f8b-6696a2712e98",
+     "version": "5",
+     "effective_time": "20150903",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "57cebff0-1c66-4fd1-96ec-45ab7a4b801b",
+     "version": "6",
+     "effective_time": "20130501",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "amlodipine",
+   "chembl_id": "CHEMBL1491",
+   "atc": [
+    "C08CA01"
+   ],
+   "first_approval": 1992,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "ADRA1A": 5.63,
+    "ADRA1B": 5.1,
+    "ADRA1D": 5.27
+   },
+   "n_labels": 396,
+   "n_nda_labels": 7,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "614d974f-51c7-4b18-8171-39eb6e8d4c03",
+     "version": "2",
+     "effective_time": "20260216",
+     "application_number": "NDA214439",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "df673a4d-acb8-444c-a472-c87ab8cbd366",
+     "version": "7",
+     "effective_time": "20251216",
+     "application_number": "NDA211340",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "180ee374-24f2-4b9c-9d54-8815f2b1dc9b",
+     "version": "32",
+     "effective_time": "20241128",
+     "application_number": "NDA019787",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "7367289c-b0b0-466a-83e2-558e2985c29f",
+     "version": "10",
+     "effective_time": "20230215",
+     "application_number": "NDA019787",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "f3482709-c5c3-4bd0-8067-ad57f31bb525",
+     "version": "2",
+     "effective_time": "20221018",
+     "application_number": "NDA019787",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "c1730a51-4383-4c61-a9a1-7e1326bd0abe",
+     "version": "1",
+     "effective_time": "20220228",
+     "application_number": "NDA214439",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "abd6a2ca-40c2-485c-bc53-db1c652505ed",
+     "version": "29",
+     "effective_time": "20190115",
+     "application_number": "NDA019787",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "5af8493b-2b73-859c-e063-6394a90a4620",
+     "version": "1",
+     "effective_time": "20260908",
+     "application_number": "ANDA078043",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "flavoxate",
+   "chembl_id": "CHEMBL1493",
+   "atc": [
+    "G04BD02"
+   ],
+   "first_approval": 1970,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 10,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "f6a06eda-2480-4c0d-8d1e-9e3e89d3ee88",
+     "version": "6",
+     "effective_time": "20251211",
+     "application_number": "ANDA076835",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "b4260d7e-2ab3-49f6-aa57-bae19a23d82a",
+     "version": "11",
+     "effective_time": "20231227",
+     "application_number": "ANDA076835",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "a9c44c4b-5b3c-45bf-9bc9-ce858e3d06c5",
+     "version": "12",
+     "effective_time": "20230531",
+     "application_number": "ANDA076831",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "9422e67e-d64c-3ba1-b2b9-ca9d3eeda743",
+     "version": "6",
+     "effective_time": "20220912",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "5cc7ad48-0918-444d-a97e-64c43852f3a6",
+     "version": "3",
+     "effective_time": "20190827",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "22a99f74-2718-48b3-b686-caf102d3071c",
+     "version": "2",
+     "effective_time": "20171018",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "4c4470d2-4e62-4cce-af3c-113b6be7d986",
+     "version": "2",
+     "effective_time": "20140724",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "c4eb0f29-5ccb-47e9-8fe4-696bf16c9bda",
+     "version": "2",
+     "effective_time": "20120524",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "hydroxychloroquine",
+   "chembl_id": "CHEMBL1535",
+   "atc": [
+    "P01BA02"
+   ],
+   "first_approval": 1955,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM2": 5.98,
+    "CHRM3": 5.32,
+    "CHRM4": 5.26,
+    "ADRA1D": 5.63
+   },
+   "n_labels": 115,
+   "n_nda_labels": 4,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "34496b43-05a2-45fb-a769-52b12e099341",
+     "version": "15",
+     "effective_time": "20260409",
+     "application_number": "NDA009768",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "dd441154-b196-4d4c-bc56-2e37f345ef8d",
+     "version": "4",
+     "effective_time": "20241008",
+     "application_number": "NDA214581",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "eb26c050-fc41-4183-9f8c-86351335fa64",
+     "version": "4",
+     "effective_time": "20240404",
+     "application_number": "NDA009768",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "8aec894d-5711-4079-b167-240713bf04f2",
+     "version": "1",
+     "effective_time": "20200401",
+     "application_number": "NDA009768",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "ebe00e35-ed3d-40f4-9a93-a37b0da01ddb",
+     "version": "8",
+     "effective_time": "20260727",
+     "application_number": "ANDA210441",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "da435181-0c5a-4188-8d59-51234116b005",
+     "version": "9",
+     "effective_time": "20260629",
+     "application_number": "ANDA210577",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "68d6439d-b927-47e6-86ef-20e572e81941",
+     "version": "1",
+     "effective_time": "20260608",
+     "application_number": "ANDA040150",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "e5fe2ece-40a1-49eb-818f-62ff3c3bb199",
+     "version": "6",
+     "effective_time": "20260603",
+     "application_number": "ANDA210441",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "ketoconazole",
+   "chembl_id": "CHEMBL157101",
+   "atc": [
+    "D01AC08",
+    "G01AF11",
+    "H02CA03",
+    "J02AB02"
+   ],
+   "first_approval": 1981,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM2": 5.03
+   },
+   "n_labels": 154,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "ea56cddf-94c9-46b6-8791-995b741cfbd7",
+     "version": "4",
+     "effective_time": "20260901",
+     "application_number": "ANDA212443",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "1d598696-c6f3-4b7c-ad73-949d2089df35",
+     "version": "2",
+     "effective_time": "20260810",
+     "application_number": "ANDA075912",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "f162e616-21b4-49b1-b437-15e21001a6f0",
+     "version": "11",
+     "effective_time": "20260707",
+     "application_number": "ANDA210457",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "53492ad1-baca-a7f6-e063-6294a90a2990",
+     "version": "1",
+     "effective_time": "20260602",
+     "application_number": "ANDA076419",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "d59df5bf-bfa6-45fa-81f6-8c8ee2f24cf8",
+     "version": "5",
+     "effective_time": "20260514",
+     "application_number": "ANDA076942",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "abc2446c-cdc2-48fe-80f2-cf0038d2a85e",
+     "version": "4",
+     "effective_time": "20260514",
+     "application_number": "ANDA212443",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "f422aaa8-3cce-5989-e053-2a95a90a5205",
+     "version": "3",
+     "effective_time": "20260317",
+     "application_number": "ANDA212443",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "00c1cac8-a865-4583-aaba-3a0f21fb31e6",
+     "version": "2",
+     "effective_time": "20260129",
+     "application_number": "ANDA218498",
+     "route": [
+      "TOPICAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "meclizine",
+   "chembl_id": "CHEMBL1623",
+   "atc": [
+    "R06AE05",
+    "R06AE55"
+   ],
+   "first_approval": 1957,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 186,
+   "n_nda_labels": 16,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "21d4a6ee-0a66-45d7-bab9-c5eef399713d",
+     "version": "11",
+     "effective_time": "20260901",
+     "application_number": "NDA010721",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "598eb392-1dfe-c08c-e063-6394a90a4c7d",
+     "version": "1",
+     "effective_time": "20260821",
+     "application_number": "NDA010721",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "c6b3f4d8-5fcf-2278-e053-2a95a90ab139",
+     "version": "5",
+     "effective_time": "20260621",
+     "application_number": "NDA010721",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "d7d31433-8f39-4fe6-b542-1b4410122db7",
+     "version": "3",
+     "effective_time": "20260612",
+     "application_number": "NDA010721",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "81e1762b-e012-4c6d-96e6-9a9f27a1880a",
+     "version": "1",
+     "effective_time": "20260527",
+     "application_number": "NDA010721",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "c31846b2-d47d-a97b-e053-2a95a90a9bec",
+     "version": "2",
+     "effective_time": "20260327",
+     "application_number": "NDA010721",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "beb36d86-9fb7-1f60-e053-2995a90aac13",
+     "version": "2",
+     "effective_time": "20260302",
+     "application_number": "NDA010721",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "27b6a7e0-a361-4705-9f31-719063a65f22",
+     "version": "102",
+     "effective_time": "20250820",
+     "application_number": "NDA010721",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "isometheptene",
+   "chembl_id": "CHEMBL1697841",
+   "atc": [
+    "A03AX10"
+   ],
+   "first_approval": null,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 1,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "b115d2de-8739-4173-807e-90a4dab4cf98",
+     "version": "2",
+     "effective_time": "20101209",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "terconazole",
+   "chembl_id": "CHEMBL1714574",
+   "atc": [
+    "G01AG02"
+   ],
+   "first_approval": 1987,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM1": 5.86,
+    "CHRM2": 5.34,
+    "CHRM3": 5.51,
+    "CHRM4": 5.72,
+    "CHRM5": 5.5,
+    "ADRA1D": 5.15,
+    "HTR2C": 5.44
+   },
+   "n_labels": 26,
+   "n_nda_labels": 2,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "f59448bd-f730-46d2-a785-c2d6205579ff",
+     "version": "8",
+     "effective_time": "20260128",
+     "application_number": "NDA021735",
+     "route": [
+      "VAGINAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "9b1c38ac-ebf3-471c-bcdf-1ff8ad197f91",
+     "version": "1",
+     "effective_time": "20230103",
+     "application_number": "NDA021735",
+     "route": [
+      "VAGINAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "207e9cf2-e8ec-43d7-9c11-46283c9cdb37",
+     "version": "15",
+     "effective_time": "20260811",
+     "application_number": "ANDA077149",
+     "route": [
+      "VAGINAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "38cd1718-6b3c-415d-a17f-7b399adb0ba2",
+     "version": "4",
+     "effective_time": "20260507",
+     "application_number": "ANDA077553",
+     "route": [
+      "VAGINAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "10e84353-93d2-461d-8b79-e9294df047ae",
+     "version": "11",
+     "effective_time": "20260128",
+     "application_number": "ANDA076712",
+     "route": [
+      "VAGINAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "6d7a8fd6-7837-427e-9b18-89e33351b05e",
+     "version": "10",
+     "effective_time": "20250707",
+     "application_number": "ANDA075953",
+     "route": [
+      "VAGINAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "b4f50a11-bd39-4023-9145-2da60f6b085f",
+     "version": "6",
+     "effective_time": "20250707",
+     "application_number": "ANDA077553",
+     "route": [
+      "VAGINAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "2b3923b5-0a97-428c-b8d2-4a3ceb3447a1",
+     "version": "10",
+     "effective_time": "20250527",
+     "application_number": "ANDA076043",
+     "route": [
+      "VAGINAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "losartan",
+   "chembl_id": "CHEMBL191",
+   "atc": [
+    "C09CA01"
+   ],
+   "first_approval": 1995,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.46
+   },
+   "n_labels": 454,
+   "n_nda_labels": 2,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "9949448f-c3b9-44ee-94ed-c1aca8c90f39",
+     "version": "9",
+     "effective_time": "20260120",
+     "application_number": "NDA020386",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "afd2d1ba-e7af-4e4e-8b7e-a9f72612fc97",
+     "version": "19",
+     "effective_time": "20251003",
+     "application_number": "NDA218772",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "a397502e-abe7-49cf-97c7-d53a616947eb",
+     "version": "4",
+     "effective_time": "20260903",
+     "application_number": "ANDA202230",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "021cd76a-b093-4704-8410-5e7d01e20a54",
+     "version": "21",
+     "effective_time": "20260827",
+     "application_number": "ANDA078243",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "e136356b-e4d2-4e00-a409-35825c5637c9",
+     "version": "7",
+     "effective_time": "20260811",
+     "application_number": "ANDA091497",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "5833c02c-9957-a069-e063-6294a90ad3e4",
+     "version": "1",
+     "effective_time": "20260804",
+     "application_number": "ANDA203835",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "c15387df-87a4-4784-acb5-7dd550498f8f",
+     "version": "10",
+     "effective_time": "20260727",
+     "application_number": "ANDA078243",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "df4f55f0-fb11-4f6f-a7ed-127b50f955fc",
+     "version": "11",
+     "effective_time": "20260722",
+     "application_number": "ANDA090083",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "nifedipine",
+   "chembl_id": "CHEMBL193",
+   "atc": [
+    "C08CA05",
+    "C08CA55"
+   ],
+   "first_approval": 1981,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.02
+   },
+   "n_labels": 269,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "cda16a27-f029-40a6-a0e8-2bed0de71169",
+     "version": "5",
+     "effective_time": "20260804",
+     "application_number": "ANDA210614",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "4ee466dc-5a4e-4c77-8e94-8b510cafd61b",
+     "version": "7",
+     "effective_time": "20260804",
+     "application_number": "ANDA210614",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "acb493a3-b8f2-41a9-8ab2-550d97c4592a",
+     "version": "4",
+     "effective_time": "20260630",
+     "application_number": "ANDA202644",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "1add684f-d082-72cc-e063-6394a90a1214",
+     "version": "3",
+     "effective_time": "20260629",
+     "application_number": "ANDA210614",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "1ab8945b-bea5-9827-e063-6294a90af334",
+     "version": "3",
+     "effective_time": "20260617",
+     "application_number": "ANDA210614",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "d9a501be-8523-3924-e053-2995a90a8569",
+     "version": "4",
+     "effective_time": "20260616",
+     "application_number": "ANDA202987",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "c98ecf77-ae9a-438b-9bad-ffbed25d95bc",
+     "version": "5",
+     "effective_time": "20260611",
+     "application_number": "ANDA210614",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "d7475c68-6310-4b9a-81c1-9209a9ade75f",
+     "version": "4",
+     "effective_time": "20260604",
+     "application_number": "ANDA075289",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "mirabegron",
+   "chembl_id": "CHEMBL2095212",
+   "atc": [
+    "G04BD12"
+   ],
+   "first_approval": 2012,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 18,
+   "n_nda_labels": 1,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "ba9e9e15-e666-4c56-9271-2e24739cfa2d",
+     "version": "17",
+     "effective_time": "20240801",
+     "application_number": "NDA202611",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "5f7a1758-8691-4e53-96d6-a01626ee8140",
+     "version": "4",
+     "effective_time": "20260903",
+     "application_number": "ANDA209488",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "1c9022af-4841-4f3f-9737-1c5eef58e86b",
+     "version": "7",
+     "effective_time": "20260522",
+     "application_number": "ANDA219323",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "d0054db9-e38a-4786-be2c-996fa5b8f47d",
+     "version": "1",
+     "effective_time": "20260522",
+     "application_number": "ANDA209485",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "b71b939e-8cb1-492c-8311-28f75dc4c682",
+     "version": "1",
+     "effective_time": "20260427",
+     "application_number": "ANDA209488",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "e597023d-6dcc-4d9e-8ce0-2d28a5d862f3",
+     "version": "4",
+     "effective_time": "20260326",
+     "application_number": "ANDA218543",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "d22d3d12-8466-46db-bc19-d13e87c6115c",
+     "version": "19",
+     "effective_time": "20251224",
+     "application_number": "ANDA209485",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "98247602-29b9-4621-8eeb-519e40b883b9",
+     "version": "1",
+     "effective_time": "20251021",
+     "application_number": "ANDA217989",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "vibegron",
+   "chembl_id": "CHEMBL2107826",
+   "atc": [
+    "G04BD15"
+   ],
+   "first_approval": null,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 1,
+   "n_nda_labels": 1,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "25f21d25-14f8-4fda-91f6-7aa8b68aa1c8",
+     "version": "12",
+     "effective_time": "20250401",
+     "application_number": "NDA213006",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "nabilone",
+   "chembl_id": "CHEMBL2218896",
+   "atc": [
+    "A04AD11"
+   ],
+   "first_approval": 1985,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 3,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "83c7ac15-ece9-47de-b83c-d575544fa449",
+     "version": "2",
+     "effective_time": "20210119",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "bb582d64-0f51-11df-8a39-0800200c9a66",
+     "version": "8",
+     "effective_time": "20180917",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "a7a2a4e1-9ecd-4e59-82b5-2068b5e50164",
+     "version": "3",
+     "effective_time": "20070612",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "dolasetron",
+   "chembl_id": "CHEMBL2368925",
+   "atc": [
+    "A04AA04"
+   ],
+   "first_approval": 1997,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 5,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "201b0eb8-4a1e-4e22-ab4b-addb642710d6",
+     "version": "6",
+     "effective_time": "20231212",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "c3dd5d17-bf39-44b8-b417-f5f2b4acaf65",
+     "version": "3",
+     "effective_time": "20180609",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "6600dfea-fcf2-4f89-ab45-66282dee969f",
+     "version": "17",
+     "effective_time": "20180403",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "3df5f9f0-d374-425f-8a6d-e58fbfb8ea04",
+     "version": "15",
+     "effective_time": "20180403",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "827fca51-a473-4754-9a51-09ed44013625",
+     "version": "1",
+     "effective_time": "20130522",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "propranolol",
+   "chembl_id": "CHEMBL27",
+   "atc": [
+    "C07AA05"
+   ],
+   "first_approval": 1967,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.92
+   },
+   "n_labels": 359,
+   "n_nda_labels": 5,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "ac196ff5-9215-402b-bc57-69aa87f8bade",
+     "version": "9",
+     "effective_time": "20260827",
+     "application_number": "NDA021438",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "5415904b-90da-48e8-9f9e-f86749aa129c",
+     "version": "10",
+     "effective_time": "20260827",
+     "application_number": "NDA018553",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "cd5601b3-4d87-4c3b-acac-b476e787609d",
+     "version": "8",
+     "effective_time": "20260827",
+     "application_number": "NDA021438",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "35d28979-36b1-4630-b85e-a44e0a443734",
+     "version": "11",
+     "effective_time": "20260824",
+     "application_number": "NDA018553",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "b6f9dd2a-632b-87eb-70f0-b2064d7ed48a",
+     "version": "21",
+     "effective_time": "20260625",
+     "application_number": "NDA205410",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "5affa0ea-db84-86fd-e063-6294a90a4d16",
+     "version": "1",
+     "effective_time": "20260908",
+     "application_number": "ANDA078703",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "f7ae2dac-6048-41ea-95d3-cad06cc2baf3",
+     "version": "3",
+     "effective_time": "20260903",
+     "application_number": "ANDA070322",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "c751ee54-27b4-4ed7-829a-ced735c41312",
+     "version": "4",
+     "effective_time": "20260902",
+     "application_number": "ANDA078955",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "granisetron",
+   "chembl_id": "CHEMBL289469",
+   "atc": [
+    "A04AA02"
+   ],
+   "first_approval": 1993,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 51,
+   "n_nda_labels": 2,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "f7c7ffdd-8270-4030-bc1e-a1cb28a6de56",
+     "version": "11",
+     "effective_time": "20260430",
+     "application_number": "NDA022445",
+     "route": [
+      "SUBCUTANEOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "7379369a-03df-4ec3-8f2e-66645cc736d8",
+     "version": "4",
+     "effective_time": "20241104",
+     "application_number": "NDA022198",
+     "route": [
+      "TRANSDERMAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "783e9d68-2371-4fd4-8d7a-a5e36f8718d0",
+     "version": "5",
+     "effective_time": "20250424",
+     "application_number": "ANDA204238",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "2758eb4d-2fe0-4f74-b3f5-b4903009e97c",
+     "version": "2",
+     "effective_time": "20250321",
+     "application_number": "ANDA219282",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "df4b6775-4337-41e0-815a-b064d98c3fe1",
+     "version": "12",
+     "effective_time": "20240229",
+     "application_number": "ANDA078969",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "e07862df-f324-4575-a1ef-f7e1cbab4c7a",
+     "version": "11",
+     "effective_time": "20240104",
+     "application_number": "ANDA078629",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "50b713d3-7ca8-465a-aefa-65ddbe17b934",
+     "version": "2",
+     "effective_time": "20231216",
+     "application_number": "ANDA078678",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "dddc8714-383f-4bc5-a468-ae89dbc802b4",
+     "version": "9",
+     "effective_time": "20221115",
+     "application_number": "ANDA078096",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "tolvaptan",
+   "chembl_id": "CHEMBL344159",
+   "atc": [
+    "C03XA01"
+   ],
+   "first_approval": 2009,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HRH1": 5.17,
+    "HTR2C": 5.31
+   },
+   "n_labels": 11,
+   "n_nda_labels": 1,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "5526617c-c7b9-4556-886d-729bbabbc566",
+     "version": "23",
+     "effective_time": "20260507",
+     "application_number": "NDA022275",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "82ef58ef-ce46-434e-bf99-89fce51094f1",
+     "version": "6",
+     "effective_time": "20260826",
+     "application_number": "ANDA220147",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "5b14ba2b-9f80-41d6-9613-f16d3cf37d25",
+     "version": "9",
+     "effective_time": "20260805",
+     "application_number": "ANDA206119",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "c075d517-f4c8-469a-9f51-416ef61c6a83",
+     "version": "3",
+     "effective_time": "20260424",
+     "application_number": "ANDA216949",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "9ba38e23-ca66-4406-92af-bbb8fad00e16",
+     "version": "6",
+     "effective_time": "20250509",
+     "application_number": "ANDA216063",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "92ce12f1-eae0-4c83-9a4e-a5181e08fa92",
+     "version": "1",
+     "effective_time": "20230614",
+     "application_number": "ANDA216949",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "dd71ee70-9435-4715-bee5-edbb5a8d7d7b",
+     "version": "10",
+     "effective_time": "20220907",
+     "application_number": "ANDA211891",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "6f4c5679-8490-45ec-bd34-1a569e3af850",
+     "version": "2",
+     "effective_time": "20220905",
+     "application_number": "ANDA205646",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "rolapitant",
+   "chembl_id": "CHEMBL3707331",
+   "atc": [
+    "A04AD14"
+   ],
+   "first_approval": 2015,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 3,
+   "n_nda_labels": 2,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "8670c3cf-82d9-466d-be49-de33d8c8742b",
+     "version": "3",
+     "effective_time": "20260908",
+     "application_number": "NDA206500",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "a52896cd-4a98-49b8-82db-bf1985a64d97",
+     "version": "3",
+     "effective_time": "20200819",
+     "application_number": "NDA206500",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "ed3ef3f8-8cb7-40db-9d75-e728ee607760",
+     "version": "9",
+     "effective_time": "20180320",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "ondansetron",
+   "chembl_id": "CHEMBL46",
+   "atc": [
+    "A04AA01"
+   ],
+   "first_approval": 1991,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 562,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "416be720-82e8-4a6d-8531-c1a29869daae",
+     "version": "4",
+     "effective_time": "20260901",
+     "application_number": "ANDA078539",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "f175a336-433b-7ab2-e053-2995a90ad5ca",
+     "version": "3",
+     "effective_time": "20260826",
+     "application_number": "ANDA078152",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "a29b5c18-9884-4c88-8827-65d9ad5f69f6",
+     "version": "11",
+     "effective_time": "20260821",
+     "application_number": "ANDA076183",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "37de0550-a6d1-46a8-a0b8-447b0dcf70ad",
+     "version": "6",
+     "effective_time": "20260819",
+     "application_number": "ANDA077851",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "5566aebb-d84d-6d6a-e063-6294a90a746f",
+     "version": "2",
+     "effective_time": "20260818",
+     "application_number": "ANDA078539",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "c0d827d0-333f-4187-ac75-9dc7d34b6169",
+     "version": "14",
+     "effective_time": "20260811",
+     "application_number": "ANDA078152",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "70b48280-ef74-472b-abc3-128962bfcb05",
+     "version": "9",
+     "effective_time": "20260807",
+     "application_number": "ANDA090469",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "2a30d534-4607-4882-865e-56d2364acaad",
+     "version": "3",
+     "effective_time": "20260807",
+     "application_number": "ANDA078539",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "dronabinol",
+   "chembl_id": "CHEMBL465",
+   "atc": [
+    "A04AD10"
+   ],
+   "first_approval": 1985,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 33,
+   "n_nda_labels": 7,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "fd8c5d57-0173-4f62-8ff0-d8147986a976",
+     "version": "6",
+     "effective_time": "20260513",
+     "application_number": "NDA018651",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "adb1801c-0fb5-4e16-b969-1db91230e0b9",
+     "version": "5",
+     "effective_time": "20260506",
+     "application_number": "NDA018651",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "a7801c70-995d-46a2-91ee-141ef427c6b5",
+     "version": "9",
+     "effective_time": "20260421",
+     "application_number": "NDA205525",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "3cdcb4f5-5af9-4ff7-b535-2a5cf4c6da89",
+     "version": "1",
+     "effective_time": "20260417",
+     "application_number": "NDA205525",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "495aabae-3597-49dc-a5af-e328bcd937b7",
+     "version": "1",
+     "effective_time": "20260211",
+     "application_number": "NDA205525",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "44205ae6-b86a-485c-baf6-233a2c878640",
+     "version": "1",
+     "effective_time": "20260126",
+     "application_number": "NDA205525",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "d0efeeec-640d-43c3-8f0a-d31324a11c68",
+     "version": "5",
+     "effective_time": "20230214",
+     "application_number": "NDA018651",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "66f36fe0-9808-4b73-a99a-794d86ff0c1c",
+     "version": "4",
+     "effective_time": "20260413",
+     "application_number": "ANDA207421",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "hexachlorophene",
+   "chembl_id": "CHEMBL496",
+   "atc": [
+    "D08AE01"
+   ],
+   "first_approval": 1949,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.62
+   },
+   "n_labels": 3,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "41ee3eb5-c3b6-4b50-87c6-04a723ca4c35",
+     "version": "3",
+     "effective_time": "20180405",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "e9c6f5b4-8374-491a-9b7c-fe008f20e3d1",
+     "version": "8",
+     "effective_time": "20171108",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "2834d148-638c-4260-8540-0b69603c4ca8",
+     "version": "1",
+     "effective_time": "20120613",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "doxorubicin",
+   "chembl_id": "CHEMBL53463",
+   "atc": [
+    "L01DB01"
+   ],
+   "first_approval": 1974,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM1": 5.43
+   },
+   "n_labels": 55,
+   "n_nda_labels": 6,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "1fd148fb-0fbc-4b6f-b790-23546fb46a71",
+     "version": "28",
+     "effective_time": "20260505",
+     "application_number": "NDA050629",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "00634b2b-4e48-4178-8877-28582af894ad",
+     "version": "14",
+     "effective_time": "20260430",
+     "application_number": "NDA050629",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "917eddf9-1d3f-4abe-8c81-d33b066e5bae",
+     "version": "5",
+     "effective_time": "20260310",
+     "application_number": "NDA050718",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "d31d7f58-66d0-4826-b6b5-5914c031965f",
+     "version": "1",
+     "effective_time": "20250331",
+     "application_number": "NDA050629",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "cf25a018-e795-49e4-8533-a581f8366dd9",
+     "version": "10",
+     "effective_time": "20220531",
+     "application_number": "NDA050718",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "1c153e9e-4cf2-4ac7-9cf9-16f9b48d7dce",
+     "version": "13",
+     "effective_time": "20220531",
+     "application_number": "NDA050718",
+     "route": [
+      "INTRAVENOUS",
+      "INTRAVITREAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "55889588-c5f1-d9bc-e063-6294a90a5791",
+     "version": "1",
+     "effective_time": "20260709",
+     "application_number": "ANDA219199",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "f6508535-e7a7-4e50-8d0c-43deda8d0d08",
+     "version": "5",
+     "effective_time": "20260521",
+     "application_number": "ANDA203263",
+     "route": [
+      "INTRAVENOUS"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "fenofibrate",
+   "chembl_id": "CHEMBL672",
+   "atc": [
+    "C10AB05"
+   ],
+   "first_approval": 1993,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "HTR2C": 5.91
+   },
+   "n_labels": 320,
+   "n_nda_labels": 6,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "78b789b9-854f-46b9-97f3-a48759a6ff89",
+     "version": "3",
+     "effective_time": "20260512",
+     "application_number": "NDA021612",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "3a69e15a-eda6-4a6e-8934-6881e4370521",
+     "version": "10",
+     "effective_time": "20260512",
+     "application_number": "NDA021612",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "24790a18-0291-4b88-a724-acac43b616ce",
+     "version": "17",
+     "effective_time": "20251001",
+     "application_number": "NDA021695",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "37b25526-0bd0-4459-a4be-f3a6893506f9",
+     "version": "8",
+     "effective_time": "20250602",
+     "application_number": "NDA021695",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "12ebf783-64df-4ffa-9e84-f8fdf4d245d4",
+     "version": "16",
+     "effective_time": "20240820",
+     "application_number": "NDA021695",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "84b2af1b-365e-4723-ac5f-bc826ec47772",
+     "version": "11",
+     "effective_time": "20240429",
+     "application_number": "NDA021656",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "c870ea48-5dde-4a6f-9ddb-56b494bb2b55",
+     "version": "6",
+     "effective_time": "20260909",
+     "application_number": "ANDA208709",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "882ee82a-3c56-4173-af42-68c3aadc8aa7",
+     "version": "3",
+     "effective_time": "20260904",
+     "application_number": "ANDA076509",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "chloroquine",
+   "chembl_id": "CHEMBL76",
+   "atc": [
+    "P01BA01"
+   ],
+   "first_approval": 1949,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM1": 5.04,
+    "CHRM2": 5.33,
+    "CHRM3": 5.48,
+    "CHRM4": 5.24
+   },
+   "n_labels": 21,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "06c69e2b-211b-4746-9f3a-f86d36520570",
+     "version": "7",
+     "effective_time": "20260702",
+     "application_number": "ANDA090612",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "ee944d28-f596-4163-a502-e779c0d622bc",
+     "version": "6",
+     "effective_time": "20260702",
+     "application_number": "ANDA091621",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "0a342f72-45f9-3e12-e063-6394a90ae33e",
+     "version": "2",
+     "effective_time": "20260113",
+     "application_number": "ANDA040516",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "ff199f31-bfda-45f8-adbd-4662f7054f1c",
+     "version": "3",
+     "effective_time": "20251210",
+     "application_number": "ANDA214756",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "f4ac1556-0522-76e3-e053-2a95a90a5ba8",
+     "version": "4",
+     "effective_time": "20251107",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "eb02c52d-907c-43fb-aa8f-2f378a9087e7",
+     "version": "11",
+     "effective_time": "20250708",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "638e62df-5bbc-41c3-aa88-eb36781c2af6",
+     "version": "8",
+     "effective_time": "20250620",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "45861c92-11b6-4a5a-9b10-6b5e0a9f308e",
+     "version": "5",
+     "effective_time": "20250106",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "montelukast",
+   "chembl_id": "CHEMBL787",
+   "atc": [
+    "R03DC03",
+    "R03DC53"
+   ],
+   "first_approval": 1998,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "CHRM1": 5.71,
+    "CHRM3": 5.85
+   },
+   "n_labels": 221,
+   "n_nda_labels": 1,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "482dcc92-b47f-4ea6-854a-f5ac2aea7842",
+     "version": "5",
+     "effective_time": "20250430",
+     "application_number": "NDA020830",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "583a9499-97f0-2ebf-e063-6394a90a35af",
+     "version": "1",
+     "effective_time": "20260804",
+     "application_number": "ANDA203366",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "da038cf6-cfad-43a4-ab8e-d81d028d6087",
+     "version": "24",
+     "effective_time": "20260728",
+     "application_number": "ANDA090984",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "94642db1-5c75-44c4-92b4-8385b486df82",
+     "version": "7",
+     "effective_time": "20260728",
+     "application_number": "ANDA202843",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "1eeb3123-9e93-4681-8096-800a7c7acf8a",
+     "version": "3",
+     "effective_time": "20260728",
+     "application_number": "ANDA204290",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "64a3b181-e8d8-4caf-9f1b-e0063d0bd94a",
+     "version": "3",
+     "effective_time": "20260728",
+     "application_number": "ANDA201515",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "49669ac0-0bb5-4576-bed5-9e85e0d76a44",
+     "version": "11",
+     "effective_time": "20260529",
+     "application_number": "ANDA202096",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "ecaa9b4b-5941-4af5-930c-35e9f3b2b4ba",
+     "version": "9",
+     "effective_time": "20260403",
+     "application_number": "ANDA202843",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "brompheniramine",
+   "chembl_id": "CHEMBL811",
+   "atc": [
+    "R06AB01",
+    "R06AB51"
+   ],
+   "first_approval": 1957,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 9,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "5b64b800-5f5f-48d5-bb44-eb191b3aec67",
+     "version": "5",
+     "effective_time": "20180314",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "74b92bdf-5447-4932-a265-39891a4557a4",
+     "version": "2",
+     "effective_time": "20130424",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "3337cd36-b859-419b-a7cb-6adafd316747",
+     "version": "2",
+     "effective_time": "20120413",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "cd0f4e44-63e2-4a0b-b646-43d443ba25bc",
+     "version": "2",
+     "effective_time": "20120413",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "8ee3630a-4858-4739-a26e-05f8400cda2e",
+     "version": "11",
+     "effective_time": "20101229",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "b0201b38-e7bc-4b2a-b8d4-7314695c0c69",
+     "version": "11",
+     "effective_time": "20101229",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "019c1b13-290d-4e20-b70a-a2cd47e67a52",
+     "version": "2",
+     "effective_time": "20101211",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "53a96242-03e8-4a43-a282-aed8207fe73d",
+     "version": "5",
+     "effective_time": "20101202",
+     "application_number": null,
+     "route": null,
+     "matched_on": "spl_product_data_elements",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "loperamide",
+   "chembl_id": "CHEMBL841",
+   "atc": [
+    "A07DA03",
+    "A07DA53"
+   ],
+   "first_approval": 1976,
+   "selected_by": [
+    "anchor_pki_ge5"
+   ],
+   "anchor_pki": {
+    "DRD2": 5.24,
+    "ADRA1B": 5.43
+   },
+   "n_labels": 104,
+   "n_nda_labels": 0,
+   "any_label_mentions_placebo": true,
+   "labels": [
+    {
+     "set_id": "59e1c4cf-17cc-13c9-e063-6294a90af61c",
+     "version": "1",
+     "effective_time": "20260825",
+     "application_number": "ANDA218122",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "3fdfc0e5-56a2-48a0-8ee6-390a194a29f3",
+     "version": "7",
+     "effective_time": "20260807",
+     "application_number": "ANDA218122",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "be99224e-dd49-4628-a5bf-ed8469ffd4a4",
+     "version": "13",
+     "effective_time": "20260728",
+     "application_number": "ANDA072741",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "74b9893a-18c3-4117-85c2-edab8e7b3b3b",
+     "version": "1",
+     "effective_time": "20260709",
+     "application_number": "ANDA072741",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "ca8de42f-8aea-4e35-ab3a-75ecea718f4f",
+     "version": "6",
+     "effective_time": "20260604",
+     "application_number": "ANDA073192",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "1e9dfe71-28a9-4b54-a0e1-7c0d82fec0d7",
+     "version": "102",
+     "effective_time": "20260529",
+     "application_number": "ANDA215001",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "518bb0f0-88f2-1c95-e063-6294a90a722f",
+     "version": "1",
+     "effective_time": "20260511",
+     "application_number": "ANDA218122",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    },
+    {
+     "set_id": "a2594967-e737-4a23-a710-290ca0e6a272",
+     "version": "2",
+     "effective_time": "20260511",
+     "application_number": "ANDA216876",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": true,
+     "mentions_placebo": true
+    }
+   ],
+   "v1": null
+  },
+  {
+   "inn": "carbinoxamine",
+   "chembl_id": "CHEMBL864",
+   "atc": [
+    "R06AA08"
+   ],
+   "first_approval": 1982,
+   "selected_by": [
+    "atc"
+   ],
+   "anchor_pki": {},
+   "n_labels": 23,
+   "n_nda_labels": 2,
+   "any_label_mentions_placebo": false,
+   "labels": [
+    {
+     "set_id": "199f46e5-6288-5627-e063-6294a90ae086",
+     "version": "4",
+     "effective_time": "20260312",
+     "application_number": "NDA022556",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "c40b3f4e-2d71-41a1-a1fc-f64f38724879",
+     "version": "15",
+     "effective_time": "20260312",
+     "application_number": "NDA022556",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "163db29b-f035-6696-e063-6294a90a7e06",
+     "version": "2",
+     "effective_time": "20260106",
+     "application_number": "ANDA207484",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "14266e97-674b-b6a9-37a2-a955f0a01c4f",
+     "version": "8",
+     "effective_time": "20251217",
+     "application_number": "ANDA090756",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "91ee2e99-082a-4157-b71b-1a7c0e5464fa",
+     "version": "2",
+     "effective_time": "20250805",
+     "application_number": "ANDA215476",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "02e13b55-2153-468e-a5bd-57dee062f47f",
+     "version": "3",
+     "effective_time": "20250718",
+     "application_number": "ANDA215476",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "9d11b197-cfdc-4b9b-9935-2920ccb6e522",
+     "version": "6",
+     "effective_time": "20240306",
+     "application_number": "ANDA040442",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    },
+    {
+     "set_id": "13ed76c7-49bd-4527-83dc-b4c7d0da9fff",
+     "version": "4",
+     "effective_time": "20240109",
+     "application_number": "ANDA207484",
+     "route": [
+      "ORAL"
+     ],
+     "matched_on": "substance_name",
+     "has_ar_table": false,
+     "mentions_placebo": false
+    }
+   ],
+   "v1": null
+  }
+ ]
+}
