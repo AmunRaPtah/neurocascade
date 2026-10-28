@@ -96,21 +96,21 @@
      "relation": "=",
      "species": "human",
      "standard_type": "Papp",
-     "units": "nm/s",
-     "value": 89.0
+     "units": "1e-6 cm/s",
+     "value": 8.9
     }
    ],
    "summary": [
     {
      "matrix": "caco2",
-     "max": 89.0,
-     "min": 89.0,
+     "max": 8.9,
+     "min": 8.9,
      "n_censored": 0,
      "n_documents": 1,
      "n_measurements": 1,
      "species": "human",
-     "units": "nm/s",
-     "value": 89.0
+     "units": "1e-6 cm/s",
+     "value": 8.9
     }
    ]
   },

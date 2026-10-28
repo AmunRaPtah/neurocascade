@@ -4,7 +4,8 @@
  "excluded": {
   "human_invivo_cl": 9,
   "human_invivo_vss": 5,
-  "human_oral_bioavailability": 2
+  "human_oral_bioavailability": 2,
+  "permeability_artificial_membrane": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
@@ -568,52 +569,43 @@
      "relation": "=",
      "species": "dog",
      "standard_type": "Papp",
-     "units": "nm/s",
-     "value": 438.0
+     "units": "1e-6 cm/s",
+     "value": 43.8
     },
     {
      "assay_chembl_id": "CHEMBL1908286",
      "description": "Apparent permeability (Papp) from basolateral to apical side determined in MDR1-MDCKII cells",
-     "matrix": "mdck",
+     "matrix": "mdck_efflux",
      "ref": "CHEMBL1908284",
      "relation": "=",
      "species": "dog",
      "standard_type": "Papp",
-     "units": "nm/s",
-     "value": 477.0
-    },
-    {
-     "assay_chembl_id": "CHEMBL925736",
-     "description": "Apparent permeability across parallel artificial membrane",
-     "ref": "CHEMBL1144698",
-     "relation": "=",
-     "species": "unspecified",
-     "standard_type": "Papp",
-     "units": null,
-     "value": 2.51
+     "units": "1e-6 cm/s",
+     "value": 47.7
     }
    ],
    "summary": [
     {
      "matrix": "mdck",
-     "max": 477.0,
-     "min": 438.0,
-     "n_censored": 0,
-     "n_documents": 1,
-     "n_measurements": 2,
-     "species": "dog",
-     "units": "nm/s",
-     "value": 457.084237
-    },
-    {
-     "max": 2.51,
-     "min": 2.51,
+     "max": 43.8,
+     "min": 43.8,
      "n_censored": 0,
      "n_documents": 1,
      "n_measurements": 1,
-     "species": "unspecified",
-     "units": null,
-     "value": 2.51
+     "species": "dog",
+     "units": "1e-6 cm/s",
+     "value": 43.8
+    },
+    {
+     "matrix": "mdck_efflux",
+     "max": 47.7,
+     "min": 47.7,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "1e-6 cm/s",
+     "value": 47.7
     }
    ]
   },
@@ -760,13 +752,6 @@
    "pmid": "19108654",
    "title": "Metabolic soft spot identification and compound optimization in early discovery phases using MetaSite and LC-MS/MS validation.",
    "year": 2009
-  },
-  "CHEMBL1144698": {
-   "chembl_document_id": "CHEMBL1144698",
-   "journal": "J Med Chem",
-   "pmid": "18348514",
-   "title": "New approach to measure protein binding based on a parallel artificial membrane assay and human serum albumin.",
-   "year": 2008
   },
   "CHEMBL1148291": {
    "chembl_document_id": "CHEMBL1148291",

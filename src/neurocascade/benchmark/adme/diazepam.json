@@ -5,7 +5,9 @@
   "human_invivo_cl": 5,
   "human_invivo_vss": 8,
   "human_oral_bioavailability": 3,
-  "oral_bioavailability_non_exact_relation": 1
+  "oral_bioavailability_non_exact_relation": 1,
+  "permeability_artificial_membrane": 1,
+  "permeability_unit_unconvertible": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
@@ -450,19 +452,8 @@
      "relation": "=",
      "species": "dog",
      "standard_type": "Papp",
-     "units": "10'-5 cm/s",
-     "value": 1.56
-    },
-    {
-     "assay_chembl_id": "CHEMBL3588487",
-     "description": "Apparent permeability from basolateral to apical side in MDCK2 cells expressing MDR1 at 200 ug/ml by UV-visible spectroscopy",
-     "matrix": "mdck",
-     "ref": "CHEMBL3585305",
-     "relation": "=",
-     "species": "dog",
-     "standard_type": "Papp",
-     "units": "10'-5 cm/s",
-     "value": 1.23
+     "units": "1e-6 cm/s",
+     "value": 15.6
     },
     {
      "assay_chembl_id": "CHEMBL3878040",
@@ -472,19 +463,8 @@
      "relation": "=",
      "species": "dog",
      "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 1.46
-    },
-    {
-     "assay_chembl_id": "CHEMBL3878041",
-     "description": "Apparent permeability from basolateral to apical side in MDCK2-MDR1 cells at 75 uM after 120 mins by UV-Visible spectrophotometric method",
-     "matrix": "mdck",
-     "ref": "CHEMBL3877267",
-     "relation": "=",
-     "species": "dog",
-     "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 1.23
+     "units": "1e-6 cm/s",
+     "value": 14.6
     },
     {
      "assay_chembl_id": "CHEMBL4133389",
@@ -494,19 +474,8 @@
      "relation": "=",
      "species": "dog",
      "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 2.5
-    },
-    {
-     "assay_chembl_id": "CHEMBL4133390",
-     "description": "Apparent permeability from basolateral to apical side in MDCK2-MDR1 cells at 75 uM after 2 hrs UV-visible spectroscopy",
-     "matrix": "mdck",
-     "ref": "CHEMBL4130419",
-     "relation": "=",
-     "species": "dog",
-     "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 2.3
+     "units": "1e-6 cm/s",
+     "value": 25.0
     },
     {
      "assay_chembl_id": "CHEMBL4327363",
@@ -516,30 +485,8 @@
      "relation": "=",
      "species": "dog",
      "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 1.49
-    },
-    {
-     "assay_chembl_id": "CHEMBL4327364",
-     "description": "Apparent permeability from basolateral to apical side in MDCK2-MDR1 cells by UV-Visible spectrophotometric method",
-     "matrix": "mdck",
-     "ref": "CHEMBL4325863",
-     "relation": "=",
-     "species": "dog",
-     "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 1.37
-    },
-    {
-     "assay_chembl_id": "CHEMBL4391180",
-     "description": "Apparent permeability across basolateral to apical side in MDCK2-MDR1 cells by HPLC analysis",
-     "matrix": "mdck",
-     "ref": "CHEMBL4390652",
-     "relation": "=",
-     "species": "dog",
-     "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 1.43
+     "units": "1e-6 cm/s",
+     "value": 14.9
     },
     {
      "assay_chembl_id": "CHEMBL4391179",
@@ -549,8 +496,8 @@
      "relation": "=",
      "species": "dog",
      "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 2.02
+     "units": "1e-6 cm/s",
+     "value": 20.2
     },
     {
      "assay_chembl_id": "CHEMBL4426671",
@@ -560,30 +507,8 @@
      "relation": "=",
      "species": "dog",
      "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 2.58
-    },
-    {
-     "assay_chembl_id": "CHEMBL4426673",
-     "description": "Apparent permeability across basolateral to apical side in MDCK2-MDR1 cells at 75 uM by UV-visible spectroscopic method",
-     "matrix": "mdck",
-     "ref": "CHEMBL4425129",
-     "relation": "=",
-     "species": "dog",
-     "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 2.53
-    },
-    {
-     "assay_chembl_id": "CHEMBL4616024",
-     "description": "Apparent permeability across basolateral to apical side in MDCK-MDR1 cells at 75 uM incubated for 2 hrs by UV-spectroscopy",
-     "matrix": "mdck",
-     "ref": "CHEMBL4613305",
-     "relation": "=",
-     "species": "dog",
-     "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 1.4
+     "units": "1e-6 cm/s",
+     "value": 25.8
     },
     {
      "assay_chembl_id": "CHEMBL4616023",
@@ -593,8 +518,8 @@
      "relation": "=",
      "species": "dog",
      "standard_type": "Papp",
-     "units": "10'-5cm/s",
-     "value": 2.0
+     "units": "1e-6 cm/s",
+     "value": 20.0
     },
     {
      "assay_chembl_id": "CHEMBL5144591",
@@ -604,96 +529,120 @@
      "relation": "=",
      "species": "dog",
      "standard_type": "Papp",
-     "units": "10^-5cm/s",
-     "value": 1.35
+     "units": "1e-6 cm/s",
+     "value": 13.5
+    },
+    {
+     "assay_chembl_id": "CHEMBL3588487",
+     "description": "Apparent permeability from basolateral to apical side in MDCK2 cells expressing MDR1 at 200 ug/ml by UV-visible spectroscopy",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL3585305",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 12.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL3878041",
+     "description": "Apparent permeability from basolateral to apical side in MDCK2-MDR1 cells at 75 uM after 120 mins by UV-Visible spectrophotometric method",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL3877267",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 12.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL4133390",
+     "description": "Apparent permeability from basolateral to apical side in MDCK2-MDR1 cells at 75 uM after 2 hrs UV-visible spectroscopy",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL4130419",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 23.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL4327364",
+     "description": "Apparent permeability from basolateral to apical side in MDCK2-MDR1 cells by UV-Visible spectrophotometric method",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL4325863",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 13.7
+    },
+    {
+     "assay_chembl_id": "CHEMBL4391180",
+     "description": "Apparent permeability across basolateral to apical side in MDCK2-MDR1 cells by HPLC analysis",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL4390652",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 14.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL4426673",
+     "description": "Apparent permeability across basolateral to apical side in MDCK2-MDR1 cells at 75 uM by UV-visible spectroscopic method",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL4425129",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 25.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL4616024",
+     "description": "Apparent permeability across basolateral to apical side in MDCK-MDR1 cells at 75 uM incubated for 2 hrs by UV-spectroscopy",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL4613305",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 14.0
     },
     {
      "assay_chembl_id": "CHEMBL5144592",
      "description": "Apparent permeability across basolateral to apical side in MDCKII-MDR1 cells at 75 uM incubated for 2 hrs",
-     "matrix": "mdck",
+     "matrix": "mdck_efflux",
      "ref": "CHEMBL5143529",
      "relation": "=",
      "species": "dog",
      "standard_type": "Papp",
-     "units": "10^-5cm/s",
-     "value": 1.17
-    },
-    {
-     "assay_chembl_id": "CHEMBL925736",
-     "description": "Apparent permeability across parallel artificial membrane",
-     "ref": "CHEMBL1144698",
-     "relation": "=",
-     "species": "unspecified",
-     "standard_type": "Papp",
-     "units": null,
-     "value": 2.87
-    },
-    {
-     "assay_chembl_id": "CHEMBL635760",
-     "description": "Apparent permeability coefficient (Papp) (Caco-2 cell monolayer)",
-     "matrix": "caco2",
-     "ref": "CHEMBL1134498",
-     "relation": "=",
-     "species": "unspecified",
-     "standard_type": "Papp",
-     "units": "cm s-1",
-     "value": 119000000.0
+     "units": "1e-6 cm/s",
+     "value": 11.7
     }
    ],
    "summary": [
     {
      "matrix": "mdck",
-     "max": 1.56,
-     "min": 1.23,
+     "max": 25.8,
+     "min": 13.5,
      "n_censored": 0,
-     "n_documents": 1,
-     "n_measurements": 2,
+     "n_documents": 8,
+     "n_measurements": 8,
      "species": "dog",
-     "units": "10'-5 cm/s",
-     "value": 1.385208
+     "units": "1e-6 cm/s",
+     "value": 17.8
     },
     {
-     "matrix": "mdck",
-     "max": 2.58,
-     "min": 1.23,
+     "matrix": "mdck_efflux",
+     "max": 25.3,
+     "min": 11.7,
      "n_censored": 0,
-     "n_documents": 6,
-     "n_measurements": 12,
+     "n_documents": 8,
+     "n_measurements": 8,
      "species": "dog",
-     "units": "10'-5cm/s",
-     "value": 1.686454
-    },
-    {
-     "matrix": "mdck",
-     "max": 1.35,
-     "min": 1.17,
-     "n_censored": 0,
-     "n_documents": 1,
-     "n_measurements": 2,
-     "species": "dog",
-     "units": "10^-5cm/s",
-     "value": 1.256782
-    },
-    {
-     "max": 2.87,
-     "min": 2.87,
-     "n_censored": 0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "species": "unspecified",
-     "units": null,
-     "value": 2.87
-    },
-    {
-     "matrix": "caco2",
-     "max": 119000000.0,
-     "min": 119000000.0,
-     "n_censored": 0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "species": "unspecified",
-     "units": "cm s-1",
-     "value": 119000000.0
+     "units": "1e-6 cm/s",
+     "value": 13.85
     }
    ]
   },
@@ -940,13 +889,6 @@
    "title": "Combining in vitro and in vivo pharmacokinetic data for prediction of hepatic drug clearance in humans by artificial neural networks and multivariate statistical techniques.",
    "year": 1999
   },
-  "CHEMBL1134498": {
-   "chembl_document_id": "CHEMBL1134498",
-   "journal": "J Med Chem",
-   "pmid": "11384238",
-   "title": "Experimental and computational screening models for the prediction of intestinal drug absorption.",
-   "year": 2001
-  },
   "CHEMBL1135488": {
    "chembl_document_id": "CHEMBL1135488",
    "journal": "J Med Chem",
@@ -973,13 +915,6 @@
    "journal": "J Med Chem",
    "pmid": "18855374",
    "title": "Design, synthesis, biological evaluation and pharmacokinetics of bis(hydroxyphenyl) substituted azoles, thiophenes, benzenes, and aza-benzenes as potent and selective nonsteroidal inhibitors of 17beta-hydroxysteroid dehydrogenase type 1 (17beta-HSD1).",
-   "year": 2008
-  },
-  "CHEMBL1144698": {
-   "chembl_document_id": "CHEMBL1144698",
-   "journal": "J Med Chem",
-   "pmid": "18348514",
-   "title": "New approach to measure protein binding based on a parallel artificial membrane assay and human serum albumin.",
    "year": 2008
   },
   "CHEMBL1148291": {

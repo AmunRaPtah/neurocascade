@@ -83,8 +83,8 @@
      "relation": "=",
      "species": "human",
      "standard_type": "Papp",
-     "units": "nm/s",
-     "value": 51.0
+     "units": "1e-6 cm/s",
+     "value": 5.1
     },
     {
      "assay_chembl_id": "CHEMBL931359",
@@ -94,21 +94,21 @@
      "relation": "=",
      "species": "human",
      "standard_type": "Papp",
-     "units": "nm/s",
-     "value": 51.0
+     "units": "1e-6 cm/s",
+     "value": 5.1
     }
    ],
    "summary": [
     {
      "matrix": "caco2",
-     "max": 51.0,
-     "min": 51.0,
+     "max": 5.1,
+     "min": 5.1,
      "n_censored": 0,
      "n_documents": 2,
      "n_measurements": 2,
      "species": "human",
-     "units": "nm/s",
-     "value": 51.0
+     "units": "1e-6 cm/s",
+     "value": 5.1
     }
    ]
   },

@@ -5,13 +5,14 @@
   "human_invivo_cl": 4,
   "human_invivo_vss": 4,
   "human_oral_bioavailability": 2,
+  "permeability_artificial_membrane": 2,
   "species_unresolved_invivo_vss": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
   "clint": true,
   "oral_bioavailability": false,
-  "permeability": true,
+  "permeability": false,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -273,52 +274,6 @@
     }
    ]
   },
-  "permeability": {
-   "measurements": [
-    {
-     "assay_chembl_id": "CHEMBL905613",
-     "description": "Permeability coefficient through artificial membrane in presence of stirred water layer",
-     "ref": "CHEMBL1143050",
-     "relation": "=",
-     "species": "unspecified",
-     "standard_type": "Papp",
-     "units": "10^-6 cm/s",
-     "value": 156.14
-    },
-    {
-     "assay_chembl_id": "CHEMBL925736",
-     "description": "Apparent permeability across parallel artificial membrane",
-     "ref": "CHEMBL1144698",
-     "relation": "=",
-     "species": "unspecified",
-     "standard_type": "Papp",
-     "units": null,
-     "value": 3.01
-    }
-   ],
-   "summary": [
-    {
-     "max": 3.01,
-     "min": 3.01,
-     "n_censored": 0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "species": "unspecified",
-     "units": null,
-     "value": 3.01
-    },
-    {
-     "max": 156.14,
-     "min": 156.14,
-     "n_censored": 0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "species": "unspecified",
-     "units": "10^-6 cm/s",
-     "value": 156.14
-    }
-   ]
-  },
   "plasma_fu": {
    "measurements": [
     {
@@ -444,20 +399,6 @@
    "pmid": "18768239",
    "title": "First-principle, structure-based prediction of hepatic metabolic clearance values in human.",
    "year": 2009
-  },
-  "CHEMBL1143050": {
-   "chembl_document_id": "CHEMBL1143050",
-   "journal": "Bioorg Med Chem",
-   "pmid": "17418579",
-   "title": "QSAR study on permeability of hydrophobic compounds with artificial membranes.",
-   "year": 2007
-  },
-  "CHEMBL1144698": {
-   "chembl_document_id": "CHEMBL1144698",
-   "journal": "J Med Chem",
-   "pmid": "18348514",
-   "title": "New approach to measure protein binding based on a parallel artificial membrane assay and human serum albumin.",
-   "year": 2008
   },
   "CHEMBL1148291": {
    "chembl_document_id": "CHEMBL1148291",

@@ -240,21 +240,21 @@
      "relation": "=",
      "species": "human",
      "standard_type": "Papp",
-     "units": "10'-5 cm/s",
-     "value": 1.7
+     "units": "1e-6 cm/s",
+     "value": 17.0
     }
    ],
    "summary": [
     {
      "matrix": "caco2",
-     "max": 1.7,
-     "min": 1.7,
+     "max": 17.0,
+     "min": 17.0,
      "n_censored": 0,
      "n_documents": 1,
      "n_measurements": 1,
      "species": "human",
-     "units": "10'-5 cm/s",
-     "value": 1.7
+     "units": "1e-6 cm/s",
+     "value": 17.0
     }
    ]
   },

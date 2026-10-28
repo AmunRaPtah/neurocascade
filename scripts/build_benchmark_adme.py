@@ -45,6 +45,36 @@ oral_bioavailability a non-human ``assay_organism`` (rat/dog/mouse/monkey/...;
 human F/Fabs/Bioavailability is clinical truth, not a model input).
 Permeability (Papp/Caco-2/MDCK) is kept for any host species/cell line because
 it is an in-vitro assay, never a clinical PK outcome.
+
+Permeability extraction was tightened 2026-10-28 after independent review of
+PR #53 found the first cut stored raw ChEMBL values under 11 different unit
+spellings (including null) with no plausibility check, let a "Percentage of
+mass balance" row through as if it were a Papp value, pooled PAMPA/hexadecane
+artificial-membrane assays together with cell monolayers, and did not
+distinguish apical-to-basolateral from basolateral-to-apical (efflux) rows.
+The rule now in force (``PERMEABILITY_UNIT_FACTOR`` and friends, and the
+permeability block in ``_build_one``):
+1. every Papp row is converted to a single canonical unit, 1e-6 cm/s; rows
+   with units that are null or not in the conversion table are dropped
+   (counted under ``excluded["permeability_unit_unconvertible"]``) rather
+   than guessed at -- this is why "cm s-1" is excluded: all four of its
+   occurrences in this corpus (CHEMBL1134498: diazepam, nordazepam,
+   oxazepam, sulpiride) are off by five to eight orders of magnitude;
+2. after conversion, a plausibility filter keeps 0.001-1000 (1e-6 cm/s) and
+   drops anything outside it under ``excluded["permeability_implausible_value"]``;
+3. rows whose description says "mass balance" or "recovery" are not
+   permeability coefficients at all and are dropped under
+   ``excluded["permeability_not_coefficient"]``, matched on description text
+   because ChEMBL gives them the same standard_type as the real Papp rows;
+4. PAMPA and hexadecane artificial-membrane assays are not cell monolayers;
+   they are excluded entirely (``excluded["permeability_artificial_membrane"]``)
+   rather than tagged with a separate matrix, so
+   ``load_preclinical_oral_inputs()`` needs no matrix-aware change to stop
+   counting them;
+5. basolateral-to-apical (efflux) rows are kept but tagged with a distinct
+   matrix suffix (``<matrix>_efflux``) so they group separately from the
+   apical-to-basolateral/no-direction-stated cell-based value in
+   ``_summarise`` and in per-drug field coverage.
 """
 
 from __future__ import annotations
@@ -115,6 +145,56 @@ def _species(organism: str | None, description: str) -> str:
 RODENT = ("rat", "mouse")
 NONHUMAN = ("rat", "mouse", "dog", "monkey", "guinea_pig", "pig", "chimp")
 
+# ------------------------------------------------------------ permeability
+#
+# P29.5 permeability extraction, tightened 2026-10-28 after independent
+# review of PR #53 (see docs/p29-5-oral-exposure-pet-data.md "ChEMBL
+# bulk-query inclusion rule" and docs/validation-ledger.md). ChEMBL's Papp
+# rows carry 11 distinct unit-string spellings (10 strings + null) across
+# this corpus, three of them meaning the same thing (micro-cm/s) and one,
+# "cm s-1", mislabelling four Caco-2 rows (CHEMBL1134498: diazepam 1.19e8,
+# nordazepam 9.6e7, oxazepam 9.1e7, sulpiride 2.3e5) with values five to
+# eight orders of magnitude too large for a real cm/s Papp. "cm s-1" is
+# therefore deliberately left out of the conversion table below so those
+# four rows are dropped as unconvertible, not silently rescaled.
+PERMEABILITY_UNIT_FACTOR = {
+    # multiply standard_value by this factor to reach the canonical scale
+    # of 1e-6 cm/s (= micro-cm/s).
+    "cm/s * 10E6": 1.0,
+    "10^-6 cm/s": 1.0,
+    "10'-6 cm/s": 1.0,
+    "ucm/s": 1.0,
+    "10^-5cm/s": 10.0,
+    "10'-5cm/s": 10.0,
+    "10'-5 cm/s": 10.0,
+    "nm/s": 0.1,
+}
+PERMEABILITY_UNITS_OUT = "1e-6 cm/s"
+PERMEABILITY_PLAUSIBLE_MIN = 0.001  # in 1e-6 cm/s
+PERMEABILITY_PLAUSIBLE_MAX = 1000.0  # in 1e-6 cm/s
+
+# Rows whose *description* says this is not a Papp at all (e.g. sulpiride's
+# "Percentage of mass balance in hexadecane membranes model", value 102,
+# which ChEMBL files under the same assay as its real Papp rows). Matched on
+# description text, not standard_type, because ChEMBL does not give these a
+# distinct standard_type.
+_PERMEABILITY_NOT_COEFFICIENT = ("mass balance", "recovery")
+
+# PAMPA / hexadecane artificial-membrane assays are not cell monolayers and
+# are excluded from the "permeability" field entirely (reported under
+# ``excluded``) rather than tagged with a separate matrix, so
+# ``load_preclinical_oral_inputs()`` in src/neurocascade/benchmark/p29_5.py
+# needs no matrix-aware change to stop counting them.
+_PERMEABILITY_ARTIFICIAL_MEMBRANE = (
+    "artificial membrane", "hexadecane", "pampa",
+)
+
+# Basolateral-to-apical (efflux) rows are kept, but tagged with a distinct
+# matrix suffix so _summarise's existing (species, units, matrix) groupby
+# keeps them out of the cell-based value. Apical-to-basolateral and rows
+# with no direction stated are the cell-based value.
+_PERMEABILITY_EFFLUX_DIRECTION = ("basolateral to apical", "b to a side", "efflux")
+
 # ----------------------------------------------------------------- classify
 
 
@@ -139,6 +219,14 @@ def _classify(st: str, units: str | None, description: str, tissue: str | None):
     Both new fields additionally require ``standard_relation == "="`` (no
     ``<``/``>`` bound) and no ``data_validity_comment`` on the activity row,
     enforced in the caller before a row reaches ``_classify``.
+
+    Permeability inclusion rule, tightened 2026-10-28 after independent
+    review (``PERMEABILITY_UNIT_FACTOR`` etc. above): matrix/unit/validity
+    decisions for Papp rows are made in ``_build_one``, not here, because
+    they need the raw value (for the plausibility filter) and the full
+    description (for the mass-balance/PAMPA/direction checks). This
+    function only recognises the standard type and returns ``matrix=None``
+    pending that downstream classification.
     """
     d = (description or "").lower()
     t = (tissue or "").lower()
@@ -148,12 +236,7 @@ def _classify(st: str, units: str | None, description: str, tissue: str | None):
         return ("oral_bioavailability", None)
     if st in ("Papp", "Caco-2 Permeability", "MDCK Permeability",
               "Caco-2 permeability", "MDCK permeability"):
-        matrix = None
-        if "caco" in d:
-            matrix = "caco2"
-        elif "mdck" in d:
-            matrix = "mdck"
-        return ("permeability", matrix)
+        return ("permeability", None)  # matrix/unit/validity: see _build_one
     if st in ("Fu", "logFu"):
         # logFu rows in this corpus carry the de-logged fraction as the standard
         # value (e.g. haloperidol 0.08), so both are read as a fraction unbound.
@@ -381,6 +464,34 @@ def _build_one(d, acts, assays, docs):
             excluded["nonpositive_value"] += 1
             continue
 
+        if field == "permeability":
+            d_lower = descr.lower()
+            if any(p in d_lower for p in _PERMEABILITY_NOT_COEFFICIENT):
+                excluded["permeability_not_coefficient"] += 1
+                continue
+            if any(p in d_lower for p in _PERMEABILITY_ARTIFICIAL_MEMBRANE):
+                excluded["permeability_artificial_membrane"] += 1
+                continue
+            if "caco" in d_lower:
+                matrix = "caco2"
+            elif "mdck" in d_lower:
+                matrix = "mdck"
+            elif "2/4/a1" in d_lower or "2/4a1" in d_lower:
+                matrix = "2d4a1"
+            else:
+                matrix = None  # cell system unspecified in the description
+            if any(p in d_lower for p in _PERMEABILITY_EFFLUX_DIRECTION):
+                matrix = (matrix or "unspecified") + "_efflux"
+            factor = PERMEABILITY_UNIT_FACTOR.get(units)
+            if factor is None:
+                excluded["permeability_unit_unconvertible"] += 1
+                continue
+            value = round(value * factor, 6)
+            units = PERMEABILITY_UNITS_OUT
+            if not (PERMEABILITY_PLAUSIBLE_MIN <= value <= PERMEABILITY_PLAUSIBLE_MAX):
+                excluded["permeability_implausible_value"] += 1
+                continue
+
         # the human/non-human boundary for in-vivo PK and oral absorption
         # (human CL/Vss/F are clinical outcomes -> P28.4, not preclinical input).
         # Permeability (Papp/Caco-2/MDCK) is an in-vitro assay and is kept
@@ -445,7 +556,12 @@ def _build_one(d, acts, assays, docs):
                 m["species"] in RODENT
                 for m in out_fields.get("invivo_vss_preclinical", {}).get("measurements", [])),
             "oral_bioavailability": "oral_bioavailability" in out_fields,
-            "permeability": "permeability" in out_fields,
+            # Efflux (basolateral-to-apical) rows are kept but are not the
+            # cell-based oral-absorption value (see _PERMEABILITY_EFFLUX_
+            # DIRECTION above); a drug with only efflux rows does not count.
+            "permeability": any(
+                not (m.get("matrix") or "").endswith("_efflux")
+                for m in out_fields.get("permeability", {}).get("measurements", [])),
         },
         "excluded": dict(sorted(excluded.items())),
         "searched": {"chembl_adme_rows_returned": len(acts)},
