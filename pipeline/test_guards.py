@@ -204,3 +204,26 @@ def test_v2_correction_maps_keep_train_and_hide_heldout(repo):
     train = [i for i in inns if not g.v2_heldout(i)]
     assert sorted(d["drop"]) == sorted(train) and sorted(d["replace"]) == sorted(train)
     assert d["rule"] == "r" and len(train) < len(inns)
+
+
+def test_v2_human_cmax_corrections_heldout_inns_stripped(repo):
+    """The real truth/human_cmax_corrections.json (PR #52) is applied by
+    load_v2_human_cmax(); hide_heldout must strip every held-out INN from its
+    per-INN maps and keep every train INN and the file metadata."""
+    rel = g.V2_TRUTH + "human_cmax_corrections.json"
+    real = json.loads((Path(__file__).resolve().parents[1] / rel).read_text())
+    write(repo, rel, real)
+    git(repo, "add", "-A")
+    git(repo, "commit", "-q", "-m", "v2 cmax corrections")
+    tree = repo.parent / "h-tree"
+    subprocess.run(["cp", "-a", str(repo), str(tree)], check=True)
+    g.hide_heldout(tree)
+    d = json.loads((tree / rel).read_text())
+    for k in g.V2_INN_MAPS:
+        before = real.get(k) or {}
+        assert sorted(d.get(k) or {}) == sorted(i for i in before if not g.v2_heldout(i))
+        assert not any(g.v2_heldout(i) for i in d.get(k) or {})
+    assert {k: v for k, v in d.items() if k not in g.V2_INN_MAPS} == \
+        {k: v for k, v in real.items() if k not in g.V2_INN_MAPS}
+    # non-vacuous: the committed file does carry held-out INNs to strip
+    assert any(g.v2_heldout(i) for k in g.V2_INN_MAPS for i in real.get(k) or {})
