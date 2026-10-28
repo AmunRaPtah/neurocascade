@@ -1,0 +1,187 @@
+{
+ "task": "P34.4b",
+ "prereg": "docs/prereg-p34-amendment-smpc.md",
+ "deviation": "SmPC parser added after P34.4 fresh openFDA counts were seen (disclosed)",
+ "parser": [
+  {
+   "path": "scripts/v2_smpc.py",
+   "sha256": "85a86afe4a77bd38950db512b6928d55d964a364f56805d434a37ef4ceca0c28"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/smpc_rules.json",
+   "sha256": "a1725ea59bfafa86d2c60bb84497b026c4c4810f8ce92d4109ac3cc6ccd759ce"
+  }
+ ],
+ "train_validation": {
+  "n_train": 267,
+  "n_with_emc_smpc": 178,
+  "n_smpc_placebo_subtracted": 3,
+  "n_fetch_failed": 2,
+  "compared_drugs": [
+   "cetirizine",
+   "levocetirizine",
+   "rivastigmine"
+  ]
+ },
+ "bar": {
+  "n_compared_labels": 12,
+  "checks": {
+   "fda_positive_controls": {
+    "n": 0,
+    "need": 3,
+    "pass": false
+   },
+   "sensitivity": {
+    "smpc_pos": 0,
+    "of": 0,
+    "need": "2/3",
+    "pass": false
+   },
+   "negative_agreement": {
+    "smpc_neg": 12,
+    "of": 12,
+    "need": "9/10",
+    "pass": true
+   }
+  },
+  "pass": false
+ },
+ "parser_frozen": false,
+ "applied_to_fresh": false,
+ "result": "EMPTY",
+ "gap": "SmPC parser failed the pre-registered train validation bar; not frozen, not applied, no fresh drug touched",
+ "comparisons": [
+  {
+   "inn": "cetirizine",
+   "liability": "eps",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": null,
+   "fda_placebo_pct": null,
+   "smpc_drug_pct": null,
+   "smpc_placebo_pct": null,
+   "agree": true
+  },
+  {
+   "inn": "cetirizine",
+   "liability": "sedation",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": 3.215,
+   "fda_placebo_pct": 1.3,
+   "smpc_drug_pct": 9.63,
+   "smpc_placebo_pct": 5.0,
+   "agree": true
+  },
+  {
+   "inn": "cetirizine",
+   "liability": "anticholinergic",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": null,
+   "fda_placebo_pct": null,
+   "smpc_drug_pct": 2.09,
+   "smpc_placebo_pct": 0.82,
+   "agree": true
+  },
+  {
+   "inn": "cetirizine",
+   "liability": "orthostatic_hypotension",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": null,
+   "fda_placebo_pct": null,
+   "smpc_drug_pct": null,
+   "smpc_placebo_pct": null,
+   "agree": true
+  },
+  {
+   "inn": "levocetirizine",
+   "liability": "eps",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": null,
+   "fda_placebo_pct": null,
+   "smpc_drug_pct": null,
+   "smpc_placebo_pct": null,
+   "agree": true
+  },
+  {
+   "inn": "levocetirizine",
+   "liability": "sedation",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": 5.718,
+   "fda_placebo_pct": 2.0,
+   "smpc_drug_pct": 5.2,
+   "smpc_placebo_pct": 1.4,
+   "agree": true
+  },
+  {
+   "inn": "levocetirizine",
+   "liability": "anticholinergic",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": 2.282,
+   "fda_placebo_pct": 1.0,
+   "smpc_drug_pct": 2.6,
+   "smpc_placebo_pct": 1.6,
+   "agree": true
+  },
+  {
+   "inn": "levocetirizine",
+   "liability": "orthostatic_hypotension",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": null,
+   "fda_placebo_pct": null,
+   "smpc_drug_pct": null,
+   "smpc_placebo_pct": null,
+   "agree": true
+  },
+  {
+   "inn": "rivastigmine",
+   "liability": "eps",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": null,
+   "fda_placebo_pct": null,
+   "smpc_drug_pct": 2.2,
+   "smpc_placebo_pct": 0.6,
+   "agree": true
+  },
+  {
+   "inn": "rivastigmine",
+   "liability": "sedation",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": 5.0,
+   "fda_placebo_pct": 3.0,
+   "smpc_drug_pct": null,
+   "smpc_placebo_pct": null,
+   "agree": true
+  },
+  {
+   "inn": "rivastigmine",
+   "liability": "anticholinergic",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": null,
+   "fda_placebo_pct": null,
+   "smpc_drug_pct": null,
+   "smpc_placebo_pct": null,
+   "agree": true
+  },
+  {
+   "inn": "rivastigmine",
+   "liability": "orthostatic_hypotension",
+   "fda_label": 0,
+   "smpc_label": 0,
+   "fda_drug_pct": null,
+   "fda_placebo_pct": null,
+   "smpc_drug_pct": null,
+   "smpc_placebo_pct": null,
+   "agree": true
+  }
+ ]
+}
