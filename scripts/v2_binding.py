@@ -31,8 +31,8 @@ matching drugs.json and v1), restricted to:
   ``resolve_targets``); no target id is ever typed from memory;
 * ``standard_type`` in (``Ki``, ``Kd``), ``pchembl_value`` present;
 * no ``data_validity_comment``, not ``potential_duplicate``;
-* ``standard_relation`` == ``"="`` (censored ``>``/``>=`` rows are dropped,
-  not imputed);
+* ``standard_relation`` == ``"="`` (censored ``>``/``>=`` rows are kept out of
+  the measured summary and recorded as lower bounds only; see (a) below);
 * ``standard_units`` == ``"nM"``.
 
 **Ki and Kd are kept separate.** Only Ki rows feed the per-target summary
@@ -53,10 +53,65 @@ individual (not per-document-averaged) Ki values. Up to 10 documents are
 listed per target: ``document_chembl_id``, ``pubmed_id`` (fetched from the
 ChEMBL ``/document`` endpoint, never typed), and publication year.
 
-GtoPdb (optional in the brief) is NOT queried here: ChEMBL alone, with the
-document-level median, is the same evidentiary bar v1 used for its largest
-source, and limiting to one source keeps every PMID traceable to one
-fetched record. A later task can add a GtoPdb supplement under its own key.
+Binding coverage extension (2026-10-28): censored rows and GtoPdb
+-------------------------------------------------------------------
+The rules below were written down before the extended build was run or any
+coverage number was looked at.
+
+**(a) Censored ChEMBL rows -> lower bounds, never values.** A second ChEMBL
+query per drug fetches human ``standard_type=Ki`` rows with
+``standard_relation`` in (``>``, ``>=``) (pChEMBL is null for these, so the
+main query never saw them), same validity / duplicate / ``nM`` / panel-target
+filters. They are summarised per gene under the per-drug key
+``ki_lower_bounds`` (NOT inside ``targets``): ``ki_lower_bound_nM`` is the
+SMALLEST censored threshold (the bound every censored record supports),
+``ki_lower_bound_max_nM`` the largest, plus ``n_measurements``,
+``n_documents`` and up to 10 ChEMBL document records. A gene can carry both
+a measured ``targets`` entry and a ``ki_lower_bounds`` entry; the two are
+never combined. ``searched_and_empty`` keeps its meaning ("no measured Ki
+from any source"), so a bound-only gene is in ``searched_and_empty`` AND in
+``ki_lower_bounds``. ``<``/``<=``/``~`` rows are not used.
+
+**(b) Second measured source: IUPHAR/BPS Guide to Pharmacology (GtoPdb).**
+The bulk download ``https://www.guidetopharmacology.org/DATA/interactions.csv``
+and ``.../DATA/ligands.csv`` are fetched once into ``--cache``/gtopdb (with
+the retrieval date and sha256 recorded in provenance; the GtoPdb release is
+read from the file's own header line). Rows used: ``Target Species`` =
+``Human``; ``Target UniProt ID`` equal to the panel accession (the same
+UniProt mapping the ChEMBL side uses); ``Affinity Units`` = ``pKi``;
+``Original Affinity Relation`` either ``=`` or blank (GtoPdb's "no
+qualifier"; ``>``/``<``/``~`` rows are excluded, and GtoPdb censored rows are
+NOT used as lower bounds because the file does not state unambiguously
+whether the qualifier applies to the pKi or the nM value); ``Affinity
+Median`` numeric. Ligand -> v2 drug mapping is structural/identifier only: a
+GtoPdb ligand maps to a drug when its ``ChEMBL ID`` equals the drug's ChEMBL
+parent id, or its ``InChIKey`` equals the full standard InChIKey of that
+ChEMBL parent molecule (fetched from the ChEMBL ``/molecule`` endpoint). No
+name matching. A ligand matching two different drugs is dropped.
+
+The PDSP Ki database was checked and not used: its bulk download
+(``https://pdsp.unc.edu/databases/kiDownload/``) returned HTTP 403 to
+programmatic access on 2026-10-28, and its records carry no InChIKey or
+ChEMBL id, so it could not be mapped without name matching.
+
+**(c) Merge rule (all ``=`` measurements, all sources, no source
+preference).** Per drug x gene, every qualifying measurement is a pKi
+(ChEMBL ``pchembl_value``; GtoPdb ``Affinity Median``). Measurements are
+grouped by publication: ChEMBL rows by ``document_chembl_id`` (unchanged),
+GtoPdb rows by their PubMed id (first listed), or by a per-row GtoPdb key
+when no PMID is given. A GtoPdb row whose PMID equals the PMID of a ChEMBL
+document already present for the same drug x gene is dropped as the same
+published measurement already counted (de-duplication, not preference).
+``pki_median`` = median over publication groups of the within-group mean
+pKi; ``ki_nM`` = 10**(9 - pki_median). ``ki_min_nM``/``ki_max_nM`` are the
+extremes over individual measurements (GtoPdb pKi converted to nM).
+``n_documents`` counts publication groups from both sources,
+``n_measurements`` rows from both. ``documents`` keeps the ChEMBL document
+list as before; GtoPdb publications are listed under
+``gtopdb_references`` (``gtopdb_ligand_id``, ``pubmed_id`` as given in the
+GtoPdb row, ``pki``), and ``sources`` gives the per-source group counts.
+For a drug x gene with only ChEMBL data, every field is identical to the
+ChEMBL-only build.
 
 Caching: every raw ChEMBL page is cached by URL hash under
 ``--cache`` (default ``/root/nc-v2-cache/binding``), so a rerun with an
