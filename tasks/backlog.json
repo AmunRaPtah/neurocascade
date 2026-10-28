@@ -3291,6 +3291,32 @@
       }
     },
     {
+      "id": "P34.6",
+      "phase": "Phase 34: fresh candidate on a new held-out set (post-P33.4 NO-GO)",
+      "title": "Feasibility: can the fresh set be widened with the frozen candidate? (closes P34)",
+      "brief": "Human decision 2026-10-28 after P34.4b EMPTY: widen the fresh pool. The frozen candidate scores a drug only with a measured Ki at the liability's receptors (all P33.1 anchors). scripts/p34_6_exhausted.py counts, from inputs only (no label computed), the approved drugs outside the P33.1 candidates and the P34.4 pool with an FDA Rx label and a measured Ki at each liability's receptors from the unchanged scripts/v2_binding.py (ChEMBL, GtoPdb, PDSP). If even the best case (every P34.4 positive plus every newly scorable drug positive) misses the 8-positive/8-negative floor for every liability, P34 closes with no verdict possible and goes to the human.",
+      "acceptance": [
+        "results/P34.6.json written by scripts/p34_6_exhausted.py; tests/test_p34_6_exhausted.py recomputes the best case from it",
+        "no liability label computed for any new drug"
+      ],
+      "deps": [
+        "P34.4b"
+      ],
+      "status": "blocked-on-data",
+      "result": "searched-and-empty: approved-drug universe exhausted for the frozen candidate. 1767 approved parents are outside the P33.1 candidates and the P34.4 pool; 1092 have an FDA Rx label. The unchanged v2_binding build (ChEMBL + GtoPdb + PDSP) on those plus the 37 fresh drugs gives best case (every P34.4 positive plus every newly scorable drug positive) / max scorable drugs: eps 2/4, sedation 1/6, anticholinergic 8/13, orthostatic_hypotension 3/9, against a floor of 8 positives and 8 negatives (16 drugs). P34 closed: no verdict possible. Human decision 2026-10-28.",
+      "attempts": 0,
+      "conductor": {
+        "history": [
+          "2026-10-28 interactive session: TASK_RESULT EMPTY (universe exhausted); P34 closed, no verdict possible"
+        ]
+      },
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      },
+      "finished_at": "2026-10-28T18:14:00+00:00"
+    },
+    {
       "id": "P34.5",
       "phase": "Phase 34: fresh candidate on a new held-out set (post-P33.4 NO-GO)",
       "title": "Score the frozen candidate on the fresh held-out set once (GO/NO-GO)",
@@ -3307,11 +3333,13 @@
       "deps": [
         "P34.3",
         "P34.4",
-        "P34.4b"
+        "P34.4b",
+        "P34.6"
       ],
       "host_eval": "NC_HOST_EVAL=1 PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump_fresh /tmp/p34_5_go.json && python pipeline/go_verdict.py /tmp/p34_5_go.json",
-      "status": "pending",
-      "attempts": 0
+      "status": "blocked-on-data",
+      "attempts": 0,
+      "result": "searched-and-empty: never run. No fresh held-out set reaches the 8/8 power floor (P34.4 openFDA, P34.4b SmPC amendment, P34.6 universe exhausted). P34 closed with no verdict possible by human decision 2026-10-28; this is not a GO and not a NO-GO, and P32.x stay held for the human."
     }
   ]
 }
