@@ -1,0 +1,80 @@
+{
+ "task": "P34.2",
+ "description": "Frozen P34 data-construction build. P34.4 must label, Cmax and Ki the fresh held-out set with exactly these files; tests/test_p34_2_frozen_build.py pins their sha256. No held-out or fresh drug was read.",
+ "frozen_files": [
+  {
+   "path": "src/neurocascade/benchmark/v2/liability_rules.json",
+   "role": "label",
+   "what": "pre-specified liability term map, table rules and placebo-subtracted margin (P33.2, amendments A1-A7)",
+   "sha256": "4f00d880761b03cae3ace37d9057fe8e3259da4521da008b27386fe8eb836028"
+  },
+  {
+   "path": "scripts/v2_liabilities.py",
+   "role": "label",
+   "what": "openFDA adverse-reaction table parser applying liability_rules.json",
+   "sha256": "37e273df0c5e7cdfe5c6b4eecc598e15d2951e46dae674a5ed3d2d555e2c92e2"
+  },
+  {
+   "path": "scripts/v2_label_index.py",
+   "role": "label+cmax",
+   "what": "openFDA bulk label index read by v2_liabilities and v2_cmax",
+   "sha256": "f1c8ab1bd54ca1448bc0ff0af2310fe876f2440443aaca905f5d198b85b399cc"
+  },
+  {
+   "path": "scripts/v2_cmax.py",
+   "role": "cmax",
+   "what": "therapeutic total Cmax: label/PubMed candidate snippets, verbatim-snippet build, Cmax,u via plasma fu",
+   "sha256": "9dbdf79403edd6dd248906de63b0b0656473cfc04d201451bf029ac6d5771d9e"
+  },
+  {
+   "path": "scripts/v2_pk.py",
+   "role": "fu",
+   "what": "ChEMBL plasma fu build (inputs/plasma_fu.json), priority-1 fu source",
+   "sha256": "1a7821c68226c36a1a726e9300bb312913d3908b3df84797ed8bbf5d2191193a"
+  },
+  {
+   "path": "scripts/v2_fu_merge.py",
+   "role": "fu",
+   "what": "merge rule for additional measured plasma fu sources on top of v2_pk (PR #52)",
+   "sha256": "f2e0d85d1cbcf1efbb89963c0386417231da480c81431c37adbff3682b617442"
+  },
+  {
+   "path": "scripts/v2_fu_drugcentral_fetch.py",
+   "role": "fu",
+   "what": "DrugCentral (Lombardo 2018) plasma fu fetch with exact-title match (PR #52)",
+   "sha256": "6be9d8a560b62a38f641ce6ec9b410bf7c3bf769472a3784912353c0a4877e4d"
+  },
+  {
+   "path": "scripts/v2_fu_structure_verify.py",
+   "role": "fu",
+   "what": "InChI cross-check that drops any DrugCentral fu match whose structure differs (PR #52)",
+   "sha256": "c3017115d198c2f9cf65cee96b5bf344858d2ed46d68704fcfdcbd1b0f0b4515"
+  },
+  {
+   "path": "scripts/v2_fu_label_extract.py",
+   "role": "fu",
+   "what": "openFDA label %-bound extraction feeding v2_fu_merge (PR #52)",
+   "sha256": "60cf00813dc8501e80f00451f164d44814bacae99d3d58112016566b987e7c34"
+  },
+  {
+   "path": "scripts/v2_binding.py",
+   "role": "binding",
+   "what": "human Ki panel: ChEMBL filters, censored bounds, GtoPdb and PDSP merge, per-document mean then median (PR #51)",
+   "sha256": "885fe6f2dde030a5b864e3d3e772f870426c31613428af034a5c61dfbbdb4fef"
+  }
+ ],
+ "train_labels_built_with_frozen_rules": true,
+ "label_sources_for_fresh_set": [
+  "openFDA (scripts/v2_liabilities.py), identical to the train labels"
+ ],
+ "smpc_parser": {
+  "frozen": false,
+  "decision": "not used for the fresh set. The prereg allows SmPC tables only if frozen here; PR #49's parser was validated on 3 train drugs whose 12 labels were all negative (no positive control), and only 3 of 180 train drugs with an emc SmPC carried a placebo table. Fresh labels therefore come from the same openFDA-only procedure as the train labels.",
+  "superseded_pr": 49
+ },
+ "not_freezable_by_hash": [
+  "Cmax snippet curation is a judgement made per drug; P34.4 must follow the rules written in v2_cmax.py",
+  "live sources (openFDA, ChEMBL, GtoPdb, PDSP, DrugCentral) can change; P34.4 records retrieval dates"
+ ],
+ "heldout": "not touched; the v2 held-out stays burned and the fresh set does not exist yet (P34.4)"
+}
