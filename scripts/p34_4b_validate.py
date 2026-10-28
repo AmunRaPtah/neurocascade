@@ -62,7 +62,11 @@ def retry_failed(val: dict) -> tuple[list[dict], list[dict]]:
     if not failed:
         return [], []
     sys.path.insert(0, str(ROOT / "scripts"))
+    sys.path.insert(0, str(ROOT / "src"))
     import v2_smpc as S
+    from neurocascade.benchmark.v2 import v2_partition
+    train = set(v2_partition()[0])
+    assert all(inn in train for inn in failed), "retry is for train drugs only"
     rules, _ = S.V.load_rules()
     smpc_rules, _ = S.load_smpc_rules()
     fda = {r["inn"]: r for r in json.loads(S.V.OUT.read_text())["drugs"]}

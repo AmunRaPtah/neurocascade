@@ -57,7 +57,8 @@ def test_every_compared_drug_is_a_train_drug(result):
     sys.path.insert(0, str(ROOT / "pipeline"))
     import guards
     v2 = {d["inn"] for d in json.loads((V2 / "drugs.json").read_text())["drugs"]}
-    inns = {c["inn"] for c in result["comparisons"]} | set(result["train_validation"]["compared_drugs"])
+    inns = ({c["inn"] for c in result["comparisons"]} | set(result["train_validation"]["compared_drugs"])
+            | {r["inn"] for r in result["fetch_failed_retried_singly"]})
     for inn in inns:
         assert inn in v2 and not guards.v2_heldout(inn), inn
     if (FRESH / "pool.json").exists():
