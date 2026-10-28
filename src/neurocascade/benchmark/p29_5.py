@@ -33,6 +33,14 @@ def load_pet_plasma_pairs() -> dict:
     return _load("pet_plasma_pairs.json")
 
 
+def _has_absorptive_permeability(adme: dict) -> bool:
+    """True if a P28.3 record has a non-efflux (A->B or undirected) permeability
+    row. Efflux (B->A) rows carry a matrix tag ending ``_efflux`` and are not an
+    oral-absorption input, matching ``scripts/build_benchmark_adme.py``."""
+    rows = adme.get("fields", {}).get("permeability", {}).get("measurements", [])
+    return any(not (m.get("matrix") or "").endswith("_efflux") for m in rows)
+
+
 def load_preclinical_oral_inputs() -> dict:
     """Return supplemental preclinical oral/clearance evidence.
 
@@ -56,6 +64,8 @@ def load_preclinical_oral_inputs() -> dict:
                 "oral_bioavailability_dog", "permeability", "fa", "clint",
                 "invivo_cl_preclinical", "invivo_vss_preclinical",
             }
+            if "permeability" in usable and not _has_absorptive_permeability(adme):
+                usable.discard("permeability")
             if usable:
                 rows[inn] = {
                     "inn": inn,
