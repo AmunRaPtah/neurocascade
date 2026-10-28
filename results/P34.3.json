@@ -1,0 +1,61 @@
+{
+ "task": "P34.3",
+ "family": "candidate_rank_combined",
+ "selected_in": "P34.1",
+ "p34_1_candidate": "parameter-free rank ensemble of exposure-adjusted occupancy (occupancy_max) and intrinsic affinity (strongest_target_ki) over the pre-specified receptors",
+ "code": {
+  "path": "src/neurocascade/benchmark/v2/frozen_candidate.py",
+  "sha256": "d94aaecab87061bc494f774553098f973229330f0a0fb8f3547d3db8e76382f0"
+ },
+ "params": {
+  "path": "src/neurocascade/benchmark/v2/frozen/p34_candidate.json",
+  "sha256": "0d17a0717a1fe8c2e1a32d6f3cb4655e5754e4ee0cde2d4bc95fe63ee65d6d5b",
+  "n_fitted_parameters": 0
+ },
+ "depends": [
+  {
+   "path": "src/neurocascade/benchmark/v2/candidate_v2.py",
+   "sha256": "ebe0a886cb8ecd9c8cce0643f0a279719a2de08819029840b8c472b10abd08c0"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/candidate.py",
+   "sha256": "15931e9e034ae6179b685833804c54d361472720a66e40ad535f09f17ca8c5b1"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/candidate_benchmark.py",
+   "sha256": "b8d90153815d26ff39824fe843e376f1f8a5270d7f53f392e0a642a9028cf85d"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/candidate_v2_benchmark.py",
+   "sha256": "3f6fa6d8b383f22557aa543e5da12600fcd377f3b7152873341a457856f6714b"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/chain_benchmark.py",
+   "sha256": "42a6da7e2370618dd28764821cb337ebb25fc11d2071e6098f81d9ba1bd4d1ee"
+  }
+ ],
+ "liability_receptors": {
+  "sedation": [
+   "HRH1"
+  ],
+  "anticholinergic": [
+   "CHRM1",
+   "CHRM2",
+   "CHRM3",
+   "CHRM4",
+   "CHRM5"
+  ],
+  "eps": [
+   "DRD2"
+  ],
+  "orthostatic_hypotension": [
+   "ADRA1A",
+   "ADRA1B",
+   "ADRA1D"
+  ]
+ },
+ "l2": null,
+ "fitted_on": "all v2 train drugs (v2_partition()[0]); the family has no free parameter, so fitting on all train drugs leaves this file unchanged",
+ "fresh_truth_existed_at_freeze": false,
+ "note": "After this commit nothing edits the frozen files; P34.5 scores this candidate once on the P34.4 fresh set. The score is a within-cohort rank sum, so P34.5 ranks within the fresh common set."
+}

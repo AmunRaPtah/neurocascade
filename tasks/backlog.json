@@ -3226,8 +3226,15 @@
         "P34.1",
         "P34.2"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 0,
+      "result": "complete",
+      "finished_at": "2026-10-28T10:00:00+00:00",
+      "conductor": {
+        "history": [
+          "2026-10-28 interactive session: candidate frozen, fresh truth absent at freeze"
+        ]
+      }
     },
     {
       "id": "P34.4",
