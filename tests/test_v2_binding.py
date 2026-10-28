@@ -90,7 +90,15 @@ def test_every_pubmed_id_came_from_a_document_record():
     ; never a bare typed PMID with no backing ChEMBL document (P29.7)."""
     def walk(obj):
         if isinstance(obj, dict):
-            if "pubmed_id" in obj:
+            if "pubmed_id" in obj and obj.get("source") == "gtopdb":
+                # GtoPdb reference: PMID copied from a GtoPdb interactions.csv row.
+                assert obj["gtopdb_ligand_id"].isdigit(), obj
+                assert obj["pubmed_id"] is None or obj["pubmed_id"].isdigit(), obj
+            elif "pubmed_id" in obj and obj.get("source") == "pdsp":
+                # PDSP reference: PMID only when the PDSP Link is a PubMed URL.
+                assert obj["reference"], obj
+                assert obj["pubmed_id"] is None or obj["pubmed_id"].isdigit(), obj
+            elif "pubmed_id" in obj:
                 assert "document_chembl_id" in obj, f"pubmed_id without document_chembl_id: {obj}"
                 assert obj["document_chembl_id"].startswith("CHEMBL")
             for v in obj.values():
