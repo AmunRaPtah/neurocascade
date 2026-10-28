@@ -3264,6 +3264,33 @@
       }
     },
     {
+      "id": "P34.4b",
+      "phase": "Phase 34: fresh candidate on a new held-out set (post-P33.4 NO-GO)",
+      "title": "Disclosed amendment: UK SmPC labels for the fresh set (train-validated parser)",
+      "brief": "Human decision 2026-10-28 after P34.4 EMPTY. Under docs/prereg-p34-amendment-smpc.md (a disclosed deviation, written after the fresh openFDA counts were seen), import the PR #49 SmPC parser unchanged, validate it on train drugs only against a pre-registered bar with a positive control (>=3 openFDA-positive compared labels, SmPC sensitivity >=2/3, negative agreement >=90%), and only if it passes freeze it and apply it once to the 37 fresh drugs under the precedence rule. If it fails: not frozen, not applied, EMPTY, back to the human.",
+      "acceptance": [
+        "amendment sealed and pushed before any validation run or fresh fetch",
+        "results/P34.4b.json written by scripts/p34_4b_validate.py; bar recomputed by tests/test_p34_4b_smpc_amendment.py",
+        "no fresh or v2 held-out drug compared; a failed parser is not applied"
+      ],
+      "deps": [
+        "P34.4"
+      ],
+      "status": "blocked-on-data",
+      "result": "searched-and-empty: the PR #49 SmPC parser failed the pre-registered train bar: 178 of 267 train drugs have a UK SmPC, 3 have a section 4.8 placebo table (cetirizine, levocetirizine, rivastigmine), 12 compared labels all agree but 0 are openFDA-positive (need >=3). Not frozen, not applied; no fresh SmPC fetched. A further route needs a new human decision.",
+      "attempts": 0,
+      "conductor": {
+        "history": [
+          "2026-10-28 interactive session: TASK_RESULT EMPTY (SmPC parser failed train validation); not applied to fresh set"
+        ]
+      },
+      "finished_at": "2026-10-28T11:40:00+00:00",
+      "validation": {
+        "kind": "ledger-row",
+        "evidence": ""
+      }
+    },
+    {
       "id": "P34.5",
       "phase": "Phase 34: fresh candidate on a new held-out set (post-P33.4 NO-GO)",
       "title": "Score the frozen candidate on the fresh held-out set once (GO/NO-GO)",
@@ -3279,7 +3306,8 @@
       },
       "deps": [
         "P34.3",
-        "P34.4"
+        "P34.4",
+        "P34.4b"
       ],
       "host_eval": "NC_HOST_EVAL=1 PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump_fresh /tmp/p34_5_go.json && python pipeline/go_verdict.py /tmp/p34_5_go.json",
       "status": "pending",
