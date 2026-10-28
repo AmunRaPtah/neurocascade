@@ -416,3 +416,57 @@ in `effect_labels.json["terms"]`.
   counted as EPS), and pediatric tables that SIDER includes but the label parse
   skips (risperidone weight gain). The term list was not edited after seeing
   these.
+
+### v2 plasma fu coverage (P33.1 follow-up: ChEMBL+DrugCentral/Lombardo+FDA label)
+
+`inputs/plasma_fu.json` (334 v2 benchmark drugs) was built from ChEMBL
+Fu/PPB activities only (`scripts/v2_pk.py`). `scripts/v2_fu_merge.py` adds two
+lower-priority sources for drugs ChEMBL does not cover, each kept with its own
+full citation/snippet, never averaged across sources (see that script's
+docstring for the exact priority rule): a DrugCentral mirror of Lombardo F,
+Berellini G, Obach RS 2018 *Drug Metab Dispos* 46(11):1466-1477
+(doi:10.1124/dmd.118.082966, PMID 30115648; the primary journal PDF is
+Cloudflare-blocked and absent from PMC/Europe PMC), name-matched by an exact
+drugcentral.org title match and then structure-verified against ChEMBL's
+`standard_inchi` for the same `chembl_id` (2 of 51 title-matched candidates
+were rejected by this check: tetrabenazine, a stereo-layer mismatch, and
+haloperidol decanoate, a true structure mismatch against the parent
+`chembl_id`); and a conservative regex extraction of "X% bound to plasma
+protein(s)" from openFDA label text, rejecting sentences about a metabolite, a
+special population, or more than one distinct %-bound clause, with ranges
+collapsed to their geometric midpoint.
+
+Train counts (`neurocascade.benchmark.v2.v2_partition()`, train=267,
+held-out=67; held-out values are never printed or reported, only this
+aggregate train count), before -> after merging the two additional sources:
+
+| Quantity | Before (ChEMBL only) | After (+DrugCentral/Lombardo +FDA label) |
+|---|---|---|
+| All 334 v2 drugs with a plasma fu value | 152 | 216 (+48 DrugCentral/Lombardo, +16 FDA label) |
+| Train drugs with a plasma fu value | 123 | 170 |
+| Train drugs with a Cmax value (`truth/human_cmax.json`, unchanged by this work) | 161 | 161 |
+| Train drugs with a Cmax,u (`cmax_unbound_nM`) value | 92 | 126 |
+
+`truth/human_cmax.json`'s `cmax_unbound_nM`/`cmax_unbound_ng_per_ml`/`fu`/
+`fu_flags` fields were recomputed by re-running `scripts/v2_cmax.py build`
+against the merged `plasma_fu.json`; every other field, including every
+`cmax` value and the held-out split logic, is byte-identical to the prior
+build (checked programmatically, not by inspection).
+
+**This expanded train coverage makes the train-only numbers already committed
+in the P33.4 and P34.1 rows above (`results/P33.4.json`, `results/P34.1.json`,
+and their `n=15`/`n=17`/`n_scored` counts) stale**: re-running those
+candidates' harnesses on this branch now scores more drugs
+(`tests/test_p34_1_candidate.py::test_committed_results_file_matches_a_fresh_run`
+fails, 21 vs the committed 17). Re-validating P33.4/P34.1 against the new
+coverage is out of scope for this data-coverage change and is not done here;
+it is flagged as follow-up work, not silently fixed, since updating a
+committed train-LODO result is its own task with its own review, not a
+byproduct of extending an input file.
+
+Note on this section's own hook checks: the project's zero-tolerance em-dash
+check and citation check both flagged this file after this edit, but every
+flagged occurrence (27 em-dashes, 9 citation mismatches, 1 not-found) is at or
+before line 342, in sections untouched by this change; this subsection (lines
+343 onward) contains none. Fixing that pre-existing debt is out of scope for
+a data-coverage change and is left for separate follow-up.

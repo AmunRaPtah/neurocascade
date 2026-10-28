@@ -1,5 +1,5 @@
 {
- "description": "Human plasma fraction unbound for the v2 benchmark drugs (P33.1 stage 2), from ChEMBL-curated Fu/PPB activities.",
+ "description": "Human plasma fraction unbound for the v2 benchmark drugs (P33.1 stage 2), from ChEMBL-curated Fu/PPB activities. Extended by scripts/v2_fu_merge.py: drugs with no ChEMBL fu are backfilled, in priority order, from (2) a DrugCentral mirror of Lombardo F, Berellini G, Obach RS 2018 Drug Metab Dispos 46(11):1466-1477 (doi:10.1124/dmd.118.082966, PMID 30115648), name-matched by exact drugcentral.org title and structure-checked against ChEMBL's InChIKey where DrugCentral exposes one, then (3) a conservative regex extraction of 'X% bound to plasma protein(s)' from FDA label text (openFDA cache built by scripts/v2_cmax.py), rejecting any sentence about a metabolite, a special population, or more than one distinct %-bound clause, with ranges collapsed to their geometric midpoint. No value is pooled/averaged across sources; each row keeps exactly one source tier's full citation and a verbatim snippet.",
  "retrieved": "2026-10-21",
  "chembl_release": "ChEMBL_37 (2026-05-01), live API read 2026-10-21",
  "n_drugs": 334,
@@ -30,7 +30,29 @@
   {
    "inn": "pentazocine",
    "chembl_id": "CHEMBL100116",
-   "fu": null
+   "fu": {
+    "value": 0.9961,
+    "min": 0.9961,
+    "max": 0.9961,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "3424",
+      "drugcentral_url": "https://drugcentral.org/drugcard/3424",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.39 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "remifentanil",
@@ -194,7 +216,29 @@
   {
    "inn": "suvorexant",
    "chembl_id": "CHEMBL1083659",
-   "fu": null
+   "fu": {
+    "value": 0.9995,
+    "min": 0.9995,
+    "max": 0.9995,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4881",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4881",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.05 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "dibucaine",
@@ -307,7 +351,29 @@
   {
    "inn": "articaine",
    "chembl_id": "CHEMBL1093",
-   "fu": null
+   "fu": {
+    "value": 0.9954,
+    "min": 0.9954,
+    "max": 0.9954,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "3070",
+      "drugcentral_url": "https://drugcentral.org/drugcard/3070",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.46 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "felbamate",
@@ -544,7 +610,29 @@
   {
    "inn": "desvenlafaxine",
    "chembl_id": "CHEMBL1118",
-   "fu": null
+   "fu": {
+    "value": 0.993,
+    "min": 0.993,
+    "max": 0.993,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4380",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4380",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.70 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "acetaminophen",
@@ -648,17 +736,84 @@
   {
    "inn": "desloratadine",
    "chembl_id": "CHEMBL1172",
-   "fu": null
+   "fu": {
+    "value": 0.9985,
+    "min": 0.9985,
+    "max": 0.9985,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "814",
+      "drugcentral_url": "https://drugcentral.org/drugcard/814",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.15 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "duloxetine",
    "chembl_id": "CHEMBL1175",
-   "fu": null
+   "fu": {
+    "value": 0.9996,
+    "min": 0.9996,
+    "max": 0.9996,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "972",
+      "drugcentral_url": "https://drugcentral.org/drugcard/972",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.04 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "pemoline",
    "chembl_id": "CHEMBL1177",
-   "fu": null
+   "fu": {
+    "value": 0.5,
+    "min": 0.5,
+    "max": 0.5,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "47f221e7-a340-4fab-f2bd-3717994c816d",
+      "section": "clinical_pharmacology",
+      "application_number": null,
+      "snippet": "Approximately 50% is bound to plasma proteins."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "tetrabenazine",
@@ -704,7 +859,29 @@
   {
    "inn": "umeclidinium",
    "chembl_id": "CHEMBL1187833",
-   "fu": null
+   "fu": {
+    "value": 0.9989,
+    "min": 0.9989,
+    "max": 0.9989,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4816",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4816",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.11 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "olopatadine",
@@ -887,12 +1064,56 @@
   {
    "inn": "cinacalcet",
    "chembl_id": "CHEMBL1201284",
-   "fu": null
+   "fu": {
+    "value": 0.9995,
+    "min": 0.9995,
+    "max": 0.9995,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "647",
+      "drugcentral_url": "https://drugcentral.org/drugcard/647",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.05 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "acamprosate",
    "chembl_id": "CHEMBL1201293",
-   "fu": null
+   "fu": {
+    "value": 0.99,
+    "min": 0.99,
+    "max": 0.99,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "38",
+      "drugcentral_url": "https://drugcentral.org/drugcard/38",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>1 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "glycopyrronium",
@@ -920,7 +1141,29 @@
   {
    "inn": "fosphenytoin",
    "chembl_id": "CHEMBL1201336",
-   "fu": null
+   "fu": {
+    "value": 0.9995,
+    "min": 0.9995,
+    "max": 0.9995,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "1247",
+      "drugcentral_url": "https://drugcentral.org/drugcard/1247",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.05 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "dexchlorpheniramine",
@@ -935,7 +1178,29 @@
   {
    "inn": "rufinamide",
    "chembl_id": "CHEMBL1201754",
-   "fu": null
+   "fu": {
+    "value": 0.9925,
+    "min": 0.9925,
+    "max": 0.9925,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "3534",
+      "drugcentral_url": "https://drugcentral.org/drugcard/3534",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.75 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "tapentadol",
@@ -968,12 +1233,56 @@
   {
    "inn": "perampanel",
    "chembl_id": "CHEMBL1214124",
-   "fu": null
+   "fu": {
+    "value": 0.9995,
+    "min": 0.9995,
+    "max": 0.9995,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4684",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4684",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.05 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "ramelteon",
    "chembl_id": "CHEMBL1218",
-   "fu": null
+   "fu": {
+    "value": 0.998,
+    "min": 0.998,
+    "max": 0.998,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "2355",
+      "drugcentral_url": "https://drugcentral.org/drugcard/2355",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.20 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "sulconazole",
@@ -1194,12 +1503,56 @@
   {
    "inn": "levetiracetam",
    "chembl_id": "CHEMBL1286",
-   "fu": null
+   "fu": {
+    "value": 0.991,
+    "min": 0.991,
+    "max": 0.991,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "1563",
+      "drugcentral_url": "https://drugcentral.org/drugcard/1563",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.90 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "rotigotine",
    "chembl_id": "CHEMBL1303",
-   "fu": null
+   "fu": {
+    "value": 0.9992,
+    "min": 0.9992,
+    "max": 0.9992,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "2407",
+      "drugcentral_url": "https://drugcentral.org/drugcard/2407",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.08 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "tolcapone",
@@ -1271,7 +1624,30 @@
   {
    "inn": "oxybate",
    "chembl_id": "CHEMBL1342",
-   "fu": null
+   "fu": {
+    "value": 0.99,
+    "min": 0.99,
+    "max": 0.99,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "926eb076-a4a8-45e4-91ef-411f0aa4f3ca",
+      "section": "clinical_pharmacology",
+      "application_number": "NDA021196",
+      "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "darifenacin",
@@ -1399,7 +1775,29 @@
   {
    "inn": "escitalopram",
    "chembl_id": "CHEMBL1508",
-   "fu": null
+   "fu": {
+    "value": 0.9964,
+    "min": 0.9964,
+    "max": 0.9964,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "1053",
+      "drugcentral_url": "https://drugcentral.org/drugcard/1053",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.36 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "eletriptan",
@@ -1458,12 +1856,58 @@
   {
    "inn": "eszopiclone",
    "chembl_id": "CHEMBL1522",
-   "fu": null
+   "fu": {
+    "value": 0.446105,
+    "min": 0.446105,
+    "max": 0.446105,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "3821f4b7-a3c8-4920-ba80-18aa96532c09",
+      "section": "clinical_pharmacology",
+      "application_number": "NDA021476",
+      "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52-59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "ganaxolone",
    "chembl_id": "CHEMBL1568698",
-   "fu": null
+   "fu": {
+    "value": 0.01,
+    "min": 0.01,
+    "max": 0.01,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "d91612c4-b03a-4be4-a1ee-6a13e3b83d4e",
+      "section": "clinical_pharmacology",
+      "application_number": null,
+      "snippet": "Distribution Ganaxolone is approximately 99% protein-bound in serum."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "dihydrocodeine",
@@ -1532,7 +1976,29 @@
   {
    "inn": "ipratropium",
    "chembl_id": "CHEMBL1621597",
-   "fu": null
+   "fu": {
+    "value": 0.9905,
+    "min": 0.9905,
+    "max": 0.9905,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "1475",
+      "drugcentral_url": "https://drugcentral.org/drugcard/1475",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.95 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "clemastine",
@@ -1578,17 +2044,84 @@
   {
    "inn": "cevimeline",
    "chembl_id": "CHEMBL168815",
-   "fu": null
+   "fu": {
+    "value": 0.8,
+    "min": 0.8,
+    "max": 0.8,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "7fa69ad5-7fa7-4078-9328-aacbb0d145a4",
+      "section": "clinical_pharmacology",
+      "application_number": "NDA020989",
+      "snippet": "Distribution: Cevimeline has a volume of distribution of approximately 6L/kg and is <20% bound to human plasma proteins."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "cisapride",
    "chembl_id": "CHEMBL1729",
-   "fu": null
+   "fu": {
+    "value": 0.9998,
+    "min": 0.9998,
+    "max": 0.9998,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "660",
+      "drugcentral_url": "https://drugcentral.org/drugcard/660",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.02 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "dihydroergotamine",
    "chembl_id": "CHEMBL1732",
-   "fu": null
+   "fu": {
+    "value": 0.9993,
+    "min": 0.9993,
+    "max": 0.9993,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "888",
+      "drugcentral_url": "https://drugcentral.org/drugcard/888",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.07 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "solifenacin",
@@ -1642,7 +2175,29 @@
   {
    "inn": "trospium",
    "chembl_id": "CHEMBL1888176",
-   "fu": null
+   "fu": {
+    "value": 0.9967,
+    "min": 0.9967,
+    "max": 0.9967,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "2776",
+      "drugcentral_url": "https://drugcentral.org/drugcard/2776",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.33 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "tiotropium",
@@ -1775,12 +2330,56 @@
   {
    "inn": "tasimelteon",
    "chembl_id": "CHEMBL2103822",
-   "fu": null
+   "fu": {
+    "value": 0.9988,
+    "min": 0.9988,
+    "max": 0.9988,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4820",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4820",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.12 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "vortioxetine",
    "chembl_id": "CHEMBL2104993",
-   "fu": null
+   "fu": {
+    "value": 0.9998,
+    "min": 0.9998,
+    "max": 0.9998,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4806",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4806",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.02 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "brexpiprazole",
@@ -1844,7 +2443,29 @@
   {
    "inn": "topiramate",
    "chembl_id": "CHEMBL220492",
-   "fu": null
+   "fu": {
+    "value": 0.9928,
+    "min": 0.9928,
+    "max": 0.9928,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "2706",
+      "drugcentral_url": "https://drugcentral.org/drugcard/2706",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.72 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "ubrogepant",
@@ -1854,7 +2475,29 @@
   {
    "inn": "valbenazine",
    "chembl_id": "CHEMBL2364639",
-   "fu": null
+   "fu": {
+    "value": 0.9999,
+    "min": 0.9999,
+    "max": 0.9999,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "5227",
+      "drugcentral_url": "https://drugcentral.org/drugcard/5227",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.01 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "zavegepant",
@@ -1892,7 +2535,29 @@
   {
    "inn": "silodosin",
    "chembl_id": "CHEMBL24778",
-   "fu": null
+   "fu": {
+    "value": 0.9995,
+    "min": 0.9995,
+    "max": 0.9995,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4151",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4151",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.05 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "aspirin",
@@ -1966,7 +2631,29 @@
   {
    "inn": "neostigmine",
    "chembl_id": "CHEMBL278020",
-   "fu": null
+   "fu": {
+    "value": 0.99,
+    "min": 0.99,
+    "max": 0.99,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "1897",
+      "drugcentral_url": "https://drugcentral.org/drugcard/1897",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>1 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "gepirone",
@@ -1981,12 +2668,57 @@
   {
    "inn": "estazolam",
    "chembl_id": "CHEMBL285674",
-   "fu": null
+   "fu": {
+    "value": 0.07,
+    "min": 0.07,
+    "max": 0.07,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "a1e3b4bf-22e9-430a-a768-4d86ae886c9e",
+      "section": "clinical_pharmacology",
+      "application_number": "ANDA074818",
+      "snippet": "Distribution Independent of concentration, estazolam in plasma is 93% protein bound."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "edaravone",
    "chembl_id": "CHEMBL290916",
-   "fu": null
+   "fu": {
+    "value": 0.9911,
+    "min": 0.9911,
+    "max": 0.9911,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4156",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4156",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.89 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "capsaicin",
@@ -2035,7 +2767,29 @@
   {
    "inn": "pramipexole",
    "chembl_id": "CHEMBL301265",
-   "fu": null
+   "fu": {
+    "value": 0.9915,
+    "min": 0.9915,
+    "max": 0.9915,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "2233",
+      "drugcentral_url": "https://drugcentral.org/drugcard/2233",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.85 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "lasmiditan",
@@ -2045,7 +2799,30 @@
   {
    "inn": "viloxazine",
    "chembl_id": "CHEMBL306700",
-   "fu": null
+   "fu": {
+    "value": 0.21057,
+    "min": 0.21057,
+    "max": 0.21057,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "aedf408d-0f84-418d-9416-7c39ddb0d29a",
+      "section": "clinical_pharmacology",
+      "application_number": null,
+      "snippet": "Distribution Viloxazine is 76-82% bound to human plasma proteins over the blood concentration range of 0.5 mcg/mL to 10 mcg/mL."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "eslicarbazepine",
@@ -2055,7 +2832,29 @@
   {
    "inn": "asenapine",
    "chembl_id": "CHEMBL3187365",
-   "fu": null
+   "fu": {
+    "value": 0.9995,
+    "min": 0.9995,
+    "max": 0.9995,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4115",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4115",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.05 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "lumateperone",
@@ -2106,7 +2905,29 @@
   {
    "inn": "lorcaserin",
    "chembl_id": "CHEMBL360328",
-   "fu": null
+   "fu": {
+    "value": 0.9994,
+    "min": 0.9994,
+    "max": 0.9994,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4374",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4374",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.06 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "cocaine",
@@ -2394,7 +3215,29 @@
   {
    "inn": "guanabenz",
    "chembl_id": "CHEMBL420",
-   "fu": null
+   "fu": {
+    "value": 0.999,
+    "min": 0.999,
+    "max": 0.999,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "3952",
+      "drugcentral_url": "https://drugcentral.org/drugcard/3952",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.10 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "trifluoperazine",
@@ -2466,7 +3309,30 @@
   {
    "inn": "daridorexant",
    "chembl_id": "CHEMBL4297590",
-   "fu": null
+   "fu": {
+    "value": 0.003,
+    "min": 0.003,
+    "max": 0.003,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "3a2d1503-b816-40c9-9fac-7e03c5a3bcef",
+      "section": "clinical_pharmacology",
+      "application_number": "NDA214985",
+      "snippet": "Daridorexant is 99.7% bound to plasma proteins."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "solriamfetol",
@@ -2486,7 +3352,29 @@
   {
    "inn": "vilazodone",
    "chembl_id": "CHEMBL439849",
-   "fu": null
+   "fu": {
+    "value": 0.9997,
+    "min": 0.9997,
+    "max": 0.9997,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4223",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4223",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.03 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "thiopental",
@@ -2628,7 +3516,29 @@
   {
    "inn": "melatonin",
    "chembl_id": "CHEMBL45",
-   "fu": null
+   "fu": {
+    "value": 0.9961,
+    "min": 0.9961,
+    "max": 0.9961,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "1672",
+      "drugcentral_url": "https://drugcentral.org/drugcard/1672",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.39 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "mephobarbital",
@@ -2726,7 +3636,30 @@
   {
    "inn": "ethyl chloride",
    "chembl_id": "CHEMBL46058",
-   "fu": null
+   "fu": {
+    "value": 0.01,
+    "min": 0.01,
+    "max": 0.01,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "07a8174b-f0ed-c277-e063-6394a90a9eb1",
+      "section": "clinical_pharmacology",
+      "application_number": null,
+      "snippet": "Greater than 99 % of unesterified EPA is bound to plasma proteins."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "pitolisant",
@@ -3157,7 +4090,30 @@
   {
    "inn": "pergolide",
    "chembl_id": "CHEMBL531",
-   "fu": null
+   "fu": {
+    "value": 0.1,
+    "min": 0.1,
+    "max": 0.1,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "18ecff0f-15f7-4a40-bec7-d0ea734d6ef6",
+      "section": "clinical_pharmacology",
+      "application_number": null,
+      "snippet": "Pergolide is approximately 90% bound to plasma proteins."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "ketotifen",
@@ -3277,12 +4233,56 @@
   {
    "inn": "pentamidine",
    "chembl_id": "CHEMBL55",
-   "fu": null
+   "fu": {
+    "value": 0.9991,
+    "min": 0.9991,
+    "max": 0.9991,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "2090",
+      "drugcentral_url": "https://drugcentral.org/drugcard/2090",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.09 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "pilocarpine",
    "chembl_id": "CHEMBL550",
-   "fu": null
+   "fu": {
+    "value": 0.9908,
+    "min": 0.9908,
+    "max": 0.9908,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "2166",
+      "drugcentral_url": "https://drugcentral.org/drugcard/2166",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.92 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "perphenazine",
@@ -3381,7 +4381,30 @@
   {
    "inn": "procaine",
    "chembl_id": "CHEMBL569",
-   "fu": null
+   "fu": {
+    "value": 0.4,
+    "min": 0.4,
+    "max": 0.4,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "014bfd30-4c79-4d62-f792-6d41b9289eaa",
+      "section": "clinical_pharmacology",
+      "application_number": null,
+      "snippet": "Approximately 60% of penicillin G is bound to serum protein."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "scopolamine",
@@ -3461,22 +4484,110 @@
   {
    "inn": "lacosamide",
    "chembl_id": "CHEMBL58323",
-   "fu": null
+   "fu": {
+    "value": 0.9915,
+    "min": 0.9915,
+    "max": 0.9915,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4310",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4310",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.85 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "fenoldopam",
    "chembl_id": "CHEMBL588",
-   "fu": null
+   "fu": {
+    "value": 0.9988,
+    "min": 0.9988,
+    "max": 0.9988,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "1153",
+      "drugcentral_url": "https://drugcentral.org/drugcard/1153",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.12 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "ropinirole",
    "chembl_id": "CHEMBL589",
-   "fu": null
+   "fu": {
+    "value": 0.994,
+    "min": 0.994,
+    "max": 0.994,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "2402",
+      "drugcentral_url": "https://drugcentral.org/drugcard/2402",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.60 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "dopamine",
    "chembl_id": "CHEMBL59",
-   "fu": null
+   "fu": {
+    "value": 0.9913,
+    "min": 0.9913,
+    "max": 0.9913,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "947",
+      "drugcentral_url": "https://drugcentral.org/drugcard/947",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.87 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "fentanyl",
@@ -3548,7 +4659,29 @@
   {
    "inn": "brivaracetam",
    "chembl_id": "CHEMBL607400",
-   "fu": null
+   "fu": {
+    "value": 0.9917,
+    "min": 0.9917,
+    "max": 0.9917,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "5068",
+      "drugcentral_url": "https://drugcentral.org/drugcard/5068",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.83 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "terazosin",
@@ -4484,7 +5617,29 @@
   {
    "inn": "protriptyline",
    "chembl_id": "CHEMBL668",
-   "fu": null
+   "fu": {
+    "value": 0.9986,
+    "min": 0.9986,
+    "max": 0.9986,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "2320",
+      "drugcentral_url": "https://drugcentral.org/drugcard/2320",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.14 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "epinephrine",
@@ -4698,7 +5853,29 @@
   {
    "inn": "alfuzosin",
    "chembl_id": "CHEMBL709",
-   "fu": null
+   "fu": {
+    "value": 0.9986,
+    "min": 0.9986,
+    "max": 0.9986,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "115",
+      "drugcentral_url": "https://drugcentral.org/drugcard/115",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.14 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "chlorpromazine",
@@ -4781,7 +5958,30 @@
   {
    "inn": "quetiapine",
    "chembl_id": "CHEMBL716",
-   "fu": null
+   "fu": {
+    "value": 0.17,
+    "min": 0.17,
+    "max": 0.17,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "ab959a35-d0ba-4f18-8f2e-6619d88b16e3",
+      "section": "clinical_pharmacology",
+      "application_number": "NDA022047",
+      "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "desipramine",
@@ -5044,7 +6244,30 @@
   {
    "inn": "oxymetazoline",
    "chembl_id": "CHEMBL762",
-   "fu": null
+   "fu": {
+    "value": 0.425,
+    "min": 0.425,
+    "max": 0.425,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "cf6c9a1f-2367-46d2-99c3-c7d67ec6f519",
+      "section": "clinical_pharmacology",
+      "application_number": "NDA212520",
+      "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "tegaserod",
@@ -5165,7 +6388,29 @@
   {
    "inn": "memantine",
    "chembl_id": "CHEMBL807",
-   "fu": null
+   "fu": {
+    "value": 0.9947,
+    "min": 0.9947,
+    "max": 0.9947,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "1679",
+      "drugcentral_url": "https://drugcentral.org/drugcard/1679",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.53 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "econazole",
@@ -5260,7 +6505,29 @@
   {
    "inn": "dexmethylphenidate",
    "chembl_id": "CHEMBL827",
-   "fu": null
+   "fu": {
+    "value": 0.9913,
+    "min": 0.9913,
+    "max": 0.9913,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "836",
+      "drugcentral_url": "https://drugcentral.org/drugcard/836",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.87 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "tamoxifen",
@@ -5270,7 +6537,29 @@
   {
    "inn": "loxapine",
    "chembl_id": "CHEMBL831",
-   "fu": null
+   "fu": {
+    "value": 0.9998,
+    "min": 0.9998,
+    "max": 0.9998,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "1613",
+      "drugcentral_url": "https://drugcentral.org/drugcard/1613",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.02 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "tamsulosin",
@@ -5306,7 +6595,30 @@
   {
    "inn": "brimonidine",
    "chembl_id": "CHEMBL844",
-   "fu": null
+   "fu": {
+    "value": 0.71,
+    "min": 0.71,
+    "max": 0.71,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "b1e7ebd4-d0d2-40a5-aa11-5f68bc5972bd",
+      "section": "clinical_pharmacology",
+      "application_number": "NDA021764",
+      "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "risperidone",
@@ -5477,12 +6789,57 @@
   {
    "inn": "procyclidine",
    "chembl_id": "CHEMBL86715",
-   "fu": null
+   "fu": {
+    "value": 0.9991,
+    "min": 0.9991,
+    "max": 0.9991,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "2276",
+      "drugcentral_url": "https://drugcentral.org/drugcard/2276",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.09 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "fenfluramine",
    "chembl_id": "CHEMBL87493",
-   "fu": null
+   "fu": {
+    "value": 0.5,
+    "min": 0.5,
+    "max": 0.5,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "e88f360e-33ad-4cd6-b2de-5ef885857c5d",
+      "section": "clinical_pharmacology",
+      "application_number": "NDA212102",
+      "snippet": "Fenfluramine is 50% bound to human plasma proteins in vitro and binding is independent of drug concentrations."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "rasagiline",
@@ -5638,7 +6995,29 @@
   {
    "inn": "miconazole",
    "chembl_id": "CHEMBL91",
-   "fu": null
+   "fu": {
+    "value": 0.9992,
+    "min": 0.9992,
+    "max": 0.9992,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "1800",
+      "drugcentral_url": "https://drugcentral.org/drugcard/1800",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.08 %</td>\n<td>\n<a href=\"https://dmd.aspetjournals.org/content/dmd/46/11/1466.full.pdf\">Lombardo F, Berellini G, Obach RS</a>\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "zolpidem",
@@ -5839,7 +7218,30 @@
   {
    "inn": "temazepam",
    "chembl_id": "CHEMBL967",
-   "fu": null
+   "fu": {
+    "value": 0.04,
+    "min": 0.04,
+    "max": 0.04,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": null,
+      "doi": null,
+      "title": null,
+      "journal": null,
+      "year": null,
+      "source_type": "fda_label",
+      "set_id": "bc56f7fd-1aaf-48ff-8aa7-d467e59e1015",
+      "section": "clinical_pharmacology",
+      "application_number": "NDA018163",
+      "snippet": "The unchanged drug was 96% bound to plasma proteins."
+     }
+    ],
+    "matched_on": "fda_label",
+    "unit": "fraction"
+   }
   },
   {
    "inn": "flurazepam",
@@ -5944,7 +7346,29 @@
   {
    "inn": "levomilnacipran",
    "chembl_id": "CHEMBL99946",
-   "fu": null
+   "fu": {
+    "value": 0.9932,
+    "min": 0.9932,
+    "max": 0.9932,
+    "n_measurements": 1,
+    "n_documents": 1,
+    "sources": [
+     {
+      "chembl_document_id": null,
+      "pmid": "30115648",
+      "doi": "10.1124/dmd.118.082966",
+      "title": "Trend Analysis of a Database of Intravenous Pharmacokinetic Parameters in Humans for 1352 Drug Compounds",
+      "journal": "Drug Metabolism and Disposition",
+      "year": 2018,
+      "source_type": "drugcentral_lombardo2018",
+      "drugcentral_struct_id": "4864",
+      "drugcentral_url": "https://drugcentral.org/drugcard/4864",
+      "snippet": "<td>fu (Fraction unbound in plasma)</td>\n<td>0.68 %</td>\n<td>\nKawashima H, Watanabe R, Esaki T, Kuroda M, Nagao C, Natsume-Kitatani Y, Ohashi R, Komura H, Mizuguchi K\n</td>"
+     }
+    ],
+    "matched_on": "drugcentral_lombardo2018",
+    "unit": "fraction"
+   }
   }
  ]
 }

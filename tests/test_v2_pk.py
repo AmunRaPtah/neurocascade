@@ -32,12 +32,19 @@ def fu_inputs():
     return json.loads(FU_FILE.read_text())
 
 
+FU_MATCHED_ON = {"chembl_id", "drugcentral_lombardo2018", "fda_label"}
+
+
 def _has_source(entry) -> bool:
     sources = entry.get("sources")
     if not sources:
         return False
     for s in sources:
         if s.get("pmid") or (s.get("doi") or "").startswith("10.6019/CHEMBL"):
+            return True
+        # fda_label rows have no pmid/doi (FDA label text, not a paper): a
+        # verbatim snippet tied to a specific label set_id is the citation.
+        if s.get("source_type") == "fda_label" and s.get("set_id") and s.get("snippet"):
             return True
     return False
 
@@ -126,7 +133,7 @@ def test_fu_values_are_plausible_and_cited(fu_inputs):
         assert FU_RANGE[0] <= fu["value"] <= FU_RANGE[1], (r["inn"], fu["value"])
         assert fu["min"] <= fu["value"] <= fu["max"]
         assert fu["n_measurements"] >= 1
-        assert fu["matched_on"] == "chembl_id"
+        assert fu["matched_on"] in FU_MATCHED_ON, (r["inn"], fu["matched_on"])
         assert _has_source(fu), (r["inn"], "fu has no verified source")
     assert n >= 100, f"expected at least 100/334 drugs with human plasma fu, got {n}"
 

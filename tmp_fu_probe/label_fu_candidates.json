@@ -1,0 +1,3123 @@
+{
+ "pemoline": [
+  {
+   "set_id": "47f221e7-a340-4fab-f2bd-3717994c816d",
+   "section": "clinical_pharmacology",
+   "snippet": "Approximately 50% is bound to plasma proteins.",
+   "pct_bound": 50.0,
+   "literal": [
+    "50"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "8a6d6f1d-2dac-4161-9f45-521280211e17",
+   "section": "clinical_pharmacology",
+   "snippet": "Approximately 50% is bound to plasma proteins.",
+   "pct_bound": 50.0,
+   "literal": [
+    "50"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "57f1e90b-4874-44d5-930e-2c453548bc25",
+   "section": "clinical_pharmacology",
+   "snippet": "Approximately 50% is bound to plasma proteins.",
+   "pct_bound": 50.0,
+   "literal": [
+    "50"
+   ],
+   "application_number": null
+  }
+ ],
+ "cinacalcet": [
+  {
+   "set_id": "45028573-13c4-4c8b-ae62-6c75bba97c81",
+   "section": "clinical_pharmacology",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "NDA021688"
+  },
+  {
+   "set_id": "45028573-13c4-4c8b-ae62-6c75bba97c81",
+   "section": "pharmacokinetics",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "NDA021688"
+  },
+  {
+   "set_id": "44b548ef-1679-4d15-86ad-0d9636b48a45",
+   "section": "clinical_pharmacology",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA209226"
+  },
+  {
+   "set_id": "44b548ef-1679-4d15-86ad-0d9636b48a45",
+   "section": "pharmacokinetics",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA209226"
+  },
+  {
+   "set_id": "330b4214-dba7-468c-a67e-b1057f4628da",
+   "section": "clinical_pharmacology",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  },
+  {
+   "set_id": "330b4214-dba7-468c-a67e-b1057f4628da",
+   "section": "pharmacokinetics",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  },
+  {
+   "set_id": "79b64bbb-3682-4b31-9bb6-03e2c5ac5a2c",
+   "section": "clinical_pharmacology",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  },
+  {
+   "set_id": "79b64bbb-3682-4b31-9bb6-03e2c5ac5a2c",
+   "section": "pharmacokinetics",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  },
+  {
+   "set_id": "f1cfc943-5b70-4451-a1fc-61e45e669d84",
+   "section": "clinical_pharmacology",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  },
+  {
+   "set_id": "f1cfc943-5b70-4451-a1fc-61e45e669d84",
+   "section": "pharmacokinetics",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  },
+  {
+   "set_id": "b920a91f-309f-4f83-a123-525b3bdd55b7",
+   "section": "clinical_pharmacology",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  },
+  {
+   "set_id": "b920a91f-309f-4f83-a123-525b3bdd55b7",
+   "section": "pharmacokinetics",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  },
+  {
+   "set_id": "e96cfada-3763-4af7-b323-1256926a797c",
+   "section": "clinical_pharmacology",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  },
+  {
+   "set_id": "e96cfada-3763-4af7-b323-1256926a797c",
+   "section": "pharmacokinetics",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  },
+  {
+   "set_id": "60e6264c-723c-49b2-a246-827b15ff219c",
+   "section": "clinical_pharmacology",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  },
+  {
+   "set_id": "60e6264c-723c-49b2-a246-827b15ff219c",
+   "section": "pharmacokinetics",
+   "snippet": "Cinacalcet is approximately 93% to 97% bound to plasma protein(s).",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA210570"
+  }
+ ],
+ "rufinamide": [
+  {
+   "set_id": "0a3fa925-1abd-458a-bd57-4ae780a1ef2d",
+   "section": "clinical_pharmacology",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "NDA021911"
+  },
+  {
+   "set_id": "0a3fa925-1abd-458a-bd57-4ae780a1ef2d",
+   "section": "pharmacokinetics",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "NDA021911"
+  },
+  {
+   "set_id": "1a0b80de-754d-4e60-b5a9-b6daa323bf58",
+   "section": "clinical_pharmacology",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA207363"
+  },
+  {
+   "set_id": "1a0b80de-754d-4e60-b5a9-b6daa323bf58",
+   "section": "pharmacokinetics",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA207363"
+  },
+  {
+   "set_id": "a02ca527-bd8f-49ef-89fa-91fac154bffe",
+   "section": "clinical_pharmacology",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA213410"
+  },
+  {
+   "set_id": "a02ca527-bd8f-49ef-89fa-91fac154bffe",
+   "section": "pharmacokinetics",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA213410"
+  },
+  {
+   "set_id": "924ffdf9-ce5f-4989-9a43-78a03ba3eaed",
+   "section": "clinical_pharmacology",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA214817"
+  },
+  {
+   "set_id": "924ffdf9-ce5f-4989-9a43-78a03ba3eaed",
+   "section": "pharmacokinetics",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA214817"
+  },
+  {
+   "set_id": "da9ee326-a383-4d46-9d4e-fcc2be3d2680",
+   "section": "clinical_pharmacology",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA205075"
+  },
+  {
+   "set_id": "da9ee326-a383-4d46-9d4e-fcc2be3d2680",
+   "section": "pharmacokinetics",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA205075"
+  },
+  {
+   "set_id": "2c2c8d41-1ae4-453a-b628-954ee0b3be5c",
+   "section": "clinical_pharmacology",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA204964"
+  },
+  {
+   "set_id": "2c2c8d41-1ae4-453a-b628-954ee0b3be5c",
+   "section": "pharmacokinetics",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA204964"
+  },
+  {
+   "set_id": "444544f0-7622-4eef-b218-f241bd50d4af",
+   "section": "clinical_pharmacology",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA216549"
+  },
+  {
+   "set_id": "444544f0-7622-4eef-b218-f241bd50d4af",
+   "section": "pharmacokinetics",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA216549"
+  },
+  {
+   "set_id": "e2ba061a-49f0-4330-b0f0-00f2c3725625",
+   "section": "clinical_pharmacology",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA211388"
+  },
+  {
+   "set_id": "e2ba061a-49f0-4330-b0f0-00f2c3725625",
+   "section": "pharmacokinetics",
+   "snippet": "Only a small fraction of rufinamide (34%) is bound to human serum proteins, predominantly to albumin (27%), giving little risk of displacement drug-drug interactions.",
+   "pct_bound": 34.0,
+   "literal": [
+    "34"
+   ],
+   "application_number": "ANDA211388"
+  }
+ ],
+ "perampanel": [
+  {
+   "set_id": "ec812ea3-de3a-4271-957c-db8f692d1ae3",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 to 2000 ng/mL, perampanel is approximately 95-96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": "NDA202834"
+  },
+  {
+   "set_id": "71cf3309-e182-473c-8b0b-280cabd0e122",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 to 2000 ng/mL, perampanel is approximately 95-96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": "NDA202834"
+  },
+  {
+   "set_id": "71cf3309-e182-473c-8b0b-280cabd0e122",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 to 2000 ng/mL, perampanel is approximately 95-96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": "NDA202834"
+  },
+  {
+   "set_id": "3c72a5f7-bb22-4c48-942a-543ca84ed5a9",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 to 2000 ng/mL, perampanel is approximately 95 to 96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": "ANDA219052"
+  },
+  {
+   "set_id": "3c72a5f7-bb22-4c48-942a-543ca84ed5a9",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 to 2000 ng/mL, perampanel is approximately 95 to 96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": "ANDA219052"
+  },
+  {
+   "set_id": "1b0458ea-e718-4d48-ae55-ad9b4d863810",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 ng/mL to 2000 ng/mL, perampanel is approximately 95 to 96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": "ANDA209538"
+  },
+  {
+   "set_id": "1b0458ea-e718-4d48-ae55-ad9b4d863810",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 ng/mL to 2000 ng/mL, perampanel is approximately 95 to 96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": "ANDA209538"
+  },
+  {
+   "set_id": "695c8c73-39cb-4927-bdf6-72d16e4aa9bb",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 to 2000 ng/mL, perampanel is approximately 95 to 96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": "ANDA218178"
+  },
+  {
+   "set_id": "695c8c73-39cb-4927-bdf6-72d16e4aa9bb",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 to 2000 ng/mL, perampanel is approximately 95 to 96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": "ANDA218178"
+  },
+  {
+   "set_id": "bc8f7cf2-c19c-4235-859f-9ff1dd21908e",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 to 2000 ng/mL, perampanel is approximately 95 to 96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": "ANDA209801"
+  },
+  {
+   "set_id": "bc8f7cf2-c19c-4235-859f-9ff1dd21908e",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 to 2000 ng/mL, perampanel is approximately 95 to 96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": "ANDA209801"
+  },
+  {
+   "set_id": "33394aaa-0817-564e-e054-00144ff8d46c",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 to 2000 ng/mL, perampanel is approximately 95-96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "33394aaa-0817-564e-e054-00144ff8d46c",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Data from in vitro studies indicate that, in the concentration range of 20 to 2000 ng/mL, perampanel is approximately 95-96% bound to plasma proteins, mainly bound to albumin and \u03b11-acid glycoprotein.",
+   "pct_bound": 95.49869109050658,
+   "literal": [
+    "95",
+    "96"
+   ],
+   "application_number": null
+  }
+ ],
+ "levetiracetam": [
+  {
+   "set_id": "c6d5784d-abf9-45fe-ac5a-d5c53bd50f7e",
+   "section": "clinical_pharmacology",
+   "snippet": "Levetiracetam is not significantly protein-bound (<10% bound) and its volume of distribution is close to the volume of intracellular and extracellular water.",
+   "pct_bound": 10.0,
+   "literal": [
+    "10"
+   ],
+   "application_number": "NDA021872"
+  },
+  {
+   "set_id": "c6d5784d-abf9-45fe-ac5a-d5c53bd50f7e",
+   "section": "pharmacokinetics",
+   "snippet": "Levetiracetam is not significantly protein-bound (<10% bound) and its volume of distribution is close to the volume of intracellular and extracellular water.",
+   "pct_bound": 10.0,
+   "literal": [
+    "10"
+   ],
+   "application_number": "NDA021872"
+  },
+  {
+   "set_id": "2919e43b-69a8-434c-a2d2-1f3ecd7554c0",
+   "section": "clinical_pharmacology",
+   "snippet": "Levetiracetam is not significantly protein-bound (<10% bound) and its volume of distribution is close to the volume of intracellular and extracellular water.",
+   "pct_bound": 10.0,
+   "literal": [
+    "10"
+   ],
+   "application_number": "NDA022285"
+  },
+  {
+   "set_id": "2919e43b-69a8-434c-a2d2-1f3ecd7554c0",
+   "section": "pharmacokinetics",
+   "snippet": "Levetiracetam is not significantly protein-bound (<10% bound) and its volume of distribution is close to the volume of intracellular and extracellular water.",
+   "pct_bound": 10.0,
+   "literal": [
+    "10"
+   ],
+   "application_number": "NDA022285"
+  },
+  {
+   "set_id": "cac83d47-88a2-4447-a0c0-90b44ffda0ac",
+   "section": "clinical_pharmacology",
+   "snippet": "Levetiracetam is not significantly protein-bound (<10% bound) and its volume of distribution is close to the volume of intracellular and extracellular water.",
+   "pct_bound": 10.0,
+   "literal": [
+    "10"
+   ],
+   "application_number": "NDA204417"
+  },
+  {
+   "set_id": "cac83d47-88a2-4447-a0c0-90b44ffda0ac",
+   "section": "pharmacokinetics",
+   "snippet": "Levetiracetam is not significantly protein-bound (<10% bound) and its volume of distribution is close to the volume of intracellular and extracellular water.",
+   "pct_bound": 10.0,
+   "literal": [
+    "10"
+   ],
+   "application_number": "NDA204417"
+  },
+  {
+   "set_id": "70e52e89-3844-4cd9-a406-b29e9520a12c",
+   "section": "clinical_pharmacology",
+   "snippet": "Levetiracetam is not significantly protein-bound (<10% bound) and its volume of distribution is close to the volume of intracellular and extracellular water.",
+   "pct_bound": 10.0,
+   "literal": [
+    "10"
+   ],
+   "application_number": "NDA202543"
+  },
+  {
+   "set_id": "70e52e89-3844-4cd9-a406-b29e9520a12c",
+   "section": "pharmacokinetics",
+   "snippet": "Levetiracetam is not significantly protein-bound (<10% bound) and its volume of distribution is close to the volume of intracellular and extracellular water.",
+   "pct_bound": 10.0,
+   "literal": [
+    "10"
+   ],
+   "application_number": "NDA202543"
+  },
+  {
+   "set_id": "5e5b0ed3-b104-45a7-bb3e-ee56febb46e8",
+   "section": "clinical_pharmacology",
+   "snippet": "Levetiracetam is not significantly protein-bound (<10% bound) and its volume of distribution is close to the volume of intracellular and extracellular water.",
+   "pct_bound": 10.0,
+   "literal": [
+    "10"
+   ],
+   "application_number": "NDA202543"
+  },
+  {
+   "set_id": "5e5b0ed3-b104-45a7-bb3e-ee56febb46e8",
+   "section": "pharmacokinetics",
+   "snippet": "Levetiracetam is not significantly protein-bound (<10% bound) and its volume of distribution is close to the volume of intracellular and extracellular water.",
+   "pct_bound": 10.0,
+   "literal": [
+    "10"
+   ],
+   "application_number": "NDA202543"
+  }
+ ],
+ "oxybate": [
+  {
+   "set_id": "926eb076-a4a8-45e4-91ef-411f0aa4f3ca",
+   "section": "clinical_pharmacology",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": "NDA021196"
+  },
+  {
+   "set_id": "926eb076-a4a8-45e4-91ef-411f0aa4f3ca",
+   "section": "pharmacokinetics",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": "NDA021196"
+  },
+  {
+   "set_id": "bcef2c95-35e9-464d-9025-652acff769e7",
+   "section": "clinical_pharmacology",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": "NDA021196"
+  },
+  {
+   "set_id": "bcef2c95-35e9-464d-9025-652acff769e7",
+   "section": "pharmacokinetics",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": "NDA021196"
+  },
+  {
+   "set_id": "5dcf9a5c-312b-420b-82f3-42177d8f9ee4",
+   "section": "clinical_pharmacology",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": "ANDA210523"
+  },
+  {
+   "set_id": "5dcf9a5c-312b-420b-82f3-42177d8f9ee4",
+   "section": "pharmacokinetics",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": "ANDA210523"
+  },
+  {
+   "set_id": "c0fb2620-7247-464d-a37a-8b516ce7d563",
+   "section": "clinical_pharmacology",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": "ANDA210523"
+  },
+  {
+   "set_id": "c0fb2620-7247-464d-a37a-8b516ce7d563",
+   "section": "pharmacokinetics",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": "ANDA210523"
+  },
+  {
+   "set_id": "5a9e9045-f04d-46eb-8396-2495c6090a31",
+   "section": "clinical_pharmacology",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": "ANDA203631"
+  },
+  {
+   "set_id": "5a9e9045-f04d-46eb-8396-2495c6090a31",
+   "section": "pharmacokinetics",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": "ANDA203631"
+  },
+  {
+   "set_id": "10e5e40c-52f3-4c73-8a34-2c29c690a934",
+   "section": "clinical_pharmacology",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "a6c17f6f-46bc-4852-a825-07f49cc08495",
+   "section": "clinical_pharmacology",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "a6c17f6f-46bc-4852-a825-07f49cc08495",
+   "section": "pharmacokinetics",
+   "snippet": "At GHB concentrations ranging from 3 mcg/mL to 300 mcg/mL, less than 1% is bound to plasma proteins.",
+   "pct_bound": 1.0,
+   "literal": [
+    "1"
+   ],
+   "application_number": null
+  }
+ ],
+ "eszopiclone": [
+  {
+   "set_id": "3821f4b7-a3c8-4920-ba80-18aa96532c09",
+   "section": "clinical_pharmacology",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52-59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "NDA021476"
+  },
+  {
+   "set_id": "3821f4b7-a3c8-4920-ba80-18aa96532c09",
+   "section": "pharmacokinetics",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52-59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "NDA021476"
+  },
+  {
+   "set_id": "9dfe774a-2c7a-4e10-bedd-cde64ad28676",
+   "section": "clinical_pharmacology",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA202929"
+  },
+  {
+   "set_id": "9dfe774a-2c7a-4e10-bedd-cde64ad28676",
+   "section": "pharmacokinetics",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA202929"
+  },
+  {
+   "set_id": "52ab8ee9-a04d-4e27-b0f4-eb050f144715",
+   "section": "clinical_pharmacology",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA205504"
+  },
+  {
+   "set_id": "52ab8ee9-a04d-4e27-b0f4-eb050f144715",
+   "section": "pharmacokinetics",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA205504"
+  },
+  {
+   "set_id": "c4ff1d6a-918e-c046-e053-2a95a90a9c9b",
+   "section": "clinical_pharmacology",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA091166"
+  },
+  {
+   "set_id": "c4ff1d6a-918e-c046-e053-2a95a90a9c9b",
+   "section": "pharmacokinetics",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA091166"
+  },
+  {
+   "set_id": "e04d4f8b-c9a1-4dc9-aac4-2e6376cd9a0c",
+   "section": "clinical_pharmacology",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA091166"
+  },
+  {
+   "set_id": "e04d4f8b-c9a1-4dc9-aac4-2e6376cd9a0c",
+   "section": "pharmacokinetics",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA091166"
+  },
+  {
+   "set_id": "2b5b4fbb-9b86-46c6-9508-37d3d9806dec",
+   "section": "clinical_pharmacology",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA202929"
+  },
+  {
+   "set_id": "2b5b4fbb-9b86-46c6-9508-37d3d9806dec",
+   "section": "pharmacokinetics",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA202929"
+  },
+  {
+   "set_id": "61fd4655-060f-4393-a610-019d8b127058",
+   "section": "clinical_pharmacology",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA202929"
+  },
+  {
+   "set_id": "61fd4655-060f-4393-a610-019d8b127058",
+   "section": "pharmacokinetics",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA202929"
+  },
+  {
+   "set_id": "abe3a610-a25d-4b52-8537-c87e8ba3104a",
+   "section": "clinical_pharmacology",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA202929"
+  },
+  {
+   "set_id": "abe3a610-a25d-4b52-8537-c87e8ba3104a",
+   "section": "pharmacokinetics",
+   "snippet": "Drugs Highly Bound to Plasma Protein Eszopiclone is not highly bound to plasma proteins (52 to 59% bound); therefore, the disposition of eszopiclone is not expected to be sensitive to alterations in protein binding.",
+   "pct_bound": 55.389529696504916,
+   "literal": [
+    "52",
+    "59"
+   ],
+   "application_number": "ANDA202929"
+  }
+ ],
+ "ganaxolone": [
+  {
+   "set_id": "d91612c4-b03a-4be4-a1ee-6a13e3b83d4e",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Ganaxolone is approximately 99% protein-bound in serum.",
+   "pct_bound": 99.0,
+   "literal": [
+    "99"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "d91612c4-b03a-4be4-a1ee-6a13e3b83d4e",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Ganaxolone is approximately 99% protein-bound in serum.",
+   "pct_bound": 99.0,
+   "literal": [
+    "99"
+   ],
+   "application_number": null
+  }
+ ],
+ "cevimeline": [
+  {
+   "set_id": "7fa69ad5-7fa7-4078-9328-aacbb0d145a4",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution: Cevimeline has a volume of distribution of approximately 6L/kg and is <20% bound to human plasma proteins.",
+   "pct_bound": 20.0,
+   "literal": [
+    "20"
+   ],
+   "application_number": "NDA020989"
+  },
+  {
+   "set_id": "efc2bb24-4dda-4781-bef5-fcd9abf082dd",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution: Cevimeline has a volume of distribution of approximately 6L/kg and is <20% bound to human plasma proteins.",
+   "pct_bound": 20.0,
+   "literal": [
+    "20"
+   ],
+   "application_number": "NDA020989"
+  },
+  {
+   "set_id": "dac32a9b-05b8-42c2-9a29-d885a9279456",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution: Cevimeline has a volume of distribution of approximately 6L/kg and is <20% bound to human plasma proteins.",
+   "pct_bound": 20.0,
+   "literal": [
+    "20"
+   ],
+   "application_number": "NDA020989"
+  },
+  {
+   "set_id": "773a19e8-4c3e-4414-99a6-aea98c9790ee",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution: Cevimeline has a volume of distribution of approximately 6L/kg and is <20% bound to human plasma proteins.",
+   "pct_bound": 20.0,
+   "literal": [
+    "20"
+   ],
+   "application_number": "NDA020989"
+  },
+  {
+   "set_id": "2b429ea7-1c7c-47a4-803c-2546736f5c36",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution: Cevimeline has a volume of distribution of approximately 6L/kg and is <20% bound to human plasma proteins.",
+   "pct_bound": 20.0,
+   "literal": [
+    "20"
+   ],
+   "application_number": "ANDA216682"
+  },
+  {
+   "set_id": "bcaaec18-4ee1-4cfd-84da-8fe3b8c54fc4",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution: Cevimeline has a volume of distribution of approximately 6L/kg and is <20% bound to human plasma proteins.",
+   "pct_bound": 20.0,
+   "literal": [
+    "20"
+   ],
+   "application_number": "ANDA203775"
+  },
+  {
+   "set_id": "bcaaec18-4ee1-4cfd-84da-8fe3b8c54fc4",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution: Cevimeline has a volume of distribution of approximately 6L/kg and is <20% bound to human plasma proteins.",
+   "pct_bound": 20.0,
+   "literal": [
+    "20"
+   ],
+   "application_number": "ANDA203775"
+  },
+  {
+   "set_id": "75ae16d6-8822-4581-b747-ae894a45cdea",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution: Cevimeline has a volume of distribution of approximately 6L/kg and is <20% bound to human plasma proteins.",
+   "pct_bound": 20.0,
+   "literal": [
+    "20"
+   ],
+   "application_number": "ANDA216682"
+  }
+ ],
+ "dihydroergotamine": [
+  {
+   "set_id": "b81397b0-910d-4eb4-8fee-a9a3c9d94d63",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "NDA213436"
+  },
+  {
+   "set_id": "b81397b0-910d-4eb4-8fee-a9a3c9d94d63",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "NDA213436"
+  },
+  {
+   "set_id": "0982a44a-dc0c-75c0-e063-6394a90a6d6c",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Dihydroergotamine is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "NDA217901"
+  },
+  {
+   "set_id": "0982a44a-dc0c-75c0-e063-6394a90a6d6c",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Dihydroergotamine is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "NDA217901"
+  },
+  {
+   "set_id": "cdbf5619-767f-4165-aec2-17bdd92d9ca2",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "NDA215400"
+  },
+  {
+   "set_id": "cdbf5619-767f-4165-aec2-17bdd92d9ca2",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "NDA215400"
+  },
+  {
+   "set_id": "977de209-c53a-4cb4-9f3f-1e850600a9dc",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "NDA020148"
+  },
+  {
+   "set_id": "977de209-c53a-4cb4-9f3f-1e850600a9dc",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "NDA020148"
+  },
+  {
+   "set_id": "b464a64d-b150-4f6b-b3df-e486a41294d7",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA212046"
+  },
+  {
+   "set_id": "b464a64d-b150-4f6b-b3df-e486a41294d7",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA212046"
+  },
+  {
+   "set_id": "c8ffdc19-a90d-453c-b094-2347e116b405",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA215228"
+  },
+  {
+   "set_id": "65f8c60d-9213-48ac-8233-acc5d44548f4",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA216881"
+  },
+  {
+   "set_id": "1ecb2311-eee3-4230-a019-a3496308cff1",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA212907"
+  },
+  {
+   "set_id": "1ecb2311-eee3-4230-a019-a3496308cff1",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Dihydroergotamine mesylate is 93% plasma protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA212907"
+  }
+ ],
+ "tasimelteon": [
+  {
+   "set_id": "ca4a9b63-708e-49e9-8f9b-010625443b90",
+   "section": "clinical_pharmacology",
+   "snippet": "At therapeutic concentrations, tasimelteon is about 90% bound to proteins.",
+   "pct_bound": 90.0,
+   "literal": [
+    "90"
+   ],
+   "application_number": "NDA205677"
+  },
+  {
+   "set_id": "ca4a9b63-708e-49e9-8f9b-010625443b90",
+   "section": "pharmacokinetics",
+   "snippet": "At therapeutic concentrations, tasimelteon is about 90% bound to proteins.",
+   "pct_bound": 90.0,
+   "literal": [
+    "90"
+   ],
+   "application_number": "NDA205677"
+  },
+  {
+   "set_id": "ce5a2fa3-ed54-422d-96c2-1821496eb32f",
+   "section": "clinical_pharmacology",
+   "snippet": "At therapeutic concentrations, tasimelteon is about 90% bound to proteins.",
+   "pct_bound": 90.0,
+   "literal": [
+    "90"
+   ],
+   "application_number": "ANDA211601"
+  },
+  {
+   "set_id": "ce5a2fa3-ed54-422d-96c2-1821496eb32f",
+   "section": "pharmacokinetics",
+   "snippet": "At therapeutic concentrations, tasimelteon is about 90% bound to proteins.",
+   "pct_bound": 90.0,
+   "literal": [
+    "90"
+   ],
+   "application_number": "ANDA211601"
+  },
+  {
+   "set_id": "99cb1928-e57d-4d04-87a1-38108780598a",
+   "section": "clinical_pharmacology",
+   "snippet": "At therapeutic concentrations, tasimelteon is about 90% bound to proteins.",
+   "pct_bound": 90.0,
+   "literal": [
+    "90"
+   ],
+   "application_number": "ANDA211654"
+  },
+  {
+   "set_id": "99cb1928-e57d-4d04-87a1-38108780598a",
+   "section": "pharmacokinetics",
+   "snippet": "At therapeutic concentrations, tasimelteon is about 90% bound to proteins.",
+   "pct_bound": 90.0,
+   "literal": [
+    "90"
+   ],
+   "application_number": "ANDA211654"
+  },
+  {
+   "set_id": "46b09064-a675-92d5-24a7-dac0410f77ae",
+   "section": "clinical_pharmacology",
+   "snippet": "At therapeutic concentrations, tasimelteon is about 90% bound to proteins.",
+   "pct_bound": 90.0,
+   "literal": [
+    "90"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "46b09064-a675-92d5-24a7-dac0410f77ae",
+   "section": "pharmacokinetics",
+   "snippet": "At therapeutic concentrations, tasimelteon is about 90% bound to proteins.",
+   "pct_bound": 90.0,
+   "literal": [
+    "90"
+   ],
+   "application_number": null
+  }
+ ],
+ "topiramate": [
+  {
+   "set_id": "46f54677-3a22-4c38-9b92-923020164e15",
+   "section": "clinical_pharmacology",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 mcg/mL to 250 mcg/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA205122"
+  },
+  {
+   "set_id": "46f54677-3a22-4c38-9b92-923020164e15",
+   "section": "pharmacokinetics",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 mcg/mL to 250 mcg/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA205122"
+  },
+  {
+   "set_id": "691d276c-9cc1-4d39-828f-0f44d7ef6328",
+   "section": "clinical_pharmacology",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 mcg/mL to 250 mcg/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA205122"
+  },
+  {
+   "set_id": "691d276c-9cc1-4d39-828f-0f44d7ef6328",
+   "section": "pharmacokinetics",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 mcg/mL to 250 mcg/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA205122"
+  },
+  {
+   "set_id": "e2a4df59-fead-4a01-9021-9eda02c48010",
+   "section": "clinical_pharmacology",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 \u00b5g/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA214679"
+  },
+  {
+   "set_id": "e2a4df59-fead-4a01-9021-9eda02c48010",
+   "section": "pharmacokinetics",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 \u00b5g/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA214679"
+  },
+  {
+   "set_id": "3f99b26b-79b9-4efb-aa2c-2868e1e126c8",
+   "section": "clinical_pharmacology",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 mcg/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA077627"
+  },
+  {
+   "set_id": "3f99b26b-79b9-4efb-aa2c-2868e1e126c8",
+   "section": "pharmacokinetics",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 mcg/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA077627"
+  },
+  {
+   "set_id": "0c0a6774-e234-47a5-866e-462cfd99744c",
+   "section": "clinical_pharmacology",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 mcg/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA078877"
+  },
+  {
+   "set_id": "0c0a6774-e234-47a5-866e-462cfd99744c",
+   "section": "pharmacokinetics",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 mcg/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA078877"
+  },
+  {
+   "set_id": "59f39dea-f29b-d6c6-e063-6294a90a5b74",
+   "section": "clinical_pharmacology",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 mcg/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA078235"
+  },
+  {
+   "set_id": "59f39dea-f29b-d6c6-e063-6294a90a5b74",
+   "section": "pharmacokinetics",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 mcg/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA078235"
+  },
+  {
+   "set_id": "5826cb22-3559-171b-e063-6394a90ad594",
+   "section": "clinical_pharmacology",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 \u00b5g/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA090162"
+  },
+  {
+   "set_id": "5826cb22-3559-171b-e063-6394a90ad594",
+   "section": "pharmacokinetics",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 \u00b5g/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA090162"
+  },
+  {
+   "set_id": "c90d81a9-a87b-48b0-8cf1-172b82e30127",
+   "section": "clinical_pharmacology",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 \u00b5g/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA076343"
+  },
+  {
+   "set_id": "c90d81a9-a87b-48b0-8cf1-172b82e30127",
+   "section": "pharmacokinetics",
+   "snippet": "Topiramate is 15% to 41% bound to human plasma proteins over the blood concentration range of 0.5 to 250 \u00b5g/mL.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA076343"
+  }
+ ],
+ "silodosin": [
+  {
+   "set_id": "afbf4823-8663-4152-9346-ca42c7b7d722",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Silodosin has an apparent volume of distribution of 49.5 L and is approximately 97% protein bound.",
+   "pct_bound": 97.0,
+   "literal": [
+    "97"
+   ],
+   "application_number": "ANDA211166"
+  },
+  {
+   "set_id": "afbf4823-8663-4152-9346-ca42c7b7d722",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Silodosin has an apparent volume of distribution of 49.5 L and is approximately 97% protein bound.",
+   "pct_bound": 97.0,
+   "literal": [
+    "97"
+   ],
+   "application_number": "ANDA211166"
+  },
+  {
+   "set_id": "43f83422-680f-411e-bbc3-2b092e64a017",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Silodosin has an apparent volume of distribution of 49.5 L and is approximately 97% protein bound.",
+   "pct_bound": 97.0,
+   "literal": [
+    "97"
+   ],
+   "application_number": "ANDA213230"
+  },
+  {
+   "set_id": "de619e27-9384-4b86-abdc-de0557cd39e8",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Silodosin has an apparent volume of distribution of 49.5 L and is approximately 97% protein bound.",
+   "pct_bound": 97.0,
+   "literal": [
+    "97"
+   ],
+   "application_number": "ANDA209745"
+  },
+  {
+   "set_id": "de619e27-9384-4b86-abdc-de0557cd39e8",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Silodosin has an apparent volume of distribution of 49.5 L and is approximately 97% protein bound.",
+   "pct_bound": 97.0,
+   "literal": [
+    "97"
+   ],
+   "application_number": "ANDA209745"
+  },
+  {
+   "set_id": "aac3314b-af8c-400e-ba91-0cf2b95e70dd",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Silodosin has an apparent volume of distribution of 49.5 L and is approximately 97% protein bound.",
+   "pct_bound": 97.0,
+   "literal": [
+    "97"
+   ],
+   "application_number": "ANDA213230"
+  },
+  {
+   "set_id": "f2aa0cee-819d-45e8-95b3-86bc63b68368",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Silodosin has an apparent volume of distribution of 49.5 L and is approximately 97% protein bound.",
+   "pct_bound": 97.0,
+   "literal": [
+    "97"
+   ],
+   "application_number": "ANDA213230"
+  },
+  {
+   "set_id": "ea3bbafb-d32a-d0d3-e053-2a95a90ac387",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Silodosin has an apparent volume of distribution of 49.5 L and is approximately 97% protein bound.",
+   "pct_bound": 97.0,
+   "literal": [
+    "97"
+   ],
+   "application_number": "ANDA209745"
+  },
+  {
+   "set_id": "ea3bbafb-d32a-d0d3-e053-2a95a90ac387",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Silodosin has an apparent volume of distribution of 49.5 L and is approximately 97% protein bound.",
+   "pct_bound": 97.0,
+   "literal": [
+    "97"
+   ],
+   "application_number": "ANDA209745"
+  },
+  {
+   "set_id": "e863be56-d303-43bb-915a-1b2568674e31",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Silodosin has an apparent volume of distribution of 49.5 L and is approximately 97% protein bound.",
+   "pct_bound": 97.0,
+   "literal": [
+    "97"
+   ],
+   "application_number": "ANDA211060"
+  },
+  {
+   "set_id": "e863be56-d303-43bb-915a-1b2568674e31",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Silodosin has an apparent volume of distribution of 49.5 L and is approximately 97% protein bound.",
+   "pct_bound": 97.0,
+   "literal": [
+    "97"
+   ],
+   "application_number": "ANDA211060"
+  }
+ ],
+ "estazolam": [
+  {
+   "set_id": "a1e3b4bf-22e9-430a-a768-4d86ae886c9e",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Independent of concentration, estazolam in plasma is 93% protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA074818"
+  },
+  {
+   "set_id": "2f349a44-6d04-01d1-c8b7-12254aead77d",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Independent of concentration, estazolam in plasma is 93% protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA074921"
+  },
+  {
+   "set_id": "2f349a44-6d04-01d1-c8b7-12254aead77d",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Independent of concentration, estazolam in plasma is 93% protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA074921"
+  },
+  {
+   "set_id": "e1c77eb1-9cba-4e89-a03f-9fb797add4f0",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Independent of concentration, estazolam in plasma is 93% protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": "ANDA074826"
+  },
+  {
+   "set_id": "9aaffc1b-3779-4e6f-89ed-fb302ecd1807",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Independent of concentration, estazolam in plasma is 93% protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "9aaffc1b-3779-4e6f-89ed-fb302ecd1807",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Independent of concentration, estazolam in plasma is 93% protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "b22148fd-8b86-496c-a540-d8af20cb8a12",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Independent of concentration, estazolam in plasma is 93% protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "b22148fd-8b86-496c-a540-d8af20cb8a12",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Independent of concentration, estazolam in plasma is 93% protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "2fb7763f-6ce4-43b9-b3be-90a66315828b",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Independent of concentration, estazolam in plasma is 93% protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "50914a46-eab6-4c83-97cf-6ab0234c8126",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Independent of concentration, estazolam in plasma is 93% protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "96b524b5-273b-4134-9b52-ff19a81bd4b1",
+   "section": "clinical_pharmacology",
+   "snippet": "Independent of concentration, estazolam in plasma is 93% protein bound.",
+   "pct_bound": 93.0,
+   "literal": [
+    "93"
+   ],
+   "application_number": null
+  }
+ ],
+ "pramipexole": [
+  {
+   "set_id": "29b639e3-25a5-4c2f-b4ea-a119db79fe0c",
+   "section": "clinical_pharmacology",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  },
+  {
+   "set_id": "29b639e3-25a5-4c2f-b4ea-a119db79fe0c",
+   "section": "pharmacokinetics",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  },
+  {
+   "set_id": "468830df-941c-4363-b432-94de9b7fd2ac",
+   "section": "clinical_pharmacology",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  },
+  {
+   "set_id": "468830df-941c-4363-b432-94de9b7fd2ac",
+   "section": "pharmacokinetics",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  },
+  {
+   "set_id": "46f88017-7b0e-437e-90b1-37bdf9013e72",
+   "section": "clinical_pharmacology",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA090865"
+  },
+  {
+   "set_id": "7a5d1b22-179a-44ae-9545-2704414b9905",
+   "section": "clinical_pharmacology",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  },
+  {
+   "set_id": "7a5d1b22-179a-44ae-9545-2704414b9905",
+   "section": "pharmacokinetics",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  },
+  {
+   "set_id": "f1ff3695-33db-471d-a3db-89fbb9ed9e0c",
+   "section": "clinical_pharmacology",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  },
+  {
+   "set_id": "f1ff3695-33db-471d-a3db-89fbb9ed9e0c",
+   "section": "pharmacokinetics",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  },
+  {
+   "set_id": "3db0613d-524b-4b33-9a07-602f84d6c304",
+   "section": "clinical_pharmacology",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA090865"
+  },
+  {
+   "set_id": "422b27af-5e7d-4fe1-81bc-ed545c26b476",
+   "section": "clinical_pharmacology",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  },
+  {
+   "set_id": "422b27af-5e7d-4fe1-81bc-ed545c26b476",
+   "section": "pharmacokinetics",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  },
+  {
+   "set_id": "1ebb3e0b-8fd5-4ac8-ba2f-abfcfc0c91ad",
+   "section": "clinical_pharmacology",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  },
+  {
+   "set_id": "1ebb3e0b-8fd5-4ac8-ba2f-abfcfc0c91ad",
+   "section": "pharmacokinetics",
+   "snippet": "It is about 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA202633"
+  }
+ ],
+ "viloxazine": [
+  {
+   "set_id": "aedf408d-0f84-418d-9416-7c39ddb0d29a",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Viloxazine is 76-82% bound to human plasma proteins over the blood concentration range of 0.5 mcg/mL to 10 mcg/mL.",
+   "pct_bound": 78.9430174239622,
+   "literal": [
+    "76",
+    "82"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "aedf408d-0f84-418d-9416-7c39ddb0d29a",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Viloxazine is 76-82% bound to human plasma proteins over the blood concentration range of 0.5 mcg/mL to 10 mcg/mL.",
+   "pct_bound": 78.9430174239622,
+   "literal": [
+    "76",
+    "82"
+   ],
+   "application_number": null
+  }
+ ],
+ "daridorexant": [
+  {
+   "set_id": "3a2d1503-b816-40c9-9fac-7e03c5a3bcef",
+   "section": "clinical_pharmacology",
+   "snippet": "Daridorexant is 99.7% bound to plasma proteins.",
+   "pct_bound": 99.7,
+   "literal": [
+    "99.7"
+   ],
+   "application_number": "NDA214985"
+  },
+  {
+   "set_id": "3a2d1503-b816-40c9-9fac-7e03c5a3bcef",
+   "section": "pharmacokinetics",
+   "snippet": "Daridorexant is 99.7% bound to plasma proteins.",
+   "pct_bound": 99.7,
+   "literal": [
+    "99.7"
+   ],
+   "application_number": "NDA214985"
+  }
+ ],
+ "vilazodone": [
+  {
+   "set_id": "4c55ccfb-c4cf-11df-851a-0800200c9a66",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96-99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "NDA022567"
+  },
+  {
+   "set_id": "4c55ccfb-c4cf-11df-851a-0800200c9a66",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96-99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "NDA022567"
+  },
+  {
+   "set_id": "f917f30d-f2a7-43eb-836f-53eaa2a31cb0",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208209"
+  },
+  {
+   "set_id": "f917f30d-f2a7-43eb-836f-53eaa2a31cb0",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208209"
+  },
+  {
+   "set_id": "061efdcc-40ea-4647-8cc8-01cd1ccca68b",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208228"
+  },
+  {
+   "set_id": "061efdcc-40ea-4647-8cc8-01cd1ccca68b",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208228"
+  },
+  {
+   "set_id": "3b8ca479-72e9-2431-e063-6394a90af7ff",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96% to 99% protein-bound.",
+   "pct_bound": 96.0,
+   "literal": [
+    "96"
+   ],
+   "application_number": "ANDA208212"
+  },
+  {
+   "set_id": "3b8ca479-72e9-2431-e063-6394a90af7ff",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96% to 99% protein-bound.",
+   "pct_bound": 96.0,
+   "literal": [
+    "96"
+   ],
+   "application_number": "ANDA208212"
+  },
+  {
+   "set_id": "658c4bc1-4128-4e0e-8852-b5f68880e8d7",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208200"
+  },
+  {
+   "set_id": "658c4bc1-4128-4e0e-8852-b5f68880e8d7",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208200"
+  },
+  {
+   "set_id": "d1d8b51c-823b-4702-a726-a7530abd8957",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208200"
+  },
+  {
+   "set_id": "d1d8b51c-823b-4702-a726-a7530abd8957",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208200"
+  },
+  {
+   "set_id": "701c8b84-13ae-4adb-af7a-304bf1f21e3b",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208228"
+  },
+  {
+   "set_id": "701c8b84-13ae-4adb-af7a-304bf1f21e3b",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208228"
+  },
+  {
+   "set_id": "f68720fd-9122-4922-b472-733da8bd0a00",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208228"
+  },
+  {
+   "set_id": "f68720fd-9122-4922-b472-733da8bd0a00",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Vilazodone is widely distributed and approximately 96 to 99% protein-bound.",
+   "pct_bound": 97.48846085563153,
+   "literal": [
+    "96",
+    "99"
+   ],
+   "application_number": "ANDA208228"
+  }
+ ],
+ "ethyl chloride": [
+  {
+   "set_id": "07a8174b-f0ed-c277-e063-6394a90a9eb1",
+   "section": "clinical_pharmacology",
+   "snippet": "Greater than 99 % of unesterified EPA is bound to plasma proteins.",
+   "pct_bound": 99.0,
+   "literal": [
+    "99"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "07a8174b-f0ed-c277-e063-6394a90a9eb1",
+   "section": "pharmacokinetics",
+   "snippet": "Greater than 99 % of unesterified EPA is bound to plasma proteins.",
+   "pct_bound": 99.0,
+   "literal": [
+    "99"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "886aa8d8-b293-258f-b16d-be40418787a8",
+   "section": "clinical_pharmacology",
+   "snippet": "Greater than 99% of unesterified EPA is bound to plasma proteins.",
+   "pct_bound": 99.0,
+   "literal": [
+    "99"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "886aa8d8-b293-258f-b16d-be40418787a8",
+   "section": "pharmacokinetics",
+   "snippet": "Greater than 99% of unesterified EPA is bound to plasma proteins.",
+   "pct_bound": 99.0,
+   "literal": [
+    "99"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "0fb2eb8a-e308-0177-e063-6294a90a7418",
+   "section": "clinical_pharmacology",
+   "snippet": "Greater than 99% of unesterified EPA is bound to plasma proteins.",
+   "pct_bound": 99.0,
+   "literal": [
+    "99"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "0fb2eb8a-e308-0177-e063-6294a90a7418",
+   "section": "clinical_pharmacology",
+   "snippet": "Greater than 99% of unesterified EPA is bound to plasma proteins.",
+   "pct_bound": 99.0,
+   "literal": [
+    "99"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "0bc72bd8-1f33-b01c-e063-6394a90a77ea",
+   "section": "clinical_pharmacology",
+   "snippet": "Greater than 99% of unesterified EPA is bound to plasma proteins.",
+   "pct_bound": 99.0,
+   "literal": [
+    "99"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "0bc72bd8-1f33-b01c-e063-6394a90a77ea",
+   "section": "pharmacokinetics",
+   "snippet": "Greater than 99% of unesterified EPA is bound to plasma proteins.",
+   "pct_bound": 99.0,
+   "literal": [
+    "99"
+   ],
+   "application_number": null
+  }
+ ],
+ "pergolide": [
+  {
+   "set_id": "18ecff0f-15f7-4a40-bec7-d0ea734d6ef6",
+   "section": "clinical_pharmacology",
+   "snippet": "Pergolide is approximately 90% bound to plasma proteins.",
+   "pct_bound": 90.0,
+   "literal": [
+    "90"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "992af0bf-b527-4d65-91df-6baecaa6ffdd",
+   "section": "clinical_pharmacology",
+   "snippet": "Pergolide is approximately 90% bound to plasma proteins.",
+   "pct_bound": 90.0,
+   "literal": [
+    "90"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "992af0bf-b527-4d65-91df-6baecaa6ffdd",
+   "section": "pharmacokinetics",
+   "snippet": "Pergolide is approximately 90% bound to plasma proteins.",
+   "pct_bound": 90.0,
+   "literal": [
+    "90"
+   ],
+   "application_number": null
+  }
+ ],
+ "procaine": [
+  {
+   "set_id": "014bfd30-4c79-4d62-f792-6d41b9289eaa",
+   "section": "clinical_pharmacology",
+   "snippet": "Approximately 60% of penicillin G is bound to serum protein.",
+   "pct_bound": 60.0,
+   "literal": [
+    "60"
+   ],
+   "application_number": null
+  }
+ ],
+ "lacosamide": [
+  {
+   "set_id": "9e79b42c-38a3-4b2c-a196-a5a1948250e2",
+   "section": "clinical_pharmacology",
+   "snippet": "VIMPAT is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA022254"
+  },
+  {
+   "set_id": "9e79b42c-38a3-4b2c-a196-a5a1948250e2",
+   "section": "clinical_pharmacology",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA022254"
+  },
+  {
+   "set_id": "9e79b42c-38a3-4b2c-a196-a5a1948250e2",
+   "section": "pharmacokinetics",
+   "snippet": "VIMPAT is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA022254"
+  },
+  {
+   "set_id": "9e79b42c-38a3-4b2c-a196-a5a1948250e2",
+   "section": "pharmacokinetics",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA022254"
+  },
+  {
+   "set_id": "fb8235b4-4cd3-6f22-e053-6294a90a545c",
+   "section": "clinical_pharmacology",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA216185"
+  },
+  {
+   "set_id": "fb8235b4-4cd3-6f22-e053-6294a90a545c",
+   "section": "clinical_pharmacology",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA216185"
+  },
+  {
+   "set_id": "fb8235b4-4cd3-6f22-e053-6294a90a545c",
+   "section": "pharmacokinetics",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA216185"
+  },
+  {
+   "set_id": "fb8235b4-4cd3-6f22-e053-6294a90a545c",
+   "section": "pharmacokinetics",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "NDA216185"
+  },
+  {
+   "set_id": "5b10986e-0809-b6d1-e063-6394a90a5738",
+   "section": "clinical_pharmacology",
+   "snippet": "Lacosamide oral solution is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA219699"
+  },
+  {
+   "set_id": "5b10986e-0809-b6d1-e063-6394a90a5738",
+   "section": "clinical_pharmacology",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA219699"
+  },
+  {
+   "set_id": "5b10986e-0809-b6d1-e063-6394a90a5738",
+   "section": "pharmacokinetics",
+   "snippet": "Lacosamide oral solution is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA219699"
+  },
+  {
+   "set_id": "5b10986e-0809-b6d1-e063-6394a90a5738",
+   "section": "pharmacokinetics",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA219699"
+  },
+  {
+   "set_id": "b9a0ca8c-593c-48e8-b2a7-d30d5f6e6a9b",
+   "section": "clinical_pharmacology",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215379"
+  },
+  {
+   "set_id": "b9a0ca8c-593c-48e8-b2a7-d30d5f6e6a9b",
+   "section": "clinical_pharmacology",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215379"
+  },
+  {
+   "set_id": "b9a0ca8c-593c-48e8-b2a7-d30d5f6e6a9b",
+   "section": "pharmacokinetics",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215379"
+  },
+  {
+   "set_id": "b9a0ca8c-593c-48e8-b2a7-d30d5f6e6a9b",
+   "section": "pharmacokinetics",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215379"
+  },
+  {
+   "set_id": "458e80da-8fc1-4715-9b4b-bc4f388f933f",
+   "section": "clinical_pharmacology",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215379"
+  },
+  {
+   "set_id": "458e80da-8fc1-4715-9b4b-bc4f388f933f",
+   "section": "clinical_pharmacology",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215379"
+  },
+  {
+   "set_id": "458e80da-8fc1-4715-9b4b-bc4f388f933f",
+   "section": "pharmacokinetics",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215379"
+  },
+  {
+   "set_id": "458e80da-8fc1-4715-9b4b-bc4f388f933f",
+   "section": "pharmacokinetics",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215379"
+  },
+  {
+   "set_id": "ecb8b33e-7cbd-4f5e-9fe9-e72dff9bcb86",
+   "section": "clinical_pharmacology",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA205237"
+  },
+  {
+   "set_id": "ecb8b33e-7cbd-4f5e-9fe9-e72dff9bcb86",
+   "section": "clinical_pharmacology",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA205237"
+  },
+  {
+   "set_id": "ecb8b33e-7cbd-4f5e-9fe9-e72dff9bcb86",
+   "section": "pharmacokinetics",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA205237"
+  },
+  {
+   "set_id": "ecb8b33e-7cbd-4f5e-9fe9-e72dff9bcb86",
+   "section": "pharmacokinetics",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA205237"
+  },
+  {
+   "set_id": "edd20b60-6265-4c4e-a95a-aaf8103cd852",
+   "section": "clinical_pharmacology",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA204974"
+  },
+  {
+   "set_id": "edd20b60-6265-4c4e-a95a-aaf8103cd852",
+   "section": "clinical_pharmacology",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA204974"
+  },
+  {
+   "set_id": "edd20b60-6265-4c4e-a95a-aaf8103cd852",
+   "section": "pharmacokinetics",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA204974"
+  },
+  {
+   "set_id": "edd20b60-6265-4c4e-a95a-aaf8103cd852",
+   "section": "pharmacokinetics",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA204974"
+  },
+  {
+   "set_id": "ec1c5ddb-1143-7e6a-e053-2995a90a8382",
+   "section": "clinical_pharmacology",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215628"
+  },
+  {
+   "set_id": "ec1c5ddb-1143-7e6a-e053-2995a90a8382",
+   "section": "clinical_pharmacology",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215628"
+  },
+  {
+   "set_id": "ec1c5ddb-1143-7e6a-e053-2995a90a8382",
+   "section": "pharmacokinetics",
+   "snippet": "Lacosamide is less than 15% bound to plasma proteins.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215628"
+  },
+  {
+   "set_id": "ec1c5ddb-1143-7e6a-e053-2995a90a8382",
+   "section": "pharmacokinetics",
+   "snippet": "Since <15% of lacosamide is bound to plasma proteins, a clinically relevant interaction with other drugs through competition for protein binding sites is unlikely.",
+   "pct_bound": 15.0,
+   "literal": [
+    "15"
+   ],
+   "application_number": "ANDA215628"
+  }
+ ],
+ "ropinirole": [
+  {
+   "set_id": "cdc63b7a-062a-4519-a63e-e48a356f641c",
+   "section": "clinical_pharmacology",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  },
+  {
+   "set_id": "cdc63b7a-062a-4519-a63e-e48a356f641c",
+   "section": "pharmacokinetics",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  },
+  {
+   "set_id": "4e6b070c-50a6-4742-af3c-59b45c45735e",
+   "section": "clinical_pharmacology",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  },
+  {
+   "set_id": "4e6b070c-50a6-4742-af3c-59b45c45735e",
+   "section": "pharmacokinetics",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  },
+  {
+   "set_id": "7bf874a3-4d45-41ab-9796-6729f409031c",
+   "section": "clinical_pharmacology",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA090429"
+  },
+  {
+   "set_id": "7bf874a3-4d45-41ab-9796-6729f409031c",
+   "section": "pharmacokinetics",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA090429"
+  },
+  {
+   "set_id": "0030ffac-183a-472c-95b8-f93b4195de04",
+   "section": "clinical_pharmacology",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA090135"
+  },
+  {
+   "set_id": "0030ffac-183a-472c-95b8-f93b4195de04",
+   "section": "pharmacokinetics",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA090135"
+  },
+  {
+   "set_id": "e9ba4108-7095-4771-840e-bf1e08b5f4da",
+   "section": "clinical_pharmacology",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  },
+  {
+   "set_id": "e9ba4108-7095-4771-840e-bf1e08b5f4da",
+   "section": "pharmacokinetics",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  },
+  {
+   "set_id": "eaca095f-198b-4c00-812b-1777bf2fc6a9",
+   "section": "clinical_pharmacology",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  },
+  {
+   "set_id": "eaca095f-198b-4c00-812b-1777bf2fc6a9",
+   "section": "pharmacokinetics",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  },
+  {
+   "set_id": "391a1566-09b5-4362-9fbd-5afe4803269f",
+   "section": "clinical_pharmacology",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  },
+  {
+   "set_id": "391a1566-09b5-4362-9fbd-5afe4803269f",
+   "section": "pharmacokinetics",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  },
+  {
+   "set_id": "af340f28-92b2-49af-b651-b9b01ca3ce6c",
+   "section": "clinical_pharmacology",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  },
+  {
+   "set_id": "af340f28-92b2-49af-b651-b9b01ca3ce6c",
+   "section": "pharmacokinetics",
+   "snippet": "It is up to 40% bound to plasma proteins and has a blood-to-plasma ratio of 1:1.",
+   "pct_bound": 40.0,
+   "literal": [
+    "40"
+   ],
+   "application_number": "ANDA079229"
+  }
+ ],
+ "quetiapine": [
+  {
+   "set_id": "ab959a35-d0ba-4f18-8f2e-6619d88b16e3",
+   "section": "clinical_pharmacology",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "NDA022047"
+  },
+  {
+   "set_id": "ab959a35-d0ba-4f18-8f2e-6619d88b16e3",
+   "section": "pharmacokinetics",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "NDA022047"
+  },
+  {
+   "set_id": "8ae62aaf-f8c5-417f-baac-0098369ca322",
+   "section": "clinical_pharmacology",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "NDA020639"
+  },
+  {
+   "set_id": "8ae62aaf-f8c5-417f-baac-0098369ca322",
+   "section": "pharmacokinetics",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "NDA020639"
+  },
+  {
+   "set_id": "473a3ac4-67f4-4782-baa9-7f9bdd8761f4",
+   "section": "clinical_pharmacology",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "NDA022047"
+  },
+  {
+   "set_id": "473a3ac4-67f4-4782-baa9-7f9bdd8761f4",
+   "section": "pharmacokinetics",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "NDA022047"
+  },
+  {
+   "set_id": "0584dda8-bc3c-48fe-1a90-79608f78e8a0",
+   "section": "clinical_pharmacology",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "NDA020639"
+  },
+  {
+   "set_id": "0584dda8-bc3c-48fe-1a90-79608f78e8a0",
+   "section": "pharmacokinetics",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "NDA020639"
+  },
+  {
+   "set_id": "711f42c5-0719-46de-81fb-3d03801b9ed9",
+   "section": "clinical_pharmacology",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "ANDA201109"
+  },
+  {
+   "set_id": "711f42c5-0719-46de-81fb-3d03801b9ed9",
+   "section": "pharmacokinetics",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "ANDA201109"
+  },
+  {
+   "set_id": "717b55c4-a23f-4d74-8023-0f4e14d89ec8",
+   "section": "clinical_pharmacology",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "ANDA201504"
+  },
+  {
+   "set_id": "717b55c4-a23f-4d74-8023-0f4e14d89ec8",
+   "section": "pharmacokinetics",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "ANDA201504"
+  },
+  {
+   "set_id": "227b8b2b-a238-efb4-e063-6394a90acc7e",
+   "section": "clinical_pharmacology",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "ANDA201109"
+  },
+  {
+   "set_id": "227b8b2b-a238-efb4-e063-6394a90acc7e",
+   "section": "pharmacokinetics",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "ANDA201109"
+  },
+  {
+   "set_id": "3112a006-1c61-47f2-84f5-9a7670d09c9b",
+   "section": "clinical_pharmacology",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "ANDA201504"
+  },
+  {
+   "set_id": "3112a006-1c61-47f2-84f5-9a7670d09c9b",
+   "section": "pharmacokinetics",
+   "snippet": "It is 83% bound to plasma proteins at therapeutic concentrations.",
+   "pct_bound": 83.0,
+   "literal": [
+    "83"
+   ],
+   "application_number": "ANDA201504"
+  }
+ ],
+ "oxymetazoline": [
+  {
+   "set_id": "cf6c9a1f-2367-46d2-99c3-c7d67ec6f519",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": "NDA212520"
+  },
+  {
+   "set_id": "cf6c9a1f-2367-46d2-99c3-c7d67ec6f519",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": "NDA212520"
+  },
+  {
+   "set_id": "34298db6-647d-480d-88a8-dc53258a5164",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": "NDA208552"
+  },
+  {
+   "set_id": "34298db6-647d-480d-88a8-dc53258a5164",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": "NDA208552"
+  },
+  {
+   "set_id": "f7dbf12e-a802-4261-bae2-c20977698933",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": "NDA208552"
+  },
+  {
+   "set_id": "f7dbf12e-a802-4261-bae2-c20977698933",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": "NDA208552"
+  },
+  {
+   "set_id": "e82b5788-a855-4165-a81f-7f15cb874612",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": "NDA208552"
+  },
+  {
+   "set_id": "e82b5788-a855-4165-a81f-7f15cb874612",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": "NDA208552"
+  },
+  {
+   "set_id": "8a7f2400-5e18-4215-8d2c-f55881706107",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": "ANDA213584"
+  },
+  {
+   "set_id": "8a7f2400-5e18-4215-8d2c-f55881706107",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": "ANDA213584"
+  },
+  {
+   "set_id": "8968299e-2a4f-41a8-9088-6343ea6c91f4",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "8968299e-2a4f-41a8-9088-6343ea6c91f4",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "1ba1cc5b-4f7f-491b-a5af-a6a14fb5affd",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": null
+  },
+  {
+   "set_id": "1ba1cc5b-4f7f-491b-a5af-a6a14fb5affd",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution An in vitro study demonstrated that oxymetazoline is 56.7% to 57.5% bound to human plasma proteins.",
+   "pct_bound": 57.5,
+   "literal": [
+    "57.5"
+   ],
+   "application_number": null
+  }
+ ],
+ "brimonidine": [
+  {
+   "set_id": "b1e7ebd4-d0d2-40a5-aa11-5f68bc5972bd",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects.",
+   "pct_bound": 29.0,
+   "literal": [
+    "29"
+   ],
+   "application_number": "NDA021764"
+  },
+  {
+   "set_id": "b1e7ebd4-d0d2-40a5-aa11-5f68bc5972bd",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects.",
+   "pct_bound": 29.0,
+   "literal": [
+    "29"
+   ],
+   "application_number": "NDA021764"
+  },
+  {
+   "set_id": "264c4494-c225-486f-888a-caaf36be46b3",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects.",
+   "pct_bound": 29.0,
+   "literal": [
+    "29"
+   ],
+   "application_number": "NDA021262"
+  },
+  {
+   "set_id": "264c4494-c225-486f-888a-caaf36be46b3",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects.",
+   "pct_bound": 29.0,
+   "literal": [
+    "29"
+   ],
+   "application_number": "NDA021262"
+  },
+  {
+   "set_id": "e08a915a-77ca-4d16-d760-11b05848418d",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects.",
+   "pct_bound": 29.0,
+   "literal": [
+    "29"
+   ],
+   "application_number": "ANDA078480"
+  },
+  {
+   "set_id": "e08a915a-77ca-4d16-d760-11b05848418d",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects.",
+   "pct_bound": 29.0,
+   "literal": [
+    "29"
+   ],
+   "application_number": "ANDA078480"
+  },
+  {
+   "set_id": "f6666d85-f810-4869-993d-e8ae35b4517f",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects.",
+   "pct_bound": 29.0,
+   "literal": [
+    "29"
+   ],
+   "application_number": "ANDA220398"
+  },
+  {
+   "set_id": "981a75cd-2487-40e4-911a-26de2aa98dc1",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects.",
+   "pct_bound": 29.0,
+   "literal": [
+    "29"
+   ],
+   "application_number": "ANDA218558"
+  },
+  {
+   "set_id": "981a75cd-2487-40e4-911a-26de2aa98dc1",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects.",
+   "pct_bound": 29.0,
+   "literal": [
+    "29"
+   ],
+   "application_number": "ANDA218558"
+  },
+  {
+   "set_id": "e4b04ef1-6586-4386-a844-2c5fc3bd4a8f",
+   "section": "clinical_pharmacology",
+   "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects.",
+   "pct_bound": 29.0,
+   "literal": [
+    "29"
+   ],
+   "application_number": "ANDA219219"
+  },
+  {
+   "set_id": "e4b04ef1-6586-4386-a844-2c5fc3bd4a8f",
+   "section": "pharmacokinetics",
+   "snippet": "Distribution Brimonidine was approximately 29% bound to plasma proteins in healthy subjects.",
+   "pct_bound": 29.0,
+   "literal": [
+    "29"
+   ],
+   "application_number": "ANDA219219"
+  }
+ ],
+ "fenfluramine": [
+  {
+   "set_id": "e88f360e-33ad-4cd6-b2de-5ef885857c5d",
+   "section": "clinical_pharmacology",
+   "snippet": "Fenfluramine is 50% bound to human plasma proteins in vitro and binding is independent of drug concentrations.",
+   "pct_bound": 50.0,
+   "literal": [
+    "50"
+   ],
+   "application_number": "NDA212102"
+  },
+  {
+   "set_id": "e88f360e-33ad-4cd6-b2de-5ef885857c5d",
+   "section": "pharmacokinetics",
+   "snippet": "Fenfluramine is 50% bound to human plasma proteins in vitro and binding is independent of drug concentrations.",
+   "pct_bound": 50.0,
+   "literal": [
+    "50"
+   ],
+   "application_number": "NDA212102"
+  }
+ ],
+ "temazepam": [
+  {
+   "set_id": "bc56f7fd-1aaf-48ff-8aa7-d467e59e1015",
+   "section": "clinical_pharmacology",
+   "snippet": "The unchanged drug was 96% bound to plasma proteins.",
+   "pct_bound": 96.0,
+   "literal": [
+    "96"
+   ],
+   "application_number": "NDA018163"
+  },
+  {
+   "set_id": "c9bc61b4-a579-4003-98da-b6f6e381c150",
+   "section": "clinical_pharmacology",
+   "snippet": "The unchanged drug was 96% bound to plasma proteins.",
+   "pct_bound": 96.0,
+   "literal": [
+    "96"
+   ],
+   "application_number": "NDA018163"
+  },
+  {
+   "set_id": "a3f06243-fa03-4cbd-951a-144ec43dcdfd",
+   "section": "clinical_pharmacology",
+   "snippet": "The unchanged drug was 96% bound to plasma proteins.",
+   "pct_bound": 96.0,
+   "literal": [
+    "96"
+   ],
+   "application_number": "NDA018163"
+  },
+  {
+   "set_id": "a8deb28b-c5a3-4775-8bec-3f276698d064",
+   "section": "clinical_pharmacology",
+   "snippet": "The unchanged drug was 96% bound to plasma proteins.",
+   "pct_bound": 96.0,
+   "literal": [
+    "96"
+   ],
+   "application_number": "NDA018163"
+  },
+  {
+   "set_id": "405b1ee2-777b-4fd3-b4ee-bd2aacbe1dc1",
+   "section": "clinical_pharmacology",
+   "snippet": "The unchanged drug was 96% bound to plasma proteins.",
+   "pct_bound": 96.0,
+   "literal": [
+    "96"
+   ],
+   "application_number": "NDA018163"
+  },
+  {
+   "set_id": "cbe5bd6a-f36a-4557-82d8-ef4e49d310e9",
+   "section": "clinical_pharmacology",
+   "snippet": "The unchanged drug was 96% bound to plasma proteins.",
+   "pct_bound": 96.0,
+   "literal": [
+    "96"
+   ],
+   "application_number": "ANDA211542"
+  },
+  {
+   "set_id": "ac08a51c-6c54-40da-9626-a4c82f337a3a",
+   "section": "clinical_pharmacology",
+   "snippet": "The unchanged drug was 96% bound to plasma proteins.",
+   "pct_bound": 96.0,
+   "literal": [
+    "96"
+   ],
+   "application_number": "ANDA071456"
+  },
+  {
+   "set_id": "5d83e474-0932-49ae-ad92-ca278cd5f1d5",
+   "section": "clinical_pharmacology",
+   "snippet": "The unchanged drug was 96% bound to plasma proteins.",
+   "pct_bound": 96.0,
+   "literal": [
+    "96"
+   ],
+   "application_number": "ANDA071457"
+  }
+ ]
+}
