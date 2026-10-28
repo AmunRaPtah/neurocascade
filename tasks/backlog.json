@@ -2859,7 +2859,8 @@
       "acceptance": [
         "predict_compound runs end to end on a held-out benchmark drug given only its preclinical package",
         "every returned number carries a band (from P30.3's band API) and provenance; refusal only on missing core inputs",
-        "tests cover a full package, a minimal package, and a refused package"
+        "tests cover a full package, a minimal package, and a refused package",
+        "every effect probability, dose and band predict_compound returns carries the provenance label 'not validated: P34 returned no verdict', asserted by a test that walks the whole returned structure"
       ],
       "validation": {
         "kind": "ledger-row",
@@ -3130,7 +3131,9 @@
       "acceptance": [
         "bands refit on candidate residuals, frozen before held-out",
         "LODO coverage and width per quantity in the ledger, beside the train-mean bands",
-        "held-out coverage reported once via host_eval"
+        "held-out coverage reported once via host_eval",
+        "the refit bands carry the provenance label 'not validated: P34 returned no verdict'",
+        "the held-out coverage ledger row is marked retrospective (the v2 split was scored in P33.4) and is not cited as certifying the bands"
       ],
       "validation": {
         "kind": "ledger-row",
@@ -3337,7 +3340,7 @@
       "host_eval": "NC_HOST_EVAL=1 PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump_fresh /tmp/p34_5_go.json && python pipeline/go_verdict.py /tmp/p34_5_go.json",
       "status": "blocked-on-data",
       "attempts": 0,
-      "result": "searched-and-empty: never run. No fresh held-out set reaches the 8/8 power floor (P34.4 openFDA, P34.4b SmPC amendment, P34.6 universe exhausted). P34 closed with no verdict possible by human decision 2026-10-28; this is not a GO and not a NO-GO, and P32.x stay held for the human."
+      "result": "searched-and-empty: never run. No fresh held-out set reaches the 8/8 power floor (P34.4 openFDA, P34.4b SmPC amendment, P34.6 universe exhausted). P34 closed with no verdict possible by human decision 2026-10-28; this is not a GO and not a NO-GO, P32.1 and P30.4 then proceed on the human's decision with outputs labelled not validated (PR #62)."
     }
   ]
 }
