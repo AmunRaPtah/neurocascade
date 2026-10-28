@@ -1,0 +1,48 @@
+{
+ "task": "P34.4",
+ "prereg": "docs/prereg-p34-go.md",
+ "result": "EMPTY",
+ "pool": {
+  "n": 75,
+  "n_with_fda_label": 37,
+  "exclusions": {
+   "missing input: no single-ingredient FDA prescription label": 38
+  }
+ },
+ "labels_rules_sha256": "4f00d880761b03cae3ace37d9057fe8e3259da4521da008b27386fe8eb836028",
+ "power_floor": {
+  "positives": 8,
+  "negatives": 8
+ },
+ "labelled_counts_upper_bound_on_common_set": {
+  "eps": {
+   "labelled_pos": 0,
+   "labelled_neg": 20,
+   "unlabelled": 17
+  },
+  "sedation": {
+   "labelled_pos": 1,
+   "labelled_neg": 19,
+   "unlabelled": 17
+  },
+  "weight_gain": {
+   "labelled_pos": 0,
+   "labelled_neg": 0,
+   "unlabelled": 37
+  },
+  "anticholinergic": {
+   "labelled_pos": 4,
+   "labelled_neg": 16,
+   "unlabelled": 17
+  },
+  "orthostatic_hypotension": {
+   "labelled_pos": 0,
+   "labelled_neg": 20,
+   "unlabelled": 17
+  }
+ },
+ "liabilities_reaching_floor": [],
+ "closest_liability": "anticholinergic",
+ "cmax_and_ki_built": false,
+ "gap": "no liability reaches 8/8 even before the Cmax and Ki filters: best is anticholinergic with 4 positives / 16 negatives among 37 fresh drugs with an FDA label (of 75 in the pool)"
+}

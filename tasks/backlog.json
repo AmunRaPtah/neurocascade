@@ -3253,8 +3253,15 @@
       "deps": [
         "P34.3"
       ],
-      "status": "pending",
-      "attempts": 0
+      "status": "blocked-on-data",
+      "attempts": 0,
+      "result": "searched-and-empty: no liability reaches 8/8 even before the Cmax and Ki filters: best is anticholinergic with 4 positives / 16 negatives among 37 fresh drugs with an FDA label (of 75 in the pool). The pool is the prereg rule applied mechanically; widening it needs a new pre-registration (human decision).",
+      "finished_at": "2026-10-28T11:30:00+00:00",
+      "conductor": {
+        "history": [
+          "2026-10-28 interactive session: TASK_RESULT EMPTY (power floor not reachable on labels); P34.5 not run"
+        ]
+      }
     },
     {
       "id": "P34.5",
