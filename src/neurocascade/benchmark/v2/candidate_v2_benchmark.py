@@ -196,9 +196,9 @@ def run_candidate_v2_benchmark() -> dict[str, Any]:
             "intercept to jitter under LODO -- the P33.4 failure mode -- and is "
             "scored directly, like occupancy_max and strongest_target_ki.",
             "Beating occupancy_max on sedation does not make this a GO candidate: "
-            "it does not beat strongest_target_ki on sedation, nor occupancy_max "
-            "on anticholinergic. GO requires beating every baseline and is a "
-            "host-side held-out decision, not this train-LODO selection.",
+            "it does not beat occupancy_max on anticholinergic. GO requires "
+            "beating every baseline and is a host-side held-out decision, not "
+            "this train-LODO selection.",
         ],
     }
 

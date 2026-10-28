@@ -12,44 +12,44 @@
       "receptors": [
         "HRH1"
       ],
-      "common_n": 15,
-      "n_positive": 7,
-      "n_negative": 8,
+      "common_n": 19,
+      "n_positive": 8,
+      "n_negative": 11,
       "lodo": {
         "candidate_rank_combined": {
-          "n": 15,
-          "n_positive": 7,
-          "n_negative": 8,
-          "auroc": 0.75,
-          "auprc": 0.6715213358070501
+          "n": 19,
+          "n_positive": 8,
+          "n_negative": 11,
+          "auroc": 0.7329545454545454,
+          "auprc": 0.5952266483516484
         },
         "occupancy_max": {
-          "n": 15,
-          "n_positive": 7,
-          "n_negative": 8,
-          "auroc": 0.6785714285714286,
-          "auprc": 0.609065934065934
+          "n": 19,
+          "n_positive": 8,
+          "n_negative": 11,
+          "auroc": 0.7272727272727273,
+          "auprc": 0.6145156926406926
         },
         "strongest_target_ki": {
-          "n": 15,
-          "n_positive": 7,
-          "n_negative": 8,
-          "auroc": 0.8214285714285714,
-          "auprc": 0.708390022675737
+          "n": 19,
+          "n_positive": 8,
+          "n_negative": 11,
+          "auroc": 0.6931818181818182,
+          "auprc": 0.5683035714285715
         },
         "one_nn_fingerprint": {
-          "n": 15,
-          "n_positive": 7,
-          "n_negative": 8,
-          "auroc": 0.5267857142857143,
-          "auprc": 0.48095238095238096
+          "n": 19,
+          "n_positive": 8,
+          "n_negative": 11,
+          "auroc": 0.4147727272727273,
+          "auprc": 0.3881578947368421
         },
         "atc_class_prevalence": {
-          "n": 15,
-          "n_positive": 7,
-          "n_negative": 8,
-          "auroc": 0.5892857142857143,
-          "auprc": 0.6309523809523808
+          "n": 19,
+          "n_positive": 8,
+          "n_negative": 11,
+          "auroc": 0.5909090909090909,
+          "auprc": 0.590625
         }
       },
       "candidate_beats_occupancy_max": true
@@ -63,44 +63,44 @@
         "CHRM4",
         "CHRM5"
       ],
-      "common_n": 17,
-      "n_positive": 7,
-      "n_negative": 10,
+      "common_n": 24,
+      "n_positive": 9,
+      "n_negative": 15,
       "lodo": {
         "candidate_rank_combined": {
-          "n": 17,
-          "n_positive": 7,
-          "n_negative": 10,
-          "auroc": 0.8714285714285714,
-          "auprc": 0.839795918367347
+          "n": 24,
+          "n_positive": 9,
+          "n_negative": 15,
+          "auroc": 0.9074074074074074,
+          "auprc": 0.8256885090218423
         },
         "occupancy_max": {
-          "n": 17,
-          "n_positive": 7,
-          "n_negative": 10,
-          "auroc": 0.9428571428571428,
-          "auprc": 0.9093537414965985
+          "n": 24,
+          "n_positive": 9,
+          "n_negative": 15,
+          "auroc": 0.9555555555555556,
+          "auprc": 0.9328843995510662
         },
         "strongest_target_ki": {
-          "n": 17,
-          "n_positive": 7,
-          "n_negative": 10,
-          "auroc": 0.8,
-          "auprc": 0.7499226963512678
+          "n": 24,
+          "n_positive": 9,
+          "n_negative": 15,
+          "auroc": 0.8148148148148148,
+          "auprc": 0.6314713064713066
         },
         "one_nn_fingerprint": {
-          "n": 17,
-          "n_positive": 7,
-          "n_negative": 10,
-          "auroc": 0.4928571428571429,
-          "auprc": 0.40840336134453775
+          "n": 24,
+          "n_positive": 9,
+          "n_negative": 15,
+          "auroc": 0.4777777777777778,
+          "auprc": 0.3657407407407407
         },
         "atc_class_prevalence": {
-          "n": 17,
-          "n_positive": 7,
-          "n_negative": 10,
-          "auroc": 0.36428571428571427,
-          "auprc": 0.49249699879951975
+          "n": 24,
+          "n_positive": 9,
+          "n_negative": 15,
+          "auroc": 0.40370370370370373,
+          "auprc": 0.4698963317384369
         }
       },
       "candidate_beats_occupancy_max": false
@@ -110,44 +110,44 @@
       "receptors": [
         "DRD2"
       ],
-      "common_n": 15,
+      "common_n": 23,
       "n_positive": 2,
-      "n_negative": 13,
+      "n_negative": 21,
       "lodo": {
         "candidate_rank_combined": {
-          "n": 15,
+          "n": 23,
           "n_positive": 2,
-          "n_negative": 13,
-          "auroc": 0.8461538461538461,
-          "auprc": 0.41666666666666663
+          "n_negative": 21,
+          "auroc": 0.8333333333333334,
+          "auprc": 0.29166666666666663
         },
         "occupancy_max": {
-          "n": 15,
+          "n": 23,
           "n_positive": 2,
-          "n_negative": 13,
-          "auroc": 0.7307692307692307,
-          "auprc": 0.30952380952380953
+          "n_negative": 21,
+          "auroc": 0.7619047619047619,
+          "auprc": 0.26666666666666666
         },
         "strongest_target_ki": {
-          "n": 15,
+          "n": 23,
           "n_positive": 2,
-          "n_negative": 13,
-          "auroc": 0.8461538461538461,
-          "auprc": 0.45
+          "n_negative": 21,
+          "auroc": 0.8333333333333334,
+          "auprc": 0.30952380952380953
         },
         "one_nn_fingerprint": {
-          "n": 15,
+          "n": 23,
           "n_positive": 2,
-          "n_negative": 13,
-          "auroc": 0.46153846153846156,
-          "auprc": 0.13333333333333333
+          "n_negative": 21,
+          "auroc": 0.7023809523809523,
+          "auprc": 0.21014492753623187
         },
         "atc_class_prevalence": {
-          "n": 15,
+          "n": 23,
           "n_positive": 2,
-          "n_negative": 13,
-          "auroc": 0.5384615384615384,
-          "auprc": 0.25
+          "n_negative": 21,
+          "auroc": 0.6190476190476191,
+          "auprc": 0.2
         }
       },
       "candidate_beats_occupancy_max": true
@@ -159,44 +159,44 @@
         "ADRA1B",
         "ADRA1D"
       ],
-      "common_n": 19,
+      "common_n": 26,
       "n_positive": 1,
-      "n_negative": 18,
+      "n_negative": 25,
       "lodo": {
         "candidate_rank_combined": {
-          "n": 19,
+          "n": 26,
           "n_positive": 1,
-          "n_negative": 18,
-          "auroc": 0.4444444444444444,
-          "auprc": 0.08333333333333333
+          "n_negative": 25,
+          "auroc": 0.86,
+          "auprc": 0.2
         },
         "occupancy_max": {
-          "n": 19,
+          "n": 26,
           "n_positive": 1,
-          "n_negative": 18,
-          "auroc": 0.6111111111111112,
-          "auprc": 0.125
+          "n_negative": 25,
+          "auroc": 0.88,
+          "auprc": 0.25
         },
         "strongest_target_ki": {
-          "n": 19,
+          "n": 26,
           "n_positive": 1,
-          "n_negative": 18,
-          "auroc": 0.3888888888888889,
-          "auprc": 0.08333333333333333
+          "n_negative": 25,
+          "auroc": 0.72,
+          "auprc": 0.125
         },
         "one_nn_fingerprint": {
-          "n": 19,
+          "n": 26,
           "n_positive": 1,
-          "n_negative": 18,
-          "auroc": 0.4444444444444444,
-          "auprc": 0.05263157894736842
+          "n_negative": 25,
+          "auroc": 0.48,
+          "auprc": 0.038461538461538464
         },
         "atc_class_prevalence": {
-          "n": 19,
+          "n": 26,
           "n_positive": 1,
-          "n_negative": 18,
-          "auroc": 0.3333333333333333,
-          "auprc": 0.05263157894736842
+          "n_negative": 25,
+          "auroc": 0.3,
+          "auprc": 0.038461538461538464
         }
       },
       "candidate_beats_occupancy_max": false
@@ -209,10 +209,10 @@
   "candidate_beats_occupancy_max_liabilities": [
     "sedation"
   ],
-  "n_scored": 17,
+  "n_scored": 24,
   "notes": [
     "Candidate and every baseline are scored on the identical common set per liability (label + occupancy + affinity + both fitted baselines defined), matching the common-set rule in pipeline/go_verdict.py.",
     "The candidate is label-free and parameter-free, so it has no intercept to jitter under LODO -- the P33.4 failure mode -- and is scored directly, like occupancy_max and strongest_target_ki.",
-    "Beating occupancy_max on sedation does not make this a GO candidate: it does not beat strongest_target_ki on sedation, nor occupancy_max on anticholinergic. GO requires beating every baseline and is a host-side held-out decision, not this train-LODO selection."
+    "Beating occupancy_max on sedation does not make this a GO candidate: it does not beat occupancy_max on anticholinergic. GO requires beating every baseline and is a host-side held-out decision, not this train-LODO selection."
   ]
 }
