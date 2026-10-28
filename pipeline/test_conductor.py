@@ -320,3 +320,21 @@ def test_fail_excerpt_reports_failures_not_the_warnings_summary(tmp_path):
     out = c.fail_excerpt(log, log.read_text())
     assert "FAILED tests/test_y.py::test_guard" in out and "E       assert" in out
     assert "FutureWarning" not in out
+
+
+def test_only_the_owners_own_prs_issues_and_comments_are_seen(monkeypatch):
+    me, stranger = {"login": "AmunRaPtah"}, {"login": "someone"}
+    prs = [{"number": 1, "author": me, "isCrossRepository": False, "headRefName": "architect/P1.1"},
+           {"number": 2, "author": stranger, "isCrossRepository": True, "headRefName": "architect/P1.1"},
+           {"number": 3, "author": me, "isCrossRepository": True, "headRefName": "architect/P1.2"},
+           {"number": 4, "author": stranger, "isCrossRepository": False, "headRefName": "architect/P1.3"}]
+    iss = [{"number": 5, "title": "[P1.1] mine", "author": me, "labels": []},
+           {"number": 6, "title": "[P1.2] theirs", "author": stranger, "labels": []}]
+    def fake(*a):
+        return json.dumps(prs if a[0] == "pr" else iss)
+    monkeypatch.setattr(c, "gh", fake)
+    assert [p["number"] for p in c.open_prs()] == [1]
+    assert [i["number"] for i in c.issues("x")] == [5]
+    assert c.open_issue_ids() == {"P1.1"}
+    assert c.find_issue("P1.1") == 5 and c.find_issue("P1.2") is None
+    assert not c.trusted({"author": None}) and not c.trusted({})

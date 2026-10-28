@@ -486,9 +486,21 @@ def pr_label(num, add: str = "", remove: str = "") -> None:
         gh("api", "-X", "DELETE", f"repos/{{owner}}/{{repo}}/issues/{num}/labels/{remove}")
 
 
+# The repo is public: anyone can open a fork PR, an issue or a comment. Only
+# the owner's own (non-fork) PRs, issues and comments are acted on or fed to a
+# session; everything else is invisible to the conductor.
+TRUSTED = frozenset(os.environ.get("NC_TRUSTED_AUTHORS", "AmunRaPtah").split(","))
+
+
+def trusted(x: dict) -> bool:
+    return (x.get("author") or {}).get("login") in TRUSTED and not x.get("isCrossRepository")
+
+
 def open_prs() -> list[dict]:
-    return json.loads(gh("pr", "list", "--state", "open", "--limit", "50", "--json",
-                         "number,title,headRefName,labels,statusCheckRollup,body") or "[]")
+    out = json.loads(gh("pr", "list", "--state", "open", "--limit", "50", "--json",
+                        "number,title,headRefName,labels,statusCheckRollup,body,author,"
+                        "isCrossRepository") or "[]")
+    return [p for p in out if trusted(p)]
 
 
 def labels(x: dict) -> set[str]:
@@ -509,7 +521,8 @@ def ci_state(pr: dict) -> str:
 
 def issues(label: str) -> list[dict]:
     out = json.loads(gh("issue", "list", "--label", label, "--state", "open",
-                        "--json", "number,title,labels", "--limit", "100") or "[]")
+                        "--json", "number,title,labels,author", "--limit", "100") or "[]")
+    out = [i for i in out if trusted(i)]
     for i in out:
         m = re.match(r"^\[([A-Z]\w*\.\w+)\]", i["title"])
         i["id"] = m.group(1) if m else None
@@ -517,9 +530,9 @@ def issues(label: str) -> list[dict]:
 
 
 def open_issue_ids() -> set[str]:
-    out = json.loads(gh("issue", "list", "--state", "open", "--json", "title",
+    out = json.loads(gh("issue", "list", "--state", "open", "--json", "title,author",
                         "--limit", "200") or "[]")
-    return {m.group(1) for i in out if (m := re.match(r"^\[([A-Z]\w*\.\w+)\]", i["title"]))}
+    return {m.group(1) for i in out if trusted(i) and (m := re.match(r"^\[([A-Z]\w*\.\w+)\]", i["title"]))}
 
 
 def ensure_labels() -> None:
@@ -1416,9 +1429,9 @@ def step_review(st: dict, prs: list[dict], dry: bool) -> bool:
 
 def find_issue(sid: str) -> int | None:
     out = json.loads(gh("issue", "list", "--state", "open", "--search", f"[{sid}] in:title",
-                        "--json", "number,title") or "[]")
+                        "--json", "number,title,author") or "[]")
     for i in out:
-        if i["title"].startswith(f"[{sid}]"):
+        if trusted(i) and i["title"].startswith(f"[{sid}]"):
             return i["number"]
     return None
 
@@ -1511,7 +1524,7 @@ def step_takeover(st: dict, dry: bool) -> bool:
     spec_text = git("show", f"{base}:tasks/specs/{sid}.md")
     spec = o.parse_spec(spec_text)
     comments = json.loads(gh("issue", "view", str(issue["number"]), "--json", "comments"))["comments"]
-    hist = "\n\n".join(c["body"][:1500] for c in comments[-3:]) or "(no comments)"
+    hist = "\n\n".join(c["body"][:1500] for c in [c for c in comments if trusted(c)][-3:]) or "(no comments)"
     adir = rundir(sid, "takeover")
     res = run_architect(f"takeover-{sid}", base, TAKEOVER_PROMPT.format(
         rules=rules(), override=RULES_OVERRIDE, id=sid, title=spec["title"],
