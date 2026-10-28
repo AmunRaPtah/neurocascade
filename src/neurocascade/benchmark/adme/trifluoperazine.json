@@ -1,10 +1,14 @@
 {
  "chembl_query_id": "CHEMBL422",
  "chembl_release": "ChEMBL_37 (2026-05-01)",
- "excluded": {},
+ "excluded": {
+  "human_oral_bioavailability": 1
+ },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
   "clint": false,
+  "oral_bioavailability": false,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -66,6 +70,78 @@
     }
    ]
   },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3529276",
+     "description": "Apparent permeability from apical to basolateral side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis in presence of 1 uM of P-gp inhibitor LY335979",
+     "matrix": "caco2",
+     "ref": "CHEMBL3526001",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 1.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL3529272",
+     "description": "Apparent permeability from apical to basolateral side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis",
+     "matrix": "caco2",
+     "ref": "CHEMBL3526001",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 0.5
+    },
+    {
+     "assay_chembl_id": "CHEMBL3529277",
+     "description": "Apparent permeability from basolateral to apical side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis in presence of 1 uM of P-gp inhibitor LY335979",
+     "matrix": "caco2_efflux",
+     "ref": "CHEMBL3526001",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 1.1
+    },
+    {
+     "assay_chembl_id": "CHEMBL3529273",
+     "description": "Apparent permeability from basolateral to apical side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis",
+     "matrix": "caco2_efflux",
+     "ref": "CHEMBL3526001",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 1.0
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "caco2",
+     "max": 1.3,
+     "min": 0.5,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "1e-6 cm/s",
+     "value": 0.806226
+    },
+    {
+     "matrix": "caco2_efflux",
+     "max": 1.1,
+     "min": 1.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 2,
+     "species": "human",
+     "units": "1e-6 cm/s",
+     "value": 1.048809
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -124,6 +200,13 @@
    "title": "Experimental in vitro DMPK and physicochemical data on a set of publicly disclosed compounds",
    "year": null
   },
+  "CHEMBL3526001": {
+   "chembl_document_id": "CHEMBL3526001",
+   "journal": "Drug Metab Dispos",
+   "pmid": "21051535",
+   "title": "Attenuation of intestinal absorption by major efflux transporters: quantitative tools and strategies using a Caco-2 model.",
+   "year": 2011
+  },
   "CHEMBL3526149": {
    "chembl_document_id": "CHEMBL3526149",
    "journal": "Drug Metab Dispos",
@@ -132,7 +215,7 @@
    "year": 2011
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 85
  },

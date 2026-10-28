@@ -2,11 +2,14 @@
  "chembl_query_id": "CHEMBL49",
  "chembl_release": "ChEMBL_37 (2026-05-01)",
  "excluded": {
-  "human_invivo_cl": 1
+  "human_invivo_cl": 1,
+  "human_oral_bioavailability": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
   "clint": true,
+  "oral_bioavailability": true,
+  "permeability": false,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -272,6 +275,52 @@
     }
    ]
   },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL859033",
+     "description": "Oral bioavailability in Beagle dog at 3 mg/kg, po and 1 mg/kg, iv",
+     "ref": "CHEMBL1147799",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.09
+    },
+    {
+     "assay_chembl_id": "CHEMBL870206",
+     "description": "Oral bioavailability in Sprague-Dawley rat at 3 mg/kg, po and 1 mg/kg, iv",
+     "ref": "CHEMBL1147799",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.01
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.09,
+     "min": 0.09,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "fraction",
+     "value": 0.09
+    },
+    {
+     "max": 0.01,
+     "min": 0.01,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.01
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -408,6 +457,13 @@
    "title": "First-principle, structure-based prediction of hepatic metabolic clearance values in human.",
    "year": 2009
   },
+  "CHEMBL1147799": {
+   "chembl_document_id": "CHEMBL1147799",
+   "journal": "J Med Chem",
+   "pmid": "16722631",
+   "title": "An integrated in silico 3D model-driven discovery of a novel, potent, and selective amidosulfonamide 5-HT1A agonist (PRX-00023) for the treatment of anxiety and depression.",
+   "year": 2006
+  },
   "CHEMBL3301361": {
    "chembl_document_id": "CHEMBL3301361",
    "journal": null,
@@ -437,7 +493,7 @@
    "year": 2011
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 291
  },

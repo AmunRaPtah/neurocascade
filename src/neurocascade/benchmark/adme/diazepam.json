@@ -3,11 +3,17 @@
  "chembl_release": "ChEMBL_37 (2026-05-01)",
  "excluded": {
   "human_invivo_cl": 5,
-  "human_invivo_vss": 8
+  "human_invivo_vss": 8,
+  "human_oral_bioavailability": 3,
+  "oral_bioavailability_non_exact_relation": 1,
+  "permeability_artificial_membrane": 1,
+  "permeability_unit_unconvertible": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
   "clint": true,
+  "oral_bioavailability": false,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": true
@@ -436,6 +442,210 @@
     }
    ]
   },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3588484",
+     "description": "Apparent permeability from apical to basolateral side in MDCK2 cells expressing MDR1 at 200 ug/ml by UV-visible spectroscopy",
+     "matrix": "mdck",
+     "ref": "CHEMBL3585305",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 15.6
+    },
+    {
+     "assay_chembl_id": "CHEMBL3878040",
+     "description": "Apparent permeability from apical to basolateral side in MDCK2-MDR1 cells at 75 uM after 120 mins by UV-Visible spectrophotometric method",
+     "matrix": "mdck",
+     "ref": "CHEMBL3877267",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 14.6
+    },
+    {
+     "assay_chembl_id": "CHEMBL4133389",
+     "description": "Apparent permeability from apical to basolateral side in MDCK2-MDR1 cells at 75 uM after 2 hrs UV-visible spectroscopy",
+     "matrix": "mdck",
+     "ref": "CHEMBL4130419",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 25.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL4327363",
+     "description": "Apparent permeability from apical to basolateral side in MDCK2-MDR1 cells by UV-Visible spectrophotometric method",
+     "matrix": "mdck",
+     "ref": "CHEMBL4325863",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 14.9
+    },
+    {
+     "assay_chembl_id": "CHEMBL4391179",
+     "description": "Apparent permeability across apical to basolateral side in MDCK2-MDR1 cells by HPLC analysis",
+     "matrix": "mdck",
+     "ref": "CHEMBL4390652",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 20.2
+    },
+    {
+     "assay_chembl_id": "CHEMBL4426671",
+     "description": "Apparent permeability across apical to basolateral side in MDCK2-MDR1 cells at 75 uM by UV-visible spectroscopic method",
+     "matrix": "mdck",
+     "ref": "CHEMBL4425129",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 25.8
+    },
+    {
+     "assay_chembl_id": "CHEMBL4616023",
+     "description": "Apparent permeability across apical to basolateral side in MDCK-MDR1 cells at 75 uM incubated for 2 hrs by UV-spectroscopy",
+     "matrix": "mdck",
+     "ref": "CHEMBL4613305",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 20.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL5144591",
+     "description": "Apparent permeability across apical to basolateral side in MDCKII-MDR1 cells at 75 uM incubated for 2 hrs",
+     "matrix": "mdck",
+     "ref": "CHEMBL5143529",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 13.5
+    },
+    {
+     "assay_chembl_id": "CHEMBL3588487",
+     "description": "Apparent permeability from basolateral to apical side in MDCK2 cells expressing MDR1 at 200 ug/ml by UV-visible spectroscopy",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL3585305",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 12.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL3878041",
+     "description": "Apparent permeability from basolateral to apical side in MDCK2-MDR1 cells at 75 uM after 120 mins by UV-Visible spectrophotometric method",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL3877267",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 12.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL4133390",
+     "description": "Apparent permeability from basolateral to apical side in MDCK2-MDR1 cells at 75 uM after 2 hrs UV-visible spectroscopy",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL4130419",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 23.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL4327364",
+     "description": "Apparent permeability from basolateral to apical side in MDCK2-MDR1 cells by UV-Visible spectrophotometric method",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL4325863",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 13.7
+    },
+    {
+     "assay_chembl_id": "CHEMBL4391180",
+     "description": "Apparent permeability across basolateral to apical side in MDCK2-MDR1 cells by HPLC analysis",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL4390652",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 14.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL4426673",
+     "description": "Apparent permeability across basolateral to apical side in MDCK2-MDR1 cells at 75 uM by UV-visible spectroscopic method",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL4425129",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 25.3
+    },
+    {
+     "assay_chembl_id": "CHEMBL4616024",
+     "description": "Apparent permeability across basolateral to apical side in MDCK-MDR1 cells at 75 uM incubated for 2 hrs by UV-spectroscopy",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL4613305",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 14.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL5144592",
+     "description": "Apparent permeability across basolateral to apical side in MDCKII-MDR1 cells at 75 uM incubated for 2 hrs",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL5143529",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 11.7
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "mdck",
+     "max": 25.8,
+     "min": 13.5,
+     "n_censored": 0,
+     "n_documents": 8,
+     "n_measurements": 8,
+     "species": "dog",
+     "units": "1e-6 cm/s",
+     "value": 17.8
+    },
+    {
+     "matrix": "mdck_efflux",
+     "max": 25.3,
+     "min": 11.7,
+     "n_censored": 0,
+     "n_documents": 8,
+     "n_measurements": 8,
+     "species": "dog",
+     "units": "1e-6 cm/s",
+     "value": 13.85
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -777,6 +987,13 @@
    "title": "Brain tissue binding of drugs: evaluation and validation of solid supported porcine brain membrane vesicles (TRANSIL) as a novel high-throughput method.",
    "year": 2011
   },
+  "CHEMBL3585305": {
+   "chembl_document_id": "CHEMBL3585305",
+   "journal": "J Med Chem",
+   "pmid": "26107513",
+   "title": "Structure-Based Design and Optimization of Multitarget-Directed 2H-Chromen-2-one Derivatives as Potent Inhibitors of Monoamine Oxidase B and Cholinesterases.",
+   "year": 2015
+  },
   "CHEMBL3588773": {
    "chembl_document_id": "CHEMBL3588773",
    "journal": "J Med Chem",
@@ -791,11 +1008,25 @@
    "title": "Species differences in drug plasma protein binding",
    "year": 2014
   },
+  "CHEMBL3877267": {
+   "chembl_document_id": "CHEMBL3877267",
+   "journal": "Eur J Med Chem",
+   "pmid": "27689727",
+   "title": "Synthesis, biological evaluation and molecular modeling of 1-oxa-4-thiaspiro- and 1,4-dithiaspiro[4.5]decane derivatives as\u00a0potent and selective 5-HT1A receptor agonists.",
+   "year": 2017
+  },
   "CHEMBL4007489": {
    "chembl_document_id": "CHEMBL4007489",
    "journal": "J Med Chem",
    "pmid": "28291344",
    "title": "First Bispecific Inhibitors of the Epidermal Growth Factor Receptor Kinase and the NF-\u03baB Activity As Novel Anticancer Agents.",
+   "year": 2017
+  },
+  "CHEMBL4130419": {
+   "chembl_document_id": "CHEMBL4130419",
+   "journal": "Eur J Med Chem",
+   "pmid": "28863359",
+   "title": "Novel chemotypes targeting tubulin at the colchicine binding site and unbiasing P-glycoprotein.",
    "year": 2017
   },
   "CHEMBL4270669": {
@@ -812,6 +1043,13 @@
    "title": "Human Serum Albumin Binding in a Vial: A Novel UV-pH Titration Method To Assist Drug Design.",
    "year": 2020
   },
+  "CHEMBL4325863": {
+   "chembl_document_id": "CHEMBL4325863",
+   "journal": "Eur J Med Chem",
+   "pmid": "30366255",
+   "title": "Investigating alkyl nitrates as nitric oxide releasing precursors of multitarget acetylcholinesterase-monoamine oxidase B inhibitors.",
+   "year": 2019
+  },
   "CHEMBL4359834": {
    "chembl_document_id": "CHEMBL4359834",
    "journal": "J Med Chem",
@@ -819,12 +1057,40 @@
    "title": "(S)-4-(Difluoromethyl)-5-(4-(3-methylmorpholino)-6-morpholino-1,3,5-triazin-2-yl)pyridin-2-amine (PQR530), a Potent, Orally Bioavailable, and Brain-Penetrable Dual Inhibitor of Class I PI3K and mTOR Kinase.",
    "year": 2019
   },
+  "CHEMBL4390652": {
+   "chembl_document_id": "CHEMBL4390652",
+   "journal": "Eur J Med Chem",
+   "pmid": "30798053",
+   "title": "Design, biological evaluation and X-ray crystallography of nanomolar multifunctional ligands targeting simultaneously acetylcholinesterase and glycogen synthase kinase-3.",
+   "year": 2019
+  },
+  "CHEMBL4425129": {
+   "chembl_document_id": "CHEMBL4425129",
+   "journal": "J Med Chem",
+   "pmid": "27347731",
+   "title": "Exploring Basic Tail Modifications of Coumarin-Based Dual Acetylcholinesterase-Monoamine Oxidase B Inhibitors: Identification of Water-Soluble, Brain-Permeant Neuroprotective Multitarget Agents.",
+   "year": 2016
+  },
+  "CHEMBL4613305": {
+   "chembl_document_id": "CHEMBL4613305",
+   "journal": "ACS Med Chem Lett",
+   "pmid": "32435398",
+   "title": "Chiral Separation, X-ray Structure, and Biological Evaluation of a Potent and Reversible Dual Binding Site AChE Inhibitor.",
+   "year": 2020
+  },
   "CHEMBL4665789": {
    "chembl_document_id": "CHEMBL4665789",
    "journal": "J Med Chem",
    "pmid": "32883072",
    "title": "Discovery of Novel pERK1/2- or \u03b2-Arrestin-Preferring 5-HT Receptor-Biased Agonists: Diversified Therapeutic-like versus Side Effect Profile.",
    "year": 2020
+  },
+  "CHEMBL5143529": {
+   "chembl_document_id": "CHEMBL5143529",
+   "journal": "Eur J Med Chem",
+   "pmid": "34752955",
+   "title": "Design, synthesis, and biological evaluation of novel (4-(1,2,4-oxadiazol-5-yl)phenyl)-2-aminoacetamide derivatives as multifunctional agents for the treatment of Alzheimer's disease.",
+   "year": 2022
   },
   "CHEMBL5532688": {
    "chembl_document_id": "CHEMBL5532688",
@@ -855,7 +1121,7 @@
    "year": 2025
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 299
  },

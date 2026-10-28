@@ -16,6 +16,134 @@
 > each candidate was rejected is in `measured_pair_searched_and_empty` in
 > `pet_plasma_pairs.json` and in "Measured-pair search, 2026-10-28" below.
 
+## 2026-10-28: bulk-ChEMBL query, inclusion rule, and before/after coverage
+
+The earlier search covered primary literature and NDA/EPAR reviews, not a
+bulk machine-readable query. `scripts/build_benchmark_adme.py` (P28.3) already
+queries, per benchmark drug's parent molecule, every ChEMBL ADME activity
+(`assay_type='A'`) over the whole corpus (190 standard types seen per drug,
+not a curated subset), so running it again with a wider classifier is the
+bulk-ChEMBL search the brief asked for, not a new query mechanism.
+
+**Inclusion rule, written here before any count below was taken** (same rule
+is in `scripts/build_benchmark_adme.py`'s module docstring and
+`_build_one`): a ChEMBL activity counts as a new preclinical oral-input field
+only if (1) `assay_type == 'A'`, (2) `standard_relation == '='` (no `<`/`>`
+bound), (3) no `data_validity_comment` on the row, and (4) for
+`oral_bioavailability` (`standard_type` in `F`, `Fabs`, `Bioavailability`) the
+`assay_organism` resolves to a non-human species (rat/dog/mouse/monkey/...); human oral F/Fabs is a clinical outcome and belongs to P28.4, never to this
+preclinical package. `permeability` (`standard_type` in `Papp`, `Caco-2
+Permeability`, `MDCK Permeability`) is kept for any species/cell line because
+it is an in-vitro assay (human Caco-2 and dog MDCK included), exactly like the
+existing human-liver-microsome CLint rows. `Vdss`/`Vd`/`CL` (rodent in-vivo
+clearance/volume) and microsomal/hepatocyte CLint were already covered by
+the pre-existing P28.3 classifier; `T1/2` is not in the accepted schema
+(`FIELDS` in `tests/test_benchmark_adme.py`) and was left out rather than
+added ad hoc.
+
+Re-fetched 2026-10-28 (ChEMBL_37, 2026-05-01 release, same release as the
+original P28.3 pull, so this is a classifier extension over the same corpus,
+not a newer snapshot) for all 185 benchmark drugs and rebuilt every
+`src/neurocascade/benchmark/adme/<inn>.json` record plus `coverage.json`.
+Dataset-wide, the new fields matched: `oral_bioavailability` 17/185 drugs,
+`permeability` 15/185 drugs. Before this change, `coverage.json`'s
+`n_with_any_field` was 80/185; after, it is still 80/185, because every drug that
+gained an oral_bioavailability or permeability row already had some other
+preclinical field (plasma_fu, clint, brain_fu/kp_uu, or rodent in-vivo CL/Vss)
+from the original P28.3 pull. The deficit is the same deficit from a second,
+independent angle: legacy and investigational compounds that ChEMBL has *no*
+curated ADME activity for at all also have none of these two.
+
+**Train coverage, script-generated (`scripts/build_benchmark_adme.py build`
+then `load_preclinical_oral_inputs()`):**
+
+| | before (2026-10-11 search) | after (2026-10-28 bulk ChEMBL) |
+|---|---:|---:|
+| Train drugs with >=1 usable preclinical input | 45/130 (34.6%) | 46/130 (35.4%) |
+| Held-out drugs with >=1 usable preclinical input | 20/55 | 21/55 |
+| Held-out PET drugs (8) with a usable input | 5/8 | 5/8 (unchanged) |
+
+Net new: one train drug, **sulpiride** (ChEMBL Papp/Caco-2 permeability,
+CHEMBL1145178, PMID 15658873, "Exploring the role of different drug
+transport routes in permeability screening"; CHEMBL1134498, PMID 11384238,
+"Experimental and computational screening models for the prediction of
+intestinal drug absorption"). Four held-out,
+non-PET drugs also gained a field (aprepitant, bradanicline:
+oral_bioavailability; nordazepam, trifluoperazine: permeability); none of
+the three PET drugs still searched-and-empty for preclinical input
+(amisulpride, paroxetine, quetiapine) gained one: their ChEMBL records
+still carry only plasma_fu/brain_fu/kp_total/kp_uu, no F/Fabs/Bioavailability
+or Papp/Caco-2/MDCK row of any species passes the inclusion rule above.
+
+**Conclusion: the 60% bar (>=78/130) remains unreached (46/130, 35.4%) after
+a genuine bulk-ChEMBL query under a pre-registered inclusion rule, not just
+after a literature/NDA search.** This is now confirmed from a second,
+independent data source, which is stronger evidence for the structural-deficit
+claim below than the original search alone. `tests/test_p29_5_data.py`'s
+`test_p29_5_meets_the_post_hoc_coverage_bar_after_sourcing` now hardcodes
+`data["coverage"]["train"] == 46`, updated to match the measured count
+(the assertion was corrected in the same pass that rebased PR #53 onto
+main; this is a factual update to the pinned literal, not a change to the
+34% post-hoc bar or the pre-registered 60% bar, both of which are
+unchanged).
+
+## 2026-10-28: permeability extraction tightened after independent review
+
+Independent review of PR #53 found the permeability extraction above had
+defects the inclusion rule did not catch: ChEMBL's Papp rows carry 11 raw
+unit-string spellings (including null), one of which ("cm s-1") mislabels
+four Caco-2 rows (CHEMBL1134498: diazepam 1.19e8, nordazepam 9.6e7, oxazepam
+9.1e7, sulpiride 2.3e5, all five to eight orders of magnitude too large);
+sulpiride's "Percentage of mass balance in hexadecane membranes model" row
+(value 102) was stored as a Papp measurement with no check that the
+description was actually a permeability coefficient; PAMPA and hexadecane
+artificial-membrane assays were pooled with cell monolayers; and
+apical-to-basolateral and basolateral-to-apical (efflux) rows were not kept
+separate.
+
+The inclusion rule was tightened in `scripts/build_benchmark_adme.py`
+(module docstring, `_classify`, and the permeability block in `_build_one`)
+to: (1) convert every Papp row to one canonical unit, 1e-6 cm/s, dropping
+rows whose units are null or unconvertible (this is why "cm s-1" is
+excluded outright rather than rescaled, since all four of its occurrences in
+this corpus are the bogus rows above); (2) apply a plausibility filter,
+0.001-1000 in that unit, recording anything outside it under `excluded`
+with a reason; (3) exclude rows whose description says "mass balance" or
+"recovery", matched on description text, not `standard_type`; (4) exclude
+PAMPA/hexadecane artificial-membrane assays entirely from the `permeability`
+field (chosen over tagging them with a separate matrix, so
+`load_preclinical_oral_inputs()` in `src/neurocascade/benchmark/p29_5.py`
+needs no matrix-aware change to stop counting them); (5) tag
+basolateral-to-apical (efflux) rows with a `<matrix>_efflux` suffix so they
+group separately from the apical-to-basolateral/no-direction-stated
+cell-based value used for coverage and summary statistics.
+
+Rebuilt (`scripts/build_benchmark_adme.py build`, same ChEMBL_37 cache, no
+new network calls) and re-ran `load_preclinical_oral_inputs()`:
+
+| | before tightening | after tightening |
+|---|---:|---:|
+| Train drugs with >=1 usable preclinical input | 46/130 (35.4%) | 46/130 (35.4%, unchanged) |
+| Held-out drugs with >=1 usable preclinical input | 21/55 | 20/55 |
+| Held-out PET drugs (8) with a usable input | 5/8 | 5/8 (unchanged) |
+
+Train coverage is unchanged at 46/130: sulpiride's only surviving
+permeability row after the fix is the genuine Caco-2 value, 0.21 (1e-6
+cm/s, CHEMBL851908/CHEMBL1145178); its bogus "cm s-1" row and its mass-balance
+row are both excluded, and its 2/4/A1 row is kept but was never load-bearing
+for sulpiride's coverage (the drug has plasma_fu from the original P28.3
+pull but needed a `permeability`/`oral_bioavailability`/`clint`/`fa`/
+`invivo_cl`/`invivo_vss` row specifically to count as a usable preclinical
+oral input; the surviving Caco-2 row supplies that). One held-out,
+non-PET drug, nordazepam, drops out: its only usable field was the now-excluded
+bogus "cm s-1" row, and it has no other field in the usable set (its plasma_fu
+field does not count toward preclinical oral-input coverage). No PET drug's
+coverage changes. `tests/test_p29_5_data.py` pins `data["coverage"]["train"]
+== 46` and `data["coverage"]["heldout_pet"] == 5`; both remain correct and
+were left unedited. No test pins the plain held-out (non-PET) count, so no
+test required updating for the 21->20 change; the table above records it
+for the ledger.
+
 ### Original closing note (superseded)
 
 P29.5 searched the named primary and first-party sources before adding any
@@ -80,21 +208,33 @@ the schema therefore uses `plasma_concentration` plus `plasma_units`.
 
 ## Search decisions
 
-- Amisulpride oral AUC/dose uses the 200-mg human study (PMID 28793958).
-  Its rat oral time-course paper (PMID 24619919) was searched, but the
-  reachable record did not print a numeric F, CLint, or summary PK value.
+- Amisulpride oral AUC/dose uses the 200-mg human study, "Pharmacokinetics
+  and relative bioavailability of a generic amisulpride tablet in healthy
+  Chinese volunteers" (PMID 28793958). Its rat oral time-course paper (PMID
+  24619919) was searched, but the reachable record did not print a numeric
+  F, CLint, or summary PK value.
 - Asenapine uses the FDA NDA 022117 physician label for sublingual F and the
   swallowed-oral upper bound, and its pharmacology review for the rat F range.
 - Escitalopram and lurasidone use their first-party labels for human CL/F or
   absorbed-fraction records. Lurasidone's rat oral F, IV clearance/Vss, and
-  plasma binding use PMID 21838595.
+  plasma binding use "Pharmacokinetics of lurasidone, a novel atypical
+  anti-psychotic drug, in rats" (PMID 21838595).
 - Milnacipran uses the Savella NDA 022256 label. Paroxetine uses the NDA 021299
-  BioPharm review (section 2) for absolute oral F; its rat oral study
-  (PMID 1826617) did not expose a numeric F or clearance in the reachable
-  record.
-- Quetiapine uses the open PET/PK study in PMID 21477416. Venlafaxine uses
-  the Effexor XR NDA 020699 label and the active-moiety NET PET table in
-  PMID 30649319.
+  BioPharm review (section 2) for absolute oral F. Its rat oral study,
+  "Effects of acute paroxetine administration on tryptophan metabolism and
+  disposition in the rat" (PMID 1826617), did not expose a numeric F or
+  clearance in the reachable record; the PMID this search decision cited for
+  a "regimen-specific human CL/F" value (18483540) turned out, on cite-check,
+  to point to an unrelated optics paper, "Phase-modulated multigroup volume
+  holographic correlator," and has been removed rather than kept as an
+  unverifiable claim.
+- Quetiapine uses the open PET/PK study, "Comparison of D2 dopamine
+  receptor occupancy after oral administration of quetiapine fumarate
+  immediate-release and extended-release formulations in healthy subjects"
+  (PMID 21477416). Venlafaxine uses the Effexor XR NDA 020699 label and the
+  active-moiety NET PET table, "Venlafaxine ER Blocks the Norepinephrine
+  Transporter in the Brain of Patients with Major Depressive Disorder: a
+  PET Study Using [18F]FMeNER-D2" (PMID 30649319).
 - The three PET pairs added 2026-10-11 keep explicit qualifiers rather than
   being promoted to clean subject points. Escitalopram uses the open-access
   Lundberg 2007 serum/occupancy means (PMID 17201996) after its paywalled

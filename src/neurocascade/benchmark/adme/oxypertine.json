@@ -5,6 +5,8 @@
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": false,
+  "oral_bioavailability": false,
+  "permeability": false,
   "plasma_fu": false,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -12,7 +14,7 @@
  "fields": {},
  "inn": "oxypertine",
  "references": {},
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 0
  },

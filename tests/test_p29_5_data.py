@@ -113,7 +113,7 @@ def test_p29_5_meets_the_post_hoc_coverage_bar_after_sourcing():
     pet = load_pet_plasma_pairs()
     measured_or_summary = [r for r in pet["drugs"] if r["status"] == "data"]
     assert data["coverage"]["train"] == len(train_data)
-    assert data["coverage"]["train"] == 45
+    assert data["coverage"]["train"] == 46
     assert data["coverage"]["heldout_pet"] == 5
     assert data["coverage"]["train"] >= POSTHOC_TRAIN_FRACTION * len(load_split()["train"])
     assert len(measured_or_summary) == 8

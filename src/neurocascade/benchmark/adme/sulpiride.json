@@ -3,11 +3,17 @@
  "chembl_release": "ChEMBL_37 (2026-05-01)",
  "excluded": {
   "human_invivo_cl": 3,
-  "human_invivo_vss": 2
+  "human_invivo_vss": 2,
+  "human_oral_bioavailability": 2,
+  "permeability_artificial_membrane": 1,
+  "permeability_not_coefficient": 1,
+  "permeability_unit_unconvertible": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
   "clint": false,
+  "oral_bioavailability": false,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -59,6 +65,56 @@
     }
    ]
   },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL851907",
+     "description": "Permeability Coefficient in 2/4/A1 cell model",
+     "matrix": "2d4a1",
+     "ref": "CHEMBL1145178",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 11.0
+    },
+    {
+     "assay_chembl_id": "CHEMBL851908",
+     "description": "Permeability Coefficient in Caco-2 cell culture model",
+     "matrix": "caco2",
+     "ref": "CHEMBL1145178",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 0.21
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "2d4a1",
+     "max": 11.0,
+     "min": 11.0,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "1e-6 cm/s",
+     "value": 11.0
+    },
+    {
+     "matrix": "caco2",
+     "max": 0.21,
+     "min": 0.21,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "1e-6 cm/s",
+     "value": 0.21
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -98,6 +154,13 @@
  },
  "inn": "sulpiride",
  "references": {
+  "CHEMBL1145178": {
+   "chembl_document_id": "CHEMBL1145178",
+   "journal": "J Med Chem",
+   "pmid": "15658873",
+   "title": "Exploring the role of different drug transport routes in permeability screening.",
+   "year": 2005
+  },
   "CHEMBL1153781": {
    "chembl_document_id": "CHEMBL1153781",
    "journal": "Eur J Med Chem",
@@ -120,7 +183,7 @@
    "year": 2011
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 209
  },

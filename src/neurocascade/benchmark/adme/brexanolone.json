@@ -5,6 +5,8 @@
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": true,
+  "permeability": false,
   "plasma_fu": false,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": false
@@ -226,6 +228,42 @@
      "value": 1.8
     }
    ]
+  },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL3427977",
+     "description": "Oral bioavailability in Sprague-Dawley rat at 20 mg/kg by LC-MS/MS analysis",
+     "ref": "CHEMBL3425450",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.023
+    },
+    {
+     "assay_chembl_id": "CHEMBL4040865",
+     "description": "Oral bioavailability in Sprague-Dawley rat at 20 mg/kg measured up to 8 hrs post dose by LC/MS-MS analysis",
+     "ref": "CHEMBL4038335",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.02
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.023,
+     "min": 0.02,
+     "n_censored": 0,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.0215
+    }
+   ]
   }
  },
  "inn": "brexanolone",
@@ -245,7 +283,7 @@
    "year": 2017
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 21
  },

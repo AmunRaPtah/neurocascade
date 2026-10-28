@@ -4,11 +4,15 @@
  "excluded": {
   "human_invivo_cl": 4,
   "human_invivo_vss": 4,
+  "human_oral_bioavailability": 2,
+  "permeability_artificial_membrane": 2,
   "species_unresolved_invivo_vss": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
   "clint": true,
+  "oral_bioavailability": false,
+  "permeability": false,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -432,7 +436,7 @@
    "year": 2011
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 185
  },

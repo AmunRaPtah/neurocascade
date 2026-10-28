@@ -3,11 +3,15 @@
  "chembl_release": "ChEMBL_37 (2026-05-01)",
  "excluded": {
   "human_invivo_cl": 9,
-  "human_invivo_vss": 5
+  "human_invivo_vss": 5,
+  "human_oral_bioavailability": 2,
+  "permeability_artificial_membrane": 1
  },
  "field_coverage": {
   "brain_fu_or_kp_uu": true,
   "clint": true,
+  "oral_bioavailability": false,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": true
@@ -555,6 +559,56 @@
     }
    ]
   },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL1908285",
+     "description": "Apparent permeability (Papp) from apical to basolateral side determined in MDR1-MDCKII cells",
+     "matrix": "mdck",
+     "ref": "CHEMBL1908284",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 43.8
+    },
+    {
+     "assay_chembl_id": "CHEMBL1908286",
+     "description": "Apparent permeability (Papp) from basolateral to apical side determined in MDR1-MDCKII cells",
+     "matrix": "mdck_efflux",
+     "ref": "CHEMBL1908284",
+     "relation": "=",
+     "species": "dog",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 47.7
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "mdck",
+     "max": 43.8,
+     "min": 43.8,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "1e-6 cm/s",
+     "value": 43.8
+    },
+    {
+     "matrix": "mdck_efflux",
+     "max": 47.7,
+     "min": 47.7,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "dog",
+     "units": "1e-6 cm/s",
+     "value": 47.7
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -720,6 +774,13 @@
    "title": "Extrapolation of preclinical pharmacokinetics and molecular feature analysis of \"discovery-like\" molecules to predict human pharmacokinetics.",
    "year": 2006
   },
+  "CHEMBL1908284": {
+   "chembl_document_id": "CHEMBL1908284",
+   "journal": "J Pharmacol Exp Ther",
+   "pmid": "11602674",
+   "title": "Rational use of in vitro P-glycoprotein assays in drug discovery.",
+   "year": 2001
+  },
   "CHEMBL3301361": {
    "chembl_document_id": "CHEMBL3301361",
    "journal": null,
@@ -770,7 +831,7 @@
    "year": 2024
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 285
  },

@@ -1,5 +1,6 @@
 """P28.3: per-drug preclinical ADME/PK records (plasma fu, brain fu / Kp,uu,
-in-vitro intrinsic clearance, rodent in-vivo CL/Vss) for the benchmark."""
+in-vitro intrinsic clearance, rodent in-vivo CL/Vss, oral bioavailability,
+permeability) for the benchmark."""
 
 import importlib.util
 import math
@@ -18,7 +19,8 @@ from neurocascade.benchmark import (
 
 ROOT = Path(__file__).resolve().parents[1]
 FIELDS = ("plasma_fu", "brain_fu", "kp_uu", "kp_total", "clint",
-          "invivo_cl_preclinical", "invivo_vss_preclinical")
+          "invivo_cl_preclinical", "invivo_vss_preclinical",
+          "oral_bioavailability", "permeability")
 
 
 def _script():

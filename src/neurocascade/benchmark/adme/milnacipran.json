@@ -1,10 +1,14 @@
 {
  "chembl_query_id": "CHEMBL259209",
  "chembl_release": "ChEMBL_37 (2026-05-01)",
- "excluded": {},
+ "excluded": {
+  "human_oral_bioavailability": 3
+ },
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": false,
+  "permeability": true,
   "plasma_fu": true,
   "rodent_in_vivo_cl": false,
   "rodent_in_vivo_vss": false
@@ -79,6 +83,34 @@
      "species": "rat",
      "units": "mL.min-1.kg-1",
      "value": 21.0
+    }
+   ]
+  },
+  "permeability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL948483",
+     "description": "Apparent permeability from apical to basolateral side of the human Caco-2 cells",
+     "matrix": "caco2",
+     "ref": "CHEMBL1152288",
+     "relation": "=",
+     "species": "human",
+     "standard_type": "Papp",
+     "units": "1e-6 cm/s",
+     "value": 8.9
+    }
+   ],
+   "summary": [
+    {
+     "matrix": "caco2",
+     "max": 8.9,
+     "min": 8.9,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "human",
+     "units": "1e-6 cm/s",
+     "value": 8.9
     }
    ]
   },
@@ -184,7 +216,7 @@
    "year": 2011
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 246
  },

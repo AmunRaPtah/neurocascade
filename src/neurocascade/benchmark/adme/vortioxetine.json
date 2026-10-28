@@ -1,10 +1,14 @@
 {
  "chembl_query_id": "CHEMBL2104993",
  "chembl_release": "ChEMBL_37 (2026-05-01)",
- "excluded": {},
+ "excluded": {
+  "human_oral_bioavailability": 1
+ },
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": true,
+  "oral_bioavailability": true,
+  "permeability": false,
   "plasma_fu": true,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": false
@@ -130,6 +134,32 @@
     }
    ]
   },
+  "oral_bioavailability": {
+   "measurements": [
+    {
+     "assay_chembl_id": "CHEMBL2215823",
+     "description": "Oral bioavailability in rat at 2 mg/kg",
+     "ref": "CHEMBL2203036",
+     "relation": "=",
+     "species": "rat",
+     "standard_type": "F",
+     "units": "fraction",
+     "value": 0.16
+    }
+   ],
+   "summary": [
+    {
+     "max": 0.16,
+     "min": 0.16,
+     "n_censored": 0,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "species": "rat",
+     "units": "fraction",
+     "value": 0.16
+    }
+   ]
+  },
   "plasma_fu": {
    "measurements": [
     {
@@ -203,7 +233,7 @@
    "year": 2019
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 73
  },

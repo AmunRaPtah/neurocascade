@@ -8,6 +8,8 @@
  "field_coverage": {
   "brain_fu_or_kp_uu": false,
   "clint": false,
+  "oral_bioavailability": false,
+  "permeability": false,
   "plasma_fu": true,
   "rodent_in_vivo_cl": true,
   "rodent_in_vivo_vss": true
@@ -206,7 +208,7 @@
    "year": 2006
   }
  },
- "retrieved": "2026-10-02",
+ "retrieved": "2026-10-28",
  "searched": {
   "chembl_adme_rows_returned": 43
  },
