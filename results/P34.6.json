@@ -1,0 +1,158 @@
+{
+ "task": "P34.6",
+ "question": "can the fresh set be widened to the 8/8 power floor with the frozen candidate?",
+ "inputs_only": true,
+ "n_approved_parents": 2307,
+ "n_p33_1_candidates": 465,
+ "n_p34_4_pool": 75,
+ "n_remaining": 1767,
+ "n_remaining_with_rx_label": 1092,
+ "n_remaining_with_placebo_ar_table": 398,
+ "placebo_table_by_atc2": {
+  "L01": 52,
+  "none": 32,
+  "J05": 30,
+  "L04": 21,
+  "C01": 19,
+  "A10": 17,
+  "C09": 14,
+  "B01": 14,
+  "C10": 12,
+  "C07": 10,
+  "A06": 9,
+  "A07": 8,
+  "L02": 8,
+  "C08": 7,
+  "A16": 7,
+  "A02": 7,
+  "G03": 6,
+  "V03": 6,
+  "M05": 6,
+  "A05": 6,
+  "C02": 5,
+  "G04": 5,
+  "B02": 5,
+  "R03": 5,
+  "D11": 5,
+  "C03": 5,
+  "G02": 4,
+  "M03": 4,
+  "P01": 4,
+  "D06": 4,
+  "R01": 4,
+  "H02": 3,
+  "M01": 3,
+  "J01": 3,
+  "B06": 3,
+  "M04": 3,
+  "J04": 3,
+  "C05": 3,
+  "A01": 3,
+  "D07": 3,
+  "L03": 3,
+  "D05": 2,
+  "M09": 2,
+  "C04": 2,
+  "B03": 2,
+  "S01": 2,
+  "A08": 2,
+  "H01": 2,
+  "D01": 2,
+  "J02": 2,
+  "H05": 2,
+  "D03": 1,
+  "A12": 1,
+  "R07": 1,
+  "P03": 1,
+  "R05": 1,
+  "A11": 1,
+  "D10": 1
+ },
+ "anchor_ki_below_pki5": {
+  "DRD2": {
+   "with_label": 2,
+   "placebo_table": 1
+  },
+  "HRH1": {
+   "with_label": 0,
+   "placebo_table": 0
+  },
+  "CHRM1": {
+   "with_label": 0,
+   "placebo_table": 0
+  },
+  "CHRM2": {
+   "with_label": 0,
+   "placebo_table": 0
+  },
+  "CHRM3": {
+   "with_label": 0,
+   "placebo_table": 0
+  },
+  "CHRM4": {
+   "with_label": 0,
+   "placebo_table": 0
+  },
+  "CHRM5": {
+   "with_label": 1,
+   "placebo_table": 1
+  },
+  "ADRA1A": {
+   "with_label": 0,
+   "placebo_table": 0
+  },
+  "ADRA1B": {
+   "with_label": 0,
+   "placebo_table": 0
+  },
+  "ADRA1D": {
+   "with_label": 0,
+   "placebo_table": 0
+  },
+  "HTR2C": {
+   "with_label": 1,
+   "placebo_table": 1
+  }
+ },
+ "max_scorable_per_liability": {
+  "eps": 1,
+  "sedation": 0,
+  "anticholinergic": 1,
+  "orthostatic_hypotension": 0
+ },
+ "scorable_drugs": [
+  {
+   "chembl_id": "CHEMBL1256786",
+   "inn": "formoterol",
+   "anchors": [
+    "DRD2"
+   ]
+  },
+  {
+   "chembl_id": "CHEMBL500",
+   "inn": "pindolol",
+   "anchors": [
+    "HTR2C"
+   ]
+  },
+  {
+   "chembl_id": "CHEMBL584",
+   "inn": "nelfinavir",
+   "anchors": [
+    "CHRM5"
+   ]
+  }
+ ],
+ "power_floor": {
+  "positives": 8,
+  "negatives": 8
+ },
+ "max_positives_if_widened": {
+  "eps": 1,
+  "sedation": 1,
+  "anticholinergic": 5,
+  "orthostatic_hypotension": 0
+ },
+ "result": "EMPTY",
+ "gap": "approved-drug universe exhausted for the frozen candidate: even if every remaining scorable drug were positive, no liability reaches 8 positives ({\"eps\": 1, \"sedation\": 1, \"anticholinergic\": 5, \"orthostatic_hypotension\": 0})"
+}
