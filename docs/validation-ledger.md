@@ -488,7 +488,8 @@ in the P33.4 and P34.1 rows above (`results/P33.4.json`, `results/P34.1.json`,
 and their `n=15`/`n=17`/`n_scored` counts) stale**: re-running those
 candidates' harnesses on this branch now scores more drugs
 (`tests/test_p34_1_candidate.py::test_committed_results_file_matches_a_fresh_run`
-fails, 21 vs the committed 17). Re-validating P33.4/P34.1 against the new
+fails, 24 vs the committed 17, after both this fu-coverage work and PR #51's
+binding-coverage extension). Re-validating P33.4/P34.1 against the new
 coverage is out of scope for this data-coverage change and is not done here;
 it is flagged as follow-up work, not silently fixed, since updating a
 committed train-LODO result is its own task with its own review, not a
