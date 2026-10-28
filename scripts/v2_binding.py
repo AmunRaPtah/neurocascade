@@ -89,19 +89,39 @@ parent id, or its ``InChIKey`` equals the full standard InChIKey of that
 ChEMBL parent molecule (fetched from the ChEMBL ``/molecule`` endpoint). No
 name matching. A ligand matching two different drugs is dropped.
 
-The PDSP Ki database was checked and not used: its bulk download
-(``https://pdsp.unc.edu/databases/kiDownload/``) returned HTTP 403 to
-programmatic access on 2026-10-28, and its records carry no InChIKey or
-ChEMBL id, so it could not be mapped without name matching.
+**(b2) Third measured source: PDSP Ki database.** Amendment, written after
+the first ChEMBL+GtoPdb build: that build recorded PDSP as "not
+downloadable" because the directory URL ``.../kiDownload/`` returns HTTP 403;
+the file itself is served at
+``https://pdsp.unc.edu/databases/kiDownload/download.php`` (the URL v1's
+``scripts/build_benchmark_binding.py`` already uses; fetched with an
+unverified TLS context for the same CA-chain reason v1 records). PDSP is
+added because it is downloadable and identifier-mappable, which was the
+stated criterion; the merge rule (c) is unchanged. Rows used: ``species`` =
+``HUMAN`` exactly (``? HUMAN`` excluded); ``Unigene`` (a gene-symbol field;
+PDSP carries no UniProt accession) equal to a panel gene whose UniProt
+accession resolved on the ChEMBL side; ``ki Val`` numeric with
+1e-3 <= Ki <= 1e6 nM (pKi 3-12, a plausibility filter against PDSP's
+handful of overflow values); ligand mapped structurally: PDSP ``SMILES`` ->
+RDKit, largest fragment, uncharged, standard InChIKey, equal to the ChEMBL
+parent's full standard InChIKey (rows without SMILES or with a
+non-matching InChIKey, e.g. stereo-less SMILES of a chiral drug, are not
+used; no name matching). ``ki Note`` blank = measured value (joins rule
+(c)); ``ki Note`` ``>`` = censored, recorded as a lower bound exactly like
+ChEMBL's under rule (a); ``<`` rows are not used. Publication key: the PMID
+when the ``Link`` is a PubMed URL (same extraction as v1's
+``_pmid_from_link``), else ``PDSP:<Reference>``.
 
 **(c) Merge rule (all ``=`` measurements, all sources, no source
 preference).** Per drug x gene, every qualifying measurement is a pKi
-(ChEMBL ``pchembl_value``; GtoPdb ``Affinity Median``). Measurements are
-grouped by publication: ChEMBL rows by ``document_chembl_id`` (unchanged),
-GtoPdb rows by their PubMed id (first listed), or by a per-row GtoPdb key
-when no PMID is given. A GtoPdb row whose PMID equals the PMID of a ChEMBL
-document already present for the same drug x gene is dropped as the same
-published measurement already counted (de-duplication, not preference).
+(ChEMBL ``pchembl_value``; GtoPdb ``Affinity Median``; PDSP 9 - log10 Ki
+nM). Measurements are grouped by publication: ChEMBL rows by
+``document_chembl_id`` (unchanged), GtoPdb rows by their PubMed id (first
+listed), or by a per-row GtoPdb key when no PMID is given, PDSP rows by the
+publication key of (b2). A GtoPdb or PDSP group whose PMID is already
+present for the same drug x gene from an earlier source (fixed order ChEMBL,
+GtoPdb, PDSP) is dropped as the same published measurement already counted
+(de-duplication, not preference).
 ``pki_median`` = median over publication groups of the within-group mean
 pKi; ``ki_nM`` = 10**(9 - pki_median). ``ki_min_nM``/``ki_max_nM`` are the
 extremes over individual measurements (GtoPdb pKi converted to nM).
@@ -109,7 +129,11 @@ extremes over individual measurements (GtoPdb pKi converted to nM).
 ``n_measurements`` rows from both. ``documents`` keeps the ChEMBL document
 list as before; GtoPdb publications are listed under
 ``gtopdb_references`` (``gtopdb_ligand_id``, ``pubmed_id`` as given in the
-GtoPdb row, ``pki``), and ``sources`` gives the per-source group counts.
+GtoPdb row, ``pki``), PDSP ones under ``pdsp_references`` (``reference``,
+``pubmed_id`` or null, ``pki``), and ``sources`` gives the per-source group
+counts. Lower bounds (rule (a)) pool ChEMBL and PDSP censored rows: ChEMBL
+documents stay under ``documents``, PDSP references under
+``pdsp_references``.
 For a drug x gene with only ChEMBL data, every field is identical to the
 ChEMBL-only build.
 
@@ -121,6 +145,7 @@ intact cache makes zero network calls. Target-activity fetches run with
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import os
@@ -141,6 +166,8 @@ DRUGS_FILE = V2 / "drugs.json"
 OUT = V2 / "inputs" / "binding.json"
 DEFAULT_CACHE = Path(os.environ.get("NC_V2_BINDING_CACHE", "/root/nc-v2-cache/binding"))
 CHEMBL = "https://www.ebi.ac.uk/chembl/api/data"
+GTOPDB = "https://www.guidetopharmacology.org/DATA"
+GTOPDB_FILES = ("interactions.csv", "ligands.csv")
 
 # Non-anchor CNS targets added to drugs.json's 11 anchors: gene symbol ->
 # UniProt accession. Chosen as the genes v1's build_benchmark_binding.py
@@ -242,6 +269,29 @@ def fetch_drug_activities(cache: Path, chembl_id: str) -> list[dict]:
     return _pages(cache, q)
 
 
+def fetch_censored_activities(cache: Path, chembl_id: str) -> list[dict]:
+    """Human Ki rows with a '>'/'>=' qualifier (pChEMBL is null for these)."""
+    q = (f"activity.json?parent_molecule_chembl_id={chembl_id}"
+         f"&target_organism=Homo%20sapiens&standard_type=Ki"
+         f"&standard_relation__in=%3E,%3E%3D&only={ACT_ONLY}&limit=1000")
+    return _pages(cache, q)
+
+
+def fetch_inchikeys(cache: Path, chembl_ids: list[str]) -> dict[str, str]:
+    """ChEMBL parent id -> full standard InChIKey, from the /molecule endpoint."""
+    out: dict[str, str] = {}
+    ids = sorted(set(chembl_ids))
+    for i in range(0, len(ids), 50):
+        chunk = ids[i:i + 50]
+        q = (f"molecule.json?molecule_chembl_id__in={','.join(chunk)}"
+             f"&only=molecule_chembl_id,molecule_structures&limit=1000")
+        for m in _pages(cache, q):
+            key = (m.get("molecule_structures") or {}).get("standard_inchi_key")
+            if key:
+                out[m["molecule_chembl_id"]] = key
+    return out
+
+
 def fetch_documents(cache: Path, doc_ids: set[str]) -> dict[str, dict]:
     out: dict[str, dict] = {}
     ids = sorted(doc_ids)
@@ -254,7 +304,107 @@ def fetch_documents(cache: Path, doc_ids: set[str]) -> dict[str, dict]:
     return out
 
 
+# ---------------------------------------------------------------- GtoPdb
+
+def fetch_gtopdb(cache: Path) -> dict:
+    """Download GtoPdb bulk files once into cache/gtopdb; return provenance."""
+    d = cache / "gtopdb"
+    d.mkdir(parents=True, exist_ok=True)
+    stamp = d / "RETRIEVED"
+    for name in GTOPDB_FILES:
+        fn = d / name
+        if fn.exists():
+            continue
+        req = urllib.request.Request(f"{GTOPDB}/{name}",
+                                     headers={"User-Agent": "neurocascade-v2-binding"})
+        with urllib.request.urlopen(req, timeout=300) as r:
+            fn.write_bytes(r.read())
+        stamp.write_text(time.strftime("%Y-%m-%d", time.gmtime()) + "\n")
+    with open(d / "interactions.csv", encoding="utf-8") as f:
+        version = f.readline().strip().strip('"').lstrip("# ").strip()
+    return {
+        "urls": {n: f"{GTOPDB}/{n}" for n in GTOPDB_FILES},
+        "version": version,
+        "retrieved": stamp.read_text().strip() if stamp.exists() else None,
+        "sha256": {n: hashlib.sha256((d / n).read_bytes()).hexdigest() for n in GTOPDB_FILES},
+    }
+
+
+def _read_gtopdb_csv(path: Path) -> list[dict]:
+    with open(path, encoding="utf-8", newline="") as f:
+        f.readline()  # "# GtoPdb Version: ..." header line
+        return list(csv.DictReader(f))
+
+
+def gtopdb_ligand_map(ligands: list[dict], drugs: list[dict],
+                      inchikeys: dict[str, str]) -> tuple[dict[str, str], list[str]]:
+    """GtoPdb ligand id -> v2 INN, by ChEMBL parent id or full InChIKey only.
+    Ligands matching more than one drug are dropped (returned separately)."""
+    by_chembl = {d["chembl_id"]: d["inn"] for d in drugs}
+    by_key: dict[str, set[str]] = defaultdict(set)
+    for d in drugs:
+        if inchikeys.get(d["chembl_id"]):
+            by_key[inchikeys[d["chembl_id"]]].add(d["inn"])
+    out: dict[str, str] = {}
+    ambiguous: list[str] = []
+    for lig in ligands:
+        hits = set()
+        cid = (lig.get("ChEMBL ID") or "").strip()
+        if cid in by_chembl:
+            hits.add(by_chembl[cid])
+        key = (lig.get("InChIKey") or "").strip()
+        if key:
+            hits |= by_key.get(key, set())
+        if len(hits) == 1:
+            out[lig["Ligand ID"]] = hits.pop()
+        elif len(hits) > 1:
+            ambiguous.append(lig["Ligand ID"])
+    return out, sorted(ambiguous)
+
+
+def _pmids(field: str) -> list[str]:
+    return [p.strip() for p in (field or "").replace(",", "|").split("|") if p.strip()]
+
+
+def gtopdb_measurements(interactions: list[dict], lig_to_inn: dict[str, str],
+                        panel_uniprot: dict[str, str]) -> dict[tuple[str, str], list[dict]]:
+    """(inn, gene) -> qualifying GtoPdb pKi rows (rule (b) of the docstring)."""
+    gene_of_acc = {acc: g for g, acc in panel_uniprot.items()}
+    out: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    for i, r in enumerate(interactions):
+        if r.get("Target Species") != "Human" or r.get("Affinity Units") != "pKi":
+            continue
+        if (r.get("Original Affinity Relation") or "").strip() not in ("=", ""):
+            continue
+        inn = lig_to_inn.get(r.get("Ligand ID", ""))
+        accs = [a.strip() for a in (r.get("Target UniProt ID") or "").split("|") if a.strip()]
+        if inn is None or len(accs) != 1 or accs[0] not in gene_of_acc:
+            continue
+        try:
+            pki = float(r["Affinity Median"])
+        except (KeyError, ValueError):
+            continue
+        pmids = _pmids(r.get("PubMed ID", ""))
+        out[(inn, gene_of_acc[accs[0]])].append({
+            "pki": pki,
+            "pubmed_id": pmids[0] if pmids else None,
+            "gtopdb_ligand_id": r["Ligand ID"],
+            "gtopdb_target_id": r.get("Target ID"),
+            "row": i,
+        })
+    return out
+
+
 # ---------------------------------------------------------------- aggregation
+
+def _censored(a: dict) -> bool:
+    return (not a.get("data_validity_comment")
+            and not a.get("potential_duplicate")
+            and a.get("standard_type") == "Ki"
+            and a.get("standard_relation") in (">", ">=")
+            and a.get("standard_units") == "nM"
+            and a.get("standard_value") not in (None, ""))
+
 
 def _usable(a: dict) -> bool:
     return (not a.get("data_validity_comment")
@@ -274,28 +424,76 @@ def _doc_rows(doc_ids: list[str], docs: dict[str, dict]) -> list[dict]:
     return rows
 
 
-def summarise_target(acts: list[dict], docs: dict[str, dict]) -> dict:
+def summarise_target(acts: list[dict], docs: dict[str, dict],
+                     gtop: list[dict] | None = None) -> dict:
+    """Merge rule (c): ChEMBL rows grouped by document, GtoPdb rows by PMID
+    (dropped when that PMID is already a ChEMBL document for this pair);
+    pki_median = median of per-publication mean pKi."""
     by_doc: dict[str, list[float]] = defaultdict(list)
     vals_nM: list[float] = []
     for a in acts:
         by_doc[a["document_chembl_id"]].append(float(a["pchembl_value"]))
         vals_nM.append(float(a["standard_value"]))
-    pki_median = statistics.median(statistics.fmean(v) for v in by_doc.values())
+    chembl_pmids = {str((docs.get(d) or {}).get("pubmed_id")) for d in by_doc
+                    if (docs.get(d) or {}).get("pubmed_id")}
+    by_ref: dict[str, list[dict]] = defaultdict(list)
+    for g in gtop or []:
+        if g["pubmed_id"] and g["pubmed_id"] in chembl_pmids:
+            continue
+        key = f"PMID:{g['pubmed_id']}" if g["pubmed_id"] else f"gtopdb-row:{g['row']}"
+        by_ref[key].append(g)
+    if not by_doc and not by_ref:
+        return {}
+    group_means = [statistics.fmean(v) for v in by_doc.values()]
+    group_means += [statistics.fmean(x["pki"] for x in v) for v in by_ref.values()]
+    vals_nM += [10 ** (9 - x["pki"]) for v in by_ref.values() for x in v]
+    pki_median = statistics.median(group_means)
     doc_ids = sorted(by_doc, key=lambda d: -((docs.get(d) or {}).get("year") or 0))
-    return {
+    n_gtop = sum(len(v) for v in by_ref.values())
+    out = {
         "status": "data",
         "pki_median": round(pki_median, 4),
         "ki_nM": round(10 ** (9 - pki_median), 6),
         "ki_min_nM": min(vals_nM),
         "ki_max_nM": max(vals_nM),
-        "n_documents": len(by_doc),
+        "n_documents": len(by_doc) + len(by_ref),
+        "n_measurements": len(acts) + n_gtop,
+        "documents": _doc_rows(doc_ids, docs),
+    }
+    if by_ref:
+        refs = []
+        for key in sorted(by_ref):
+            v = by_ref[key]
+            refs.append({"source": "gtopdb", "gtopdb_ligand_id": v[0]["gtopdb_ligand_id"],
+                         "gtopdb_target_id": v[0]["gtopdb_target_id"],
+                         "pubmed_id": v[0]["pubmed_id"],
+                         "pki": round(statistics.fmean(x["pki"] for x in v), 4),
+                         "n_measurements": len(v)})
+        out["gtopdb_references"] = refs[:MAX_DOCS]
+        out["sources"] = {"chembl": len(by_doc), "gtopdb": len(by_ref)}
+    return out
+
+
+def summarise_lower_bound(acts: list[dict], docs: dict[str, dict]) -> dict:
+    """Rule (a): censored '>'/'>=' Ki rows, never merged into the Ki value."""
+    vals = [float(a["standard_value"]) for a in acts]
+    doc_ids = sorted({a["document_chembl_id"] for a in acts},
+                     key=lambda d: (-((docs.get(d) or {}).get("year") or 0), d))
+    return {
+        "ki_lower_bound_nM": min(vals),
+        "ki_lower_bound_max_nM": max(vals),
         "n_measurements": len(acts),
+        "n_documents": len(doc_ids),
         "documents": _doc_rows(doc_ids, docs),
     }
 
 
 def build_drug(drug: dict, target_ids: dict[str, str], acts: list[dict],
-                docs: dict[str, dict]) -> dict:
+                docs: dict[str, dict], censored: list[dict] | None = None,
+                gtop: dict[str, list[dict]] | None = None) -> dict:
+    """One drug's row. ``censored``: raw ChEMBL '>'/'>=' rows; ``gtop``:
+    gene -> qualifying GtoPdb rows for this drug."""
+    gtop = gtop or {}
     by_target_id = defaultdict(list)   # Ki only
     kd_by_target_id = defaultdict(list)  # Kd only
     for a in acts:
@@ -312,8 +510,9 @@ def build_drug(drug: dict, target_ids: dict[str, str], acts: list[dict],
     kd_only: dict[str, dict] = {}
     for gene, tid in sorted(target_ids.items()):
         acts_t = by_target_id.get(tid, [])
-        if acts_t:
-            targets[gene] = summarise_target(acts_t, docs)
+        summary = summarise_target(acts_t, docs, gtop.get(gene))
+        if summary:
+            targets[gene] = summary
         else:
             searched_and_empty.append(gene)
             kd_acts = kd_by_target_id.get(tid, [])
@@ -323,12 +522,19 @@ def build_drug(drug: dict, target_ids: dict[str, str], acts: list[dict],
                     "n_measurements": len(kd_acts),
                     "documents": _doc_rows(doc_ids, docs),
                 }
+    cens_by_tid = defaultdict(list)
+    for a in censored or []:
+        if _censored(a) and a["target_chembl_id"] in gene_of:
+            cens_by_tid[a["target_chembl_id"]].append(a)
+    lower = {gene_of[tid]: summarise_lower_bound(v, docs)
+             for tid, v in sorted(cens_by_tid.items())}
     return {
         "inn": drug["inn"],
         "chembl_id": drug["chembl_id"],
         "targets": targets,
         "searched_and_empty": sorted(searched_and_empty),
         "kd_only": kd_only,
+        "ki_lower_bounds": dict(sorted(lower.items())),
     }
 
 
@@ -356,8 +562,10 @@ def main(argv: list[str]) -> int:
     print(len(target_ids), "of", len(panel_uniprot), "panel targets resolved", file=sys.stderr)
 
     acts_by_drug: dict[str, list[dict]] = {}
+    cens_by_drug: dict[str, list[dict]] = {}
     with ThreadPoolExecutor(max_workers=4) as pool:
         futs = {pool.submit(fetch_drug_activities, cache, d["chembl_id"]): d for d in drugs}
+        cfuts = {pool.submit(fetch_censored_activities, cache, d["chembl_id"]): d for d in drugs}
         done = 0
         for fut in as_completed(futs):
             d = futs[fut]
@@ -365,15 +573,33 @@ def main(argv: list[str]) -> int:
             done += 1
             if done % 50 == 0:
                 print(f"  fetched activities for {done}/{len(drugs)} drugs", file=sys.stderr)
+        for fut in as_completed(cfuts):
+            cens_by_drug[cfuts[fut]["inn"]] = fut.result()
 
+    panel_tids = set(target_ids.values())
     all_doc_ids = {a["document_chembl_id"] for acts in acts_by_drug.values() for a in acts
-                   if _usable(a) and a["target_chembl_id"] in target_ids.values()}
+                   if _usable(a) and a["target_chembl_id"] in panel_tids}
+    all_doc_ids |= {a["document_chembl_id"] for acts in cens_by_drug.values() for a in acts
+                    if _censored(a) and a["target_chembl_id"] in panel_tids}
     docs = fetch_documents(cache, all_doc_ids)
     print(len(docs), "documents fetched", file=sys.stderr)
 
+    gtopdb_prov = fetch_gtopdb(cache)
+    inchikeys = fetch_inchikeys(cache, [d["chembl_id"] for d in drugs])
+    lig_to_inn, ambiguous = gtopdb_ligand_map(
+        _read_gtopdb_csv(cache / "gtopdb" / "ligands.csv"), drugs, inchikeys)
+    # Only panel genes whose target resolved on the ChEMBL side are used, so
+    # both sources describe the same proteins.
+    gtop = gtopdb_measurements(_read_gtopdb_csv(cache / "gtopdb" / "interactions.csv"),
+                               lig_to_inn, {g: panel_uniprot[g] for g in target_ids})
+    print("GtoPdb", gtopdb_prov["version"], len(lig_to_inn), "ligands mapped,",
+          len(gtop), "drug x gene pairs with pKi", file=sys.stderr)
+
     out_drugs = {}
     for d in drugs:
-        out_drugs[d["inn"]] = build_drug(d, target_ids, acts_by_drug[d["inn"]], docs)
+        g_rows = {gene: rows for (inn, gene), rows in gtop.items() if inn == d["inn"]}
+        out_drugs[d["inn"]] = build_drug(d, target_ids, acts_by_drug[d["inn"]], docs,
+                                         cens_by_drug[d["inn"]], g_rows)
 
     provenance = {
         "retrieved": time.strftime("%Y-%m-%d"),
@@ -389,7 +615,8 @@ def main(argv: list[str]) -> int:
             "not potential_duplicate. pChEMBL values are grouped by "
             "document_chembl_id, averaged within each document, and pki_median "
             "is the median of those per-document means. ki_nM = 10**(9-pki_median). "
-            "ki_min_nM/ki_max_nM are the extremes of the individual measurements."),
+            "ki_min_nM/ki_max_nM are the extremes of the individual measurements. "
+            "GtoPdb measurements join this pool under merge_rule."),
         "kd_handling": (
             "Kd rows (same filters, standard_type=Kd) are kept separate under "
             "kd_only for drug x target pairs with no qualifying Ki, and are never "
@@ -401,7 +628,34 @@ def main(argv: list[str]) -> int:
         "held_out_note": (
             "Binding is a model input, not a held-out outcome (pipeline/guards.py "
             "V2_TRUTH / v2_heldout); no held-out membership is recorded in this file."),
-        "gtopdb": "not queried in this build; ChEMBL only (see module docstring).",
+        "gtopdb": {
+            **gtopdb_prov,
+            "ligand_mapping": ("GtoPdb ligand -> v2 drug only when the ligand's ChEMBL ID "
+                               "equals the drug's ChEMBL parent id or its InChIKey equals "
+                               "the ChEMBL parent's full standard InChIKey; no name "
+                               "matching. Ligands matching >1 drug dropped."),
+            "n_ligands_mapped": len(lig_to_inn),
+            "ambiguous_ligands_dropped": ambiguous,
+            "row_filter": ("Target Species=Human; single Target UniProt ID equal to the "
+                           "panel accession; Affinity Units=pKi; Original Affinity "
+                           "Relation '=' or blank; Affinity Median numeric."),
+        },
+        "merge_rule": (
+            "All '=' Ki measurements from ChEMBL and GtoPdb are pooled per drug x gene. "
+            "ChEMBL rows are grouped by document_chembl_id, GtoPdb rows by PubMed id "
+            "(or per row when no PMID); a GtoPdb row whose PMID equals a ChEMBL "
+            "document's PMID for the same pair is dropped as a duplicate of the same "
+            "publication. pki_median = median of per-publication mean pKi; "
+            "ki_nM = 10**(9-pki_median). No source is preferred."),
+        "censored_handling": (
+            "ChEMBL Ki rows with standard_relation '>' or '>=' (same human / panel-"
+            "target / nM / validity filters) are summarised per gene under each "
+            "drug's ki_lower_bounds: ki_lower_bound_nM = smallest censored threshold, "
+            "ki_lower_bound_max_nM = largest. They are never merged into targets/"
+            "ki_nM/pki_median and do not remove a gene from searched_and_empty."),
+        "pdsp": ("not used: https://pdsp.unc.edu/databases/kiDownload/ returned HTTP 403 "
+                 "to programmatic access on 2026-10-28, and PDSP records carry no "
+                 "InChIKey/ChEMBL id for identifier-based mapping."),
     }
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
