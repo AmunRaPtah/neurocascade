@@ -112,6 +112,29 @@ ChEMBL's under rule (a); ``<`` rows are not used. Publication key: the PMID
 when the ``Link`` is a PubMed URL (same extraction as v1's
 ``_pmid_from_link``), else ``PDSP:<Reference>``.
 
+**(b3) PDSP row filters (added after independent review).** (i) Single
+isomer: a PDSP row whose ``Ligand Name`` names a single stereoisomer
+((+)/(-), (R)/(S), R-/S-, d-/l-, cis/trans, or a dex/lev/levo/es/ar prefix on
+the drug's INN) while its SMILES carries no stereo (no ``@``, ``/``, ``\\``)
+would map to the racemate's stereo-less InChIKey; it is dropped unless the
+name is the drug's own INN or a racemate notation ((+/-), (RS)). GtoPdb is
+not affected: its mapping is by ChEMBL id or full InChIKey of the ligand
+record, and every enantiomer ligand mapped only to the single-enantiomer
+drug. (ii) Republication: within one drug x gene, PDSP rows with the same
+``Hotligand`` and identical Ki under different references are one
+measurement; the row with the smallest PMID is kept (else the first in file
+order). This runs before publication grouping, for measured and censored
+rows. (iii) Name/structure mismatch: PDSP ``Ligand ID`` values in
+``PDSP_EXCLUDED_LIGAND_IDS`` are dropped (ID 161, named "5-HT,N-ACETYL",
+carries chlorpheniramine's SMILES).
+
+Provenance, stated plainly: the PDSP amendment (b2) was written after the
+ChEMBL+GtoPdb build and its coverage numbers had been seen, and the PDSP
+file was downloaded before the amendment was committed; (b3) was written
+after the PDSP build's coverage output had been seen, prompted by an
+independent review. None of the rules were chosen with reference to labels:
+no truth or held-out file was read at any point.
+
 **(c) Merge rule (all ``=`` measurements, all sources, no source
 preference).** Per drug x gene, every qualifying measurement is a pKi
 (ChEMBL ``pchembl_value``; GtoPdb ``Affinity Median``; PDSP 9 - log10 Ki
@@ -125,8 +148,8 @@ GtoPdb, PDSP) is dropped as the same published measurement already counted
 ``pki_median`` = median over publication groups of the within-group mean
 pKi; ``ki_nM`` = 10**(9 - pki_median). ``ki_min_nM``/``ki_max_nM`` are the
 extremes over individual measurements (GtoPdb pKi converted to nM).
-``n_documents`` counts publication groups from both sources,
-``n_measurements`` rows from both. ``documents`` keeps the ChEMBL document
+``n_documents`` counts publication groups from all three sources,
+``n_measurements`` rows from all three. ``documents`` keeps the ChEMBL document
 list as before; GtoPdb publications are listed under
 ``gtopdb_references`` (``gtopdb_ligand_id``, ``pubmed_id`` as given in the
 GtoPdb row, ``pki``), PDSP ones under ``pdsp_references`` (``reference``,
@@ -453,15 +476,54 @@ def _pmid_from_link(link: str) -> str | None:
     return m.group(1) if m else None
 
 
+# Stereo descriptors in a PDSP ligand name (rule (b3)). Racemate notations
+# ("(+/-)", "(±)", "(RS)", "(R,S)") are checked first and never match.
+_RACEMATE_NAME = re.compile(r"\(\s*(?:\+\s*/\s*-|\+\s*-|±|rs|r\s*,\s*s|s\s*,\s*r)\s*\)",
+                            re.IGNORECASE)
+_STEREO_NAME = re.compile(
+    r"\(\s*[+-]\s*\)"                                # (+) (-)
+    r"|\(\s*\d*[RSEZ](?:\s*,\s*\d*[RSEZ])*\s*\)"      # (R) (S) (Z) (R,R) (2R,3S)
+    r"|(?:^|[\s\[,])[RSdlDL]\s*(?:-|\()"             # R- S- d- l- D- L- R(+)
+    r"|\b(?:cis|trans)\b",
+    re.IGNORECASE)
+_STEREO_PREFIXES = ("dex", "levo", "lev", "es", "ar")
+
+# Rule (b3)(iii): PDSP ligand records whose name and SMILES disagree. Found by
+# listing every mapped PDSP name that differs from the drug's INN; all others
+# were synonyms, codes or misspellings.
+PDSP_EXCLUDED_LIGAND_IDS = {
+    "161": "named '5-HT,N-ACETYL' (N-acetylserotonin) but carries chlorpheniramine's SMILES",
+}
+
+
+def _smiles_has_stereo(smiles: str) -> bool:
+    return "@" in smiles or "/" in smiles or "\\" in smiles
+
+
+def pdsp_single_isomer_name(name: str, inn: str) -> bool:
+    """True when a PDSP ligand name designates one stereoisomer of the drug
+    (a stereo descriptor, or a dex-/lev(o)-/es-/ar- prefix on the INN),
+    unless the name is the drug's own INN (the drug IS that isomer)."""
+    n, i = name.strip().lower(), inn.strip().lower()
+    if not n or n == i or _RACEMATE_NAME.search(name):
+        return False
+    if _STEREO_NAME.search(name):
+        return True
+    return any(n.startswith(pre) and i in n[len(pre):] for pre in _STEREO_PREFIXES)
+
+
 def pdsp_measurements(rows: list[dict], key_to_inn: dict[str, str], genes: set[str],
                       smiles_key=smiles_inchikey
                       ) -> tuple[dict[tuple[str, str], list[dict]],
-                                 dict[tuple[str, str], list[dict]], int]:
-    """Rule (b2): (inn, gene) -> measured rows and -> '>' censored rows, plus
-    the number of distinct SMILES that mapped to a v2 drug."""
+                                 dict[tuple[str, str], list[dict]], int, dict]:
+    """Rules (b2)/(b3): (inn, gene) -> measured rows and -> '>' censored rows,
+    the number of distinct SMILES mapped to a v2 drug, and drop counts."""
     measured: dict[tuple[str, str], list[dict]] = defaultdict(list)
     censored: dict[tuple[str, str], list[dict]] = defaultdict(list)
     key_cache: dict[str, str | None] = {}
+    iso_names: set[tuple[str, str]] = set()
+    stats = {"single_isomer_rows_dropped": 0, "republication_rows_dropped": 0,
+             "name_structure_mismatch_rows_dropped": 0}
     for i, r in enumerate(rows):
         if r.get("species") != "HUMAN" or r.get("Unigene", "").strip() not in genes:
             continue
@@ -482,13 +544,44 @@ def pdsp_measurements(rows: list[dict], key_to_inn: dict[str, str], genes: set[s
         inn = key_to_inn.get(key_cache[smi] or "")
         if inn is None:
             continue
+        name = r.get("Ligand Name", "")
+        if r.get("Ligand ID", "").strip() in PDSP_EXCLUDED_LIGAND_IDS:
+            stats["name_structure_mismatch_rows_dropped"] += 1
+            continue
+        if not _smiles_has_stereo(smi) and pdsp_single_isomer_name(name, inn):
+            stats["single_isomer_rows_dropped"] += 1
+            iso_names.add((inn, name.strip()))
+            continue
         pmid = _pmid_from_link(r.get("Link", ""))
+        ref = r.get("Reference", "").strip()
         rec = {"ki_nM": ki, "pki": 9 - math.log10(ki), "pubmed_id": pmid,
-               "reference": r.get("Reference", "").strip(), "row": i,
-               "key": f"PMID:{pmid}" if pmid else f"PDSP:{r.get('Reference', '').strip()}"}
+               "reference": ref, "row": i, "hot": r.get("Hotligand", "").strip().upper(),
+               "key": f"PMID:{pmid}" if pmid else f"PDSP:{ref}"}
         (censored if note == ">" else measured)[(inn, r["Unigene"].strip())].append(rec)
+    for table in (measured, censored):
+        for pair in list(table):
+            kept = _drop_republications(table[pair])
+            stats["republication_rows_dropped"] += len(table[pair]) - len(kept)
+            table[pair] = kept
+    stats["single_isomer_names"] = sorted(iso_names)
     n_mapped = len({s for s, k in key_cache.items() if k and k in key_to_inn})
-    return measured, censored, n_mapped
+    return measured, censored, n_mapped, stats
+
+
+def _drop_republications(recs: list[dict]) -> list[dict]:
+    """Rule (b3): rows of one drug x gene with the same hot ligand and the
+    same Ki value under different references are one measurement. Keep one:
+    the row with the smallest PMID if any has a PMID, else the first in file
+    order."""
+    groups: dict[tuple[str, float], list[dict]] = defaultdict(list)
+    for r in recs:
+        groups[(r["hot"], r["ki_nM"])].append(r)
+    kept = []
+    for g in groups.values():
+        with_pmid = sorted((r for r in g if r["pubmed_id"]),
+                           key=lambda r: (int(r["pubmed_id"]), r["row"]))
+        kept.append(with_pmid[0] if with_pmid else min(g, key=lambda r: r["row"]))
+    return sorted(kept, key=lambda r: r["row"])
 
 
 # ---------------------------------------------------------------- aggregation
@@ -744,10 +837,12 @@ def main(argv: list[str]) -> int:
             key_to_inn[k] = d["inn"]
     for k in key_clash:  # an InChIKey shared by two v2 drugs maps to neither
         del key_to_inn[k]
-    p_meas, p_cens, n_pdsp_smiles = pdsp_measurements(
+    p_meas, p_cens, n_pdsp_smiles, p_stats = pdsp_measurements(
         read_pdsp(cache / "pdsp" / "pdsp.csv"), key_to_inn, set(target_ids))
     print("PDSP", n_pdsp_smiles, "SMILES mapped,", len(p_meas), "measured and",
-          len(p_cens), "censored drug x gene pairs", file=sys.stderr)
+          len(p_cens), "censored drug x gene pairs;",
+          p_stats["single_isomer_rows_dropped"], "single-isomer rows and",
+          p_stats["republication_rows_dropped"], "republished rows dropped", file=sys.stderr)
 
     def _for(table, inn):
         return {gene: rows for (i, gene), rows in table.items() if i == inn}
@@ -821,6 +916,21 @@ def main(argv: list[str]) -> int:
                                "standard InChIKey; no name matching. InChIKeys shared by "
                                ">1 v2 drug dropped."),
             "n_smiles_mapped": n_pdsp_smiles,
+            "single_isomer_filter": (
+                "Rule (b3): a row whose SMILES has no stereo but whose ligand name "
+                "designates one stereoisomer ((+)/(-), (R)/(S), R-/S-, d-/l-, cis/trans, "
+                "dex-/lev(o)-/es-/ar- + INN) is dropped unless the name is the drug's "
+                "own INN; racemate notations ((+/-), (RS), (R,S)) are kept."),
+            "single_isomer_rows_dropped": p_stats["single_isomer_rows_dropped"],
+            "single_isomer_names_dropped": [list(x) for x in p_stats["single_isomer_names"]],
+            "republication_filter": (
+                "Rule (b3): rows of one drug x gene with identical Hotligand and Ki value "
+                "under different references count once (the row with the smallest "
+                "PMID, else the first in file order)."),
+            "republication_rows_dropped": p_stats["republication_rows_dropped"],
+            "excluded_ligand_ids": PDSP_EXCLUDED_LIGAND_IDS,
+            "name_structure_mismatch_rows_dropped":
+                p_stats["name_structure_mismatch_rows_dropped"],
             "row_filter": ("species == 'HUMAN' exactly; Unigene equal to a panel gene "
                            "resolved on the ChEMBL side; ki Val numeric, 1e-3..1e6 nM; "
                            "ki Note blank = measured, '>' = lower bound, '<' unused; "

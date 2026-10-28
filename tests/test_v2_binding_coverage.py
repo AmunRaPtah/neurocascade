@@ -7,6 +7,8 @@ import json
 import math
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 BINDING = json.loads(
     (ROOT / "src" / "neurocascade" / "benchmark" / "v2" / "inputs" / "binding.json").read_text())
@@ -86,6 +88,11 @@ def test_provenance_records_sources():
     p = prov["pdsp"]
     assert p["url"].startswith("https://pdsp.unc.edu/") and p["retrieved"]
     assert len(p["sha256"]) == 64 and p["n_smiles_mapped"] > 0
+    for key in ("single_isomer_rows_dropped", "republication_rows_dropped",
+                "name_structure_mismatch_rows_dropped"):
+        assert isinstance(p[key], int) and p[key] >= 0
+    assert p["single_isomer_filter"] and p["republication_filter"]
+    assert "161" in p["excluded_ligand_ids"]
 
 
 # ------------------------------------------------------------ rules (synthetic)
@@ -245,10 +252,13 @@ def test_pdsp_row_filter_and_structure_mapping():
             {**base, "ki Val": "abc"},
             {**base, "SMILES": ""},
             {**base, "SMILES": "S_OTHER"},
-            {**base, "Link": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1234567/"}]
+            {**base, "ki Val": "20",
+             "Link": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1234567/"}]
     keys = {"S1": "KEY-A", "S_OTHER": "KEY-Z"}
-    meas, cens, n = vb.pdsp_measurements(rows, {"KEY-A": "a"}, {"HRH1", "DRD2"},
-                                         smiles_key=keys.get)
+    meas, cens, n, stats = vb.pdsp_measurements(rows, {"KEY-A": "a"}, {"HRH1", "DRD2"},
+                                                smiles_key=keys.get)
+    assert stats["single_isomer_rows_dropped"] == 0
+    assert stats["republication_rows_dropped"] == 0
     assert set(meas) == {("a", "HRH1")} and set(cens) == {("a", "HRH1")}
     assert [r["row"] for r in meas[("a", "HRH1")]] == [0, 10]
     assert meas[("a", "HRH1")][0]["pubmed_id"] == "12345678"
@@ -258,7 +268,79 @@ def test_pdsp_row_filter_and_structure_mapping():
     assert cens[("a", "HRH1")][0]["ki_nM"] == 10000.0 and n == 1
 
 
+@pytest.mark.parametrize("name,inn,single", [
+    ("(R)-Trihexyphenidyl", "trihexyphenidyl", True),
+    ("Trihexyphenidyl, (S)", "trihexyphenidyl", True),
+    ("(+)-Fenfluramine", "fenfluramine", True),
+    ("Amphetamine,(+)", "amphetamine", True),
+    ("d-Chlorpheniramine", "chlorpheniramine", True),
+    ("Levocetirizine", "cetirizine", True),
+    ("Escitalopram", "citalopram", True),
+    ("Dexchlorpheniramine", "chlorpheniramine", True),
+    ("Chlorpheniramine", "chlorpheniramine", False),
+    ("Levocetirizine", "levocetirizine", False),
+    ("(+/-)-Fenfluramine", "fenfluramine", False),
+    ("Hydroxyzine (RS)", "hydroxyzine", False),
+    ("OPC-14597", "aripiprazole", False),
+    ("9-OH-risperidone", "paliperidone", False),
+    ("5-HT,N-ACETYL", "chlorpheniramine", False),
+])
+def test_pdsp_single_isomer_name(name, inn, single):
+    assert vb.pdsp_single_isomer_name(name, inn) is single
+
+
+def _pdsp_row(**kw):
+    row = {"species": "HUMAN", "Unigene": "HRH1", "ki Note": "", "ki Val": "10",
+           "SMILES": "S1", "Reference": "Ref A", "Ligand Name": "X", "Ligand ID": "1",
+           "Hotligand": "3H-PYRILAMINE",
+           "Link": "https://www.ncbi.nlm.nih.gov/pubmed/22222222"}
+    row.update(kw)
+    return row
+
+
+def test_pdsp_single_isomer_rows_dropped_unless_smiles_has_stereo():
+    rows = [_pdsp_row(**{"Ligand Name": "d-Chlorpheniramine"}),
+            _pdsp_row(**{"Ligand Name": "d-Chlorpheniramine", "SMILES": "S1@",
+                         "ki Val": "3"}),
+            _pdsp_row(**{"Ligand Name": "Chlorpheniramine", "ki Val": "5"})]
+    keys = {"S1": "KEY-A", "S1@": "KEY-A"}
+    meas, _, _, stats = vb.pdsp_measurements(rows, {"KEY-A": "chlorpheniramine"},
+                                             {"HRH1"}, smiles_key=keys.get)
+    assert [r["row"] for r in meas[("chlorpheniramine", "HRH1")]] == [1, 2]
+    assert stats["single_isomer_rows_dropped"] == 1
+    assert stats["single_isomer_names"] == [("chlorpheniramine", "d-Chlorpheniramine")]
+
+
+def test_pdsp_republications_collapse_to_smallest_pmid():
+    link = "https://www.ncbi.nlm.nih.gov/pubmed/{}"
+    rows = [_pdsp_row(Reference="Later review", Link=link.format("30000000")),
+            _pdsp_row(Reference="Original", Link=link.format("10000000")),
+            _pdsp_row(Reference="No PMID", Link=""),
+            _pdsp_row(Reference="Other hot ligand", Hotligand="3H-DOXEPIN",
+                      Link=link.format("30000000")),
+            _pdsp_row(Reference="Other value", **{"ki Val": "12"},
+                      Link=link.format("30000000")),
+            _pdsp_row(Reference="Censored A", **{"ki Note": ">", "ki Val": "10000"}),
+            _pdsp_row(Reference="Censored B", **{"ki Note": ">", "ki Val": "10000"},
+                      Link=link.format("11111111"))]
+    meas, cens, _, stats = vb.pdsp_measurements(rows, {"KEY-A": "a"}, {"HRH1"},
+                                                smiles_key={"S1": "KEY-A"}.get)
+    assert [r["row"] for r in meas[("a", "HRH1")]] == [1, 3, 4]
+    assert [r["row"] for r in cens[("a", "HRH1")]] == [6]
+    assert stats["republication_rows_dropped"] == 3
+
+
+def test_pdsp_excluded_ligand_id_dropped():
+    rows = [_pdsp_row(**{"Ligand ID": "161", "Ligand Name": "5-HT,N-ACETYL"}),
+            _pdsp_row(**{"ki Val": "7"})]
+    meas, _, _, stats = vb.pdsp_measurements(rows, {"KEY-A": "a"}, {"HRH1"},
+                                             smiles_key={"S1": "KEY-A"}.get)
+    assert [r["row"] for r in meas[("a", "HRH1")]] == [1]
+    assert stats["name_structure_mismatch_rows_dropped"] == 1
+
+
 def test_smiles_inchikey_strips_salt_and_charge():
+    pytest.importorskip("rdkit")
     base = vb.smiles_inchikey("CN(C)CCCN1c2ccccc2CCc2ccccc21")
     assert base and len(base) == 27
     assert vb.smiles_inchikey("CN(C)CCCN1c2ccccc2CCc2ccccc21.Cl") == base

@@ -2417,9 +2417,9 @@
      ],
      "ki_max_nM": 1.12,
      "ki_min_nM": 0.5,
-     "ki_nM": 0.79781,
-     "n_documents": 8,
-     "n_measurements": 8,
+     "ki_nM": 0.67,
+     "n_documents": 7,
+     "n_measurements": 7,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -2437,13 +2437,6 @@
       },
       {
        "n_measurements": 1,
-       "pki": 9.0223,
-       "pubmed_id": "16712488",
-       "reference": "Roth B. et al., 2006",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
        "pki": 9.1739,
        "pubmed_id": "6146381",
        "reference": "Kanba S, et al., 1984",
@@ -2457,11 +2450,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 9.0981,
+     "pki_median": 9.1739,
      "sources": {
       "chembl": 2,
       "gtopdb": 1,
-      "pdsp": 5
+      "pdsp": 4
      },
      "status": "data"
     },
@@ -3409,51 +3402,6 @@
    "inn": "amphetamine",
    "kd_only": {},
    "ki_lower_bounds": {
-    "DRD1": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "9686407",
-       "reference": "TOLL L, et. al., 1998",
-       "source": "pdsp"
-      }
-     ]
-    },
-    "DRD2": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "9686407",
-       "reference": "TOLL L, et. al., 1998",
-       "source": "pdsp"
-      }
-     ]
-    },
-    "DRD3": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "9686407",
-       "reference": "TOLL L, et. al., 1998",
-       "source": "pdsp"
-      }
-     ]
-    },
     "HTR2A": {
      "documents": [],
      "ki_lower_bound_max_nM": 13000.0,
@@ -3480,21 +3428,6 @@
        "n_measurements": 1,
        "pubmed_id": "22897747",
        "reference": "Simmler LD et al 2013",
-       "source": "pdsp"
-      }
-     ]
-    },
-    "SLC6A3": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "8302271",
-       "reference": "PRISTUPA ZB, ET AL., 1994",
        "source": "pdsp"
       }
      ]
@@ -3534,16 +3467,18 @@
     "HTR6",
     "HTR7",
     "KCNH2",
-    "SLC6A2"
+    "SLC6A2",
+    "SLC6A3",
+    "SLC6A4"
    ],
    "targets": {
     "HTR1A": {
      "documents": [],
      "ki_max_nM": 6740.0,
-     "ki_min_nM": 6606.0,
-     "ki_nM": 6672.663636,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "ki_min_nM": 6740.0,
+     "ki_nM": 6740.0,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -3551,96 +3486,13 @@
        "pubmed_id": "22897747",
        "reference": "Simmler LD et al 2013",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.1801,
-       "pubmed_id": "9686407",
-       "reference": "TOLL L, et. al., 1998",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 5.1757,
+     "pki_median": 5.1713,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
-     },
-     "status": "data"
-    },
-    "SLC6A3": {
-     "documents": [],
-     "ki_max_nM": 2900.0,
-     "ki_min_nM": 24.8,
-     "ki_nM": 127.208504,
-     "n_documents": 4,
-     "n_measurements": 5,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 7.6055,
-       "pubmed_id": "12954796",
-       "reference": "Rothman RB, et al., 2003a",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 6.9626,
-       "pubmed_id": "23261499",
-       "reference": "Iversen l., et al., 2012",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 2,
-       "pki": 6.8284,
-       "pubmed_id": "8302271",
-       "reference": "PRISTUPA ZB, ET AL., 1994",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.5376,
-       "pubmed_id": "9537821",
-       "reference": "Tatsumi M, et al., 1997",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 6.8955,
-     "sources": {
-      "chembl": 0,
-      "gtopdb": 0,
-      "pdsp": 4
-     },
-     "status": "data"
-    },
-    "SLC6A4": {
-     "documents": [],
-     "ki_max_nM": 5728.0,
-     "ki_min_nM": 1765.0,
-     "ki_nM": 3179.610039,
-     "n_documents": 2,
-     "n_measurements": 2,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.7533,
-       "pubmed_id": "12954796",
-       "reference": "Rothman RB, et al., 2003a",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.242,
-       "pubmed_id": "23261499",
-       "reference": "Iversen l., et al., 2012",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 5.4976,
-     "sources": {
-      "chembl": 0,
-      "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     }
@@ -4269,15 +4121,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "12784105",
@@ -4290,15 +4136,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "12784105",
@@ -4465,17 +4305,10 @@
      ],
      "ki_max_nM": 100.0,
      "ki_min_nM": 74.0,
-     "ki_nM": 74.149848,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "ki_nM": 74.3,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 7.1308,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 7.1308,
@@ -4491,11 +4324,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.1299,
+     "pki_median": 7.129,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -4509,17 +4342,10 @@
      ],
      "ki_max_nM": 1000.0,
      "ki_min_nM": 102.0,
-     "ki_nM": 102.49878,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "ki_nM": 103.0,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.9914,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.9914,
@@ -4535,11 +4361,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.9893,
+     "pki_median": 6.9872,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -4658,9 +4484,9 @@
      "documents": [],
      "ki_max_nM": 6780.0,
      "ki_min_nM": 6760.8297539198,
-     "ki_nM": 6777.999705,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "ki_nM": 6776.0,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -4682,20 +4508,13 @@
        "pubmed_id": "12784105",
        "reference": "Shapiro DA, et.al., 2003",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.1688,
-       "pubmed_id": "30768942",
-       "reference": "Bricker B.A., et al. 2019",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 5.1689,
+     "pki_median": 5.169,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -4741,17 +4560,10 @@
      "documents": [],
      "ki_max_nM": 4680.0,
      "ki_min_nM": 4677.0,
-     "ki_nM": 4677.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "ki_nM": 4678.49976,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.33,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 5.33,
@@ -4767,11 +4579,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.33,
+     "pki_median": 5.3299,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -5322,17 +5134,10 @@
      ],
      "ki_max_nM": 50.6,
      "ki_min_nM": 1.7,
-     "ki_nM": 7.498942,
-     "n_documents": 18,
-     "n_measurements": 21,
+     "ki_nM": 7.943282,
+     "n_documents": 17,
+     "n_measurements": 19,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 8.7696,
-       "pubmed_id": null,
-       "reference": "Hirose, Tsuyoshi.  et. al, 2005",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 8.7696,
@@ -5341,8 +5146,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
-       "pki": 8.0689,
+       "n_measurements": 1,
+       "pki": 7.8861,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -5383,11 +5188,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.125,
+     "pki_median": 8.1,
      "sources": {
       "chembl": 9,
       "gtopdb": 1,
-      "pdsp": 8
+      "pdsp": 7
      },
      "status": "data"
     },
@@ -5476,16 +5281,9 @@
      "ki_max_nM": 8000.0,
      "ki_min_nM": 8000.0,
      "ki_nM": 8000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.0969,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 5.0969,
@@ -5498,7 +5296,7 @@
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -5557,22 +5355,15 @@
      ],
      "ki_max_nM": 151.35612484362,
      "ki_min_nM": 0.8,
-     "ki_nM": 10.715193,
-     "n_documents": 24,
-     "n_measurements": 27,
+     "ki_nM": 12.022644,
+     "n_documents": 23,
+     "n_measurements": 25,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pki": 6.82,
        "pubmed_id": null,
        "reference": "Davies M, et al. 2005",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 8.4685,
-       "pubmed_id": null,
-       "reference": "Hirose, Tsuyoshi.  et. al, 2005",
        "source": "pdsp"
       },
       {
@@ -5618,8 +5409,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
-       "pki": 7.7582,
+       "n_measurements": 1,
+       "pki": 7.4559,
        "pubmed_id": "12784105",
        "reference": "Shapiro DA, et.al., 2003",
        "source": "pdsp"
@@ -5630,13 +5421,20 @@
        "pubmed_id": "27312422",
        "reference": "Ofon E et al 2016a",
        "source": "pdsp"
+      },
+      {
+       "n_measurements": 1,
+       "pki": 8.4437,
+       "pubmed_id": "28870802",
+       "reference": "Mannel B et al 2017",
+       "source": "pdsp"
       }
      ],
-     "pki_median": 7.97,
+     "pki_median": 7.92,
      "sources": {
       "chembl": 12,
       "gtopdb": 0,
-      "pdsp": 12
+      "pdsp": 11
      },
      "status": "data"
     },
@@ -5747,17 +5545,10 @@
      ],
      "ki_max_nM": 1000.0,
      "ki_min_nM": 15.0,
-     "ki_nM": 74.495379,
-     "n_documents": 14,
-     "n_measurements": 16,
+     "ki_nM": 76.0,
+     "n_documents": 13,
+     "n_measurements": 15,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 7.8239,
-       "pubmed_id": null,
-       "reference": "Hirose, Tsuyoshi.  et. al, 2005",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 7.8239,
@@ -5787,11 +5578,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.1279,
+     "pki_median": 7.1192,
      "sources": {
       "chembl": 8,
       "gtopdb": 1,
-      "pdsp": 5
+      "pdsp": 4
      },
      "status": "data"
     },
@@ -5894,17 +5685,10 @@
      ],
      "ki_max_nM": 783.2,
      "ki_min_nM": 89.0,
-     "ki_nM": 304.939338,
-     "n_documents": 11,
-     "n_measurements": 12,
+     "ki_nM": 310.532262,
+     "n_documents": 10,
+     "n_measurements": 11,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.6696,
-       "pubmed_id": null,
-       "reference": "Hirose, Tsuyoshi.  et. al, 2005",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.6696,
@@ -5948,11 +5732,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.5158,
+     "pki_median": 6.5079,
      "sources": {
       "chembl": 4,
       "gtopdb": 0,
-      "pdsp": 7
+      "pdsp": 6
      },
      "status": "data"
     },
@@ -5991,17 +5775,10 @@
      ],
      "ki_max_nM": 100.0,
      "ki_min_nM": 9.6,
-     "ki_nM": 22.643622,
-     "n_documents": 14,
-     "n_measurements": 15,
+     "ki_nM": 26.30268,
+     "n_documents": 11,
+     "n_measurements": 12,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 7.4089,
-       "pubmed_id": null,
-       "reference": "Hirose, Tsuyoshi.  et. al, 2005",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 7.4089,
@@ -6014,13 +5791,6 @@
        "pki": 7.7101,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 8.0,
-       "pubmed_id": null,
-       "reference": "Silvestre, JS. et, al. 2005",
        "source": "pdsp"
       },
       {
@@ -6043,20 +5813,13 @@
        "pubmed_id": "12784105",
        "reference": "Shapiro DA, et.al., 2003",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.9872,
-       "pubmed_id": "30768942",
-       "reference": "Bricker B.A., et al. 2019",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 7.6451,
+     "pki_median": 7.58,
      "sources": {
       "chembl": 6,
       "gtopdb": 0,
-      "pdsp": 8
+      "pdsp": 5
      },
      "status": "data"
     },
@@ -10690,15 +10453,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "16712488",
-       "reference": "Roth B. et al., 2006",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "7855217",
@@ -10968,19 +10725,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": null,
        "reference": "PEROUTKA ET AL., 1989",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "WAEBER ET AL., 1988",
        "source": "pdsp"
       }
      ]
@@ -13652,14 +13403,14 @@
       }
      ],
      "ki_max_nM": 79.43,
-     "ki_min_nM": 3.1622776601684,
-     "ki_nM": 6.309576,
-     "n_documents": 7,
-     "n_measurements": 14,
+     "ki_min_nM": 5.89,
+     "ki_nM": 7.943284,
+     "n_documents": 6,
+     "n_measurements": 12,
      "pdsp_references": [
       {
-       "n_measurements": 2,
-       "pki": 8.35,
+       "n_measurements": 1,
+       "pki": 8.2,
        "pubmed_id": "11809864",
        "reference": "Gillard M, et al., 2002",
        "source": "pdsp"
@@ -13670,20 +13421,13 @@
        "pubmed_id": "15947036",
        "reference": "Lim HD, et al., 2005",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 8.2007,
-       "pubmed_id": "8903934",
-       "reference": "Moguilevsky N, et al., 1995",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 8.2,
+     "pki_median": 8.1,
      "sources": {
       "chembl": 3,
       "gtopdb": 1,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     }
@@ -14029,36 +13773,6 @@
        "source": "pdsp"
       }
      ]
-    },
-    "HTR2A": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "8632342",
-       "reference": "WAINSCOTT DB, ET AL., 1996",
-       "source": "pdsp"
-      }
-     ]
-    },
-    "HTR2C": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "8632342",
-       "reference": "WAINSCOTT DB, ET AL., 1996",
-       "source": "pdsp"
-      }
-     ]
     }
    },
    "searched_and_empty": [
@@ -14087,6 +13801,7 @@
     "HTR1D",
     "HTR1E",
     "HTR2A",
+    "HTR2B",
     "HTR2C",
     "HTR3A",
     "HTR5A",
@@ -14109,33 +13824,12 @@
        "year": 2011
       }
      ],
-     "ki_max_nM": 30.0,
+     "ki_max_nM": 7.0,
      "ki_min_nM": 0.92,
-     "ki_nM": 3.278874,
-     "n_documents": 8,
-     "n_measurements": 10,
+     "ki_nM": 2.744085,
+     "n_documents": 4,
+     "n_measurements": 5,
      "pdsp_references": [
-      {
-       "n_measurements": 2,
-       "pki": 8.4457,
-       "pubmed_id": "12065734",
-       "reference": "Booth RG et al., 2002",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.5229,
-       "pubmed_id": "6146381",
-       "reference": "Kanba S, et al., 1984",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.8239,
-       "pubmed_id": "6149136",
-       "reference": "Richelson E, et al., 1984",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 8.6003,
@@ -14149,20 +13843,13 @@
        "pubmed_id": "8335064",
        "reference": "Arias-Montano, et al., 1993",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 8.6003,
-       "pubmed_id": "8903934",
-       "reference": "Moguilevsky N, et al., 1995",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 8.4843,
+     "pki_median": 8.5616,
      "sources": {
       "chembl": 2,
       "gtopdb": 0,
-      "pdsp": 6
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -14187,37 +13874,6 @@
       "chembl": 0,
       "gtopdb": 0,
       "pdsp": 1
-     },
-     "status": "data"
-    },
-    "HTR2B": {
-     "documents": [],
-     "ki_max_nM": 7220.0,
-     "ki_min_nM": 4170.0,
-     "ki_nM": 6200.544672,
-     "n_documents": 2,
-     "n_measurements": 3,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.1415,
-       "pubmed_id": "8632342",
-       "reference": "WAINSCOTT DB, ET AL., 1996",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 2,
-       "pki": 5.2737,
-       "pubmed_id": "9459568",
-       "reference": "WAINSCOTT DB, ET AL., 1998",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 5.2076,
-     "sources": {
-      "chembl": 0,
-      "gtopdb": 0,
-      "pdsp": 2
      },
      "status": "data"
     },
@@ -14421,17 +14077,10 @@
      ],
      "ki_max_nM": 558.0,
      "ki_min_nM": 78.0,
-     "ki_nM": 184.0,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "ki_nM": 155.743135,
+     "n_documents": 4,
+     "n_measurements": 4,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.7352,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.2534,
@@ -14454,11 +14103,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.7352,
+     "pki_median": 6.8076,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -14517,16 +14166,9 @@
      "ki_max_nM": 54.0,
      "ki_min_nM": 41.0,
      "ki_nM": 46.0,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 7.3372,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 7.3372,
@@ -14546,7 +14188,7 @@
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -14565,9 +14207,9 @@
      ],
      "ki_max_nM": 125.89,
      "ki_min_nM": 20.0,
-     "ki_nM": 34.278273,
-     "n_documents": 6,
-     "n_measurements": 6,
+     "ki_nM": 47.0,
+     "n_documents": 5,
+     "n_measurements": 5,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -14589,20 +14231,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.6021,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 7.465,
+     "pki_median": 7.3279,
      "sources": {
       "chembl": 2,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -14616,9 +14251,9 @@
      ],
      "ki_max_nM": 433.0,
      "ki_min_nM": 150.0,
-     "ki_nM": 224.501491,
-     "n_documents": 6,
-     "n_measurements": 6,
+     "ki_nM": 234.422882,
+     "n_documents": 5,
+     "n_measurements": 5,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -14643,24 +14278,17 @@
       },
       {
        "n_measurements": 1,
-       "pki": 6.8239,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
        "pki": 6.6676,
        "pubmed_id": "9454790",
        "reference": "Kovacs, Yamamura, Waite, Varga, Roeske, 1998",
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.6488,
+     "pki_median": 6.63,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 5
+      "pdsp": 4
      },
      "status": "data"
     },
@@ -14675,16 +14303,9 @@
      "ki_max_nM": 67.0,
      "ki_min_nM": 44.0,
      "ki_nM": 47.0,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 7.3279,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 7.3279,
@@ -14698,20 +14319,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.1739,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
-       "source": "pdsp"
       }
      ],
      "pki_median": 7.3279,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -14730,9 +14344,9 @@
      ],
      "ki_max_nM": 158.49,
      "ki_min_nM": 21.0,
-     "ki_nM": 40.0,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "ki_nM": 77.717437,
+     "n_documents": 4,
+     "n_measurements": 4,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -14747,20 +14361,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.3979,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 7.3979,
+     "pki_median": 7.1095,
      "sources": {
       "chembl": 2,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -14774,9 +14381,9 @@
      ],
      "ki_max_nM": 42.0,
      "ki_min_nM": 18.0,
-     "ki_nM": 27.495454,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "ki_nM": 18.0,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -14791,20 +14398,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.3768,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 7.5607,
+     "pki_median": 7.7447,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -14833,17 +14433,10 @@
      ],
      "ki_max_nM": 112.0,
      "ki_min_nM": 44.0,
-     "ki_nM": 103.421066,
-     "n_documents": 6,
-     "n_measurements": 6,
+     "ki_nM": 95.499259,
+     "n_documents": 5,
+     "n_measurements": 5,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.9508,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.9508,
@@ -14859,11 +14452,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.9854,
+     "pki_median": 7.02,
      "sources": {
       "chembl": 2,
       "gtopdb": 1,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -14919,7 +14512,7 @@
      "ki_min_nM": 0.66,
      "ki_nM": 3.019952,
      "n_documents": 25,
-     "n_measurements": 31,
+     "n_measurements": 29,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -14929,8 +14522,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 4,
-       "pki": 8.5678,
+       "n_measurements": 2,
+       "pki": 8.5333,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -15198,23 +14791,14 @@
      ],
      "ki_max_nM": 172.0,
      "ki_min_nM": 125.89254117941663,
-     "ki_nM": 133.0,
-     "n_documents": 3,
-     "n_measurements": 3,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.8761,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 6.8761,
+     "ki_nM": 147.910839,
+     "n_documents": 2,
+     "n_measurements": 2,
+     "pki_median": 6.83,
      "sources": {
       "chembl": 1,
       "gtopdb": 1,
-      "pdsp": 1
+      "pdsp": 0
      },
      "status": "data"
     },
@@ -15243,22 +14827,15 @@
      ],
      "ki_max_nM": 9.09,
      "ki_min_nM": 0.18,
-     "ki_nM": 4.265795,
-     "n_documents": 9,
-     "n_measurements": 9,
+     "ki_nM": 5.188,
+     "n_documents": 8,
+     "n_measurements": 8,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pki": 8.0458,
        "pubmed_id": null,
        "reference": "Chang, R et., 1978",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 9.7447,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
        "source": "pdsp"
       },
       {
@@ -15290,11 +14867,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.37,
+     "pki_median": 8.285,
      "sources": {
       "chembl": 2,
       "gtopdb": 1,
-      "pdsp": 6
+      "pdsp": 5
      },
      "status": "data"
     },
@@ -15408,17 +14985,10 @@
      ],
      "ki_max_nM": 3115.0,
      "ki_min_nM": 116.4,
-     "ki_nM": 1778.27941,
-     "n_documents": 9,
-     "n_measurements": 9,
+     "ki_nM": 676.082975,
+     "n_documents": 7,
+     "n_measurements": 7,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.5065,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 5.75,
@@ -15431,13 +15001,6 @@
        "pki": 6.934,
        "pubmed_id": "12629531",
        "reference": "Kroeze WK, et.al., 2003",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.5065,
-       "pubmed_id": "15615863",
-       "reference": "Maheux J, et al., 2005",
        "source": "pdsp"
       },
       {
@@ -15455,11 +15018,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.75,
+     "pki_median": 6.17,
      "sources": {
       "chembl": 2,
       "gtopdb": 1,
-      "pdsp": 6
+      "pdsp": 4
      },
      "status": "data"
     },
@@ -15572,7 +15135,7 @@
      "ki_min_nM": 1.1,
      "ki_nM": 3.606069,
      "n_documents": 14,
-     "n_measurements": 17,
+     "n_measurements": 16,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -15589,8 +15152,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 3,
-       "pki": 8.6655,
+       "n_measurements": 2,
+       "pki": 8.6259,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -16574,19 +16137,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "11454918",
        "reference": "Millan MJ, et al., 2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "16712488",
-       "reference": "Roth B. et al., 2006",
        "source": "pdsp"
       }
      ]
@@ -16595,34 +16152,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "11454918",
-       "reference": "Millan MJ, et al., 2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
-       "source": "pdsp"
-      }
-     ]
-    },
-    "DRD1": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
      "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
+       "pubmed_id": "11454918",
+       "reference": "Millan MJ, et al., 2001",
        "source": "pdsp"
       }
      ]
@@ -16646,19 +16182,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "11454918",
        "reference": "Millan MJ, et al., 2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
        "source": "pdsp"
       }
      ]
@@ -16667,19 +16197,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "11454918",
        "reference": "Millan MJ, et al., 2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
        "source": "pdsp"
       }
      ]
@@ -16688,19 +16212,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "11454918",
        "reference": "Millan MJ, et al., 2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
        "source": "pdsp"
       }
      ]
@@ -16724,19 +16242,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "11454918",
        "reference": "Millan MJ, et al., 2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
        "source": "pdsp"
       }
      ]
@@ -16745,8 +16257,8 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 4,
-     "n_measurements": 8,
+     "n_documents": 3,
+     "n_measurements": 4,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -16755,15 +16267,9 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 4,
+       "n_measurements": 2,
        "pubmed_id": "12232544",
        "reference": "Owens JM et al., 2002",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 2,
-       "pubmed_id": "14744476",
-       "reference": "Vaishnavi SN, et al., 2004",
        "source": "pdsp"
       },
       {
@@ -16776,6 +16282,7 @@
     }
    },
    "searched_and_empty": [
+    "ADRA1A",
     "ADRA1B",
     "ADRA2A",
     "ADRA2B",
@@ -16804,30 +16311,6 @@
     "HTR7"
    ],
    "targets": {
-    "ADRA1A": {
-     "documents": [],
-     "ki_max_nM": 3870.0,
-     "ki_min_nM": 3870.0,
-     "ki_nM": 3870.0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.4123,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 5.4123,
-     "sources": {
-      "chembl": 0,
-      "gtopdb": 0,
-      "pdsp": 1
-     },
-     "status": "data"
-    },
     "ADRA1D": {
      "documents": [
       {
@@ -16847,31 +16330,24 @@
     "CHRM1": {
      "documents": [],
      "ki_max_nM": 1430.0,
-     "ki_min_nM": 1242.0,
-     "ki_nM": 1286.545666,
-     "n_documents": 2,
-     "n_measurements": 3,
+     "ki_min_nM": 1430.0,
+     "ki_nM": 1430.0,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 2,
-       "pki": 5.8753,
+       "n_measurements": 1,
+       "pki": 5.8447,
        "pubmed_id": "12232544",
        "reference": "Owens JM et al., 2002",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.9059,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 5.8906,
+     "pki_median": 5.8447,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -16883,11 +16359,11 @@
        "year": null
       }
      ],
-     "ki_max_nM": 1970.0,
+     "ki_max_nM": 371.0,
      "ki_min_nM": 283.0,
-     "ki_nM": 371.535229,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "ki_nM": 324.25988,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -16895,20 +16371,13 @@
        "pubmed_id": "16712488",
        "reference": "Roth B. et al., 2006",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.7055,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 6.43,
+     "pki_median": 6.4891,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -16960,11 +16429,11 @@
        "year": null
       }
      ],
-     "ki_max_nM": 2531.0,
+     "ki_max_nM": 617.0,
      "ki_min_nM": 156.0,
-     "ki_nM": 526.925042,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "ki_nM": 450.0,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -16979,20 +16448,13 @@
        "pubmed_id": "16712488",
        "reference": "Roth B. et al., 2006",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.5967,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 6.2783,
+     "pki_median": 6.3468,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -17093,9 +16555,9 @@
      ],
      "ki_max_nM": 32.8,
      "ki_min_nM": 0.479,
-     "ki_nM": 2.01009,
-     "n_documents": 14,
-     "n_measurements": 21,
+     "ki_nM": 2.406414,
+     "n_documents": 12,
+     "n_measurements": 16,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -17112,8 +16574,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 4,
-       "pki": 8.5936,
+       "n_measurements": 2,
+       "pki": 8.4068,
        "pubmed_id": "12232544",
        "reference": "Owens JM et al., 2002",
        "source": "pdsp"
@@ -17126,24 +16588,10 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
-       "pki": 7.9213,
-       "pubmed_id": "18644726",
-       "reference": "Funke U et al., 2008",
-       "source": "pdsp"
-      },
-      {
        "n_measurements": 1,
        "pki": 9.0,
        "pubmed_id": "19720528",
        "reference": "Rotella DP et al., 2009",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 9.0,
-       "pubmed_id": "20347298",
-       "reference": "Yan Y et al., 2010",
        "source": "pdsp"
       },
       {
@@ -17161,11 +16609,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.6968,
+     "pki_median": 8.6186,
      "sources": {
       "chembl": 5,
       "gtopdb": 0,
-      "pdsp": 9
+      "pdsp": 7
      },
      "status": "data"
     }
@@ -17638,15 +17086,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "11454918",
-       "reference": "Millan MJ, et al., 2001",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "9686407",
@@ -18156,21 +17598,14 @@
      "ki_max_nM": 3020.0,
      "ki_min_nM": 2182.0,
      "ki_nM": 2190.0,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pki": 5.52,
        "pubmed_id": "11454918",
        "reference": "Millan MJ, et al., 2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.6596,
-       "pubmed_id": "14573386",
-       "reference": "Koch S, et al., 2003",
        "source": "pdsp"
       },
       {
@@ -18185,7 +17620,7 @@
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -20602,17 +20037,10 @@
      ],
      "ki_max_nM": 12.0,
      "ki_min_nM": 9.655,
-     "ki_nM": 12.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "ki_nM": 10.705097,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 7.9208,
-       "pubmed_id": "16253319",
-       "reference": "Young, R., et. al., 2005",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 7.9208,
@@ -20621,11 +20049,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.9208,
+     "pki_median": 7.9704,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -20935,9 +20363,9 @@
      "documents": [],
      "ki_max_nM": 99.0,
      "ki_min_nM": 50.0,
-     "ki_nM": 54.313902,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "ki_nM": 59.0,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -20955,24 +20383,17 @@
       },
       {
        "n_measurements": 1,
-       "pki": 7.301,
-       "pubmed_id": "16253319",
-       "reference": "Young, R., et. al., 2005",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
        "pki": 7.2291,
        "pubmed_id": "9686407",
        "reference": "TOLL L, et. al., 1998",
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.2651,
+     "pki_median": 7.2291,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -21950,19 +21371,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "12431845",
        "reference": "Bymaster F.P., et. al., 2002",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "14573386",
-       "reference": "Koch S, et al., 2003",
        "source": "pdsp"
       }
      ]
@@ -22043,16 +21458,9 @@
      "ki_max_nM": 110.0,
      "ki_min_nM": 110.0,
      "ki_nM": 110.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.9586,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.9586,
@@ -22065,7 +21473,7 @@
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -22074,16 +21482,9 @@
      "ki_max_nM": 540.0,
      "ki_min_nM": 540.0,
      "ki_nM": 540.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.2676,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.2676,
@@ -22096,7 +21497,7 @@
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -22105,16 +21506,9 @@
      "ki_max_nM": 210.0,
      "ki_min_nM": 210.0,
      "ki_nM": 210.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.6778,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.6778,
@@ -22127,7 +21521,7 @@
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -22136,16 +21530,9 @@
      "ki_max_nM": 160.0,
      "ki_min_nM": 160.0,
      "ki_nM": 160.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.7959,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.7959,
@@ -22158,7 +21545,7 @@
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -22167,16 +21554,9 @@
      "ki_max_nM": 143.0,
      "ki_min_nM": 143.0,
      "ki_nM": 143.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.8447,
-       "pubmed_id": "17850785",
-       "reference": "Deupree, J. et. al., 2007",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.8447,
@@ -22189,7 +21569,7 @@
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -22466,24 +21846,10 @@
      ],
      "ki_max_nM": 580.0,
      "ki_min_nM": 0.6,
-     "ki_nM": 2.089296,
-     "n_documents": 13,
-     "n_measurements": 14,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 8.6778,
-       "pubmed_id": "19722525",
-       "reference": "Zhang P et al., 2009",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 8.68,
-     "sources": {
-      "chembl": 12,
-      "gtopdb": 0,
-      "pdsp": 1
-     },
+     "ki_nM": 1.949845,
+     "n_documents": 12,
+     "n_measurements": 13,
+     "pki_median": 8.71,
      "status": "data"
     },
     "SLC6A3": {
@@ -22551,9 +21917,9 @@
      ],
      "ki_max_nM": 179.0,
      "ki_min_nM": 17.6,
-     "ki_nM": 56.885296,
-     "n_documents": 6,
-     "n_measurements": 6,
+     "ki_nM": 19.952623,
+     "n_documents": 5,
+     "n_measurements": 5,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -22564,24 +21930,17 @@
       },
       {
        "n_measurements": 1,
-       "pki": 6.7471,
-       "pubmed_id": "14573386",
-       "reference": "Koch S, et al., 2003",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
        "pki": 7.7545,
        "pubmed_id": "9537821",
        "reference": "Tatsumi M, et al., 1997",
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.245,
+     "pki_median": 7.7,
      "sources": {
       "chembl": 2,
       "gtopdb": 1,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     }
@@ -25026,19 +24385,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "10347254",
        "reference": "Lovenberg, TW  et al., 1999",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "11179434",
-       "reference": "Liu C., et al., 2000",
        "source": "pdsp"
       }
      ]
@@ -25921,10 +25274,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 2,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 2,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "BARNES ET AL., 1989",
        "source": "pdsp"
@@ -26250,7 +25603,7 @@
      "ki_min_nM": 1.4,
      "ki_nM": 19.976298,
      "n_documents": 14,
-     "n_measurements": 23,
+     "n_measurements": 22,
      "pdsp_references": [
       {
        "n_measurements": 3,
@@ -26267,8 +25620,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
-       "pki": 8.2461,
+       "n_measurements": 1,
+       "pki": 8.8539,
        "pubmed_id": "7756621",
        "reference": "Sautel F, et al., 1995",
        "source": "pdsp"
@@ -29661,66 +29014,6 @@
    "inn": "fenfluramine",
    "kd_only": {},
    "ki_lower_bounds": {
-    "ADRA1A": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 2,
-     "pdsp_references": [
-      {
-       "n_measurements": 2,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      }
-     ]
-    },
-    "ADRA1B": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 2,
-     "pdsp_references": [
-      {
-       "n_measurements": 2,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      }
-     ]
-    },
-    "ADRB1": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      }
-     ]
-    },
-    "ADRB2": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 1,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      }
-     ]
-    },
     "CHRM2": {
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
@@ -29771,10 +29064,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -29786,10 +29079,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -29801,10 +29094,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -29816,10 +29109,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -29831,10 +29124,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -29846,10 +29139,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -29861,10 +29154,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -29876,10 +29169,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -29891,10 +29184,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -29902,36 +29195,6 @@
      ]
     },
     "HTR5A": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 3,
-     "pdsp_references": [
-      {
-       "n_measurements": 3,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      }
-     ]
-    },
-    "HTR6": {
-     "documents": [],
-     "ki_lower_bound_max_nM": 10000.0,
-     "ki_lower_bound_nM": 10000.0,
-     "n_documents": 1,
-     "n_measurements": 2,
-     "pdsp_references": [
-      {
-       "n_measurements": 2,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      }
-     ]
-    },
-    "HTR7": {
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
@@ -29951,10 +29214,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -29964,6 +29227,9 @@
    },
    "searched_and_empty": [
     "ADRA1D",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
     "CHRM5",
     "DRD1",
     "DRD2",
@@ -29975,6 +29241,8 @@
     "HRH3",
     "HRH4",
     "HTR1E",
+    "HTR2A",
+    "HTR2C",
     "HTR3A",
     "HTR5A",
     "KCNH2",
@@ -30032,21 +29300,21 @@
     },
     "ADRA2A": {
      "documents": [],
-     "ki_max_nM": 804.0,
-     "ki_min_nM": 373.0,
-     "ki_nM": 542.025602,
+     "ki_max_nM": 531.0,
+     "ki_min_nM": 531.0,
+     "ki_nM": 531.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 6.266,
+       "n_measurements": 1,
+       "pki": 6.2749,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.266,
+     "pki_median": 6.2749,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -30057,20 +29325,20 @@
     "ADRA2B": {
      "documents": [],
      "ki_max_nM": 247.0,
-     "ki_min_nM": 192.0,
-     "ki_nM": 224.941614,
+     "ki_min_nM": 247.0,
+     "ki_nM": 247.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 6.6479,
+       "n_measurements": 1,
+       "pki": 6.6073,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.6479,
+     "pki_median": 6.6073,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -30081,20 +29349,20 @@
     "ADRA2C": {
      "documents": [],
      "ki_max_nM": 252.0,
-     "ki_min_nM": 184.0,
-     "ki_nM": 209.039422,
+     "ki_min_nM": 252.0,
+     "ki_nM": 252.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 6.6798,
+       "n_measurements": 1,
+       "pki": 6.5986,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.6798,
+     "pki_median": 6.5986,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -30104,21 +29372,21 @@
     },
     "ADRB1": {
      "documents": [],
-     "ki_max_nM": 1002.0,
+     "ki_max_nM": 991.0,
      "ki_min_nM": 991.0,
-     "ki_nM": 996.484822,
+     "ki_nM": 991.0,
      "n_documents": 1,
-     "n_measurements": 2,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 2,
-       "pki": 6.0015,
+       "n_measurements": 1,
+       "pki": 6.0039,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.0015,
+     "pki_median": 6.0039,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -30128,21 +29396,21 @@
     },
     "ADRB2": {
      "documents": [],
-     "ki_max_nM": 7905.0,
+     "ki_max_nM": 7741.0,
      "ki_min_nM": 7741.0,
-     "ki_nM": 7822.57023,
+     "ki_nM": 7741.0,
      "n_documents": 1,
-     "n_measurements": 2,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 2,
-       "pki": 5.1067,
+       "n_measurements": 1,
+       "pki": 5.1112,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.1067,
+     "pki_median": 5.1112,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -30153,92 +29421,20 @@
     "CHRM1": {
      "documents": [],
      "ki_max_nM": 8128.0,
-     "ki_min_nM": 963.0,
-     "ki_nM": 2436.963163,
+     "ki_min_nM": 8128.0,
+     "ki_nM": 8128.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 5.6132,
+       "n_measurements": 1,
+       "pki": 5.09,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.6132,
-     "sources": {
-      "chembl": 0,
-      "gtopdb": 0,
-      "pdsp": 1
-     },
-     "status": "data"
-    },
-    "CHRM2": {
-     "documents": [],
-     "ki_max_nM": 3740.0,
-     "ki_min_nM": 1879.0,
-     "ki_nM": 2650.935684,
-     "n_documents": 1,
-     "n_measurements": 2,
-     "pdsp_references": [
-      {
-       "n_measurements": 2,
-       "pki": 5.5766,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 5.5766,
-     "sources": {
-      "chembl": 0,
-      "gtopdb": 0,
-      "pdsp": 1
-     },
-     "status": "data"
-    },
-    "CHRM3": {
-     "documents": [],
-     "ki_max_nM": 6876.0,
-     "ki_min_nM": 3243.0,
-     "ki_nM": 4722.167723,
-     "n_documents": 1,
-     "n_measurements": 2,
-     "pdsp_references": [
-      {
-       "n_measurements": 2,
-       "pki": 5.3259,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 5.3259,
-     "sources": {
-      "chembl": 0,
-      "gtopdb": 0,
-      "pdsp": 1
-     },
-     "status": "data"
-    },
-    "CHRM4": {
-     "documents": [],
-     "ki_max_nM": 7167.0,
-     "ki_min_nM": 6803.0,
-     "ki_nM": 6982.628517,
-     "n_documents": 1,
-     "n_measurements": 2,
-     "pdsp_references": [
-      {
-       "n_measurements": 2,
-       "pki": 5.156,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 5.156,
+     "pki_median": 5.09,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -30248,21 +29444,21 @@
     },
     "HTR1A": {
      "documents": [],
-     "ki_max_nM": 835.0,
+     "ki_max_nM": 673.0,
      "ki_min_nM": 673.0,
-     "ki_nM": 775.831701,
+     "ki_nM": 673.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 6.1102,
+       "n_measurements": 1,
+       "pki": 6.172,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.1102,
+     "pki_median": 6.172,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -30272,21 +29468,21 @@
     },
     "HTR1B": {
      "documents": [],
-     "ki_max_nM": 2850.0,
+     "ki_max_nM": 1837.0,
      "ki_min_nM": 1837.0,
-     "ki_nM": 2153.285271,
+     "ki_nM": 1837.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 5.6669,
+       "n_measurements": 1,
+       "pki": 5.7359,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.6669,
+     "pki_median": 5.7359,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -30296,21 +29492,21 @@
     },
     "HTR1D": {
      "documents": [],
-     "ki_max_nM": 5294.0,
-     "ki_min_nM": 638.0,
-     "ki_nM": 1622.247935,
+     "ki_max_nM": 1264.0,
+     "ki_min_nM": 1264.0,
+     "ki_nM": 1264.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 5.7899,
+       "n_measurements": 1,
+       "pki": 5.8983,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.7899,
+     "pki_median": 5.8983,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -30318,52 +29514,14 @@
      },
      "status": "data"
     },
-    "HTR2A": {
+    "HTR2B": {
      "documents": [],
-     "ki_max_nM": 3801.8939632056,
-     "ki_min_nM": 1430.0,
-     "ki_nM": 2673.057172,
+     "ki_max_nM": 4134.0,
+     "ki_min_nM": 400.0,
+     "ki_nM": 2305.647189,
      "n_documents": 2,
      "n_measurements": 3,
      "pdsp_references": [
-      {
-       "n_measurements": 2,
-       "pki": 5.726,
-       "pubmed_id": "10617681",
-       "reference": "FITZGERALD LW, ET AL., 1999",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.42,
-       "pubmed_id": "15322733",
-       "reference": "Knight AR, et al., 2004",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 5.573,
-     "sources": {
-      "chembl": 0,
-      "gtopdb": 0,
-      "pdsp": 2
-     },
-     "status": "data"
-    },
-    "HTR2B": {
-     "documents": [],
-     "ki_max_nM": 5713.0,
-     "ki_min_nM": 400.0,
-     "ki_nM": 4938.413261,
-     "n_documents": 6,
-     "n_measurements": 13,
-     "pdsp_references": [
-      {
-       "n_measurements": 3,
-       "pki": 5.3064,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 2,
        "pki": 5.8908,
@@ -30372,66 +29530,14 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
-       "pki": 5.7871,
-       "pubmed_id": "10617681",
-       "reference": "FITZGERALD LW, ET AL., 1999",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 3,
-       "pki": 5.3064,
+       "n_measurements": 1,
+       "pki": 5.3836,
        "pubmed_id": "11104741",
        "reference": "Rothman RB, et al, 2000",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 2,
-       "pki": 5.2678,
-       "pubmed_id": "12649307",
-       "reference": "Rothman RB, et al., 2003",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.26,
-       "pubmed_id": "15322733",
-       "reference": "Knight AR, et al., 2004",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 5.3064,
-     "sources": {
-      "chembl": 0,
-      "gtopdb": 0,
-      "pdsp": 6
-     },
-     "status": "data"
-    },
-    "HTR2C": {
-     "documents": [],
-     "ki_max_nM": 2080.0,
-     "ki_min_nM": 1412.5375446228,
-     "ki_nM": 1610.254744,
-     "n_documents": 2,
-     "n_measurements": 3,
-     "pdsp_references": [
-      {
-       "n_measurements": 2,
-       "pki": 5.7362,
-       "pubmed_id": "10617681",
-       "reference": "FITZGERALD LW, ET AL., 1999",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.85,
-       "pubmed_id": "15322733",
-       "reference": "Knight AR, et al., 2004",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 5.7931,
+     "pki_median": 5.6372,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -30466,20 +29572,20 @@
     "HTR7": {
      "documents": [],
      "ki_max_nM": 7306.0,
-     "ki_min_nM": 4190.0,
-     "ki_nM": 5532.823872,
+     "ki_min_nM": 7306.0,
+     "ki_nM": 7306.0,
      "n_documents": 1,
-     "n_measurements": 2,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 2,
-       "pki": 5.2571,
+       "n_measurements": 1,
+       "pki": 5.1363,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.2571,
+     "pki_median": 5.1363,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -30493,10 +29599,10 @@
      "ki_min_nM": 667.0,
      "ki_nM": 667.0,
      "n_documents": 1,
-     "n_measurements": 3,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 3,
+       "n_measurements": 1,
        "pki": 6.1759,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
@@ -30533,6 +29639,7 @@
     "CHRM4",
     "CHRM5",
     "DRD3",
+    "DRD5",
     "HRH1",
     "HRH2",
     "HRH3",
@@ -30562,26 +29669,12 @@
        "year": 1998
       }
      ],
-     "ki_max_nM": 1818.0,
-     "ki_min_nM": 28.0,
-     "ki_nM": 94.773731,
-     "n_documents": 2,
-     "n_measurements": 3,
-     "pdsp_references": [
-      {
-       "n_measurements": 2,
-       "pki": 6.6466,
-       "pubmed_id": "1826762",
-       "reference": "Sunahara RK, et al., 1991",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 7.0233,
-     "sources": {
-      "chembl": 1,
-      "gtopdb": 0,
-      "pdsp": 1
-     },
+     "ki_max_nM": 40.0,
+     "ki_min_nM": 40.0,
+     "ki_nM": 39.810717,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 7.4,
      "status": "data"
     },
     "DRD2": {
@@ -30622,30 +29715,6 @@
       "chembl": 0,
       "gtopdb": 1,
       "pdsp": 0
-     },
-     "status": "data"
-    },
-    "DRD5": {
-     "documents": [],
-     "ki_max_nM": 800.0,
-     "ki_min_nM": 15.0,
-     "ki_nM": 109.544512,
-     "n_documents": 1,
-     "n_measurements": 2,
-     "pdsp_references": [
-      {
-       "n_measurements": 2,
-       "pki": 6.9604,
-       "pubmed_id": "1826762",
-       "reference": "Sunahara RK, et al., 1991",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 6.9604,
-     "sources": {
-      "chembl": 0,
-      "gtopdb": 0,
-      "pdsp": 1
      },
      "status": "data"
     }
@@ -30877,9 +29946,9 @@
      ],
      "ki_max_nM": 93.11,
      "ki_min_nM": 10.0,
-     "ki_nM": 16.405898,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "ki_nM": 26.915348,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -30887,20 +29956,13 @@
        "pubmed_id": "11809864",
        "reference": "Gillard M, et al., 2002",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 8.0,
-       "pubmed_id": "15947036",
-       "reference": "Lim HD, et al., 2005",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 7.785,
+     "pki_median": 7.57,
      "sources": {
       "chembl": 2,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -30976,15 +30038,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "15322733",
-       "reference": "Knight AR, et al., 2004",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "9225287",
@@ -31258,9 +30314,9 @@
      ],
      "ki_max_nM": 7300.0,
      "ki_min_nM": 7300.0,
-     "ki_nM": 7300.0,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "ki_nM": 7272.126586,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -31268,27 +30324,13 @@
        "pubmed_id": "17107798",
        "reference": "Keith JM et al., 2007",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.1367,
-       "pubmed_id": "17127059",
-       "reference": "Letavic MA et al., 2007",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.1367,
-       "pubmed_id": "17307358",
-       "reference": "Letavic MA et al., 2007",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 5.1367,
+     "pki_median": 5.1383,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -31472,24 +30514,10 @@
      ],
      "ki_max_nM": 2000.0,
      "ki_min_nM": 440.0,
-     "ki_nM": 1462.177174,
-     "n_documents": 6,
-     "n_measurements": 6,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.8069,
-       "pubmed_id": "19256502",
-       "reference": "Cashman JR et al., 2009",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 5.835,
-     "sources": {
-      "chembl": 5,
-      "gtopdb": 0,
-      "pdsp": 1
-     },
+     "ki_nM": 1380.384265,
+     "n_documents": 5,
+     "n_measurements": 5,
+     "pki_median": 5.86,
      "status": "data"
     },
     "SLC6A3": {
@@ -31517,9 +30545,9 @@
      ],
      "ki_max_nM": 6670.0,
      "ki_min_nM": 1900.0,
-     "ki_nM": 4736.395254,
-     "n_documents": 9,
-     "n_measurements": 10,
+     "ki_nM": 4243.497676,
+     "n_documents": 8,
+     "n_measurements": 9,
      "pdsp_references": [
       {
        "n_measurements": 2,
@@ -31537,13 +30565,6 @@
       },
       {
        "n_measurements": 1,
-       "pki": 5.1759,
-       "pubmed_id": "19256502",
-       "reference": "Cashman JR et al., 2009",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
        "pki": 5.4244,
        "pubmed_id": "23261499",
        "reference": "Iversen l., et al., 2012",
@@ -31557,11 +30578,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.3246,
+     "pki_median": 5.3723,
      "sources": {
       "chembl": 4,
       "gtopdb": 0,
-      "pdsp": 5
+      "pdsp": 4
      },
      "status": "data"
     },
@@ -31630,9 +30651,9 @@
      ],
      "ki_max_nM": 98.0,
      "ki_min_nM": 0.271,
-     "ki_nM": 2.503997,
-     "n_documents": 21,
-     "n_measurements": 24,
+     "ki_nM": 3.162278,
+     "n_documents": 19,
+     "n_measurements": 22,
      "pdsp_references": [
       {
        "n_measurements": 2,
@@ -31664,20 +30685,6 @@
       },
       {
        "n_measurements": 1,
-       "pki": 8.6576,
-       "pubmed_id": "17307358",
-       "reference": "Letavic MA et al., 2007",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 8.9586,
-       "pubmed_id": "19256502",
-       "reference": "Cashman JR et al., 2009",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
        "pki": 7.0088,
        "pubmed_id": "23261499",
        "reference": "Iversen l., et al., 2012",
@@ -31691,11 +30698,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.6014,
+     "pki_median": 8.5,
      "sources": {
       "chembl": 12,
       "gtopdb": 1,
-      "pdsp": 8
+      "pdsp": 6
      },
      "status": "data"
     }
@@ -33390,15 +32397,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "14642972",
@@ -33411,15 +32412,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "14642972",
@@ -33432,25 +32427,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "12629531",
        "reference": "Kroeze WK, et.al., 2003",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
        "source": "pdsp"
       }
      ]
@@ -33459,15 +32442,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "14642972",
@@ -33523,15 +32500,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PEROUTKA ET AL., 1989",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": null,
@@ -33741,16 +32712,9 @@
      "ki_max_nM": 1865.0,
      "ki_min_nM": 473.0,
      "ki_nM": 1130.0,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "n_documents": 4,
+     "n_measurements": 4,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.9469,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 5.9469,
@@ -33777,7 +32741,7 @@
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -33797,16 +32761,9 @@
      "ki_max_nM": 618.0,
      "ki_min_nM": 480.0,
      "ki_nM": 480.0,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "n_documents": 4,
+     "n_measurements": 4,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.3188,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.3188,
@@ -33826,7 +32783,7 @@
      "sources": {
       "chembl": 2,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -33845,17 +32802,10 @@
      ],
      "ki_max_nM": 550.0,
      "ki_min_nM": 256.0,
-     "ki_nM": 549.770389,
-     "n_documents": 6,
-     "n_measurements": 6,
+     "ki_nM": 549.540874,
+     "n_documents": 5,
+     "n_measurements": 5,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.2596,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.2596,
@@ -33878,11 +32828,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.2598,
+     "pki_median": 6.26,
      "sources": {
       "chembl": 2,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -33920,17 +32870,10 @@
      ],
      "ki_max_nM": 5500.0,
      "ki_min_nM": 1600.0,
-     "ki_nM": 1600.0,
-     "n_documents": 6,
-     "n_measurements": 6,
+     "ki_nM": 2223.617029,
+     "n_documents": 4,
+     "n_measurements": 4,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.7959,
-       "pubmed_id": null,
-       "reference": "Hirose, Tsuyoshi.  et. al, 2005",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 5.51,
@@ -33947,24 +32890,17 @@
       },
       {
        "n_measurements": 1,
-       "pki": 5.7959,
-       "pubmed_id": "30768942",
-       "reference": "Bricker B.A., et al. 2019",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
        "pki": 5.2596,
        "pubmed_id": "9406603",
        "reference": "Liao Y, et.al., 1997",
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.7959,
+     "pki_median": 5.6529,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 5
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -34067,17 +33003,10 @@
      ],
      "ki_max_nM": 359.0,
      "ki_min_nM": 6.166,
-     "ki_nM": 82.0,
-     "n_documents": 15,
-     "n_measurements": 15,
+     "ki_nM": 81.640739,
+     "n_documents": 14,
+     "n_measurements": 14,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 7.0809,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.93,
@@ -34121,11 +33050,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.0862,
+     "pki_median": 7.0881,
      "sources": {
       "chembl": 8,
       "gtopdb": 0,
-      "pdsp": 7
+      "pdsp": 6
      },
      "status": "data"
     },
@@ -34184,9 +33113,9 @@
      ],
      "ki_max_nM": 6400.0,
      "ki_min_nM": 0.12,
-     "ki_nM": 1.992617,
-     "n_documents": 76,
-     "n_measurements": 93,
+     "ki_nM": 1.989975,
+     "n_documents": 75,
+     "n_measurements": 91,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -34259,11 +33188,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.7006,
+     "pki_median": 8.7012,
      "sources": {
       "chembl": 44,
       "gtopdb": 0,
-      "pdsp": 32
+      "pdsp": 31
      },
      "status": "data"
     },
@@ -34324,7 +33253,7 @@
      "ki_min_nM": 0.2,
      "ki_nM": 5.495409,
      "n_documents": 47,
-     "n_measurements": 57,
+     "n_measurements": 56,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -34768,22 +33697,15 @@
      ],
      "ki_max_nM": 5084.0,
      "ki_min_nM": 1202.0,
-     "ki_nM": 2336.57118,
-     "n_documents": 20,
-     "n_measurements": 20,
+     "ki_nM": 2809.176429,
+     "n_documents": 16,
+     "n_measurements": 16,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pki": 5.4437,
        "pubmed_id": null,
        "reference": "Hirose, Tsuyoshi.  et. al, 2005",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.9201,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
        "source": "pdsp"
       },
       {
@@ -34830,24 +33752,31 @@
       },
       {
        "n_measurements": 1,
-       "pki": 5.9201,
-       "pubmed_id": "15615863",
-       "reference": "Maheux J, et al., 2005",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
        "pki": 5.4559,
        "pubmed_id": "16051647",
        "reference": "Gillman P, et al., 2005",
        "source": "pdsp"
+      },
+      {
+       "n_measurements": 1,
+       "pki": 5.4437,
+       "pubmed_id": "22245230",
+       "reference": "Peprah K et al 2012",
+       "source": "pdsp"
+      },
+      {
+       "n_measurements": 1,
+       "pki": 5.4437,
+       "pubmed_id": "30768942",
+       "reference": "Bricker B.A., et al. 2019",
+       "source": "pdsp"
       }
      ],
-     "pki_median": 5.6314,
+     "pki_median": 5.5514,
      "sources": {
       "chembl": 3,
       "gtopdb": 0,
-      "pdsp": 17
+      "pdsp": 13
      },
      "status": "data"
     },
@@ -35009,22 +33938,15 @@
      ],
      "ki_max_nM": 435.0,
      "ki_min_nM": 21.0,
-     "ki_nM": 89.0,
-     "n_documents": 33,
-     "n_measurements": 35,
+     "ki_nM": 84.7,
+     "n_documents": 31,
+     "n_measurements": 33,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pki": 7.2732,
        "pubmed_id": null,
        "reference": "ANDORN ET AL., 1984",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 6.9208,
-       "pubmed_id": null,
-       "reference": "Hirose, Tsuyoshi.  et. al, 2005",
        "source": "pdsp"
       },
       {
@@ -35082,13 +34004,20 @@
        "pubmed_id": "12629531",
        "reference": "Kroeze WK, et.al., 2003",
        "source": "pdsp"
+      },
+      {
+       "n_measurements": 1,
+       "pki": 7.1537,
+       "pubmed_id": "15102927",
+       "reference": "Vanover, KE et.al., 2004",
+       "source": "pdsp"
       }
      ],
-     "pki_median": 7.0506,
+     "pki_median": 7.0721,
      "sources": {
       "chembl": 11,
       "gtopdb": 0,
-      "pdsp": 22
+      "pdsp": 20
      },
      "status": "data"
     },
@@ -35159,17 +34088,10 @@
      ],
      "ki_max_nM": 7244.36,
      "ki_min_nM": 1753.0,
-     "ki_nM": 4700.0,
-     "n_documents": 16,
-     "n_measurements": 16,
+     "ki_nM": 4688.662031,
+     "n_documents": 14,
+     "n_measurements": 14,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.3279,
-       "pubmed_id": null,
-       "reference": "Hirose, Tsuyoshi.  et. al, 2005",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 5.33,
@@ -35215,13 +34137,6 @@
       {
        "n_measurements": 1,
        "pki": 5.3279,
-       "pubmed_id": "25070422",
-       "reference": "Sampson D et al 2014",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.3279,
        "pubmed_id": "30768942",
        "reference": "Bricker B.A., et al. 2019",
        "source": "pdsp"
@@ -35232,13 +34147,20 @@
        "pubmed_id": "8822531",
        "reference": "Bymaster F.P., et. al., 1996",
        "source": "pdsp"
+      },
+      {
+       "n_measurements": 1,
+       "pki": 5.4035,
+       "pubmed_id": "8997630",
+       "reference": "KONGSAMUT S, ET AL., 1996",
+       "source": "pdsp"
       }
      ],
-     "pki_median": 5.3279,
+     "pki_median": 5.329,
      "sources": {
       "chembl": 5,
       "gtopdb": 0,
-      "pdsp": 11
+      "pdsp": 9
      },
      "status": "data"
     },
@@ -35306,21 +34228,14 @@
      "ki_max_nM": 6600.0,
      "ki_min_nM": 1083.0,
      "ki_nM": 5742.164438,
-     "n_documents": 10,
-     "n_measurements": 10,
+     "n_documents": 8,
+     "n_measurements": 8,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pki": 5.2218,
        "pubmed_id": null,
        "reference": "Hirose, Tsuyoshi.  et. al, 2005",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.4358,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
        "source": "pdsp"
       },
       {
@@ -35357,20 +34272,13 @@
        "pubmed_id": "8522988",
        "reference": "KOHEN R, ET AL., 1996",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.1805,
-       "pubmed_id": "9430133",
-       "reference": "Arnt J and Skarsfeldt T",
-       "source": "pdsp"
       }
      ],
      "pki_median": 5.2409,
      "sources": {
       "chembl": 2,
       "gtopdb": 0,
-      "pdsp": 8
+      "pdsp": 6
      },
      "status": "data"
     },
@@ -35399,17 +34307,10 @@
      ],
      "ki_max_nM": 1123.0,
      "ki_min_nM": 316.23,
-     "ki_nM": 407.690021,
-     "n_documents": 12,
-     "n_measurements": 13,
+     "ki_nM": 407.380278,
+     "n_documents": 11,
+     "n_measurements": 12,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.9586,
-       "pubmed_id": null,
-       "reference": "Hirose, Tsuyoshi.  et. al, 2005",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.4225,
@@ -35460,11 +34361,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.3897,
+     "pki_median": 6.39,
      "sources": {
       "chembl": 4,
       "gtopdb": 0,
-      "pdsp": 8
+      "pdsp": 7
      },
      "status": "data"
     },
@@ -35701,17 +34602,11 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 4,
-     "n_measurements": 5,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
       {
        "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "Ghoneim OM, et al., 2006",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 2,
        "pubmed_id": "12065734",
        "reference": "Booth RG et al., 2002",
        "source": "pdsp"
@@ -35780,10 +34675,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 2,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 2,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "BARNES ET AL., 1989",
        "source": "pdsp"
@@ -35862,9 +34757,9 @@
      ],
      "ki_max_nM": 79432.82,
      "ki_min_nM": 15.848931924611,
-     "ki_nM": 2060.0,
-     "n_documents": 11,
-     "n_measurements": 18,
+     "ki_nM": 2222.970043,
+     "n_documents": 10,
+     "n_measurements": 17,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -35914,20 +34809,13 @@
        "pubmed_id": "7925364",
        "reference": "Moguilevsky N et al, 1994",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.9,
-       "pubmed_id": "8903934",
-       "reference": "Moguilevsky N, et al., 1995",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 5.6861,
+     "pki_median": 5.6531,
      "sources": {
       "chembl": 3,
       "gtopdb": 0,
-      "pdsp": 8
+      "pdsp": 7
      },
      "status": "data"
     },
@@ -36450,24 +35338,15 @@
       }
      ],
      "ki_max_nM": 2.0,
-     "ki_min_nM": 1.9952623149689,
-     "ki_nM": 1.995262,
-     "n_documents": 3,
-     "n_measurements": 3,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 8.7,
-       "pubmed_id": "15947036",
-       "reference": "Lim HD, et al., 2005",
-       "source": "pdsp"
-      }
-     ],
+     "ki_min_nM": 1.995263191254866,
+     "ki_nM": 1.995263,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pki_median": 8.7,
      "sources": {
       "chembl": 1,
       "gtopdb": 1,
-      "pdsp": 1
+      "pdsp": 0
      },
      "status": "data"
     },
@@ -37634,22 +36513,15 @@
      ],
      "ki_max_nM": 37.0,
      "ki_min_nM": 10.0,
-     "ki_nM": 16.0,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "ki_nM": 13.266499,
+     "n_documents": 4,
+     "n_measurements": 4,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pki": 7.9586,
        "pubmed_id": null,
        "reference": "Chang, R et., 1978",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.4318,
-       "pubmed_id": "16712488",
-       "reference": "Roth B. et al., 2006",
        "source": "pdsp"
       },
       {
@@ -37667,11 +36539,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.7959,
+     "pki_median": 7.8772,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -40866,17 +39738,10 @@
      "documents": [],
      "ki_max_nM": 390.0,
      "ki_min_nM": 122.0,
-     "ki_nM": 122.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "ki_nM": 218.128403,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.9136,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.9136,
@@ -40892,11 +39757,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.9136,
+     "pki_median": 6.6613,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -40996,9 +39861,9 @@
      ],
      "ki_max_nM": 71.42,
      "ki_min_nM": 5.2,
-     "ki_nM": 17.793903,
+     "ki_nM": 20.946412,
      "n_documents": 12,
-     "n_measurements": 18,
+     "n_measurements": 17,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -41008,8 +39873,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 4,
-       "pki": 7.8195,
+       "n_measurements": 3,
+       "pki": 7.6646,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -41071,7 +39936,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.7497,
+     "pki_median": 7.6789,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
@@ -41095,11 +39960,11 @@
      "ki_min_nM": 18.0,
      "ki_nM": 21.439341,
      "n_documents": 4,
-     "n_measurements": 7,
+     "n_measurements": 6,
      "pdsp_references": [
       {
-       "n_measurements": 4,
-       "pki": 7.6142,
+       "n_measurements": 3,
+       "pki": 7.5707,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -41152,9 +40017,9 @@
      ],
      "ki_max_nM": 29.0,
      "ki_min_nM": 4.9,
-     "ki_nM": 8.326008,
+     "ki_nM": 8.33772,
      "n_documents": 8,
-     "n_measurements": 10,
+     "n_measurements": 9,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -41164,8 +40029,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 3,
-       "pki": 8.0512,
+       "n_measurements": 2,
+       "pki": 8.0229,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -41192,7 +40057,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.0796,
+     "pki_median": 8.079,
      "sources": {
       "chembl": 2,
       "gtopdb": 1,
@@ -41337,17 +40202,10 @@
      "documents": [],
      "ki_max_nM": 2900.0,
      "ki_min_nM": 2456.0,
-     "ki_nM": 2571.07166,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "ki_nM": 2691.534804,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.6098,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 5.57,
@@ -41370,11 +40228,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.5899,
+     "pki_median": 5.57,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -42495,10 +41353,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 2,
-     "n_measurements": 3,
+     "n_measurements": 2,
      "pdsp_references": [
       {
-       "n_measurements": 2,
+       "n_measurements": 1,
        "pubmed_id": "12750432",
        "reference": "Millan MJ, et al., 2003",
        "source": "pdsp"
@@ -42531,10 +41389,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 2,
-     "n_measurements": 3,
+     "n_measurements": 2,
      "pdsp_references": [
       {
-       "n_measurements": 2,
+       "n_measurements": 1,
        "pubmed_id": "12750432",
        "reference": "Millan MJ, et al., 2003",
        "source": "pdsp"
@@ -44853,15 +43711,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "9686407",
@@ -46303,10 +45155,10 @@
      "ki_lower_bound_max_nM": 100000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 6,
+     "n_measurements": 2,
      "pdsp_references": [
       {
-       "n_measurements": 6,
+       "n_measurements": 2,
        "pubmed_id": "9537821",
        "reference": "Tatsumi M, et al., 1997",
        "source": "pdsp"
@@ -46318,10 +45170,10 @@
      "ki_lower_bound_max_nM": 100000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 6,
+     "n_measurements": 2,
      "pdsp_references": [
       {
-       "n_measurements": 6,
+       "n_measurements": 2,
        "pubmed_id": "9537821",
        "reference": "Tatsumi M, et al., 1997",
        "source": "pdsp"
@@ -46911,8 +45763,8 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -46924,12 +45776,6 @@
        "n_measurements": 1,
        "pubmed_id": "6146381",
        "reference": "Kanba S, et al., 1984",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "6149136",
-       "reference": "Richelson E, et al., 1984",
        "source": "pdsp"
       }
      ]
@@ -47124,13 +45970,13 @@
      "documents": [],
      "ki_max_nM": 120.48,
      "ki_min_nM": 3.8,
-     "ki_nM": 12.792896,
+     "ki_nM": 16.465493,
      "n_documents": 7,
-     "n_measurements": 11,
+     "n_measurements": 10,
      "pdsp_references": [
       {
-       "n_measurements": 4,
-       "pki": 7.893,
+       "n_measurements": 3,
+       "pki": 7.7834,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -47178,7 +46024,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.893,
+     "pki_median": 7.7834,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -47190,13 +46036,13 @@
      "documents": [],
      "ki_max_nM": 94.0,
      "ki_min_nM": 20.0,
-     "ki_nM": 37.707159,
+     "ki_nM": 46.582388,
      "n_documents": 3,
-     "n_measurements": 7,
+     "n_measurements": 6,
      "pdsp_references": [
       {
-       "n_measurements": 4,
-       "pki": 7.4236,
+       "n_measurements": 3,
+       "pki": 7.3318,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -47216,7 +46062,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.4236,
+     "pki_median": 7.3318,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -47230,11 +46076,11 @@
      "ki_min_nM": 5.6,
      "ki_nM": 2400.0,
      "n_documents": 4,
-     "n_measurements": 6,
+     "n_measurements": 5,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 5.4808,
+       "n_measurements": 2,
+       "pki": 5.4112,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -47339,9 +46185,9 @@
      ],
      "ki_max_nM": 6032.84,
      "ki_min_nM": 316.22776601683796,
-     "ki_nM": 5322.721957,
+     "ki_nM": 5099.019514,
      "n_documents": 7,
-     "n_measurements": 9,
+     "n_measurements": 8,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -47351,8 +46197,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 3,
-       "pki": 5.2739,
+       "n_measurements": 2,
+       "pki": 5.2925,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -47386,7 +46232,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.2739,
+     "pki_median": 5.2925,
      "sources": {
       "chembl": 0,
       "gtopdb": 1,
@@ -49211,7 +48057,7 @@
      "ki_min_nM": 1140.0,
      "ki_nM": 1318.256739,
      "n_documents": 3,
-     "n_measurements": 5,
+     "n_measurements": 4,
      "pdsp_references": [
       {
        "n_measurements": 2,
@@ -49221,7 +48067,7 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
+       "n_measurements": 1,
        "pki": 5.9431,
        "pubmed_id": "9537821",
        "reference": "Tatsumi M, et al., 1997",
@@ -49258,7 +48104,7 @@
      "ki_min_nM": 6.918312139914402,
      "ki_nM": 18.0,
      "n_documents": 5,
-     "n_measurements": 8,
+     "n_measurements": 7,
      "pdsp_references": [
       {
        "n_measurements": 2,
@@ -49275,7 +48121,7 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
+       "n_measurements": 1,
        "pki": 7.7447,
        "pubmed_id": "9537821",
        "reference": "Tatsumi M, et al., 1997",
@@ -51751,9 +50597,9 @@
      ],
      "ki_max_nM": 0.3,
      "ki_min_nM": 0.26,
-     "ki_nM": 0.26,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "ki_nM": 0.280212,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -51761,20 +50607,13 @@
        "pubmed_id": "1315531",
        "reference": "HAMBLIN MW, ET AL., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 9.585,
-       "pubmed_id": "7984267",
-       "reference": "BOESS FG, ET AL., 1994",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 9.585,
+     "pki_median": 9.5525,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -54392,11 +53231,11 @@
      "ki_min_nM": 0.16,
      "ki_nM": 1.4,
      "n_documents": 5,
-     "n_measurements": 8,
+     "n_measurements": 7,
      "pdsp_references": [
       {
-       "n_measurements": 4,
-       "pki": 9.434,
+       "n_measurements": 3,
+       "pki": 9.3133,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -54442,13 +53281,13 @@
      "documents": [],
      "ki_max_nM": 1.1,
      "ki_min_nM": 0.13,
-     "ki_nM": 0.219803,
+     "ki_nM": 0.261856,
      "n_documents": 2,
-     "n_measurements": 5,
+     "n_measurements": 4,
      "pdsp_references": [
       {
-       "n_measurements": 4,
-       "pki": 9.4299,
+       "n_measurements": 3,
+       "pki": 9.2778,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -54461,7 +53300,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 9.658,
+     "pki_median": 9.5819,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -54473,13 +53312,13 @@
      "documents": [],
      "ki_max_nM": 48.0,
      "ki_min_nM": 17.0,
-     "ki_nM": 22.457659,
+     "ki_nM": 25.812036,
      "n_documents": 2,
-     "n_measurements": 4,
+     "n_measurements": 3,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 7.5277,
+       "n_measurements": 2,
+       "pki": 7.4068,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -54492,7 +53331,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.6486,
+     "pki_median": 7.5882,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -54585,10 +53424,10 @@
       }
      ],
      "ki_max_nM": 6.309573444801943,
-     "ki_min_nM": 5.6,
-     "ki_nM": 5.623413,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "ki_min_nM": 5.6234132519035,
+     "ki_nM": 5.956621,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -54596,20 +53435,13 @@
        "pubmed_id": null,
        "reference": "Silvestre, JS. et, al. 2005",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 8.2518,
-       "pubmed_id": null,
-       "reference": "WANDER ET AL., 1987",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 8.25,
+     "pki_median": 8.225,
      "sources": {
       "chembl": 0,
       "gtopdb": 1,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -55899,22 +54731,15 @@
      ],
      "ki_max_nM": 29.0,
      "ki_min_nM": 0.06,
-     "ki_nM": 1.762834,
-     "n_documents": 12,
-     "n_measurements": 16,
+     "ki_nM": 1.412538,
+     "n_documents": 11,
+     "n_measurements": 15,
      "pdsp_references": [
       {
        "n_measurements": 4,
        "pki": 9.665,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.5376,
-       "pubmed_id": "11132243",
-       "reference": "Richelson E, Souder T. 2000",
        "source": "pdsp"
       },
       {
@@ -55974,11 +54799,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.7538,
+     "pki_median": 8.85,
      "sources": {
       "chembl": 2,
       "gtopdb": 0,
-      "pdsp": 10
+      "pdsp": 9
      },
      "status": "data"
     },
@@ -56121,9 +54946,9 @@
      ],
      "ki_max_nM": 650.0,
      "ki_min_nM": 88.0,
-     "ki_nM": 389.045145,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "ki_nM": 248.313311,
+     "n_documents": 4,
+     "n_measurements": 4,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -56142,23 +54967,16 @@
       {
        "n_measurements": 1,
        "pki": 6.1871,
-       "pubmed_id": "12629531",
-       "reference": "Kroeze WK, et.al., 2003",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 6.1871,
        "pubmed_id": "9686407",
        "reference": "TOLL L, et. al., 1998",
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.41,
+     "pki_median": 6.605,
      "sources": {
       "chembl": 0,
       "gtopdb": 1,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -57310,10 +56128,10 @@
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
      "n_documents": 1,
-     "n_measurements": 2,
+     "n_measurements": 1,
      "pdsp_references": [
       {
-       "n_measurements": 2,
+       "n_measurements": 1,
        "pubmed_id": null,
        "reference": "BARNES ET AL., 1989",
        "source": "pdsp"
@@ -58356,13 +57174,13 @@
      ],
      "ki_max_nM": 7.14,
      "ki_min_nM": 0.2,
-     "ki_nM": 3.051376,
+     "ki_nM": 3.463093,
      "n_documents": 8,
-     "n_measurements": 12,
+     "n_measurements": 11,
      "pdsp_references": [
       {
-       "n_measurements": 4,
-       "pki": 8.591,
+       "n_measurements": 3,
+       "pki": 8.4811,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -58403,7 +57221,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.5155,
+     "pki_median": 8.4605,
      "sources": {
       "chembl": 1,
       "gtopdb": 1,
@@ -58480,11 +57298,11 @@
      "ki_min_nM": 5.4,
      "ki_nM": 812.830231,
      "n_documents": 5,
-     "n_measurements": 7,
+     "n_measurements": 6,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 7.4255,
+       "n_measurements": 2,
+       "pki": 7.0044,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -59997,19 +58815,13 @@
      ],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 1000.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "12629531",
        "reference": "Kroeze WK, et.al., 2003",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "18059438",
-       "reference": "Jensen NH, et al., 2008",
        "source": "pdsp"
       }
      ]
@@ -60340,7 +59152,7 @@
      "ki_min_nM": 934.3,
      "ki_nM": 2845.153774,
      "n_documents": 4,
-     "n_measurements": 5,
+     "n_measurements": 4,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -60350,7 +59162,7 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
+       "n_measurements": 1,
        "pki": 5.4401,
        "pubmed_id": "18059438",
        "reference": "Jensen NH, et al., 2008",
@@ -60813,9 +59625,9 @@
      ],
      "ki_max_nM": 4240.0,
      "ki_min_nM": 214.6,
-     "ki_nM": 1000.0,
-     "n_documents": 9,
-     "n_measurements": 9,
+     "ki_nM": 1130.044247,
+     "n_documents": 8,
+     "n_measurements": 8,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -60833,24 +59645,17 @@
       },
       {
        "n_measurements": 1,
-       "pki": 6.1475,
-       "pubmed_id": "18059438",
-       "reference": "Jensen NH, et al., 2008",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
        "pki": 5.8938,
        "pubmed_id": "8997630",
        "reference": "KONGSAMUT S, ET AL., 1996",
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.0,
+     "pki_median": 5.9469,
      "sources": {
       "chembl": 5,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -60909,9 +59714,9 @@
      ],
      "ki_max_nM": 1400.0,
      "ki_min_nM": 16.0,
-     "ki_nM": 318.150717,
+     "ki_nM": 340.167813,
      "n_documents": 22,
-     "n_measurements": 29,
+     "n_measurements": 28,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -60928,8 +59733,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 4,
-       "pki": 6.4847,
+       "n_measurements": 3,
+       "pki": 6.277,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -60984,7 +59789,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 6.4974,
+     "pki_median": 6.4683,
      "sources": {
       "chembl": 8,
       "gtopdb": 1,
@@ -61028,8 +59833,8 @@
      "ki_max_nM": 1000.0,
      "ki_min_nM": 9.2,
      "ki_nM": 340.0,
-     "n_documents": 12,
-     "n_measurements": 15,
+     "n_documents": 11,
+     "n_measurements": 14,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -61065,20 +59870,13 @@
        "pubmed_id": "8997630",
        "reference": "KONGSAMUT S, ET AL., 1996",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 6.4685,
-       "pubmed_id": "9430133",
-       "reference": "Arnt J and Skarsfeldt T",
-       "source": "pdsp"
       }
      ],
      "pki_median": 6.4685,
      "sources": {
       "chembl": 6,
       "gtopdb": 0,
-      "pdsp": 6
+      "pdsp": 5
      },
      "status": "data"
     },
@@ -61097,9 +59895,9 @@
      ],
      "ki_max_nM": 3000.0,
      "ki_min_nM": 1057.0,
-     "ki_nM": 2156.313352,
+     "ki_nM": 1978.278789,
      "n_documents": 8,
-     "n_measurements": 10,
+     "n_measurements": 9,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -61109,8 +59907,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 3,
-       "pki": 5.6726,
+       "n_measurements": 2,
+       "pki": 5.7474,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -61144,7 +59942,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 5.6663,
+     "pki_median": 5.7037,
      "sources": {
       "chembl": 2,
       "gtopdb": 0,
@@ -61219,8 +60017,8 @@
      "ki_max_nM": 21.0,
      "ki_min_nM": 2.2,
      "ki_nM": 10.0,
-     "n_documents": 13,
-     "n_measurements": 13,
+     "n_documents": 11,
+     "n_measurements": 11,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -61253,20 +60051,6 @@
       {
        "n_measurements": 1,
        "pki": 8.6576,
-       "pubmed_id": "15615863",
-       "reference": "Maheux J, et al., 2005",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.9586,
-       "pubmed_id": "18059438",
-       "reference": "Jensen NH, et al., 2008",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 8.6576,
        "pubmed_id": "8935801",
        "reference": "Schotte A, et al.,  1996",
        "source": "pdsp"
@@ -61276,7 +60060,7 @@
      "sources": {
       "chembl": 6,
       "gtopdb": 0,
-      "pdsp": 7
+      "pdsp": 5
      },
      "status": "data"
     },
@@ -61322,7 +60106,7 @@
      "ki_min_nM": 79.43,
      "ki_nM": 300.995933,
      "n_documents": 16,
-     "n_measurements": 17,
+     "n_measurements": 16,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -61374,8 +60158,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
-       "pki": 6.365,
+       "n_measurements": 1,
+       "pki": 6.3645,
        "pubmed_id": "18059438",
        "reference": "Jensen NH, et al., 2008",
        "source": "pdsp"
@@ -61556,8 +60340,8 @@
      "ki_max_nM": 2500.0,
      "ki_min_nM": 31.0,
      "ki_nM": 143.742596,
-     "n_documents": 23,
-     "n_measurements": 26,
+     "n_documents": 21,
+     "n_measurements": 24,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -61596,13 +60380,6 @@
       },
       {
        "n_measurements": 1,
-       "pki": 6.66,
-       "pubmed_id": null,
-       "reference": "Silvestre, JS. et, al. 2005",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
        "pki": 7.5086,
        "pubmed_id": "11132243",
        "reference": "Richelson E, Souder T. 2000",
@@ -61628,13 +60405,20 @@
        "pubmed_id": "15615863",
        "reference": "Maheux J, et al., 2005",
        "source": "pdsp"
+      },
+      {
+       "n_measurements": 1,
+       "pki": 6.1965,
+       "pubmed_id": "8997630",
+       "reference": "KONGSAMUT S, ET AL., 1996",
+       "source": "pdsp"
       }
      ],
      "pki_median": 6.8424,
      "sources": {
       "chembl": 9,
       "gtopdb": 1,
-      "pdsp": 13
+      "pdsp": 11
      },
      "status": "data"
     },
@@ -61849,9 +60633,9 @@
      ],
      "ki_max_nM": 4100.0,
      "ki_min_nM": 33.0,
-     "ki_nM": 1777.0,
-     "n_documents": 9,
-     "n_measurements": 10,
+     "ki_nM": 1819.98022,
+     "n_documents": 8,
+     "n_measurements": 8,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -61889,8 +60673,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
-       "pki": 5.7294,
+       "n_measurements": 1,
+       "pki": 5.7296,
        "pubmed_id": "18059438",
        "reference": "Jensen NH, et al., 2008",
        "source": "pdsp"
@@ -61901,20 +60685,13 @@
        "pubmed_id": "8522988",
        "reference": "KOHEN R, ET AL., 1996",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.4815,
-       "pubmed_id": "9430133",
-       "reference": "Arnt J and Skarsfeldt T",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 5.7503,
+     "pki_median": 5.7399,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 8
+      "pdsp": 7
      },
      "status": "data"
     },
@@ -62659,25 +61436,13 @@
      ],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 1000.0,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
        "source": "pdsp"
       }
      ]
@@ -62692,15 +61457,9 @@
      ],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 1000.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "14642972",
@@ -62719,31 +61478,13 @@
      ],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 1000.0,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "12629531",
-       "reference": "Kroeze WK, et.al., 2003",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
        "source": "pdsp"
       }
      ]
@@ -62758,15 +61499,9 @@
      ],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 1000.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "14642972",
@@ -62785,25 +61520,13 @@
      ],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 1000.0,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
        "source": "pdsp"
       }
      ]
@@ -63168,17 +61891,10 @@
      ],
      "ki_max_nM": 10.0,
      "ki_min_nM": 1.3,
-     "ki_nM": 2.113489,
-     "n_documents": 6,
-     "n_measurements": 6,
+     "ki_nM": 3.235937,
+     "n_documents": 5,
+     "n_measurements": 5,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 8.8861,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 8.8861,
@@ -63194,11 +61910,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.675,
+     "pki_median": 8.49,
      "sources": {
       "chembl": 3,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -63490,9 +62206,9 @@
      ],
      "ki_max_nM": 27.0,
      "ki_min_nM": 0.3,
-     "ki_nM": 3.090295,
+     "ki_nM": 3.311311,
      "n_documents": 29,
-     "n_measurements": 38,
+     "n_measurements": 37,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -63509,8 +62225,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 4,
-       "pki": 8.6605,
+       "n_measurements": 3,
+       "pki": 8.3731,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -63565,7 +62281,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.51,
+     "pki_median": 8.48,
      "sources": {
       "chembl": 14,
       "gtopdb": 1,
@@ -63630,7 +62346,7 @@
      "ki_min_nM": 1.6,
      "ki_nM": 10.0,
      "n_documents": 17,
-     "n_measurements": 22,
+     "n_measurements": 20,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -63640,8 +62356,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 4,
-       "pki": 8.4464,
+       "n_measurements": 3,
+       "pki": 8.3945,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -63675,8 +62391,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
-       "pki": 8.0139,
+       "n_measurements": 1,
+       "pki": 8.1739,
        "pubmed_id": "9430133",
        "reference": "Arnt J and Skarsfeldt T",
        "source": "pdsp"
@@ -63732,9 +62448,9 @@
      ],
      "ki_max_nM": 100.0,
      "ki_min_nM": 0.25,
-     "ki_nM": 8.51138,
-     "n_documents": 15,
-     "n_measurements": 17,
+     "ki_nM": 8.703247,
+     "n_documents": 14,
+     "n_measurements": 15,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -63751,8 +62467,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 3,
-       "pki": 8.5678,
+       "n_measurements": 2,
+       "pki": 8.0506,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -63769,13 +62485,6 @@
        "pki": 8.1549,
        "pubmed_id": "7520908",
        "reference": "Leysen JE, et.al., 1994",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 8.1549,
-       "pubmed_id": "8822531",
-       "reference": "Bymaster F.P., et. al., 1996",
        "source": "pdsp"
       },
       {
@@ -63800,11 +62509,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.07,
+     "pki_median": 8.0603,
      "sources": {
       "chembl": 6,
       "gtopdb": 0,
-      "pdsp": 9
+      "pdsp": 8
      },
      "status": "data"
     },
@@ -63895,9 +62604,9 @@
      ],
      "ki_max_nM": 100.0,
      "ki_min_nM": 2.6,
-     "ki_nM": 19.054607,
-     "n_documents": 15,
-     "n_measurements": 15,
+     "ki_nM": 18.836491,
+     "n_documents": 14,
+     "n_measurements": 14,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -63930,23 +62639,16 @@
       {
        "n_measurements": 1,
        "pki": 7.5686,
-       "pubmed_id": "15615863",
-       "reference": "Maheux J, et al., 2005",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.5686,
        "pubmed_id": "8935801",
        "reference": "Schotte A, et al.,  1996",
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.72,
+     "pki_median": 7.725,
      "sources": {
       "chembl": 9,
       "gtopdb": 0,
-      "pdsp": 6
+      "pdsp": 5
      },
      "status": "data"
     },
@@ -64043,7 +62745,7 @@
      "ki_min_nM": 21.0,
      "ki_nM": 265.552654,
      "n_documents": 20,
-     "n_measurements": 21,
+     "n_measurements": 20,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -64060,8 +62762,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
-       "pki": 6.5855,
+       "n_measurements": 1,
+       "pki": 6.8013,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -64292,9 +62994,9 @@
      ],
      "ki_max_nM": 7.0,
      "ki_min_nM": 0.099,
-     "ki_nM": 0.328246,
-     "n_documents": 32,
-     "n_measurements": 34,
+     "ki_nM": 0.29,
+     "n_documents": 31,
+     "n_measurements": 32,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -64332,8 +63034,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 3,
-       "pki": 9.6993,
+       "n_measurements": 2,
+       "pki": 9.6995,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -64349,13 +63051,6 @@
        "n_measurements": 1,
        "pki": 9.301,
        "pubmed_id": null,
-       "reference": "Snyder et al., 2015",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 9.301,
-       "pubmed_id": null,
        "reference": "Zajdel, Pawel et. al, 2018",
        "source": "pdsp"
       },
@@ -64365,13 +63060,20 @@
        "pubmed_id": "10227113",
        "reference": "Bymaster F.P., et. al., 1999",
        "source": "pdsp"
+      },
+      {
+       "n_measurements": 1,
+       "pki": 9.8239,
+       "pubmed_id": "11132243",
+       "reference": "Richelson E, Souder T. 2000",
+       "source": "pdsp"
       }
      ],
-     "pki_median": 9.4838,
+     "pki_median": 9.5376,
      "sources": {
       "chembl": 12,
       "gtopdb": 0,
-      "pdsp": 20
+      "pdsp": 19
      },
      "status": "data"
     },
@@ -64666,9 +63368,9 @@
      ],
      "ki_max_nM": 2511.886431509582,
      "ki_min_nM": 224.0,
-     "ki_nM": 1318.256739,
-     "n_documents": 15,
-     "n_measurements": 16,
+     "ki_nM": 1288.799244,
+     "n_documents": 14,
+     "n_measurements": 15,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -64718,20 +63420,13 @@
        "pubmed_id": "30383372",
        "reference": "Cao X et al 2018",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.6198,
-       "pubmed_id": "9430133",
-       "reference": "Arnt J and Skarsfeldt T",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 5.88,
+     "pki_median": 5.8898,
      "sources": {
       "chembl": 6,
       "gtopdb": 1,
-      "pdsp": 8
+      "pdsp": 7
      },
      "status": "data"
     },
@@ -64760,9 +63455,9 @@
      ],
      "ki_max_nM": 10.0,
      "ki_min_nM": 0.4,
-     "ki_nM": 3.589219,
+     "ki_nM": 3.251128,
      "n_documents": 12,
-     "n_measurements": 13,
+     "n_measurements": 12,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -64779,8 +63474,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
-       "pki": 8.3182,
+       "n_measurements": 1,
+       "pki": 8.4559,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -64821,7 +63516,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.445,
+     "pki_median": 8.488,
      "sources": {
       "chembl": 4,
       "gtopdb": 0,
@@ -65123,19 +63818,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
        "source": "pdsp"
       }
      ]
@@ -65144,19 +63833,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
        "source": "pdsp"
       }
      ]
@@ -65165,19 +63848,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
        "source": "pdsp"
       }
      ]
@@ -65246,19 +63923,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
        "source": "pdsp"
       }
      ]
@@ -65267,19 +63938,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
        "source": "pdsp"
       }
      ]
@@ -65288,19 +63953,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
        "source": "pdsp"
       }
      ]
@@ -65369,8 +64028,8 @@
      "ki_max_nM": 1862.0871366629,
      "ki_min_nM": 1862.0871366629,
      "ki_nM": 1862.087137,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -65378,20 +64037,13 @@
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.73,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
-       "source": "pdsp"
       }
      ],
      "pki_median": 5.73,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -65400,8 +64052,8 @@
      "ki_max_nM": 758.57757502918,
      "ki_min_nM": 758.57757502918,
      "ki_nM": 758.577575,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -65409,20 +64061,13 @@
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 6.12,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
-       "source": "pdsp"
       }
      ],
      "pki_median": 6.12,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -65431,8 +64076,8 @@
      "ki_max_nM": 1202.2644346174,
      "ki_min_nM": 1202.2644346174,
      "ki_nM": 1202.264435,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -65440,20 +64085,13 @@
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.92,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
-       "source": "pdsp"
       }
      ],
      "pki_median": 5.92,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -65493,9 +64131,9 @@
      ],
      "ki_max_nM": 933.25430079699,
      "ki_min_nM": 3.7,
-     "ki_nM": 691.830971,
-     "n_documents": 5,
-     "n_measurements": 7,
+     "ki_nM": 70.794578,
+     "n_documents": 4,
+     "n_measurements": 5,
      "pdsp_references": [
       {
        "n_measurements": 2,
@@ -65503,20 +64141,13 @@
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 2,
-       "pki": 6.1,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 6.16,
+     "pki_median": 7.15,
      "sources": {
       "chembl": 3,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -65545,9 +64176,9 @@
      ],
      "ki_max_nM": 61.0,
      "ki_min_nM": 2.9,
-     "ki_nM": 36.72823,
-     "n_documents": 6,
-     "n_measurements": 6,
+     "ki_nM": 36.307805,
+     "n_documents": 5,
+     "n_measurements": 5,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -65555,20 +64186,13 @@
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.43,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 7.435,
+     "pki_median": 7.44,
      "sources": {
       "chembl": 4,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -65582,9 +64206,9 @@
      ],
      "ki_max_nM": 851.13803820238,
      "ki_min_nM": 7.8,
-     "ki_nM": 851.138038,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "ki_nM": 81.283052,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -65592,20 +64216,13 @@
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 6.07,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 6.07,
+     "pki_median": 7.09,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -65635,9 +64252,9 @@
      ],
      "ki_max_nM": 1706.0,
      "ki_min_nM": 288.40315031266,
-     "ki_nM": 288.40315,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "ki_nM": 699.841996,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -65645,20 +64262,13 @@
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 6.54,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 6.54,
+     "pki_median": 6.155,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -65667,8 +64277,8 @@
      "ki_max_nM": 1380.3842646029,
      "ki_min_nM": 1380.3842646029,
      "ki_nM": 1380.384265,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -65676,20 +64286,13 @@
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.86,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
-       "source": "pdsp"
       }
      ],
      "pki_median": 5.86,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -65698,8 +64301,8 @@
      "ki_max_nM": 3801.8939632056,
      "ki_min_nM": 3801.8939632056,
      "ki_nM": 3801.893963,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -65707,20 +64310,13 @@
        "pubmed_id": "12388666",
        "reference": "Millan MJ, et al., 2002",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 5.42,
-       "pubmed_id": "14978194",
-       "reference": "Millan MJ, et. al., 2004",
-       "source": "pdsp"
       }
      ],
      "pki_median": 5.42,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -68229,19 +66825,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "8632342",
        "reference": "WAINSCOTT DB, ET AL., 1996",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "9225287",
-       "reference": "BONHAUS DW, ET AL., 1997",
        "source": "pdsp"
       }
      ]
@@ -68679,25 +67269,16 @@
        "source": "gtopdb"
       }
      ],
-     "ki_max_nM": 2600.0,
+     "ki_max_nM": 2511.886431509582,
      "ki_min_nM": 2511.886431509582,
-     "ki_nM": 2555.563484,
-     "n_documents": 2,
-     "n_measurements": 2,
-     "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 5.585,
-       "pubmed_id": "12825922",
-       "reference": "Glennon RA, 2003",
-       "source": "pdsp"
-      }
-     ],
-     "pki_median": 5.5925,
+     "ki_nM": 2511.886432,
+     "n_documents": 1,
+     "n_measurements": 1,
+     "pki_median": 5.6,
      "sources": {
       "chembl": 0,
       "gtopdb": 1,
-      "pdsp": 1
+      "pdsp": 0
      },
      "status": "data"
     },
@@ -70693,9 +69274,9 @@
      ],
      "ki_max_nM": 33.0,
      "ki_min_nM": 1.69,
-     "ki_nM": 2.7,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "ki_nM": 4.175244,
+     "n_documents": 4,
+     "n_measurements": 4,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -70717,20 +69298,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 8.5686,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 8.5686,
+     "pki_median": 8.3793,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -70744,9 +69318,9 @@
      ],
      "ki_max_nM": 831.0,
      "ki_min_nM": 14.0,
-     "ki_nM": 26.30268,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "ki_nM": 31.622777,
+     "n_documents": 4,
+     "n_measurements": 4,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -70768,20 +69342,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.8539,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 7.58,
+     "pki_median": 7.5,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 3
      },
      "status": "data"
     },
@@ -70796,16 +69363,9 @@
      "ki_max_nM": 43.0,
      "ki_min_nM": 15.0,
      "ki_nM": 19.054607,
-     "n_documents": 5,
-     "n_measurements": 5,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 7.3665,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 7.3665,
@@ -70819,20 +69379,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.8239,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
-       "source": "pdsp"
       }
      ],
      "pki_median": 7.72,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 4
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -70846,9 +69399,9 @@
      ],
      "ki_max_nM": 913.0,
      "ki_min_nM": 9.0,
-     "ki_nM": 9.933934,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "ki_nM": 10.964782,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -70863,20 +69416,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 8.0458,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 8.0029,
+     "pki_median": 7.96,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -70890,9 +69436,9 @@
      ],
      "ki_max_nM": 13.0,
      "ki_min_nM": 6.643,
-     "ki_nM": 12.489996,
-     "n_documents": 4,
-     "n_measurements": 4,
+     "ki_nM": 12.0,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -70907,20 +69453,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.8861,
-       "pubmed_id": "14642972",
-       "reference": "Bymaster F.P., et. al., 2003",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 7.9034,
+     "pki_median": 7.9208,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -70986,7 +69525,7 @@
      "ki_min_nM": 0.4,
      "ki_nM": 10.488088,
      "n_documents": 14,
-     "n_measurements": 19,
+     "n_measurements": 18,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -70996,8 +69535,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 4,
-       "pki": 8.6218,
+       "n_measurements": 3,
+       "pki": 8.3631,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -71077,13 +69616,13 @@
      ],
      "ki_max_nM": 7.4,
      "ki_min_nM": 1.5,
-     "ki_nM": 2.751735,
+     "ki_nM": 2.940765,
      "n_documents": 4,
-     "n_measurements": 7,
+     "n_measurements": 6,
      "pdsp_references": [
       {
-       "n_measurements": 4,
-       "pki": 8.6508,
+       "n_measurements": 3,
+       "pki": 8.5931,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -71103,7 +69642,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.5604,
+     "pki_median": 8.5315,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
@@ -71121,9 +69660,9 @@
      ],
      "ki_max_nM": 515.0,
      "ki_min_nM": 1.5,
-     "ki_nM": 11.235699,
+     "ki_nM": 16.759657,
      "n_documents": 6,
-     "n_measurements": 8,
+     "n_measurements": 7,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -71133,8 +69672,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 3,
-       "pki": 8.1292,
+       "n_measurements": 2,
+       "pki": 7.7819,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -71161,7 +69700,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.9494,
+     "pki_median": 7.7757,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
@@ -71701,16 +70240,9 @@
      "ki_max_nM": 181.0,
      "ki_min_nM": 70.0,
      "ki_nM": 99.0,
-     "n_documents": 6,
-     "n_measurements": 6,
+     "n_documents": 5,
+     "n_measurements": 5,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 7.0044,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 7.0,
@@ -71730,7 +70262,7 @@
      "sources": {
       "chembl": 2,
       "gtopdb": 1,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -72592,15 +71124,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "8100134",
@@ -72613,15 +71139,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "8100134",
@@ -72634,15 +71154,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "8100134",
@@ -72655,15 +71169,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "8100134",
@@ -72676,15 +71184,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "8100134",
@@ -73625,11 +72127,11 @@
      "ki_min_nM": 0.96,
      "ki_nM": 1.3,
      "n_documents": 7,
-     "n_measurements": 10,
+     "n_measurements": 9,
      "pdsp_references": [
       {
-       "n_measurements": 4,
-       "pki": 8.6003,
+       "n_measurements": 3,
+       "pki": 8.4612,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -73689,13 +72191,13 @@
      "documents": [],
      "ki_max_nM": 0.95,
      "ki_min_nM": 0.45,
-     "ki_nM": 0.548629,
+     "ki_nM": 0.605775,
      "n_documents": 2,
-     "n_measurements": 4,
+     "n_measurements": 3,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 9.1747,
+       "n_measurements": 2,
+       "pki": 9.0886,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -73708,7 +72210,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 9.2607,
+     "pki_median": 9.2177,
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
@@ -73730,13 +72232,13 @@
      ],
      "ki_max_nM": 44.0,
      "ki_min_nM": 32.2,
-     "ki_nM": 42.27622,
+     "ki_nM": 41.522269,
      "n_documents": 4,
-     "n_measurements": 6,
+     "n_measurements": 5,
      "pdsp_references": [
       {
-       "n_measurements": 3,
-       "pki": 7.3878,
+       "n_measurements": 2,
+       "pki": 7.4034,
        "pubmed_id": null,
        "reference": "Seeman, Philip  2001",
        "source": "pdsp"
@@ -73756,7 +72258,7 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.3739,
+     "pki_median": 7.3817,
      "sources": {
       "chembl": 0,
       "gtopdb": 1,
@@ -74101,11 +72603,11 @@
        "source": "gtopdb"
       }
      ],
-     "ki_max_nM": 123.02687708124,
-     "ki_min_nM": 0.37153522909717,
-     "ki_nM": 1.469129,
-     "n_documents": 4,
-     "n_measurements": 5,
+     "ki_max_nM": 1.6,
+     "ki_min_nM": 1.3489632380568446,
+     "ki_nM": 1.348963,
+     "n_documents": 3,
+     "n_measurements": 3,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -74113,20 +72615,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 2,
-       "pki": 8.17,
-       "pubmed_id": "1994002",
-       "reference": "Dorje F et al., 1991",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 8.8329,
+     "pki_median": 8.87,
      "sources": {
       "chembl": 1,
       "gtopdb": 1,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -74138,11 +72633,11 @@
        "year": null
       }
      ],
-     "ki_max_nM": 489.77881936845,
+     "ki_max_nM": 12.0,
      "ki_min_nM": 7.0,
-     "ki_nM": 12.022644,
-     "n_documents": 3,
-     "n_measurements": 4,
+     "ki_nM": 9.173795,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -74150,20 +72645,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 2,
-       "pki": 7.23,
-       "pubmed_id": "1994002",
-       "reference": "Dorje F et al., 1991",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 7.92,
+     "pki_median": 8.0375,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -74175,11 +72663,11 @@
        "year": null
       }
      ],
-     "ki_max_nM": 1288.2495516931,
-     "ki_min_nM": 2.454708915685,
-     "ki_nM": 6.4,
-     "n_documents": 3,
-     "n_measurements": 4,
+     "ki_max_nM": 6.4,
+     "ki_min_nM": 3.151,
+     "ki_nM": 4.498731,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -74187,20 +72675,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 2,
-       "pki": 7.25,
-       "pubmed_id": "1994002",
-       "reference": "Dorje F et al., 1991",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 8.1938,
+     "pki_median": 8.3469,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -74212,11 +72693,11 @@
        "year": null
       }
      ],
-     "ki_max_nM": 269.15348039269,
+     "ki_max_nM": 2.6,
      "ki_min_nM": 0.764,
-     "ki_nM": 2.6,
-     "n_documents": 3,
-     "n_measurements": 4,
+     "ki_nM": 1.404387,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -74224,20 +72705,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 2,
-       "pki": 7.825,
-       "pubmed_id": "1994002",
-       "reference": "Dorje F et al., 1991",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 8.585,
+     "pki_median": 8.8525,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     },
@@ -74249,11 +72723,11 @@
        "year": null
       }
      ],
-     "ki_max_nM": 676.08297539198,
-     "ki_min_nM": 5.0118723362727,
-     "ki_nM": 15.9,
-     "n_documents": 3,
-     "n_measurements": 4,
+     "ki_max_nM": 15.9,
+     "ki_min_nM": 8.679,
+     "ki_nM": 11.767889,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -74261,20 +72735,13 @@
        "pubmed_id": "1346637",
        "reference": "Bolden C, et al., 1992",
        "source": "pdsp"
-      },
-      {
-       "n_measurements": 2,
-       "pki": 7.235,
-       "pubmed_id": "1994002",
-       "reference": "Dorje F et al., 1991",
-       "source": "pdsp"
       }
      ],
-     "pki_median": 7.7986,
+     "pki_median": 7.9293,
      "sources": {
       "chembl": 1,
       "gtopdb": 0,
-      "pdsp": 2
+      "pdsp": 1
      },
      "status": "data"
     }
@@ -75356,21 +73823,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "11454918",
-       "reference": "Millan MJ, et al., 2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "11750180",
-       "reference": "Bymaster F.P., et. al., 2001",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "7855217",
@@ -75398,21 +73853,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "11750180",
-       "reference": "Bymaster F.P., et. al., 2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "16712488",
-       "reference": "Roth B. et al., 2006",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "7855217",
@@ -75425,15 +73868,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": "11454918",
-       "reference": "Millan MJ, et al., 2001",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "11750180",
@@ -75539,19 +73976,13 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
       {
        "n_measurements": 1,
        "pubmed_id": "11454918",
        "reference": "Millan MJ, et al., 2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pubmed_id": "16712488",
-       "reference": "Roth B. et al., 2006",
        "source": "pdsp"
       }
      ]
@@ -75824,9 +74255,9 @@
      ],
      "ki_max_nM": 145.0,
      "ki_min_nM": 3.814,
-     "ki_nM": 36.171428,
-     "n_documents": 10,
-     "n_measurements": 12,
+     "ki_nM": 33.630343,
+     "n_documents": 9,
+     "n_measurements": 11,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -75840,13 +74271,6 @@
        "pki": 7.0862,
        "pubmed_id": "11750180",
        "reference": "Bymaster F.P., et. al., 2001",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
-       "pki": 7.0862,
-       "pubmed_id": "14573386",
-       "reference": "Koch S, et al., 2003",
        "source": "pdsp"
       },
       {
@@ -75871,11 +74295,11 @@
        "source": "pdsp"
       }
      ],
-     "pki_median": 7.4416,
+     "pki_median": 7.4733,
      "sources": {
       "chembl": 4,
       "gtopdb": 0,
-      "pdsp": 6
+      "pdsp": 5
      },
      "status": "data"
     }
@@ -77078,15 +75502,9 @@
      "documents": [],
      "ki_lower_bound_max_nM": 10000.0,
      "ki_lower_bound_nM": 10000.0,
-     "n_documents": 2,
-     "n_measurements": 2,
+     "n_documents": 1,
+     "n_measurements": 1,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pubmed_id": "12629531",
@@ -77274,16 +75692,9 @@
      "ki_max_nM": 160.0,
      "ki_min_nM": 160.0,
      "ki_nM": 160.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 6.7959,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 6.7959,
@@ -77303,7 +75714,7 @@
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -77312,16 +75723,9 @@
      "ki_max_nM": 48.0,
      "ki_min_nM": 48.0,
      "ki_nM": 48.0,
-     "n_documents": 3,
-     "n_measurements": 3,
+     "n_documents": 2,
+     "n_measurements": 2,
      "pdsp_references": [
-      {
-       "n_measurements": 1,
-       "pki": 7.3188,
-       "pubmed_id": null,
-       "reference": "PDSP Certified Data",
-       "source": "pdsp"
-      },
       {
        "n_measurements": 1,
        "pki": 7.3188,
@@ -77341,7 +75745,7 @@
      "sources": {
       "chembl": 0,
       "gtopdb": 0,
-      "pdsp": 3
+      "pdsp": 2
      },
      "status": "data"
     },
@@ -77774,9 +76178,9 @@
      ],
      "ki_max_nM": 10.0,
      "ki_min_nM": 1.1,
-     "ki_nM": 7.585776,
-     "n_documents": 9,
-     "n_measurements": 10,
+     "ki_nM": 7.413102,
+     "n_documents": 8,
+     "n_measurements": 9,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -77808,24 +76212,17 @@
       },
       {
        "n_measurements": 1,
-       "pki": 8.0,
-       "pubmed_id": "9430133",
-       "reference": "Arnt J and Skarsfeldt T",
-       "source": "pdsp"
-      },
-      {
-       "n_measurements": 1,
        "pki": 8.9586,
        "pubmed_id": "9577836",
        "reference": "Seeman P, Tallerico T., 1998",
        "source": "pdsp"
       }
      ],
-     "pki_median": 8.12,
+     "pki_median": 8.13,
      "sources": {
       "chembl": 3,
       "gtopdb": 0,
-      "pdsp": 6
+      "pdsp": 5
      },
      "status": "data"
     },
@@ -78041,7 +76438,7 @@
      "ki_min_nM": 1.5,
      "ki_nM": 2.511886,
      "n_documents": 13,
-     "n_measurements": 14,
+     "n_measurements": 13,
      "pdsp_references": [
       {
        "n_measurements": 1,
@@ -78051,8 +76448,8 @@
        "source": "pdsp"
       },
       {
-       "n_measurements": 2,
-       "pki": 7.9715,
+       "n_measurements": 1,
+       "pki": 8.8239,
        "pubmed_id": null,
        "reference": "PDSP Certified Data",
        "source": "pdsp"
@@ -79216,11 +77613,81 @@
   },
   "panel_resolution_failures": {},
   "pdsp": {
+   "excluded_ligand_ids": {
+    "161": "named '5-HT,N-ACETYL' (N-acetylserotonin) but carries chlorpheniramine's SMILES"
+   },
    "ligand_mapping": "PDSP SMILES -> RDKit largest fragment, uncharged -> standard InChIKey, equal to the ChEMBL parent's full standard InChIKey; no name matching. InChIKeys shared by >1 v2 drug dropped.",
    "n_smiles_mapped": 90,
+   "name_structure_mismatch_rows_dropped": 5,
+   "republication_filter": "Rule (b3): rows of one drug x gene with identical Hotligand and Ki value under different references count once (the row with the smallest PMID, else the first in file order).",
+   "republication_rows_dropped": 213,
    "retrieved": "2026-10-28",
    "row_filter": "species == 'HUMAN' exactly; Unigene equal to a panel gene resolved on the ChEMBL side; ki Val numeric, 1e-3..1e6 nM; ki Note blank = measured, '>' = lower bound, '<' unused; PMID only from a PubMed Link.",
    "sha256": "45c9a18ac30f1fad350d1dde186bc1f226c5a75d474ca50f50713852a5637ac6",
+   "single_isomer_filter": "Rule (b3): a row whose SMILES has no stereo but whose ligand name designates one stereoisomer ((+)/(-), (R)/(S), R-/S-, d-/l-, cis/trans, dex-/lev(o)-/es-/ar- + INN) is dropped unless the name is the drug's own INN; racemate notations ((+/-), (RS), (R,S)) are kept.",
+   "single_isomer_names_dropped": [
+    [
+     "amphetamine",
+     "Amphetamine,(+)"
+    ],
+    [
+     "cetirizine",
+     "Levocetirizine"
+    ],
+    [
+     "chlorpheniramine",
+     "d-Chlorpheniramine"
+    ],
+    [
+     "citalopram",
+     "Escitalopram"
+    ],
+    [
+     "fenfluramine",
+     "Fenfluramine (+)"
+    ],
+    [
+     "fenfluramine",
+     "Fenfluramine (-)"
+    ],
+    [
+     "fenfluramine",
+     "d-Fenfluramine"
+    ],
+    [
+     "fenfluramine",
+     "l-Fenfluramine"
+    ],
+    [
+     "fenoldopam",
+     "SKF-82526, (+)"
+    ],
+    [
+     "fenoldopam",
+     "SKF-82526, (-)"
+    ],
+    [
+     "hydroxyzine",
+     "Hydroxyzine, (R)"
+    ],
+    [
+     "mirtazapine",
+     "mirtazepine(+)"
+    ],
+    [
+     "mirtazapine",
+     "mirtazepine(-)"
+    ],
+    [
+     "trihexyphenidyl",
+     "(R)-Trihexyphenidyl"
+    ],
+    [
+     "trihexyphenidyl",
+     "(S)-Trihexyphenidyl"
+    ]
+   ],
+   "single_isomer_rows_dropped": 126,
    "tls": "fetched with an unverified TLS context (server CA chain not verifiable)",
    "url": "https://pdsp.unc.edu/databases/kiDownload/download.php"
   },
