@@ -2975,7 +2975,7 @@
         "P32.1",
         "P33.3"
       ],
-      "status": "pending",
+      "status": "blocked",
       "attempts": 0,
       "conductor": {
         "sessions": 3,
@@ -2984,10 +2984,12 @@
           "2026-10-29 12:50 PR #68 rejected by acceptance review: ACCEPTANCE 1: FAIL — git log --all --oneline in /work shows exactly one commit (5fee7ca, author conductor <conductor@localhost>, \"base, held-out truth removed (conductor)\"). git show --stat HEAD -- results/P32.4_predictions.json src/neurocascade/benchmark/prospective/observed/ shows the prediction file and all 7 observed-truth JSON files added in that same commit; git log --diff-filter=A --oneline",
           "2026-10-29 14:28 COMPLETE, PR opened",
           "2026-10-29 14:49 PR #69 rejected by acceptance review: ACCEPTANCE 1: FAIL — git log --follow --diff-filter=A -- results/P32.4_predictions.json and the same for src/neurocascade/benchmark/prospective/observed/ both resolve to the single commit 8c6b2f0 (\"base, held-out truth removed (conductor)\"); git log --all --oneline shows exactly one commit in this checkout, so the prediction-before-truth ordering the PR's entire anti-gaming argument rests on (and ",
-          "2026-10-29 16:11 EMPTY, PR opened"
+          "2026-10-29 16:11 EMPTY, PR opened",
+          "2026-10-29 16:28 PR #70 rejected by acceptance review: ACCEPTANCE 2: FAIL — results/P32.4_predictions.json → full_result['target_engagement_dose']['status'] and ['panel_occupancy_time']['status'] are both \"pending\" (no number), and liabilities are uninformative train-prevalence fallbacks (anticholinergic 0.36, sedation 0.42) never compared to the qualitative observed text. score() in src/neurocascade/prospective.py computes a fold-error only for clear"
         ],
-        "review_rejections": 2
-      }
+        "review_rejections": 3
+      },
+      "result": "acceptance review rejected 3 PRs; last: ACCEPTANCE 2: FAIL — results/P32.4_predictions.json → full_result['target_engagement_dose']['status'] and ['panel_occupancy_time']['status'] are both \"pending\" (no number), and liabilities are uninformative train-prevalence fallbacks (anticholinergic 0.36, sedation 0.42) never compared to the qualit"
     },
     {
       "id": "P33.1",
