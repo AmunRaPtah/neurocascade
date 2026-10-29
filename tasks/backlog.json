@@ -2914,9 +2914,10 @@
       "status": "pending",
       "attempts": 0,
       "conductor": {
-        "sessions": 1,
+        "sessions": 2,
         "history": [
-          "2026-10-29 05:04 complete; rejected: patch touches files outside src/, tests/, docs/, tasks/specs/, scripts/, examples/, results/, README.md: ['.gitignore', 'pyproject.toml']"
+          "2026-10-29 05:04 complete; rejected: patch touches files outside src/, tests/, docs/, tasks/specs/, scripts/, examples/, results/, README.md: ['.gitignore', 'pyproject.toml']",
+          "2026-10-29 06:17 COMPLETE, PR opened"
         ]
       }
     },
