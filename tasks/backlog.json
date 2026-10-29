@@ -2912,7 +2912,13 @@
         "P32.1"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "conductor": {
+        "sessions": 1,
+        "history": [
+          "2026-10-29 05:04 complete; rejected: patch touches files outside src/, tests/, docs/, tasks/specs/, scripts/, examples/, results/, README.md: ['.gitignore', 'pyproject.toml']"
+        ]
+      }
     },
     {
       "id": "P32.3",
