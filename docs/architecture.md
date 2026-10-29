@@ -17985,3 +17985,131 @@ and without truth: every held-out drug lands in exactly one bucket, and
 `tests/conftest.py` under `NC_HOST_EVAL=1`, and only when
 `tests/test_conformal.py` ran. The bands were frozen before any held-out row
 was read, and no band, level or score is tuned on held-out coverage.
+
+## Phase 30, part four: bands refit around the P34.3 frozen candidate (P30.4)
+
+P30.3 banded the train-mean CL/Vss fallback and P30.1's logistic, and it never
+ran held-out coverage. P30.4 refits the same split-conformal arithmetic on the
+P34.3 frozen candidate. The code is `neurocascade.benchmark.v2.candidate_bands`,
+and the frozen file is `v2/frozen/p30_4_bands.json`. It reuses the quantile,
+coverage and label-set functions from `conformal.py` unchanged. The P30.3 file
+and API are left alone, because their test pins them byte for byte.
+
+Human decision, 2026-10-28: P34 closed with no verdict possible, and this work
+proceeds without a GO. The file, every quantity in it, every
+`predict_with_bands` output and the held-out report all carry the provenance
+string `not validated: P34 returned no verdict`.
+
+### What the source says, against the brief
+
+The brief speaks of effect probabilities and of CL/interval widths. The frozen
+candidate (`frozen_candidate.py`, `p34_candidate.json`) produces neither. This
+module follows the source:
+
+- **No PK arm.** The candidate scores liabilities only. P33.4's IVIVE CL arm is
+  searched-and-empty because v2 holds no in-vitro CLint, and no Vss predictor
+  has ever been scored. So `human_cl` and `human_vss` are recorded as
+  `no-candidate-prediction`, and the P30.3 train-mean bands are carried beside
+  them as the only bands. No candidate CL band is invented.
+- **No probability.** The candidate's output is a rank sum within a cohort.
+  To score a single drug, rank it among a reference cohort plus itself:
+  - for a calibration drug, the reference is the other n − 1 train drugs;
+  - for a new or held-out drug, it is the frozen n train drugs stored in the
+    band file.
+
+  The sum `R` is rescaled to `u = (R − 2) / (2m)`, which lies in [0, 1]. Its
+  endpoints are the lowest and highest possible rank sums in a cohort of
+  m + 1. `u` uses no labels, so it is a residual that is leave-one-drug-out by
+  construction, and it is not refitted per fold. The output says
+  `is_probability: False`. Only the label set has checkable coverage.
+- **Nonconformity** is `1 − u` when the observed label is 1 and `u` when it
+  is 0, the P30.3 `1 − p(observed)` form. Conformal validity needs only
+  exchangeability, not a calibrated `u`. The rank transform treats every drug
+  in the cohort symmetrically, so the scores stay exchangeable. The
+  calibration percentile ranks against n − 1 drugs and a new drug's against
+  n. That is a one-drug difference in reference size, an O(1/n) effect,
+  stated here rather than hidden.
+
+### Which liabilities are banded
+
+Sedation (n=19, 8 positive) and anticholinergic (n=25, 9 positive) are the
+liabilities P34.1 registered as scored. EPS (2 positives among 24) and
+orthostatic hypotension (1 among 28) are refused as `underpowered`.
+`predict_with_bands` raises `UnbandedQuantityError` for them. P30.3 banded its
+underpowered effects and then had to explain that their singletons were just
+the majority class. Refusing them here avoids shipping that artefact.
+
+### The comparator
+
+The binary form of the train mean is train prevalence. It is scored
+leave-one-out on exactly the same calibration drugs, so the width comparison
+is like for like.
+
+### Result (train LODO, `results/P30.4.json`)
+
+| liability | n (pos) | method | coverage 80% / 95% | LODO sets at 80%: single / both | at 95%: single / both |
+|---|---|---|---|---|---|
+| sedation | 19 (8) | candidate | 16/19 / 19/19* | 11 / 8 | 0 / 19 |
+| sedation | 19 (8) | train-mean | 19/19 / 19/19* | 0 / 19 | 0 / 19 |
+| anticholinergic | 25 (9) | candidate | 20/25 / 24/25 | 24 / 1 | 3 / 22 |
+| anticholinergic | 25 (9) | train-mean | 25/25 / 25/25 | 0 / 25 | 0 / 25 |
+
+\* With 18 other scores, rank ceil(19 × 0.95) = 19 is out of range, so every
+sedation jackknife band at 95% is unbounded. The frozen 95% quantile, built on
+all 19 scores, is 1.0, the largest possible score, so the sedation 95% set is
+always {0, 1}.
+
+How to read the table:
+
+- **Coverage.** Both methods are at or above nominal, so coverage alone does
+  not separate them.
+- **Width does separate them.** Train prevalence never excludes either label.
+  The candidate gives single labels at 80%, and for anticholinergic those
+  labels carry signal:
+  - all 9 positives get {1};
+  - 10 of the 15 negatives get {0};
+  - 5 negatives get a wrong {1}.
+
+  That matches the candidate's 0.907 train AUROC. It is not P30.3's
+  majority-class artefact.
+- **At 95%** the candidate is only barely narrower: 3 singletons out of 44 set
+  predictions.
+- **Per-class coverage is not claimed.** Coverage is marginal, and a Mondrian
+  band at 95% would need at least 19 drugs per class.
+
+### Held-out coverage: once, retrospective
+
+`heldout_coverage()` reads only the frozen file. It scores the v2 held-out
+split (`v2_partition()[1]`) for both candidate bands and both train-mean
+bands. It also scores P30.3's train-mean CL/Vss bands through P30.3's own
+`_heldout_v2_mean`. Each held-out drug lands in one of three buckets:
+`missing_truth`, `not_scoreable` (no label, no Cmax,u or no listed-receptor
+Ki), or scored.
+
+The host runs `src/neurocascade/benchmark/v2/test_bands_heldout.py` once.
+`v2/conftest.py` prints the result last in the NC_HOST_EVAL tail, after the
+P33.3 table, so it stays inside the 25 lines the host keeps.
+
+This split was already scored in P33.4. The report therefore carries
+`retrospective: True` and `certifies_bands: False`, and the ledger row (V21h)
+says the same. P33.4's look found at most two scoreable held-out drugs per
+liability, so this number cannot be large. The clean test is P32.4, on
+post-freeze compounds.
+
+In this session checkout all 67 held-out drugs are `missing_truth`.
+`results/P30.4.json` therefore reports the train LODO calibration as its
+`n_scored`: 32 distinct drugs across the two banded liabilities. The held-out
+result is recorded there as host-pending.
+
+### Freeze discipline
+
+- `tests/test_candidate_bands.py` recomputes the bands from train data and
+  requires an exact match with the frozen file.
+- It pins every coverage and set-size count quoted above.
+- It cross-checks the candidate code and params sha256 against
+  `results/P34.3.json`.
+- It drives the held-out branch only with synthetic in-memory rows.
+
+The file was written once from train data. A wording-only edit to a reason
+string was re-frozen before any held-out run. No band, level or score was
+chosen after looking at held-out data.

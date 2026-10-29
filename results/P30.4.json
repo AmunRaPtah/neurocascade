@@ -1,0 +1,239 @@
+{
+ "task": "P30.4",
+ "status": "complete-with-host-pending-heldout",
+ "provenance": "not validated: P34 returned no verdict",
+ "n_scored": 32,
+ "n_scored_definition": "distinct v2 train drugs given a candidate LODO residual (sedation n=19 and anticholinergic n=25, union)",
+ "band_file": "src/neurocascade/benchmark/v2/frozen/p30_4_bands.json",
+ "candidate": {
+  "params_path": "src/neurocascade/benchmark/v2/frozen/p34_candidate.json",
+  "params_sha256": "0d17a0717a1fe8c2e1a32d6f3cb4655e5754e4ee0cde2d4bc95fe63ee65d6d5b",
+  "code_path": "src/neurocascade/benchmark/v2/frozen_candidate.py",
+  "code_sha256": "d94aaecab87061bc494f774553098f973229330f0a0fb8f3547d3db8e76382f0"
+ },
+ "liabilities": {
+  "sedation": {
+   "n_calibration": 19,
+   "n_positive": 8,
+   "candidate": {
+    "0.80": {
+     "quantile": 0.6944444444444444,
+     "lodo_coverage": {
+      "covered": 16,
+      "n": 19,
+      "rate": 0.8421052631578947,
+      "n_unbounded": 0
+     },
+     "lodo_set_sizes": {
+      "0": 0,
+      "1": 11,
+      "2": 8
+     }
+    },
+    "0.95": {
+     "quantile": 1.0,
+     "lodo_coverage": {
+      "covered": 19,
+      "n": 19,
+      "rate": 1.0,
+      "n_unbounded": 19
+     },
+     "lodo_set_sizes": {
+      "0": 0,
+      "1": 0,
+      "2": 19
+     }
+    }
+   },
+   "train_mean": {
+    "0.80": {
+     "quantile": 0.6111111111111112,
+     "lodo_coverage": {
+      "covered": 19,
+      "n": 19,
+      "rate": 1.0,
+      "n_unbounded": 0
+     },
+     "lodo_set_sizes": {
+      "0": 0,
+      "1": 0,
+      "2": 19
+     }
+    },
+    "0.95": {
+     "quantile": 0.6111111111111112,
+     "lodo_coverage": {
+      "covered": 19,
+      "n": 19,
+      "rate": 1.0,
+      "n_unbounded": 19
+     },
+     "lodo_set_sizes": {
+      "0": 0,
+      "1": 0,
+      "2": 19
+     }
+    }
+   }
+  },
+  "anticholinergic": {
+   "n_calibration": 25,
+   "n_positive": 9,
+   "candidate": {
+    "0.80": {
+     "quantile": 0.5520833333333334,
+     "lodo_coverage": {
+      "covered": 20,
+      "n": 25,
+      "rate": 0.8,
+      "n_unbounded": 0
+     },
+     "lodo_set_sizes": {
+      "0": 0,
+      "1": 24,
+      "2": 1
+     }
+    },
+    "0.95": {
+     "quantile": 0.875,
+     "lodo_coverage": {
+      "covered": 24,
+      "n": 25,
+      "rate": 0.96,
+      "n_unbounded": 0
+     },
+     "lodo_set_sizes": {
+      "0": 0,
+      "1": 3,
+      "2": 22
+     }
+    }
+   },
+   "train_mean": {
+    "0.80": {
+     "quantile": 0.6666666666666667,
+     "lodo_coverage": {
+      "covered": 25,
+      "n": 25,
+      "rate": 1.0,
+      "n_unbounded": 0
+     },
+     "lodo_set_sizes": {
+      "0": 0,
+      "1": 0,
+      "2": 25
+     }
+    },
+    "0.95": {
+     "quantile": 0.6666666666666667,
+     "lodo_coverage": {
+      "covered": 25,
+      "n": 25,
+      "rate": 1.0,
+      "n_unbounded": 0
+     },
+     "lodo_set_sizes": {
+      "0": 0,
+      "1": 0,
+      "2": 25
+     }
+    }
+   }
+  }
+ },
+ "unbanded": {
+  "liability:eps": {
+   "status": "underpowered",
+   "reason": "2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class"
+  },
+  "liability:orthostatic_hypotension": {
+   "status": "underpowered",
+   "reason": "1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class"
+  },
+  "human_cl": {
+   "status": "no-candidate-prediction",
+   "reason": "the P34.3 candidate scores liabilities only and has no PK arm; P33.4's IVIVE CL arm is searched-and-empty (v2 holds no in-vitro CLint) and no Vss predictor was ever scored, so the P30.3 train-mean band is the only band"
+  },
+  "human_vss": {
+   "status": "no-candidate-prediction",
+   "reason": "the P34.3 candidate scores liabilities only and has no PK arm; P33.4's IVIVE CL arm is searched-and-empty (v2 holds no in-vitro CLint) and no Vss predictor was ever scored, so the P30.3 train-mean band is the only band"
+  }
+ },
+ "heldout": {
+  "status": "host-pending",
+  "retrospective": true,
+  "certifies_bands": false,
+  "note": "retrospective: the v2 held-out split was already scored in P33.4, so this coverage cannot certify the bands; P32.4 (prospective, post-freeze compounds) is the clean test",
+  "host_eval": "python -m pytest -q -p no:cacheprovider -s src/neurocascade/benchmark/v2/test_bands_heldout.py",
+  "heldout_drugs": [
+   "amobarbital",
+   "amoxapine",
+   "amphetamine",
+   "articaine",
+   "aspirin",
+   "atomoxetine",
+   "azelastine",
+   "bethanechol",
+   "brimonidine",
+   "brivaracetam",
+   "cabergoline",
+   "cenobamate",
+   "clonazepam",
+   "desloratadine",
+   "dexchlorpheniramine",
+   "dexmethylphenidate",
+   "dicyclomine",
+   "diflunisal",
+   "dihydroergotamine",
+   "diphenhydramine",
+   "dyclonine",
+   "esketamine",
+   "eszopiclone",
+   "etomidate",
+   "fenfluramine",
+   "fentanyl",
+   "fluoxetine",
+   "fluvoxamine",
+   "frovatriptan",
+   "guanabenz",
+   "histamine",
+   "hydroxyzine",
+   "ipratropium",
+   "lacosamide",
+   "levodopa",
+   "lisdexamfetamine",
+   "loratadine",
+   "mepenzolate",
+   "mephenytoin",
+   "mepivacaine",
+   "meprobamate",
+   "mesoridazine",
+   "methacholine",
+   "methylergonovine",
+   "mitoxantrone",
+   "neostigmine",
+   "oxazepam",
+   "oxiconazole",
+   "oxycodone",
+   "oxymetazoline",
+   "perampanel",
+   "pramipexole",
+   "prazosin",
+   "primidone",
+   "remifentanil",
+   "ropivacaine",
+   "rufinamide",
+   "selegiline",
+   "tapentadol",
+   "tetrabenazine",
+   "tiotropium",
+   "trimethadione",
+   "tropicamide",
+   "valproic acid",
+   "venlafaxine",
+   "vilazodone",
+   "zavegepant"
+  ],
+  "session_status": "searched-and-empty: v2 held-out liability and Cmax truth absent in this checkout"
+ }
+}
