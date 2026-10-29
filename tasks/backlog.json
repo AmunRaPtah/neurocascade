@@ -3419,9 +3419,10 @@
       "status": "pending",
       "attempts": 0,
       "conductor": {
-        "sessions": 1,
+        "sessions": 2,
         "history": [
-          "2026-10-29 22:14 complete; rejected: gate failed:\n\nE           OSError: could not create numbered dir with prefix test_xlsx_reader_rejects_sheet in /tmp/pytest-of-worker/pytest-0 after 10 tries\nE           OSError: could not create numbered dir with prefix test_xlsx_reader_rejects_a_bla in /tmp/pytest-of-worker/pytest-0 after 10 tries\nERROR tests/test_connectome.py::test_sha256_of_matches_hashlib - OSError: cou...\nERROR tests/test_connectome.py::test_missing_cache_entry_raises_instead_of_downloading\nERROR tests/test_connectome.py::test_corrupted_cache_entry_is_rejected - OSEr...\nERROR tests/test_connectome.py::test_is_cached_is_f"
+          "2026-10-29 22:14 complete; rejected: gate failed:\n\nE           OSError: could not create numbered dir with prefix test_xlsx_reader_rejects_sheet in /tmp/pytest-of-worker/pytest-0 after 10 tries\nE           OSError: could not create numbered dir with prefix test_xlsx_reader_rejects_a_bla in /tmp/pytest-of-worker/pytest-0 after 10 tries\nERROR tests/test_connectome.py::test_sha256_of_matches_hashlib - OSError: cou...\nERROR tests/test_connectome.py::test_missing_cache_entry_raises_instead_of_downloading\nERROR tests/test_connectome.py::test_corrupted_cache_entry_is_rejected - OSEr...\nERROR tests/test_connectome.py::test_is_cached_is_f",
+          "2026-10-29 23:39 COMPLETE, PR opened"
         ]
       }
     },
