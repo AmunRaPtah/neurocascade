@@ -2882,10 +2882,11 @@
           "2026-10-26 00:03 complete; rejected: gate failed:\nibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_",
           "2026-10-26 01:02 complete; rejected: gate failed:\nibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_",
           "2026-10-26 02:02 complete; rejected: gate failed:\nibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_the_fit_recovers_the_gain_a_synthetic_series_was_generated_at\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_prior_mean\ntests/test_endpoint_calibration.py::test_a_low_generated_gain_pushes_the_posterior_below_the_",
-          "2026-10-26 human: all 6 gate failures were a false positive in tests/test_p29_5_data.py (bare 'oral_exposure' substring guard matched the pending-dict key), not endpoint_calibration; guard narrowed to the truth filename. gave_up reset; now held behind P33.4 GO and P30.4."
+          "2026-10-26 human: all 6 gate failures were a false positive in tests/test_p29_5_data.py (bare 'oral_exposure' substring guard matched the pending-dict key), not endpoint_calibration; guard narrowed to the truth filename. gave_up reset; now held behind P33.4 GO and P30.4.",
+          "2026-10-29 03:37 COMPLETE, PR opened"
         ],
-        "sessions": 6,
-        "gave_up": false
+        "sessions": 7,
+        "gave_up": true
       },
       "note": "2026-10-26: the earlier sessions' gate failures were a test false positive (fixed on main), not your code. Wire predict_compound to the P33.4 candidate and the P30.4 bands, not the train mean."
     },
