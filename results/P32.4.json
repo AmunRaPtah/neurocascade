@@ -1,0 +1,62 @@
+{
+ "apparent_cl_context": [
+  {
+   "apparent_fold_error_upper_bound": 1.155227903638715,
+   "caveat": "apparent oral CL/F, not the IV quantity the P30.3 band scores; CL/F >= systemic CL, so this fold-error is an upper bound. Uncounted.",
+   "mean_baseline_apparent_fold_error": 1.4360623220091007,
+   "name": "ulotaront",
+   "observed_apparent_cl_f_ml_min_kg_at_70kg": 7.738,
+   "oral_F": ">0.70 (BCS1, high solubility/permeability)",
+   "predicted_systemic_cl_ml_min_kg": 6.698245407358145,
+   "source": "Galluppi 2021 population PK, CPT:PSP, DOI 10.1002/psp4.12692 (healthy tablet CL/F 30.0 L/h)"
+  }
+ ],
+ "n_buildable": 1,
+ "n_scored": 0,
+ "n_surveyed": 8,
+ "note": "The product predicts human systemic CL; no repository-absent post-freeze CNS compound surveyed has a published human systemic (IV/absolute-F) clearance, so the systemic-CL comparison is searched-and-empty for all and n_scored=0. predictions SHA-256 recorded in docs/validation-ledger.md.",
+ "predictions_file": "results/P32.4_predictions.json",
+ "predictions_sha256": "d8dd83aeb7d2491e996b990536d7a1caf5504381b251a7f3f0953d239013bb96",
+ "provenance": {
+  "label": "not validated: P34 returned no verdict"
+ },
+ "scored": [],
+ "status": "searched-and-empty",
+ "systemic_cl_searched_and_empty": [
+  {
+   "name": "ulotaront",
+   "reason": "searched-and-empty: no human IV or absolute-bioavailability clearance published; only apparent oral CL/F exists"
+  }
+ ],
+ "task": "P32.4",
+ "unbuildable": [
+  {
+   "missing_field": "preclinical clearance input: no readable rat in-vivo CL (mL/min/kg) or human liver CLint; rat IV t1/2 <0.5 h is reported only qualitatively (npp 2025). Human clearance is dominated by gut FMO and first-pass CYP, which a liver-microsome CLint would not capture",
+   "name": "xanomeline"
+  },
+  {
+   "missing_field": "preclinical clearance input: no readable rat in-vivo CL or human liver CLint (DMPK table paywalled)",
+   "name": "aticaprant"
+  },
+  {
+   "missing_field": "preclinical clearance input: no readable rat in-vivo CL or human liver CLint (Bonaventure 2015 DMPK table paywalled)",
+   "name": "seltorexant"
+  },
+  {
+   "missing_field": "preclinical clearance input: no readable rat in-vivo CL or human liver CLint; human clearance is UGT-glucuronidation dominated (non-microsomal), which the IVIVE microsome path would not capture",
+   "name": "ecopipam"
+  },
+  {
+   "missing_field": "preclinical clearance input: no readable rat in-vivo CL or human liver CLint (DMPK not published numerically)",
+   "name": "brilaroxazine"
+  },
+  {
+   "missing_field": "no measured orthosteric binding Ki: a positive allosteric modulator is characterised by functional EC50 (12.2 nM) at an allosteric site, not an orthosteric Ki, so predict_compound refuses it (no core Ki)",
+   "name": "emraclidine"
+  },
+  {
+   "missing_field": "no measured orthosteric binding Ki: a D1 positive allosteric modulator has a functional EC50 at an allosteric site, not an orthosteric Ki, so predict_compound refuses it (no core Ki)",
+   "name": "mevidalen"
+  }
+ ]
+}

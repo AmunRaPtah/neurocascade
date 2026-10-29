@@ -1,0 +1,455 @@
+{
+ "compounds": [
+  {
+   "aliases": [
+    "SEP-363856"
+   ],
+   "binding_source": "5-HT1A radioligand Ki 0.28 uM (Dedic 2019, PMID 31371483)",
+   "buildable": true,
+   "disclosure": "phase 2 positive 2020 (Koblan NEJM); phase 3 readouts 2023-2024",
+   "indication": "schizophrenia",
+   "mechanism": "TAAR1 agonist with 5-HT1A agonist activity",
+   "name": "ulotaront",
+   "observed_human": {
+    "apparent_oral_cl": {
+     "cl_f_L_per_h": 32.5,
+     "cl_f_ml_min_kg_at_70kg": 7.738,
+     "oral_F": ">0.70 (BCS1, high solubility/permeability)",
+     "source": "Galluppi 2021 population PK, CPT:PSP, DOI 10.1002/psp4.12692 (healthy tablet CL/F 30.0 L/h)"
+    },
+    "dose": "25-100 mg once daily (phase 2/3)",
+    "effects": "low EPS, low weight gain, low prolactin (phase 2/3)",
+    "occupancy": "non-D2/non-5-HT2A mechanism; no striatal D2 occupancy expected",
+    "systemic_cl_ml_min_kg": null,
+    "systemic_cl_status": "searched-and-empty: no human IV or absolute-bioavailability clearance published; only apparent oral CL/F exists"
+   },
+   "preclinical_cl_source": "rat IV CL 27.4 mL/min/kg; human fu >0.78 (Fonseca, Pharm Res 2022, PMID 35484370)",
+   "prediction": {
+    "full_result": {
+     "compound": "ulotaront",
+     "human_pk": {
+      "clearance": {
+       "bands": {
+        "0.80": {
+         "bounded": true,
+         "lower": 0.8874936433443789,
+         "upper": 50.55415537188778
+        },
+        "0.95": {
+         "bounded": false,
+         "lower": 0.0,
+         "upper": Infinity
+        }
+       },
+       "point": 6.698245407358145,
+       "provenance": {
+        "band": "human_cl_ivive",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "compound_specific": true,
+        "fallback_reason": null,
+        "input_references": [
+         "PMID:35484370"
+        ],
+        "label": "not validated: P34 returned no verdict",
+        "method": "well-stirred IVIVE (rat allometry fallback), no per-drug fit, raw (no bias factor)",
+        "n_calibration": 15,
+        "predictor": "P29.2 rat single-species allometry (fixed exponent 0.75), IVIVE-missing fallback; Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254",
+        "source_task": "P29.2",
+        "underpowered": false
+       },
+       "status": "predicted",
+       "unit": "mL/min/kg"
+      },
+      "half_life": {
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       },
+       "quantity": "half_life",
+       "reason": "derived from CL and Vss; the two fold bands were calibrated separately and no joint band exists",
+       "status": "pending"
+      },
+      "oral_exposure": {
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       },
+       "quantity": "oral_exposure",
+       "reason": "P29.2 oral exposure is searched-and-empty: no same-entity oral F, CL/F or AUC truth to score against",
+       "status": "pending"
+      },
+      "vss": {
+       "bands": {
+        "0.80": {
+         "bounded": true,
+         "lower": 0.833199335002821,
+         "upper": 46.593453097316335
+        },
+        "0.95": {
+         "bounded": true,
+         "lower": 0.505620433855015,
+         "upper": 76.78019228807726
+        }
+       },
+       "point": 6.230700934579439,
+       "provenance": {
+        "band": "human_vss_v2_train_mean",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "compound_specific": false,
+        "fallback_reason": "no compound-specific Vss: P29.2's Oie-Tozer Vss arm has n=0 scoreable train drugs: no benchmark drug pairs a clean rat plasma Vss with human Vss truth",
+        "input_references": [],
+        "label": "not validated: P34 returned no verdict",
+        "method": "v2 train arithmetic mean (fallback when no ADME package)",
+        "n_calibration": 107,
+        "predictor": "P33.3 v2 train arithmetic mean",
+        "source_task": "P33.3",
+        "underpowered": false
+       },
+       "status": "predicted",
+       "unit": "L/kg"
+      }
+     },
+     "inputs_not_used": {
+      "adme.kp_uu / adme.brain_fu": "consumed only by the occupancy chain, which is pending",
+      "binding efficacy": "no scored predictor consumes efficacy; the P34.3 candidate is occupancy and affinity only",
+      "rodent_occupancy / rodent_behaviour": "no scored rodent-to-human effect translation"
+     },
+     "liabilities": {
+      "anticholinergic": {
+       "bands": {
+        "0.80": {
+         "bounded": true,
+         "labels": [
+          0,
+          1
+         ]
+        },
+        "0.95": {
+         "bounded": true,
+         "labels": [
+          0,
+          1
+         ]
+        }
+       },
+       "is_probability": true,
+       "liability": "anticholinergic",
+       "point": 0.36,
+       "point_kind": "train prevalence",
+       "provenance": {
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)",
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "n_calibration": 25
+       },
+       "status": "predicted"
+      },
+      "eps": {
+       "liability": "eps",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       },
+       "reason": "2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+       "status": "underpowered"
+      },
+      "orthostatic_hypotension": {
+       "liability": "orthostatic_hypotension",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       },
+       "reason": "1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+       "status": "underpowered"
+      },
+      "sedation": {
+       "bands": {
+        "0.80": {
+         "bounded": true,
+         "labels": [
+          0,
+          1
+         ]
+        },
+        "0.95": {
+         "bounded": true,
+         "labels": [
+          0,
+          1
+         ]
+        }
+       },
+       "is_probability": true,
+       "liability": "sedation",
+       "point": 0.42105263157894735,
+       "point_kind": "train prevalence",
+       "provenance": {
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)",
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "n_calibration": 19
+       },
+       "status": "predicted"
+      }
+     },
+     "nearest_benchmark_drugs": {
+      "drugs": [
+       {
+        "inn": "carbamazepine",
+        "shared_measured_targets": []
+       },
+       {
+        "inn": "viloxazine",
+        "shared_measured_targets": []
+       },
+       {
+        "inn": "phenelzine",
+        "shared_measured_targets": []
+       }
+      ],
+      "provenance": {
+       "label": "not validated: P34 returned no verdict",
+       "method": "1-NN-style Euclidean distance on the full v2 panel of -log10 Ki (unmeasured = 100 uM floor), as in the P33.3 1-NN baseline; v2 train drugs only"
+      },
+      "status": "listed"
+     },
+     "optional_inputs_missing": [
+      "human_exposure (projected human unbound Cmax)",
+      "adme.kp_uu or adme.brain_fu",
+      "rodent_occupancy",
+      "rodent_behaviour"
+     ],
+     "panel_occupancy_time": {
+      "provenance": {
+       "label": "not validated: P34 returned no verdict"
+      },
+      "quantity": "occupancy",
+      "reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "status": "pending"
+     },
+     "provenance": {
+      "label": "not validated: P34 returned no verdict"
+     },
+     "schema": "neurocascade.compound_package/1",
+     "target_engagement_dose": {
+      "provenance": {
+       "label": "not validated: P34 returned no verdict"
+      },
+      "quantity": "target_engagement_dose",
+      "reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "status": "pending"
+     }
+    },
+    "human_systemic_cl": {
+     "bands": {
+      "0.80": {
+       "bounded": true,
+       "lower": 0.8874936433443789,
+       "upper": 50.55415537188778
+      },
+      "0.95": {
+       "bounded": false,
+       "lower": 0.0,
+       "upper": Infinity
+      }
+     },
+     "compound_specific": true,
+     "point_ml_min_kg": 6.698245407358145,
+     "predictor": "P29.2 rat single-species allometry (fixed exponent 0.75), IVIVE-missing fallback; Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254"
+    },
+    "mean_baseline_cl_ml_min_kg": 11.112250247706422
+   },
+   "provenance": {
+    "label": "not validated: P34 returned no verdict"
+   }
+  },
+  {
+   "aliases": [
+    "LY246708",
+    "NNC11-0232",
+    "component of KarXT/Cobenfy"
+   ],
+   "binding_source": "M4 Ki 20.0 nM, M1 Ki 79.4 nM (Watson/Shekhar); oxotremorine-M Ki ~2 nM (Bymaster)",
+   "buildable": false,
+   "disclosure": "FDA approval 2024-09 (NDA 216158)",
+   "indication": "schizophrenia (Cobenfy, approved 2024-09)",
+   "mechanism": "M1/M4 muscarinic agonist",
+   "missing_field": "preclinical clearance input: no readable rat in-vivo CL (mL/min/kg) or human liver CLint; rat IV t1/2 <0.5 h is reported only qualitatively (npp 2025). Human clearance is dominated by gut FMO and first-pass CYP, which a liver-microsome CLint would not capture",
+   "name": "xanomeline",
+   "observed_human": {
+    "apparent_oral_cl": {
+     "cl_f_L_per_h": 1950.0,
+     "oral_F": "~1% (extensive first-pass)",
+     "source": "Cobenfy FDA integrated review / label, NDA 216158 (2024)"
+    },
+    "dose": "100/20 to 125/30 mg (xanomeline/trospium) twice daily",
+    "systemic_cl_ml_min_kg": null,
+    "systemic_cl_status": "searched-and-empty: only apparent oral CL/F published"
+   },
+   "prediction": null,
+   "provenance": {
+    "label": "not validated: P34 returned no verdict"
+   }
+  },
+  {
+   "aliases": [
+    "JNJ-67953964",
+    "LY2456302",
+    "CERC-501"
+   ],
+   "binding_source": "KOR Ki 0.807 nM, MOR 24 nM, DOR 155 nM (Rorick-Kehn 2014)",
+   "buildable": false,
+   "disclosure": "phase 3 MDD program (read out 2024-2025)",
+   "indication": "major depressive disorder",
+   "mechanism": "kappa-opioid receptor antagonist",
+   "missing_field": "preclinical clearance input: no readable rat in-vivo CL or human liver CLint (DMPK table paywalled)",
+   "name": "aticaprant",
+   "observed_human": {
+    "apparent_oral_cl": {
+     "cl_f_L_per_h": 28.7,
+     "oral_F": "not published for humans",
+     "source": "Lowe 2014, J Clin Pharmacol 54:968, PMID 24619932 (10 mg SAD)"
+    },
+    "dose": "10 mg once daily (MDD)",
+    "occupancy": "full KOR occupancy at 10 mg (human PET)",
+    "systemic_cl_ml_min_kg": null,
+    "systemic_cl_status": "searched-and-empty: only apparent oral CL/F published; human absolute F not published"
+   },
+   "prediction": null,
+   "provenance": {
+    "label": "not validated: P34 returned no verdict"
+   }
+  },
+  {
+   "aliases": [
+    "JNJ-42847922",
+    "MIN-202"
+   ],
+   "binding_source": "OX2R pKi 8.0 (~10 nM), OX1R pKi 6.1 (Bonaventure 2015, PMID 26177655)",
+   "buildable": false,
+   "disclosure": "phase 3 MDD/insomnia (ongoing/recent)",
+   "indication": "major depressive disorder / insomnia",
+   "mechanism": "selective orexin-2 receptor antagonist",
+   "missing_field": "preclinical clearance input: no readable rat in-vivo CL or human liver CLint (Bonaventure 2015 DMPK table paywalled)",
+   "name": "seltorexant",
+   "observed_human": {
+    "apparent_oral_cl": {
+     "cl_f_L_per_h": null,
+     "oral_F": "absolute-F study registered, results unpublished",
+     "source": "t1/2 2-3 h, CYP3A4 (first-in-human, NCT02230878)"
+    },
+    "dose": "20 mg once daily",
+    "systemic_cl_ml_min_kg": null,
+    "systemic_cl_status": "searched-and-empty: absolute-bioavailability/IV microdose study (NCT05236868) results not published"
+   },
+   "prediction": null,
+   "provenance": {
+    "label": "not validated: P34 returned no verdict"
+   }
+  },
+  {
+   "aliases": [
+    "SCH-39166",
+    "PSYRX-101"
+   ],
+   "binding_source": "D1 Ki 1.2 nM, D5 Ki 2.0 nM, D2 980 nM (Chipkin/McQuade)",
+   "buildable": false,
+   "disclosure": "phase 2b Tourette (2023); human mass-balance 2026",
+   "indication": "Tourette syndrome / stuttering",
+   "mechanism": "dopamine D1/D5 receptor antagonist",
+   "missing_field": "preclinical clearance input: no readable rat in-vivo CL or human liver CLint; human clearance is UGT-glucuronidation dominated (non-microsomal), which the IVIVE microsome path would not capture",
+   "name": "ecopipam",
+   "observed_human": {
+    "apparent_oral_cl": {
+     "cl_f_L_per_h": null,
+     "oral_F": "not published",
+     "source": "t1/2 17.3 h; mass balance 83% urinary metabolites (Schmith 2026, Clin Transl Sci, PMC13180694)"
+    },
+    "dose": "~100-200 mg/day (phase 2)",
+    "systemic_cl_ml_min_kg": null,
+    "systemic_cl_status": "searched-and-empty: only oral exposure / mass balance published"
+   },
+   "prediction": null,
+   "provenance": {
+    "label": "not validated: P34 returned no verdict"
+   }
+  },
+  {
+   "aliases": [
+    "RP5063",
+    "oceperidone"
+   ],
+   "binding_source": "D2S Ki 0.28 nM, D2L 0.45 nM, D3 3.7 nM, 5-HT1A 1.5 nM, 5-HT2A 2.5 nM",
+   "buildable": false,
+   "disclosure": "phase 3 RECOVER (2024)",
+   "indication": "schizophrenia",
+   "mechanism": "dopamine-serotonin partial agonist (D2/D3/5-HT1A/5-HT2A)",
+   "missing_field": "preclinical clearance input: no readable rat in-vivo CL or human liver CLint (DMPK not published numerically)",
+   "name": "brilaroxazine",
+   "observed_human": {
+    "apparent_oral_cl": {
+     "cl_f_L_per_h": null,
+     "oral_F": "not published",
+     "source": "once-daily PK (phase 1, pop-PK 175 patients)"
+    },
+    "dose": "15-50 mg once daily",
+    "systemic_cl_ml_min_kg": null,
+    "systemic_cl_status": "searched-and-empty: human CL not published numerically"
+   },
+   "prediction": null,
+   "provenance": {
+    "label": "not validated: P34 returned no verdict"
+   }
+  },
+  {
+   "aliases": [
+    "CVL-231",
+    "PF-06852231"
+   ],
+   "binding_source": "M4 functional EC50 12.2 nM (Butler 2024, J Med Chem) - not an orthosteric Ki",
+   "buildable": false,
+   "disclosure": "phase 1b (2022); phase 2 EMPOWER terminated 2024",
+   "indication": "schizophrenia",
+   "mechanism": "M4 muscarinic positive allosteric modulator",
+   "missing_field": "no measured orthosteric binding Ki: a positive allosteric modulator is characterised by functional EC50 (12.2 nM) at an allosteric site, not an orthosteric Ki, so predict_compound refuses it (no core Ki)",
+   "name": "emraclidine",
+   "observed_human": {
+    "systemic_cl_ml_min_kg": null,
+    "systemic_cl_status": "not applicable (compound refused upstream for a missing Ki)"
+   },
+   "prediction": null,
+   "provenance": {
+    "label": "not validated: P34 returned no verdict"
+   }
+  },
+  {
+   "aliases": [
+    "LY3154207"
+   ],
+   "binding_source": "D1 functional EC50 (allosteric) - not an orthosteric Ki",
+   "buildable": false,
+   "disclosure": "phase 2 PRESENCE (2021-2022)",
+   "indication": "Lewy body dementia / Parkinson's disease",
+   "mechanism": "dopamine D1 positive allosteric modulator",
+   "missing_field": "no measured orthosteric binding Ki: a D1 positive allosteric modulator has a functional EC50 at an allosteric site, not an orthosteric Ki, so predict_compound refuses it (no core Ki)",
+   "name": "mevidalen",
+   "observed_human": {
+    "systemic_cl_ml_min_kg": null,
+    "systemic_cl_status": "not applicable (compound refused upstream for a missing Ki)"
+   },
+   "prediction": null,
+   "provenance": {
+    "label": "not validated: P34 returned no verdict"
+   }
+  }
+ ],
+ "mean_baseline_cl_ml_min_kg": 11.112250247706422,
+ "n_buildable": 1,
+ "n_surveyed": 8,
+ "provenance": {
+  "label": "not validated: P34 returned no verdict"
+ },
+ "selection_rule": "CNS compounds absent from every benchmark input and truth file in this repository (no binding/, adme/, truth/ or v2/ record, and not in split.json), whose human data were disclosed around or after the 2026-10-01 model freeze. navacaprant, zuranolone and gepirone are NOT absent (they carry full benchmark/v2 records) and are excluded.",
+ "task": "P32.4",
+ "title": "Prospective blind test on recently disclosed, repository-absent CNS compounds"
+}

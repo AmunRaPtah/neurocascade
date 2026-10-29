@@ -18455,3 +18455,98 @@ outside the allowed network is dropped, and that `0.0.0.0` is refused. The
 session sandbox has no wg0, so the bind to the real interface was not tried
 here. It is the same code path, with the address read from `wg0` instead of
 `lo`, and the `lo` lookup is tested.
+
+## Phase 32, part four: prospective blind test on repository-absent CNS compounds (P32.4)
+
+The P28.1 held-out set was in the repository during P19-P25, so P32.3's demo on
+it is retrospective and cannot certify the product. P32.4 is the intended clean
+test: run `predict_compound` on CNS compounds that are absent from every
+benchmark input and truth file here, build their packages from preclinical
+sources only, and commit the predictions (SHA-256 in the ledger) before any
+human-truth record for them exists. `neurocascade.prospective` holds the survey
+and the one-line scorer; `results/P32.4_predictions.json` is the committed
+prediction record and `results/P32.4.json` records `n_scored`.
+
+### The load-bearing check, run before building (rule 12)
+
+The product predicts exactly one compound-specific scored quantity: human
+systemic clearance (P32.1/P32.3 established that dose, occupancy and half-life
+return `pending`, and effect sets are the uninformative `{0,1}` train-prevalence
+fallback without a projected human exposure). So a clean prospective CL test
+needs, per compound, three things at once: a measured orthosteric binding Ki
+(the core input `predict_compound` refuses without), a readable preclinical
+clearance input the model consumes (human liver CLint + human fu for the IVIVE
+arm, or rat in-vivo CL for the allometry arm), and a published human **systemic**
+CL to score against. The last point is not negotiable: the P30.3
+`human_cl_ivive` band was calibrated on IV clearance (P28.4, Obach 2008 and the
+ChEMBL IV compilations), so comparing a systemic-CL prediction to an apparent
+oral CL/F is the apparent-vs-systemic category error that the P29.2/P28.4
+searched-and-empty rows already record from the other direction, and it is the
+exact mistake an earlier reviewer flagged (an apparent "105 mL/min/kg fed" CL/F
+read as a systemic CL).
+
+That intersection was checked against the literature first, and for
+repository-absent post-freeze CNS compounds it is nearly empty.
+
+### The survey, against the brief (rule 11)
+
+The brief's examples are partly wrong. `zuranolone` and `gepirone` are **not**
+absent: both carry full benchmark `binding`/`adme`/`truth` records and v2 PK and
+liability truth here, so they are held-out, not prospective, and are excluded.
+`navacaprant` is a P28.1 held-out drug with a complete binding+ADME panel in
+this repo (KOR Ki 1.5 nM, rat i.v. CL 105 mL/min/kg); it is excluded for the
+same reason, and `tests/test_prospective.py` asserts it is not surveyed and that
+every surveyed compound is absent from `split.json` and from the `binding/`,
+`adme/`, `truth/` and `v2/` corpora. Eight compounds pass the absence rule:
+ulotaront, xanomeline, aticaprant, seltorexant, ecopipam, brilaroxazine,
+emraclidine, mevidalen.
+
+Of the eight, only one can be built and scored, and even it cannot be scored
+cleanly:
+
+- **ulotaront** (TAAR1/5-HT1A agonist) is buildable: 5-HT1A radioligand Ki
+  0.28 uM (Dedic 2019, PMID 31371483) and an open ADME paper (PMID 35484370)
+  giving rat IV CL 27.4 mL/min/kg and human fu >0.78. With no human CLint the
+  IVIVE arm returns nothing and the allometry arm fires, predicting systemic CL
+  **6.70 mL/min/kg** (compound-specific). Its observed human clearance is
+  apparent oral CL/F only (32.5 L/h, Galluppi 2021; healthy tablet 30.0 L/h),
+  with F>0.70 (BCS1). The apparent CL/F is 7.74 mL/min/kg at 70 kg, a fold-error
+  of 1.16 against the prediction and 1.44 against the v2 train-mean baseline
+  (11.11 mL/min/kg) -- so the compound-specific prediction is nearer the
+  observed value than the baseline -- but this is shown as context and **not
+  counted**, because CL/F is not the IV quantity the band scores (CL/F >=
+  systemic CL, so the fold-error is an upper bound).
+- **xanomeline, aticaprant, seltorexant, ecopipam, brilaroxazine** each have a
+  readable measured Ki but no readable preclinical clearance input: rat IV CL
+  and human liver CLint sit in paywalled DMPK tables (Bonaventure 2015,
+  Rorick-Kehn 2014, the discovery medchem papers), and no rule-1 value could be
+  read. Xanomeline and ecopipam are additionally cleared non-microsomally (gut
+  FMO/first-pass CYP; UGT glucuronidation), which a liver-microsome CLint would
+  not capture even if it were readable. Listed unbuilt, with the missing field.
+- **emraclidine and mevidalen** are positive allosteric modulators: they are
+  characterised by a functional EC50 at an allosteric site, not an orthosteric
+  binding Ki, so `predict_compound` refuses them for a missing core input.
+  Listed unbuilt, with the missing field.
+
+### Result (`results/P32.4.json`, ledger searched-and-empty)
+
+`n_scored = 0`. No repository-absent post-freeze CNS compound surveyed has a
+published human systemic (IV or absolute-bioavailability) clearance; every one
+reports only apparent oral CL/F. The systemic-CL comparison the product's band
+is calibrated for is therefore searched-and-empty for all eight, which is the
+same oral-vs-IV data scarcity P29.2/P28.4 hit from the other side. The one
+buildable compound's committed prediction (ulotaront, systemic CL 6.70
+mL/min/kg) is recorded as a standing prospective prediction, to be scored if and
+when a human IV clearance is published; it lands near ulotaront's apparent CL/F,
+but that is context, not a certification.
+
+The prediction record was committed before any human-truth record for these
+compounds exists in this repository: there is no `truth/` file for any of the
+eight, and the prediction is a deterministic function of the preclinical
+packages plus the frozen P34.3 candidate and P30.3-P30.4 bands (recomputed, and
+its SHA-256 `d8dd83aeb...bb96` reproduced, by `tests/test_prospective.py`). No
+`observed/` container was created for data that does not exist (rule 10). This
+does not certify the P34.3 frozen candidate; P34 returned no verdict, the
+requires_go P34.5 gate stays lifted by the 2026-10-28 human decision, and no GO
+marker is written. The clean prospective CL test remains blocked on a published
+human systemic clearance for a buildable post-freeze CNS compound.

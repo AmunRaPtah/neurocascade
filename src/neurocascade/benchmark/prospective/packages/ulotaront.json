@@ -1,0 +1,45 @@
+{
+  "schema": "neurocascade.compound_package/1",
+  "name": "ulotaront",
+  "binding": {
+    "HTR1A": {
+      "ki_nM": 280.0,
+      "efficacy": ["agonist"],
+      "refs": ["PMID:31371483"]
+    }
+  },
+  "adme": {
+    "fields": {
+      "invivo_cl_preclinical": {
+        "measurements": [
+          {"species": "rat", "relation": "=", "units": "mL.min-1.kg-1", "value": 27.4,
+           "description": "rat intravenous plasma clearance", "ref": "PMID:35484370"}
+        ],
+        "summary": [
+          {"species": "rat", "units": "mL.min-1.kg-1", "value": 27.4, "n_measurements": 1,
+           "n_documents": 1, "min": 27.4, "max": 27.4, "n_censored": 0}
+        ]
+      },
+      "invivo_vss_preclinical": {
+        "measurements": [
+          {"species": "rat", "relation": "=", "units": "L.kg-1", "value": 3.5,
+           "description": "rat intravenous steady-state volume of distribution", "ref": "PMID:35484370"}
+        ],
+        "summary": [
+          {"species": "rat", "units": "L.kg-1", "value": 3.5, "n_measurements": 1,
+           "n_documents": 1, "min": 3.5, "max": 3.5, "n_censored": 0}
+        ]
+      },
+      "plasma_fu": {
+        "measurements": [
+          {"species": "human", "relation": "=", "units": null, "value": 0.78,
+           "description": "human plasma fraction unbound (reported >78%, lower bound used)", "ref": "PMID:35484370"}
+        ],
+        "summary": [
+          {"species": "human", "units": null, "value": 0.78, "n_measurements": 1,
+           "n_documents": 1, "min": 0.78, "max": 0.78, "n_censored": 0}
+        ]
+      }
+    }
+  }
+}
