@@ -3132,15 +3132,18 @@
       "deps": [
         "P30.3"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "host_eval": "python -m pytest -q -p no:cacheprovider -s src/neurocascade/benchmark/v2/test_bands_heldout.py",
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-29 01:53 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 64
+      },
+      "finished_at": "2026-10-29T01:40:48+00:00",
+      "result": "complete"
     },
     {
       "id": "P34.1",
