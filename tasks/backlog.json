@@ -2944,7 +2944,13 @@
         "P33.3"
       ],
       "status": "pending",
-      "attempts": 0
+      "attempts": 0,
+      "conductor": {
+        "sessions": 1,
+        "history": [
+          "2026-10-29 08:20 complete; rejected: gate failed:\n 2}}\nE         Use -v to get more diff\nE       AssertionError: assert {'task': 'P32...e': True, ...} == {'task': 'P32...e': True, ...}\nE         \nE         Omitting 6 identical items, use -vv to show\nE         Differing items:\nE         {'host_pending': ['alprazolam', 'diazepam', 'fluphenazine', 'imipramine', 'venlafaxine']} != {'host_pending': []}\nE         {'n_scored': 3} != {'n_scored': 4}\nE         {'rows': [{'inn': 'alprazolam', 'v2_train': True, 'p28_4_truth_present': False, 'quantities': {'target_engagement_dose... row absent from this checkout'}, 'comparison': {'scored': F"
+        ]
+      }
     },
     {
       "id": "P32.4",
