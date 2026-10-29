@@ -18113,3 +18113,117 @@ result is recorded there as host-pending.
 The file was written once from train data. A wording-only edit to a reason
 string was re-frozen before any held-out run. No band, level or score was
 chosen after looking at held-out data.
+
+## Phase 32, part one: the compound package and `predict_compound()` (P32.1)
+
+`neurocascade.compound` is the product entry point. A preclinical package goes
+in (schema `neurocascade.compound_package/1`: `name`, `binding` gene → `{ki_nM,
+efficacy, refs}`, `adme` in the benchmark's measurement-level ADME format,
+optional `human_exposure`, `rodent_occupancy`, `rodent_behaviour`). Out comes
+human PK, dose, occupancy-time, liabilities and nearest benchmark drugs, each
+as a record with `bands` and `provenance`, or as a `pending` record with a
+reason and no number. Human decision 2026-10-28: P34 closed with no verdict, and
+this task goes ahead without a GO. Every record, pending ones included, carries
+`not validated: P34 returned no verdict`. `tests/test_compound.py` walks the
+whole returned structure and fails on any number that is not inside a banded,
+labelled record.
+
+### What the source says, against the brief (rule 11)
+
+- **Candidate.** The task note says to wire to "the P33.4 candidate and the
+  P30.4 bands". The P30.4 bands are calibrated on the **P34.3** frozen
+  candidate (rank ensemble of occupancy and affinity), not on P33.4's
+  logistic, and a band only holds for the predictor whose residuals built it.
+  `predict_compound` therefore uses the P34.3 candidate through
+  `candidate_bands.predict_with_bands`.
+- **"Effect probabilities".** The candidate returns an engagement percentile,
+  not a probability. That is what gets returned, with `is_probability: False`.
+  Only the label set has checkable coverage. EPS and orthostatic hypotension
+  are refused as underpowered, as P30.4 does.
+- **"Target-engagement dose" and "panel occupancy-time".** Neither has a
+  scored predictor (P29.3 and P29.4 are searched-and-empty, P29.5 is blocked on
+  data), so P30.3 has no band for them. Both come back as `pending` with
+  P30.3's reason. Computing an occupancy curve without a band would break the
+  acceptance rule that every number carries one, and it would be an unscored
+  estimate. Half-life (CL and Vss were banded separately, and no joint band
+  exists) and oral exposure (P29.2 searched-and-empty) are pending too.
+
+### The load-bearing check: the candidate needs a human exposure
+
+The P34.3 candidate's occupancy view is `Cu / (Cu + Ki)` at the human
+therapeutic unbound Cmax. A preclinical package by definition has no human
+Cmax, and no scored path predicts one from preclinical data: that would need
+oral F and a dose, and P29.3 and P29.5 are empty. This was checked before
+building. Without an exposure, the candidate cannot score a preclinical
+compound at all. The design takes the two honest routes and labels both:
+
+- If the caller supplies `human_exposure.cmax_unbound_nM` with a `source` (a
+  discovery team's projected efficacious exposure), the candidate runs. The
+  provenance states that the P30.4 band was calibrated on *observed* label
+  Cmax,u, so its coverage under a projected exposure is unmeasured.
+- Otherwise the liability falls back to P30.4's train-prevalence comparator
+  and its frozen label sets. Those sets are {0,1} at 80% and 95% for both
+  liabilities. That is the "widen the band for a missing optional input" the
+  brief asks for, with a width measured on train LODO rather than invented.
+
+The same mechanism handles clearance. If the package has CL data that P29.2
+can use (human liver CLint + a single human fu_p, or rat plasma CL), the point
+is P29.2's IVIVE or allometry, called through the same private extractors that
+produced the P30.3 calibration residuals, with the `human_cl_ivive` band. If
+CL data exist but cannot feed P29.2, the v2 train-mean point and its band are
+returned, marked `compound_specific: False`, and the missing pieces are named.
+These widths are not monotone. The train-mean 80% band (×÷5.89) is *narrower*
+than the IVIVE band (×÷7.55), because it was calibrated on a different, larger
+population (v2, n=109). The 95% IVIVE band is unbounded. The method that uses
+the compound's own data still takes precedence, because the train mean says
+nothing about the compound. That ordering is a design choice, recorded here,
+not a measured result. Vss is always the train mean, because Oie-Tozer was
+never scored.
+
+The ADME section keeps the benchmark's measurement-level format rather than a
+flattened `{clint: x}` field. The P29.2 extraction (liver-only matrix, unit
+grouping, per-reference outlier rule) is what the band was calibrated on. A
+simpler schema would need a different extraction, and the band would no longer
+apply to it.
+
+### Refusal
+
+Refusal follows `docs/roadmap-product.md` exactly: `CoreInputMissing` is
+raised only when the binding panel has no measured Ki, or when there is no
+clearance measurement of any kind (no human CLint row, no rat in-vivo CL row).
+Every other gap widens a band or makes a quantity pending, and it is listed
+under `optional_inputs_missing` or `inputs_not_used`. Efficacy, Kp,uu/brain fu
+and rodent occupancy/behaviour are accepted and reported as unused, because no
+scored predictor consumes them.
+
+### Nearest benchmark drugs
+
+The three nearest v2 *train* drugs are found by Euclidean distance on the
+full-panel −log10 Ki vector with the 100 µM floor, which is P33.3's 1-NN
+fingerprint (its `_fingerprint` is reused). Only INNs and shared measured
+targets are returned. Distances are not returned: they are descriptive, have
+no band, and would break the every-number-banded rule.
+
+### Result (`results/P32.1.json`, ledger V22)
+
+`score_clearance` runs `predict_compound` from `package_from_benchmark(inn)`
+(binding + ADME files only, which a test asserts) for every P28.1 drug and
+scores CL against P28.4 truth:
+
+| path | n | GMFE | 80% covered | 95% covered |
+|---|---:|---:|---:|---:|
+| IVIVE / allometry (`human_cl_ivive`) | 13 | 3.09 | 11/13 | 13/13 (unbounded) |
+| train-mean fallback (`human_cl_v2_train_mean`) | 4 | 3.60 | 2/4 | 4/4 |
+
+The 13 IVIVE points are P29.2's no-fit train predictions (a test asserts the
+drugs are a subset). The other two of P30.3's 15 calibration drugs, lorazepam
+and oxazepam, are refused here because their P28.2 panels hold no Ki. Two of the
+four fallback drugs (aripiprazole, prochlorperazine) are v2 train drugs whose
+own CL is inside the mean, so `n_scored` counts 15 out-of-sample drugs. 101 of
+130 train packages and 41 of 55 held-out packages are refused, mostly for
+lacking any clearance measurement. That is the product's real coverage on this
+benchmark. The 14 held-out drugs that run end to end (venlafaxine among them,
+test-pinned) are all `missing_truth` in the session checkout. On a checkout
+with P28.4 held-out truth, `score_clearance(load_split()["heldout"])` scores
+them. That is host-pending, and it is a retrospective look: P29.2 already
+scored that split. The clean test is P32.4.
