@@ -2871,7 +2871,7 @@
         "P30.4",
         "P33.3"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "history": [
@@ -2886,9 +2886,12 @@
           "2026-10-29 03:37 COMPLETE, PR opened"
         ],
         "sessions": 7,
-        "gave_up": true
+        "gave_up": true,
+        "pr": 65
       },
-      "note": "2026-10-26: the earlier sessions' gate failures were a test false positive (fixed on main), not your code. Wire predict_compound to the P33.4 candidate and the P30.4 bands, not the train mean."
+      "note": "2026-10-26: the earlier sessions' gate failures were a test false positive (fixed on main), not your code. Wire predict_compound to the P33.4 candidate and the P30.4 bands, not the train mean.",
+      "finished_at": "2026-10-29T03:20:30+00:00",
+      "result": "complete"
     },
     {
       "id": "P32.2",
