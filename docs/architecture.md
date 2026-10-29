@@ -18341,3 +18341,117 @@ All 43 reports pass the audit. The 14 held-out drugs that run are
 `missing_truth` in this checkout, so held-out scoring is host-pending through
 the same `score_cli`. This row is a delivery check, not a new prediction: it
 shows that the file and report layers lose nothing, and it adds no accuracy.
+
+## Phase 32, part three: blind demo on held-out drugs and the wg0 web UI (P32.3)
+
+`neurocascade.blind_demo` runs `predict_compound` on P28.1 held-out drugs from
+their preclinical package only (`package_from_benchmark`: binding panel and
+ADME, no truth, no projected human exposure). It puts every returned quantity
+beside the observed human value. `scripts/p32_3_blind_demo.py` writes
+`results/P32.3.json`, the committed five-drug table
+`results/P32.3_blind_demo.md`, and the same table as audited HTML.
+`neurocascade serve` is the web UI. Human decision 2026-10-28: P34 closed
+with no verdict, the requires-GO gate was lifted, and no GO marker is written.
+Every row, number, band and pending record carries `not validated: P34
+returned no verdict`.
+
+### What the source says, against the brief (rule 11)
+
+- **"Predicted vs actual dose/occupancy."** `predict_compound` predicts
+  neither. Both come back `pending`, because P29.3 and P29.4 are
+  searched-and-empty (P32.1). The table therefore shows `pending` beside the
+  observed label dose and PET occupancy, and the comparison is `not scored`.
+  Computing a dose here would mean using an unscored predictor in a demo
+  meant to show what the product does. The honest demo shows that the product
+  returns no dose.
+- **"Effect probabilities."** Blind means no human exposure. Without one, the
+  P34.3 candidate cannot run (P32.1's load-bearing check), so every banded
+  liability is P30.4's train prevalence with the label set {0,1}. That set
+  always covers the truth and says nothing. The summary counts it as covered
+  and also reports `n_informative` = 0. Supplying the observed label Cmax,u
+  would make the candidate run, but that is human truth and would break the
+  blind. P30.4 already scored that case retrospectively (V21h).
+- **Which five drugs.** The brief does not say which. 14 of the 55 held-out
+  drugs are not refused. The demo takes the first five alphabetically, a rule
+  that reads no truth (a test hides every truth record and checks the list
+  is unchanged). Diazepam is among them and is human-touched (P28.1
+  disclosure). Alprazolam's disclosure is rodent-only. Both are flagged in
+  the row. The summary also runs over all 14 and over the 12 not
+  human-touched, as the P28.1 ledger rule requires.
+
+### Truth sources, and why two
+
+The P28.4 truth for held-out drugs is absent in a session checkout. The host
+has it. One code path serves both:
+
+- **CL / Vss**: P28.4 IV compilation first (what P32.1 scored), otherwise the
+  v2 human PK truth for the **same drug** (the same ChEMBL compilations; on train drugs the
+  two are close, for example haloperidol 9.8 vs 7.8, citalopram 4.65 vs 4.3
+  and clozapine 2.5 vs 2.5 mL/min/kg). `truth_source` records which source was used. This uses
+  no other drug and no other species (rule 2).
+- **Liabilities**: scored against the v2 label only. The P30.4 bands were
+  calibrated on that label rule (placebo-subtracted risk difference). The
+  P28.4 label uses a different rule (any listed frequency) and is shown
+  unscored, because a band is checkable only against the label it was
+  calibrated for.
+- **Dose**: P28.4 label dose rows. Without them, the v2 Cmax record's
+  verbatim label usual-dose text (with its SPL set id) is shown. Neither is
+  scored, because nothing is predicted.
+- **Occupancy**: P28.4 PET only, so it is host-pending here.
+
+**In-sample comparisons are reported and not counted.** The train-mean CL
+and Vss average v2 train truth. A v2-train drug's own value is inside the
+point, so comparing them is circular. Most runnable held-out drugs are in v2
+train, and all 5 Vss comparisons are in-sample for that reason. The same
+applies to the train-prevalence liability for a P30.4 calibration drug
+(ziprasidone). IVIVE fits nothing per drug, so IVIVE comparisons are out of
+sample.
+
+### Why the gate failed the first time, and the fix
+
+The first session's test compared a recomputed result with the committed
+`results/P32.3.json`. On the host, P28.4 held-out truth is present, so
+`host_pending` went from five drugs to none and `n_scored` changed, and the
+assertion failed. Every test here now holds in both checkouts. The tests
+pin the truth-absent path and the truth-present path through monkeypatched
+records. The committed artifacts are checked only for what does not depend
+on truth: the drug list, the label on every row, and `n_scored >= 1`.
+
+### Result (`results/P32.3.json`, ledger V22d)
+
+Over all 14 runnable held-out drugs, 5 are scored out of sample (3 on a
+compound-specific prediction). Human CL by IVIVE, n=3: GMFE 5.41. The fold
+errors are alprazolam ×2.96, diazepam ×4.51 and imipramine ×11.9 (outside the
+80% band), so the 80% band covers 2/3. Without diazepam, GMFE is 5.93 (n=2).
+Train IVIVE GMFE was 3.09 (V22), but n=3 cannot tell the two apart. Sedation
+and anticholinergic: 4/4 covered at both levels, all with uninformative {0,1}
+sets. Dose and occupancy: no prediction. On held-out drugs the product
+currently delivers one usable compound-specific number, clearance, at about
+5-fold error. That is the usefulness finding. P32.4 (prospective compounds)
+is the clean test.
+
+### The web UI (`neurocascade.webui`, `neurocascade serve`)
+
+It uses the standard library only (`http.server`), because the wheel
+declares only numpy and scipy (P32.2). The owner's internal tools are reached
+over WireGuard, so the UI binds to the IPv4 address of `wg0`, read by
+ioctl, and refuses `0.0.0.0`. Binding to the address is not sufficient on
+Linux: the weak-host model accepts a packet for a local address on any
+interface. `WgOnlyServer.verify_request` therefore also drops any client
+outside wg0's network. `SO_BINDTODEVICE` would be stricter, but it needs
+CAP_NET_RAW. Routes:
+
+- `/` holds the upload form.
+- `POST /predict` takes a .json or .csv package and returns the P32.2 report
+  unchanged (audited).
+- `POST /api/predict` returns strict JSON.
+- `/demo` serves the blind-demo table.
+- A refusal returns 422 with the missing core inputs. A bad file returns 400.
+
+Port 8732 is an arbitrary default, not a parameter of the model. The tests
+serve on loopback and check four things: the audit and the label on every row
+of an uploaded report and of the demo page, the refusal codes, that a client
+outside the allowed network is dropped, and that `0.0.0.0` is refused. The
+session sandbox has no wg0, so the bind to the real interface was not tried
+here. It is the same code path, with the address read from `wg0` instead of
+`lo`, and the `lo` lookup is tested.

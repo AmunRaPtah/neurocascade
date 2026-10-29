@@ -8,7 +8,8 @@ record only, no truth) so there is a real file to run.
 
 Exit codes: 0 report written; 2 refused for a missing core input (the missing
 inputs are printed in plain English, as P27.1 asked); 1 the file is not a
-valid package.
+valid package, or ``serve`` could not bind its interface.
+``neurocascade serve`` runs the P32.3 web UI on the wg0 interface only.
 """
 
 from __future__ import annotations
@@ -84,6 +85,16 @@ def _export(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _serve(args: argparse.Namespace) -> int:
+    from .webui import serve
+    try:
+        serve(args.interface, args.port)
+    except OSError as exc:
+        print(f"error: cannot serve on interface {args.interface}: {exc}", file=sys.stderr)
+        return EXIT_INVALID
+    return EXIT_OK
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="neurocascade",
@@ -100,6 +111,11 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("inn")
     e.add_argument("-o", "--output", required=True, help="output path, .json or .csv")
     e.set_defaults(func=_export)
+    s = sub.add_parser("serve", help="web UI (upload a package, view the report), wg0 only")
+    s.add_argument("--interface", default="wg0",
+                   help="bind to this interface's IPv4 address and serve only its network")
+    s.add_argument("--port", type=int, default=8732)
+    s.set_defaults(func=_serve)
     return parser
 
 
