@@ -2980,8 +2980,10 @@
       "conductor": {
         "sessions": 1,
         "history": [
-          "2026-10-29 12:17 COMPLETE, PR opened"
-        ]
+          "2026-10-29 12:17 COMPLETE, PR opened",
+          "2026-10-29 12:50 PR #68 rejected by acceptance review: ACCEPTANCE 1: FAIL — git log --all --oneline in /work shows exactly one commit (5fee7ca, author conductor <conductor@localhost>, \"base, held-out truth removed (conductor)\"). git show --stat HEAD -- results/P32.4_predictions.json src/neurocascade/benchmark/prospective/observed/ shows the prediction file and all 7 observed-truth JSON files added in that same commit; git log --diff-filter=A --oneline"
+        ],
+        "review_rejections": 1
       }
     },
     {
