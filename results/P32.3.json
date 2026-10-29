@@ -1,0 +1,2254 @@
+{
+ "task": "P32.3",
+ "label": "not validated: P34 returned no verdict",
+ "retrospective": true,
+ "retrospective_note": "the P28.1 held-out drugs were present during P19-P25 development; P32.4 is the clean test",
+ "selection_rule": "the first five, in alphabetical order, of the P28.1 held-out drugs that predict_compound does not refuse from their preclinical package. The rule reads no truth, so held-out outcomes cannot steer which drugs are shown",
+ "demo_drugs": [
+  "alprazolam",
+  "diazepam",
+  "escitalopram",
+  "fluoxetine",
+  "fluphenazine"
+ ],
+ "runnable_heldout": [
+  "alprazolam",
+  "diazepam",
+  "escitalopram",
+  "fluoxetine",
+  "fluphenazine",
+  "imipramine",
+  "milnacipran",
+  "navacaprant",
+  "nomifensine",
+  "nortriptyline",
+  "venlafaxine",
+  "verucerfont",
+  "vilazodone",
+  "ziprasidone"
+ ],
+ "refused_heldout": [
+  "amineptine",
+  "amisulpride",
+  "amitriptyline",
+  "amoxapine",
+  "aprepitant",
+  "asenapine",
+  "benzoctamine",
+  "bifemelane",
+  "bitopertin",
+  "bradanicline",
+  "butaperazine",
+  "chlorproethazine",
+  "clobazam",
+  "dosulepin",
+  "droperidol",
+  "fabomotizole",
+  "fluanisone",
+  "gedocarnil",
+  "levosulpiride",
+  "lofepramine",
+  "lurasidone",
+  "mephenoxalone",
+  "moclobemide",
+  "moperone",
+  "mosapramine",
+  "nialamide",
+  "nordazepam",
+  "oxitriptan",
+  "paroxetine",
+  "penfluridol",
+  "perazine",
+  "periciazine",
+  "pinazepam",
+  "pipotiazine",
+  "quetiapine",
+  "reboxetine",
+  "tofisopam",
+  "tranylcypromine",
+  "trifluoperazine",
+  "triflupromazine",
+  "zuclopenthixol"
+ ],
+ "n_scored": 5,
+ "host_pending": [
+  "alprazolam",
+  "diazepam",
+  "escitalopram",
+  "fluoxetine",
+  "fluphenazine",
+  "imipramine",
+  "milnacipran",
+  "navacaprant",
+  "nomifensine",
+  "nortriptyline",
+  "venlafaxine",
+  "verucerfont",
+  "vilazodone",
+  "ziprasidone"
+ ],
+ "demo": {
+  "rows": [
+   {
+    "inn": "alprazolam",
+    "p28_1_split": "heldout",
+    "v2_partition": "train",
+    "not_blind": "rodent elevated-plus-maze series only (retired mouse calibration); no human value was used",
+    "p28_4_truth_present": false,
+    "inputs": "package_from_benchmark: binding panel + ADME only; no human exposure",
+    "quantities": {
+     "target_engagement_dose": {
+      "predicted": {
+       "quantity": "target_engagement_dose",
+       "status": "pending",
+       "reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "status": "observed",
+       "source": "v2 human Cmax truth, label usual-dose text (FDA SPL set_id 10de2b3b-3b3f-4a5a-a9e7-a8401f53b8cc); P28.4 record absent",
+       "label_text": "Recommended starting oral dosage is 0.5 mg to 1 mg once daily...Recommended total daily dosage is 3 mg to 6 mg daily."
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "occupancy": {
+      "predicted": {
+       "quantity": "occupancy",
+       "status": "pending",
+       "reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "status": "host-pending",
+       "reason": "P28.4 truth record absent from this checkout"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "clearance": {
+      "predicted": {
+       "status": "predicted",
+       "point": 2.1869446524738265,
+       "unit": "mL/min/kg",
+       "bands": {
+        "0.80": {
+         "lower": 0.2897623719913858,
+         "upper": 16.505686642867655,
+         "bounded": true
+        },
+        "0.95": {
+         "lower": 0.0,
+         "upper": null,
+         "bounded": false
+        }
+       },
+       "provenance": {
+        "source_task": "P29.2",
+        "method": "well-stirred IVIVE (rat allometry fallback), no per-drug fit, raw (no bias factor)",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "n_calibration": 15,
+        "underpowered": false,
+        "label": "not validated: P34 returned no verdict",
+        "predictor": "P29.2 well-stirred IVIVE (human liver CLint, human fu); Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254",
+        "band": "human_cl_ivive",
+        "input_references": [
+         "CHEMBL1148291",
+         "CHEMBL1153781",
+         "CHEMBL1156824",
+         "CHEMBL3301361"
+        ],
+        "compound_specific": true,
+        "fallback_reason": null
+       }
+      },
+      "actual": {
+       "value": 0.74,
+       "unit": "mL/min/kg",
+       "truth_source": "v2 human PK truth (P28.4 record absent)",
+       "refs": [
+        "18426954",
+        "20070106"
+       ]
+      },
+      "comparison": {
+       "scored": true,
+       "in_sample": false,
+       "fold_error": 2.955330611451117,
+       "covered": {
+        "0.80": true,
+        "0.95": true
+       }
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "vss": {
+      "predicted": {
+       "status": "predicted",
+       "point": 6.230700934579439,
+       "unit": "L/kg",
+       "bands": {
+        "0.80": {
+         "lower": 0.833199335002821,
+         "upper": 46.593453097316335,
+         "bounded": true
+        },
+        "0.95": {
+         "lower": 0.505620433855015,
+         "upper": 76.78019228807726,
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "source_task": "P33.3",
+        "method": "v2 train arithmetic mean (fallback when no ADME package)",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "n_calibration": 107,
+        "underpowered": false,
+        "label": "not validated: P34 returned no verdict",
+        "predictor": "P33.3 v2 train arithmetic mean",
+        "band": "human_vss_v2_train_mean",
+        "input_references": [],
+        "compound_specific": false,
+        "fallback_reason": "no compound-specific Vss: P29.2's Oie-Tozer Vss arm has n=0 scoreable train drugs: no benchmark drug pairs a clean rat plasma Vss with human Vss truth"
+       }
+      },
+      "actual": {
+       "value": 0.72,
+       "unit": "L/kg",
+       "truth_source": "v2 human PK truth (P28.4 record absent)",
+       "refs": [
+        "12061889",
+        "14971904",
+        "18426954",
+        "19586686",
+        "20070106"
+       ]
+      },
+      "comparison": {
+       "scored": true,
+       "in_sample": true,
+       "fold_error": 8.653751298027,
+       "covered": {
+        "0.80": false,
+        "0.95": true
+       }
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:sedation": {
+      "predicted": {
+       "liability": "sedation",
+       "status": "predicted",
+       "point": 0.42105263157894735,
+       "point_kind": "train prevalence",
+       "is_probability": true,
+       "bands": {
+        "0.80": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        },
+        "0.95": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "n_calibration": 19,
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)"
+       }
+      },
+      "actual": {
+       "v2_label": 0,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": true,
+       "in_sample": false,
+       "covered": {
+        "0.80": true,
+        "0.95": true
+       },
+       "set_size": {
+        "0.80": 2,
+        "0.95": 2
+       },
+       "informative": {
+        "0.80": false,
+        "0.95": false
+       }
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:anticholinergic": {
+      "predicted": {
+       "liability": "anticholinergic",
+       "status": "predicted",
+       "point": 0.36,
+       "point_kind": "train prevalence",
+       "is_probability": true,
+       "bands": {
+        "0.80": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        },
+        "0.95": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "n_calibration": 25,
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)"
+       }
+      },
+      "actual": {
+       "v2_label": 0,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": true,
+       "in_sample": false,
+       "covered": {
+        "0.80": true,
+        "0.95": true
+       },
+       "set_size": {
+        "0.80": 2,
+        "0.95": 2
+       },
+       "informative": {
+        "0.80": false,
+        "0.95": false
+       }
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:eps": {
+      "predicted": {
+       "liability": "eps",
+       "status": "underpowered",
+       "reason": "2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "v2_label": 0,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:orthostatic_hypotension": {
+      "predicted": {
+       "liability": "orthostatic_hypotension",
+       "status": "underpowered",
+       "reason": "1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "v2_label": 0,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class"
+      },
+      "label": "not validated: P34 returned no verdict"
+     }
+    },
+    "label": "not validated: P34 returned no verdict"
+   },
+   {
+    "inn": "diazepam",
+    "p28_1_split": "heldout",
+    "v2_partition": "train",
+    "not_blind": "human PET/PK/label values read or fitted in Phases 19-25",
+    "p28_4_truth_present": false,
+    "inputs": "package_from_benchmark: binding panel + ADME only; no human exposure",
+    "quantities": {
+     "target_engagement_dose": {
+      "predicted": {
+       "quantity": "target_engagement_dose",
+       "status": "pending",
+       "reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "status": "observed",
+       "source": "v2 human Cmax truth, label usual-dose text (FDA SPL set_id None); P28.4 record absent",
+       "label_text": "Management of Anxiety Disorders and Relief of Symptoms of Anxiety. Depending upon severity of symptoms\u20142 mg to 10 mg, 2 to 4 times daily"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "occupancy": {
+      "predicted": {
+       "quantity": "occupancy",
+       "status": "pending",
+       "reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "status": "host-pending",
+       "reason": "P28.4 truth record absent from this checkout"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "clearance": {
+      "predicted": {
+       "status": "predicted",
+       "point": 0.08431357620965278,
+       "unit": "mL/min/kg",
+       "bands": {
+        "0.80": {
+         "lower": 0.011171248346843044,
+         "upper": 0.6363459939792534,
+         "bounded": true
+        },
+        "0.95": {
+         "lower": 0.0,
+         "upper": null,
+         "bounded": false
+        }
+       },
+       "provenance": {
+        "source_task": "P29.2",
+        "method": "well-stirred IVIVE (rat allometry fallback), no per-drug fit, raw (no bias factor)",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "n_calibration": 15,
+        "underpowered": false,
+        "label": "not validated: P34 returned no verdict",
+        "predictor": "P29.2 well-stirred IVIVE (human liver CLint, human fu); Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254",
+        "band": "human_cl_ivive",
+        "input_references": [
+         "CHEMBL1148291",
+         "CHEMBL1153781",
+         "CHEMBL1156824",
+         "CHEMBL3232895",
+         "CHEMBL3301361",
+         "CHEMBL3588773",
+         "CHEMBL3588839",
+         "CHEMBL4321884",
+         "CHEMBL5532688",
+         "CHEMBL5543075",
+         "CHEMBL5620421",
+         "CHEMBL6134902"
+        ],
+        "compound_specific": true,
+        "fallback_reason": null
+       }
+      },
+      "actual": {
+       "value": 0.38,
+       "unit": "mL/min/kg",
+       "truth_source": "v2 human PK truth (P28.4 record absent)",
+       "refs": [
+        "18426954",
+        "20070106"
+       ]
+      },
+      "comparison": {
+       "scored": true,
+       "in_sample": false,
+       "fold_error": 4.5069847239678,
+       "covered": {
+        "0.80": true,
+        "0.95": true
+       }
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "vss": {
+      "predicted": {
+       "status": "predicted",
+       "point": 6.230700934579439,
+       "unit": "L/kg",
+       "bands": {
+        "0.80": {
+         "lower": 0.833199335002821,
+         "upper": 46.593453097316335,
+         "bounded": true
+        },
+        "0.95": {
+         "lower": 0.505620433855015,
+         "upper": 76.78019228807726,
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "source_task": "P33.3",
+        "method": "v2 train arithmetic mean (fallback when no ADME package)",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "n_calibration": 107,
+        "underpowered": false,
+        "label": "not validated: P34 returned no verdict",
+        "predictor": "P33.3 v2 train arithmetic mean",
+        "band": "human_vss_v2_train_mean",
+        "input_references": [],
+        "compound_specific": false,
+        "fallback_reason": "no compound-specific Vss: P29.2's Oie-Tozer Vss arm has n=0 scoreable train drugs: no benchmark drug pairs a clean rat plasma Vss with human Vss truth"
+       }
+      },
+      "actual": {
+       "value": 1.05,
+       "unit": "L/kg",
+       "truth_source": "v2 human PK truth (P28.4 record absent)",
+       "refs": [
+        "12061889",
+        "14971904",
+        "18426954",
+        "19586686",
+        "20070106",
+        "25799158"
+       ]
+      },
+      "comparison": {
+       "scored": true,
+       "in_sample": true,
+       "fold_error": 5.934000890075656,
+       "covered": {
+        "0.80": true,
+        "0.95": true
+       }
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:sedation": {
+      "predicted": {
+       "liability": "sedation",
+       "status": "predicted",
+       "point": 0.42105263157894735,
+       "point_kind": "train prevalence",
+       "is_probability": true,
+       "bands": {
+        "0.80": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        },
+        "0.95": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "n_calibration": 19,
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)"
+       }
+      },
+      "actual": {
+       "v2_label": 1,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": true,
+       "in_sample": false,
+       "covered": {
+        "0.80": true,
+        "0.95": true
+       },
+       "set_size": {
+        "0.80": 2,
+        "0.95": 2
+       },
+       "informative": {
+        "0.80": false,
+        "0.95": false
+       }
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:anticholinergic": {
+      "predicted": {
+       "liability": "anticholinergic",
+       "status": "predicted",
+       "point": 0.36,
+       "point_kind": "train prevalence",
+       "is_probability": true,
+       "bands": {
+        "0.80": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        },
+        "0.95": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "n_calibration": 25,
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)"
+       }
+      },
+      "actual": {
+       "v2_label": 0,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": true,
+       "in_sample": false,
+       "covered": {
+        "0.80": true,
+        "0.95": true
+       },
+       "set_size": {
+        "0.80": 2,
+        "0.95": 2
+       },
+       "informative": {
+        "0.80": false,
+        "0.95": false
+       }
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:eps": {
+      "predicted": {
+       "liability": "eps",
+       "status": "underpowered",
+       "reason": "2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "v2_label": 0,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:orthostatic_hypotension": {
+      "predicted": {
+       "liability": "orthostatic_hypotension",
+       "status": "underpowered",
+       "reason": "1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "v2_label": 0,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class"
+      },
+      "label": "not validated: P34 returned no verdict"
+     }
+    },
+    "label": "not validated: P34 returned no verdict"
+   },
+   {
+    "inn": "escitalopram",
+    "p28_1_split": "heldout",
+    "v2_partition": "train",
+    "not_blind": null,
+    "p28_4_truth_present": false,
+    "inputs": "package_from_benchmark: binding panel + ADME only; no human exposure",
+    "quantities": {
+     "target_engagement_dose": {
+      "predicted": {
+       "quantity": "target_engagement_dose",
+       "status": "pending",
+       "reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "status": "observed",
+       "source": "v2 human Cmax truth, label usual-dose text (FDA SPL set_id None); P28.4 record absent",
+       "label_text": "Recommended starting dosage is 10 mg orally once daily of another escitalopram product."
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "occupancy": {
+      "predicted": {
+       "quantity": "occupancy",
+       "status": "pending",
+       "reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "status": "host-pending",
+       "reason": "P28.4 truth record absent from this checkout"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "clearance": {
+      "predicted": {
+       "status": "predicted",
+       "point": 11.112250247706422,
+       "unit": "mL/min/kg",
+       "bands": {
+        "0.80": {
+         "lower": 1.8855265319688164,
+         "upper": 65.48945531872984,
+         "bounded": true
+        },
+        "0.95": {
+         "lower": 0.4658688461657775,
+         "upper": 265.0576585748145,
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "source_task": "P33.3",
+        "method": "v2 train arithmetic mean (fallback when no ADME package)",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "n_calibration": 109,
+        "underpowered": false,
+        "label": "not validated: P34 returned no verdict",
+        "predictor": "P33.3 v2 train arithmetic mean",
+        "band": "human_cl_v2_train_mean",
+        "input_references": [],
+        "compound_specific": false,
+        "fallback_reason": "the package's clearance data cannot feed the P29.2 arm: no usable human liver-microsome or hepatocyte CLint; no single human plasma fu; no rat plasma systemic CL"
+       }
+      },
+      "actual": null,
+      "comparison": {
+       "scored": false,
+       "reason": "no human truth in this checkout"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "vss": {
+      "predicted": {
+       "status": "predicted",
+       "point": 6.230700934579439,
+       "unit": "L/kg",
+       "bands": {
+        "0.80": {
+         "lower": 0.833199335002821,
+         "upper": 46.593453097316335,
+         "bounded": true
+        },
+        "0.95": {
+         "lower": 0.505620433855015,
+         "upper": 76.78019228807726,
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "source_task": "P33.3",
+        "method": "v2 train arithmetic mean (fallback when no ADME package)",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "n_calibration": 107,
+        "underpowered": false,
+        "label": "not validated: P34 returned no verdict",
+        "predictor": "P33.3 v2 train arithmetic mean",
+        "band": "human_vss_v2_train_mean",
+        "input_references": [],
+        "compound_specific": false,
+        "fallback_reason": "no compound-specific Vss: P29.2's Oie-Tozer Vss arm has n=0 scoreable train drugs: no benchmark drug pairs a clean rat plasma Vss with human Vss truth"
+       }
+      },
+      "actual": null,
+      "comparison": {
+       "scored": false,
+       "reason": "no human truth in this checkout"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:sedation": {
+      "predicted": {
+       "liability": "sedation",
+       "status": "predicted",
+       "point": 0.42105263157894735,
+       "point_kind": "train prevalence",
+       "is_probability": true,
+       "bands": {
+        "0.80": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        },
+        "0.95": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "n_calibration": 19,
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)"
+       }
+      },
+      "actual": {
+       "v2_label": 0,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": true,
+       "in_sample": false,
+       "covered": {
+        "0.80": true,
+        "0.95": true
+       },
+       "set_size": {
+        "0.80": 2,
+        "0.95": 2
+       },
+       "informative": {
+        "0.80": false,
+        "0.95": false
+       }
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:anticholinergic": {
+      "predicted": {
+       "liability": "anticholinergic",
+       "status": "predicted",
+       "point": 0.36,
+       "point_kind": "train prevalence",
+       "is_probability": true,
+       "bands": {
+        "0.80": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        },
+        "0.95": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "n_calibration": 25,
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)"
+       }
+      },
+      "actual": {
+       "v2_label": 0,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": true,
+       "in_sample": false,
+       "covered": {
+        "0.80": true,
+        "0.95": true
+       },
+       "set_size": {
+        "0.80": 2,
+        "0.95": 2
+       },
+       "informative": {
+        "0.80": false,
+        "0.95": false
+       }
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:eps": {
+      "predicted": {
+       "liability": "eps",
+       "status": "underpowered",
+       "reason": "2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "v2_label": 0,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:orthostatic_hypotension": {
+      "predicted": {
+       "liability": "orthostatic_hypotension",
+       "status": "underpowered",
+       "reason": "1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "v2_label": 0,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class"
+      },
+      "label": "not validated: P34 returned no verdict"
+     }
+    },
+    "label": "not validated: P34 returned no verdict"
+   },
+   {
+    "inn": "fluoxetine",
+    "p28_1_split": "heldout",
+    "v2_partition": "heldout",
+    "not_blind": null,
+    "p28_4_truth_present": false,
+    "inputs": "package_from_benchmark: binding panel + ADME only; no human exposure",
+    "quantities": {
+     "target_engagement_dose": {
+      "predicted": {
+       "quantity": "target_engagement_dose",
+       "status": "pending",
+       "reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "status": "host-pending",
+       "reason": "P28.4 truth record absent from this checkout"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "occupancy": {
+      "predicted": {
+       "quantity": "occupancy",
+       "status": "pending",
+       "reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "status": "host-pending",
+       "reason": "P28.4 truth record absent from this checkout"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "clearance": {
+      "predicted": {
+       "status": "predicted",
+       "point": 11.112250247706422,
+       "unit": "mL/min/kg",
+       "bands": {
+        "0.80": {
+         "lower": 1.8855265319688164,
+         "upper": 65.48945531872984,
+         "bounded": true
+        },
+        "0.95": {
+         "lower": 0.4658688461657775,
+         "upper": 265.0576585748145,
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "source_task": "P33.3",
+        "method": "v2 train arithmetic mean (fallback when no ADME package)",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "n_calibration": 109,
+        "underpowered": false,
+        "label": "not validated: P34 returned no verdict",
+        "predictor": "P33.3 v2 train arithmetic mean",
+        "band": "human_cl_v2_train_mean",
+        "input_references": [],
+        "compound_specific": false,
+        "fallback_reason": "the package's clearance data cannot feed the P29.2 arm: no usable human liver-microsome or hepatocyte CLint; no rat plasma systemic CL"
+       }
+      },
+      "actual": null,
+      "comparison": {
+       "scored": false,
+       "reason": "no human truth in this checkout"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "vss": {
+      "predicted": {
+       "status": "predicted",
+       "point": 6.230700934579439,
+       "unit": "L/kg",
+       "bands": {
+        "0.80": {
+         "lower": 0.833199335002821,
+         "upper": 46.593453097316335,
+         "bounded": true
+        },
+        "0.95": {
+         "lower": 0.505620433855015,
+         "upper": 76.78019228807726,
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "source_task": "P33.3",
+        "method": "v2 train arithmetic mean (fallback when no ADME package)",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "n_calibration": 107,
+        "underpowered": false,
+        "label": "not validated: P34 returned no verdict",
+        "predictor": "P33.3 v2 train arithmetic mean",
+        "band": "human_vss_v2_train_mean",
+        "input_references": [],
+        "compound_specific": false,
+        "fallback_reason": "no compound-specific Vss: P29.2's Oie-Tozer Vss arm has n=0 scoreable train drugs: no benchmark drug pairs a clean rat plasma Vss with human Vss truth"
+       }
+      },
+      "actual": null,
+      "comparison": {
+       "scored": false,
+       "reason": "no human truth in this checkout"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:sedation": {
+      "predicted": {
+       "liability": "sedation",
+       "status": "predicted",
+       "point": 0.42105263157894735,
+       "point_kind": "train prevalence",
+       "is_probability": true,
+       "bands": {
+        "0.80": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        },
+        "0.95": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "n_calibration": 19,
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)"
+       }
+      },
+      "actual": {
+       "v2_label": null,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no v2 label for this drug in this checkout"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:anticholinergic": {
+      "predicted": {
+       "liability": "anticholinergic",
+       "status": "predicted",
+       "point": 0.36,
+       "point_kind": "train prevalence",
+       "is_probability": true,
+       "bands": {
+        "0.80": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        },
+        "0.95": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "n_calibration": 25,
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)"
+       }
+      },
+      "actual": {
+       "v2_label": null,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no v2 label for this drug in this checkout"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:eps": {
+      "predicted": {
+       "liability": "eps",
+       "status": "underpowered",
+       "reason": "2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "v2_label": null,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:orthostatic_hypotension": {
+      "predicted": {
+       "liability": "orthostatic_hypotension",
+       "status": "underpowered",
+       "reason": "1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "v2_label": null,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class"
+      },
+      "label": "not validated: P34 returned no verdict"
+     }
+    },
+    "label": "not validated: P34 returned no verdict"
+   },
+   {
+    "inn": "fluphenazine",
+    "p28_1_split": "heldout",
+    "v2_partition": "train",
+    "not_blind": null,
+    "p28_4_truth_present": false,
+    "inputs": "package_from_benchmark: binding panel + ADME only; no human exposure",
+    "quantities": {
+     "target_engagement_dose": {
+      "predicted": {
+       "quantity": "target_engagement_dose",
+       "status": "pending",
+       "reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "status": "observed",
+       "source": "v2 human Cmax truth, label usual-dose text (FDA SPL set_id None); P28.4 record absent",
+       "label_text": "total daily dosage for adult psychotic patients may range initially from 2.5 mg to 10 mg"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "occupancy": {
+      "predicted": {
+       "quantity": "occupancy",
+       "status": "pending",
+       "reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "status": "host-pending",
+       "reason": "P28.4 truth record absent from this checkout"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "clearance": {
+      "predicted": {
+       "status": "predicted",
+       "point": 2.1076960903471886,
+       "unit": "mL/min/kg",
+       "bands": {
+        "0.80": {
+         "lower": 0.2792622199583905,
+         "upper": 15.907568198543755,
+         "bounded": true
+        },
+        "0.95": {
+         "lower": 0.0,
+         "upper": null,
+         "bounded": false
+        }
+       },
+       "provenance": {
+        "source_task": "P29.2",
+        "method": "well-stirred IVIVE (rat allometry fallback), no per-drug fit, raw (no bias factor)",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "n_calibration": 15,
+        "underpowered": false,
+        "label": "not validated: P34 returned no verdict",
+        "predictor": "P29.2 well-stirred IVIVE (human liver CLint, human fu); Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254",
+        "band": "human_cl_ivive",
+        "input_references": [
+         "CHEMBL3301361",
+         "CHEMBL3526137"
+        ],
+        "compound_specific": true,
+        "fallback_reason": null
+       }
+      },
+      "actual": null,
+      "comparison": {
+       "scored": false,
+       "reason": "no human truth in this checkout"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "vss": {
+      "predicted": {
+       "status": "predicted",
+       "point": 6.230700934579439,
+       "unit": "L/kg",
+       "bands": {
+        "0.80": {
+         "lower": 0.833199335002821,
+         "upper": 46.593453097316335,
+         "bounded": true
+        },
+        "0.95": {
+         "lower": 0.505620433855015,
+         "upper": 76.78019228807726,
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "source_task": "P33.3",
+        "method": "v2 train arithmetic mean (fallback when no ADME package)",
+        "calibration": "P30.3 split-conformal, train LODO",
+        "n_calibration": 107,
+        "underpowered": false,
+        "label": "not validated: P34 returned no verdict",
+        "predictor": "P33.3 v2 train arithmetic mean",
+        "band": "human_vss_v2_train_mean",
+        "input_references": [],
+        "compound_specific": false,
+        "fallback_reason": "no compound-specific Vss: P29.2's Oie-Tozer Vss arm has n=0 scoreable train drugs: no benchmark drug pairs a clean rat plasma Vss with human Vss truth"
+       }
+      },
+      "actual": null,
+      "comparison": {
+       "scored": false,
+       "reason": "no human truth in this checkout"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:sedation": {
+      "predicted": {
+       "liability": "sedation",
+       "status": "predicted",
+       "point": 0.42105263157894735,
+       "point_kind": "train prevalence",
+       "is_probability": true,
+       "bands": {
+        "0.80": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        },
+        "0.95": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "n_calibration": 19,
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)"
+       }
+      },
+      "actual": {
+       "v2_label": null,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no v2 label for this drug in this checkout"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:anticholinergic": {
+      "predicted": {
+       "liability": "anticholinergic",
+       "status": "predicted",
+       "point": 0.36,
+       "point_kind": "train prevalence",
+       "is_probability": true,
+       "bands": {
+        "0.80": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        },
+        "0.95": {
+         "labels": [
+          0,
+          1
+         ],
+         "bounded": true
+        }
+       },
+       "provenance": {
+        "label": "not validated: P34 returned no verdict",
+        "method": "train prevalence (leave-one-out on the calibration drugs)",
+        "calibration": "P30.4 split-conformal, train LODO (train-mean comparator)",
+        "n_calibration": 25,
+        "compound_specific": false,
+        "fallback_reason": "no human unbound Cmax in the package (the candidate's exposure view)"
+       }
+      },
+      "actual": {
+       "v2_label": null,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no v2 label for this drug in this checkout"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:eps": {
+      "predicted": {
+       "liability": "eps",
+       "status": "underpowered",
+       "reason": "2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "v2_label": null,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class"
+      },
+      "label": "not validated: P34 returned no verdict"
+     },
+     "liability:orthostatic_hypotension": {
+      "predicted": {
+       "liability": "orthostatic_hypotension",
+       "status": "underpowered",
+       "reason": "1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+       "provenance": {
+        "label": "not validated: P34 returned no verdict"
+       }
+      },
+      "actual": {
+       "v2_label": null,
+       "p28_4_label": null,
+       "scored_against": "v2 label (the rule P30.4 was calibrated on)",
+       "p28_4_note": "P28.4 label uses a different rule (any listed frequency); shown, not scored"
+      },
+      "comparison": {
+       "scored": false,
+       "reason": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class"
+      },
+      "label": "not validated: P34 returned no verdict"
+     }
+    },
+    "label": "not validated: P34 returned no verdict"
+   }
+  ],
+  "summary": {
+   "n_drugs": 5,
+   "n_scored": 3,
+   "n_scored_definition": "drugs with at least one out-of-sample predicted-vs-actual comparison (in-sample train-mean/prevalence comparisons excluded)",
+   "scored_drugs": [
+    "alprazolam",
+    "diazepam",
+    "escitalopram"
+   ],
+   "n_scored_compound_specific": 2,
+   "compound_specific_drugs": [
+    "alprazolam",
+    "diazepam"
+   ],
+   "per_quantity": {
+    "target_engagement_dose": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "diazepam": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "escitalopram": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "fluoxetine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "fluphenazine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data"
+     },
+     "gmfe": null
+    },
+    "occupancy": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "diazepam": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "escitalopram": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "fluoxetine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "fluphenazine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs"
+     },
+     "gmfe": null
+    },
+    "clearance": {
+     "n": 2,
+     "n_in_sample": 0,
+     "drugs": [
+      "alprazolam",
+      "diazepam"
+     ],
+     "covered": {
+      "0.80": 2,
+      "0.95": 2
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "escitalopram": "no human truth in this checkout",
+      "fluoxetine": "no human truth in this checkout",
+      "fluphenazine": "no human truth in this checkout"
+     },
+     "gmfe": 3.649606817190669
+    },
+    "vss": {
+     "n": 0,
+     "n_in_sample": 2,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "escitalopram": "no human truth in this checkout",
+      "fluoxetine": "no human truth in this checkout",
+      "fluphenazine": "no human truth in this checkout"
+     },
+     "gmfe": null
+    },
+    "liability:sedation": {
+     "n": 3,
+     "n_in_sample": 0,
+     "drugs": [
+      "alprazolam",
+      "diazepam",
+      "escitalopram"
+     ],
+     "covered": {
+      "0.80": 3,
+      "0.95": 3
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "fluoxetine": "no v2 label for this drug in this checkout",
+      "fluphenazine": "no v2 label for this drug in this checkout"
+     },
+     "gmfe": null
+    },
+    "liability:anticholinergic": {
+     "n": 3,
+     "n_in_sample": 0,
+     "drugs": [
+      "alprazolam",
+      "diazepam",
+      "escitalopram"
+     ],
+     "covered": {
+      "0.80": 3,
+      "0.95": 3
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "fluoxetine": "no v2 label for this drug in this checkout",
+      "fluphenazine": "no v2 label for this drug in this checkout"
+     },
+     "gmfe": null
+    },
+    "liability:eps": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "diazepam": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "escitalopram": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluoxetine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluphenazine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class"
+     },
+     "gmfe": null
+    },
+    "liability:orthostatic_hypotension": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "diazepam": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "escitalopram": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluoxetine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluphenazine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class"
+     },
+     "gmfe": null
+    }
+   },
+   "host_pending": [
+    "alprazolam",
+    "diazepam",
+    "escitalopram",
+    "fluoxetine",
+    "fluphenazine"
+   ],
+   "host_pending_note": "P28.4 truth (label dose, PET occupancy, IV PK) is absent from this checkout for these drugs; the host scores them with the same function"
+  }
+ },
+ "all_runnable": {
+  "summary": {
+   "n_drugs": 14,
+   "n_scored": 5,
+   "n_scored_definition": "drugs with at least one out-of-sample predicted-vs-actual comparison (in-sample train-mean/prevalence comparisons excluded)",
+   "scored_drugs": [
+    "alprazolam",
+    "diazepam",
+    "escitalopram",
+    "imipramine",
+    "milnacipran"
+   ],
+   "n_scored_compound_specific": 3,
+   "compound_specific_drugs": [
+    "alprazolam",
+    "diazepam",
+    "imipramine"
+   ],
+   "per_quantity": {
+    "target_engagement_dose": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "diazepam": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "escitalopram": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "fluoxetine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "fluphenazine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "imipramine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "milnacipran": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "navacaprant": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "nomifensine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "nortriptyline": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "venlafaxine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "verucerfont": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "vilazodone": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "ziprasidone": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data"
+     },
+     "gmfe": null
+    },
+    "occupancy": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "diazepam": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "escitalopram": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "fluoxetine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "fluphenazine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "imipramine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "milnacipran": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "navacaprant": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "nomifensine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "nortriptyline": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "venlafaxine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "verucerfont": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "vilazodone": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "ziprasidone": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs"
+     },
+     "gmfe": null
+    },
+    "clearance": {
+     "n": 3,
+     "n_in_sample": 2,
+     "drugs": [
+      "alprazolam",
+      "diazepam",
+      "imipramine"
+     ],
+     "covered": {
+      "0.80": 2,
+      "0.95": 3
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "escitalopram": "no human truth in this checkout",
+      "fluoxetine": "no human truth in this checkout",
+      "fluphenazine": "no human truth in this checkout",
+      "milnacipran": "no human truth in this checkout",
+      "navacaprant": "no human truth in this checkout",
+      "nomifensine": "no human truth in this checkout",
+      "venlafaxine": "no human truth in this checkout",
+      "verucerfont": "no human truth in this checkout",
+      "vilazodone": "no human truth in this checkout"
+     },
+     "gmfe": 5.409723375484178
+    },
+    "vss": {
+     "n": 0,
+     "n_in_sample": 5,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "escitalopram": "no human truth in this checkout",
+      "fluoxetine": "no human truth in this checkout",
+      "fluphenazine": "no human truth in this checkout",
+      "milnacipran": "no human truth in this checkout",
+      "navacaprant": "no human truth in this checkout",
+      "nomifensine": "no human truth in this checkout",
+      "venlafaxine": "no human truth in this checkout",
+      "verucerfont": "no human truth in this checkout",
+      "vilazodone": "no human truth in this checkout"
+     },
+     "gmfe": null
+    },
+    "liability:sedation": {
+     "n": 4,
+     "n_in_sample": 1,
+     "drugs": [
+      "alprazolam",
+      "diazepam",
+      "escitalopram",
+      "milnacipran"
+     ],
+     "covered": {
+      "0.80": 4,
+      "0.95": 4
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "fluoxetine": "no v2 label for this drug in this checkout",
+      "fluphenazine": "no v2 label for this drug in this checkout",
+      "imipramine": "no v2 label for this drug in this checkout",
+      "navacaprant": "no v2 label for this drug in this checkout",
+      "nomifensine": "no v2 label for this drug in this checkout",
+      "nortriptyline": "no v2 label for this drug in this checkout",
+      "venlafaxine": "no v2 label for this drug in this checkout",
+      "verucerfont": "no v2 label for this drug in this checkout",
+      "vilazodone": "no v2 label for this drug in this checkout"
+     },
+     "gmfe": null
+    },
+    "liability:anticholinergic": {
+     "n": 4,
+     "n_in_sample": 1,
+     "drugs": [
+      "alprazolam",
+      "diazepam",
+      "escitalopram",
+      "milnacipran"
+     ],
+     "covered": {
+      "0.80": 4,
+      "0.95": 4
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "fluoxetine": "no v2 label for this drug in this checkout",
+      "fluphenazine": "no v2 label for this drug in this checkout",
+      "imipramine": "no v2 label for this drug in this checkout",
+      "navacaprant": "no v2 label for this drug in this checkout",
+      "nomifensine": "no v2 label for this drug in this checkout",
+      "nortriptyline": "no v2 label for this drug in this checkout",
+      "venlafaxine": "no v2 label for this drug in this checkout",
+      "verucerfont": "no v2 label for this drug in this checkout",
+      "vilazodone": "no v2 label for this drug in this checkout"
+     },
+     "gmfe": null
+    },
+    "liability:eps": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "diazepam": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "escitalopram": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluoxetine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluphenazine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "imipramine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "milnacipran": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "navacaprant": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "nomifensine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "nortriptyline": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "venlafaxine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "verucerfont": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "vilazodone": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "ziprasidone": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class"
+     },
+     "gmfe": null
+    },
+    "liability:orthostatic_hypotension": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "diazepam": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "escitalopram": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluoxetine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluphenazine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "imipramine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "milnacipran": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "navacaprant": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "nomifensine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "nortriptyline": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "venlafaxine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "verucerfont": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "vilazodone": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "ziprasidone": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class"
+     },
+     "gmfe": null
+    }
+   },
+   "host_pending": [
+    "alprazolam",
+    "diazepam",
+    "escitalopram",
+    "fluoxetine",
+    "fluphenazine",
+    "imipramine",
+    "milnacipran",
+    "navacaprant",
+    "nomifensine",
+    "nortriptyline",
+    "venlafaxine",
+    "verucerfont",
+    "vilazodone",
+    "ziprasidone"
+   ],
+   "host_pending_note": "P28.4 truth (label dose, PET occupancy, IV PK) is absent from this checkout for these drugs; the host scores them with the same function"
+  }
+ },
+ "untouched_runnable": {
+  "excluded": [
+   "diazepam",
+   "ziprasidone"
+  ],
+  "summary": {
+   "n_drugs": 12,
+   "n_scored": 4,
+   "n_scored_definition": "drugs with at least one out-of-sample predicted-vs-actual comparison (in-sample train-mean/prevalence comparisons excluded)",
+   "scored_drugs": [
+    "alprazolam",
+    "escitalopram",
+    "imipramine",
+    "milnacipran"
+   ],
+   "n_scored_compound_specific": 2,
+   "compound_specific_drugs": [
+    "alprazolam",
+    "imipramine"
+   ],
+   "per_quantity": {
+    "target_engagement_dose": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "escitalopram": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "fluoxetine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "fluphenazine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "imipramine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "milnacipran": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "navacaprant": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "nomifensine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "nortriptyline": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "venlafaxine": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "verucerfont": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+      "vilazodone": "no prediction: P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data"
+     },
+     "gmfe": null
+    },
+    "occupancy": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "escitalopram": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "fluoxetine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "fluphenazine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "imipramine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "milnacipran": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "navacaprant": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "nomifensine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "nortriptyline": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "venlafaxine": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "verucerfont": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+      "vilazodone": "no prediction: P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs"
+     },
+     "gmfe": null
+    },
+    "clearance": {
+     "n": 2,
+     "n_in_sample": 1,
+     "drugs": [
+      "alprazolam",
+      "imipramine"
+     ],
+     "covered": {
+      "0.80": 1,
+      "0.95": 2
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "escitalopram": "no human truth in this checkout",
+      "fluoxetine": "no human truth in this checkout",
+      "fluphenazine": "no human truth in this checkout",
+      "milnacipran": "no human truth in this checkout",
+      "navacaprant": "no human truth in this checkout",
+      "nomifensine": "no human truth in this checkout",
+      "venlafaxine": "no human truth in this checkout",
+      "verucerfont": "no human truth in this checkout",
+      "vilazodone": "no human truth in this checkout"
+     },
+     "gmfe": 5.926790064995208
+    },
+    "vss": {
+     "n": 0,
+     "n_in_sample": 3,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "escitalopram": "no human truth in this checkout",
+      "fluoxetine": "no human truth in this checkout",
+      "fluphenazine": "no human truth in this checkout",
+      "milnacipran": "no human truth in this checkout",
+      "navacaprant": "no human truth in this checkout",
+      "nomifensine": "no human truth in this checkout",
+      "venlafaxine": "no human truth in this checkout",
+      "verucerfont": "no human truth in this checkout",
+      "vilazodone": "no human truth in this checkout"
+     },
+     "gmfe": null
+    },
+    "liability:sedation": {
+     "n": 3,
+     "n_in_sample": 0,
+     "drugs": [
+      "alprazolam",
+      "escitalopram",
+      "milnacipran"
+     ],
+     "covered": {
+      "0.80": 3,
+      "0.95": 3
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "fluoxetine": "no v2 label for this drug in this checkout",
+      "fluphenazine": "no v2 label for this drug in this checkout",
+      "imipramine": "no v2 label for this drug in this checkout",
+      "navacaprant": "no v2 label for this drug in this checkout",
+      "nomifensine": "no v2 label for this drug in this checkout",
+      "nortriptyline": "no v2 label for this drug in this checkout",
+      "venlafaxine": "no v2 label for this drug in this checkout",
+      "verucerfont": "no v2 label for this drug in this checkout",
+      "vilazodone": "no v2 label for this drug in this checkout"
+     },
+     "gmfe": null
+    },
+    "liability:anticholinergic": {
+     "n": 3,
+     "n_in_sample": 0,
+     "drugs": [
+      "alprazolam",
+      "escitalopram",
+      "milnacipran"
+     ],
+     "covered": {
+      "0.80": 3,
+      "0.95": 3
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "fluoxetine": "no v2 label for this drug in this checkout",
+      "fluphenazine": "no v2 label for this drug in this checkout",
+      "imipramine": "no v2 label for this drug in this checkout",
+      "navacaprant": "no v2 label for this drug in this checkout",
+      "nomifensine": "no v2 label for this drug in this checkout",
+      "nortriptyline": "no v2 label for this drug in this checkout",
+      "venlafaxine": "no v2 label for this drug in this checkout",
+      "verucerfont": "no v2 label for this drug in this checkout",
+      "vilazodone": "no v2 label for this drug in this checkout"
+     },
+     "gmfe": null
+    },
+    "liability:eps": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "escitalopram": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluoxetine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluphenazine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "imipramine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "milnacipran": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "navacaprant": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "nomifensine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "nortriptyline": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "venlafaxine": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "verucerfont": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+      "vilazodone": "no prediction (underpowered): 2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class"
+     },
+     "gmfe": null
+    },
+    "liability:orthostatic_hypotension": {
+     "n": 0,
+     "n_in_sample": 0,
+     "drugs": [],
+     "covered": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "n_informative": {
+      "0.80": 0,
+      "0.95": 0
+     },
+     "not_scored": {
+      "alprazolam": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "escitalopram": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluoxetine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "fluphenazine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "imipramine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "milnacipran": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "navacaprant": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "nomifensine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "nortriptyline": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "venlafaxine": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "verucerfont": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+      "vilazodone": "no prediction (underpowered): 1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class"
+     },
+     "gmfe": null
+    }
+   },
+   "host_pending": [
+    "alprazolam",
+    "escitalopram",
+    "fluoxetine",
+    "fluphenazine",
+    "imipramine",
+    "milnacipran",
+    "navacaprant",
+    "nomifensine",
+    "nortriptyline",
+    "venlafaxine",
+    "verucerfont",
+    "vilazodone"
+   ],
+   "host_pending_note": "P28.4 truth (label dose, PET occupancy, IV PK) is absent from this checkout for these drugs; the host scores them with the same function"
+  }
+ }
+}
