@@ -1,0 +1,111 @@
+section,key,row_type,value,units,efficacy,ref,assay_chembl_id,description,matrix,max,min,n_censored,n_documents,n_measurements,ppb_percent,relation,species,standard_type
+compound,name,,haloperidol,,,,,,,,,,,,,,,
+binding,ADRA1A,,12.0,nM,,CHEMBL_DOC:CHEMBL3638417;PDSP_REF:PDSP Certified Data;PMID:12629531;PMID:39038276,,,,,,,,,,,,
+binding,ADRA1B,,8.0,nM,,PDSP_REF:PDSP Certified Data,,,,,,,,,,,,
+binding,ADRA2A,,1130.0,nM,,PDSP_REF:PDSP Certified Data;PMID:12629531;PMID:15771415;PMID:8935801,,,,,,,,,,,,
+binding,ADRA2B,,480.0,nM,,PDSP_REF:PDSP Certified Data;PMID:12629531;PMID:39038276;PMID:8935801,,,,,,,,,,,,
+binding,ADRA2C,,550.0,nM,,PDSP_REF:PDSP Certified Data;PMID:12629531;PMID:15771415;PMID:39038276;PMID:8935801,,,,,,,,,,,,
+binding,ADRB2,,5000.0,nM,,PDSP_REF:PDSP Certified Data;PMID:8935801,,,,,,,,,,,,
+binding,CHRM1,,1600.0,nM,,"PDSP_REF:Hirose, Tsuyoshi.  et. al, 2005;PDSP_REF:PDSP Certified Data;PMID:11513838;PMID:14642972;PMID:16082416;PMID:18595716;PMID:22245230;PMID:30768942;PMID:9406603",,,,,,,,,,,,
+binding,CHRM2,,5248.074602,nM,,PDSP_REF:PDSP Certified Data;PMID:14642972;PMID:16082416,,,,,,,,,,,,
+binding,CHRM5,,657.0,nM,,PDSP_REF:PDSP Certified Data;PMID:14642972,,,,,,,,,,,,
+binding,DRD1,,82.498485,nM,antagonist,"GTOPDB:ligand 86 target 214;PDSP_REF:Hirose, Tsuyoshi.  et. al, 2005;PDSP_REF:PDSP Certified Data;PMID:11513838;PMID:15293986;PMID:15615863;PMID:15771415;PMID:16082416;PMID:1826762;PMID:1831904;PMID:18595716;PMID:19796944;PMID:21413808;PMID:21555222;PMID:25070422;PMID:30768942;PMID:8997630;PMID:9686407",,,,,,,,,,,,
+binding,DRD2,,2.0,nM,antagonist,"CHEMBL_DOC:CHEMBL1129926;CHEMBL_DOC:CHEMBL3638417;GTOPDB:ligand 86 target 215;PDSP_REF:Hirose, Tsuyoshi.  et. al, 2005;PDSP_REF:Ishibashi, Tadashi.  et. al, 2010;PDSP_REF:PDSP Certified Data;PDSP_REF:Seeman, Philip  2001;PMID:10377229;PMID:11132243;PMID:11513838;PMID:12477356;PMID:12629531;PMID:14695828;PMID:14978194;PMID:15102927;PMID:15293986;PMID:15615863;PMID:15689154;PMID:15771415;PMID:1586393;PMID:16082416;PMID:16135699;PMID:16250644;PMID:17266201;PMID:17316913;PMID:17880057;PMID:1840645;PMID:18595716;PMID:18793859;PMID:18800769;PMID:19053888;PMID:19081257;PMID:19155177;PMID:20155917;PMID:20347298;PMID:20542439;PMID:21413808;PMID:22245230;PMID:24805037;PMID:25070422;PMID:2532362;PMID:27032890;PMID:28666858;PMID:2904784;PMID:29407591;PMID:29730027;PMID:30703658;PMID:30768942;PMID:31325785;PMID:31580666;PMID:31933369;PMID:32182489;PMID:33548637;PMID:37027998;PMID:39038276;PMID:39854244;PMID:6149136;PMID:7520908;PMID:7902870;PMID:8102973;PMID:8301582;PMID:8566176;PMID:8642551;PMID:8893836;PMID:8935801;PMID:8997630;PMID:9015795;PMID:9016321;PMID:9067310;PMID:9430133;PMID:9577836;PMID:9686407",,,,,,,,,,,,
+binding,DRD3,,5.448912,nM,antagonist,"GTOPDB:ligand 86 target 216;PDSP_REF:Hirose, Tsuyoshi.  et. al, 2005;PDSP_REF:Seeman, Philip  2001;PMID:10377229;PMID:10832613;PMID:11513838;PMID:14978194;PMID:15689154;PMID:15771415;PMID:1586393;PMID:16135699;PMID:16335915;PMID:17266201;PMID:17316913;PMID:17850060;PMID:17880057;PMID:18595716;PMID:19155177;PMID:19796944;PMID:20542439;PMID:21555222;PMID:25070422;PMID:26288260;PMID:28666858;PMID:30768942;PMID:31933369;PMID:33548637;PMID:34797051;PMID:35063632;PMID:36542960;PMID:7902870;PMID:8230107;PMID:8301582;PMID:8642551;PMID:8893836;PMID:8935801;PMID:8997630;PMID:9067310;PMID:9430133;PMID:9577836;PMID:9686407",,,,,,,,,,,,
+binding,DRD4,,4.953865,nM,antagonist,"CHEMBL_DOC:CHEMBL1149990;GTOPDB:ligand 86 target 217;PDSP_REF:Hirose, Tsuyoshi.  et. al, 2005;PDSP_REF:PDSP Certified Data;PDSP_REF:Seeman, Philip  2001;PMID:10377229;PMID:11513838;PMID:12477356;PMID:15380206;PMID:16082416;PMID:16135699;PMID:17266201;PMID:17316913;PMID:17880057;PMID:18595716;PMID:19155177;PMID:21413808;PMID:22245230;PMID:25070422;PMID:30768942;PMID:34797051;PMID:39038276;PMID:7520908;PMID:8102973;PMID:8230107;PMID:8523409;PMID:8642550;PMID:8822531;PMID:8935801;PMID:8997630;PMID:9015795;PMID:9016321;PMID:9223553;PMID:9262370;PMID:9430133;PMID:9577836",,,,,,,,,,,,
+binding,DRD5,,147.0,nM,antagonist,PDSP_REF:PDSP Certified Data;PMID:15293986;PMID:1826762;PMID:21413808;PMID:21555222;PMID:30768942;PMID:39038276;PMID:8997630,,,,,,,,,,,,
+binding,EBP,,190.0,nM,,PMID:16033255,,,,,,,,,,,,
+binding,GRIN2B,,13.0,nM,,PMID:39547080,,,,,,,,,,,,
+binding,HRH1,,819.999421,nM,antagonist,"CHEMBL_DOC:CHEMBL3638417;GTOPDB:ligand 86 target 262;PDSP_REF:Appl, Heidrun.  et. al, 2011;PDSP_REF:Chang, R et., 1978;PDSP_REF:Ghoneim OM, et al., 2006;PDSP_REF:Hirose, Tsuyoshi.  et. al, 2005;PDSP_REF:Ishibashi, Tadashi.  et. al, 2010;PDSP_REF:PDSP Certified Data;PMID:11132243;PMID:11513838;PMID:12629531;PMID:15615863;PMID:15771415;PMID:16082416;PMID:18595716;PMID:22245230;PMID:25070422;PMID:2904784;PMID:30768942;PMID:6146381;PMID:6149136;PMID:8935801",,,,,,,,,,,,
+binding,HRH2,,1003.0,nM,,PDSP_REF:PDSP Certified Data,,,,,,,,,,,,
+binding,HTR1A,,1949.8446,nM,antagonist,"GTOPDB:ligand 86 target 1;PDSP_REF:Hirose, Tsuyoshi.  et. al, 2005;PDSP_REF:PDSP Certified Data;PDSP_REF:WANDER ET AL., 1987;PMID:11132243;PMID:11513838;PMID:12629531;PMID:15615863;PMID:16051647;PMID:16082416;PMID:18595716;PMID:22245230;PMID:25070422;PMID:29407591;PMID:30768942;PMID:7520908;PMID:8935801;PMID:9067310;PMID:9686407",,,,,,,,,,,,
+binding,HTR1B,,270.0,nM,,PDSP_REF:PDSP Certified Data;PMID:7520908;PMID:8935801,,,,,,,,,,,,
+binding,HTR1D,,1120.688724,nM,antagonist,"PDSP_REF:PDSP Certified Data;PDSP_REF:PEROUTKA ET AL., 1989;PDSP_REF:WAEBER ET AL., 1988;PMID:11132243;PMID:8935801",,,,,,,,,,,,
+binding,HTR1E,,5000.0,nM,,PDSP_REF:PDSP Certified Data;PMID:8935801,,,,,,,,,,,,
+binding,HTR1F,,5000.0,nM,,PMID:8935801,,,,,,,,,,,,
+binding,HTR2A,,89.0,nM,antagonist,"GTOPDB:ligand 86 target 6;PDSP_REF:ANDORN ET AL., 1984;PDSP_REF:Hirose, Tsuyoshi.  et. al, 2005;PDSP_REF:Ishibashi, Tadashi.  et. al, 2010;PDSP_REF:Seeman, Philip  2001;PDSP_REF:WANDER ET AL., 1987;PMID:11132243;PMID:11513838;PMID:12629531;PMID:14695828;PMID:15102927;PMID:15615863;PMID:15771415;PMID:16051647;PMID:16082416;PMID:17880057;PMID:18595716;PMID:22245230;PMID:25070422;PMID:29407591;PMID:30768942;PMID:34436892;PMID:39038276;PMID:7520908;PMID:8935801;PMID:8997630;PMID:9015795;PMID:9225287;PMID:9577836",,,,,,,,,,,,
+binding,HTR2B,,1175.855102,nM,antagonist,PMID:9225287;PMID:9459568,,,,,,,,,,,,
+binding,HTR2C,,4700.0,nM,,"CHEMBL_DOC:CHEMBL3638417;PDSP_REF:Hirose, Tsuyoshi.  et. al, 2005;PMID:10991983;PMID:11132243;PMID:11513838;PMID:12629531;PMID:15771415;PMID:18595716;PMID:22245230;PMID:25070422;PMID:30768942;PMID:8822531;PMID:8997630;PMID:9225287",,,,,,,,,,,,
+binding,HTR3A,,8317.637711,nM,,PDSP_REF:PDSP Certified Data;PMID:16082416,,,,,,,,,,,,
+binding,HTR5A,,2247.0,nM,,PDSP_REF:PDSP Certified Data,,,,,,,,,,,,
+binding,HTR6,,6000.0,nM,,"PDSP_REF:Hirose, Tsuyoshi.  et. al, 2005;PDSP_REF:PDSP Certified Data;PMID:11513838;PMID:12629531;PMID:16082416;PMID:18595716;PMID:29407591;PMID:8522988;PMID:9430133",,,,,,,,,,,,
+binding,HTR7,,403.022263,nM,antagonist,"PDSP_REF:Hirose, Tsuyoshi.  et. al, 2005;PDSP_REF:PDSP Certified Data;PMID:11513838;PMID:12629531;PMID:15771415;PMID:16082416;PMID:17880057;PMID:27364609;PMID:29407591;PMID:30768942;PMID:39038276;PMID:9298538",,,,,,,,,,,,
+binding,KCNH2,,247.870934,nM,,PMID:16908150;PMID:19072656,,,,,,,,,,,,
+binding,OPRM1,,2470.0,nM,,PMID:31743642;PMID:34011153,,,,,,,,,,,,
+binding,SIGMAR1,,4.6,nM,,PMID:20067271;PMID:22784008;PMID:23403082;PMID:24365159;PMID:24617836;PMID:25602932;PMID:26750254;PMID:27032890;PMID:28385503;PMID:30904383;PMID:33237785;PMID:33372782;PMID:34223165;PMID:39854244;PMID:8021913,,,,,,,,,,,,
+binding,SLC6A2,,3408.225345,nM,,PDSP_REF:PDSP Certified Data;PMID:25070422,,,,,,,,,,,,
+binding,SLC6A3,,2398.832919,nM,,PDSP_REF:PDSP Certified Data;PMID:16082416,,,,,,,,,,,,
+binding,SLC6A4,,1800.0,nM,,CHEMBL_DOC:CHEMBL3638417;PDSP_REF:PDSP Certified Data;PMID:18595716;PMID:25070422;PMID:8935801,,,,,,,,,,,,
+binding,TBXA2R,,1000.0,nM,,PMID:8935801,,,,,,,,,,,,
+binding,TMEM97,,38.854858,nM,,PMID:28559337;PMID:29172528;PMID:31042618;PMID:33111525;PMID:33372782;PMID:38753759;PMID:39547082;PMID:39854244,,,,,,,,,,,,
+adme,brain_fu,measurement,0.014,,,CHEMBL3526149,CHEMBL3534720,Percentage unbound in solid supported porcine brain membrane vesicles at 5 uM by TRANSIL assay,,,,,,,,=,pig,Fu
+adme,brain_fu,measurement,0.014,,,CHEMBL3526149,CHEMBL3534723,Percentage unbound in solid supported porcine brain membrane vesicles at 5 uM using four compound cocktail after 5 hrs by TRANSIL assay,,,,,,,,=,pig,Fu
+adme,brain_fu,measurement,0.016,,,CHEMBL3085723,CHEMBL3088756,Fraction unbound in rat brain homogenate at 5 uM after 4 hrs equilibrium dialysis method,,,,,,,,=,rat,Fu
+adme,brain_fu,measurement,0.011,,,CHEMBL3526149,CHEMBL3534719,Fraction unbound in Wistar rat brain homogenate at 5 uM after 5 hrs by equilibrium dialysis method,,,,,,,,=,rat,Fu
+adme,brain_fu,measurement,0.0129,,,CHEMBL3526149,CHEMBL3534722,Binding affinity to Wistar rat brain lipid assessed as percentage unbound by TRANSIL assay,,,,,,,,=,rat,Fu
+adme,brain_fu,summary,0.014,,,,,,,0.014,0.014,0,1,2,,,pig,
+adme,brain_fu,summary,0.013956,,,,,,,0.016,0.011,0,2,3,,,rat,
+adme,clint,measurement,16.0,mL.min-1.g-1,,CHEMBL3525922,CHEMBL3532270,Unbound intrinsic clearance in human intestinal cytosol at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis,intestinal_or_cytosol,,,,,,,=,human,CL
+adme,clint,measurement,6.0,mL.min-1.g-1,,CHEMBL3525922,CHEMBL3532271,Unbound intrinsic clearance in human liver cytosol at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis,intestinal_or_cytosol,,,,,,,=,human,CL
+adme,clint,measurement,20000.0,mL.min-1.g-1,,CHEMBL2203023,CHEMBL2208714,Clearance in human liver microsomes,microsomes,,,,,,,=,human,CL
+adme,clint,measurement,8.0,mL.min-1.g-1,,CHEMBL3301361,CHEMBL3301370,"ASTRAZENECA: Intrinsic clearance measured in human liver microsomes following incubation at 37C. Experimental range <3 to >150 microL/min/mg. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736.",microsomes,,,,,,,=,human,CL
+adme,clint,measurement,14.0,mL.min-1.g-1,,CHEMBL3525922,CHEMBL3532268,Unbound intrinsic clearance in human intestinal microsomes at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis,microsomes,,,,,,,=,human,CL
+adme,clint,measurement,145.0,mL.min-1.g-1,,CHEMBL3525922,CHEMBL3532269,Unbound intrinsic clearance in human liver microsomes at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis,microsomes,,,,,,,=,human,CL
+adme,clint,measurement,0.038,mL.min-1.g-1,,CHEMBL3526000,CHEMBL3540227,Intrinsic clearance in human liver microsomes measured per mg of protein at 10 to 400 uM by LC-MS/MS analysis,microsomes,,,,,,,=,human,CL
+adme,clint,measurement,0.009,mL.min-1.g-1,,CHEMBL3526000,CHEMBL3540230,Intrinsic clearance in recombinant human UGT1A4 measured per mg of protein at 10 to 400 uM by LC-MS/MS analysis,microsomes,,,,,,,=,human,CL
+adme,clint,measurement,0.016,mL.min-1.g-1,,CHEMBL3526000,CHEMBL3540233,Intrinsic clearance in recombinant human UGT1A9 measured per mg of protein at 10 to 400 uM by LC-MS/MS analysis,microsomes,,,,,,,=,human,CL
+adme,clint,measurement,0.023,mL.min-1.g-1,,CHEMBL3526000,CHEMBL3537951,Intrinsic clearance in recombinant human UGT2B7 measured per mg of protein at 10 to 400 uM by LC-MS/MS analysis,microsomes,,,,,,,=,human,CL
+adme,clint,measurement,30.0,mL.min-1.g-1,,CHEMBL3525922,CHEMBL3532272,Unbound intrinsic clearance in human intestinal S9 fraction at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis,s9,,,,,,,=,human,CL
+adme,clint,measurement,51.0,mL.min-1.g-1,,CHEMBL3525922,CHEMBL3532273,Unbound intrinsic clearance in human liver S9 fraction at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis,s9,,,,,,,=,human,CL
+adme,clint,measurement,1.8,mL.min-1.g-1,,CHEMBL3525922,CHEMBL3532277,Intrinsic clearance in human intestinal S9 fraction at 50 to 1000 nM after 60 mins by HPLC-MS/MS analysis,s9,,,,,,,<,human,CL
+adme,clint,measurement,1.8,mL.min-1.g-1,,CHEMBL3525922,CHEMBL3532279,Intrinsic clearance in human intestinal S9 fraction at 50 to 1000 nM after 60 mins by HPLC-MS/MS analysis in presence of NADH,s9,,,,,,,<,human,CL
+adme,clint,measurement,30.0,mL.min-1.g-1,,CHEMBL3525922,CHEMBL3532281,Unbound intrinsic clearance in human intestinal S9 fraction at 50 to 1000 nM after 30 to 60 mins by HPLC-MS/MS analysis in presence of NADPH,s9,,,,,,,=,human,CL
+adme,clint,measurement,14.24,uL.min-1.(10^6cells)-1,,CHEMBL3301361,CHEMBL3301371,"ASTRAZENECA: Intrinsic clearance measured in rat hepatocytes following incubation at 37C. Experimental range <3 to >150 microL/min/1E6 cells. Rapid Commun. Mass Spectrom. 2010, 24, 1730-1736",hepatocytes,,,,,,,=,rat,CL
+adme,clint,measurement,21000.0,mL.min-1.g-1,,CHEMBL2203023,CHEMBL2208716,Clearance in rat liver microsomes,microsomes,,,,,,,=,rat,CL
+adme,clint,summary,9.797959,mL.min-1.g-1,,,,,intestinal_or_cytosol,16.0,6.0,0,1,2,,,human,
+adme,clint,summary,26.527761,mL.min-1.g-1,,,,,microsomes,20000.0,0.009,0,4,8,,,human,
+adme,clint,summary,35.804496,mL.min-1.g-1,,,,,s9,51.0,30.0,2,1,5,,,human,
+adme,clint,summary,21000.0,mL.min-1.g-1,,,,,microsomes,21000.0,21000.0,0,1,1,,,rat,
+adme,clint,summary,14.24,uL.min-1.(10^6cells)-1,,,,,hepatocytes,14.24,14.24,0,1,1,,,rat,
+adme,invivo_cl_preclinical,measurement,32.9,mL.min-1.kg-1,,CHEMBL1614630,CHEMBL1614685,Clearance in dog after iv administration,,,,,,,,=,dog,CL
+adme,invivo_cl_preclinical,measurement,7.8,mL.min-1.kg-1,,CHEMBL1614630,CHEMBL1614687,Clearance in monkey after iv administration,,,,,,,,=,monkey,CL
+adme,invivo_cl_preclinical,measurement,86.2,mL.min-1.kg-1,,CHEMBL1614630,CHEMBL1614683,Clearance in rat after iv administration,,,,,,,,=,rat,CL
+adme,invivo_cl_preclinical,summary,32.9,mL.min-1.kg-1,,,,,,32.9,32.9,0,1,1,,,dog,
+adme,invivo_cl_preclinical,summary,7.8,mL.min-1.kg-1,,,,,,7.8,7.8,0,1,1,,,monkey,
+adme,invivo_cl_preclinical,summary,86.2,mL.min-1.kg-1,,,,,,86.2,86.2,0,1,1,,,rat,
+adme,invivo_vss_preclinical,measurement,37.0,L.kg-1,,CHEMBL1614630,CHEMBL1614686,Volume of distribution at steady state in dog after iv administration,,,,,,,,=,dog,Vdss
+adme,invivo_vss_preclinical,measurement,6.6,L.kg-1,,CHEMBL1614630,CHEMBL1614688,Volume of distribution at steady state in monkey after iv administration,,,,,,,,=,monkey,Vdss
+adme,invivo_vss_preclinical,measurement,0.6,L.kg-1,,CHEMBL3588773,CHEMBL3591355,Volume of distribution at steady state in mouse,,,,,,,,=,mouse,Vdss
+adme,invivo_vss_preclinical,measurement,10.4,mL/min/kg,,CHEMBL1614630,CHEMBL1614684,Volume of distribution at steady state in rat after iv administration,,,,,,,,=,rat,Vdss
+adme,invivo_vss_preclinical,summary,37.0,L.kg-1,,,,,,37.0,37.0,0,1,1,,,dog,
+adme,invivo_vss_preclinical,summary,6.6,L.kg-1,,,,,,6.6,6.6,0,1,1,,,monkey,
+adme,invivo_vss_preclinical,summary,0.6,L.kg-1,,,,,,0.6,0.6,0,1,1,,,mouse,
+adme,invivo_vss_preclinical,summary,10.4,mL/min/kg,,,,,,10.4,10.4,0,1,1,,,rat,
+adme,kp_total,measurement,8.5,,,CHEMBL4373730,CHEMBL4376339,"Brain to plasma partition coefficient, Kp of the compound in rat",,,,,,,,=,rat,Kp
+adme,kp_total,summary,8.5,,,,,,,8.5,8.5,0,1,1,,,rat,
+adme,kp_uu,measurement,0.9,,,CHEMBL4373730,CHEMBL4376342,Unbound brain-to-plasma concentration ratio in rat,,,,,,,,=,rat,"K(p,uu,brain)"
+adme,kp_uu,summary,0.9,,,,,,,0.9,0.9,0,1,1,,,rat,
+adme,permeability,measurement,18.9,1e-6 cm/s,,CHEMBL2203023,CHEMBL2208724,Apparent permeability across human Caco2 cells,caco2,,,,,,,=,human,Papp
+adme,permeability,measurement,7.1,1e-6 cm/s,,CHEMBL3526001,CHEMBL3529276,Apparent permeability from apical to basolateral side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis in presence of 1 uM of P-gp inhibitor LY335979,caco2,,,,,,,=,human,Papp
+adme,permeability,measurement,4.1,1e-6 cm/s,,CHEMBL3526001,CHEMBL3529272,Apparent permeability from apical to basolateral side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis,caco2,,,,,,,=,human,Papp
+adme,permeability,measurement,2.9,1e-6 cm/s,,CHEMBL3526001,CHEMBL3529277,Apparent permeability from basolateral to apical side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis in presence of 1 uM of P-gp inhibitor LY335979,caco2_efflux,,,,,,,=,human,Papp
+adme,permeability,measurement,1.8,1e-6 cm/s,,CHEMBL3526001,CHEMBL3529273,Apparent permeability from basolateral to apical side of human Caco2 cells at 10 uM up to 120 mins by HPLC-MC analysis,caco2_efflux,,,,,,,=,human,Papp
+adme,permeability,summary,12.147684,1e-6 cm/s,,,,,caco2,18.9,4.1,0,2,3,,,human,
+adme,permeability,summary,2.284732,1e-6 cm/s,,,,,caco2_efflux,2.9,1.8,0,1,2,,,human,
+adme,plasma_fu,measurement,0.08,,,CHEMBL1148291,CHEMBL618310,Unbound fraction (plasma),,,,,,,,=,human,Fu
+adme,plasma_fu,measurement,0.08,,,CHEMBL1153781,CHEMBL1100461,Fraction unbound in human plasma,,,,,,,,=,human,logFu
+adme,plasma_fu,measurement,0.08,,,CHEMBL1156824,CHEMBL1043580,Fraction unbound in human plasma,,,,,,,,=,human,Fu
+adme,plasma_fu,measurement,0.1,,,CHEMBL3045817,CHEMBL3047565,Plasma protein binding in Homo sapiens (human),,,,,,,90.0,=,human,PPB
+adme,plasma_fu,measurement,0.11,,,CHEMBL3045817,CHEMBL3062994,Binding affinity to Homo sapiens (human) serum albumin at 1.5 to 800 ug/ml after 3 days by NMR analysis,,,,,,,89.0,=,human,PPB
+adme,plasma_fu,measurement,0.1452,,,CHEMBL3301361,CHEMBL3301365,"ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole human plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",,,,,,,85.48,=,human,PPB
+adme,plasma_fu,measurement,0.08,,,CHEMBL3784949,CHEMBL3790153,Unbound fraction in human serum,,,,,,,,=,human,Fu
+adme,plasma_fu,measurement,0.08,,,CHEMBL4257461,CHEMBL4258128,Protein binding in human plasma,,,,,,,92.0,=,human,PPB
+adme,plasma_fu,measurement,0.1864,,,CHEMBL3301361,CHEMBL3301366,"ASTRAZENECA: % bound to plasma by equilibrium dialysis. Compound is incubated with whole rat plasma  at 37C for >5hrs.  Method described in B. Testa et al (Eds.), Pharmacokinetic Profiling in Drug Research: Biological, Physicochemical, and Computational Strategies, Wiley-VCH, Weinheim, 2006, pp.119-141. Experimental range 10% to 99.95% bound.",,,,,,,81.36,=,rat,PPB
+adme,plasma_fu,measurement,0.08,,,CHEMBL1135488,CHEMBL639855,Unbound fraction (plasma),,,,,,,,=,unspecified,Fu
+adme,plasma_fu,measurement,0.124,,,CHEMBL3526113,CHEMBL3537690,Unbound fraction in plasma (unknown origin) under normal atmospheric condition at pH 7.72 after 6 hrs by equilibrium dialysis method,,,,,,,,=,unspecified,Fu
+adme,plasma_fu,measurement,0.164,,,CHEMBL3526113,CHEMBL3537689,Unbound fraction in plasma (unknown origin) at pH 7.63 after 6 hrs by equilibrium dialysis method in presence of 5% CO2,,,,,,,,=,unspecified,Fu
+adme,plasma_fu,measurement,0.161,,,CHEMBL3526113,CHEMBL3537688,Unbound fraction in plasma (unknown origin) at pH 7.4 after 6 hrs by equilibrium dialysis method in presence of 5% CO2,,,,,,,,=,unspecified,Fu
+adme,plasma_fu,measurement,0.223,,,CHEMBL3526113,CHEMBL3537687,Unbound fraction in plasma (unknown origin) under normal atmospheric condition at pH 7.22 after 6 hrs by equilibrium dialysis method,,,,,,,,=,unspecified,Fu
+adme,plasma_fu,summary,0.08,,,,,,,0.1452,0.08,0,7,8,,,human,
+adme,plasma_fu,summary,0.1864,,,,,,,0.1864,0.1864,0,1,1,,,rat,
+adme,plasma_fu,summary,0.12219,,,,,,,0.223,0.08,0,2,5,,,unspecified,

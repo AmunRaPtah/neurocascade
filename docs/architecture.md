@@ -18227,3 +18227,117 @@ test-pinned) are all `missing_truth` in the session checkout. On a checkout
 with P28.4 held-out truth, `score_clearance(load_split()["heldout"])` scores
 them. That is host-pending, and it is a retrospective look: P29.2 already
 scored that split. The clean test is P32.4.
+
+## Phase 32, part two: CLI, pip package and the one-page report (P32.2)
+
+`neurocascade predict PACKAGE.(json|csv) -o report.html [--json result.json]`
+runs `predict_compound` on a package file and writes a one-page HTML report.
+`neurocascade export-benchmark INN -o FILE` writes a benchmark drug's
+preclinical package (P32.1's `package_from_benchmark`, no truth), so there is
+always a real file to run. This folds in the parked P27 work: P27.1 (pip, CLI,
+plain-English refusals), P27.2 (one-page report, every number linked) and P27.3.
+P27.3 needed no new code, because `.github/workflows/ci.yml` already runs the
+fast set on every push and the full set nightly. The new CLI tests are in that
+fast set.
+
+### What the source says, against the brief (rule 11)
+
+- **Where `pyproject.toml` lives.** The brief says `pip install .`. The first
+  session put `pyproject.toml` at the root, and the pipeline rejected the patch,
+  because it only accepts files under src/, tests/, docs/, scripts/, examples/
+  and results/. The packaging file is therefore `src/pyproject.toml`, and the
+  install command is `pip install ./src` (or `cd src && pip install .`). If the
+  root path ever becomes writable, moving the file up one level and changing
+  `where` is the whole fix. Nothing in `.gitignore` changes, so a local build
+  leaves `src/build/` and `src/*.egg-info` to delete by hand. The test builds
+  from a copy of src/ in a temp dir, so the suite never writes there.
+- **"Predicted dose" and "panel occupancy curves with bands".** No scored
+  predictor exists for either (P29.3 and P29.4 are searched-and-empty, and
+  P29.5 is blocked on data), so P32.1 returns both as `pending`. The report
+  shows the pending reason in the dose and occupancy sections and draws no
+  curve. An unbanded curve computed from Ki and a guessed exposure would be
+  exactly the unscored number P32.1 refused to emit.
+- **"Effect-probability table".** It is a table, but only the train-prevalence
+  fallback is a probability. The P34.3 candidate's point is an engagement
+  percentile, and the report says "(not a probability)" beside it, as P32.1's
+  `is_probability` flag does.
+- **PDF.** Only HTML is produced, with an A4 `@page` rule, so the browser's print
+  output is the PDF. A PDF engine would be a heavy dependency that adds no
+  information.
+
+### Why a CSV encoding, and why it is lossless
+
+Discovery data lives in spreadsheets, so the CLI accepts CSV. The CSV is not a
+simpler schema. It is a one-row-per-item encoding of the same JSON, and its
+ADME rows keep the benchmark's measurement and summary rows column for column.
+P32.1 recorded why: the P29.2 extractors (liver-only matrix, unit grouping,
+per-reference outlier rule, single-species fu from `summary`) are what the
+P30.3 band was calibrated on. A flattened `clint=x` column would need a new
+extraction, and the band would no longer apply to it. The loader recomputes no
+summary, because that would be a new aggregation rule. All 43 benchmark
+packages that are not refused (29 train, 14 held-out) give byte-identical
+predictions from the CSV and from the dict. The tests pin four drugs, the
+`human_exposure` round trip and the malformed-row errors.
+
+### The report's two rules, and how they are checked
+
+1. **Every number is a link.** Each point, band and label set is an
+   `<a class="num">` pointing at its provenance entry. That entry holds the
+   predictor or translation method, the calibration set and n, and the input
+   references. Each `PMID n` becomes a PubMed link and each ChEMBL document id
+   a ChEMBL link. Input Ki values link to their measurement references. Band
+   labels ("80% band") link to the conformal-method entry.
+2. **The label sits beside every prediction.** Each row of a prediction table
+   (dose, PK, occupancy, effects, nearest drugs) has a cell with
+   `not validated: P34 returned no verdict`. Pending and underpowered rows
+   have it too. The banner and every provenance entry repeat it.
+
+`report.audit_report` parses the HTML (stdlib `HTMLParser`) and returns three
+lists that must be empty. The first, `unlinked_numbers`, holds any text in the
+results section containing a digit that is neither inside a link nor an
+identifier span (a gene symbol such as HTR2A, or a drug name). The second,
+`rows_without_label`, holds any prediction-table row that has a number but no
+label. The third, `broken_links`, holds in-page links with no target. The audit
+is a function, not test-only code, because the benchmark script runs it on all
+43 written reports. `tests/test_report.py` also checks the label with an
+independent regex over the raw rows, and it shows that the audit catches each
+of the three breaches when one is injected.
+
+Distances to the nearest drugs are still not shown (P32.1: they have no band).
+`--json` writes strict JSON. An unbounded band edge (infinity) becomes `null`
+beside `"bounded": false`, because `Infinity` is not JSON.
+
+### Refusal and exit codes
+
+Exit code 0 means the report was written. Exit code 2 means
+`CoreInputMissing`, and stderr names each missing core input in P32.1's words
+(for example "binding panel: no measured Ki at any target"), as P27.1 asked.
+Exit code 1 means the file is not a valid package, or the drug passed to
+`export-benchmark` is not in the benchmark.
+
+### The pip package
+
+The wheel declares only numpy and scipy, because `predict_compound` and the CLI
+import nothing else (checked on `sys.modules`). The research modules still need
+`requirements.txt`. Package data takes every JSON/CSV/MD/NPY/TXT/XLSX file
+under `neurocascade/`, so the frozen benchmark, band and candidate files travel
+with the code, and the installed CLI needs no checkout. The CI test copies src/
+to a temp dir and builds and installs it into a fresh venv
+(`--no-deps --no-build-isolation --no-index`, with system site packages for
+numpy and scipy, because the gate container has no network). It checks that
+`neurocascade` imports from the venv rather than the checkout. Then the console
+script runs a CSV package to a report that passes the audit. A truly clean venv
+with network was also checked by hand in the session (`pip install ./src`
+pulled numpy and scipy from PyPI, then `export-benchmark` and `predict` ran).
+
+### Result (`results/P32.2.json`, ledger V22c)
+
+`scripts/p32_2_cli_benchmark.py` runs the CLI on every P28.1 drug through a
+CSV file and scores CL read back from the CLI's JSON output. It reproduces V22
+exactly (`matches_p32_1_score_clearance` is true on both splits). IVIVE n=13,
+GMFE 3.09, 80% covers 11/13. Train-mean fallback n=4, GMFE 3.60. n_scored is 15
+out of sample. 101 train packages and 41 held-out packages exit with code 2.
+All 43 reports pass the audit. The 14 held-out drugs that run are
+`missing_truth` in this checkout, so held-out scoring is host-pending through
+the same `score_cli`. This row is a delivery check, not a new prediction: it
+shows that the file and report layers lose nothing, and it adds no accuracy.
