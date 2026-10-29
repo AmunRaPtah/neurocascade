@@ -3134,7 +3134,13 @@
       ],
       "status": "pending",
       "attempts": 0,
-      "host_eval": "python -m pytest -q -p no:cacheprovider -s src/neurocascade/benchmark/v2/test_bands_heldout.py"
+      "host_eval": "python -m pytest -q -p no:cacheprovider -s src/neurocascade/benchmark/v2/test_bands_heldout.py",
+      "conductor": {
+        "sessions": 1,
+        "history": [
+          "2026-10-29 01:53 COMPLETE, PR opened"
+        ]
+      }
     },
     {
       "id": "P34.1",
