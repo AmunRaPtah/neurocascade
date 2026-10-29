@@ -132,3 +132,19 @@ activation and gain is available and validated.
 The complete calibration inventory is in the README's parameter-status table;
 the machine-readable target and `kon` standings are available through
 `fingerprint.target_report()`.
+
+## Compound package → human predictions (P32.1)
+
+```python
+from neurocascade.compound import package_from_benchmark, predict_compound, load_package
+
+result = predict_compound(package_from_benchmark("venlafaxine"))  # or load_package(path)
+result["human_pk"]["clearance"]["bands"]["0.80"]
+```
+
+Every number comes inside a record with `bands` and `provenance`. Quantities
+without a scored predictor (target-engagement dose, occupancy-time, half-life,
+oral exposure) come back as `pending`. A package with no measured Ki or no
+clearance measurement raises `CoreInputMissing`. Every output is labelled
+`not validated: P34 returned no verdict`. See `docs/architecture.md`, Phase 32
+part one.
