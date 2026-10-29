@@ -1,0 +1,486 @@
+{
+ "compounds_predicted": [
+  "aticaprant",
+  "samidorphan",
+  "ulotaront"
+ ],
+ "could_not_build": [
+  {
+   "detail": "no rat i.v. plasma CL and no quantitative human microsome/hepatocyte CLint in the public record; human CL/F (1950 L/h, FDA NDA 216158) is unusable as a systemic-CL comparator because oral F is <1%.",
+   "missing": "preclinical clearance input",
+   "name": "xanomeline"
+  },
+  {
+   "detail": "clearance is MAO-A mediated (CLint 5546 uL/min/mg on MAO-A; ~80% unchanged after 4 h in human hepatocytes, FDA NDA 218145), which the liver-microsome assay misses, and no rat i.v. plasma CL is reported; binding is IC50, not Ki.",
+   "missing": "P29.2-compatible clearance input",
+   "name": "centanafadine"
+  },
+  {
+   "detail": "OX2R Ki 0.13 nM is published, but no numeric rat i.v. plasma CL or human microsome CLint is in the open literature (Bonaventure et al. 2015, JPET, is paywalled).",
+   "missing": "preclinical clearance input",
+   "name": "seltorexant"
+  },
+  {
+   "detail": "M4 potency is a functional EC50 (12.3 nM, Butler et al. 2024 J Med Chem), not a binding Ki, and no rat i.v. CL / human microsome CLint is openly available.",
+   "missing": "receptor Ki and clearance input",
+   "name": "emraclidine"
+  },
+  {
+   "detail": "KOR Ki 1.5 nM is published (Guerrero et al. 2019, PMID 30707578) but the only rat i.v. CL is 105 mL/min/kg (fed rats), above the plasma-CL plausibility cap, and the hepatocyte/microsome CLint is reported pre-scaled to mL/min/kg, not the per-protein unit the extractor reads.",
+   "missing": "P29.2-compatible clearance input",
+   "name": "navacaprant"
+  },
+  {
+   "detail": "S1R Ki 57 nM and clean human CL (541 mL/min, extensive metabolisers) are published, but no rat i.v. plasma CL or human microsome CLint is openly available.",
+   "missing": "preclinical clearance input",
+   "name": "pridopidine"
+  },
+  {
+   "detail": "KOR Ki 0.32 nM is published (FDA NDA 214916), but difelikefalin is a renally-cleared peptide with no hepatic CLint and no clean rat i.v. plasma CL; its only human CL is a hemodialysis-population popPK estimate.",
+   "missing": "P29.2-compatible clearance input",
+   "name": "difelikefalin"
+  },
+  {
+   "detail": "rat i.v. CL 11.2 mL/min/kg is published (PMID 35882204) but zelquistinel is a spermine-site NMDA allosteric modulator with no measurable binding Ki at any site, so the binding panel has no measured affinity and the product refuses.",
+   "missing": "measured receptor Ki",
+   "name": "zelquistinel"
+  },
+  {
+   "detail": "deutetrabenazine is a prodrug; the human PK (CL/F 47 and 70 L/h, FDA NDA 208082) is for the active metabolites alpha/beta-HTBZ, not the dosed molecule the binding panel describes, and the product has no metabolite model.",
+   "missing": "a single dosed entity",
+   "name": "deutetrabenazine"
+  }
+ ],
+ "kind": "prospective blind predictions (no human truth)",
+ "mean_baseline_cl_mL_min_kg": 11.112250247706422,
+ "packages": {
+  "aticaprant": {
+   "adme": {
+    "fields": {
+     "invivo_cl_preclinical": {
+      "measurements": [
+       {
+        "description": "clearance in rat after iv administration",
+        "ref": "PMID24071566",
+        "relation": "=",
+        "species": "rat",
+        "standard_type": "CL",
+        "units": "mL.min-1.kg-1",
+        "value": 89.3
+       }
+      ],
+      "summary": [
+       {
+        "max": 89.3,
+        "min": 89.3,
+        "n_censored": 0,
+        "n_documents": 1,
+        "n_measurements": 1,
+        "species": "rat",
+        "units": "mL.min-1.kg-1",
+        "value": 89.3
+       }
+      ]
+     }
+    }
+   },
+   "binding": {
+    "OPRD1": {
+     "efficacy": [
+      "antagonist"
+     ],
+     "ki_nM": 155.0,
+     "refs": [
+      "PMID24071566"
+     ]
+    },
+    "OPRK1": {
+     "efficacy": [
+      "antagonist"
+     ],
+     "ki_nM": 0.807,
+     "refs": [
+      "PMID24071566"
+     ]
+    },
+    "OPRM1": {
+     "efficacy": [
+      "antagonist"
+     ],
+     "ki_nM": 24.0,
+     "refs": [
+      "PMID24071566"
+     ]
+    }
+   },
+   "name": "aticaprant",
+   "schema": "neurocascade.compound_package/1"
+  },
+  "samidorphan": {
+   "adme": {
+    "fields": {
+     "clint": {
+      "measurements": [
+       {
+        "description": "intrinsic clearance in human liver microsomes",
+        "matrix": "microsomes",
+        "ref": "NDA213378",
+        "relation": "=",
+        "species": "human",
+        "standard_type": "CLint",
+        "units": "mL.min-1.g-1",
+        "value": 11.15
+       }
+      ],
+      "summary": [
+       {
+        "matrix": "microsomes",
+        "species": "human",
+        "units": "mL.min-1.g-1",
+        "value": 11.15
+       }
+      ]
+     },
+     "plasma_fu": {
+      "measurements": [
+       {
+        "ref": "NDA213378",
+        "relation": "=",
+        "species": "human",
+        "value": 0.72
+       }
+      ],
+      "summary": [
+       {
+        "species": "human",
+        "value": 0.72
+       }
+      ]
+     }
+    }
+   },
+   "binding": {
+    "OPRD1": {
+     "efficacy": [
+      "partial agonist"
+     ],
+     "ki_nM": 2.7,
+     "refs": [
+      "NDA213378"
+     ]
+    },
+    "OPRK1": {
+     "efficacy": [
+      "partial agonist"
+     ],
+     "ki_nM": 0.23,
+     "refs": [
+      "NDA213378"
+     ]
+    },
+    "OPRM1": {
+     "efficacy": [
+      "antagonist"
+     ],
+     "ki_nM": 0.052,
+     "refs": [
+      "NDA213378"
+     ]
+    }
+   },
+   "name": "samidorphan",
+   "schema": "neurocascade.compound_package/1"
+  },
+  "ulotaront": {
+   "adme": {
+    "fields": {
+     "invivo_cl_preclinical": {
+      "measurements": [
+       {
+        "description": "clearance in rat after iv administration",
+        "ref": "PMID35484370",
+        "relation": "=",
+        "species": "rat",
+        "standard_type": "CL",
+        "units": "mL.min-1.kg-1",
+        "value": 42.7
+       }
+      ],
+      "summary": [
+       {
+        "max": 42.7,
+        "min": 42.7,
+        "n_censored": 0,
+        "n_documents": 1,
+        "n_measurements": 1,
+        "species": "rat",
+        "units": "mL.min-1.kg-1",
+        "value": 42.7
+       }
+      ]
+     }
+    }
+   },
+   "binding": {
+    "HTR1A": {
+     "efficacy": [
+      "agonist"
+     ],
+     "ki_nM": 284.0,
+     "refs": [
+      "DOI:10.1021/acsmedchemlett.1c00527"
+     ]
+    }
+   },
+   "name": "ulotaront",
+   "schema": "neurocascade.compound_package/1"
+  }
+ },
+ "predictions": {
+  "aticaprant": {
+   "clearance": {
+    "band": "human_cl_ivive",
+    "bands": {
+     "0.80": {
+      "bounded": true,
+      "lower": 2.8924519106077757,
+      "upper": 164.76226550034963
+     },
+     "0.95": {
+      "bounded": false,
+      "lower": 0.0,
+      "upper": null
+     }
+    },
+    "compound_specific": true,
+    "input_references": [
+     "PMID24071566"
+    ],
+    "mean_baseline_cl_mL_min_kg": 11.112250247706422,
+    "predicted_cl_mL_min_kg": 21.83041295171834,
+    "predictor": "P29.2 rat single-species allometry (fixed exponent 0.75), IVIVE-missing fallback; Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254"
+   },
+   "compound": "aticaprant",
+   "liabilities": {
+    "anticholinergic": {
+     "compound_specific": false,
+     "is_probability": true,
+     "label_sets": {
+      "0.80": [
+       0,
+       1
+      ],
+      "0.95": [
+       0,
+       1
+      ]
+     },
+     "point_kind": "train prevalence",
+     "status": "predicted"
+    },
+    "eps": {
+     "reason": "2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+     "status": "underpowered"
+    },
+    "orthostatic_hypotension": {
+     "reason": "1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+     "status": "underpowered"
+    },
+    "sedation": {
+     "compound_specific": false,
+     "is_probability": true,
+     "label_sets": {
+      "0.80": [
+       0,
+       1
+      ],
+      "0.95": [
+       0,
+       1
+      ]
+     },
+     "point_kind": "train prevalence",
+     "status": "predicted"
+    }
+   },
+   "nearest_benchmark_drugs": "pending",
+   "panel_occupancy": {
+    "reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+    "status": "pending"
+   },
+   "provenance": {
+    "label": "not validated: P34 returned no verdict"
+   },
+   "target_engagement_dose": {
+    "reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+    "status": "pending"
+   }
+  },
+  "samidorphan": {
+   "clearance": {
+    "band": "human_cl_ivive",
+    "bands": {
+     "0.80": {
+      "bounded": true,
+      "lower": 0.683577727985687,
+      "upper": 38.93852640918674
+     },
+     "0.95": {
+      "bounded": false,
+      "lower": 0.0,
+      "upper": null
+     }
+    },
+    "compound_specific": true,
+    "input_references": [
+     "NDA213378"
+    ],
+    "mean_baseline_cl_mL_min_kg": 11.112250247706422,
+    "predicted_cl_mL_min_kg": 5.159215968914515,
+    "predictor": "P29.2 well-stirred IVIVE (human liver CLint, human fu); Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254"
+   },
+   "compound": "samidorphan",
+   "liabilities": {
+    "anticholinergic": {
+     "compound_specific": false,
+     "is_probability": true,
+     "label_sets": {
+      "0.80": [
+       0,
+       1
+      ],
+      "0.95": [
+       0,
+       1
+      ]
+     },
+     "point_kind": "train prevalence",
+     "status": "predicted"
+    },
+    "eps": {
+     "reason": "2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+     "status": "underpowered"
+    },
+    "orthostatic_hypotension": {
+     "reason": "1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+     "status": "underpowered"
+    },
+    "sedation": {
+     "compound_specific": false,
+     "is_probability": true,
+     "label_sets": {
+      "0.80": [
+       0,
+       1
+      ],
+      "0.95": [
+       0,
+       1
+      ]
+     },
+     "point_kind": "train prevalence",
+     "status": "predicted"
+    }
+   },
+   "nearest_benchmark_drugs": "pending",
+   "panel_occupancy": {
+    "reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+    "status": "pending"
+   },
+   "provenance": {
+    "label": "not validated: P34 returned no verdict"
+   },
+   "target_engagement_dose": {
+    "reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+    "status": "pending"
+   }
+  },
+  "ulotaront": {
+   "clearance": {
+    "band": "human_cl_ivive",
+    "bands": {
+     "0.80": {
+      "bounded": true,
+      "lower": 1.3830649113432472,
+      "upper": 78.78330052480322
+     },
+     "0.95": {
+      "bounded": false,
+      "lower": 0.0,
+      "upper": null
+     }
+    },
+    "compound_specific": true,
+    "input_references": [
+     "PMID35484370"
+    ],
+    "mean_baseline_cl_mL_min_kg": 11.112250247706422,
+    "predicted_cl_mL_min_kg": 10.438506528985139,
+    "predictor": "P29.2 rat single-species allometry (fixed exponent 0.75), IVIVE-missing fallback; Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254"
+   },
+   "compound": "ulotaront",
+   "liabilities": {
+    "anticholinergic": {
+     "compound_specific": false,
+     "is_probability": true,
+     "label_sets": {
+      "0.80": [
+       0,
+       1
+      ],
+      "0.95": [
+       0,
+       1
+      ]
+     },
+     "point_kind": "train prevalence",
+     "status": "predicted"
+    },
+    "eps": {
+     "reason": "2 positive(s) among 24 train drugs with both candidate views; a label set would repeat the majority class",
+     "status": "underpowered"
+    },
+    "orthostatic_hypotension": {
+     "reason": "1 positive(s) among 28 train drugs with both candidate views; a label set would repeat the majority class",
+     "status": "underpowered"
+    },
+    "sedation": {
+     "compound_specific": false,
+     "is_probability": true,
+     "label_sets": {
+      "0.80": [
+       0,
+       1
+      ],
+      "0.95": [
+       0,
+       1
+      ]
+     },
+     "point_kind": "train prevalence",
+     "status": "predicted"
+    }
+   },
+   "nearest_benchmark_drugs": "listed",
+   "panel_occupancy": {
+    "reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+    "status": "pending"
+   },
+   "provenance": {
+    "label": "not validated: P34 returned no verdict"
+   },
+   "target_engagement_dose": {
+    "reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+    "status": "pending"
+   }
+  }
+ },
+ "provenance": "not validated: P34 returned no verdict",
+ "schema": "neurocascade.prospective/1",
+ "sourcing": {
+  "aticaprant": "aticaprant (JNJ-67953964 / LY2456302 / CERC-501), kappa-opioid antagonist. Human KOR/MOR/DOR Ki and rat i.v. CL 89.3 mL/min/kg (1 mg/kg, cannulated SD rats) from Rorick-Kehn et al. 2014, Neuropharmacology 77:131-144, PMID 24071566.",
+  "samidorphan": "samidorphan (ALKS 33), opioid antagonist. Human opioid-receptor Ki, human liver-microsome CLint 11.15 uL/min/mg (Study AM-0313-02) and human plasma protein binding 23-33% (fu taken as 0.72) from the FDA Lybalvi Multidiscipline Review, NDA 213378 (2021).",
+  "ulotaront": "ulotaront (SEP-363856), TAAR1/5-HT1A agonist. Radioligand 5-HT1A binding Ki 284 nM from Koblan et al. 2021, ACS Med Chem Lett (DOI 10.1021/acsmedchemlett.1c00527); TAAR1 agonism is functional (EC50 ~38 nM, Dedic et al. 2019, JPET 371:1-14, PMID 31371483) and is not a binding Ki, so it is not used as the package affinity. Rat i.v. CL 42.7 mL/min/kg and rat F ~100% from Xiao et al. 2022, Pharm Res 39:837-850, PMID 35484370."
+ },
+ "task": "P32.4"
+}

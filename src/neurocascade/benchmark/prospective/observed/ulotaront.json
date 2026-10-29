@@ -1,0 +1,21 @@
+{
+ "compound": "ulotaront",
+ "clearance": {
+  "value_mL_min_kg": 8.14,
+  "route": "oral",
+  "derivation": "systemic CL approximated by apparent oral clearance CL/F (geometric mean 34.2 L/h at 25 mg) because absolute oral bioavailability is >95% (BCS class I, well absorbed), scaled to 70 kg (34.2 L/h = 8.14 mL/min/kg)",
+  "refs": [
+   "Tsukada et al. 2023, Clin Pharmacokinet 62(12):1755-1763, PMID 37882999 (CYP2D6 interaction study; CL/F 34.2 L/h for 25 mg ulotaront alone)",
+   "Xiao et al. 2022, Pharm Res 39:837-850, PMID 35484370 (oral bioavailability >95%, BCS class I)"
+  ]
+ },
+ "dose": {"value": "50-75 mg once daily", "indication": "schizophrenia",
+          "refs": ["Koblan et al. 2020, N Engl J Med 382:1497-1506 (phase 2, 50/75 mg)"]},
+ "occupancy": {"status": "observed-not-scored",
+               "note": "ulotaront does not occupy D2 receptors; no PET tracer for TAAR1/5-HT1A occupancy, so no engagement number to compare",
+               "refs": ["Koblan et al. 2020, N Engl J Med 382:1497-1506"]},
+ "effects": {
+  "sedation": {"observed": 1, "refs": ["Koblan et al. 2020, N Engl J Med 382:1497-1506 (somnolence among the more common adverse events)"]},
+  "anticholinergic": {"observed": 0, "refs": ["Koblan et al. 2020 (no anticholinergic adverse-event signal)"]}
+ }
+}

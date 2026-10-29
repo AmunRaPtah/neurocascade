@@ -1,0 +1,21 @@
+{
+ "compound": "aticaprant",
+ "clearance": {
+  "value_mL_min_kg": 1.71,
+  "route": "oral",
+  "derivation": "systemic CL = apparent oral clearance CL/F (geometric mean 28.7 L/h at 10 mg) x absolute oral bioavailability F = 0.25, scaled to 70 kg (28.7 L/h x 0.25 = 7.18 L/h = 1.71 mL/min/kg)",
+  "refs": [
+   "Lowe et al. 2014, J Clin Pharmacol 54(9):968-978, PMID 24619932 (CL/F 28.7 L/h at 10 mg, single ascending dose)",
+   "Rorick-Kehn et al. 2014, Neuropharmacology 77:131-144, PMID 24071566 (absolute oral bioavailability F = 25%)"
+  ]
+ },
+ "dose": {"value": "10 mg once daily", "indication": "major depressive disorder (adjunctive)",
+          "refs": ["Janssen phase 3 aticaprant programme, e.g. NCT05550532"]},
+ "occupancy": {"status": "observed-not-scored",
+               "note": "central KOR occupancy ~89-94% near therapeutic exposure by 11C-LY2795050 PET; predict_compound makes no occupancy prediction (P29.4 searched-and-empty)",
+               "refs": ["Naganawa et al. 2016, J Nucl Med 57(11):1672-1677 (11C-LY2795050 KOR occupancy)"]},
+ "effects": {
+  "sedation": {"observed": 0, "refs": ["Lowe et al. 2014, PMID 24619932 (no notable sedation in single/multiple ascending dose)"]},
+  "anticholinergic": {"observed": 0, "refs": ["Lowe et al. 2014, PMID 24619932 (KOR-selective; no anticholinergic signal)"]}
+ }
+}

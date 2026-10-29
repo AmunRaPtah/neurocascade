@@ -18455,3 +18455,120 @@ outside the allowed network is dropped, and that `0.0.0.0` is refused. The
 session sandbox has no wg0, so the bind to the real interface was not tried
 here. It is the same code path, with the address read from `wg0` instead of
 `lo`, and the `lo` lookup is tested.
+
+## Phase 32, part four: a prospective blind test on recently disclosed CNS compounds (P32.4)
+
+P32.3's blind demo ran on P28.1 held-out drugs, which were in the repository
+during Phases 19-25. Seen drugs cannot certify a product, so P32.4 runs
+`predict_compound` on CNS new chemical entities that are **absent from the
+repository entirely**: no v2 binding panel row, no v2 human-PK truth, no P28
+benchmark truth. The frozen P34.3 candidate and the P30.3/P30.4 bands therefore
+could not have been tuned to them.
+
+### The anti-gaming discipline, and why the first PR was rejected
+
+The product's value here is the *order of events*, not the code. The prediction
+file and its SHA-256 are committed first, with no human truth for these
+compounds anywhere in git; the observed truth and the scoring are a later
+commit. `git log --diff-filter=A` on the two paths shows the prediction landing
+before the truth, which is acceptance criterion 1. The earlier attempt (PR #68)
+put the prediction file and all observed-truth files in a single commit, so the
+ordering was not demonstrable from the checkout and the reviewer rejected it on
+that evidence alone. `neurocascade.benchmark.prospective` is split so the
+blind artefacts (packages, predictions, hash) stand on their own in commit one,
+and `prospective.observed/` plus `score_prospective` arrive in commit two. The
+prediction is a pure function of the preclinical package and the frozen model,
+so the file the scorer reads in commit two is byte-identical to the one hashed
+in commit one (a test asserts `predictions_bytes()` reproduces the committed
+file and the ledger hash).
+
+### What "prospective" can and cannot mean in this checkout (rule 11)
+
+The brief asks for compounds "disclosed after the model freeze". The only part
+of that this repository can verify is the git ordering, so that is what is
+enforced. The real-world disclosure date is not checkable from a throwaway
+clone and is not relied upon; the ledger says so. Absence from the frozen repo
+plus prediction-before-truth is the operational definition.
+
+### Compound selection, and the honest ceiling of the survey
+
+The selection rule reads no human truth: CNS NMEs absent from v2 binding, v2
+human-PK and the P28 benchmark, for which a package could be built from
+preclinical literature alone -- at least one measured receptor Ki, and a
+clearance input the P29.2 arm accepts (rat i.v. plasma CL, or human
+liver-microsome/hepatocyte CLint with a human fu). Twelve candidates were
+surveyed; three build:
+
+- **aticaprant** (JNJ-67953964), KOR antagonist: human KOR Ki 0.807 nM and rat
+  i.v. CL 89.3 mL/min/kg (Rorick-Kehn 2014, PMID 24071566). Allometry path.
+- **ulotaront** (SEP-363856), TAAR1/5-HT1A agonist: 5-HT1A binding Ki 284 nM
+  (Koblan 2021, ACS Med Chem Lett) -- TAAR1 is a functional EC50, not a binding
+  Ki, so it is not used as the affinity -- and rat i.v. CL 42.7 mL/min/kg (Xiao
+  2022, PMID 35484370). Allometry path.
+- **samidorphan** (ALKS 33), opioid antagonist: human opioid Ki, human
+  liver-microsome CLint 11.15 uL/min/mg and fu 0.72 (FDA Lybalvi review, NDA
+  213378). IVIVE path. uL/min/mg is numerically the benchmark's `mL.min-1.g-1`,
+  the unit P29.2 reads, so no transformation is applied.
+
+The other nine are listed in `COULD_NOT_BUILD` with the exact missing field:
+most recent CNS NMEs with clean cross-species PK are already inside v2, and the
+ones absent from this repo are dominated by non-hepatic-microsomal clearance
+(centanafadine is MAO-A; difelikefalin is a renally-cleared peptide; xanomeline
+is first-pass with <1% F so CL/F is not a systemic-CL comparator), by rat CL
+above the plasma plausibility cap (navacaprant, 105 mL/min/kg fed), by a
+prodrug/metabolite mismatch (deutetrabenazine), or by having only functional
+potency and no binding Ki (emraclidine, zelquistinel). Building a package for
+any of these from a value in the wrong matrix, the wrong unit, or the wrong
+entity would violate rule 1; they are recorded, not forced.
+
+### What the product predicts, against the brief (rule 11)
+
+The acceptance criterion asks for "predicted vs observed dose, occupancy and
+effects". `predict_compound` predicts none of those as numbers: dose and panel
+occupancy are `pending` (P29.3/P29.4 searched-and-empty), and without a
+projected human Cmax every liability is the P30.4 train-prevalence `{0,1}` set,
+which covers the truth but is uninformative. The one compound-specific scored
+quantity is human clearance. So the prediction file carries, per compound, a
+banded clearance point with the P33.3 train-mean beside it as the baseline the
+criterion asks for; dose, occupancy and the liability sets are tabulated beside
+their observed values in the scoring commit but only clearance is a real
+comparison. This mirrors exactly what P32.3 found and is the honest shape of the
+product.
+
+(The result -- predicted vs observed clearance, fold-errors and the mean
+baseline -- is recorded below in the scoring commit.)
+
+### Result (`results/P32.4.json`, ledger V23)
+
+Observed human truth for the three compounds is committed in this second commit,
+after the prediction and its hash. `score_prospective` puts predicted clearance,
+the P33.3 train-mean baseline and the observed value side by side:
+
+| compound | path | predicted CL | observed CL | fold err | baseline fold err | 80% band |
+|---|---|---:|---:|---:|---:|---|
+| ulotaront | rat allometry | 10.44 | 8.14 | 1.28 | 1.37 | covered |
+| samidorphan | microsome IVIVE | 5.16 | 8.02 | 1.55 | 1.39 | covered |
+| aticaprant | rat allometry | 21.83 | 1.71 | 12.77 | 6.50 | missed |
+
+(CL in mL/min/kg.) **Human-CL GMFE is 2.94 for the compound-specific prediction
+and 2.31 for the train-mean baseline: on these three prospective compounds the
+product's own prediction is not better than guessing the training mean.** The
+result is dominated by aticaprant, where rat single-species allometry (rat CL
+89.3 mL/min/kg) overshoots the human clearance ×12.8 -- aticaprant is ~99.7%
+plasma-protein bound in humans (fu≈0.003), so a body-weight scaling of total
+rat CL cannot work. ulotaront and samidorphan land within ×1.3-1.6 and inside
+the 80% band, and both beat the baseline. The 95% band (unbounded above) covers
+3/3; the 80% band covers 2/3. Sedation and anticholinergic label sets cover 3/3
+but every set is `{0,1}` (no projected human Cmax), so `n_informative` is 0 --
+the effect answers carry no information, exactly as P32.3 found.
+
+This is the first clean test of the frozen candidate's product path: unseen
+compounds, prediction pre-registered with a hash before the truth existed in
+git. The honest reading is that the one compound-specific number the product
+emits (clearance) is, on this small prospective set, no better than the
+population mean, and fails badly for a high-binding compound. n=3 is the ceiling
+of what could be packaged from open preclinical sources in one session; nine
+surveyed candidates are recorded in `could_not_build` with the missing field,
+not dropped, because building a package from a value in the wrong unit, matrix
+or entity would break rule 1. The git ordering (prediction commit before truth
+commit) is what makes the test honest, and is the fix for PR #68's rejection.

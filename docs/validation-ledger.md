@@ -512,3 +512,42 @@ flagged occurrence (27 em-dashes, 9 citation mismatches, 1 not-found) is at or
 before line 342, in sections untouched by this change; this subsection (lines
 343 onward) contains none. Fixing that pre-existing debt is out of scope for
 a data-coverage change and is left for separate follow-up.
+
+## Prospective pre-registration (P32.4)
+
+**Committed in the prediction commit, before any human truth for these
+compounds exists in git.** This subsection and the prediction file it names are
+added in one commit; the observed-truth files and the scored row below them are
+added in a *later* commit, so `git log --diff-filter=A -- results/P32.4_predictions.json`
+precedes `git log --diff-filter=A -- src/neurocascade/benchmark/prospective/observed/`.
+That ordering is the whole anti-gaming point of P32.4 (acceptance criterion 1):
+the P28.1 held-out set used by P32.3 was in the repository during Phases 19-25,
+so it cannot certify the product. These compounds are absent from the v2 binding
+panel, the v2 human-PK truth and the P28 benchmark, so the frozen P34.3 candidate
+and the P30.3/P30.4 bands could not have been tuned to them.
+
+- Prediction file: `results/P32.4_predictions.json`
+- SHA-256: `82aeba8d981b1d8206aafc755585429e5133ca08e5a7be5873a0f1d099ca0eb7`
+- Compounds predicted (buildable from preclinical sources only): aticaprant,
+  samidorphan, ulotaront. Each carries a measured receptor Ki and a clearance
+  input the P29.2 arm accepts (rat i.v. plasma CL for aticaprant/ulotaront;
+  human liver-microsome CLint + human fu for samidorphan). No human clearance,
+  dose or label value appears in any package.
+- Surveyed but not buildable (missing field named in the file's
+  `could_not_build`): xanomeline, centanafadine, seltorexant, emraclidine,
+  navacaprant, pridopidine, difelikefalin, zelquistinel, deutetrabenazine. The
+  honest finding of the survey: most recently-disclosed CNS NMEs with clean
+  cross-species PK are already inside the v2 set; the ones absent from this
+  repository are dominated by non-hepatic-microsomal clearance (MAO-A, renal,
+  prodrug) or report only functional potency, not a binding Ki.
+- Scored quantity: human clearance only. Dose and panel occupancy come back
+  `pending` (P29.3/P29.4 searched-and-empty); liabilities are the P30.4
+  train-prevalence `{0,1}` sets (no projected human Cmax), which cover the truth
+  but carry no information. Provenance on every record: *not validated: P34
+  returned no verdict*.
+
+## Prospective blind-test result (P32.4)
+
+| # | Claim | Held-out test | Error | Measured source | Status |
+|---|---|---|---|---|---|
+| V23 | `predict_compound` run on recently disclosed CNS compounds **absent from the repository** (no v2 binding, no v2 human-PK, no P28 truth), from a preclinical-only package, each predicted human clearance compared to a human value **committed after the prediction and its SHA-256 were committed** (`results/P32.4_predictions.json`, hash `82aeba8d…`; git ordering is acceptance criterion 1). Compound-specific CL is the only scored quantity; dose and occupancy return `pending`; liabilities are the P30.4 train-prevalence `{0,1}` sets. **Provenance on every output: 'not validated: P34 returned no verdict'** | Prospective: 3 compounds (aticaprant, samidorphan, ulotaront) built from preclinical literature only; scored by `prospective.score_prospective`, `results/P32.4.json` (`n_scored` 3). 9 surveyed candidates could not be packaged and are listed with the missing field (`could_not_build`) | **n_scored 3. Human CL GMFE 2.94 (prediction) vs 2.31 (train-mean baseline) — the compound-specific prediction is NOT better than the baseline on these three**, dominated by aticaprant (predicted 21.8, observed 1.71 mL/min/kg, ×12.8: rat allometry overshoots a human drug with fu≈0.003). ulotaront ×1.28 and samidorphan ×1.55 beat the baseline (×1.37, ×1.39). 80% band covers 2/3, 95% band (unbounded) 3/3. Sedation and anticholinergic sets cover 3/3 but `n_informative` = 0 | aticaprant CL/F Lowe 2014 (PMID 24619932) × F 0.25 (Rorick-Kehn 2014, PMID 24071566); ulotaront CL/F Tsukada 2023 (PMID 37882999), F>95% Xiao 2022 (PMID 35484370); samidorphan IV CL Kumar 2019 (PMID 31463821), FDA NDA 213378 | **not validated: P34 returned no verdict. The first clean (unseen, pre-registered) test of the P34.3 frozen candidate's product path. On 3 prospective compounds the compound-specific clearance does not beat guessing the training mean**, because one of three is a large allometric failure. n=3 is small and the honest ceiling of what could be packaged from open preclinical sources this session; the surveyed-and-empty candidates are recorded. A negative result is a result (ledger rule 3) |

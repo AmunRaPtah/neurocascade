@@ -1,0 +1,20 @@
+{
+ "task": "P32.4",
+ "n_scored": 3,
+ "n_scored_definition": "recently-disclosed CNS compounds, absent from the repo, run through predict_compound from a preclinical-only package and scored on compound-specific human clearance against truth committed after the prediction",
+ "clearance_gmfe_prediction": 2.941418509787998,
+ "clearance_gmfe_mean_baseline": 2.307829490278763,
+ "missing_truth": [],
+ "could_not_build": [
+  "xanomeline",
+  "centanafadine",
+  "seltorexant",
+  "emraclidine",
+  "navacaprant",
+  "pridopidine",
+  "difelikefalin",
+  "zelquistinel",
+  "deutetrabenazine"
+ ],
+ "provenance": "not validated: P34 returned no verdict"
+}

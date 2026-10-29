@@ -1,0 +1,21 @@
+{
+ "compound": "samidorphan",
+ "clearance": {
+  "value_mL_min_kg": 8.02,
+  "route": "iv",
+  "derivation": "measured intravenous plasma clearance 33.7 L/h, scaled to 70 kg (33.7 L/h = 8.02 mL/min/kg)",
+  "refs": [
+   "Kumar et al. 2019, Drugs R D 19:277-287, PMID 31463821 (IV plasma clearance 33.7 L/h, absolute bioavailability study)",
+   "FDA Lybalvi Multidiscipline Review, NDA 213378 (2021) (IV total clearance 33.1 L/h predicted vs 33.7 L/h observed)"
+  ]
+ },
+ "dose": {"value": "10 mg (fixed, in combination with olanzapine)", "indication": "schizophrenia / bipolar I",
+          "refs": ["FDA Lybalvi label, NDA 213378 (samidorphan 10 mg)"]},
+ "occupancy": {"status": "observed-not-scored",
+               "note": "samidorphan is a near-complete mu-opioid antagonist at therapeutic exposure; no engagement number predicted",
+               "refs": ["FDA Lybalvi Multidiscipline Review, NDA 213378 (2021)"]},
+ "effects": {
+  "sedation": {"observed": 0, "refs": ["FDA Lybalvi Multidiscipline Review, NDA 213378 (samidorphan monotherapy not sedating)"]},
+  "anticholinergic": {"observed": 0, "refs": ["FDA Lybalvi Multidiscipline Review, NDA 213378 (opioid antagonist; no anticholinergic signal)"]}
+ }
+}
