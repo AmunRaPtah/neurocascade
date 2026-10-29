@@ -18455,3 +18455,147 @@ outside the allowed network is dropped, and that `0.0.0.0` is refused. The
 session sandbox has no wg0, so the bind to the real interface was not tried
 here. It is the same code path, with the address read from `wg0` instead of
 `lo`, and the `lo` lookup is tested.
+
+## Phase 35, part two: SIDER train labels, the CID map and the universe (P35.2)
+
+Built under `docs/prereg-p35-go.md` (sealed 2026-10-29). Code:
+`src/neurocascade/benchmark/v2/sider_labels.py` (rules, pure functions),
+`scripts/p35_2_build.py` (`fetch` over the network into a cache, `build`
+offline). Outputs in `src/neurocascade/benchmark/v2/sider/`. Tests:
+`tests/test_p35_2_sider.py`. Result: `results/P35.2.json`, ledger row
+"SIDER train labels (P35.2)".
+
+### What the source says, against the brief and the prereg (rule 11)
+
+- **The datalake parquet could not be read.** `/root/datalake/tables/clinical/`
+  is permission-denied to the session user. The EMBL host
+  (`sideeffects.embl.de`) timed out. The bytes used are the SIDER 4.1 release
+  files `meddra_freq.tsv.gz` and `meddra_all_se.tsv.gz` from an unmodified
+  mirror (`github.com/dhimmel/SIDER4`, `download/`), pinned by sha256 in
+  `sider_labels.SIDER_FILES`. This is the same data as the prereg's parquet,
+  checked rather than assumed: 291,632 frequency rows (the prereg's count),
+  1,430 drugs, and the prereg's seven per-term drug counts (somnolence 668,
+  dry mouth 558, constipation 703, extrapyramidal 102, akathisia 69,
+  orthostatic 254, seizure 50) reproduce exactly as substring counts over
+  `meddra_all_se`.
+- **The split is not `guards.v2_heldout`.** The prereg fixes
+  `sha256(inn) mod 10 in {0, 1}` and says it is computed "the same way
+  v2_heldout is". `v2_heldout` salts the INN (`"nc-v2:"`), takes the first 8
+  hex digits and tests `% 5 == 0`, so it is a different partition. The prereg's
+  own formula was implemented literally (`p35_heldout`: the whole digest of
+  the stripped, lower-cased INN as an integer, `% 10 in {0, 1}`). "The same way"
+  was read as "recomputed from the INN, never stored", which holds. 70 of 334
+  v2 drugs are P35 held-out and 264 are train. `pipeline/guards.hide_heldout`
+  knows only `v2_heldout`. That does not matter here, because no P35 held-out
+  label exists in any tree, but P35.4 must build those labels host-side.
+- **`frequency_upper` is never null in SIDER 4.1**, so the prereg's fallback to
+  a parsed `frequency_desc` is never reached and is not implemented.
+- **Three PT strings in the sealed map are not in SIDER's vocabulary**:
+  "Blurred vision" (SIDER: "Vision blurred"), "Postural dizziness" (SIDER:
+  "Dizziness postural") and "Seizure" (SIDER uses "Convulsion"). Exact
+  case-folded matching is part of the sealed rule, so they match nothing and
+  were **not** replaced. `pt_listing.json` lists them, and every unmatched
+  SIDER name with its train-drug count.
+
+### Decisions the prereg leaves open, fixed before any count was seen
+
+- **CID resolution** (prereg: "from its ChEMBL id"). ChEMBL
+  `standard_inchi_key` -> PubChem CIDs (324 drugs). For the 10 where PubChem
+  has no record under ChEMBL's key (atropine, benztropine, cariprazine,
+  chlordiazepoxide, homatropine, ipratropium, methscopolamine, scopolamine,
+  tiotropium, trospium; ChEMBL's InChI differs in stereo or charge
+  representation), a PubChem exact-structure search
+  (`fastidentity`, `same_stereo_isotope`) is run on the ChEMBL canonical
+  SMILES. All 334 resolve. Connectivity CIDs come from
+  `fastidentity same_connectivity`.
+- **Flat id plus stereo id, not flat alone.** STITCH's flat id
+  (`CID1`+8 digits) is the stereo-free compound. Several enantiomer drug
+  pairs share one: citalopram/escitalopram (2771), cetirizine/levocetirizine,
+  methylphenidate/dexmethylphenidate, modafinil/armodafinil,
+  amphetamine/dextroamphetamine, chlorpheniramine/dexchlorpheniramine,
+  bupivacaine/levobupivacaine, zopiclone/eszopiclone, and ketamine/esketamine.
+  Matching on the flat id alone would hand one drug's labels to another,
+  which house rule 2 forbids. So a drug matches flat ids equal to, or sharing
+  connectivity with, its CID. Within them it takes only the stereo ids
+  (`CID0`+8 digits) that belong to it:
+  structurally (the stereo CID, or its PubChem parent, or its component for
+  multi-component salts with no parent, is one of the drug's CIDs), or by
+  name (a PubChem synonym is the INN or the INN plus salt words, and no
+  synonym names another v2 drug that way). The name test exists for salt and
+  unspecified-stereo records that PubChem does not link to the drug's CID.
+  It accepts five: Pentazocine HCl, ipratropium (Atrovent HFA), asenapine,
+  atropine sulfate and scopolamine. Every enantiomer partner fails both tests.
+  The test is mechanical, so records that PubChem names only by brand
+  (cevimeline "Evoxac", trospium "Ceris", etomidate "Ethnor", guanabenz's
+  unspecified-stereo record) are rejected. This is a conservative loss:
+  cevimeline, etomidate and guanabenz have no SIDER record and are excluded.
+  Every rejection is listed in `cid_map.json` with its PubChem title.
+  Esketamine is excluded: SIDER has racemic ketamine, not esketamine.
+- **Aggregating several rows per drug x PT.** SIDER 4.1 does not pair a drug
+  row with its own trial's placebo row. The adjusted frequency is
+  max(non-placebo `frequency_upper`) - max(placebo `frequency_upper`). Using
+  the largest placebo is the conservative reading. Arithmetic is on the
+  published decimal strings (`Decimal`), so 0.03 - 0.02 is exactly the 1%
+  boundary and float error cannot flip a label.
+- **Matching runs over every row's `side_effect_name`** (LLT and PT rows
+  alike), as the prereg's wording ("on the SIDER `side_effect_name` by exact
+  PT string") says. LLT/PT duplicates of one frequency row are collapsed.
+- **Universe criteria are read from the committed outputs**, which
+  `v2_binding.py` and `v2_cmax.py` produced unchanged: a measured Ki at an
+  anchor target is a `targets` entry in `inputs/binding.json` for one of
+  `drugs.json`'s 11 anchors, and a Cmax is `status == "value"` in
+  `truth/human_cmax.json`. Their sha256 as seen in the session tree is frozen
+  in `universe_train.json`. `human_cmax.json` rows for v2 held-out drugs
+  are stripped from session trees, so 19 P35-train drugs that meet the other
+  two criteria are `pending_host`, not members.
+
+### What is in the tree
+
+`cid_map.json` (all 334 drugs; the SIDER match only for P35-train),
+`sider_train_rows.json.gz` (every mapped-PT frequency row plus record flags
+for train drugs: the labels rebuild from this file alone, which a test
+checks), `labels_train.json`, `pt_listing.json`, `universe_train.json`. No P35
+held-out drug has a SIDER match, row, label or universe row in the tree.
+`build_train_labels` raises on a held-out INN.
+
+### Counts (train only; held-out counts not computed)
+
+201 of 264 train drugs have a SIDER record. The universe has 53 confirmed
+members and 19 pending host. Universe positives/negatives: sedation 23/30,
+anticholinergic 32/21, EPS 18/35, orthostatic hypotension 14/39, seizure 6/47.
+Over all 201 record-holding train drugs: 87/114, 96/105, 62/139, 40/161,
+27/174.
+
+### The load-bearing assumption, tested (rule 12): it does not hold well
+
+The prereg calls SIDER "the same strict placebo-controlled label idea at
+10-40x the drugs". Three checks say the label it produces is a different
+and much more permissive construct:
+
+1. **Concordance with the v2 FDA placebo-table labels** (P33.2 rule: risk
+   difference >= 5 points and >= 2x placebo), on P35-train drugs that are
+   not v2 held-out and have both labels (n=87-88 per liability). SIDER
+   recovers the FDA positives (sedation 14/16, anticholinergic 9/9, EPS 2/3,
+   orthostatic 2/2). But it also calls 62%, 71%, 51% and 33% of FDA
+   negatives positive. Cohen's kappa is 0.13, 0.08, 0.02 and 0.09, which is
+   near chance.
+2. **Upper bounds make band rows positive by construction.** "Common" and
+   "frequent" rows carry `frequency_upper` 1.0. "Infrequent", "uncommon" and
+   "1%" rows carry exactly 0.01 and pass `>= 1%`. Some positives rest only on
+   a row at the boundary, from 3 (sedation) to 6 (orthostatic) of the
+   universe positives (`positive_only_at_boundary`).
+3. **Negatives are often uninformative.** 61 of 201 record-holding train
+   drugs have no frequency row at all (haloperidol among them, so haloperidol
+   is EPS-negative). In the universe, 11 of each liability's negatives are
+   such drugs. Between 7 and 18 universe negatives per liability list a mapped
+   PT on the label with no frequency (`listed_without_frequency`). All 6
+   universe seizure positives rest only on PTs with no placebo row.
+
+The labels are built exactly as sealed. None of these findings changes a
+label, because changing the rule after seeing counts is what the
+pre-registration forbids. They are flags in the output and a warning for
+P35.3 and P35.4. A GO on these labels would show that the candidate ranks
+"a mapped term appears at >= 1% (upper bound) on the SIDER label". It would
+not show that it ranks drug-attributable incidence. Whether to amend the
+label rule is a human decision under a new prereg, and it would need a
+held-out set whose labels have not been looked at.

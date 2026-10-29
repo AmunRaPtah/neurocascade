@@ -1,0 +1,2601 @@
+{
+ "description": "P35-train universe: measured Ki at >= 1 anchor target (inputs/binding.json, scripts/v2_binding.py unchanged), a SIDER record, and a Cmax value (truth/human_cmax.json, scripts/v2_cmax.py unchanged). pending_host: the Cmax row is a v2 held-out row stripped from session trees.",
+ "frozen_inputs": {
+  "inputs/binding.json": "ad651645574e9f48ac365288208c0e4e8e4a3f34426c4ca6fb377fb2eb858b63",
+  "truth/human_cmax.json": "8359e18b155e1e8b2ea13e0bc82379dfc712c3004074406bef3809128e8644e6",
+  "drugs.json": "c73a3cc8c534baa0cad0428239f924ace9cae6a511d17d6c83ee6add4a5a80ab"
+ },
+ "frozen_inputs_note": "sha256 of the files as seen in the session tree (human_cmax.json with v2 held-out rows stripped)",
+ "n_train_drugs": 264,
+ "n_in_universe": 53,
+ "n_pending_host": 19,
+ "drugs": [
+  {
+   "inn": "cetirizine",
+   "anchor_ki": [
+    "HRH1"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "pentazocine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "remifentanil",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "levodopa",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "tiagabine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "pregabalin",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "methysergide",
+   "anchor_ki": [
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "suvorexant",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "dibucaine",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "mepivacaine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "phenelzine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "opicapone",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "felbamate",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "ethotoin",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "indacaterol",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "bupivacaine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "imipramine",
+   "anchor_ki": [
+    "ADRA1A",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "droperidol",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "aripiprazole",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "amoxapine",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "desvenlafaxine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "acetaminophen",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "dicyclomine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "desloratadine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "duloxetine",
+   "anchor_ki": [
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "pemoline",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "tetrabenazine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "chloroprocaine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "zolmitriptan",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "umeclidinium",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "prilocaine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "diazepam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "dimenhydrinate",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "quazepam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "tropicamide",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "sevoflurane",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "haloperidol decanoate",
+   "anchor_ki": [
+    "DRD2"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "cabergoline",
+   "anchor_ki": [
+    "ADRA1A",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "isocarboxazid",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "methamphetamine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "dapiprazole",
+   "anchor_ki": [
+    "ADRA1D",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "dyclonine",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "lisdexamfetamine",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "acamprosate",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "glycopyrronium",
+   "anchor_ki": [
+    "CHRM2",
+    "CHRM3"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "fosphenytoin",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "methylergonovine",
+   "anchor_ki": [
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "rufinamide",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "tapentadol",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "perampanel",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "sulconazole",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "oxybutynin",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "nitrous oxide",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "lurasidone",
+   "anchor_ki": [
+    "DRD2"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "isoflurane",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "enflurane",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "oxiconazole",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM3"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "salmeterol",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D",
+    "CHRM5",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "naratriptan",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "sumatriptan",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "levetiracetam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "rotigotine",
+   "anchor_ki": [
+    "DRD2"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "tolcapone",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "sorafenib",
+   "anchor_ki": [
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "clonidine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "oxybate",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "darifenacin",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "modafinil",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "tolterodine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "HRH1"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "iloperidone",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM4",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "bethanechol",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "trihexyphenidyl",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "almotriptan",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "escitalopram",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "eletriptan",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "zaleplon",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "eszopiclone",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "phenytoin",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "homatropine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "paliperidone",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "ipratropium",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "clemastine",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "doxepin",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "ambenonium",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "cevimeline",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "cisapride",
+   "anchor_ki": [
+    "ADRA1D",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "dihydroergotamine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "solifenacin",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "lofexidine",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "plerixafor",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "trospium",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "tiotropium",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "HRH1"
+   ],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "cannabidiol",
+   "anchor_ki": [
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "trofinetide",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "stiripentol",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "prazosin",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "cariprazine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "brexanolone",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "vortioxetine",
+   "anchor_ki": [
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "brexpiprazole",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "arimoclomol",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "maprotiline",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "rimegepant",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "ubrogepant",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "valbenazine",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "zavegepant",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "amisulpride",
+   "anchor_ki": [
+    "DRD2"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "oliceridine",
+   "anchor_ki": [
+    "DRD2"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "silodosin",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "DRD2",
+    "HRH1"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "aspirin",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "milnacipran",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "amobarbital",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "neostigmine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "dalfampridine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "estazolam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "edaravone",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "capsaicin",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "nicotine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "pramipexole",
+   "anchor_ki": [
+    "DRD2"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "lasmiditan",
+   "anchor_ki": [
+    "CHRM5"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "viloxazine",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "eslicarbazepine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "asenapine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "lumateperone",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "lemborexant",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "lorcaserin",
+   "anchor_ki": [
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "cocaine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "esketamine",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "safinamide",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "hydromorphone",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "atogepant",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "phenobarbital",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "amphetamine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "fluoxetine",
+   "anchor_ki": [
+    "ADRA1A",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "clomipramine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "guanabenz",
+   "anchor_ki": [
+    "ADRA1D",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "trifluoperazine",
+   "anchor_ki": [
+    "ADRA1A",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "labetalol",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "solriamfetol",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "omaveloxolone",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "thiopental",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "ergotamine",
+   "anchor_ki": [
+    "ADRA1D",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "nortriptyline",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "secobarbital",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "pentobarbital",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "melatonin",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "mephobarbital",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "chlordiazepoxide",
+   "anchor_ki": [
+    "HRH1"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "clonazepam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "chloral hydrate",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "molindone",
+   "anchor_ki": [
+    "ADRA1A",
+    "CHRM1",
+    "CHRM2",
+    "DRD2",
+    "HRH1"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "thioridazine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "irinotecan",
+   "anchor_ki": [
+    "CHRM4"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "codeine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "buspirone",
+   "anchor_ki": [
+    "ADRA1D",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "paroxetine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "bromocriptine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "donepezil",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "chlorpheniramine",
+   "anchor_ki": [
+    "HRH1"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "buprenorphine",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "cyproheptadine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "atropine",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "dextromethorphan",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "propofol",
+   "anchor_ki": [
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "apomorphine",
+   "anchor_ki": [
+    "ADRA1D",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "pergolide",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "ketotifen",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "haloperidol",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "pentamidine",
+   "anchor_ki": [
+    "CHRM2",
+    "CHRM4",
+    "CHRM5",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "pilocarpine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "oxazepam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "procaine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "scopolamine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "mitoxantrone",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM4",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "lorazepam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "lacosamide",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "fenoldopam",
+   "anchor_ki": [
+    "DRD2"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "ropinirole",
+   "anchor_ki": [
+    "DRD2"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "dopamine",
+   "anchor_ki": [
+    "DRD2"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "phentolamine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "meperidine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "brivaracetam",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "terazosin",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "dextroamphetamine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "trazodone",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "nefazodone",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "amitriptyline",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "propafenone",
+   "anchor_ki": [
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "amiodarone",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "alfentanil",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "rivastigmine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "venlafaxine",
+   "anchor_ki": [
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "azelastine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "CHRM1",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "atomoxetine",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "promethazine",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "trimipramine",
+   "anchor_ki": [
+    "HRH1"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "triazolam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "methadone",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "mirtazapine",
+   "anchor_ki": [
+    "ADRA1A",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "midazolam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "oxycodone",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "sufentanil",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "galantamine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "amantadine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "acetylcholine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "protriptyline",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "epinephrine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D",
+    "DRD2"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "etomidate",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "verapamil",
+   "anchor_ki": [
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "clobazam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "ziprasidone",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "alfuzosin",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "chlorpromazine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "olanzapine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "desipramine",
+   "anchor_ki": [
+    "ADRA1A",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "carvedilol",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "fluphenazine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "prochlorperazine",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "carbetapentane",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2"
+   ],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "methohexital",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "ketamine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "riluzole",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "zonisamide",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "oxymetazoline",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "CHRM4",
+    "CHRM5",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "tegaserod",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "dexmedetomidine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "lidocaine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "methylphenidate",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "memantine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "econazole",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "sertraline",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM4",
+    "CHRM5",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "raloxifene",
+   "anchor_ki": [
+    "ADRA1D",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "fluvoxamine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "dexmethylphenidate",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "tamoxifen",
+   "anchor_ki": [
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "loxapine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "risperidone",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1B",
+    "ADRA1D",
+    "CHRM1",
+    "CHRM2",
+    "CHRM4",
+    "DRD2",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "triprolidine",
+   "anchor_ki": [
+    "HRH1"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "primidone",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "metoclopramide",
+   "anchor_ki": [
+    "DRD2",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "mephenytoin",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "guanfacine",
+   "anchor_ki": [
+    "ADRA1A",
+    "ADRA1D",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "procyclidine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "rasagiline",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "bupropion",
+   "anchor_ki": [
+    "ADRA1A"
+   ],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": true
+  },
+  {
+   "inn": "nalbuphine",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "vigabatrin",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "hydroxyzine",
+   "anchor_ki": [
+    "DRD2",
+    "HRH1"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "diflunisal",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "histamine",
+   "anchor_ki": [
+    "HRH1"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "orphenadrine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5",
+    "HRH1",
+    "HTR2C"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "dobutamine",
+   "anchor_ki": [
+    "ADRA1D"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "halothane",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "gabapentin",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "tacrine",
+   "anchor_ki": [
+    "CHRM2"
+   ],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "entacapone",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "oxymorphone",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "carbamoylcholine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM3",
+    "CHRM4",
+    "CHRM5"
+   ],
+   "sider_record": true,
+   "cmax": "searched_and_empty",
+   "in_universe": false
+  },
+  {
+   "inn": "temazepam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "flurazepam",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "value",
+   "in_universe": false
+  },
+  {
+   "inn": "selegiline",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "methacholine",
+   "anchor_ki": [
+    "CHRM1",
+    "CHRM2",
+    "CHRM4"
+   ],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": "pending_host"
+  },
+  {
+   "inn": "meprobamate",
+   "anchor_ki": [],
+   "sider_record": true,
+   "cmax": "hidden_in_session_tree",
+   "in_universe": false
+  },
+  {
+   "inn": "levomilnacipran",
+   "anchor_ki": [],
+   "sider_record": false,
+   "cmax": "value",
+   "in_universe": false
+  }
+ ]
+}
