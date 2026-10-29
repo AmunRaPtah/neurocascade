@@ -148,3 +148,17 @@ oral exposure) come back as `pending`. A package with no measured Ki or no
 clearance measurement raises `CoreInputMissing`. Every output is labelled
 `not validated: P34 returned no verdict`. See `docs/architecture.md`, Phase 32
 part one.
+
+## Command line and report (P32.2)
+
+```
+pip install ./src
+neurocascade predict examples/packages/haloperidol.csv -o report.html --json result.json
+```
+
+The package file can be JSON or the lossless CSV encoding in
+`neurocascade.package_csv`. The report links every number to its provenance
+entry and puts `not validated: P34 returned no verdict` beside every
+prediction. `neurocascade.report.audit_report(html)` checks both rules. Exit
+code 2 means a core input is missing, and the missing inputs are named. See
+`docs/architecture.md`, Phase 32 part two.

@@ -212,6 +212,24 @@ than more single-dose studies.
 
 ## Quickstart
 
+### Compound package → one-page report (P32.2)
+
+**Not validated: P34 returned no verdict.** The report puts this label beside
+every number.
+
+```
+pip install ./src                     # or: cd src && pip install .
+neurocascade predict examples/packages/haloperidol.csv -o haloperidol.html --json haloperidol.json
+neurocascade export-benchmark venlafaxine -o venlafaxine.json   # any benchmark drug's preclinical package
+```
+
+A package is JSON (schema `neurocascade.compound_package/1`) or the equivalent
+flat CSV (`src/neurocascade/package_csv.py`). Exit code 2 means the package
+lacks a core input, and the missing inputs are printed. The packaging file lives
+in `src/` rather than at the root; see `docs/architecture.md`, Phase 32 part two.
+
+### Research engine
+
 ```
 /root/projects/pardalos/.venv/bin/python examples/fentanyl_reward_circuit.py
 /root/projects/pardalos/.venv/bin/python -m pytest tests/

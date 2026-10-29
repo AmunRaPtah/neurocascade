@@ -1,0 +1,31 @@
+# P32.2: pip packaging for neurocascade.
+#
+# This file sits in src/, not at the repository root, because the autonomous
+# pipeline only accepts patches under src/, tests/, docs/, scripts/, examples/
+# and results/ (P32.2's first session was rejected for a root pyproject.toml).
+# Install from a clone with
+#     pip install ./src          (or: cd src && pip install .)
+# The wheel carries the frozen benchmark, band and candidate files that
+# predict_compound reads, so the installed CLI needs no checkout.
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neurocascade"
+version = "0.32.2"
+description = "Preclinical compound package to predicted human PK, liabilities and nearest benchmark drugs, each with a calibrated band. Not validated: P34 returned no verdict."
+requires-python = ">=3.10"
+# predict_compound and the CLI import only numpy and scipy. The research
+# modules (calibration, figures) need the rest of requirements.txt.
+dependencies = ["numpy>=1.24", "scipy>=1.10"]
+
+[project.scripts]
+neurocascade = "neurocascade.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["neurocascade*"]
+
+[tool.setuptools.package-data]
+neurocascade = ["**/*.json", "**/*.csv", "**/*.md", "**/*.npy", "**/*.txt", "**/*.xlsx"]
