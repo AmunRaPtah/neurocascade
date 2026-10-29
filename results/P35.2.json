@@ -1,0 +1,227 @@
+{
+ "task": "P35.2",
+ "prereg": "docs/prereg-p35-go.md",
+ "n_scored": 88,
+ "n_scored_means": "P35-train drugs with a SIDER 0/1 label and a v2 FDA placebo-subtracted label for at least one shared liability (concordance of two external label sources); v2 held-out drugs are left out so the number is the same in session and host trees",
+ "split": "P35 held-out (sha256(inn) % 10 in {0,1}) labels NOT built; P35.4 builds them host-side",
+ "n_train": 264,
+ "n_train_with_sider_record": 201,
+ "n_universe": 53,
+ "n_universe_pending_host": 19,
+ "train_counts": {
+  "universe": {
+   "sedation": {
+    "positive": 23,
+    "negative": 30,
+    "excluded": 0,
+    "positive_only_placebo_uncontrolled": 5,
+    "positive_only_at_boundary": 3,
+    "negative_no_frequency_rows": 11,
+    "negative_listed_without_frequency": 17
+   },
+   "anticholinergic": {
+    "positive": 32,
+    "negative": 21,
+    "excluded": 0,
+    "positive_only_placebo_uncontrolled": 7,
+    "positive_only_at_boundary": 4,
+    "negative_no_frequency_rows": 11,
+    "negative_listed_without_frequency": 18
+   },
+   "eps": {
+    "positive": 18,
+    "negative": 35,
+    "excluded": 0,
+    "positive_only_placebo_uncontrolled": 3,
+    "positive_only_at_boundary": 4,
+    "negative_no_frequency_rows": 11,
+    "negative_listed_without_frequency": 17
+   },
+   "orthostatic_hypotension": {
+    "positive": 14,
+    "negative": 39,
+    "excluded": 0,
+    "positive_only_placebo_uncontrolled": 6,
+    "positive_only_at_boundary": 6,
+    "negative_no_frequency_rows": 11,
+    "negative_listed_without_frequency": 7
+   },
+   "seizure": {
+    "positive": 6,
+    "negative": 47,
+    "excluded": 0,
+    "positive_only_placebo_uncontrolled": 6,
+    "positive_only_at_boundary": 4,
+    "negative_no_frequency_rows": 11,
+    "negative_listed_without_frequency": 17
+   }
+  },
+  "all_train_with_sider_record": {
+   "sedation": {
+    "positive": 87,
+    "negative": 114,
+    "excluded": 0,
+    "positive_only_placebo_uncontrolled": 16,
+    "positive_only_at_boundary": 7,
+    "negative_no_frequency_rows": 61,
+    "negative_listed_without_frequency": 70
+   },
+   "anticholinergic": {
+    "positive": 96,
+    "negative": 105,
+    "excluded": 0,
+    "positive_only_placebo_uncontrolled": 27,
+    "positive_only_at_boundary": 15,
+    "negative_no_frequency_rows": 61,
+    "negative_listed_without_frequency": 69
+   },
+   "eps": {
+    "positive": 62,
+    "negative": 139,
+    "excluded": 0,
+    "positive_only_placebo_uncontrolled": 23,
+    "positive_only_at_boundary": 15,
+    "negative_no_frequency_rows": 61,
+    "negative_listed_without_frequency": 65
+   },
+   "orthostatic_hypotension": {
+    "positive": 40,
+    "negative": 161,
+    "excluded": 0,
+    "positive_only_placebo_uncontrolled": 22,
+    "positive_only_at_boundary": 17,
+    "negative_no_frequency_rows": 61,
+    "negative_listed_without_frequency": 25
+   },
+   "seizure": {
+    "positive": 27,
+    "negative": 174,
+    "excluded": 0,
+    "positive_only_placebo_uncontrolled": 26,
+    "positive_only_at_boundary": 19,
+    "negative_no_frequency_rows": 61,
+    "negative_listed_without_frequency": 63
+   }
+  }
+ },
+ "concordance_vs_v2_fda_placebo_subtracted": {
+  "sedation": {
+   "n": 87,
+   "fda_has_label_sider_excluded": 33,
+   "confusion": {
+    "fda1_sider1": 14,
+    "fda1_sider0": 2,
+    "fda0_sider1": 44,
+    "fda0_sider0": 27
+   },
+   "sider_sensitivity_to_fda_positive": 0.875,
+   "sider_positive_rate_on_fda_negative": 0.62,
+   "agreement": 0.471,
+   "cohen_kappa": 0.127
+  },
+  "anticholinergic": {
+   "n": 88,
+   "fda_has_label_sider_excluded": 33,
+   "confusion": {
+    "fda1_sider1": 9,
+    "fda1_sider0": 0,
+    "fda0_sider1": 56,
+    "fda0_sider0": 23
+   },
+   "sider_sensitivity_to_fda_positive": 1.0,
+   "sider_positive_rate_on_fda_negative": 0.709,
+   "agreement": 0.364,
+   "cohen_kappa": 0.077
+  },
+  "eps": {
+   "n": 88,
+   "fda_has_label_sider_excluded": 33,
+   "confusion": {
+    "fda1_sider1": 2,
+    "fda1_sider0": 1,
+    "fda0_sider1": 43,
+    "fda0_sider0": 42
+   },
+   "sider_sensitivity_to_fda_positive": 0.667,
+   "sider_positive_rate_on_fda_negative": 0.506,
+   "agreement": 0.5,
+   "cohen_kappa": 0.021
+  },
+  "orthostatic_hypotension": {
+   "n": 88,
+   "fda_has_label_sider_excluded": 33,
+   "confusion": {
+    "fda1_sider1": 2,
+    "fda1_sider0": 0,
+    "fda0_sider1": 28,
+    "fda0_sider0": 58
+   },
+   "sider_sensitivity_to_fda_positive": 1.0,
+   "sider_positive_rate_on_fda_negative": 0.326,
+   "agreement": 0.682,
+   "cohen_kappa": 0.086
+  }
+ },
+ "concordance_vs_v2_fda_any_basis": {
+  "sedation": {
+   "n": 95,
+   "fda_has_label_sider_excluded": 36,
+   "confusion": {
+    "fda1_sider1": 15,
+    "fda1_sider0": 3,
+    "fda0_sider1": 47,
+    "fda0_sider0": 30
+   },
+   "sider_sensitivity_to_fda_positive": 0.833,
+   "sider_positive_rate_on_fda_negative": 0.61,
+   "agreement": 0.474,
+   "cohen_kappa": 0.115
+  },
+  "anticholinergic": {
+   "n": 96,
+   "fda_has_label_sider_excluded": 36,
+   "confusion": {
+    "fda1_sider1": 11,
+    "fda1_sider0": 0,
+    "fda0_sider1": 57,
+    "fda0_sider0": 28
+   },
+   "sider_sensitivity_to_fda_positive": 1.0,
+   "sider_positive_rate_on_fda_negative": 0.671,
+   "agreement": 0.406,
+   "cohen_kappa": 0.101
+  },
+  "eps": {
+   "n": 96,
+   "fda_has_label_sider_excluded": 36,
+   "confusion": {
+    "fda1_sider1": 2,
+    "fda1_sider0": 1,
+    "fda0_sider1": 45,
+    "fda0_sider0": 48
+   },
+   "sider_sensitivity_to_fda_positive": 0.667,
+   "sider_positive_rate_on_fda_negative": 0.484,
+   "agreement": 0.521,
+   "cohen_kappa": 0.023
+  },
+  "orthostatic_hypotension": {
+   "n": 96,
+   "fda_has_label_sider_excluded": 36,
+   "confusion": {
+    "fda1_sider1": 2,
+    "fda1_sider0": 0,
+    "fda0_sider1": 28,
+    "fda0_sider0": 66
+   },
+   "sider_sensitivity_to_fda_positive": 1.0,
+   "sider_positive_rate_on_fda_negative": 0.298,
+   "agreement": 0.708,
+   "cohen_kappa": 0.089
+  }
+ },
+ "sider_sha256": {
+  "meddra_freq.tsv.gz": "fcdfbf479c6b568dfca557a3eb2cdbe49c4a3291090999c0de0bd7092feaec7f",
+  "meddra_all_se.tsv.gz": "119b2f5319a9398da83e5fe3419889010dbacf8d3eef590251b00c025e2b3f99"
+ }
+}
