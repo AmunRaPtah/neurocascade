@@ -1,0 +1,54 @@
+{
+ "adme": {
+  "fields": {
+   "invivo_cl_preclinical": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Clearance in rat after iv administration (cmpd 34)",
+      "ref": "Letavic 2015, J Med Chem 58:5620-5636, PMID 26087021 (pmid_note: 'compound 34' in this SAR paper is seltorexant / JNJ-42847922, the INN assigned later; Tables 4-6)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 40.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 40.0,
+      "min": 40.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": "mL.min-1.kg-1",
+      "value": 40.0
+     }
+    ]
+   }
+  }
+ },
+ "binding": {
+  "HCRTR1": {
+   "efficacy": [
+    "antagonist"
+   ],
+   "ki_nM": 800.0,
+   "refs": [
+    "Letavic 2015, J Med Chem 58:5620-5636, PMID 26087021 (pmid_note: 'compound 34' in this SAR paper is seltorexant / JNJ-42847922, the INN assigned later; Tables 4-6)"
+   ]
+  },
+  "HCRTR2": {
+   "efficacy": [
+    "antagonist"
+   ],
+   "ki_nM": 10.0,
+   "refs": [
+    "Letavic 2015, J Med Chem 58:5620-5636, PMID 26087021 (pmid_note: 'compound 34' in this SAR paper is seltorexant / JNJ-42847922, the INN assigned later; Tables 4-6)"
+   ]
+  }
+ },
+ "name": "seltorexant",
+ "schema": "neurocascade.compound_package/1"
+}

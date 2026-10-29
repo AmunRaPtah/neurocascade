@@ -1,0 +1,115 @@
+{
+ "adme": {
+  "fields": {
+   "brain_fu": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Fraction unbound in rat brain by equilibrium dialysis",
+      "ref": "Rorick-Kehn 2014, Neuropharmacology 77:131-144, PMID 24071566 (pmid_note: 'LY2456302' in this paper is aticaprant, the INN assigned later; Tables 1-2, SD rat, 1 mg/kg IV)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "Fu",
+      "units": null,
+      "value": 0.003
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.003,
+      "min": 0.003,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": null,
+      "value": 0.003
+     }
+    ]
+   },
+   "invivo_cl_preclinical": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Total body clearance in male Sprague-Dawley rat after iv administration (1 mg/kg)",
+      "ref": "Rorick-Kehn 2014, Neuropharmacology 77:131-144, PMID 24071566 (pmid_note: 'LY2456302' in this paper is aticaprant, the INN assigned later; Tables 1-2, SD rat, 1 mg/kg IV)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 89.3
+     }
+    ],
+    "summary": [
+     {
+      "max": 89.3,
+      "min": 89.3,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": "mL.min-1.kg-1",
+      "value": 89.3
+     }
+    ]
+   },
+   "plasma_fu": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Fraction unbound in rat plasma by equilibrium dialysis",
+      "ref": "Rorick-Kehn 2014, Neuropharmacology 77:131-144, PMID 24071566 (pmid_note: 'LY2456302' in this paper is aticaprant, the INN assigned later; Tables 1-2, SD rat, 1 mg/kg IV)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "Fu",
+      "units": null,
+      "value": 0.006
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.006,
+      "min": 0.006,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": null,
+      "value": 0.006
+     }
+    ]
+   }
+  }
+ },
+ "binding": {
+  "OPRD1": {
+   "efficacy": [
+    "antagonist"
+   ],
+   "ki_nM": 155.0,
+   "refs": [
+    "Rorick-Kehn 2014, Neuropharmacology 77:131-144, PMID 24071566 (pmid_note: 'LY2456302' in this paper is aticaprant, the INN assigned later; Tables 1-2, SD rat, 1 mg/kg IV)"
+   ]
+  },
+  "OPRK1": {
+   "efficacy": [
+    "antagonist"
+   ],
+   "ki_nM": 0.807,
+   "refs": [
+    "Rorick-Kehn 2014, Neuropharmacology 77:131-144, PMID 24071566 (pmid_note: 'LY2456302' in this paper is aticaprant, the INN assigned later; Tables 1-2, SD rat, 1 mg/kg IV)"
+   ]
+  },
+  "OPRM1": {
+   "efficacy": [
+    "antagonist"
+   ],
+   "ki_nM": 24.0,
+   "refs": [
+    "Rorick-Kehn 2014, Neuropharmacology 77:131-144, PMID 24071566 (pmid_note: 'LY2456302' in this paper is aticaprant, the INN assigned later; Tables 1-2, SD rat, 1 mg/kg IV)"
+   ]
+  }
+ },
+ "name": "aticaprant",
+ "schema": "neurocascade.compound_package/1"
+}

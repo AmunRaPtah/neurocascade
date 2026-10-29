@@ -1,0 +1,18 @@
+{
+ "clearance": {
+  "cl_basis": "oral_clf",
+  "cl_mL_min_kg": 7.74,
+  "note": "CL/F = 32.5 L/h (95% CI 28.9-36.5); 32500/60/70 = 7.74 mL/min/kg. Oral only; absolute F never measured in humans (animal >70%).",
+  "source": "Galluppi 2021, CPT Pharmacometrics Syst Pharmacol 10:1245, PMID 34292664 (population PK)"
+ },
+ "disclosed": "phase 1/2 PK 2021 (Galluppi 2021)",
+ "dose_mg_per_day": {
+  "indication": "schizophrenia (phase 2/3; phase 3 failed)",
+  "source": "Galluppi 2021, PMID 34292664",
+  "value": "50-75"
+ },
+ "occupancy": {
+  "note": "ulotaront's primary target TAAR1 has no validated human PET tracer",
+  "status": "not_collected"
+ }
+}

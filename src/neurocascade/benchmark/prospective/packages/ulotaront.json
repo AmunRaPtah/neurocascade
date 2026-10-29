@@ -1,0 +1,137 @@
+{
+ "adme": {
+  "fields": {
+   "invivo_cl_preclinical": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Clearance in Sprague-Dawley rat after iv administration (10 mg/kg)",
+      "ref": "Xiao 2022, Pharm Res 39:837-850, PMID 35484370 (ulotaront named in title; SD rat, 10 mg/kg IV, Table V)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 42.7
+     }
+    ],
+    "summary": [
+     {
+      "max": 42.7,
+      "min": 42.7,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": "mL.min-1.kg-1",
+      "value": 42.7
+     }
+    ]
+   },
+   "invivo_vss_preclinical": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Volume of distribution at steady state in rat after iv administration",
+      "ref": "Xiao 2022, Pharm Res 39:837-850, PMID 35484370 (ulotaront named in title; SD rat, 10 mg/kg IV, Table V)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 3.5
+     }
+    ],
+    "summary": [
+     {
+      "max": 3.5,
+      "min": 3.5,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": "L.kg-1",
+      "value": 3.5
+     }
+    ]
+   }
+  }
+ },
+ "binding": {
+  "ADRA2A": {
+   "efficacy": [
+    "agonist"
+   ],
+   "ki_nM": 590.0,
+   "refs": [
+    "Dedic 2019, JPET 371:1-14, PMID 31371483 (pmid_note: this paper's compound 'SEP-363856' is ulotaront, the INN assigned later; binding Ki read from indexed excerpts, JPET PDF returned 403, not table-verified)"
+   ]
+  },
+  "DRD2": {
+   "efficacy": [
+    "partial agonist"
+   ],
+   "ki_nM": 21300.0,
+   "refs": [
+    "Dedic 2019, JPET 371:1-14, PMID 31371483 (pmid_note: this paper's compound 'SEP-363856' is ulotaront, the INN assigned later; binding Ki read from indexed excerpts, JPET PDF returned 403, not table-verified)"
+   ]
+  },
+  "HTR1A": {
+   "efficacy": [
+    "agonist"
+   ],
+   "ki_nM": 284.0,
+   "refs": [
+    "Dedic 2019, JPET 371:1-14, PMID 31371483 (pmid_note: this paper's compound 'SEP-363856' is ulotaront, the INN assigned later; binding Ki read from indexed excerpts, JPET PDF returned 403, not table-verified)"
+   ]
+  },
+  "HTR1B": {
+   "efficacy": [
+    "agonist"
+   ],
+   "ki_nM": 1900.0,
+   "refs": [
+    "Dedic 2019, JPET 371:1-14, PMID 31371483 (pmid_note: this paper's compound 'SEP-363856' is ulotaront, the INN assigned later; binding Ki read from indexed excerpts, JPET PDF returned 403, not table-verified)"
+   ]
+  },
+  "HTR1D": {
+   "efficacy": [
+    "agonist"
+   ],
+   "ki_nM": 1130.0,
+   "refs": [
+    "Dedic 2019, JPET 371:1-14, PMID 31371483 (pmid_note: this paper's compound 'SEP-363856' is ulotaront, the INN assigned later; binding Ki read from indexed excerpts, JPET PDF returned 403, not table-verified)"
+   ]
+  },
+  "HTR2A": {
+   "efficacy": [],
+   "ki_nM": 17250.0,
+   "refs": [
+    "Dedic 2019, JPET 371:1-14, PMID 31371483 (pmid_note: this paper's compound 'SEP-363856' is ulotaront, the INN assigned later; binding Ki read from indexed excerpts, JPET PDF returned 403, not table-verified)"
+   ]
+  },
+  "HTR2B": {
+   "efficacy": [],
+   "ki_nM": 1100.0,
+   "refs": [
+    "Dedic 2019, JPET 371:1-14, PMID 31371483 (pmid_note: this paper's compound 'SEP-363856' is ulotaront, the INN assigned later; binding Ki read from indexed excerpts, JPET PDF returned 403, not table-verified)"
+   ]
+  },
+  "HTR2C": {
+   "efficacy": [],
+   "ki_nM": 2450.0,
+   "refs": [
+    "Dedic 2019, JPET 371:1-14, PMID 31371483 (pmid_note: this paper's compound 'SEP-363856' is ulotaront, the INN assigned later; binding Ki read from indexed excerpts, JPET PDF returned 403, not table-verified)"
+   ]
+  },
+  "HTR7": {
+   "efficacy": [
+    "agonist"
+   ],
+   "ki_nM": 31.0,
+   "refs": [
+    "Dedic 2019, JPET 371:1-14, PMID 31371483 (pmid_note: this paper's compound 'SEP-363856' is ulotaront, the INN assigned later; binding Ki read from indexed excerpts, JPET PDF returned 403, not table-verified)"
+   ]
+  }
+ },
+ "name": "ulotaront",
+ "schema": "neurocascade.compound_package/1"
+}

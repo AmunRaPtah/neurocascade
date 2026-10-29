@@ -1,0 +1,91 @@
+{
+ "adme": {
+  "fields": {
+   "invivo_cl_preclinical": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Clearance in rat after iv administration (1 mg/kg, study 2693-ME-0020)",
+      "ref": "FDA NDA 216578 Pharmacology Review (fezolinetant), studies ESN364-RBL-* and 2693-ME-0012/0020",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 2.2
+     }
+    ],
+    "summary": [
+     {
+      "max": 2.2,
+      "min": 2.2,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": "mL.min-1.kg-1",
+      "value": 2.2
+     }
+    ]
+   },
+   "plasma_fu": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Fraction unbound in human plasma by equilibrium dialysis (study 2693-ME-0012)",
+      "ref": "FDA NDA 216578 Pharmacology Review (fezolinetant), studies ESN364-RBL-* and 2693-ME-0012/0020",
+      "relation": "=",
+      "species": "human",
+      "standard_type": "Fu",
+      "units": null,
+      "value": 0.49
+     },
+     {
+      "assay_chembl_id": null,
+      "description": "Fraction unbound in rat plasma by equilibrium dialysis (study 2693-ME-0012)",
+      "ref": "FDA NDA 216578 Pharmacology Review (fezolinetant), studies ESN364-RBL-* and 2693-ME-0012/0020",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "Fu",
+      "units": null,
+      "value": 0.67
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.49,
+      "min": 0.49,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "human",
+      "units": null,
+      "value": 0.49
+     },
+     {
+      "max": 0.67,
+      "min": 0.67,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": null,
+      "value": 0.67
+     }
+    ]
+   }
+  }
+ },
+ "binding": {
+  "TACR3": {
+   "efficacy": [
+    "antagonist"
+   ],
+   "ki_nM": 21.0,
+   "refs": [
+    "FDA NDA 216578 Pharmacology Review (fezolinetant), studies ESN364-RBL-* and 2693-ME-0012/0020"
+   ]
+  }
+ },
+ "name": "fezolinetant",
+ "schema": "neurocascade.compound_package/1"
+}

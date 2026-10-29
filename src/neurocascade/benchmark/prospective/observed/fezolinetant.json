@@ -1,0 +1,21 @@
+{
+ "clearance": {
+  "absolute_F": 0.77,
+  "absolute_F_source": "EMA EPAR EMA/528775/2023 p.43 (>= 77%)",
+  "cl_basis": "oral_clf_F_bounded",
+  "cl_mL_min_kg": 2.57,
+  "cl_systemic_lower_mL_min_kg": 1.98,
+  "note": "CL/F = 10.8 L/h; 10800/60/70 = 2.57 mL/min/kg. Absolute F estimated >= 77% from urinary radiolabel recovery (EMA EPAR EMA/528775/2023 p.43), so systemic CL = F x CL/F lies in 1.98-2.57 mL/min/kg; single-dose observed CL/F 14.5-33.9 L/h.",
+  "source": "FDA VEOZAH label NDA 216578 section 12.3 (apparent steady-state CL 10.8 L/h)"
+ },
+ "disclosed": "approved 2023 (FDA); label PK NDA 216578",
+ "dose_mg_per_day": {
+  "indication": "menopausal vasomotor symptoms (FDA approved 2023)",
+  "source": "FDA VEOZAH label NDA 216578",
+  "value": "45"
+ },
+ "occupancy": {
+  "note": "no human TACR3 PET occupancy located",
+  "status": "searched-and-empty"
+ }
+}

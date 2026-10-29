@@ -1,0 +1,22 @@
+{
+ "clearance": {
+  "cl_basis": "oral_clf",
+  "cl_mL_min_kg": 5.14,
+  "cl_range_mL_min_kg": [
+   4.13,
+   6.4
+  ],
+  "note": "CL/F range 17.35-26.86 L/h; geometric mean 21.6 L/h; 21600/60/70 = 5.14 mL/min/kg. Oral only; human F unmeasured (only relative BA tablet vs suspension measured).",
+  "source": "Nickolls 2018, Br J Pharmacol 175:708, PMID 29214652 (pmid_note: this paper's PF-06372865 is darigabat, the INN assigned later; single oral 0.04-100 mg)"
+ },
+ "disclosed": "phase 1 PK 2018 (Nickolls 2018)",
+ "dose_mg_per_day": {
+  "indication": "focal epilepsy / anxiety (phase 2)",
+  "source": "Nickolls 2018, PMID 29214652; REALIZE NCT04244175",
+  "value": "15-50"
+ },
+ "occupancy": {
+  "note": "human GABA-A benzodiazepine-site PET occupancy not collected here",
+  "status": "searched-and-empty"
+ }
+}

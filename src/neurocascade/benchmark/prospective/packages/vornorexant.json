@@ -1,0 +1,80 @@
+{
+ "adme": {
+  "fields": {
+   "invivo_cl_preclinical": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Total clearance in male Sprague-Dawley rat after iv administration (1 mg/kg)",
+      "ref": "Konno 2024, Pharmacol Res Perspect 12:e1183, PMID 38491717 (vornorexant/TS-142 named in title; SD rat, 1 mg/kg IV, Tables 4-5)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 35.8
+     }
+    ],
+    "summary": [
+     {
+      "max": 35.8,
+      "min": 35.8,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": "mL.min-1.kg-1",
+      "value": 35.8
+     }
+    ]
+   },
+   "plasma_fu": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Fraction unbound in rat plasma by equilibrium dialysis (Table 5)",
+      "ref": "Konno 2024, Pharmacol Res Perspect 12:e1183, PMID 38491717 (vornorexant/TS-142 named in title; SD rat, 1 mg/kg IV, Tables 4-5)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "Fu",
+      "units": null,
+      "value": 0.088
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.088,
+      "min": 0.088,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": null,
+      "value": 0.088
+     }
+    ]
+   }
+  }
+ },
+ "binding": {
+  "HCRTR1": {
+   "efficacy": [
+    "antagonist"
+   ],
+   "ki_nM": 0.46,
+   "refs": [
+    "Hikichi 2025, JPET 392:103624, PMID 40570549 (vornorexant named in title; Table 1 via open-access Chino 2025 review, Int J Neuropsychopharmacol 28:pyaf077, PMC13223731)"
+   ]
+  },
+  "HCRTR2": {
+   "efficacy": [
+    "antagonist"
+   ],
+   "ki_nM": 0.374,
+   "refs": [
+    "Hikichi 2025, JPET 392:103624, PMID 40570549 (vornorexant named in title; Table 1 via open-access Chino 2025 review, Int J Neuropsychopharmacol 28:pyaf077, PMC13223731)"
+   ]
+  }
+ },
+ "name": "vornorexant",
+ "schema": "neurocascade.compound_package/1"
+}

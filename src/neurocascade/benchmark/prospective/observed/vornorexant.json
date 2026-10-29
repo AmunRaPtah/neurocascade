@@ -1,0 +1,18 @@
+{
+ "clearance": {
+  "cl_basis": "oral_clf",
+  "cl_mL_min_kg": 2.5,
+  "note": "CL/F = 10.5 L/h at 10 mg; 10500/60/70 = 2.50 mL/min/kg. Oral only; human F unmeasured (animal rat 7.6%, dog 58%).",
+  "source": "Kambe 2023, Basic Clin Pharmacol Toxicol 133:576, PMID 37563858 (pmid_note: vornorexant/TS-142; 10 mg oral; value quoted in Konno 2024, PMID 38491717)"
+ },
+ "disclosed": "phase 1 PK 2023 (Kambe 2023); Japan approval 2025",
+ "dose_mg_per_day": {
+  "indication": "insomnia (approved in Japan)",
+  "source": "Uchiyama 2026, Sleep, PMID 41001841",
+  "value": "5-10"
+ },
+ "occupancy": {
+  "note": "no human orexin-receptor PET occupancy collected",
+  "status": "not_collected"
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "clearance": {
+  "cl_basis": "oral_clf",
+  "cl_mL_min_kg": 13.1,
+  "note": "CL/F = 55.2 L/h; 55200/60/70 = 13.1 mL/min/kg. Oral only; human F unmeasured (animal 25%).",
+  "source": "Naganawa 2016, JPET 356:260, PMID 26628406 (pmid_note: this paper's compound LY2456302 is aticaprant, the INN assigned later; population PK, Table 5)"
+ },
+ "disclosed": "phase 1 PK/PET 2016 (Naganawa 2016)",
+ "dose_mg_per_day": {
+  "indication": "major depressive disorder (phase 2/3)",
+  "source": "Naganawa 2016, PMID 26628406 (pmid_note: LY2456302 = aticaprant; dose set for ~93% KOR saturation)",
+  "value": "10"
+ },
+ "occupancy": {
+  "dose_mg_per_day": 10,
+  "occupancy_percent": 93,
+  "region": "whole brain (11C-LY2795050 PET)",
+  "source": "Naganawa 2016, JPET 356:260, PMID 26628406 (pmid_note: LY2456302 = aticaprant)",
+  "statistic": "near-saturation at trough",
+  "status": "observed",
+  "target": "OPRK1"
+ }
+}

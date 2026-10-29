@@ -1,0 +1,18 @@
+{
+ "clearance": {
+  "cl_basis": "searched-and-empty",
+  "cl_mL_min_kg": null,
+  "note": "no author-stated human CL or CL/F found; a value is only derivable from reported AUC, which the project's no-invented-number rule forbids using as truth. Reported unscored.",
+  "source": "Bonaventure 2015, JPET 354:471, PMID 26177655; van der Ark 2018, PMID 30182786 (pmid_note: both report JNJ-42847922/MIN-202 = seltorexant, the INN assigned later)"
+ },
+ "disclosed": "phase 1 PK 2015-2018",
+ "dose_mg_per_day": {
+  "indication": "insomnia / adjunctive MDD (phase 2)",
+  "source": "Mesens 2025, JAMA Psychiatry, PMID 40802194",
+  "value": "10-20"
+ },
+ "occupancy": {
+  "note": "human OX2R PET occupancy not collected here",
+  "status": "not_collected"
+ }
+}

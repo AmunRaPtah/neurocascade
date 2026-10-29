@@ -1,0 +1,172 @@
+{
+ "adme": {
+  "fields": {
+   "clint": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Intrinsic clearance in human liver microsomes (chembl_curated)",
+      "matrix": "microsomes",
+      "ref": "Owen 2019, J Med Chem 62:5773-5796, PMID 30964988 (pmid_note: this paper's identified compound 'PF-06372865' is darigabat; DMPK via ChEMBL doc CHEMBL4350959, chembl_curated)",
+      "relation": "=",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.g-1",
+      "value": 9.0
+     }
+    ],
+    "summary": [
+     {
+      "matrix": "microsomes",
+      "max": 9.0,
+      "min": 9.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "human",
+      "units": "mL.min-1.g-1",
+      "value": 9.0
+     }
+    ]
+   },
+   "invivo_cl_preclinical": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Clearance in rat after iv administration (chembl_curated)",
+      "ref": "Owen 2019, J Med Chem 62:5773-5796, PMID 30964988 (pmid_note: this paper's identified compound 'PF-06372865' is darigabat; DMPK via ChEMBL doc CHEMBL4350959, chembl_curated)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 22.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 22.0,
+      "min": 22.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": "mL.min-1.kg-1",
+      "value": 22.0
+     }
+    ]
+   },
+   "invivo_vss_preclinical": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Volume of distribution at steady state in rat (chembl_curated)",
+      "ref": "Owen 2019, J Med Chem 62:5773-5796, PMID 30964988 (pmid_note: this paper's identified compound 'PF-06372865' is darigabat; DMPK via ChEMBL doc CHEMBL4350959, chembl_curated)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 2.1
+     }
+    ],
+    "summary": [
+     {
+      "max": 2.1,
+      "min": 2.1,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": "L.kg-1",
+      "value": 2.1
+     }
+    ]
+   },
+   "plasma_fu": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Fraction unbound in human plasma (chembl_curated)",
+      "ref": "Owen 2019, J Med Chem 62:5773-5796, PMID 30964988 (pmid_note: this paper's identified compound 'PF-06372865' is darigabat; DMPK via ChEMBL doc CHEMBL4350959, chembl_curated)",
+      "relation": "=",
+      "species": "human",
+      "standard_type": "Fu",
+      "units": null,
+      "value": 0.128
+     },
+     {
+      "assay_chembl_id": null,
+      "description": "Fraction unbound in rat plasma (chembl_curated)",
+      "ref": "Owen 2019, J Med Chem 62:5773-5796, PMID 30964988 (pmid_note: this paper's identified compound 'PF-06372865' is darigabat; DMPK via ChEMBL doc CHEMBL4350959, chembl_curated)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "Fu",
+      "units": null,
+      "value": 0.073
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.128,
+      "min": 0.128,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "human",
+      "units": null,
+      "value": 0.128
+     },
+     {
+      "max": 0.073,
+      "min": 0.073,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": null,
+      "value": 0.073
+     }
+    ]
+   }
+  }
+ },
+ "binding": {
+  "GABRA1": {
+   "efficacy": [
+    "positive allosteric modulator"
+   ],
+   "ki_nM": 0.18,
+   "refs": [
+    "Nickolls 2018, Br J Pharmacol 175:708-725, PMID 29214652 (pmid_note: this paper's 'PF-06372865' is darigabat, the INN assigned later; Table 1)"
+   ]
+  },
+  "GABRA2": {
+   "efficacy": [
+    "positive allosteric modulator"
+   ],
+   "ki_nM": 2.92,
+   "refs": [
+    "Nickolls 2018, Br J Pharmacol 175:708-725, PMID 29214652 (pmid_note: this paper's 'PF-06372865' is darigabat, the INN assigned later; Table 1)"
+   ]
+  },
+  "GABRA3": {
+   "efficacy": [
+    "positive allosteric modulator"
+   ],
+   "ki_nM": 1.06,
+   "refs": [
+    "Nickolls 2018, Br J Pharmacol 175:708-725, PMID 29214652 (pmid_note: this paper's 'PF-06372865' is darigabat, the INN assigned later; Table 1)"
+   ]
+  },
+  "GABRA5": {
+   "efficacy": [
+    "positive allosteric modulator"
+   ],
+   "ki_nM": 18.04,
+   "refs": [
+    "Nickolls 2018, Br J Pharmacol 175:708-725, PMID 29214652 (pmid_note: this paper's 'PF-06372865' is darigabat, the INN assigned later; Table 1)"
+   ]
+  }
+ },
+ "name": "darigabat",
+ "schema": "neurocascade.compound_package/1"
+}

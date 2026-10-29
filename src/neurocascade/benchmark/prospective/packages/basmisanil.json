@@ -1,0 +1,166 @@
+{
+ "adme": {
+  "fields": {
+   "clint": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Intrinsic clearance in human liver microsomes at 2.5 uM (chembl_curated)",
+      "matrix": "microsomes",
+      "ref": "Szabo 2022, J Med Chem 65:7876-7895, PMID 35584373 (pmid_note: basmisanil / RO5186582 is a reference compound characterised in this paper, not named in the abstract; HLM CLint via ChEMBL doc CHEMBL5154916, chembl_curated)",
+      "relation": "=",
+      "species": "human",
+      "standard_type": "CL",
+      "units": "mL.min-1.g-1",
+      "value": 7.5
+     }
+    ],
+    "summary": [
+     {
+      "matrix": "microsomes",
+      "max": 7.5,
+      "min": 7.5,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "human",
+      "units": "mL.min-1.g-1",
+      "value": 7.5
+     }
+    ]
+   },
+   "invivo_cl_preclinical": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Total clearance in male Wistar rat after iv administration (4.3 mg/kg, Suppl Table S3)",
+      "ref": "Hipp 2021, Sci Rep 11:7700, PMID 33833333 (basmisanil named in title; binding Table S4; fu Methods; IV PK Suppl Table S3, Wistar rat 4.3 mg/kg)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "CL",
+      "units": "mL.min-1.kg-1",
+      "value": 54.0
+     }
+    ],
+    "summary": [
+     {
+      "max": 54.0,
+      "min": 54.0,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": "mL.min-1.kg-1",
+      "value": 54.0
+     }
+    ]
+   },
+   "invivo_vss_preclinical": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Volume of distribution at steady state in Wistar rat (Suppl Table S3)",
+      "ref": "Hipp 2021, Sci Rep 11:7700, PMID 33833333 (basmisanil named in title; binding Table S4; fu Methods; IV PK Suppl Table S3, Wistar rat 4.3 mg/kg)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "Vdss",
+      "units": "L.kg-1",
+      "value": 2.9
+     }
+    ],
+    "summary": [
+     {
+      "max": 2.9,
+      "min": 2.9,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": "L.kg-1",
+      "value": 2.9
+     }
+    ]
+   },
+   "plasma_fu": {
+    "measurements": [
+     {
+      "assay_chembl_id": null,
+      "description": "Fraction unbound in human/primate plasma (free fraction 5.5%)",
+      "ref": "Hipp 2021, Sci Rep 11:7700, PMID 33833333 (basmisanil named in title; binding Table S4; fu Methods; IV PK Suppl Table S3, Wistar rat 4.3 mg/kg)",
+      "relation": "=",
+      "species": "human",
+      "standard_type": "Fu",
+      "units": null,
+      "value": 0.055
+     },
+     {
+      "assay_chembl_id": null,
+      "description": "Fraction unbound in rat plasma (free fraction 14%)",
+      "ref": "Hipp 2021, Sci Rep 11:7700, PMID 33833333 (basmisanil named in title; binding Table S4; fu Methods; IV PK Suppl Table S3, Wistar rat 4.3 mg/kg)",
+      "relation": "=",
+      "species": "rat",
+      "standard_type": "Fu",
+      "units": null,
+      "value": 0.14
+     }
+    ],
+    "summary": [
+     {
+      "max": 0.055,
+      "min": 0.055,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "human",
+      "units": null,
+      "value": 0.055
+     },
+     {
+      "max": 0.14,
+      "min": 0.14,
+      "n_censored": 0,
+      "n_documents": 1,
+      "n_measurements": 1,
+      "species": "rat",
+      "units": null,
+      "value": 0.14
+     }
+    ]
+   }
+  }
+ },
+ "binding": {
+  "GABRA1": {
+   "efficacy": [],
+   "ki_nM": 1031.0,
+   "refs": [
+    "Hipp 2021, Sci Rep 11:7700, PMID 33833333 (basmisanil named in title; binding Table S4; fu Methods; IV PK Suppl Table S3, Wistar rat 4.3 mg/kg)"
+   ]
+  },
+  "GABRA2": {
+   "efficacy": [],
+   "ki_nM": 458.0,
+   "refs": [
+    "Hipp 2021, Sci Rep 11:7700, PMID 33833333 (basmisanil named in title; binding Table S4; fu Methods; IV PK Suppl Table S3, Wistar rat 4.3 mg/kg)"
+   ]
+  },
+  "GABRA3": {
+   "efficacy": [],
+   "ki_nM": 510.0,
+   "refs": [
+    "Hipp 2021, Sci Rep 11:7700, PMID 33833333 (basmisanil named in title; binding Table S4; fu Methods; IV PK Suppl Table S3, Wistar rat 4.3 mg/kg)"
+   ]
+  },
+  "GABRA5": {
+   "efficacy": [
+    "negative allosteric modulator"
+   ],
+   "ki_nM": 5.0,
+   "refs": [
+    "Hipp 2021, Sci Rep 11:7700, PMID 33833333 (basmisanil named in title; binding Table S4; fu Methods; IV PK Suppl Table S3, Wistar rat 4.3 mg/kg)"
+   ]
+  }
+ },
+ "name": "basmisanil",
+ "schema": "neurocascade.compound_package/1"
+}

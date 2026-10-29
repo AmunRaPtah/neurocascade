@@ -1,0 +1,21 @@
+{
+ "clearance": {
+  "absolute_F": 0.75,
+  "absolute_F_source": "Hipp 2021, Sci Rep 11:7700, PMID 33833333 (F ~75%)",
+  "cl_alt_mL_min_kg": 1.73,
+  "cl_basis": "iv_systemic",
+  "cl_mL_min_kg": 0.97,
+  "note": "CL/kg = 0.058 L/h/kg published; 0.058*1000/60 = 0.97 mL/min/kg. True systemic clearance (IV). An alternative NCA estimate of 7.26 L/h (Yau 2023, PMID 36647756) = 1.73 mL/min/kg at 70 kg; both indicate a low-clearance drug (~1-2 mL/min/kg).",
+  "source": "Belubbi 2023, Pharmaceutics 15:191, PMID 36678820 (IV microdose 0.1 mg 13C, Table 1)"
+ },
+ "disclosed": "phase 1 PK 2021-2023 (Hipp 2021; Belubbi 2023)",
+ "dose_mg_per_day": {
+  "indication": "Down syndrome / schizophrenia cognition",
+  "source": "Goeldner 2022, PMID 35123401 (120/240 mg BID); not approved",
+  "value": "240-480"
+ },
+ "occupancy": {
+  "note": "no human GABRA5 PET occupancy with a matched dose located",
+  "status": "searched-and-empty"
+ }
+}

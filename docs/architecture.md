@@ -18455,3 +18455,80 @@ outside the allowed network is dropped, and that `0.0.0.0` is refused. The
 session sandbox has no wg0, so the bind to the real interface was not tried
 here. It is the same code path, with the address read from `wg0` instead of
 `lo`, and the `lo` lookup is tested.
+
+## Phase 32, part four: the prospective blind test (P32.4)
+
+P28.1's held-out set was in the repository through Phases 19-25, so P32.3's
+demo is retrospective and cannot certify the product. P32.4 is the first clean
+test: seven CNS compounds that are absent from the benchmark, were used in no
+fit, and whose preclinical packages were built from preclinical sources only.
+`neurocascade.prospective` runs `predict_compound` on them, and the blind
+prediction file `results/P32.4_predictions.json` with its SHA-256 was committed
+before any human-truth record for these compounds existed in git (the
+`observed/` files and the scored result land in a later commit, so `git log`
+shows the ordering the acceptance criterion asks for). The P34.5 requires_go
+gate was lifted by the human decision of 2026-10-28 (P34 returned no verdict);
+no GO marker exists and none is written, and every output carries
+`not validated: P34 returned no verdict`.
+
+### What could be built, and what the core-input rule excludes
+
+A package needs at least one measured Ki and a clearance measurement (human
+liver CLint or rat in-vivo CL) or `predict_compound` refuses it. Twelve
+candidates were researched from preclinical literature and FDA nonclinical
+reviews. Seven built: ulotaront, seltorexant, vornorexant, fezolinetant and
+aticaprant through rat-allometry clearance, darigabat and basmisanil through
+human-CLint IVIVE. Five could not, every one of them for the same missing
+field, clearance, and they are listed in `UNBUILDABLE` with the field rather
+than dropped. Four lack any public human CLint or rat IV CL (xanomeline,
+emraclidine, tavapadon, centanafadine print oral toxicokinetics or
+enzyme-specific CLint only). The fifth, deutetrabenazine, is the rule-2 case:
+the only rat IV CL in the literature (58.9 mL/min/kg) is for the tetrabenazine
+parent, not the deuterated drug, and substituting a different entity's measured
+value is forbidden even though it would let the package build.
+
+### The load-bearing distinction: systemic CL vs apparent oral CL/F
+
+The product predicts *systemic* clearance. The benchmark's own human CL truth
+(P28.4, v2) is IV systemic CL for that reason. Of the seven built compounds,
+only **basmisanil** has a published human intravenous study (a 0.1 mg carbon-13
+microdose, Belubbi 2023, PMID 36678820, CL 0.058 L/h/kg = 0.97 mL/min/kg), so
+it is the single apples-to-apples comparison. **Fezolinetant** has an apparent
+oral CL/F (FDA VEOZAH label, 10.8 L/h) with an absolute F estimated at >= 77%
+from urinary radiolabel recovery, which bounds systemic CL to within 30% below
+CL/F; it is counted as the second systemic-interpretable comparison and flagged
+`oral_clf_F_bounded`. The other four scored compounds (ulotaront, vornorexant,
+aticaprant, darigabat) have apparent oral CL/F with F unmeasured in humans.
+Comparing a predicted systemic CL to an observed CL/F embeds the assumption
+F = 1; since F <= 1 and CL/F = CL/F, the observed CL/F is an upper bound on what
+a correct systemic prediction would read, and each such row carries `cl_basis`
+= `oral_clf` so the reader is not misled. This distinction is why `score()`
+reports both `n_scored` (6) and `n_scored_systemic` (2): the headline the
+product earns is the systemic one, and it rests on basmisanil.
+
+Seltorexant built and was predicted (systemic CL 9.78 mL/min/kg) but is
+reported unscored: no human study states a CL or CL/F, and the only route to a
+number is dividing dose by a reported AUC, which the no-invented-number rule
+bars as truth. It is a searched-and-empty row, not a silent drop.
+
+### Result (`results/P32.4.json`, ledger V22e)
+
+Six of seven built compounds have a published observed human clearance.
+Clearance GMFE is 2.88 against a v2 train-mean-CL baseline GMFE of 3.05, so the
+product narrowly beats the mean baseline across the mixed systemic/oral set. The
+finding that matters is the one systemic comparison: on basmisanil the IVIVE
+prediction (0.347 mL/min/kg) is within 2.79-fold of the measured 0.97, and its
+mean-baseline fold error is 11.5, so IVIVE wins decisively on this low-clearance
+drug precisely where a train-mean cannot. Fezolinetant, the F-bounded second
+systemic case, is 4.78-fold and no better than its own mean baseline (4.32). The
+four oral-CL/F comparisons range 1.35 to 5.46-fold under the F = 1 assumption.
+Dose, occupancy-time and effects are returned `pending` or as an uninformative
+train-prevalence fallback, with the observed clinical dose and (for aticaprant)
+the published KOR PET occupancy tabulated beside them and marked not scored,
+because no scored compound-specific predictor exists for them (P29.3/P29.4
+searched-and-empty; the candidate needs a human exposure a preclinical package
+by definition lacks). The honest limit of this test is its systemic n: only one
+of seven compounds has a true human IV study, so the clean prospective result
+is a single drug, consistent with but not stronger than V22d's retrospective
+~5-fold held-out CL. That is what a prospective test of this product on
+genuinely novel compounds delivers today.

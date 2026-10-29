@@ -1,0 +1,753 @@
+{
+ "beats_mean_baseline": true,
+ "clearance_gmfe": 2.882492895241865,
+ "label": "not validated: P34 returned no verdict",
+ "mean_baseline": {
+  "band": "human_cl_v2_train_mean",
+  "method": "P33.3 v2 train arithmetic-mean clearance",
+  "point_mL_min_kg": 11.112250247706422
+ },
+ "mean_baseline_gmfe": 3.050387882430109,
+ "n_compounds_built": 7,
+ "n_scored": 6,
+ "n_scored_definition": "compounds with a published observed human clearance scored against the blind prediction; n_scored_systemic is the subset whose observed value is a true systemic CL (iv_systemic or F-bounded oral CL/F)",
+ "n_scored_systemic": 2,
+ "oral_clf_compounds": [
+  "aticaprant",
+  "darigabat",
+  "ulotaront",
+  "vornorexant"
+ ],
+ "prediction_file": "results/P32.4_predictions.json",
+ "prediction_sha256": "724cf500d561579aa97b6ea7a35968b1dcbbddc54b2121fc740b2cd476785cdb",
+ "rows": [
+  {
+   "clearance": {
+    "band": "human_cl_ivive",
+    "beats_mean_baseline": false,
+    "cl_basis": "oral_clf",
+    "compound_specific": true,
+    "covered": {
+     "0.80": true,
+     "0.95": true
+    },
+    "fold_error": 1.6664437367723925,
+    "is_systemic": false,
+    "mean_baseline_fold_error": 1.1788791386068587,
+    "mean_baseline_mL_min_kg": 11.112250247706422,
+    "observed_mL_min_kg": 13.1,
+    "observed_note": "CL/F = 55.2 L/h; 55200/60/70 = 13.1 mL/min/kg. Oral only; human F unmeasured (animal 25%).",
+    "observed_source": "Naganawa 2016, JPET 356:260, PMID 26628406 (pmid_note: this paper's compound LY2456302 is aticaprant, the INN assigned later; population PK, Table 5)",
+    "predicted_mL_min_kg": 21.83041295171834,
+    "predictor": "P29.2 rat single-species allometry (fixed exponent 0.75), IVIVE-missing fallback; Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254",
+    "scored": true
+   },
+   "compound": "aticaprant",
+   "disclosed": "phase 1 PK/PET 2016 (Naganawa 2016)",
+   "dose": {
+    "observed": {
+     "indication": "major depressive disorder (phase 2/3)",
+     "source": "Naganawa 2016, PMID 26628406 (pmid_note: LY2456302 = aticaprant; dose set for ~93% KOR saturation)",
+     "value": "10"
+    },
+    "predicted_reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   },
+   "effects": {
+    "observed": null,
+    "predicted_fallback": {
+     "anticholinergic": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     },
+     "eps": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "orthostatic_hypotension": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "sedation": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     }
+    },
+    "reason": "liabilities fall back to train prevalence without a human exposure (uninformative {0,1} sets); no effect-label truth sourced for these out-of-benchmark compounds",
+    "scored": false
+   },
+   "label": "not validated: P34 returned no verdict",
+   "occupancy": {
+    "observed": {
+     "dose_mg_per_day": 10,
+     "occupancy_percent": 93,
+     "region": "whole brain (11C-LY2795050 PET)",
+     "source": "Naganawa 2016, JPET 356:260, PMID 26628406 (pmid_note: LY2456302 = aticaprant)",
+     "statistic": "near-saturation at trough",
+     "status": "observed",
+     "target": "OPRK1"
+    },
+    "predicted_reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   }
+  },
+  {
+   "clearance": {
+    "band": "human_cl_ivive",
+    "beats_mean_baseline": true,
+    "cl_basis": "iv_systemic",
+    "compound_specific": true,
+    "covered": {
+     "0.80": true,
+     "0.95": true
+    },
+    "fold_error": 2.7939570430021474,
+    "is_systemic": true,
+    "mean_baseline_fold_error": 11.455928090418992,
+    "mean_baseline_mL_min_kg": 11.112250247706422,
+    "observed_mL_min_kg": 0.97,
+    "observed_note": "CL/kg = 0.058 L/h/kg published; 0.058*1000/60 = 0.97 mL/min/kg. True systemic clearance (IV). An alternative NCA estimate of 7.26 L/h (Yau 2023, PMID 36647756) = 1.73 mL/min/kg at 70 kg; both indicate a low-clearance drug (~1-2 mL/min/kg).",
+    "observed_source": "Belubbi 2023, Pharmaceutics 15:191, PMID 36678820 (IV microdose 0.1 mg 13C, Table 1)",
+    "predicted_mL_min_kg": 0.3471778502928309,
+    "predictor": "P29.2 well-stirred IVIVE (human liver CLint, human fu); Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254",
+    "scored": true
+   },
+   "compound": "basmisanil",
+   "disclosed": "phase 1 PK 2021-2023 (Hipp 2021; Belubbi 2023)",
+   "dose": {
+    "observed": {
+     "indication": "Down syndrome / schizophrenia cognition",
+     "source": "Goeldner 2022, PMID 35123401 (120/240 mg BID); not approved",
+     "value": "240-480"
+    },
+    "predicted_reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   },
+   "effects": {
+    "observed": null,
+    "predicted_fallback": {
+     "anticholinergic": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     },
+     "eps": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "orthostatic_hypotension": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "sedation": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     }
+    },
+    "reason": "liabilities fall back to train prevalence without a human exposure (uninformative {0,1} sets); no effect-label truth sourced for these out-of-benchmark compounds",
+    "scored": false
+   },
+   "label": "not validated: P34 returned no verdict",
+   "occupancy": {
+    "observed": {
+     "note": "no human GABRA5 PET occupancy with a matched dose located",
+     "status": "searched-and-empty"
+    },
+    "predicted_reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   }
+  },
+  {
+   "clearance": {
+    "band": "human_cl_ivive",
+    "beats_mean_baseline": false,
+    "cl_basis": "oral_clf",
+    "compound_specific": true,
+    "covered": {
+     "0.80": true,
+     "0.95": true
+    },
+    "fold_error": 5.4606988464490485,
+    "is_systemic": false,
+    "mean_baseline_fold_error": 2.1619163906043624,
+    "mean_baseline_mL_min_kg": 11.112250247706422,
+    "observed_mL_min_kg": 5.14,
+    "observed_note": "CL/F range 17.35-26.86 L/h; geometric mean 21.6 L/h; 21600/60/70 = 5.14 mL/min/kg. Oral only; human F unmeasured (only relative BA tablet vs suspension measured).",
+    "observed_source": "Nickolls 2018, Br J Pharmacol 175:708, PMID 29214652 (pmid_note: this paper's PF-06372865 is darigabat, the INN assigned later; single oral 0.04-100 mg)",
+    "predicted_mL_min_kg": 0.9412714644284785,
+    "predictor": "P29.2 well-stirred IVIVE (human liver CLint, human fu); Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254",
+    "scored": true
+   },
+   "compound": "darigabat",
+   "disclosed": "phase 1 PK 2018 (Nickolls 2018)",
+   "dose": {
+    "observed": {
+     "indication": "focal epilepsy / anxiety (phase 2)",
+     "source": "Nickolls 2018, PMID 29214652; REALIZE NCT04244175",
+     "value": "15-50"
+    },
+    "predicted_reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   },
+   "effects": {
+    "observed": null,
+    "predicted_fallback": {
+     "anticholinergic": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     },
+     "eps": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "orthostatic_hypotension": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "sedation": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     }
+    },
+    "reason": "liabilities fall back to train prevalence without a human exposure (uninformative {0,1} sets); no effect-label truth sourced for these out-of-benchmark compounds",
+    "scored": false
+   },
+   "label": "not validated: P34 returned no verdict",
+   "occupancy": {
+    "observed": {
+     "note": "human GABA-A benzodiazepine-site PET occupancy not collected here",
+     "status": "searched-and-empty"
+    },
+    "predicted_reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   }
+  },
+  {
+   "clearance": {
+    "band": "human_cl_ivive",
+    "beats_mean_baseline": false,
+    "cl_basis": "oral_clf_F_bounded",
+    "compound_specific": true,
+    "covered": {
+     "0.80": true,
+     "0.95": true
+    },
+    "fold_error": 4.7785919851518495,
+    "is_systemic": true,
+    "mean_baseline_fold_error": 4.323832781208725,
+    "mean_baseline_mL_min_kg": 11.112250247706422,
+    "observed_mL_min_kg": 2.57,
+    "observed_note": "CL/F = 10.8 L/h; 10800/60/70 = 2.57 mL/min/kg. Absolute F estimated >= 77% from urinary radiolabel recovery (EMA EPAR EMA/528775/2023 p.43), so systemic CL = F x CL/F lies in 1.98-2.57 mL/min/kg; single-dose observed CL/F 14.5-33.9 L/h.",
+    "observed_source": "FDA VEOZAH label NDA 216578 section 12.3 (apparent steady-state CL 10.8 L/h)",
+    "predicted_mL_min_kg": 0.5378153246783912,
+    "predictor": "P29.2 rat single-species allometry (fixed exponent 0.75), IVIVE-missing fallback; Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254",
+    "scored": true
+   },
+   "compound": "fezolinetant",
+   "disclosed": "approved 2023 (FDA); label PK NDA 216578",
+   "dose": {
+    "observed": {
+     "indication": "menopausal vasomotor symptoms (FDA approved 2023)",
+     "source": "FDA VEOZAH label NDA 216578",
+     "value": "45"
+    },
+    "predicted_reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   },
+   "effects": {
+    "observed": null,
+    "predicted_fallback": {
+     "anticholinergic": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     },
+     "eps": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "orthostatic_hypotension": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "sedation": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     }
+    },
+    "reason": "liabilities fall back to train prevalence without a human exposure (uninformative {0,1} sets); no effect-label truth sourced for these out-of-benchmark compounds",
+    "scored": false
+   },
+   "label": "not validated: P34 returned no verdict",
+   "occupancy": {
+    "observed": {
+     "note": "no human TACR3 PET occupancy located",
+     "status": "searched-and-empty"
+    },
+    "predicted_reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   }
+  },
+  {
+   "clearance": {
+    "band": "human_cl_ivive",
+    "cl_basis": "searched-and-empty",
+    "compound_specific": true,
+    "mean_baseline_mL_min_kg": 11.112250247706422,
+    "predicted_mL_min_kg": 9.778460448698022,
+    "predictor": "P29.2 rat single-species allometry (fixed exponent 0.75), IVIVE-missing fallback; Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254",
+    "reason": "no author-stated human CL or CL/F found; a value is only derivable from reported AUC, which the project's no-invented-number rule forbids using as truth. Reported unscored.",
+    "scored": false
+   },
+   "compound": "seltorexant",
+   "disclosed": "phase 1 PK 2015-2018",
+   "dose": {
+    "observed": {
+     "indication": "insomnia / adjunctive MDD (phase 2)",
+     "source": "Mesens 2025, JAMA Psychiatry, PMID 40802194",
+     "value": "10-20"
+    },
+    "predicted_reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   },
+   "effects": {
+    "observed": null,
+    "predicted_fallback": {
+     "anticholinergic": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     },
+     "eps": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "orthostatic_hypotension": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "sedation": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     }
+    },
+    "reason": "liabilities fall back to train prevalence without a human exposure (uninformative {0,1} sets); no effect-label truth sourced for these out-of-benchmark compounds",
+    "scored": false
+   },
+   "label": "not validated: P34 returned no verdict",
+   "occupancy": {
+    "observed": {
+     "note": "human OX2R PET occupancy not collected here",
+     "status": "not_collected"
+    },
+    "predicted_reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   }
+  },
+  {
+   "clearance": {
+    "band": "human_cl_ivive",
+    "beats_mean_baseline": true,
+    "cl_basis": "oral_clf",
+    "compound_specific": true,
+    "covered": {
+     "0.80": true,
+     "0.95": true
+    },
+    "fold_error": 1.3486442543908448,
+    "is_systemic": false,
+    "mean_baseline_fold_error": 1.435691246473698,
+    "mean_baseline_mL_min_kg": 11.112250247706422,
+    "observed_mL_min_kg": 7.74,
+    "observed_note": "CL/F = 32.5 L/h (95% CI 28.9-36.5); 32500/60/70 = 7.74 mL/min/kg. Oral only; absolute F never measured in humans (animal >70%).",
+    "observed_source": "Galluppi 2021, CPT Pharmacometrics Syst Pharmacol 10:1245, PMID 34292664 (population PK)",
+    "predicted_mL_min_kg": 10.438506528985139,
+    "predictor": "P29.2 rat single-species allometry (fixed exponent 0.75), IVIVE-missing fallback; Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254",
+    "scored": true
+   },
+   "compound": "ulotaront",
+   "disclosed": "phase 1/2 PK 2021 (Galluppi 2021)",
+   "dose": {
+    "observed": {
+     "indication": "schizophrenia (phase 2/3; phase 3 failed)",
+     "source": "Galluppi 2021, PMID 34292664",
+     "value": "50-75"
+    },
+    "predicted_reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   },
+   "effects": {
+    "observed": null,
+    "predicted_fallback": {
+     "anticholinergic": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     },
+     "eps": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "orthostatic_hypotension": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "sedation": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     }
+    },
+    "reason": "liabilities fall back to train prevalence without a human exposure (uninformative {0,1} sets); no effect-label truth sourced for these out-of-benchmark compounds",
+    "scored": false
+   },
+   "label": "not validated: P34 returned no verdict",
+   "occupancy": {
+    "observed": {
+     "note": "ulotaront's primary target TAAR1 has no validated human PET tracer",
+     "status": "not_collected"
+    },
+    "predicted_reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   }
+  },
+  {
+   "clearance": {
+    "band": "human_cl_ivive",
+    "beats_mean_baseline": true,
+    "cl_basis": "oral_clf",
+    "compound_specific": true,
+    "covered": {
+     "0.80": true,
+     "0.95": true
+    },
+    "fold_error": 3.5006888406338903,
+    "is_systemic": false,
+    "mean_baseline_fold_error": 4.4449000990825684,
+    "mean_baseline_mL_min_kg": 11.112250247706422,
+    "observed_mL_min_kg": 2.5,
+    "observed_note": "CL/F = 10.5 L/h at 10 mg; 10500/60/70 = 2.50 mL/min/kg. Oral only; human F unmeasured (animal rat 7.6%, dog 58%).",
+    "observed_source": "Kambe 2023, Basic Clin Pharmacol Toxicol 133:576, PMID 37563858 (pmid_note: vornorexant/TS-142; 10 mg oral; value quoted in Konno 2024, PMID 38491717)",
+    "predicted_mL_min_kg": 8.751722101584726,
+    "predictor": "P29.2 rat single-species allometry (fixed exponent 0.75), IVIVE-missing fallback; Rowland, Benet & Graham 1973, PMID 4764426; Obach 1999, PMID 10534321; Barter 2007, PMID 17266522; Davies & Morris 1993, PMID 8378254",
+    "scored": true
+   },
+   "compound": "vornorexant",
+   "disclosed": "phase 1 PK 2023 (Kambe 2023); Japan approval 2025",
+   "dose": {
+    "observed": {
+     "indication": "insomnia (approved in Japan)",
+     "source": "Uchiyama 2026, Sleep, PMID 41001841",
+     "value": "5-10"
+    },
+    "predicted_reason": "P29.3 is searched-and-empty (n=0); it waits on P29.5, which is blocked on data",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   },
+   "effects": {
+    "observed": null,
+    "predicted_fallback": {
+     "anticholinergic": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     },
+     "eps": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "orthostatic_hypotension": {
+      "bands": null,
+      "point_kind": null,
+      "status": "underpowered"
+     },
+     "sedation": {
+      "bands": {
+       "0.80": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       },
+       "0.95": {
+        "bounded": true,
+        "labels": [
+         0,
+         1
+        ]
+       }
+      },
+      "point_kind": "train prevalence",
+      "status": "predicted"
+     }
+    },
+    "reason": "liabilities fall back to train prevalence without a human exposure (uninformative {0,1} sets); no effect-label truth sourced for these out-of-benchmark compounds",
+    "scored": false
+   },
+   "label": "not validated: P34 returned no verdict",
+   "occupancy": {
+    "observed": {
+     "note": "no human orexin-receptor PET occupancy collected",
+     "status": "not_collected"
+    },
+    "predicted_reason": "P29.4 is searched-and-empty (n=0): no held-out drug has the oral exposure, Kp,uu and P29.2-compatible clearance the occupancy-time chain needs",
+    "predicted_status": "pending",
+    "reason": "no compound-specific predictor (pending); observed shown for context",
+    "scored": false
+   }
+  }
+ ],
+ "systemic_compounds": [
+  "basmisanil",
+  "fezolinetant"
+ ],
+ "task": "P32.4",
+ "unbuildable": {
+  "centanafadine": "clearance: no total human liver CLint (only enzyme-specific MAO-A/CYP CLint) and no rat IV CL in FDA NDA 218145 (oral TK only)",
+  "deutetrabenazine": "clearance: no human liver CLint in uL/min/mg (FDA NDA 208082 reports microsomal t1/2 only) and the only rat IV CL (58.9 mL/min/kg) is for tetrabenazine PARENT, not the deuterated drug - rule 2 forbids substituting a different drug's measured value",
+  "emraclidine": "clearance: no human liver CLint and no rat IV CL; the sole primary source (Butler 2024, J Med Chem, PMID 38888621) is closed-access and its ChEMBL curation holds potency only, no ADME",
+  "tavapadon": "clearance: no human liver CLint and no rat IV CL; all disclosed rat data are oral toxicokinetics (NCT02687542 protocol / FDA Juvmo review not yet posted)",
+  "xanomeline": "clearance: no human liver CLint and no rat IV CL in public preclinical sources (FDA NDA 216158 tabulates oral rat TK only, called 'unreliable to use quantitatively')"
+ }
+}
