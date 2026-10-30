@@ -3476,15 +3476,18 @@
         "P35.3"
       ],
       "host_eval": "NC_HOST_EVAL=1 PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump_p35 /tmp/p35_4_go.json && python pipeline/go_verdict.py /tmp/p35_4_go.json",
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 2,
         "history": [
           "2026-10-30 02:59 complete; rejected: gate failed:\n      {'eps': 7} != {'eps': 9}\nE         {'orthostatic_hypotension': 9} != {'orthostatic_hypotension': 11}\nE         Use -v to get more diff\nE       AssertionError: assert {'eps': {'ses...r_bound': 11}} == {'eps': {'ses...er_bound': 9}}\nE         \nE         Differing items:\nE         {'anticholinergic': {'session_n': 4, 'hidden_cmax_candidates': ['dexchlorpheniramine', 'diphenhydramine', 'fenfluramine', 'mepenzolate', 'mesoridazine'], 'upper_bound': 9}} != {'anticholinergic': {'session_n': 6, 'hidden_cmax_candidates': [], 'upper_bound': 6}}\nE         {'sedation': {'session_n': 5, ",
           "2026-10-30 03:34 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 73
+      },
+      "finished_at": "2026-10-30T03:40:25+00:00",
+      "result": "complete"
     }
   ]
 }
