@@ -18708,3 +18708,140 @@ train universe here. Their SIDER labels and fingerprints are train data, and
 all 19 are in the kNN pool. That is allowed: the pool
 holds no P35 held-out drug, and the v2 truth they lack in session trees (Cmax)
 is not part of the pool.
+
+## Phase 35, part four: the held-out SIDER dump and the one GO / NO-GO look (P35.4)
+
+Under `docs/prereg-p35-go.md`, order step 3. Code: the host dump
+`src/neurocascade/benchmark/v2/go_dump_p35.py`, the held-out rows builder
+`scripts/p35_4_heldout_rows.py` and the frozen rows file
+`src/neurocascade/benchmark/v2/truth/p35_sider_heldout_rows.json`. The results
+writer is `scripts/p35_4_results.py`, which writes `results/P35.4.json`. Tests:
+`tests/test_p35_4_go_dump.py`. host_eval runs the dump and then
+`pipeline/go_verdict.py` (unchanged). The conductor writes the first
+`NC_GO_VERDICT` to `HOME/go/P35.4.json`, and that verdict binds.
+
+### How held-out labels reach the host without reaching a session
+
+The host_eval container has no network. Its only mounts are the repo and a
+read-only `data/`, and `data/` has no SIDER. P35.2 also did not keep any
+held-out SIDER match or row. So the dump cannot fetch SIDER at run time, and
+the inputs for the held-out labels have to be in the tree. P35.4 freezes them
+as **rows, not labels**: for each of the 70 P35 held-out drugs,
+`scripts/p35_4_heldout_rows.py` stores:
+
+- the `match_stereo` result, using the P35.2 rule and the frozen P35.2
+  PubChem map unchanged, with stereo titles, parents and synonyms fetched from
+  PubChem the same way P35.2 fetched them;
+- the record flags;
+- every mapped-PT `meddra_freq` row, from the same sha256-pinned SIDER 4.1
+  files.
+
+No label is computed, stored or printed by that script. Labels exist only in
+memory, inside `go_dump_p35.build_dump`, which is reached only with
+`NC_HOST_EVAL=1`. `load_heldout_rows` raises without the flag.
+
+The file is under `v2/truth/` and has no `drugs` table on purpose. For such a
+file, `pipeline/guards.hide_heldout` takes its unknown-shape branch and
+deletes it from every later session tree. `guards.frozen_paths` freezes it
+once it is on main. A test runs `hide_heldout` on a scratch tree and checks
+that the file is deleted. That test does not cover this session, which built
+the file and so had the raw held-out rows in its tree. The protection that
+matters here is the freeze. The candidate code and params match their P35.3
+sha256 (test_p35_3, and `check_freeze` refuses to score otherwise), so no
+held-out row can have shaped the candidate. No held-out label or score was
+computed in this session. The build path was exercised only on P35-train
+drugs standing in for held-out ones (split digit 2). Their labels are train
+data, and a test checks them against `labels_train.json`.
+
+### What the dump scores
+
+The dump scores each receptor liability on the P35 held-out universe (anchor
+Ki, SIDER record, Cmax value; on the host, v2 held-out Cmax rows are present).
+It keeps drugs with a 0/1 label and every baseline defined, which is the
+P35.3 common-set rule. On those drugs it computes:
+
+- the frozen candidate, `p35_candidate.predict_cohort`, ranked within the
+  held-out cohort;
+- the four baselines, computed by `p35_selection._views`, the P35.3 code
+  itself. 1-NN uses the frozen P35-train pool. ATC prevalence uses the
+  P35-train labels;
+- the P34.3 frozen candidate, as the pre-committed secondary series under
+  `secondary`. go_verdict ignores it, and the dump prints its AUROC.
+
+Seizure has no pre-specified receptor, so it is listed as not scoreable.
+
+**The 8/8 floor is enforced in the dump.** The prereg's rule gives GO only on
+a liability whose held-out common set has at least 8 positives and 8
+negatives. `go_verdict.MIN_CLASS` is 5, inherited from P33.4, and
+`go_verdict.py` may not be edited. Passing a 5-7 positive liability to it could
+produce a GO that the sealed rule forbids. So a liability below 8/8 goes to
+`below_prereg_floor`, its counts and AUROCs are printed by the dump, and it is
+not passed to go_verdict. This follows the prereg over the brief's "every
+liability" wording. A liability at or above the floor is judged by go_verdict
+unchanged.
+
+### The load-bearing assumption, checked first (rule 12): the held-out set cannot reach the floor
+
+The prereg's case for Phase 35 is "the same label idea at 10-40x the drugs".
+That is true of SIDER's coverage. It is not true of the scored set, which is
+still bounded by the 334-drug v2 universe and its Ki and Cmax,u coverage.
+P35.3 already noted this ("the real extra power is in the fit pool, not in
+the scored set").
+
+The bound below uses no label and no SIDER record. Among the 70 P35 held-out
+drugs, count those with a Ki at the liability's receptor and either a Cmax,u
+in this tree or a Cmax row hidden from it (v2 held-out, 15 of the 70). The
+counts are in `results/P35.4.json`:
+
+| Liability | Ki at receptor | Cu here | Cmax hidden | upper bound on common n | needed for 8/8 |
+|---|---|---|---|---|---|
+| EPS | 14 | 5 | 4 | 9 | 16 |
+| Sedation | 16 | 5 | 5 | 10 | 16 |
+| Anticholinergic | 16 | 4 | 5 | 9 | 16 |
+| Orthostatic hypotension | 16 | 7 | 5 | 12 | 16 |
+
+Every bound is below 16. Before the SIDER-record and label filters shrink it
+further, no liability can reach the prereg floor. The host run will therefore
+print NO-GO whatever the candidate does. Like P33.4, that NO-GO will mean the
+held-out data cannot support a GO, not that the candidate was measured and
+lost.
+
+This was checked before the dump was finished. It does not change the
+deliverable. The prereg makes this run the one binding look and says a NO-GO
+holds P32.x and P30.4 for the human, so the run must still happen and be
+recorded. The bound is reported here and in the results file, not pinned in a
+test. The previous P35.4 attempt pinned these session-tree counts in a test,
+and the test failed on the host, where held-out Cmax rows are present.
+
+A Phase 36 that wants power needs drugs outside the v2 universe with measured
+Ki and Cmax,u, not a wider label source. That decision belongs to the human.
+
+### Disclosed data issue: clozapine has no SIDER match
+
+The frozen P35.2 PubChem map resolves clozapine (ChEMBL InChIKey) to CID
+135398737, PubChem's current clozapine record. Its same-connectivity list does
+not contain 2818, which is SIDER's flat id for clozapine (it is present in
+`meddra_freq`). The sealed rule therefore gives clozapine no SIDER record, and
+it is excluded. 21 of the 70 held-out drugs match no SIDER flat id. 11 of
+them were first approved in the US after SIDER 4.1 (2015): amifampridine,
+cenobamate, daridorexant, fenfluramine (as Fintepla), ganaxolone, gepirone,
+istradefylline, pimavanserin, pitolisant, remimazolam and zuranolone. The
+other 10 were not examined one by one, so some may be CID misses like
+clozapine: articaine, biperiden, cinacalcet, clozapine, ethyl chloride,
+mesoridazine, olopatadine, tamsulosin, tranylcypromine and vilazodone. The CID map was built once in P35.2 and
+applied identically to train, and the prereg fixes it, so it was not patched
+for held-out drugs only. Patching one side would make held-out and train
+labels follow different rules. The clozapine miss is recorded here and not
+corrected.
+
+### What is in results/P35.4.json
+
+- `n_scored` 41: the frozen candidate re-scored on P35-train leave-one-drug-out
+  (asserted equal to `results/P35.3.json`). This is the largest scoring this
+  tree supports.
+- The session run of the host_eval chain, verbatim. Without the flag it gives
+  empty liabilities, all 70 held-out drugs searched-and-empty, and
+  `NC_GO_VERDICT: NO-GO`.
+- The power bound above.
+- The held-out verdict as host-pending. The binding verdict is the host's
+  first `NC_GO_VERDICT`, in `HOME/go/P35.4.json`.

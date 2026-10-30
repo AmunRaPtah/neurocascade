@@ -1,0 +1,223 @@
+{
+ "task": "P35.4",
+ "prereg": "docs/prereg-p35-go.md",
+ "host_eval": "NC_HOST_EVAL=1 PYTHONPATH=src python -m neurocascade.benchmark.v2.go_dump_p35 /tmp/p35_4_go.json && python pipeline/go_verdict.py /tmp/p35_4_go.json",
+ "frozen_sha256": {
+  "src/neurocascade/benchmark/v2/p35_candidate.py": "62d4bb46d25b6581f4b000c003aa1982d6b7c0d66092807af66245b02576cf48",
+  "src/neurocascade/benchmark/v2/frozen/p35_candidate.json": "430f8e9af81bb8779f10cdb1f28310a64372018442747826ad641888ccdaff15"
+ },
+ "n_scored": 41,
+ "n_scored_means": "distinct P35-train universe drugs scored by the frozen P35.3 candidate in train leave-one-drug-out (re-run here; equals results/P35.3.json). The held-out score is the host's and binds.",
+ "heldout": {
+  "status": "host-pending",
+  "verdict_record": "HOME/go/P35.4.json (the conductor's first NC_GO_VERDICT binds)",
+  "n_heldout_drugs": 70,
+  "searched_and_empty_in_session": [
+   "aclidinium",
+   "alprazolam",
+   "amifampridine",
+   "armodafinil",
+   "articaine",
+   "benztropine",
+   "biperiden",
+   "brimonidine",
+   "butorphanol",
+   "caffeine",
+   "carbamazepine",
+   "cenobamate",
+   "cinacalcet",
+   "citalopram",
+   "clozapine",
+   "daridorexant",
+   "desflurane",
+   "dexchlorpheniramine",
+   "dihydrocodeine",
+   "diphenhydramine",
+   "disulfiram",
+   "doxazosin",
+   "ethosuximide",
+   "ethyl chloride",
+   "ezogabine",
+   "fenfluramine",
+   "fentanyl",
+   "fexofenadine",
+   "frovatriptan",
+   "ganaxolone",
+   "gepirone",
+   "istradefylline",
+   "lamotrigine",
+   "levocetirizine",
+   "loratadine",
+   "mepenzolate",
+   "mesoridazine",
+   "methscopolamine",
+   "methsuximide",
+   "miconazole",
+   "morphine",
+   "nalmefene",
+   "naltrexone",
+   "norepinephrine",
+   "olopatadine",
+   "oxcarbazepine",
+   "perphenazine",
+   "pimavanserin",
+   "pimozide",
+   "pitolisant",
+   "propoxyphene",
+   "pyridostigmine",
+   "quetiapine",
+   "ramelteon",
+   "remimazolam",
+   "rizatriptan",
+   "ropivacaine",
+   "tamsulosin",
+   "tasimelteon",
+   "tetracaine",
+   "thiothixene",
+   "topiramate",
+   "tramadol",
+   "tranylcypromine",
+   "trimethadione",
+   "valproic acid",
+   "varenicline",
+   "vilazodone",
+   "zolpidem",
+   "zuranolone"
+  ]
+ },
+ "session_chain_output_verbatim": "P35.4 dump: NC_HOST_EVAL not set: P35 held-out SIDER labels are not built in a session tree; 70 P35 held-out drugs searched-and-empty\nwritten to /tmp/p35_4_go.json\n==== P33.4 GO verdict (pipeline/go_verdict.py) ====\nNC_GO_VERDICT: NO-GO",
+ "heldout_power_upper_bound_session": {
+  "eps": {
+   "ki_at_receptor": 14,
+   "cu_in_session": [
+    "clozapine",
+    "fexofenadine",
+    "perphenazine",
+    "quetiapine",
+    "tamsulosin"
+   ],
+   "cmax_hidden_v2_heldout": [
+    "fentanyl",
+    "frovatriptan",
+    "mesoridazine",
+    "vilazodone"
+   ],
+   "upper_bound": 9,
+   "needed_for_prereg_floor": 16
+  },
+  "sedation": {
+   "ki_at_receptor": 16,
+   "cu_in_session": [
+    "citalopram",
+    "clozapine",
+    "fexofenadine",
+    "perphenazine",
+    "quetiapine"
+   ],
+   "cmax_hidden_v2_heldout": [
+    "dexchlorpheniramine",
+    "diphenhydramine",
+    "loratadine",
+    "mesoridazine",
+    "vilazodone"
+   ],
+   "upper_bound": 10,
+   "needed_for_prereg_floor": 16
+  },
+  "anticholinergic": {
+   "ki_at_receptor": 16,
+   "cu_in_session": [
+    "citalopram",
+    "clozapine",
+    "perphenazine",
+    "quetiapine"
+   ],
+   "cmax_hidden_v2_heldout": [
+    "dexchlorpheniramine",
+    "diphenhydramine",
+    "fenfluramine",
+    "mepenzolate",
+    "mesoridazine"
+   ],
+   "upper_bound": 9,
+   "needed_for_prereg_floor": 16
+  },
+  "orthostatic_hypotension": {
+   "ki_at_receptor": 16,
+   "cu_in_session": [
+    "cinacalcet",
+    "citalopram",
+    "clozapine",
+    "doxazosin",
+    "perphenazine",
+    "quetiapine",
+    "tamsulosin"
+   ],
+   "cmax_hidden_v2_heldout": [
+    "brimonidine",
+    "dexchlorpheniramine",
+    "fenfluramine",
+    "fentanyl",
+    "vilazodone"
+   ],
+   "upper_bound": 12,
+   "needed_for_prereg_floor": 16
+  }
+ },
+ "train_lodo_frozen_candidate": {
+  "eps": {
+   "common_n": 25,
+   "n_positive": 11,
+   "candidate": 0.74,
+   "p34_3_secondary": 0.643,
+   "baselines": {
+    "occupancy_max": 0.675,
+    "strongest_target_ki": 0.494,
+    "one_nn_fingerprint": 0.549,
+    "atc_class_prevalence": 0.549
+   },
+   "best_baseline": "occupancy_max"
+  },
+  "sedation": {
+   "common_n": 21,
+   "n_positive": 8,
+   "candidate": 0.76,
+   "p34_3_secondary": 0.644,
+   "baselines": {
+    "occupancy_max": 0.673,
+    "strongest_target_ki": 0.615,
+    "one_nn_fingerprint": 0.418,
+    "atc_class_prevalence": 0.125
+   },
+   "best_baseline": "occupancy_max"
+  },
+  "anticholinergic": {
+   "common_n": 21,
+   "n_positive": 12,
+   "candidate": 0.542,
+   "p34_3_secondary": 0.667,
+   "baselines": {
+    "occupancy_max": 0.676,
+    "strongest_target_ki": 0.62,
+    "one_nn_fingerprint": 0.444,
+    "atc_class_prevalence": 0.407
+   },
+   "best_baseline": "occupancy_max"
+  },
+  "orthostatic_hypotension": {
+   "common_n": 25,
+   "n_positive": 9,
+   "candidate": 0.642,
+   "p34_3_secondary": 0.694,
+   "baselines": {
+    "occupancy_max": 0.715,
+    "strongest_target_ki": 0.688,
+    "one_nn_fingerprint": 0.622,
+    "atc_class_prevalence": 0.663
+   },
+   "best_baseline": "occupancy_max"
+  }
+ },
+ "heldout_rows_file": "src/neurocascade/benchmark/v2/truth/p35_sider_heldout_rows.json",
+ "prereg_floor_enforced_in_dump": ">= 8 positives and >= 8 negatives (prereg 'Rule'); go_verdict.MIN_CLASS is 5, so a liability below 8/8 is not passed to go_verdict"
+}
