@@ -3446,14 +3446,17 @@
       "deps": [
         "P35.2"
       ],
-      "status": "pending",
+      "status": "done",
       "attempts": 0,
       "conductor": {
         "sessions": 1,
         "history": [
           "2026-10-30 01:22 COMPLETE, PR opened"
-        ]
-      }
+        ],
+        "pr": 72
+      },
+      "finished_at": "2026-10-30T01:00:28+00:00",
+      "result": "complete"
     },
     {
       "id": "P35.4",
