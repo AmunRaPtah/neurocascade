@@ -1,0 +1,331 @@
+{
+ "task": "P35.3",
+ "prereg": "docs/prereg-p35-go.md",
+ "family": "rank_occupancy_knn10",
+ "description": "Within-cohort rank sum of occupancy_max = max_t Cu/(Cu+Ki_t) over each liability's pre-specified receptors and the fraction of SIDER-positive drugs among the k nearest P35-train drugs in full-panel -log10(Ki) space (Euclidean, ties by INN, a drug never its own neighbour). Equal weights.",
+ "code": {
+  "path": "src/neurocascade/benchmark/v2/p35_candidate.py",
+  "sha256": "62d4bb46d25b6581f4b000c003aa1982d6b7c0d66092807af66245b02576cf48"
+ },
+ "params": {
+  "path": "src/neurocascade/benchmark/v2/frozen/p35_candidate.json",
+  "sha256": "430f8e9af81bb8779f10cdb1f28310a64372018442747826ad641888ccdaff15",
+  "k": 10,
+  "n_pool": 126,
+  "fitted_parameters": "the kNN pool: train INNs, fingerprints, train labels"
+ },
+ "depends": [
+  {
+   "path": "src/neurocascade/benchmark/v2/candidate.py",
+   "sha256": "15931e9e034ae6179b685833804c54d361472720a66e40ad535f09f17ca8c5b1"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/candidate_benchmark.py",
+   "sha256": "b8d90153815d26ff39824fe843e376f1f8a5270d7f53f392e0a642a9028cf85d"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/chain_benchmark.py",
+   "sha256": "42a6da7e2370618dd28764821cb337ebb25fc11d2071e6098f81d9ba1bd4d1ee"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/p35_selection.py",
+   "sha256": "f004798d5fd684e90d0248cea29542099886a9367b764ffccd1ea7e2e76b75be"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/sider_labels.py",
+   "sha256": "5244d2df1cc573f6bdb6c8ed18a5559203382dc5c4e55d89a38f301d044da7f0"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/sider/labels_train.json",
+   "sha256": "e8ea8e1c5579e4b8def1dee2a7b9dd555d15d4cdf312a11866fef2c54a5e1e7f"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/sider/universe_train.json",
+   "sha256": "1eac1c9425d4aefc36fcb361246acc208c32d9043dadb34f864b08d8d8a0e0e7"
+  },
+  {
+   "path": "src/neurocascade/benchmark/v2/inputs/binding.json",
+   "sha256": "ad651645574e9f48ac365288208c0e4e8e4a3f34426c4ca6fb377fb2eb858b63"
+  }
+ ],
+ "heldout_labels_existed_at_freeze": false,
+ "baselines": [
+  "occupancy_max",
+  "strongest_target_ki",
+  "one_nn_fingerprint",
+  "atc_class_prevalence"
+ ],
+ "families_evaluated": {
+  "knn5": [
+   "knn5"
+  ],
+  "knn10": [
+   "knn10"
+  ],
+  "logit_fingerprint": [
+   "logit"
+  ],
+  "occupancy_sum": [
+   "occupancy_sum"
+  ],
+  "rank_occupancy_affinity_p34": [
+   "occupancy_max",
+   "strongest_target_ki"
+  ],
+  "rank_occupancy_knn5": [
+   "occupancy_max",
+   "knn5"
+  ],
+  "rank_occupancy_affinity_knn5": [
+   "occupancy_max",
+   "strongest_target_ki",
+   "knn5"
+  ],
+  "rank_occupancy_knn10": [
+   "occupancy_max",
+   "knn10"
+  ],
+  "rank_occupancy_sum_knn10": [
+   "occupancy_sum",
+   "knn10"
+  ],
+  "rank_occupancy_sum_affinity": [
+   "occupancy_sum",
+   "strongest_target_ki"
+  ],
+  "occupancy_sum_then_affinity": [
+   "occupancy_sum",
+   "strongest_target_ki"
+  ]
+ },
+ "selection_rule": "most GO-eligible train liabilities (>= 8 pos and >= 8 neg) where the family beats the best baseline; ties by mean margin",
+ "selection": {
+  "eligible_liabilities": [
+   "sedation",
+   "anticholinergic",
+   "eps",
+   "orthostatic_hypotension"
+  ],
+  "table": {
+   "knn5": {
+    "wins": 0,
+    "mean_margin": -0.2153974497724498
+   },
+   "knn10": {
+    "wins": 1,
+    "mean_margin": -0.1349876974876975
+   },
+   "logit_fingerprint": {
+    "wins": 0,
+    "mean_margin": -0.18735546860546862
+   },
+   "occupancy_sum": {
+    "wins": 1,
+    "mean_margin": -0.009837962962962965
+   },
+   "rank_occupancy_affinity_p34": {
+    "wins": 0,
+    "mean_margin": -0.022851569726569737
+   },
+   "rank_occupancy_knn5": {
+    "wins": 0,
+    "mean_margin": -0.06504086191586192
+   },
+   "rank_occupancy_affinity_knn5": {
+    "wins": 0,
+    "mean_margin": -0.04750631313131315
+   },
+   "rank_occupancy_knn10": {
+    "wins": 2,
+    "mean_margin": -0.01392559986309988
+   },
+   "rank_occupancy_sum_knn10": {
+    "wins": 2,
+    "mean_margin": -0.03302282208532212
+   },
+   "rank_occupancy_sum_affinity": {
+    "wins": 0,
+    "mean_margin": -0.03066406972656971
+   },
+   "occupancy_sum_then_affinity": {
+    "wins": 1,
+    "mean_margin": -0.009837962962962965
+   }
+  },
+  "selected": "rank_occupancy_knn10"
+ },
+ "train_lodo_auroc": {
+  "sedation": {
+   "common_n": 21,
+   "n_positive": 8,
+   "n_negative": 13,
+   "go_eligible_on_train": true,
+   "baselines": {
+    "occupancy_max": 0.673,
+    "strongest_target_ki": 0.615,
+    "one_nn_fingerprint": 0.418,
+    "atc_class_prevalence": 0.125
+   },
+   "best_baseline": "occupancy_max",
+   "candidate": 0.76,
+   "candidate_auprc": 0.564,
+   "candidate_beats": [
+    "atc_class_prevalence",
+    "occupancy_max",
+    "one_nn_fingerprint",
+    "strongest_target_ki"
+   ],
+   "p34_3_secondary": 0.644,
+   "all_families": {
+    "knn5": 0.481,
+    "knn10": 0.606,
+    "logit_fingerprint": 0.471,
+    "occupancy_sum": 0.673,
+    "rank_occupancy_affinity_p34": 0.644,
+    "rank_occupancy_knn5": 0.615,
+    "rank_occupancy_affinity_knn5": 0.673,
+    "rank_occupancy_knn10": 0.76,
+    "rank_occupancy_sum_knn10": 0.76,
+    "rank_occupancy_sum_affinity": 0.644,
+    "occupancy_sum_then_affinity": 0.673
+   }
+  },
+  "anticholinergic": {
+   "common_n": 21,
+   "n_positive": 12,
+   "n_negative": 9,
+   "go_eligible_on_train": true,
+   "baselines": {
+    "occupancy_max": 0.676,
+    "strongest_target_ki": 0.62,
+    "one_nn_fingerprint": 0.444,
+    "atc_class_prevalence": 0.407
+   },
+   "best_baseline": "occupancy_max",
+   "candidate": 0.542,
+   "candidate_auprc": 0.63,
+   "candidate_beats": [
+    "atc_class_prevalence",
+    "one_nn_fingerprint"
+   ],
+   "p34_3_secondary": 0.667,
+   "all_families": {
+    "knn5": 0.343,
+    "knn10": 0.389,
+    "logit_fingerprint": 0.417,
+    "occupancy_sum": 0.63,
+    "rank_occupancy_affinity_p34": 0.667,
+    "rank_occupancy_knn5": 0.579,
+    "rank_occupancy_affinity_knn5": 0.62,
+    "rank_occupancy_knn10": 0.542,
+    "rank_occupancy_sum_knn10": 0.472,
+    "rank_occupancy_sum_affinity": 0.625,
+    "occupancy_sum_then_affinity": 0.63
+   }
+  },
+  "eps": {
+   "common_n": 25,
+   "n_positive": 11,
+   "n_negative": 14,
+   "go_eligible_on_train": true,
+   "baselines": {
+    "occupancy_max": 0.675,
+    "strongest_target_ki": 0.494,
+    "one_nn_fingerprint": 0.549,
+    "atc_class_prevalence": 0.549
+   },
+   "best_baseline": "occupancy_max",
+   "candidate": 0.74,
+   "candidate_auprc": 0.772,
+   "candidate_beats": [
+    "atc_class_prevalence",
+    "occupancy_max",
+    "one_nn_fingerprint",
+    "strongest_target_ki"
+   ],
+   "p34_3_secondary": 0.643,
+   "all_families": {
+    "knn5": 0.513,
+    "knn10": 0.698,
+    "logit_fingerprint": 0.526,
+    "occupancy_sum": 0.675,
+    "rank_occupancy_affinity_p34": 0.643,
+    "rank_occupancy_knn5": 0.591,
+    "rank_occupancy_affinity_knn5": 0.562,
+    "rank_occupancy_knn10": 0.74,
+    "rank_occupancy_sum_knn10": 0.74,
+    "rank_occupancy_sum_affinity": 0.643,
+    "occupancy_sum_then_affinity": 0.675
+   }
+  },
+  "orthostatic_hypotension": {
+   "common_n": 25,
+   "n_positive": 9,
+   "n_negative": 16,
+   "go_eligible_on_train": true,
+   "baselines": {
+    "occupancy_max": 0.715,
+    "strongest_target_ki": 0.688,
+    "one_nn_fingerprint": 0.622,
+    "atc_class_prevalence": 0.663
+   },
+   "best_baseline": "occupancy_max",
+   "candidate": 0.642,
+   "candidate_auprc": 0.556,
+   "candidate_beats": [
+    "one_nn_fingerprint"
+   ],
+   "p34_3_secondary": 0.694,
+   "all_families": {
+    "knn5": 0.542,
+    "knn10": 0.507,
+    "logit_fingerprint": 0.576,
+    "occupancy_sum": 0.722,
+    "rank_occupancy_affinity_p34": 0.694,
+    "rank_occupancy_knn5": 0.694,
+    "rank_occupancy_affinity_knn5": 0.694,
+    "rank_occupancy_knn10": 0.642,
+    "rank_occupancy_sum_knn10": 0.635,
+    "rank_occupancy_sum_affinity": 0.705,
+    "occupancy_sum_then_affinity": 0.722
+   }
+  },
+  "seizure": {
+   "common_n": 49,
+   "n_positive": 6,
+   "n_negative": 43,
+   "go_eligible_on_train": false,
+   "baselines": {
+    "one_nn_fingerprint": 0.49,
+    "atc_class_prevalence": 0.69
+   },
+   "best_baseline": "atc_class_prevalence",
+   "candidate": null,
+   "candidate_status": "not scoreable: no pre-specified receptor for this liability"
+  }
+ },
+ "candidate_beats_at_least_one_baseline": [
+  "sedation",
+  "anticholinergic",
+  "eps",
+  "orthostatic_hypotension"
+ ],
+ "go_verdict_judge_on_train": [
+  "anticholinergic: n 21 (pos 12); candidate 0.542; baselines atc_class_prevalence 0.407, occupancy_max 0.676, one_nn_fingerprint 0.444, strongest_target_ki 0.620; best occupancy_max; diff 95% CI [-0.375, +0.125] -> does not beat",
+  "eps: n 25 (pos 11); candidate 0.740; baselines atc_class_prevalence 0.549, occupancy_max 0.675, one_nn_fingerprint 0.549, strongest_target_ki 0.494; best occupancy_max; diff 95% CI [-0.097, +0.221] -> does not beat",
+  "orthostatic_hypotension: n 25 (pos 9); candidate 0.642; baselines atc_class_prevalence 0.663, occupancy_max 0.715, one_nn_fingerprint 0.622, strongest_target_ki 0.688; best occupancy_max; diff 95% CI [-0.243, +0.120] -> does not beat",
+  "sedation: n 21 (pos 8); candidate 0.760; baselines atc_class_prevalence 0.125, occupancy_max 0.673, one_nn_fingerprint 0.418, strongest_target_ki 0.615; best occupancy_max; diff 95% CI [-0.118, +0.311] -> does not beat"
+ ],
+ "secondary": {
+  "task": "P34.3",
+  "path": "results/P34.3.json",
+  "code_sha256": "d94aaecab87061bc494f774553098f973229330f0a0fb8f3547d3db8e76382f0",
+  "note": "pre-committed secondary for P35.4; scored here on the same train common sets"
+ },
+ "n_scored": 41,
+ "n_scored_means": "distinct P35-train universe drugs in at least one liability's train-LODO common set scored by the frozen candidate",
+ "heldout": {
+  "status": "host-pending",
+  "note": "P35.4 builds the P35 held-out labels host-side and scores this frozen candidate once under NC_HOST_EVAL; no held-out label was read here"
+ }
+}

@@ -18599,3 +18599,112 @@ P35.3 and P35.4. A GO on these labels would show that the candidate ranks
 not show that it ranks drug-attributable incidence. Whether to amend the
 label rule is a human decision under a new prereg, and it would need a
 held-out set whose labels have not been looked at.
+
+## Phase 35, part three: the P35 candidate, selected and frozen on SIDER train (P35.3)
+
+Under `docs/prereg-p35-go.md`, order step 2. Code: the frozen predict path
+`src/neurocascade/benchmark/v2/p35_candidate.py`, its params
+`frozen/p35_candidate.json`, the selection harness `p35_selection.py`, and
+`scripts/p35_3_freeze.py`, which writes `results/P35.3.json` (code sha256
+`62d4bb46d25b`, params `430f8e9af81b`). Tests: `tests/test_p35_3_candidate.py`.
+No P35 held-out label exists in the tree. Every INN the harness scores or fits
+on is asserted P35-train, and the predict path imports only `candidate.py`,
+which imports no truth.
+
+### The extra power is smaller than the label counts suggest
+
+P35.2 gives 53 train universe members, and per liability between 6 and 32
+positives. The go_verdict common set is smaller, because it needs a non-null
+score from every baseline. Two things shrink it. First, 8 universe drugs have a
+Cmax but no measured fu, so they have no Cu and no `occupancy_max`
+(lurasidone, iloperidone, trihexyphenidyl, scopolamine, ketotifen, sorafenib,
+tamoxifen, epinephrine). Second, `strongest_target_ki` needs a measured Ki at
+the liability's receptor. The train common sets are therefore 21 (sedation,
+8 positives), 21 (anticholinergic, 12), 25 (EPS, 11) and 25 (orthostatic,
+9). All four liabilities clear the prereg's 8/8 floor on train, which v2 never
+did for EPS or orthostatic. Seizure (49 drugs, 6 positives) is below the
+floor. It also has no pre-specified receptor, so no mechanistic candidate can
+score it. The real extra power is in the **fit pool**, not in the scored set.
+126 P35-train drugs have a SIDER record and a measured Ki somewhere in the
+37-target panel. The fitted methods (1-NN, ATC prevalence, kNN, logistic) fit
+on that pool, minus the drug being scored. The candidate and the fitted
+baselines use the same pool, so the comparison is fair.
+
+### What was evaluated, and the selection rule
+
+Eleven non-baseline families were scored on the same common sets (the full
+list and every AUROC are in `results/P35.3.json` under `families_evaluated` and
+`all_families`):
+
+- kNN label fraction at k = 5 and k = 10;
+- an L2 logistic on the full fingerprint (the P33.4 fit, `LOGIT_L2 = 1.0`);
+- the occupancy sum over the receptors;
+- the P34 rank sum (occupancy + affinity);
+- several rank sums of occupancy, the occupancy sum, affinity and kNN;
+- a lexicographic occupancy-sum-then-affinity order.
+
+The selection rule picks the family that beats the best baseline on the most
+liabilities with at least 8 positives and 8 negatives, with ties broken by the
+mean margin. That is the GO rule's own shape ("at least one liability"),
+applied on train. The family list grew after the first look at the numbers.
+The prereg allows re-selection on train, and every variant tried is
+reported, so the multiplicity is visible.
+
+Three findings:
+
+- **Every purely supervised fingerprint model loses badly.** kNN5, kNN10 and
+  the logistic score 0.34-0.70 and mostly sit below `occupancy_max`. With SIDER
+  labels near chance against the FDA tables (kappa about 0.1, P35.2), a
+  fingerprint model mostly learns label noise.
+- **`occupancy_max` is the best baseline on all four liabilities.** The P34
+  rank sum (occupancy + affinity) never beats it on SIDER labels. The P34
+  sedation edge came from occupancy saturating among strong H1 binders, and it
+  does not carry over to this label.
+- **Selected: `rank_occupancy_knn10`.** It is the within-cohort rank sum of
+  `occupancy_max` and the 10-NN SIDER-positive fraction. It beats every baseline
+  on 2 of 4 eligible liabilities, the most of any family. The tie with
+  `rank_occupancy_sum_knn10` (identical on the single-receptor liabilities)
+  goes to it on mean margin (-0.014 vs -0.033). The mechanistic reading:
+  occupancy carries the pre-specified primary receptor at exposure. The
+  neighbourhood carries off-target pharmacology the receptor list leaves out.
+  k = 10 averages
+  over the label noise that defeats 1-NN. Equal weights and within-cohort ranks
+  follow P34, so the family has no intercept or scale. Its only fitted
+  "parameters" are the pool itself (train INNs, fingerprints, train labels)
+  and k.
+
+### Train-LODO AUROC, candidate vs every baseline
+
+| Liability | n (pos) | candidate | occupancy_max | strongest-Ki | 1-NN | ATC | P34.3 secondary |
+|---|---|---|---|---|---|---|---|
+| Sedation | 21 (8) | **0.760** | 0.673 | 0.615 | 0.418 | 0.125 | 0.644 |
+| Anticholinergic | 21 (12) | 0.542 | 0.676 | 0.620 | 0.444 | 0.407 | 0.667 |
+| EPS | 25 (11) | **0.740** | 0.675 | 0.494 | 0.549 | 0.549 | 0.643 |
+| Orthostatic hypotension | 25 (9) | 0.642 | 0.715 | 0.688 | 0.622 | 0.663 | 0.694 |
+| Seizure | 49 (6) | not scoreable (no receptor) | - | - | 0.490 | 0.690 | - |
+
+The acceptance criterion holds: the candidate beats every baseline on sedation
+and EPS, and at least one baseline on all four receptor liabilities. Run on
+these train common sets, the unchanged `pipeline/go_verdict.py` judge puts the
+candidate-minus-best-baseline 95% interval across zero everywhere: sedation
+[-0.118, +0.311], EPS [-0.097, +0.221], anticholinergic [-0.375, +0.125],
+orthostatic [-0.243, +0.120]. **The train edges are noise-level.** The
+candidate also loses clearly on anticholinergic, where the kNN view, trained on
+a label that SIDER assigns to 71% of FDA negatives, drags down a good
+occupancy signal. This is a train selection, not a validated claim. The
+binding read is P35.4's, once, host-side. The ATC baseline's 0.125 on sedation
+is a leave-one-out prevalence artefact (removing a positive lowers its own
+class prevalence). It is reported as computed.
+
+### What P35.4 must do with this freeze
+
+- Score `p35_candidate.predict_cohort` with the frozen params on the P35
+  held-out common set. Ranks are within that cohort.
+- Fit the 1-NN and ATC baselines on the same P35-train pool.
+- Score the P34.3 frozen candidate beside it as the pre-committed secondary.
+
+The 19 `pending_host` train drugs (v2 held-out Cmax) are not in the scored
+train universe here. Their SIDER labels and fingerprints are train data, and
+all 19 are in the kNN pool. That is allowed: the pool
+holds no P35 held-out drug, and the v2 truth they lack in session trees (Cmax)
+is not part of the pool.
