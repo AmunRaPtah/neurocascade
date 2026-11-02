@@ -205,7 +205,7 @@ All three pushed under the same GitHub account, so the git identity is nearly
 useless on its own:
 
 ```
-AmunRaPtah <work@supercriticalbooks.com>                        # cron, interactive Claude, Codex, and the backup sweep alike
+AmunRaPtah <ennyolutogun@gmail.com>                        # cron, interactive Claude, Codex, and the backup sweep alike
 Eniola Olutogun <94907067+AmunRaPtah@users.noreply.github.com>  # Codebuff exclusively, and always at +0000
 ```
 

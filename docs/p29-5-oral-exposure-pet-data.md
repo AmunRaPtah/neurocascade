@@ -280,6 +280,45 @@ points do not.
     only printed concentrations are fitted ED50s.
   - Takano 2013 (PMID 23090625): nonhuman primates.
 
+## Measured-pair search, 2026-10-31
+
+A further sweep (paper-lookup skill: Europe PMC lite + full-text keyword
+search, PubMed E-utilities esummary/efetch, PMC ID Converter, Unpaywall,
+Semantic Scholar OA) was run against the three drugs still model-derived
+after 2026-10-28 (asenapine, lurasidone, milnacipran), focused on 2024-2026
+publications not already in the rejection log. It added no qualifying pair;
+PET pairs stay at **5/8**, below the >=6/8 bar. Two candidates that looked
+new were not milnacipran primary measurements:
+
+- Moriguchi 2025 (PMID 41035416) is a **duloxetine** NET-PET study, not
+  milnacipran.
+- Aboukaoud 2026 (PMID 42549822) is a norepinephrine-transporter-occupancy
+  pharmacometric framework (modeled/derived; its Europe PMC full text is not
+  yet released), excluded by the measured-only rule regardless.
+
+Per-drug outcome (all EMPTY under the strict rule):
+
+- Asenapine, rejected: no new human therapeutic-dose PET paper since
+  Andrée 1997. Recent hits (42196540 drug-safety modeling; 37944261
+  Rabiner 2024 methods) carry no quotable asenapine plasma+occupancy value.
+- Lurasidone, rejected: Wong 2013 (PMID 23649882) abstract references a
+  measured "mean serum lurasidone concentration during the PET scan (CPET)"
+  table, but the article stays closed-access (Unpaywall OA=False, Semantic
+  Scholar openAccessPdf CLOSED), so the serum numbers cannot be fetched or
+  quoted. **This is the single realistic path to 6/8: obtaining Wong 2013
+  full text would let the lurasidone pair be recorded and verified.**
+  Potkin 2014 (24073841) remains modeled-threshold-only; no new primary
+  study.
+- Milnacipran, rejected: still only Nogami 2013 (PMID 23067569), whose
+  printed concentrations are fitted ED50s. No new human milnacipran
+  occupancy-vs-plasma measurement; recent hits are reviews (38287888,
+  38711875) and the duloxetine/framework papers above.
+
+P29.5 therefore remains `blocked-on-data`: PET pairs 5/8 (<6/8) and train
+preclinical inputs 46/130 (<60%). Both walls are now confirmed from a second
+independent search. The record of what was searched stands; nothing below is
+changed.
+
 The complete records are in
 `src/neurocascade/benchmark/p29_5/`: `oral_exposure.json`,
 `pet_plasma_pairs.json`, and `preclinical_oral_inputs.json`. The loader in
